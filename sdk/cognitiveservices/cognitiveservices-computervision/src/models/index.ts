@@ -650,9 +650,9 @@ export interface Word {
    */
   text: string;
   /**
-   * Qualitative confidence measure. Possible values include: 'High', 'Low'
+   * Qualitative confidence measure.
    */
-  confidence?: TextRecognitionResultConfidenceClass;
+  confidence: number;
 }
 
 /**
@@ -660,44 +660,53 @@ export interface Word {
  */
 export interface Line {
   /**
+   * The BCP-47 language code of the recognized text line. Only provided where the language of the
+   * line differs from the page's.
+   */
+  language?: string;
+  /**
    * Bounding box of a recognized line.
    */
-  boundingBox?: number[];
+  boundingBox: number[];
   /**
    * The text content of the line.
    */
-  text?: string;
+  text: string;
   /**
    * List of words in the text line.
    */
-  words?: Word[];
+  words: Word[];
 }
 
 /**
- * An object representing a recognized text region
+ * Text extracted from a page in the input document.
  */
-export interface TextRecognitionResult {
+export interface ReadResult {
   /**
    * The 1-based page number of the recognition result.
    */
-  page?: number;
+  page: number;
   /**
-   * The orientation of the image in degrees in the clockwise direction. Range between [0, 360).
+   * The BCP-47 language code of the recognized text page.
    */
-  clockwiseOrientation?: number;
+  language?: string;
+  /**
+   * The orientation of the image in degrees in the clockwise direction. Range between [-180, 180).
+   */
+  angle: number;
   /**
    * The width of the image in pixels or the PDF in inches.
    */
-  width?: number;
+  width: number;
   /**
    * The height of the image in pixels or the PDF in inches.
    */
-  height?: number;
+  height: number;
   /**
    * The unit used in the Width, Height and BoundingBox. For images, the unit is 'pixel'. For PDF,
    * the unit is 'inch'. Possible values include: 'pixel', 'inch'
    */
-  unit?: TextRecognitionResultDimensionUnit;
+  unit: TextRecognitionResultDimensionUnit;
   /**
    * A list of recognized text lines.
    */
@@ -705,18 +714,17 @@ export interface TextRecognitionResult {
 }
 
 /**
- * Result of recognition text operation.
+ * Analyze batch operation result.
  */
-export interface TextOperationResult {
+export interface AnalyzeResults {
   /**
-   * Status of the text operation. Possible values include: 'NotStarted', 'Running', 'Failed',
-   * 'Succeeded'
+   * Version of schema used for this result.
    */
-  status?: TextOperationStatusCodes;
+  version: string;
   /**
-   * Text recognition result of the text operation.
+   * Text extracted from the input.
    */
-  recognitionResult?: TextRecognitionResult;
+  readResults: ReadResult[];
 }
 
 /**
@@ -724,14 +732,22 @@ export interface TextOperationResult {
  */
 export interface ReadOperationResult {
   /**
-   * Status of the read operation. Possible values include: 'NotStarted', 'Running', 'Failed',
-   * 'Succeeded'
+   * Status of the read operation. Possible values include: 'notStarted', 'running', 'failed',
+   * 'succeeded'
    */
-  status?: TextOperationStatusCodes;
+  status?: OperationStatusCodes;
   /**
-   * An array of text recognition result of the read operation.
+   * Get UTC date time the batch operation was submitted.
    */
-  recognitionResults?: TextRecognitionResult[];
+  createdDateTime?: string;
+  /**
+   * Get last updated UTC date time of this batch operation.
+   */
+  lastUpdatedDateTime?: string;
+  /**
+   * Analyze batch operation result.
+   */
+  analyzeResult?: AnalyzeResults;
 }
 
 /**
@@ -846,6 +862,21 @@ export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msR
 /**
  * Optional Parameters.
  */
+export interface ComputerVisionClientReadOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch
+   * (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt), and Spanish ('es') are
+   * supported. Read supports auto language identification and multi-language documents, so only
+   * provide a language code if you would like to force the documented to be processed as that
+   * specific language. Possible values include: 'en', 'es', 'fr', 'de', 'it', 'nl', 'pt'. Default
+   * value: 'en'.
+   */
+  language?: OcrDetectionLanguage;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
    * A string indicating what visual feature types to return. Multiple values should be
@@ -953,9 +984,24 @@ export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRe
 }
 
 /**
- * Defines headers for RecognizeText operation.
+ * Optional Parameters.
  */
-export interface RecognizeTextHeaders {
+export interface ComputerVisionClientReadInStreamOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch
+   * (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt), and Spanish ('es') are
+   * supported. Read supports auto language identification and multi-language documents, so only
+   * provide a language code if you would like to force the documented to be processed as that
+   * specific language. Possible values include: 'en', 'es', 'fr', 'de', 'it', 'nl', 'pt'. Default
+   * value: 'en'.
+   */
+  language?: OcrDetectionLanguage;
+}
+
+/**
+ * Defines headers for Read operation.
+ */
+export interface ReadHeaders {
   /**
    * URL to query for status of the operation. The operation ID will expire in 48 hours.
    */
@@ -963,29 +1009,9 @@ export interface RecognizeTextHeaders {
 }
 
 /**
- * Defines headers for BatchReadFile operation.
+ * Defines headers for ReadInStream operation.
  */
-export interface BatchReadFileHeaders {
-  /**
-   * URL to query for status of the operation. The operation ID will expire in 48 hours.
-   */
-  operationLocation: string;
-}
-
-/**
- * Defines headers for RecognizeTextInStream operation.
- */
-export interface RecognizeTextInStreamHeaders {
-  /**
-   * URL to query for status of the operation. The operation ID will expire in 48 hours.
-   */
-  operationLocation: string;
-}
-
-/**
- * Defines headers for BatchReadFileInStream operation.
- */
-export interface BatchReadFileInStreamHeaders {
+export interface ReadInStreamHeaders {
   /**
    * URL to query for status of the operation. The operation ID will expire in 48 hours.
    */
@@ -1001,12 +1027,12 @@ export interface BatchReadFileInStreamHeaders {
 export type Gender = 'Male' | 'Female';
 
 /**
- * Defines values for TextOperationStatusCodes.
- * Possible values include: 'NotStarted', 'Running', 'Failed', 'Succeeded'
+ * Defines values for OperationStatusCodes.
+ * Possible values include: 'notStarted', 'running', 'failed', 'succeeded'
  * @readonly
  * @enum {string}
  */
-export type TextOperationStatusCodes = 'NotStarted' | 'Running' | 'Failed' | 'Succeeded';
+export type OperationStatusCodes = 'notStarted' | 'running' | 'failed' | 'succeeded';
 
 /**
  * Defines values for TextRecognitionResultDimensionUnit.
@@ -1015,14 +1041,6 @@ export type TextOperationStatusCodes = 'NotStarted' | 'Running' | 'Failed' | 'Su
  * @enum {string}
  */
 export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
-
-/**
- * Defines values for TextRecognitionResultConfidenceClass.
- * Possible values include: 'High', 'Low'
- * @readonly
- * @enum {string}
- */
-export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
 
 /**
  * Defines values for DescriptionExclude.
@@ -1052,12 +1070,12 @@ export type OcrLanguages = 'unk' | 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 
 export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' | 'Color' | 'Tags' | 'Description' | 'Objects' | 'Brands';
 
 /**
- * Defines values for TextRecognitionMode.
- * Possible values include: 'Handwritten', 'Printed'
+ * Defines values for OcrDetectionLanguage.
+ * Possible values include: 'en', 'es', 'fr', 'de', 'it', 'nl', 'pt'
  * @readonly
  * @enum {string}
  */
-export type TextRecognitionMode = 'Handwritten' | 'Printed';
+export type OcrDetectionLanguage = 'en' | 'es' | 'fr' | 'de' | 'it' | 'nl' | 'pt';
 
 /**
  * Defines values for Details.
@@ -1318,9 +1336,9 @@ export type GetAreaOfInterestResponse = AreaOfInterestResult & {
 };
 
 /**
- * Contains response data for the recognizeText operation.
+ * Contains response data for the read operation.
  */
-export type RecognizeTextResponse = RecognizeTextHeaders & {
+export type ReadResponse = ReadHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -1328,49 +1346,14 @@ export type RecognizeTextResponse = RecognizeTextHeaders & {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: RecognizeTextHeaders;
+      parsedHeaders: ReadHeaders;
     };
 };
 
 /**
- * Contains response data for the getTextOperationResult operation.
+ * Contains response data for the getReadResult operation.
  */
-export type GetTextOperationResultResponse = TextOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TextOperationResult;
-    };
-};
-
-/**
- * Contains response data for the batchReadFile operation.
- */
-export type BatchReadFileResponse = BatchReadFileHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BatchReadFileHeaders;
-    };
-};
-
-/**
- * Contains response data for the getReadOperationResult operation.
- */
-export type GetReadOperationResultResponse = ReadOperationResult & {
+export type GetReadResultResponse = ReadOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -1554,9 +1537,9 @@ export type TagImageInStreamResponse = TagResult & {
 };
 
 /**
- * Contains response data for the recognizeTextInStream operation.
+ * Contains response data for the readInStream operation.
  */
-export type RecognizeTextInStreamResponse = RecognizeTextInStreamHeaders & {
+export type ReadInStreamResponse = ReadInStreamHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -1564,21 +1547,6 @@ export type RecognizeTextInStreamResponse = RecognizeTextInStreamHeaders & {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: RecognizeTextInStreamHeaders;
-    };
-};
-
-/**
- * Contains response data for the batchReadFileInStream operation.
- */
-export type BatchReadFileInStreamResponse = BatchReadFileInStreamHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BatchReadFileInStreamHeaders;
+      parsedHeaders: ReadInStreamHeaders;
     };
 };

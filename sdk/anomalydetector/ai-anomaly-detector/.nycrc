@@ -1,0 +1,14 @@
+{
+    "include": [
+      "dist-esm/src/**/*.js"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "dist-esm/src/generated/*"
+    ],
+    "exclude-after-remap": false,
+    "sourceMap": true,
+    "produce-source-map": true,
+    "instrument": true,
+    "all": true
+  }

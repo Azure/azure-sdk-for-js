@@ -18,6 +18,9 @@ export class BlobCheckpointStore implements CheckpointStore {
     updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
+// @public
+export const logger: import("@azure/logger").AzureLogger;
+
 
 // (No @packageDocumentation comment for this package)
 

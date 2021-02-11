@@ -2,7 +2,13 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { DataLakeServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-file-datalake" in your package
+const {
+  DataLakeServiceClient,
+  StorageSharedKeyCredential
+} = require("@azure/storage-file-datalake");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -10,10 +16,11 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -49,7 +56,10 @@ async function main() {
   const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
 
   const createFileSystemResponse = await fileSystemClient.create();
-  console.log(`Create filesystem ${fileSystemName} successfully`, createFileSystemResponse.requestId);
+  console.log(
+    `Create filesystem ${fileSystemName} successfully`,
+    createFileSystemResponse.requestId
+  );
 
   // Create a file
   const content = "hello";
@@ -72,7 +82,7 @@ async function main() {
   const readFileResponse = await fileClient.read();
   console.log(
     "Downloaded file content",
-    await streamToString(readFileResponse.readableStreamBody)
+    (await streamToBuffer(readFileResponse.readableStreamBody)).toString()
   );
 
   // Delete filesystem
@@ -81,25 +91,20 @@ async function main() {
   console.log("Deleted filesystem");
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream) {
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

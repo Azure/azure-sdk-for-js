@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { QueueClient, QueueServiceClient } from "../../src";
 import { getConnectionStringFromEnvironment, getQSU } from "../utils";
@@ -9,12 +12,12 @@ describe("Emulator Tests", () => {
   const messageContent = "Hello World";
   let queueName: string;
   let queueClient: QueueClient;
-  let queueServiceClient = getQSU();
   const env = isBrowser() ? (window as any).__env__ : process.env;
   beforeEach(async function() {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
+    const queueServiceClient = getQSU();
     queueName = getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -40,19 +43,19 @@ describe("Emulator Tests", () => {
 
     const queueClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
-    let buffer = Buffer.alloc(64); //64B
+    const buffer = Buffer.alloc(64); // 64B
     buffer.fill("a");
     buffer.write("aaaa", 0);
-    let newMessage = buffer.toString();
+    const newMessage = buffer.toString();
 
-    let uResult = await queueClient.updateMessage(
+    const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
       newMessage
     );
     assert.ok(uResult.popReceipt);
 
-    let pResult = await newClient.peekMessages();
+    const pResult = await newClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });

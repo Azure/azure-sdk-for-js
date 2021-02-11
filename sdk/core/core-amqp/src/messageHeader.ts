@@ -1,34 +1,34 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
-import { MessageHeader as AmqpMessageHeader } from "rhea-promise";
+import { MessageHeader as RheaMessageHeader } from "rhea-promise";
 import { logger } from "./log";
 
 /**
  * Describes the defined set of standard header properties of the message.
- * @interface MessageHeader
  */
-export interface MessageHeader {
+export interface AmqpMessageHeader {
   /**
-   * @property {boolean} [firstAcquirer] If this value is true, then this message has not been
-   * acquired by any other link. Ifthis value is false, then this message MAY have previously
+   * If this value is true, then this message has not been
+   * acquired by any other link. If this value is false, then this message MAY have previously
    * been acquired by another link or links.
    */
   firstAcquirer?: boolean;
   /**
-   * @property {number} [deliveryCount] The number of prior unsuccessful delivery attempts.
+   * The number of prior unsuccessful delivery attempts.
    */
   deliveryCount?: number;
   /**
-   * @property {number} [ttl] time to live in ms.
+   * time to live in ms.
    */
-  ttl?: number;
+  timeToLive?: number;
   /**
-   * @property {boolean} [durable] Specifies durability requirements.
+   * Specifies durability requirements.
    */
   durable?: boolean;
   /**
-   * @property {number} [priority] The relative message priority. Higher numbers indicate higher
+   * The relative message priority. Higher numbers indicate higher
    * priority messages.
    */
   priority?: number;
@@ -36,17 +36,16 @@ export interface MessageHeader {
 
 /**
  * Describes the operations that can be performed on the message header.
- * @module MessageHeader
  */
-export namespace MessageHeader {
+export const AmqpMessageHeader = {
   /**
-   * Converts MessageHeader to AmqpMessageHeader.
+   * Converts MessageHeader to RheaMessageHeader.
    *
-   * @param {MessageHeader} props Message header.
-   * @returns {AmqpMessageHeader} AmqpMessageHeader
+   * @param props - Message header.
+   * @returns RheaMessageHeader
    */
-  export function toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader {
-    const amqpHeader: AmqpMessageHeader = {};
+  toRheaMessageHeader(props: AmqpMessageHeader): RheaMessageHeader {
+    const amqpHeader: RheaMessageHeader = {};
     if (props.deliveryCount != undefined) {
       amqpHeader.delivery_count = props.deliveryCount;
     }
@@ -57,21 +56,21 @@ export namespace MessageHeader {
     if (props.priority != undefined) {
       amqpHeader.priority = props.priority;
     }
-    if (props.ttl != undefined) {
-      amqpHeader.ttl = props.ttl;
+    if (props.timeToLive != undefined) {
+      amqpHeader.ttl = props.timeToLive;
     }
-    logger.verbose("To AmqpMessageHeader: %O", amqpHeader);
+    logger.verbose("To RheaMessageHeader: %O", amqpHeader);
     return amqpHeader;
-  }
+  },
 
   /**
-   * Converts AmqpMessageHeader to MessageHeader.
+   * Converts RheaMessageHeader to MessageHeader.
    *
-   * @param {AmqpMessageHeader} props Amqp Message Header
-   * @returns {MessageHeader} MessageHeader.
+   * @param props - Amqp Message Header
+   * @returns MessageHeader.
    */
-  export function fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader {
-    const msgHeader: MessageHeader = {};
+  fromRheaMessageHeader(props: RheaMessageHeader): AmqpMessageHeader {
+    const msgHeader: AmqpMessageHeader = {};
     if (props.delivery_count != undefined) {
       msgHeader.deliveryCount = props.delivery_count;
     }
@@ -85,9 +84,9 @@ export namespace MessageHeader {
       msgHeader.priority = props.priority;
     }
     if (props.ttl != undefined) {
-      msgHeader.ttl = props.ttl;
+      msgHeader.timeToLive = props.ttl;
     }
-    logger.verbose("From AmqpMessageHeader: %O", msgHeader);
+    logger.verbose("From RheaMessageHeader: %O", msgHeader);
     return msgHeader;
   }
-}
+};

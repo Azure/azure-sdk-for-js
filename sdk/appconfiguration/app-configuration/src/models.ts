@@ -197,8 +197,7 @@ export interface SetConfigurationSettingResponse
 /**
  * Headers from getting a ConfigurationSetting.
  */
-export interface GetConfigurationHeaders extends SyncTokenHeaderField {
-}
+export interface GetConfigurationHeaders extends SyncTokenHeaderField {}
 
 /**
  * Response from retrieving a ConfigurationSetting.
@@ -234,40 +233,36 @@ export interface ListSettingsOptions extends OptionalFields {
 
   /**
    * Filters for keys. There are two types of matching:
-   * 
+   *
    * 1. Exact matching. Up to 5 key names are allowed, separated by commas (',')
    * 2. Wildcard matching. A single wildcard expression can be specified.
-   * 
+   *
    *    | Value        | Matches                               |
    *    |--------------|---------------------------------------|
    *    | omitted or * | Matches any key                       |
    *    | abc          | Matches a key named abc               |
    *    | abc*         | Matches key names that start with abc |
-   *    | *abc         | Matches key names that end with abc   |
-   *    | *abc*        | Matches key names that contain abc    |
-   * 
-   * These characters are reserved and must be prefixed with backslash in order 
-   * to be specified: * or \ or ,
+   *
+   * These characters are reserved and must be prefixed with backslash in order
+   * to be specified: * or \\ or ,
    */
   keyFilter?: string;
 
   /**
    * Filters for labels. There are two types of matching:
-   * 
+   *
    * 1. Exact matching. Up to 5 labels are allowed, separated by commas (',')
    * 2. Wildcard matching. A single wildcard expression can be specified.
-   * 
+   *
    *    | Value        | Matches                                           |
    *    |--------------|---------------------------------------------------|
    *    | omitted or * | Matches any key                                   |
    *    | %00          | Matches any key without a label                   |
    *    | prod         | Matches a key with label named prod               |
    *    | prod*        | Matches key with label names that start with prod |
-   *    | *prod        | Matches key with label names that end with prod   |
-   *    | *prod*       | Matches key with label names that contain prod    |
-   * 
-   * These characters are reserved and must be prefixed with backslash in order 
-   * to be specified: * or \ or ,
+   *
+   * These characters are reserved and must be prefixed with backslash in order
+   * to be specified: * or \\ or ,
    */
   labelFilter?: string;
 }

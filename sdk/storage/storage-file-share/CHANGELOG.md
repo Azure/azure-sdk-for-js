@@ -1,9 +1,78 @@
 # Release History
 
-## 12.0.1 (Unreleased)
+## 12.4.2 (Unreleased)
 
-- Share a single httpClient among clients. [PR #6657](https://github.com/Azure/azure-sdk-for-js/pull/6657)
-  Currently clients share their parent client's pipeline. But when the pipeline doesn't have a http client specified, a `DefaultHttpClient` will be created for each of the clients. This leads to memory leaks and exhaustion of TCP connections when many clients are created with `keepAlive` option enabled because each client creates a long-live http connection.  This change creates a default http client instance to share among all clients if none is specified in the pipeline options.
+
+## 12.4.1 (2021-02-03)
+
+- Fixed a bug where `generateFileSASQueryParameters()` won't correctly set the resource type if `FileSASSignatureValues.permissions` is not specified. Fixed issue [13223](https://github.com/Azure/azure-sdk-for-js/issues/13223).
+- The `"Unclosed root tag"` XML parser error is now retriable. [PR #13076](https://github.com/Azure/azure-sdk-for-js/pull/13076).
+
+## 12.4.0 (2021-01-12)
+
+- This release contains bug fixes to improve quality.
+
+## 12.4.0-beta.1 (2020-12-09)
+
+- Updated Azure Storage Service API version to 2020-04-08.
+- Share now supports for NFS. User can specify the `protocols` when creating a Share via `ShareClient.create()`. Also added an `rootSquash` option for NFS shares.
+- Added `generateSasUrl` to `ShareClient` and `ShareFileClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `ShareServiceClient` to generate an account-level SAS URI for the client.
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
+
+## 12.3.0 (2020-11-10)
+
+- Removed ability to create a ShareLeaseClient for a Share or Share Snapshot. This feature has been rescheduled for future release.
+- Replaced `ShareClient.setAccessTier()` with `ShareClient.setProperties()`, which can be used to set both Share Tier and Share Quota.
+- Fixed a bug where `ShareDirectoryClient.deleteIfExists()` and `ShareFileClient.deleteIfExists()` would throw an exception if the directory or file's parent directory doesn't exist.
+
+## 12.3.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for SMB Multichannel.
+- Added support for Share and Share Snapshot Leases. Now can initialize a `ShareLeaseClient` with a `ShareClient` to manage leases for a share or share snapshot. Most operations on share now also support lease conditions.
+- Added support for Get File Range Diff. Added `ShareFileClient.getRangeListDiff()` for getting the list of ranges that differ between a previous share snapshot and the file.
+- Added support for Set Share Tier. Added `ShareClient.setAccessTier()` for setting the access tier of the share.
+
+## 12.2.0 (2020-09-08)
+
+- Added share soft delete support. Added `undeleteShare` to `ShareServiceClient`. `listShares` now can return deleted shares. Note: share soft delete only take effect on accounts with share soft delete feature enabled.
+- Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
+- Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
+
+## 12.2.0-preview.1 (2020.07)
+
+- Updated Azure Storage Service API version to 2019-12-12.
+- Support 4 TB files.
+- Added `exists` and `deleteIfExists()` to `ShareClient`, `ShareDirectoryClient`, and `ShareFileClient`.
+- Added `createIfNotExists()` to `ShareClient` and `ShareDirectoryClient`.
+
+## 12.1.2 (2020.05)
+
+- Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
+- Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
+- Updated to use `@opentelemetry/api` 0.6.1 via `@azure/core-tracing`. [PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998)
+- Updated to use `typescript` 3.8.3. [PR #8659](https://github.com/Azure/azure-sdk-for-js/pull/8659)
+
+## 12.1.1 (2020-03-10)
+
+- Fixed unexpected hang issue when uploading empty body. Fixed bug [6904](https://github.com/Azure/azure-sdk-for-js/issues/6904).
+
+## 12.1.0 (2020-02-11)
+
+- Updated Azure Storage Service API version to 2019-07-07.
+- A new type `ShareLeaseClient` is added to manage leases.
+- New SMB parameters for file copy.
+- Force Close Handles Response now includes the number of handles that failed to close.
+- `ShareProperties` now has 4 additional properties for premium file shares.
+- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
+
+## 12.0.1 (2020.01)
+
+- Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6755](https://github.com/Azure/azure-sdk-for-js/pull/6755)
+- Service clients now share a single http client instance by default. [PR #6657](https://github.com/Azure/azure-sdk-for-js/pull/6657)
+
+  Previously, a new http client was created for each service client if none was provided by the user. This could result in TCP port exhaustion under heavy usage with the keepAlive option enabled because each http client has its own persistent TCP connection. This change creates a single http client instance which is shared among all service clients by default.
 
 ## 12.0.0 (2019-12-04)
 
@@ -117,8 +186,8 @@
 - Added `DirectoryClient.listHandlesSegment()` and `FileClient.listHandlesSegment()` to returns a list of open handles on a directory or a file.
 - Added `DirectoryClient.forceCloseHandlesSegment()`, `FileClient.forceCloseHandlesSegment()`, `DirectoryClient.forceCloseHandle()` and `FileClient.forceCloseHandle()` to close handles.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
-- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/proxyAuth.ts)
-- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
+- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/src/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/src/proxyAuth.ts)
+- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 12.0.0-preview.2 (2019.08)
 
@@ -163,7 +232,7 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `FileClient`.
 
-For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
 ## 10.3.0 (2019.09)
 
@@ -183,11 +252,11 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Export `RetryPolicyType`.
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
+- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
 - The `ShareURL.getStatistics()` now returns the approximate size in bytes with `shareUsageBytes`.
 - Added `DirectoryURL.listHandlesSegment()` and `FileURL.listHandlesSegment()` to returns a list of open handles on a directory or a file.
 - Added `DirectoryURL.forceCloseHandlesSegment()`, `FileURL.forceCloseHandlesSegment()`, `DirectoryURL.forceCloseHandle()` and `FileURL.forceCloseHandle()` to close handles.
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
+- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
 
 ## 10.1.0 (2019.01)
 

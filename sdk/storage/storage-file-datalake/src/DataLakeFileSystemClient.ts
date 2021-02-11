@@ -1,9 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -15,6 +15,7 @@ import {
   FileSystemCreateResponse,
   FileSystemDeleteOptions,
   FileSystemDeleteResponse,
+  FileSystemExistsOptions,
   FileSystemGetAccessPolicyOptions,
   FileSystemGetAccessPolicyResponse,
   FileSystemGetPropertiesOptions,
@@ -29,15 +30,18 @@ import {
   Path,
   PublicAccessType,
   SignedIdentifier,
-  FileSystemListPathsResponse
+  FileSystemListPathsResponse,
+  FileSystemCreateIfNotExistsResponse,
+  FileSystemDeleteIfExistsResponse,
+  FileSystemGenerateSasUrlOptions
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
 import { createSpan } from "./utils/tracing";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
-import { getCachedDefaultHttpClient } from "./utils/cache";
+import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
@@ -103,12 +107,6 @@ export class DataLakeFileSystemClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
     if (credentialOrPipeline instanceof Pipeline) {
       super(url, credentialOrPipeline);
     } else {
@@ -119,7 +117,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         credential = credentialOrPipeline;
       }
 
-      const pipeline = newPipeline(credential, newOptions);
+      const pipeline = newPipeline(credential, options);
       super(url, pipeline);
     }
 
@@ -210,6 +208,72 @@ export class DataLakeFileSystemClient extends StorageClient {
   }
 
   /**
+   * Creates a new file system under the specified account. If the file system with
+   * the same name already exists, it is not changed.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   *
+   * @param {FileSystemCreateOptions} [options={}]
+   * @returns {Promise<FileSystemCreateIfNotExistsResponse>}
+   * @memberof DataLakeFileSystemClient
+   */
+  public async createIfNotExists(
+    options: FileSystemCreateOptions = {}
+  ): Promise<FileSystemCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobContainerClient.createIfNotExists({
+        ...options,
+        access: toContainerPublicAccessType(options.access),
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the File system represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing file system might be deleted by other clients or
+   * applications. Vice versa new file system with the same name might be added by other clients or
+   * applications after this function completes.
+   *
+   * @param {FileSystemExistsOptions} [options={}]
+   * @returns {Promise<boolean>}
+   * @memberof DataLakeFileSystemClient
+   */
+  public async exists(options: FileSystemExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-exists",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobContainerClient.exists({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Delete current file system.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
@@ -225,6 +289,38 @@ export class DataLakeFileSystemClient extends StorageClient {
     );
     try {
       return await this.blobContainerClient.delete({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Delete current file system if it exists.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
+   *
+   * @param {FileSystemDeleteOptions} [options={}]
+   * @returns {Promise<FileSystemDeleteIfExistsResponse>}
+   * @memberof DataLakeFileSystemClient
+   */
+  public async deleteIfExists(
+    options: FileSystemDeleteOptions = {}
+  ): Promise<FileSystemDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobContainerClient.deleteIfExists({
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
@@ -569,5 +665,37 @@ export class DataLakeFileSystemClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for DataLakeFileSystemClient constructed with a shared key credential.
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {FileSystemGenerateSasUrlOptions} options Optional parameters.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof DataLakeFileSystemClient
+   */
+  public generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
+
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.name,
+          ...options
+        },
+        this.credential
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }

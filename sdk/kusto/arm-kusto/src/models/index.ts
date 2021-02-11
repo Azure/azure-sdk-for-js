@@ -62,6 +62,38 @@ export interface VirtualNetworkConfiguration {
 }
 
 /**
+ * Properties of the key vault.
+ */
+export interface KeyVaultProperties {
+  /**
+   * The name of the key vault key.
+   */
+  keyName: string;
+  /**
+   * The version of the key vault key.
+   */
+  keyVersion?: string;
+  /**
+   * The Uri of the key vault.
+   */
+  keyVaultUri: string;
+  /**
+   * The user assigned identity (ARM resource id) that has access to the key.
+   */
+  userIdentity?: string;
+}
+
+/**
+ * The language extension object.
+ */
+export interface LanguageExtension {
+  /**
+   * The language extension name. Possible values include: 'PYTHON', 'R'
+   */
+  languageExtensionName?: LanguageExtensionName;
+}
+
+/**
  * Azure SKU definition.
  */
 export interface AzureSku {
@@ -69,7 +101,9 @@ export interface AzureSku {
    * SKU name. Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
    * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
    * 'Standard_L8s', 'Standard_L16s', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_L4s', 'Dev(No
-   * SLA)_Standard_D11_v2'
+   * SLA)_Standard_D11_v2', 'Standard_E64i_v3', 'Standard_E2a_v4', 'Standard_E4a_v4',
+   * 'Standard_E8a_v4', 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
+   * 'Standard_E16as_v4+3TB_PS', 'Standard_E16as_v4+4TB_PS', 'Dev(No SLA)_Standard_E2a_v4'
    */
   name: AzureSkuName;
   /**
@@ -183,6 +217,51 @@ export interface DatabaseStatistics {
 }
 
 /**
+ * An interface representing IdentityUserAssignedIdentitiesValue.
+ */
+export interface IdentityUserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
+   * all identities. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned, UserAssigned'
+   */
+  type: IdentityType;
+  /**
+   * The list of user identities associated with the Kusto cluster. The user identity dictionary
+   * key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: IdentityUserAssignedIdentitiesValue };
+}
+
+/**
  * An interface representing Resource.
  */
 export interface Resource extends BaseResource {
@@ -232,6 +311,10 @@ export interface Cluster extends TrackedResource {
    */
   zones?: string[];
   /**
+   * The identity of the cluster, if configured.
+   */
+  identity?: Identity;
+  /**
    * The state of the resource. Possible values include: 'Creating', 'Unavailable', 'Running',
    * 'Deleting', 'Deleted', 'Stopping', 'Stopped', 'Starting', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -254,6 +337,11 @@ export interface Cluster extends TrackedResource {
    */
   readonly dataIngestionUri?: string;
   /**
+   * The reason for the cluster's current state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stateReason?: string;
+  /**
    * The cluster's external tenants.
    */
   trustedExternalTenants?: TrustedExternalTenant[];
@@ -273,6 +361,27 @@ export interface Cluster extends TrackedResource {
    * Virtual network definition.
    */
   virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  /**
+   * KeyVault properties for the cluster encryption.
+   */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * A boolean value that indicates if the purge operations are enabled. Default value: false.
+   */
+  enablePurge?: boolean;
+  /**
+   * List of the cluster's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * A boolean value that indicates if double encryption is enabled. Default value: false.
+   */
+  enableDoubleEncryption?: boolean;
+  /**
+   * The engine type. Possible values include: 'V2', 'V3'
+   */
+  engineType?: EngineType;
 }
 
 /**
@@ -292,6 +401,10 @@ export interface ClusterUpdate extends Resource {
    */
   sku?: AzureSku;
   /**
+   * The identity of the cluster, if configured.
+   */
+  identity?: Identity;
+  /**
    * The state of the resource. Possible values include: 'Creating', 'Unavailable', 'Running',
    * 'Deleting', 'Deleted', 'Stopping', 'Stopped', 'Starting', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -314,6 +427,11 @@ export interface ClusterUpdate extends Resource {
    */
   readonly dataIngestionUri?: string;
   /**
+   * The reason for the cluster's current state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stateReason?: string;
+  /**
    * The cluster's external tenants.
    */
   trustedExternalTenants?: TrustedExternalTenant[];
@@ -333,6 +451,27 @@ export interface ClusterUpdate extends Resource {
    * Virtual network definition.
    */
   virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  /**
+   * KeyVault properties for the cluster encryption.
+   */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * A boolean value that indicates if the purge operations are enabled. Default value: false.
+   */
+  enablePurge?: boolean;
+  /**
+   * List of the cluster's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * A boolean value that indicates if double encryption is enabled. Default value: false.
+   */
+  enableDoubleEncryption?: boolean;
+  /**
+   * The engine type. Possible values include: 'V2', 'V3'
+   */
+  engineType?: EngineType;
 }
 
 /**
@@ -343,9 +482,9 @@ export interface ProxyResource extends Resource {
 }
 
 /**
- * Class representing a Kusto database.
+ * Class representing an attached database configuration.
  */
-export interface Database extends ProxyResource {
+export interface AttachedDatabaseConfiguration extends ProxyResource {
   /**
    * Resource location.
    */
@@ -357,23 +496,86 @@ export interface Database extends ProxyResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The time the data should be kept before it stops being accessible to queries in TimeSpan.
+   * The name of the database which you would like to attach, use * if you want to follow all
+   * current and future databases.
    */
-  softDeletePeriod?: string;
+  databaseName: string;
   /**
-   * The time the data should be kept in cache for fast queries in TimeSpan.
+   * The resource id of the cluster where the databases you would like to attach reside.
    */
-  hotCachePeriod?: string;
+  clusterResourceId: string;
   /**
-   * The statistics of the database.
+   * The list of databases from the clusterResourceId which are currently attached to the cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  statistics?: DatabaseStatistics;
+  readonly attachedDatabaseNames?: string[];
+  /**
+   * The default principals modification kind. Possible values include: 'Union', 'Replace', 'None'
+   */
+  defaultPrincipalsModificationKind: DefaultPrincipalsModificationKind;
 }
 
 /**
- * Class representing an update to a Kusto database.
+ * Contains the possible cases for Database.
  */
-export interface DatabaseUpdate extends Resource {
+export type DatabaseUnion = Database | ReadWriteDatabase | ReadOnlyFollowingDatabase;
+
+/**
+ * Class representing a Kusto database.
+ */
+export interface Database {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "Database";
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+}
+
+/**
+ * Class representing a read write database.
+ */
+export interface ReadWriteDatabase {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "ReadWrite";
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
   /**
    * Resource location.
    */
@@ -396,6 +598,77 @@ export interface DatabaseUpdate extends Resource {
    * The statistics of the database.
    */
   statistics?: DatabaseStatistics;
+  /**
+   * Indicates whether the database is followed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isFollowed?: boolean;
+}
+
+/**
+ * Class representing a read only following database.
+ */
+export interface ReadOnlyFollowingDatabase {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "ReadOnlyFollowing";
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The time the data should be kept before it stops being accessible to queries in TimeSpan.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly softDeletePeriod?: string;
+  /**
+   * The time the data should be kept in cache for fast queries in TimeSpan.
+   */
+  hotCachePeriod?: string;
+  /**
+   * The statistics of the database.
+   */
+  statistics?: DatabaseStatistics;
+  /**
+   * The name of the leader cluster
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly leaderClusterResourceId?: string;
+  /**
+   * The name of the attached database configuration cluster
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly attachedDatabaseConfigurationName?: string;
+  /**
+   * The principals modification kind of the database. Possible values include: 'Union', 'Replace',
+   * 'None'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalsModificationKind?: PrincipalsModificationKind;
 }
 
 /**
@@ -432,6 +705,104 @@ export interface DatabasePrincipal {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantName?: string;
+}
+
+/**
+ * Class representing a database principal assignment.
+ */
+export interface DatabasePrincipalAssignment extends ProxyResource {
+  /**
+   * The principal ID assigned to the database principal. It can be a user email, application ID,
+   * or security group name.
+   */
+  principalId: string;
+  /**
+   * Database principal role. Possible values include: 'Admin', 'Ingestor', 'Monitor', 'User',
+   * 'UnrestrictedViewers', 'Viewer'
+   */
+  role: DatabasePrincipalRole;
+  /**
+   * The tenant id of the principal
+   */
+  tenantId?: string;
+  /**
+   * Principal type. Possible values include: 'App', 'Group', 'User'
+   */
+  principalType: PrincipalType;
+  /**
+   * The tenant name of the principal
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * Class representing a cluster principal assignment.
+ */
+export interface ClusterPrincipalAssignment extends ProxyResource {
+  /**
+   * The principal ID assigned to the cluster principal. It can be a user email, application ID, or
+   * security group name.
+   */
+  principalId: string;
+  /**
+   * Cluster principal role. Possible values include: 'AllDatabasesAdmin', 'AllDatabasesViewer'
+   */
+  role: ClusterPrincipalRole;
+  /**
+   * The tenant id of the principal
+   */
+  tenantId?: string;
+  /**
+   * Principal type. Possible values include: 'App', 'Group', 'User'
+   */
+  principalType: PrincipalType;
+  /**
+   * The tenant name of the principal
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * A class representing follower database request.
+ */
+export interface FollowerDatabaseDefinition {
+  /**
+   * Resource id of the cluster that follows a database owned by this cluster.
+   */
+  clusterResourceId: string;
+  /**
+   * Resource name of the attached database configuration in the follower cluster.
+   */
+  attachedDatabaseConfigurationName: string;
+  /**
+   * The database name owned by this cluster that was followed. * in case following all databases.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly databaseName?: string;
 }
 
 /**
@@ -488,6 +859,16 @@ export interface DatabasePrincipalListRequest {
    * The list of Kusto database principals.
    */
   value?: DatabasePrincipal[];
+}
+
+/**
+ * An interface representing DiagnoseVirtualNetworkResult.
+ */
+export interface DiagnoseVirtualNetworkResult {
+  /**
+   * The list of network connectivity diagnostic finding
+   */
+  findings?: string[];
 }
 
 /**
@@ -554,13 +935,23 @@ export interface EventHubDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
-  dataFormat?: DataFormat;
+  dataFormat?: EventHubDataFormat;
   /**
    * System properties of the event hub
    */
   eventSystemProperties?: string[];
+  /**
+   * The event hub messages compression type. Possible values include: 'None', 'GZip'
+   */
+  compression?: Compression;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -613,17 +1004,23 @@ export interface IotHubDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
-  dataFormat?: DataFormat;
+  dataFormat?: IotHubDataFormat;
   /**
    * System properties of the iot hub
    */
   eventSystemProperties?: string[];
   /**
-   * The name of the share access policy name
+   * The name of the share access policy
    */
   sharedAccessPolicyName: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -671,7 +1068,7 @@ export interface EventGridDataConnection {
    * The table where the data should be ingested. Optionally the table information can be added to
    * each message.
    */
-  tableName: string;
+  tableName?: string;
   /**
    * The mapping rule to be used to ingest the data. Optionally the mapping information can be
    * added to each message.
@@ -680,9 +1077,25 @@ export interface EventGridDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
-  dataFormat: DataFormat;
+  dataFormat?: EventGridDataFormat;
+  /**
+   * A Boolean value that, if set to true, indicates that ingestion should ignore the first record
+   * of every file
+   */
+  ignoreFirstRecord?: boolean;
+  /**
+   * The name of blob storage event type to process. Possible values include:
+   * 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+   */
+  blobStorageEventType?: BlobStorageEventType;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -708,19 +1121,45 @@ export interface ClusterCheckNameRequest {
 /**
  * The result returned from a database check name availability request.
  */
-export interface DatabaseCheckNameRequest {
+export interface CheckNameRequest {
   /**
-   * Database name.
+   * Resource name.
+   */
+  name: string;
+  /**
+   * The type of resource, for instance Microsoft.Kusto/clusters/databases. Possible values
+   * include: 'Microsoft.Kusto/clusters/databases',
+   * 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations'
+   */
+  type: Type;
+}
+
+/**
+ * A principal assignment check name availability request.
+ */
+export interface ClusterPrincipalAssignmentCheckNameRequest {
+  /**
+   * Principal Assignment resource name.
    */
   name: string;
 }
 
 /**
- * The result returned from a data connections check name availability request.
+ * A data connection check name availability request.
  */
 export interface DataConnectionCheckNameRequest {
   /**
    * Data Connection name.
+   */
+  name: string;
+}
+
+/**
+ * A principal assignment check name availability request.
+ */
+export interface DatabasePrincipalAssignmentCheckNameRequest {
+  /**
+   * Principal Assignment resource name.
    */
   name: string;
 }
@@ -815,6 +1254,14 @@ export interface KustoManagementClientOptions extends AzureServiceClientOptions 
 
 /**
  * @interface
+ * The list Kusto database principals operation response.
+ * @extends Array<FollowerDatabaseDefinition>
+ */
+export interface FollowerDatabaseListResult extends Array<FollowerDatabaseDefinition> {
+}
+
+/**
+ * @interface
  * The list Kusto clusters operation response.
  * @extends Array<Cluster>
  */
@@ -839,10 +1286,26 @@ export interface ListResourceSkusResult extends Array<AzureResourceSku> {
 
 /**
  * @interface
- * The list Kusto databases operation response.
- * @extends Array<Database>
+ * The list of language extension objects.
+ * @extends Array<LanguageExtension>
  */
-export interface DatabaseListResult extends Array<Database> {
+export interface LanguageExtensionsList extends Array<LanguageExtension> {
+}
+
+/**
+ * @interface
+ * The list Kusto cluster principal assignments operation response.
+ * @extends Array<ClusterPrincipalAssignment>
+ */
+export interface ClusterPrincipalAssignmentListResult extends Array<ClusterPrincipalAssignment> {
+}
+
+/**
+ * @interface
+ * The list Kusto databases operation response.
+ * @extends Array<DatabaseUnion>
+ */
+export interface DatabaseListResult extends Array<DatabaseUnion> {
 }
 
 /**
@@ -851,6 +1314,22 @@ export interface DatabaseListResult extends Array<Database> {
  * @extends Array<DatabasePrincipal>
  */
 export interface DatabasePrincipalListResult extends Array<DatabasePrincipal> {
+}
+
+/**
+ * @interface
+ * The list Kusto database principal assignments operation response.
+ * @extends Array<DatabasePrincipalAssignment>
+ */
+export interface DatabasePrincipalAssignmentListResult extends Array<DatabasePrincipalAssignment> {
+}
+
+/**
+ * @interface
+ * The list attached database configurations operation response.
+ * @extends Array<AttachedDatabaseConfiguration>
+ */
+export interface AttachedDatabaseConfigurationListResult extends Array<AttachedDatabaseConfiguration> {
 }
 
 /**
@@ -890,15 +1369,33 @@ export type State = 'Creating' | 'Unavailable' | 'Running' | 'Deleting' | 'Delet
 export type ProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Moving';
 
 /**
+ * Defines values for LanguageExtensionName.
+ * Possible values include: 'PYTHON', 'R'
+ * @readonly
+ * @enum {string}
+ */
+export type LanguageExtensionName = 'PYTHON' | 'R';
+
+/**
+ * Defines values for EngineType.
+ * Possible values include: 'V2', 'V3'
+ * @readonly
+ * @enum {string}
+ */
+export type EngineType = 'V2' | 'V3';
+
+/**
  * Defines values for AzureSkuName.
  * Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
  * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
  * 'Standard_L8s', 'Standard_L16s', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_L4s', 'Dev(No
- * SLA)_Standard_D11_v2'
+ * SLA)_Standard_D11_v2', 'Standard_E64i_v3', 'Standard_E2a_v4', 'Standard_E4a_v4',
+ * 'Standard_E8a_v4', 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
+ * 'Standard_E16as_v4+3TB_PS', 'Standard_E16as_v4+4TB_PS', 'Dev(No SLA)_Standard_E2a_v4'
  * @readonly
  * @enum {string}
  */
-export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS' | 'Standard_DS14_v2+3TB_PS' | 'Standard_DS14_v2+4TB_PS' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_L4s' | 'Dev(No SLA)_Standard_D11_v2';
+export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS' | 'Standard_DS14_v2+3TB_PS' | 'Standard_DS14_v2+4TB_PS' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_L4s' | 'Dev(No SLA)_Standard_D11_v2' | 'Standard_E64i_v3' | 'Standard_E2a_v4' | 'Standard_E4a_v4' | 'Standard_E8a_v4' | 'Standard_E16a_v4' | 'Standard_E8as_v4+1TB_PS' | 'Standard_E8as_v4+2TB_PS' | 'Standard_E16as_v4+3TB_PS' | 'Standard_E16as_v4+4TB_PS' | 'Dev(No SLA)_Standard_E2a_v4';
 
 /**
  * Defines values for AzureSkuTier.
@@ -917,13 +1414,72 @@ export type AzureSkuTier = 'Basic' | 'Standard';
 export type AzureScaleType = 'automatic' | 'manual' | 'none';
 
 /**
- * Defines values for DataFormat.
- * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO'
+ * Defines values for DefaultPrincipalsModificationKind.
+ * Possible values include: 'Union', 'Replace', 'None'
  * @readonly
  * @enum {string}
  */
-export type DataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO';
+export type DefaultPrincipalsModificationKind = 'Union' | 'Replace' | 'None';
+
+/**
+ * Defines values for PrincipalsModificationKind.
+ * Possible values include: 'Union', 'Replace', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type PrincipalsModificationKind = 'Union' | 'Replace' | 'None';
+
+/**
+ * Defines values for EventHubDataFormat.
+ * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+ * @readonly
+ * @enum {string}
+ */
+export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for Compression.
+ * Possible values include: 'None', 'GZip'
+ * @readonly
+ * @enum {string}
+ */
+export type Compression = 'None' | 'GZip';
+
+/**
+ * Defines values for IotHubDataFormat.
+ * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+ * @readonly
+ * @enum {string}
+ */
+export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for EventGridDataFormat.
+ * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+ * @readonly
+ * @enum {string}
+ */
+export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for BlobStorageEventType.
+ * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobStorageEventType = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobRenamed';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
 
 /**
  * Defines values for DatabasePrincipalRole.
@@ -940,6 +1496,31 @@ export type DatabasePrincipalRole = 'Admin' | 'Ingestor' | 'Monitor' | 'User' | 
  * @enum {string}
  */
 export type DatabasePrincipalType = 'App' | 'Group' | 'User';
+
+/**
+ * Defines values for PrincipalType.
+ * Possible values include: 'App', 'Group', 'User'
+ * @readonly
+ * @enum {string}
+ */
+export type PrincipalType = 'App' | 'Group' | 'User';
+
+/**
+ * Defines values for ClusterPrincipalRole.
+ * Possible values include: 'AllDatabasesAdmin', 'AllDatabasesViewer'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterPrincipalRole = 'AllDatabasesAdmin' | 'AllDatabasesViewer';
+
+/**
+ * Defines values for Type.
+ * Possible values include: 'Microsoft.Kusto/clusters/databases',
+ * 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations'
+ * @readonly
+ * @enum {string}
+ */
+export type Type = 'Microsoft.Kusto/clusters/databases' | 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations';
 
 /**
  * Defines values for Reason.
@@ -1006,6 +1587,46 @@ export type ClustersUpdateResponse = Cluster & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Cluster;
+    };
+};
+
+/**
+ * Contains response data for the listFollowerDatabases operation.
+ */
+export type ClustersListFollowerDatabasesResponse = FollowerDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FollowerDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the diagnoseVirtualNetwork operation.
+ */
+export type ClustersDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiagnoseVirtualNetworkResult;
     };
 };
 
@@ -1110,6 +1731,26 @@ export type ClustersListSkusByResourceResponse = ListResourceSkusResult & {
 };
 
 /**
+ * Contains response data for the listLanguageExtensions operation.
+ */
+export type ClustersListLanguageExtensionsResponse = LanguageExtensionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LanguageExtensionsList;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ClustersBeginCreateOrUpdateResponse = Cluster & {
@@ -1146,6 +1787,126 @@ export type ClustersBeginUpdateResponse = Cluster & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Cluster;
+    };
+};
+
+/**
+ * Contains response data for the beginDiagnoseVirtualNetwork operation.
+ */
+export type ClustersBeginDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiagnoseVirtualNetworkResult;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ClusterPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ClusterPrincipalAssignmentsBeginCreateOrUpdateResponse = ClusterPrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
     };
 };
 
@@ -1192,7 +1953,7 @@ export type DatabasesListByClusterResponse = DatabaseListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type DatabasesGetResponse = Database & {
+export type DatabasesGetResponse = DatabaseUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1205,14 +1966,14 @@ export type DatabasesGetResponse = Database & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Database;
+      parsedBody: DatabaseUnion;
     };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type DatabasesCreateOrUpdateResponse = Database & {
+export type DatabasesCreateOrUpdateResponse = DatabaseUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1225,14 +1986,14 @@ export type DatabasesCreateOrUpdateResponse = Database & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Database;
+      parsedBody: DatabaseUnion;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type DatabasesUpdateResponse = Database & {
+export type DatabasesUpdateResponse = DatabaseUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1245,7 +2006,7 @@ export type DatabasesUpdateResponse = Database & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Database;
+      parsedBody: DatabaseUnion;
     };
 };
 
@@ -1312,7 +2073,7 @@ export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult & {
 /**
  * Contains response data for the beginCreateOrUpdate operation.
  */
-export type DatabasesBeginCreateOrUpdateResponse = Database & {
+export type DatabasesBeginCreateOrUpdateResponse = DatabaseUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1325,14 +2086,14 @@ export type DatabasesBeginCreateOrUpdateResponse = Database & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Database;
+      parsedBody: DatabaseUnion;
     };
 };
 
 /**
  * Contains response data for the beginUpdate operation.
  */
-export type DatabasesBeginUpdateResponse = Database & {
+export type DatabasesBeginUpdateResponse = DatabaseUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1345,7 +2106,187 @@ export type DatabasesBeginUpdateResponse = Database & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Database;
+      parsedBody: DatabaseUnion;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DatabasePrincipalAssignmentsBeginCreateOrUpdateResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the listByCluster operation.
+ */
+export type AttachedDatabaseConfigurationsListByClusterResponse = AttachedDatabaseConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type AttachedDatabaseConfigurationsBeginCreateOrUpdateResponse = AttachedDatabaseConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
     };
 };
 
@@ -1466,6 +2407,26 @@ export type DataConnectionsUpdateResponse = DataConnectionUnion & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginDataConnectionValidationMethod operation.
+ */
+export type DataConnectionsBeginDataConnectionValidationMethodResponse = DataConnectionValidationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionValidationListResult;
     };
 };
 

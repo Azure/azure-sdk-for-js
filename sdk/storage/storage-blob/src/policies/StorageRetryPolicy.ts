@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
 
@@ -7,7 +7,6 @@ import {
   AbortSignalLike,
   BaseRequestPolicy,
   HttpOperationResponse,
-  HttpPipelineLogLevel,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
@@ -18,13 +17,13 @@ import {
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
+import { logger } from "../log";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
  *
  * @export
  * @param {StorageRetryOptions} retryOptions
- * @returns
  */
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory {
   return {
@@ -183,10 +182,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 
     let response: HttpOperationResponse | undefined;
     try {
-      this.logf(
-        HttpPipelineLogLevel.INFO,
-        `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`
-      );
+      logger.info(`RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`);
       response = await this._nextPolicy.sendRequest(newRequest);
       if (!this.shouldRetry(isPrimaryRetry, attempt, response)) {
         return response;
@@ -194,10 +190,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 
       secondaryHas404 = secondaryHas404 || (!isPrimaryRetry && response.status === 404);
     } catch (err) {
-      this.logf(
-        HttpPipelineLogLevel.ERROR,
-        `RetryPolicy: Caught error, message: ${err.message}, code: ${err.code}`
-      );
+      logger.error(`RetryPolicy: Caught error, message: ${err.message}, code: ${err.code}`);
       if (!this.shouldRetry(isPrimaryRetry, attempt, response, err)) {
         throw err;
       }
@@ -225,8 +218,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     err?: RestError
   ): boolean {
     if (attempt >= this.retryOptions.maxTries!) {
-      this.logf(
-        HttpPipelineLogLevel.INFO,
+      logger.info(
         `RetryPolicy: Attempt(s) ${attempt} >= maxTries ${this.retryOptions
           .maxTries!}, no further try.`
       );
@@ -243,6 +235,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       "ENOENT",
       "ENOTFOUND",
       "TIMEOUT",
+      "EPIPE",
       "REQUEST_SEND_ERROR" // For default xhr based http client provided in ms-rest-js
     ];
     if (err) {
@@ -250,16 +243,9 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code &&
-            err.code
-              .toString()
-              .toUpperCase()
-              .includes(retriableError))
+          (err.code && err.code.toString().toUpperCase() === retriableError)
         ) {
-          this.logf(
-            HttpPipelineLogLevel.INFO,
-            `RetryPolicy: Network error ${retriableError} found, will retry.`
-          );
+          logger.info(`RetryPolicy: Network error ${retriableError} found, will retry.`);
           return true;
         }
       }
@@ -271,35 +257,25 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     if (response || err) {
       const statusCode = response ? response.status : err ? err.statusCode : 0;
       if (!isPrimaryRetry && statusCode === 404) {
-        this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Secondary access with 404, will retry.`);
+        logger.info(`RetryPolicy: Secondary access with 404, will retry.`);
         return true;
       }
 
       // Server internal error or server timeout
       if (statusCode === 503 || statusCode === 500) {
-        this.logf(
-          HttpPipelineLogLevel.INFO,
-          `RetryPolicy: Will retry for status code ${statusCode}.`
-        );
+        logger.info(`RetryPolicy: Will retry for status code ${statusCode}.`);
         return true;
       }
     }
 
-    return false;
-  }
+    if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
+      logger.info(
+        "RetryPolicy: Incomplete XML response likely due to service timeout, will retry."
+      );
+      return true;
+    }
 
-  /**
-   * This is to log for debugging purposes only.
-   * Comment/uncomment as necessary for releasing/debugging.
-   *
-   * @private
-   * @param {HttpPipelineLogLevel} _level
-   * @param {string} _message
-   * @memberof StorageRetryPolicy
-   */
-  // tslint:disable-next-line:variable-name
-  private logf(_level: HttpPipelineLogLevel, _message: string) {
-    // this.log(_level, _message);
+    return false;
   }
 
   /**
@@ -330,7 +306,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       delayTimeInMs = Math.random() * 1000;
     }
 
-    this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Delay for ${delayTimeInMs}ms`);
+    logger.info(`RetryPolicy: Delay for ${delayTimeInMs}ms`);
     return delay(delayTimeInMs, abortSignal, RETRY_ABORT_ERROR);
   }
 }

@@ -1,25 +1,24 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "newLine": "LF",
     "target": "es5",
-    "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "module": "esNext",
+    "declarationDir": "./typings/latest",
     "outDir": "./dist-esm",
-    "declaration": true,
-    "declarationMap": true,
-    "importHelpers": true,
-    "declarationDir": "./typings",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
-    "esModuleInterop": true
+    "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "./samples/**"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "exclude": [
+    "node_modules",
+    "./typings/**/*.d.ts",
+    "../storage-internal-avro/node_modules",
+    "../storage-common/node_modules",
+    "./samples/**",
+    "test/perfstress/track-1/"
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "../storage-internal-avro/**/*.ts",
+    "../storage-common/**/*.ts"
+  ]
 }

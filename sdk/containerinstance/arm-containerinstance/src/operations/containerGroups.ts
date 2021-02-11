@@ -180,29 +180,9 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsDeleteMethodResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param containerGroupName The name of the container group.
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, containerGroupName: string, callback: msRest.ServiceCallback<Models.ContainerGroup>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param containerGroupName The name of the container group.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, containerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerGroup>): void;
-  deleteMethod(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroup>, callback?: msRest.ServiceCallback<Models.ContainerGroup>): Promise<Models.ContainerGroupsDeleteMethodResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        containerGroupName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback) as Promise<Models.ContainerGroupsDeleteMethodResponse>;
+  deleteMethod(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName,containerGroupName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ContainerGroupsDeleteMethodResponse>;
   }
 
   /**
@@ -254,7 +234,8 @@ export class ContainerGroups {
   }
 
   /**
-   * Starts all containers in a container group.
+   * Starts all containers in a container group. Compute resources will be allocated and billing will
+   * start.
    * @summary Starts all containers in a container group.
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
@@ -288,6 +269,26 @@ export class ContainerGroups {
   }
 
   /**
+   * Delete the specified container group in the specified subscription and resource group. The
+   * operation does not delete other resources provided by the user, such as volumes.
+   * @summary Delete the specified container group.
+   * @param resourceGroupName The name of the resource group.
+   * @param containerGroupName The name of the container group.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        containerGroupName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
    * Restarts all containers in a container group in place. If container image has updates, new image
    * will be downloaded.
    * @summary Restarts all containers in a container group.
@@ -308,7 +309,8 @@ export class ContainerGroups {
   }
 
   /**
-   * Starts all containers in a container group.
+   * Starts all containers in a container group. Compute resources will be allocated and billing will
+   * start.
    * @summary Starts all containers in a container group.
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
@@ -495,32 +497,6 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ContainerGroup
-    },
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const stopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/stop",
@@ -572,6 +548,33 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ContainerGroup
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerGroup
+    },
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

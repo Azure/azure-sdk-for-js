@@ -1,0 +1,44 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/3f5b82e1-460f-4156-9250-031b8fa0bc1e",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "12b53d22-0df1-4aca-8cce-ac34d502e0e0",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:39:42 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "144",
+    "x-request-id": "12b53d22-0df1-4aca-8cce-ac34d502e0e0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/3f5b82e1-460f-4156-9250-031b8fa0bc1e",
+   "query": {},
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyAlertingConfiguration. TraceId: 0a8c49ba-4217-4f0f-9676-82b8dd1b8591\"}",
+   "responseHeaders": {
+    "apim-request-id": "ae1fd266-6d43-461b-b17d-3e6d50ca75b0",
+    "content-length": "123",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:43 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "80",
+    "x-request-id": "ae1fd266-6d43-461b-b17d-3e6d50ca75b0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "ddf8f5c0dd32ea625fd952a3fe855033"
+}

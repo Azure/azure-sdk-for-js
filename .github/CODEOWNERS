@@ -9,50 +9,120 @@
 /sdk/ @ramya-rao-a
 
 # Core
+# PRLabel: %Azure.Core
 /sdk/core/abort-controller/ @chradek @xirzec @bterlson
-/sdk/core/core-amqp/ @ramya-rao-a @chradek
+
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+
+# PRLabel: %Azure.Core
 /sdk/core/core-auth/ @daviwil @xirzec @bterlson
-/sdk/core/core-http/ @daviwil @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
 /sdk/core/core-lro/ @sadasant @xirzec @bterlson
+
+# PRLabel: %Azure.Core
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
-/sdk/core/core-tracing/ @xirzec @bterlson
-/sdk/core/logger @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-tracing/ @xirzec @bterlson @chradek @richardpark-msft
+
+# PRLabel: %Azure.Core
+/sdk/core/logger @xirzec @bterlson @chradek
 
 # Service teams
-/sdk/appconfiguration/ @richardpark-msft
+# PRLabel: %App Configuration
+/sdk/appconfiguration/ @richardpark-msft @chradek
 
-/sdk/batch/ @xingwu1 @matthchr @bgklein
-/sdk/cosmosdb/ @southpolesteve
+# PRLabel: %Batch
+/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
-/sdk/servicebus/ @ramya-rao-a @chradek @ramya0820
+# PRLabel: %Communication
+/sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
 
-/sdk/identity/ @daviwil @jonathandturner
-/sdk/keyvault/ @jonathandturner @sadasant
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
+# PRLabel: %Cosmos
+/sdk/cosmosdb/ @southpolesteve @zfoster
 
-/sdk/test-utils/ @HarshaNalluru
+# PRLabel: %Digital Twins
+/sdk/digitaltwins/ @zolvarga
+
+# PRLabel: %Event Grid
+/sdk/eventgrid/ @ramya-rao-a @ellismg
+
+# PRLabel: %Event Hubs
+/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+
+# PRLabel: %Service Bus
+/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+
+# PRLabel: %Azure.Identity
+/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
+
+# PRLabel: %KeyVault
+/sdk/keyvault/ @jonathandturner @sadasant @maorleger
+
+# PRLabel: %Storage
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377 @EmmaZhu
+
+# PRLabel: %Synapse
+/sdk/synapse/ @jonathandturner
+
+# PRLabel: %Tables
+/sdk/tables/ @mahdiva @joheredi
+
+# PRLabel: %EngSys
+/sdk/template/ @Azure/azure-sdk-eng
+
+/sdk/test-utils/ @HarshaNalluru @sadasant
+
+# PRLabel: %Cognitive - Text Analytics
+/sdk/textanalytics/ @deyaaeldeen @xirzec @witemple-msft
+
+# PRLabel: %Cognitive - Form Recognizer
+/sdk/formrecognizer/ @jeremymeng @witemple-msft
+
+# PRLabel: %Cognitive - Metrics Advisor
+/sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
+
+# PRLabel: %Search
+/sdk/search/ @xirzec @sarangan12
+
+/sdk/applicationinsights/applicationinsights-query/ @divyajay @geneh @alongafni
+/sdk/operationalinsights/loganalytics/ @divyajay @geneh @alongafni
+
+/sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
+/sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
+
+# Smoke Tests
+/common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson
+/sdk/**/review/*api.md @bterlson @xirzec @chradek
 
 # Management Plane
-/**/*Management*.ts @qiaozha
-/**/arm-*/ @qiaozha
+# PRLabel: %Mgmt
+/sdk/**/arm-*/ @qiaozha
+
+# PRLabel: %Monitor
+/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
 
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @KarishmaGhiya @mikeharder @mitchdenny @danieljurek
+/eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
 /**/tests.yml   @danieljurek
 /**/ci.yml      @mitchdenny
 
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @KarishmaGhiya
-/common/ @mikeharder @KarishmaGhiya
+/.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
+/common/ @mikeharder @praveenkuttappan
 /common/config/rush/pnpm-lock.yaml @bterlson
-/rush.json @mikeharder @KarishmaGhiya
-/tsconfig.json @mikeharder @KarishmaGhiya
+/common/git-hooks/ @deyaaeldeen
+/rush.json @mikeharder @praveenkuttappan
+/tsconfig.json @mikeharder @praveenkuttappan
 /**/tsconfig.json @bterlson

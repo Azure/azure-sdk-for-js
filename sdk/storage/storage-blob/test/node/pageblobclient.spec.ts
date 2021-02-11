@@ -1,6 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
-import { getBSU, getConnectionStringFromEnvironment, bodyToString, setupEnvironment } from "../utils";
+import {
+  getBSU,
+  getConnectionStringFromEnvironment,
+  bodyToString,
+  recorderEnvSetup
+} from "../utils";
 import {
   newPipeline,
   PageBlobClient,
@@ -8,26 +16,27 @@ import {
   ContainerClient,
   BlobClient,
   generateBlobSASQueryParameters,
-  BlobSASPermissions
+  BlobSASPermissions,
+  BlobServiceClient
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "@azure/test-utils-recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 
 describe("PageBlobClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
   let blobClient: BlobClient;
   let pageBlobClient: PageBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -38,7 +47,7 @@ describe("PageBlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("startCopyIncremental", async () => {
@@ -55,8 +64,8 @@ describe("PageBlobClient Node.js only", () => {
     const destPageBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
-
-    await delay(5 * 1000);
+    // Container cache may take up to 30 seconds to take effect.
+    await delay(30 * 1000);
 
     let copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
@@ -70,7 +79,7 @@ describe("PageBlobClient Node.js only", () => {
         case "success":
           return;
         case "aborted":
-          throw new Error("Copy unexcepted aborted.");
+          throw new Error("Copy unexpected aborted.");
         case "pending":
           await delay(3000);
           copyResponse = await destPageBlobClient.getProperties();
@@ -85,13 +94,15 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    let listBlobResponse = (await containerClient
-      .listBlobsFlat({
-        includeCopy: true,
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    let listBlobResponse = (
+      await containerClient
+        .listBlobsFlat({
+          includeCopy: true,
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
@@ -103,13 +114,15 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    listBlobResponse = (await containerClient
-      .listBlobsFlat({
-        includeCopy: true,
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    listBlobResponse = (
+      await containerClient
+        .listBlobsFlat({
+          includeCopy: true,
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 
@@ -132,7 +145,7 @@ describe("PageBlobClient Node.js only", () => {
     const factories = (blobClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
     // Get a SAS for blobURL
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -253,7 +266,7 @@ describe("PageBlobClient Node.js only", () => {
     // Get a SAS for blobURL
     const factories = (blobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -278,7 +291,7 @@ describe("PageBlobClient Node.js only", () => {
     );
     assert.equal(uResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
-    let page1 = await pageBlobClient.download(0, 512, {
+    const page1 = await pageBlobClient.download(0, 512, {
       customerProvidedKey: Test_CPK_INFO
     });
     const page2 = await pageBlobClient.download(512, 512, {
@@ -318,5 +331,105 @@ describe("PageBlobClient Node.js only", () => {
       customerProvidedKey: Test_CPK_INFO
     });
     assert.equal(pResp.contentLength, "2048");
+  });
+
+  describe("conditional tags", () => {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const tagConditionMet = { tagConditions: "tag1 = 'val1'" };
+    const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
+
+    beforeEach(async function() {
+      await pageBlobClient.create(1024, { tags });
+    });
+
+    async function throwExpectedError(promise: Promise<any>, errorCode: string): Promise<boolean> {
+      let expectedExceptionCaught = false;
+      try {
+        await promise;
+      } catch (e) {
+        assert.equal(e.details?.errorCode, errorCode);
+        expectedExceptionCaught = true;
+      }
+      return expectedExceptionCaught;
+    }
+
+    it("PageBlob.startCopyIncremental", async () => {
+      const snapshotResult = await pageBlobClient.createSnapshot();
+      assert.ok(snapshotResult.snapshot);
+      const copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
+
+      await containerClient.setAccessPolicy("container");
+      // Container cache may take up to 30 seconds to take effect.
+      await delay(30 * 1000);
+
+      const destPageBlobClient = containerClient.getPageBlobClient(
+        recorder.getUniqueName("destPageBlob")
+      );
+
+      const copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
+      if (copyResponse.copyStatus === "pending") {
+        // May fail as the copy succeeded during between? If so, ignore error in the abort as we don't care.
+        try {
+          await destPageBlobClient.abortCopyFromURL(copyResponse.copyId!);
+        } catch (err) {}
+      }
+
+      await destPageBlobClient.setTags(tags);
+
+      const snapshotResult1 = await pageBlobClient.createSnapshot();
+      assert.ok(snapshotResult1.snapshot);
+      const copySource1 = pageBlobClient.withSnapshot(snapshotResult1.snapshot!).url;
+
+      assert.ok(
+        await throwExpectedError(
+          destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionMet });
+    });
+
+    it("uploadPagesFromURL with conditional tags for destination blob", async () => {
+      const result = await blobClient.download(0);
+      assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+      const content = "a".repeat(512) + "b".repeat(512);
+      const blockBlobName = recorder.getUniqueName("blockblob");
+      const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+      await blockBlobClient.upload(content, content.length);
+
+      // By default, credential is always the last element of pipeline factories
+      const factories = (blobClient as any).pipeline.factories;
+      const sharedKeyCredential = factories[factories.length - 1];
+      // Get a SAS for blobURL
+      const expiryTime = recorder.newDate("expiry");
+      expiryTime.setDate(expiryTime.getDate() + 1);
+      const sas = generateBlobSASQueryParameters(
+        {
+          expiresOn: expiryTime,
+          containerName,
+          blobName: blockBlobName,
+          permissions: BlobSASPermissions.parse("r")
+        },
+        sharedKeyCredential as StorageSharedKeyCredential
+      );
+
+      assert.ok(
+        await throwExpectedError(
+          pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512, {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+
+      await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512, {
+        conditions: tagConditionMet
+      });
+    });
   });
 });

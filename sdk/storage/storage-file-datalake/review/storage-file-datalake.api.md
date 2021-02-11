@@ -7,6 +7,9 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
+import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import { ContainerRenameResponse } from '@azure/storage-blob';
+import { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -19,22 +22,46 @@ import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
-import { ModifiedAccessConditions } from '@azure/storage-blob';
+import { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline as Pipeline_2 } from '@azure/storage-blob';
 import { ProxyOptions } from '@azure/core-http';
+import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
-import { SpanOptions } from '@opentelemetry/types';
+import { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
 import { WebResource } from '@azure/core-http';
+
+// @public
+export interface AccessControlChangeCounters {
+    changedDirectoriesCount: number;
+    changedFilesCount: number;
+    failedChangesCount: number;
+}
+
+// @public
+export interface AccessControlChangeError {
+    isDirectory: boolean;
+    message: string;
+    name: string;
+}
+
+// @public
+export interface AccessControlChanges {
+    aggregateCounters: AccessControlChangeCounters;
+    batchCounters: AccessControlChangeCounters;
+    batchFailures: AccessControlChangeError[];
+    continuationToken?: string;
+}
 
 // @public (undocumented)
 export type AccessControlType = "user" | "group" | "mask" | "other";
@@ -107,8 +134,22 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
+export interface CommonGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
     tracingOptions?: OperationTracingOptions;
 }
 
@@ -130,9 +171,19 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
+export class DataLakeAclChangeFailedError extends Error {
+    constructor(error: RestError | Error, continuationToken?: string);
+    continuationToken?: string;
+    innerError: RestError | Error;
+}
+
+// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
+    generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
 }
@@ -141,11 +192,22 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<PathUpdateResponse>;
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-    flush(position: number, options?: FileFlushOptions): Promise<PathUpdateResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
+    flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
+    generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string>;
+    query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
+    readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
+    readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
+    readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
+    setExpiry(mode: FileExpiryMode, options?: FileSetExpiryOptions): Promise<FileSetExpiryResponse>;
+    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
+    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
+    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -155,14 +217,18 @@ export class DataLakeFileSystemClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
+    createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
+    deleteIfExists(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteIfExistsResponse>;
+    exists(options?: FileSystemExistsOptions): Promise<boolean>;
+    generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getDirectoryClient(directoryName: string): DataLakeDirectoryClient;
     getFileClient(fileName: string): DataLakeFileClient;
     getProperties(options?: FileSystemGetPropertiesOptions): Promise<FileSystemGetPropertiesResponse>;
     listPaths(options?: ListPathsOptions): PagedAsyncIterableIterator<Path, FileSystemListPathsResponse>;
-    readonly name: string;
+    get name(): string;
     setAccessPolicy(access?: PublicAccessType, fileSystemAcl?: SignedIdentifier<AccessPolicy>[], options?: FileSystemSetAccessPolicyOptions): Promise<FileSystemSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
 }
@@ -177,34 +243,40 @@ export class DataLakeLeaseClient {
     // (undocumented)
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     // (undocumented)
-    readonly leaseId: string;
+    get leaseId(): string;
     // (undocumented)
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     // (undocumented)
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
     // (undocumented)
-    readonly url: string;
+    get url(): string;
 }
 
 // @public
 export class DataLakePathClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
-    readonly fileSystemName: string;
+    deleteIfExists(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteIfExistsResponse>;
+    exists(options?: PathExistsOptions): Promise<boolean>;
+    get fileSystemName(): string;
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
-    readonly name: string;
+    get name(): string;
+    removeAccessControlRecursive(acl: RemovePathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
     setAccessControl(acl: PathAccessControlItem[], options?: PathSetAccessControlOptions): Promise<PathSetAccessControlResponse>;
+    setAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
     setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetAccessControlResponse>;
     toDirectoryClient(): DataLakeDirectoryClient;
     toFileClient(): DataLakeFileClient;
+    updateAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
 }
 
 // @public (undocumented)
@@ -216,6 +288,10 @@ export class DataLakeSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    execute: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
+    move: boolean;
     static parse(permissions: string): DataLakeSASPermissions;
     read: boolean;
     toString(): string;
@@ -224,17 +300,22 @@ export class DataLakeSASPermissions {
 
 // @public
 export interface DataLakeSASSignatureValues {
+    agentObjectId?: string;
     cacheControl?: string;
     contentDisposition?: string;
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    correlationId?: string;
+    directoryDepth?: number;
     expiresOn?: Date;
     fileSystemName: string;
     identifier?: string;
     ipRange?: SasIPRange;
+    isDirectory?: boolean;
     pathName?: string;
-    permissions?: DataLakeSASPermissions;
+    permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
+    preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
@@ -245,12 +326,26 @@ export interface DataLakeSASSignatureValues {
 export class DataLakeServiceClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
+    undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{
+        fileSystemClient: DataLakeFileSystemClient;
+        fileSystemUndeleteResponse: FileSystemUndeleteResponse;
+    }>;
 }
 
 export { deserializationPolicy }
+
+// @public (undocumented)
+export interface DirectoryCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions {
+}
+
+// @public (undocumented)
+export interface DirectoryCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {
+}
 
 // @public
 export interface DirectoryCreateOptions extends PathCreateOptions {
@@ -258,6 +353,27 @@ export interface DirectoryCreateOptions extends PathCreateOptions {
 
 // @public (undocumented)
 export interface DirectoryCreateResponse extends PathCreateResponse {
+}
+
+// @public
+export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: DirectorySASPermissions;
+}
+
+// @public
+export class DirectorySASPermissions {
+    add: boolean;
+    create: boolean;
+    delete: boolean;
+    execute: boolean;
+    list: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
+    move: boolean;
+    static parse(permissions: string): DirectorySASPermissions;
+    read: boolean;
+    toString(): string;
+    write: boolean;
 }
 
 // @public (undocumented)
@@ -272,6 +388,21 @@ export interface FileAppendOptions extends CommonOptions {
     transactionalContentMD5?: Uint8Array;
 }
 
+// @public
+export type FileAppendResponse = PathAppendDataHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PathAppendDataHeaders;
+    };
+};
+
+// @public (undocumented)
+export interface FileCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions {
+}
+
+// @public (undocumented)
+export interface FileCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {
+}
+
 // @public (undocumented)
 export interface FileCreateOptions extends PathCreateOptions {
 }
@@ -279,6 +410,9 @@ export interface FileCreateOptions extends PathCreateOptions {
 // @public (undocumented)
 export interface FileCreateResponse extends PathCreateResponse {
 }
+
+// @public
+export type FileExpiryMode = 'NeverExpire' | 'RelativeToCreation' | 'RelativeToNow' | 'Absolute';
 
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {
@@ -292,6 +426,63 @@ export interface FileFlushOptions extends CommonOptions {
     pathHttpHeaders?: PathHttpHeaders;
     // (undocumented)
     retainUncommittedData?: boolean;
+}
+
+// @public
+export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: DataLakeSASPermissions;
+}
+
+// @public
+export interface FileParallelUploadOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    chunkSize?: number;
+    close?: boolean;
+    conditions?: DataLakeRequestConditions;
+    maxConcurrency?: number;
+    metadata?: Metadata;
+    onProgress?: (progress: TransferProgressEvent) => void;
+    pathHttpHeaders?: PathHttpHeaders;
+    permissions?: string;
+    singleUploadThreshold?: number;
+    umask?: string;
+}
+
+// @public
+export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
+
+// @public
+export interface FileQueryCsvTextConfiguration {
+    columnSeparator?: string;
+    escapeCharacter?: string;
+    fieldQuote?: string;
+    hasHeaders?: boolean;
+    kind: "csv";
+    recordSeparator: string;
+}
+
+// @public
+export interface FileQueryError {
+    description: string;
+    isFatal: boolean;
+    name: string;
+    position: number;
+}
+
+// @public
+export interface FileQueryJsonTextConfiguration {
+    kind: "json";
+    recordSeparator: string;
+}
+
+// @public
+export interface FileQueryOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: DataLakeRequestConditions;
+    inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+    onError?: (error: FileQueryError) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
+    outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration;
 }
 
 // @public (undocumented)
@@ -381,6 +572,42 @@ export type FileReadResponse = FileReadHeaders & {
     };
 };
 
+// @public
+export interface FileReadToBufferOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    chunkSize?: number;
+    concurrency?: number;
+    conditions?: DataLakeRequestConditions;
+    maxRetryRequestsPerChunk?: number;
+    onProgress?: (progress: TransferProgressEvent) => void;
+}
+
+// @public
+export interface FileSetExpiryHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface FileSetExpiryOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    expiresOn?: Date;
+    timeToExpireInMs?: number;
+}
+
+// @public
+export type FileSetExpiryResponse = FileSetExpiryHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileSetExpiryHeaders;
+    };
+};
+
 // @public (undocumented)
 export interface FileSystemCreateHeaders {
     // (undocumented)
@@ -395,6 +622,11 @@ export interface FileSystemCreateHeaders {
     requestId?: string;
     // (undocumented)
     version?: string;
+}
+
+// @public
+export interface FileSystemCreateIfNotExistsResponse extends FileSystemCreateResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -426,6 +658,11 @@ export interface FileSystemDeleteHeaders {
     version?: string;
 }
 
+// @public
+export interface FileSystemDeleteIfExistsResponse extends FileSystemDeleteResponse {
+    succeeded: boolean;
+}
+
 // @public (undocumented)
 export interface FileSystemDeleteOptions extends CommonOptions {
     // (undocumented)
@@ -440,6 +677,16 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
         parsedHeaders: FileSystemDeleteHeaders;
     };
 };
+
+// @public
+export interface FileSystemExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface FileSystemGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: FileSystemSASPermissions;
+}
 
 // @public (undocumented)
 export interface FileSystemGetAccessPolicyHeaders {
@@ -526,11 +773,15 @@ export type FileSystemGetPropertiesResponse = FileSystemGetPropertiesHeaders & {
 // @public (undocumented)
 export interface FileSystemItem {
     // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
     metadata?: Metadata;
     // (undocumented)
     name: string;
     // (undocumented)
     properties: FileSystemProperties;
+    // (undocumented)
+    versionId?: string;
 }
 
 // @public
@@ -539,7 +790,7 @@ export interface FileSystemListPathsHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -557,6 +808,8 @@ export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders 
 // @public (undocumented)
 export interface FileSystemProperties {
     // (undocumented)
+    deletedOn?: Date;
+    // (undocumented)
     etag: string;
     // (undocumented)
     hasImmutabilityPolicy?: boolean;
@@ -572,14 +825,23 @@ export interface FileSystemProperties {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     publicAccess?: PublicAccessType;
+    // (undocumented)
+    remainingRetentionDays?: number;
 }
+
+// @public
+export type FileSystemRenameResponse = ContainerRenameResponse;
 
 // @public
 export class FileSystemSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    execute: boolean;
     list: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
+    move: boolean;
     static parse(permissions: string): FileSystemSASPermissions;
     read: boolean;
     toString(): string;
@@ -647,6 +909,9 @@ export type FileSystemSetMetadataResponse = FileSystemSetMetadataHeaders & {
         parsedHeaders: FileSystemSetMetadataHeaders;
     };
 };
+
+// @public
+export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
@@ -734,15 +999,18 @@ export interface Metadata {
     [propertyName: string]: string;
 }
 
+// @public (undocumented)
+export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_2, "ifTags">;
+
 // @public
-export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public (undocumented)
 export interface Path {
     // (undocumented)
     contentLength?: number;
     // (undocumented)
-    eTag?: string;
+    etag?: string;
     // (undocumented)
     group?: string;
     // (undocumented)
@@ -771,14 +1039,38 @@ export interface PathAccessControl {
 
 // @public (undocumented)
 export interface PathAccessControlItem {
-    // (undocumented)
     accessControlType: AccessControlType;
-    // (undocumented)
     defaultScope: boolean;
-    // (undocumented)
     entityId: string;
-    // (undocumented)
     permissions: RolePermissions;
+}
+
+// @public
+export interface PathAppendDataHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
+
+// @public
+export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    batchSize?: number;
+    continuationToken?: string;
+    continueOnFailure?: boolean;
+    maxBatches?: number;
+    onProgress?: (progress: AccessControlChanges) => void;
+}
+
+// @public
+export interface PathChangeAccessControlRecursiveResponse {
+    continuationToken?: string;
+    counters: AccessControlChangeCounters;
 }
 
 // @public
@@ -788,7 +1080,7 @@ export interface PathCreateHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -806,6 +1098,25 @@ export interface PathCreateHttpHeaders {
     contentLanguage?: string;
     // (undocumented)
     contentType?: string;
+}
+
+// @public (undocumented)
+export interface PathCreateIfNotExistsOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    metadata?: Metadata;
+    // (undocumented)
+    pathHttpHeaders?: PathCreateHttpHeaders;
+    // (undocumented)
+    permissions?: string;
+    // (undocumented)
+    umask?: string;
+}
+
+// @public
+export interface PathCreateIfNotExistsResponse extends PathCreateResponse {
+    succeeded: boolean;
 }
 
 // @public (undocumented)
@@ -841,6 +1152,11 @@ export interface PathDeleteHeaders {
     version?: string;
 }
 
+// @public
+export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
+    succeeded: boolean;
+}
+
 // @public (undocumented)
 export interface PathDeleteOptions extends CommonOptions {
     // (undocumented)
@@ -856,12 +1172,39 @@ export type PathDeleteResponse = PathDeleteHeaders & {
     };
 };
 
+// @public
+export interface PathExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface PathFlushDataHeaders {
+    clientRequestId?: string;
+    contentLength?: number;
+    date?: Date;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+type PathFlushDataResponse = PathFlushDataHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PathFlushDataHeaders;
+    };
+};
+
+export { PathFlushDataResponse as FileFlushResponse }
+
+export { PathFlushDataResponse as FileUploadResponse }
+
 // @public (undocumented)
 export interface PathGetAccessControlHeaders {
     // (undocumented)
     date?: Date;
     // (undocumented)
-    eTag?: string;
+    etag?: string;
     // (undocumented)
     group?: string;
     // (undocumented)
@@ -887,7 +1230,7 @@ export interface PathGetAccessControlOptions extends CommonOptions {
 // @public (undocumented)
 export type PathGetAccessControlResponse = PathAccessControl & PathGetAccessControlHeaders & {
     _response: HttpResponse & {
-        parsedHeaders: PathGetPropertiesHeaders_2;
+        parsedHeaders: PathGetPropertiesHeadersModel;
     };
 };
 
@@ -898,6 +1241,9 @@ export enum PathGetPropertiesAction {
     // (undocumented)
     GetStatus = "getStatus"
 }
+
+// @public
+export type PathGetPropertiesActionModel = 'getAccessControl' | 'getStatus';
 
 // @public (undocumented)
 export interface PathGetPropertiesHeaders {
@@ -949,6 +1295,7 @@ export interface PathGetPropertiesHeaders {
     encryptionKeySha256?: string;
     // (undocumented)
     etag?: string;
+    expiresOn?: Date;
     // (undocumented)
     isIncrementalCopy?: boolean;
     // (undocumented)
@@ -966,6 +1313,35 @@ export interface PathGetPropertiesHeaders {
     // (undocumented)
     requestId?: string;
     // (undocumented)
+    version?: string;
+}
+
+// @public
+export interface PathGetPropertiesHeadersModel {
+    acceptRanges?: string;
+    acl?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: string;
+    contentRange?: string;
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    group?: string;
+    lastModified?: Date;
+    leaseDuration?: string;
+    leaseState?: string;
+    leaseStatus?: string;
+    owner?: string;
+    permissions?: string;
+    properties?: string;
+    requestId?: string;
+    resourceType?: string;
     version?: string;
 }
 
@@ -1008,10 +1384,27 @@ export interface PathList {
 
 // @public
 export interface PathListModel {
-    // Warning: (ae-forgotten-export) The symbol "Path" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    paths?: Path_2[];
+    paths?: PathModel[];
+}
+
+// @public
+export interface PathModel {
+    // (undocumented)
+    contentLength?: number;
+    // (undocumented)
+    etag?: string;
+    // (undocumented)
+    group?: string;
+    isDirectory?: boolean;
+    // (undocumented)
+    lastModified?: Date;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    owner?: string;
+    // (undocumented)
+    permissions?: string;
 }
 
 // @public (undocumented)
@@ -1052,7 +1445,7 @@ export interface PathRemoveHeaders {
     // (undocumented)
     date?: Date;
     // (undocumented)
-    eTag?: string;
+    etag?: string;
     // (undocumented)
     lastModified?: Date;
     // (undocumented)
@@ -1070,11 +1463,27 @@ export enum PathRenameMode {
 }
 
 // @public
+export type PathRenameModeModel = 'legacy' | 'posix';
+
+// @public
 export enum PathResourceType {
     // (undocumented)
     Directory = "directory",
     // (undocumented)
     File = "file"
+}
+
+// @public
+export type PathResourceTypeModel = 'directory' | 'file';
+
+// @public
+export interface PathSetAccessControlHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
 }
 
 // @public (undocumented)
@@ -1089,8 +1498,6 @@ export interface PathSetAccessControlOptions extends CommonOptions {
     owner?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PathSetAccessControlHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 type PathSetAccessControlResponse = PathSetAccessControlHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1180,18 +1587,27 @@ export interface PathSetPermissionsOptions extends CommonOptions {
     owner?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PathUpdateHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
-type PathUpdateResponse = PathUpdateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: PathUpdateHeaders;
-    };
-};
-
-export { PathUpdateResponse as FileAppendResponse }
-
-export { PathUpdateResponse as FileFlushResponse }
+export interface PathUpdateHeaders {
+    acceptRanges?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: string;
+    contentRange?: string;
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    properties?: string;
+    requestId?: string;
+    version?: string;
+    xMsContinuation?: string;
+}
 
 // @public
 export class Pipeline extends Pipeline_2 {
@@ -1217,6 +1633,13 @@ export interface RawAccessPolicy {
     permissions: string;
     // (undocumented)
     startsOn?: string;
+}
+
+// @public (undocumented)
+export interface RemovePathAccessControlItem {
+    accessControlType: AccessControlType;
+    defaultScope: boolean;
+    entityId?: string;
 }
 
 export { RequestPolicy }
@@ -1251,16 +1674,21 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
+    readonly agentObjectId?: string;
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
+    readonly correlationId?: string;
+    readonly directoryDepth?: number;
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
+    readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
     readonly resourceTypes?: string;
@@ -1269,6 +1697,37 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface SASQueryParametersOptions {
+    agentObjectId?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    correlationId?: string;
+    directoryDepth?: number;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: string;
+    preauthorizedAgentObjectId?: string;
+    protocol?: SASProtocol;
+    resource?: string;
+    resourceTypes?: string;
+    services?: string;
+    startsOn?: Date;
+    userDelegationKey?: UserDelegationKey;
+}
+
+// @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
 }
 
 // @public (undocumented)
@@ -1304,6 +1763,7 @@ export { ServiceListContainersSegmentResponse }
 export interface ServiceListFileSystemsOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     // (undocumented)
     includeMetadata?: boolean;
     // (undocumented)
@@ -1328,6 +1788,15 @@ export type ServiceListFileSystemsSegmentResponse = ListFileSystemsSegmentRespon
         parsedBody: ListFileSystemsSegmentResponse;
     };
 };
+
+// @public
+export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
+
+// @public
+export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    destinationFileSystemName?: string;
+}
 
 // @public (undocumented)
 export interface SignedIdentifier<T> {
@@ -1432,10 +1901,6 @@ export { UserDelegationKeyModel }
 
 export { WebResource }
 
-
-// Warnings were encountered during analysis:
-//
-// src/models.ts:403:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

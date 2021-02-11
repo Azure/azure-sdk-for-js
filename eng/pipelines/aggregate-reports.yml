@@ -1,0 +1,75 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - eng/pipelines/aggregate-reports.yml
+
+jobs:
+- job: 'ValidateDependencies'
+
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:
+  - task: NodeTool@0
+    displayName: 'Use Node 10.x'
+    inputs:
+      versionSpec: 10.x
+  - template: ../common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      Directory: ""
+      CheckLinkGuidance: $true
+      Condition: succeededOrFailed()
+  - script: 'npm ci'
+    workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
+    displayName: 'Install tool dependencies'
+
+  - script: |
+      node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)/data.js"
+    workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
+    displayName: 'Validate dependencies'
+
+  - pwsh: |
+      copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
+    displayName: 'Copy static file'
+
+  - task: AzureFileCopy@3
+    displayName: 'Upload dependency report'
+    inputs:
+      sourcePath: '$(Build.ArtifactStagingDirectory)'
+      azureSubscription: 'Azure SDK Artifacts'
+      destination: AzureBlob
+      storage: azuresdkartifacts
+      containerName: 'azure-sdk-for-js'
+      blobPrefix: dependencies
+
+  - task: PowerShell@2
+    displayName: "Verify Repository Resource Refs"
+    inputs:
+      pwsh: true
+      workingDirectory: $(Build.SourcesDirectory)
+      filePath: eng/common/scripts/Verify-Resource-Ref.ps1
+      
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
+    displayName: 'Run CredScan'
+    condition: succeededOrFailed()
+    inputs:
+      suppressionsFile: 'eng\CredScanSuppression.json'
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
+    displayName: 'Post Analysis'
+    inputs:
+      GdnBreakAllTools: false
+      GdnBreakGdnToolCredScan: true
+      GdnBreakGdnToolCredScanSeverity: Error
+      GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+      GdnBreakBaselines: baseline  
+      # Used for generating baseline file.
+      # GdnBreakOutputBaselineFile: js
+      # GdnBreakOutputBaseline: baseline
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
+    displayName: 'Publish Security Analysis Logs'
+    condition: succeededOrFailed()

@@ -1,24 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { DataLakeFileSystemClient, FileSystemListPathsResponse } from "../src";
-import { getDataLakeServiceClient, setupEnvironment } from "./utils";
+import {
+  DataLakeFileSystemClient,
+  FileSystemListPathsResponse,
+  DataLakeServiceClient
+} from "../src";
+import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakeFileSystemClient", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
+  let serviceClient: DataLakeServiceClient;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -26,7 +33,7 @@ describe("DataLakeFileSystemClient", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -52,7 +59,7 @@ describe("DataLakeFileSystemClient", () => {
       keyb: "valb"
     };
     await fileSystemClient.setMetadata(metadata, {
-      tracingOptions: { spanOptions: { parent: rootSpan } }
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
     });
     rootSpan.end();
 
@@ -116,6 +123,30 @@ describe("DataLakeFileSystemClient", () => {
     const result = await cClient.getProperties();
     assert.deepEqual(result.publicAccess, access);
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  it("createIfNotExists", async () => {
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    const metadata = { key: "value" };
+    const access = "filesystem";
+    const createRes = await cClient.createIfNotExists({ metadata, access });
+    assert.ok(createRes.succeeded);
+    assert.ok(createRes.etag);
+
+    const createRes2 = await cClient.createIfNotExists({ metadata, access });
+    assert.ok(!createRes2.succeeded);
+
+    await cClient.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    const res = await cClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+
+    await cClient.create();
+    const res2 = await cClient.deleteIfExists();
+    assert.ok(res2.succeeded);
   });
 
   it("delete", (done) => {
@@ -267,7 +298,7 @@ describe("DataLakeFileSystemClient", () => {
       fileClients.push(fileClient);
     }
 
-    const iterator = await fileSystemClient.listPaths({
+    const iterator = fileSystemClient.listPaths({
       userPrincipalName: true,
       recursive: true,
       path: ""
@@ -385,5 +416,18 @@ describe("DataLakeFileSystemClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  });
+
+  it("exists returns true on an existing file system", async () => {
+    const result = await fileSystemClient.exists();
+    assert.ok(result, "exists() should return true for an existing file system");
+  });
+
+  it("exists returns false on non-existing file system", async () => {
+    const newFileSystemClient = serviceClient.getFileSystemClient(
+      recorder.getUniqueName("newfilesystem")
+    );
+    const result = await newFileSystemClient.exists();
+    assert.ok(result === false, "exists() should returns false on non-existing file system");
   });
 });

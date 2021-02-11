@@ -1,5 +1,6 @@
-@azure/event-processor-host
-================
+# @azure/event-processor-host
+
+> Please note, a newer package [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) is available as of January, 2020. While this package will continue to receive critical bug fixes, we strongly encourage you to upgrade. See the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/migrationguide.md) for more details.
 
 Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
 across all the partitions in the provided consumer group of an EventHub and provide you messages received across
@@ -7,50 +8,65 @@ all the partitions. It will checkpoint metadata about the received messages at r
 Azure Storage Blob. This makes it easy to continue receiving messages from where you left at a later time.
 
 #### Conceptual Overview
+
 ![overview](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/eventhub/event-processor-host/eph.png)
 
-- More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
+- More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/azure/event-hubs/event-hubs-event-processor-host).
 - General overview of how the Event Processor Host SDK works internally can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/overview.md).
 
-## Pre-requisite ##
-- **Node.js version: 6.x or higher.** 
+## Pre-requisite
+
+- **Node.js version: 6.x or higher.**
 - We would **still encourage you** to install the latest available LTS version at any given time from https://nodejs.org. **It is a good practice to always install the latest available LTS version of node.js.**
 - Installing node.js on **Windows or macOS** is very simple with available installers on the [node.js website](https://nodejs.org). If you are using a **linux based OS**, then you can find easy to follow, one step installation instructions over [here](https://nodejs.org/en/download/package-manager/).
 
-## Installation ##
+## Installation
+
 ```bash
 npm install @azure/event-processor-host
 ```
-## IDE ##
-This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) 
+
+## IDE
+
+This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com)
 or any other IDE that provides better intellisense and exposes the full power of source code documentation.
 
-## Debug logs ##
+## Debug logs
 
 You can set the following environment variable to get the debug logs.
 
 - Getting debug logs **only** from the Event Processor Host SDK
+
 ```bash
 export DEBUG=azure:eph*
 ```
+
 - Getting debug logs from the Event Processor Host SDK **and** the protocol level library.
+
 ```bash
 export DEBUG=azure:eph*,rhea*
 ```
+
 - Getting debug logs from the **Event Processor Host SDK, the Event Hub SDK and the protocol level library.**
+
 ```bash
 export DEBUG=azure*,rhea*
 ```
+
 - If you are **not interested in viewing the message transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
+
 ```bash
 export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
 ```
+
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
+
 ```bash
 export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 #### Logging to a file
+
 - Set the `DEBUG` environment variable as shown above and then run your test script as follows:
   - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
@@ -64,21 +80,25 @@ export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea
     ```bash
       node your-test-script.js &> out.log
     ```
+
 ## Recommendation
-- You will find the sample provided below demonstrates a multi eph instance in the same process. Since node.js is single threaded, it has to load balance between managing(renew, steal, acquire, update) leases and receive messages across all the partitions. It is better to 
-create each instance in a separate process or a separate machine. This should provide better results.
+
+- You will find the sample provided below demonstrates a multi eph instance in the same process. Since node.js is single threaded, it has to load balance between managing(renew, steal, acquire, update) leases and receive messages across all the partitions. It is better to
+  create each instance in a separate process or a separate machine. This should provide better results.
 
 ## Examples
+
 - Examples can be found over
-[here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/samples).
+  [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/samples).
 
 ## Usage
 
 ### NOTE
+
 The following samples focus on EPH (Event Processor Host) which is responsible for receiving messages.
-For sending messages to the EventHub, please use the `azure-event-hubs` package from npm. More
+For sending messages to the EventHub, please use the `@azure/event-hubs` package from npm. More
 information about the event hub client can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs).
-You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/sendBatch.ts) that sends
+You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/typescript/src/sendBatch.ts) that sends
 multiple messages batched together. You should be able to run the `send` example from one terminal window and see those messages
 being received in the `singleEph` or `multipleEph` example being run in the second terminal window.
 
@@ -135,6 +155,7 @@ main().catch((err) => {
 ```
 
 ### Multiple EPH instances in the same process.
+
 This example creates 2 instances of EPH in the same process. It is also perfectly fine to create
 multiple EPH instances in different processes on the same or different machine.
 
@@ -206,20 +227,35 @@ async function startEph(ephName /**string**/) {
   );
   // Message handler
   let count = 0;
-  const onMessage /**OnReceivedMessage**/ = async (context /**PartitionContext**/, data /**EventData**/) => {
+  const onMessage /**OnReceivedMessage**/ = async (
+    context /**PartitionContext**/,
+    data /**EventData**/
+  ) => {
     count++;
-    console.log("##### [%s] %d - Rx message from '%s': '%s'", ephName, count, context.partitionId,
-      data.body);
+    console.log(
+      "##### [%s] %d - Rx message from '%s': '%s'",
+      ephName,
+      count,
+      context.partitionId,
+      data.body
+    );
     // Checkpointing every 200th event that is received acrosss all the partitions.
     if (count % 200 === 0) {
       try {
-        console.log("***** [%s] EPH is currently receiving messages from partitions: %O", ephName,
-          eph.receivingFromPartitions);
+        console.log(
+          "***** [%s] EPH is currently receiving messages from partitions: %O",
+          ephName,
+          eph.receivingFromPartitions
+        );
         await context.checkpoint();
         console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName, count);
       } catch (err) {
-        console.log(">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
-          ephName, count, err);
+        console.log(
+          ">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
+          ephName,
+          count,
+          err
+        );
       }
     }
   };
@@ -267,7 +303,7 @@ async function main() {
   );
   let count = 0;
   // Message event handler
-  const onMessage = async (context/*PartitionContext*/, data /*EventData*/) => {
+  const onMessage = async (context /*PartitionContext*/, data /*EventData*/) => {
     console.log(">>>>> Rx message from '%s': '%s'", context.partitionId, data.body);
     count++;
     // let us checkpoint every 100th message that is received across all the partitions.
@@ -292,8 +328,8 @@ main().catch((err) => {
 });
 ```
 
-## AMQP Dependencies ##
-It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+## AMQP Dependencies
 
+It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-processor-host%2FREADME.png)

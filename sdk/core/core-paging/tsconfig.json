@@ -6,10 +6,10 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
-    "outDir": "./dist-esm",
+    "inlineSources": false,
+    "outDir": "./dist",
     "resolveJsonModule": true
   },
-  "compileOnSave": true,
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts"]
 }

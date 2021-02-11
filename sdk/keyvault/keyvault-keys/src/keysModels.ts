@@ -1,68 +1,37 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./core/models";
+import {
+  DeletionRecoveryLevel,
+  JsonWebKeyType as KeyType,
+  KnownJsonWebKeyType as KnownKeyTypes,
+  JsonWebKeyOperation as KeyOperation,
+  KnownJsonWebKeyOperation as KnownKeyOperations
+} from "./generated/models";
+import { KeyCurveName } from "./cryptographyClientModels";
+
+export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 
 /**
- * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
- * @readonly
- * @enum {string}
+ * The latest supported Key Vault service API version
  */
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export const LATEST_API_VERSION = "7.1";
 
 /**
- * Defines values for KeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- * @enum {string}
+ * The optional parameters accepted by the KeyVault's KeyClient
  */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
-
-/**
- * Defines values for KeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
- * @readonly
- * @enum {string}
- */
-export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
-
-/**
- * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
- * @readonly
- * @enum {string}
- */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
-
-/**
- * @internal
- * @ignore
- * An interface representing the KeyClient. For internal use.
- */
-export interface KeyClientInterface {
+export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
-   * Recovers the deleted key in the specified vault. This operation can only be performed on a
-   * soft-delete enabled vault.
+   * The accepted versions of the KeyVault's service API.
    */
-  recoverDeletedKey(name: string, options?: RecoverDeletedKeyOptions): Promise<KeyVaultKey>;
-  /**
-   * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
-   * This operation requires the keys/get permission.
-   */
-  getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-  /**
-   * The delete operation applies to any key stored in Azure Key Vault. Individual versions
-   * of a key can not be deleted, only all versions of a given key at once.
-   */
-  deleteKey(name: string, options?: DeleteKeyOptions): Promise<DeletedKey>;
-  /**
-   * The getDeletedKey method returns the specified deleted key along with its properties.
-   * This operation requires the keys/get permission.
-   */
-  getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
+  serviceVersion?: "7.0" | "7.1";
 }
+
+/**
+ * The optional parameters accepted by the KeyVault's CryptographyClient
+ */
+export interface CryptographyClientOptions extends KeyClientOptions {}
 
 /**
  * As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
@@ -75,7 +44,7 @@ export interface JsonWebKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   kty?: KeyType;
   /**
@@ -112,7 +81,7 @@ export interface JsonWebKey {
    */
   p?: Uint8Array;
   /**
-   * RSA secret prime, with p < q.
+   * RSA secret prime, with `p < q`.
    */
   q?: Uint8Array;
   /**
@@ -139,7 +108,7 @@ export interface JsonWebKey {
 }
 
 /**
- * An interface representing a KeyVault Key, with its name, value and {@link KeyProperties}.
+ * An interface representing a Key Vault Key, with its name, value and {@link KeyProperties}.
  */
 export interface KeyVaultKey {
   /**
@@ -157,7 +126,7 @@ export interface KeyVaultKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**
@@ -229,10 +198,25 @@ export interface KeyProperties {
    * the server.**
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
+
+  /**
+   * True if the secret's lifetime is managed by
+   * key vault. If this is a secret backing a certificate, then managed will be
+   * true.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly managed?: boolean;
 }
 
 /**
- * An interface representing a deleted KeyVault Key.
+ * An interface representing a deleted Key Vault Key.
  */
 export interface DeletedKey {
   /**
@@ -250,7 +234,7 @@ export interface DeletedKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**
@@ -308,7 +292,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   readonly expiresOn?: Date;
   /**
-   * Size of the key
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
 }
@@ -362,11 +346,21 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
-   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
-   */
-  keySize?: number;
-  /**
    * Whether to import as a hardware key (HSM) or software key.
+   */
+  hsm?: boolean;
+
+  /** The public exponent for a RSA key. */
+  publicExponent?: number;
+}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link createOctKey}
+ */
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+  /**
+   * Whether to create a hardware-protected key in a hardware security module (HSM).
    */
   hsm?: boolean;
 }
@@ -468,14 +462,12 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
  * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
  * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}

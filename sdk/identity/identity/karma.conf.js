@@ -20,9 +20,8 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
-      "karma-json-to-file-reporter",
       "karma-json-preprocessor"
     ],
 
@@ -32,7 +31,7 @@ module.exports = function(config) {
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "test-browser/index.js",
-      "recordings/browsers/**/*.json"
+      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
     ],
 
     // list of files / patterns to exclude
@@ -41,10 +40,10 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"],
+      "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "test-browser/index.js": ["coverage"],
+      // "test-browser/index.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 
@@ -56,20 +55,17 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit"],
 
-    coverageReporter: { type: "in-memory" },
-
-    // Coverage report settings
-    remapCoverageReporter: {
-      "text-summary": null, // to show summary in console
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
-    },
-
-    // Exclude coverage calculation for following files
-    remapOptions: {
-      exclude: /node_modules|test/g
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {
@@ -80,28 +76,6 @@ module.exports = function(config) {
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
       properties: {} // key value pair of properties to add to the <properties> section of the report
-    },
-
-    jsonToFileReporter: {
-      filter: function(obj) {
-        if (obj.writeFile) {
-          const fs = require("fs-extra");
-          // Create the directories recursively incase they don't exist
-          try {
-            // Stripping away the filename from the file path and retaining the directory structure
-            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-          } catch (err) {
-            if (err.code !== "EEXIST") throw err;
-          }
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-            if (err) {
-              throw err;
-            }
-          });
-        }
-        return false;
-      },
-      outputPath: "."
     },
 
     // web server port
@@ -133,10 +107,6 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
-      terminal: process.env.TEST_MODE !== "record"
-    },
 
     client: {
       mocha: {

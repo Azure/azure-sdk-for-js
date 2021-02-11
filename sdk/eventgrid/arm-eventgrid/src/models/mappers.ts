@@ -12,20 +12,42 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const InputSchemaMapping: msRest.CompositeMapper = {
-  serializedName: "InputSchemaMapping",
+export const PrivateEndpoint: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpoint",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "inputSchemaMappingType",
-      clientName: "inputSchemaMappingType"
-    },
-    uberParent: "InputSchemaMapping",
-    className: "InputSchemaMapping",
+    className: "PrivateEndpoint",
     modelProperties: {
-      inputSchemaMappingType: {
-        required: true,
-        serializedName: "inputSchemaMappingType",
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionState: msRest.CompositeMapper = {
+  serializedName: "ConnectionState",
+  type: {
+    name: "Composite",
+    className: "ConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
@@ -57,6 +79,92 @@ export const Resource: msRest.CompositeMapper = {
       type: {
         readOnly: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnection: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnection",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      groupIds: {
+        serializedName: "properties.groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "ConnectionState"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InputSchemaMapping: msRest.CompositeMapper = {
+  serializedName: "InputSchemaMapping",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "inputSchemaMappingType",
+      clientName: "inputSchemaMappingType"
+    },
+    uberParent: "InputSchemaMapping",
+    className: "InputSchemaMapping",
+    modelProperties: {
+      inputSchemaMappingType: {
+        required: true,
+        serializedName: "inputSchemaMappingType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InboundIpRule: msRest.CompositeMapper = {
+  serializedName: "InboundIpRule",
+  type: {
+    name: "Composite",
+    className: "InboundIpRule",
+    modelProperties: {
+      ipMask: {
+        serializedName: "ipMask",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
         type: {
           name: "String"
         }
@@ -194,6 +302,18 @@ export const Domain: msRest.CompositeMapper = {
     className: "Domain",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -228,6 +348,24 @@ export const Domain: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
+            }
+          }
+        }
       }
     }
   }
@@ -246,6 +384,24 @@ export const DomainUpdateParameters: msRest.CompositeMapper = {
           value: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
             }
           }
         }
@@ -1148,6 +1304,68 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      groupId: {
+        serializedName: "properties.groupId",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        serializedName: "properties.requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        serializedName: "properties.requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Topic: msRest.CompositeMapper = {
   serializedName: "Topic",
   type: {
@@ -1155,6 +1373,18 @@ export const Topic: msRest.CompositeMapper = {
     className: "Topic",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -1189,6 +1419,24 @@ export const Topic: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
+            }
+          }
+        }
       }
     }
   }
@@ -1207,6 +1455,24 @@ export const TopicUpdateParameters: msRest.CompositeMapper = {
           value: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
             }
           }
         }
@@ -1335,6 +1601,12 @@ export const TopicTypeInfo: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      sourceResourceFormat: {
+        serializedName: "properties.sourceResourceFormat",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1491,6 +1763,62 @@ export const EventTypesListResult: msRest.CompositeMapper = {
               className: "EventType"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourcesListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourcesListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourcesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

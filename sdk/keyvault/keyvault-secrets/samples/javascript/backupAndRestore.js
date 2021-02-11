@@ -1,6 +1,13 @@
-const { SecretClient } = require("../../src");
-const { DefaultAzureCredential } = require("@azure/identity");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 const fs = require("fs");
+
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 function writeFile(filename, text) {
   return new Promise((resolve, reject) => {
@@ -30,12 +37,11 @@ async function main() {
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
-
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new SecretClient(url, credential);
 
-  const secretName = "StorageAccountPassword19312312";
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
 
   // Create our secret
   await client.setSecret(secretName, "XYZ789");

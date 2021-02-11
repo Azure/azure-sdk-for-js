@@ -1,9 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import "@azure/core-paging";
 
-import { TokenCredential } from "@azure/core-http";
+import { getDefaultProxySettings, isNode, TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { BlobServiceClient } from "@azure/storage-blob";
 
@@ -12,17 +12,28 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
 import {
   FileSystemItem,
+  FileSystemRenameResponse,
+  ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
-  ServiceListFileSystemsSegmentResponse
+  ServiceListFileSystemsSegmentResponse,
+  ServiceRenameFileSystemOptions,
+  ServiceUndeleteFileSystemOptions,
+  FileSystemUndeleteResponse
 } from "./models";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  appendToURLQuery,
+  extractConnectionStringParts
+} from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
-import { toFileSystemPagedAsyncIterableIterator } from "./transforms";
+import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
-import { CanonicalCode } from "@opentelemetry/types";
-import { getCachedDefaultHttpClient } from "./utils/cache";
+import { CanonicalCode } from "@opentelemetry/api";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions";
+import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
+import { AccountSASServices } from "./sas/AccountSASServices";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -44,6 +55,47 @@ export class DataLakeServiceClient extends StorageClient {
    * @memberof DataLakeServiceClient
    */
   private blobServiceClient: BlobServiceClient;
+
+  /**
+   *
+   * Creates an instance of DataLakeServiceClient from connection string.
+   *
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof DataLakeServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
+    options = options || {};
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    if (extractedCreds.kind === "AccountConnString") {
+      if (isNode) {
+        const sharedKeyCredential = new StorageSharedKeyCredential(
+          extractedCreds.accountName!,
+          extractedCreds.accountKey
+        );
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        const pipeline = newPipeline(sharedKeyCredential, options);
+        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline);
+      } else {
+        throw new Error("Account connection string is only supported in Node.js environment");
+      }
+    } else if (extractedCreds.kind === "SASConnString") {
+      const pipeline = newPipeline(new AnonymousCredential(), options);
+      return new DataLakeServiceClient(
+        toDfsEndpointUrl(extractedCreds.url) + "?" + extractedCreds.accountSas,
+        pipeline
+      );
+    } else {
+      throw new Error(
+        "Connection string must be either an Account connection string or a SAS connection string"
+      );
+    }
+  }
 
   /**
    * Creates an instance of DataLakeServiceClient from url.
@@ -82,13 +134,6 @@ export class DataLakeServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
-
     if (credentialOrPipeline instanceof Pipeline) {
       super(url, credentialOrPipeline);
     } else {
@@ -99,7 +144,7 @@ export class DataLakeServiceClient extends StorageClient {
         credential = credentialOrPipeline;
       }
 
-      const pipeline = newPipeline(credential, newOptions);
+      const pipeline = newPipeline(credential, options);
       super(url, pipeline);
     }
 
@@ -270,4 +315,148 @@ export class DataLakeServiceClient extends StorageClient {
   // public async deleteFileSystem(fileSystem: string): Promise<ServiceDeleteFileSystemResponse> {
   //   throw Error("NotImplemented");
   // }
+
+  /**
+   * Only available for DataLakeServiceClient constructed with a shared key credential.
+   *
+   * Generates an account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
+   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
+   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
+   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof DataLakeServiceClient
+   */
+  public generateAccountSasUrl(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {}
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("b").toString(),
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Renames an existing File System.
+   *
+   * @param {string} sourceFileSystemName The name of the source File System.
+   * @param {string} destinationContainerName The new name of the File System.
+   * @param {ServiceRenameFileSystemOptions} [options] Options to configure File System Rename operation.
+   * @memberof DataLakeServiceClient
+   */
+  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
+  private async renameFileSystem(
+    sourceFileSystemName: string,
+    destinationFileSystemName: string,
+    options: ServiceRenameFileSystemOptions = {}
+  ): Promise<{
+    fileSystemClient: DataLakeFileSystemClient;
+    fileSystemRenameResponse: FileSystemRenameResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeServiceClient-renameFileSystem",
+      options.tracingOptions
+    );
+    try {
+      // const res = await this.blobServiceClient.renameContainer(
+      const res = await this.blobServiceClient["renameContainer"](
+        sourceFileSystemName,
+        destinationFileSystemName,
+        {
+          ...options,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        }
+      );
+
+      const fileSystemClient = this.getFileSystemClient(destinationFileSystemName);
+      return {
+        fileSystemClient,
+        fileSystemRenameResponse: res.containerRenameResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Restore a previously deleted File System.
+   * This API is only functional if Container Soft Delete is enabled for the storage account.
+   *
+   * @param {string} deletedFileSystemName The name of the source File System.
+   * @param {string} deleteFileSystemVersion The new name of the File System.
+   * @param {ServiceRenameFileSystemOptions} [options] Options to configure File System Restore operation.
+   * @memberof DataLakeServiceClient
+   */
+  public async undeleteFileSystem(
+    deletedFileSystemName: string,
+    deleteFileSystemVersion: string,
+    options: ServiceUndeleteFileSystemOptions = {}
+  ): Promise<{
+    fileSystemClient: DataLakeFileSystemClient;
+    fileSystemUndeleteResponse: FileSystemUndeleteResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeServiceClient-undeleteFileSystem",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.blobServiceClient.undeleteContainer(
+        deletedFileSystemName,
+        deleteFileSystemVersion,
+        {
+          ...options,
+          destinationContainerName: options.destinationFileSystemName,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        }
+      );
+
+      const fileSystemClient = this.getFileSystemClient(
+        options.destinationFileSystemName || deletedFileSystemName
+      );
+      return {
+        fileSystemClient,
+        fileSystemUndeleteResponse: res.containerUndeleteResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 }

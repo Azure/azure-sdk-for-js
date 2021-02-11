@@ -268,7 +268,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -295,7 +295,7 @@ const registerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -330,7 +330,7 @@ const unregisterOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -356,7 +356,7 @@ const inquireOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter
   ],
   headerParameters: [
@@ -381,7 +381,7 @@ const refreshOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter
   ],
   headerParameters: [

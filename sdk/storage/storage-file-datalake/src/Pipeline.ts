@@ -1,7 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   BaseRequestPolicy,
   bearerTokenAuthenticationPolicy,
   deserializationPolicy,
+  disableResponseDecompressionPolicy,
   generateClientRequestIdPolicy,
   HttpClient as IHttpClient,
   HttpHeaders,
@@ -36,9 +40,10 @@ import {
   StorageDataLakeLoggingAllowedQueryParameters,
   StorageOAuthScopes
 } from "./utils/constants";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -109,7 +114,12 @@ export class Pipeline extends BlobPipeline {
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     super(factories, options);
     this.factories = factories;
-    this.options = options;
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    this.options = {
+      ...options,
+      httpClient: options.httpClient || getCachedDefaultHttpClient()
+    };
   }
 
   /**
@@ -178,9 +188,12 @@ export interface StoragePipelineOptions {
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
-  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+  credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
+  if (credential === undefined) {
+    credential = new AnonymousCredential();
+  }
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
@@ -192,8 +205,8 @@ export function newPipeline(
     telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions), // Retry policy should be above any policy that throws retryable errors
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageDataLakeLoggingAllowedHeaderNames,
@@ -202,16 +215,31 @@ export function newPipeline(
   ];
 
   if (isNode) {
-    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    // policies only available in Node.js runtime, not in browsers
     factories.push(proxyPolicy(pipelineOptions.proxyOptions));
+    factories.push(disableResponseDecompressionPolicy());
   }
   factories.push(
     isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+      ? attachCredential(
+          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          credential
+        )
       : credential
   );
 
-  return new Pipeline(factories, {
-    httpClient: pipelineOptions.httpClient
-  });
+  return new Pipeline(factories, pipelineOptions);
+}
+
+/**
+ * Attach a TokenCredential to an object.
+ *
+ * @export
+ * @param {T} thing
+ * @param {TokenCredential} credential
+ * @returns {T}
+ */
+function attachCredential<T>(thing: T, credential: TokenCredential): T {
+  (thing as any).credential = credential;
+  return thing;
 }

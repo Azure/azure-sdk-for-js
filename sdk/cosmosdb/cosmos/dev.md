@@ -86,6 +86,4 @@ You can also build via the configured tasks (`build` does a full build, and `com
 
 Build the SDK and make sure the tests run before you try any samples (they depend on the SDK)
 
-- [TodoApp](./samples/TodoApp)
-
 We recommend using [VS code's multi-root workspaces](https://code.visualstudio.com/docs/editor/multi-root-workspaces) for testing the samples, especially if you're using the samples to test the SDK. There is a `launch.json` for the samples thave have been updated and multi-root workspaces will show all `launch.json`s.

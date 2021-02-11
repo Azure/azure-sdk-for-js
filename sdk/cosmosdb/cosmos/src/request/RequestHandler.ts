@@ -22,7 +22,7 @@ async function executeRequest(requestContext: RequestContext) {
 }
 
 /**
- * @ignore
+ * @hidden
  * @param requestContext
  */
 async function httpRequest(requestContext: RequestContext) {
@@ -32,7 +32,7 @@ async function httpRequest(requestContext: RequestContext) {
   // Wrap users passed abort events and call our own internal abort()
   const userSignal = requestContext.options && requestContext.options.abortSignal;
   if (userSignal) {
-    if (userSignal) {
+    if (userSignal.aborted) {
       controller.abort();
     } else {
       userSignal.addEventListener("abort", () => {
@@ -134,7 +134,7 @@ async function httpRequest(requestContext: RequestContext) {
 }
 
 /**
- * @ignore
+ * @hidden
  * @param requestContext
  */
 export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {

@@ -9,7 +9,7 @@ import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-bl
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -17,7 +17,7 @@ export async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // List containers
@@ -28,7 +28,7 @@ export async function main() {
 
   // 1. List Containers
   let i = 1;
-  let iter = await blobServiceClient.listContainers();
+  let iter = blobServiceClient.listContainers();
   for await (const container of iter) {
     console.log(`Container ${i++}: ${container.name}`);
   }
@@ -102,10 +102,14 @@ export async function main() {
     .listContainers()
     .byPage({ continuationToken: marker, maxPageSize: 10 });
   response = await iterator.next();
-  // Prints 10 container names
-  if (response.value.containerItems) {
-    for (const container of response.value.containerItems) {
-      console.log(`Container ${i++}: ${container.name}`);
+  if (response.done) {
+    console.log("List done.");
+  } else {
+    // Prints 10 container names
+    if (response.value.containerItems) {
+      for (const container of response.value.containerItems) {
+        console.log(`Container ${i++}: ${container.name}`);
+      }
     }
   }
 }

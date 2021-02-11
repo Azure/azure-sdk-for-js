@@ -19,6 +19,7 @@ import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
+import { validateOffer } from "../../utils/offers";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -37,7 +38,7 @@ export class Containers {
    * Queries all containers.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options Use to set options like response page size, continuation tokens, etc.
-   * @returns {@link QueryIterator} Allows you to return specific contaienrs in an array or iterate over them one at a time.
+   * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
@@ -54,7 +55,7 @@ export class Containers {
    * Queries all containers.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options Use to set options like response page size, continuation tokens, etc.
-   * @returns {@link QueryIterator} Allows you to return specific contaienrs in an array or iterate over them one at a time.
+   * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
@@ -111,11 +112,40 @@ export class Containers {
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
 
+    validateOffer(body);
+
+    if (body.maxThroughput) {
+      const autoscaleParams: {
+        maxThroughput: number;
+        autoUpgradePolicy?: object;
+      } = {
+        maxThroughput: body.maxThroughput
+      };
+      if (body.autoUpgradePolicy) {
+        autoscaleParams.autoUpgradePolicy = body.autoUpgradePolicy;
+      }
+      const autoscaleHeader = JSON.stringify(autoscaleParams);
+      options.initialHeaders = Object.assign({}, options.initialHeaders, {
+        [Constants.HttpHeaders.AutoscaleSettings]: autoscaleHeader
+      });
+      delete body.maxThroughput;
+      delete body.autoUpgradePolicy;
+    }
+
     if (body.throughput) {
       options.initialHeaders = Object.assign({}, options.initialHeaders, {
         [Constants.HttpHeaders.OfferThroughput]: body.throughput
       });
       delete body.throughput;
+    }
+
+    if (typeof body.partitionKey === "string") {
+      if (!body.partitionKey.startsWith("/")) {
+        throw new Error("Partition key must start with '/'");
+      }
+      body.partitionKey = {
+        paths: [body.partitionKey]
+      };
     }
 
     // If they don't specify a partition key, use the default path
@@ -125,7 +155,7 @@ export class Containers {
       };
     }
 
-    const response = await this.clientContext.create<ContainerRequest>({
+    const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
       resourceType: ResourceType.container,
@@ -163,8 +193,8 @@ export class Containers {
       throw new Error("body parameter must be an object with an id property");
     }
     /*
-      1. Attempt to read the Database (based on an assumption that most databases will already exist, so its faster)
-      2. If it fails with NotFound error, attempt to create the db. Else, return the read results.
+      1. Attempt to read the Container (based on an assumption that most containers will already exist, so its faster)
+      2. If it fails with NotFound error, attempt to create the container. Else, return the read results.
     */
     try {
       const readResponse = await this.database.container(body.id).read(options);

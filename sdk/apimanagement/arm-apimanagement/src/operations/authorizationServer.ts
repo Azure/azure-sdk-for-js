@@ -261,6 +261,42 @@ export class AuthorizationServer {
   }
 
   /**
+   * Gets the client secret details of the authorization server.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AuthorizationServerListSecretsResponse>
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationServerListSecretsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
+  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientSecretContract>, callback?: msRest.ServiceCallback<Models.ClientSecretContract>): Promise<Models.AuthorizationServerListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        authsid,
+        options
+      },
+      listSecretsOperationSpec,
+      callback) as Promise<Models.AuthorizationServerListSecretsResponse>;
+  }
+
+  /**
    * Lists a collection of authorization servers defined within a service instance.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -462,6 +498,32 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listSecretsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}/listSecrets",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.authsid,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClientSecretContract
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

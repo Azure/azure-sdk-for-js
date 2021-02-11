@@ -72,35 +72,9 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>
    */
-  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
-   * @param callback The callback
-   */
-  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, callback: msRest.ServiceCallback<Models.DataConnectionValidationListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectionValidationListResult>): void;
-  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionValidationListResult>, callback?: msRest.ServiceCallback<Models.DataConnectionValidationListResult>): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        clusterName,
-        databaseName,
-        parameters,
-        options
-      },
-      dataConnectionValidationMethodOperationSpec,
-      callback) as Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>;
+  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse> {
+    return this.beginDataConnectionValidationMethod(resourceGroupName,clusterName,databaseName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>;
   }
 
   /**
@@ -228,6 +202,28 @@ export class DataConnections {
   }
 
   /**
+   * Checks that the data connection parameters are valid.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param databaseName The name of the database in the Kusto cluster.
+   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        databaseName,
+        parameters,
+        options
+      },
+      beginDataConnectionValidationMethodOperationSpec,
+      options);
+  }
+
+  /**
    * Creates or updates a data connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -326,39 +322,6 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const dataConnectionValidationMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.DataConnectionValidation,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataConnectionValidationListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability",
@@ -419,6 +382,40 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginDataConnectionValidationMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.DataConnectionValidation,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataConnectionValidationListResult
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
@@ -449,7 +446,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.DataConnection
     },
-    202: {},
+    202: {
+      bodyMapper: Mappers.DataConnection
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -487,7 +486,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.DataConnection
     },
-    202: {},
+    202: {
+      bodyMapper: Mappers.DataConnection
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

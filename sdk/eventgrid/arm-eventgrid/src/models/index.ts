@@ -12,6 +12,79 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * PrivateEndpoint information.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint.
+   */
+  id?: string;
+}
+
+/**
+ * ConnectionState information.
+ */
+export interface ConnectionState {
+  /**
+   * Status of the connection. Possible values include: 'Pending', 'Approved', 'Rejected',
+   * 'Disconnected'
+   */
+  status?: PersistedConnectionStatus;
+  /**
+   * Description of the connection state.
+   */
+  description?: string;
+  /**
+   * Actions required (if any).
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * Definition of a Resource.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified identifier of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * An interface representing PrivateEndpointConnection.
+ */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * The Private Endpoint resource for this Connection.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * GroupIds from the private link service resource.
+   */
+  groupIds?: string[];
+  /**
+   * Details about the state of the connection.
+   */
+  privateLinkServiceConnectionState?: ConnectionState;
+  /**
+   * Provisioning state of the Private Endpoint Connection. Possible values include: 'Creating',
+   * 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   */
+  provisioningState?: ResourceProvisioningState;
+}
+
+/**
  * Contains the possible cases for InputSchemaMapping.
  */
 export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMapping;
@@ -29,24 +102,18 @@ export interface InputSchemaMapping {
 }
 
 /**
- * Definition of a Resource
+ * An interface representing InboundIpRule.
  */
-export interface Resource extends BaseResource {
+export interface InboundIpRule {
   /**
-   * Fully qualified identifier of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * IP Address in CIDR notation e.g., 10.0.0.0/8.
    */
-  readonly id?: string;
+  ipMask?: string;
   /**
-   * Name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Action to perform based on the match or no match of the IpMask. Possible values include:
+   * 'Allow'
    */
-  readonly name?: string;
-  /**
-   * Type of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
+  action?: IpActionType;
 }
 
 /**
@@ -116,23 +183,27 @@ export interface JsonInputSchemaMapping {
 }
 
 /**
- * Definition of a Tracked Resource
+ * Definition of a Tracked Resource.
  */
 export interface TrackedResource extends Resource {
   /**
-   * Location of the resource
+   * Location of the resource.
    */
   location: string;
   /**
-   * Tags of the resource
+   * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
 }
 
 /**
- * EventGrid Domain
+ * EventGrid Domain.
  */
 export interface Domain extends TrackedResource {
+  /**
+   * List of private endpoint connections.
+   */
+  privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the domain. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Canceled', 'Failed'
@@ -159,20 +230,44 @@ export interface Domain extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly metricResourceId?: string;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso
+   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules"
+   * />. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
+   * considered only if PublicNetworkAccess is enabled.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**
- * Properties of the Domain update
+ * Properties of the Domain update.
  */
 export interface DomainUpdateParameters {
   /**
-   * Tags of the domains resource
+   * Tags of the domains resource.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso
+   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainUpdateParameterProperties.InboundIpRules"
+   * />. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
+   * considered only if PublicNetworkAccess is enabled.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**
- * Shared access keys of the Domain
+ * Shared access keys of the Domain.
  */
 export interface DomainSharedAccessKeys {
   /**
@@ -186,17 +281,17 @@ export interface DomainSharedAccessKeys {
 }
 
 /**
- * Domain regenerate share access key request
+ * Domain regenerate share access key request.
  */
 export interface DomainRegenerateKeyRequest {
   /**
-   * Key name to regenerate key1 or key2
+   * Key name to regenerate key1 or key2.
    */
   keyName: string;
 }
 
 /**
- * Domain Topic
+ * Domain Topic.
  */
 export interface DomainTopic extends Resource {
   /**
@@ -212,7 +307,7 @@ export interface DomainTopic extends Resource {
 export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
 
 /**
- * Information about the destination for an event subscription
+ * Information about the destination for an event subscription.
  */
 export interface EventSubscriptionDestination {
   /**
@@ -244,7 +339,7 @@ export interface AdvancedFilter {
 }
 
 /**
- * Filter for the Event Subscription
+ * Filter for the Event Subscription.
  */
 export interface EventSubscriptionFilter {
   /**
@@ -275,7 +370,7 @@ export interface EventSubscriptionFilter {
 }
 
 /**
- * Information about the retry policy for an event subscription
+ * Information about the retry policy for an event subscription.
  */
 export interface RetryPolicy {
   /**
@@ -541,7 +636,7 @@ export interface StringContainsAdvancedFilter {
 }
 
 /**
- * Information about the webhook destination for an event subscription
+ * Information about the webhook destination for an event subscription.
  */
 export interface WebHookEventSubscriptionDestination {
   /**
@@ -578,7 +673,7 @@ export interface WebHookEventSubscriptionDestination {
 }
 
 /**
- * Information about the event hub destination for an event subscription
+ * Information about the event hub destination for an event subscription.
  */
 export interface EventHubEventSubscriptionDestination {
   /**
@@ -628,7 +723,7 @@ export interface HybridConnectionEventSubscriptionDestination {
 }
 
 /**
- * Information about the service bus destination for an event subscription
+ * Information about the service bus destination for an event subscription.
  */
 export interface ServiceBusQueueEventSubscriptionDestination {
   /**
@@ -729,7 +824,7 @@ export interface EventSubscription extends Resource {
 }
 
 /**
- * Properties of the Event Subscription update
+ * Properties of the Event Subscription update.
  */
 export interface EventSubscriptionUpdateParameters {
   /**
@@ -820,9 +915,32 @@ export interface Operation {
 }
 
 /**
+ * Information of the private link resource.
+ */
+export interface PrivateLinkResource {
+  groupId?: string;
+  displayName?: string;
+  requiredMembers?: string[];
+  requiredZoneNames?: string[];
+  /**
+   * Fully qualified identifier of the resource.
+   */
+  id?: string;
+  /**
+   * Name of the resource
+   */
+  name?: string;
+  /**
+   * Type of the resource
+   */
+  type?: string;
+}
+
+/**
  * EventGrid Topic
  */
 export interface Topic extends TrackedResource {
+  privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the topic. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Canceled', 'Failed'
@@ -851,6 +969,18 @@ export interface Topic extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly metricResourceId?: string;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso
+   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
+   * />. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
+   * considered only if PublicNetworkAccess is enabled.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**
@@ -858,9 +988,21 @@ export interface Topic extends TrackedResource {
  */
 export interface TopicUpdateParameters {
   /**
-   * Tags of the resource
+   * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso
+   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules"
+   * />. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
+   * considered only if PublicNetworkAccess is enabled.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**
@@ -938,6 +1080,10 @@ export interface TopicTypeInfo extends Resource {
    * List of locations supported by this topic type.
    */
   supportedLocations?: string[];
+  /**
+   * Source resource format.
+   */
+  sourceResourceFormat?: string;
 }
 
 /**
@@ -1256,6 +1402,48 @@ export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestO
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface PrivateEndpointConnectionsListByResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
+   */
+  filter?: string;
+  /**
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PrivateLinkResourcesListByResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
+   */
+  filter?: string;
+  /**
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
+   */
+  top?: number;
+}
+
+/**
  * An interface representing EventGridManagementClientOptions.
  */
 export interface EventGridManagementClientOptions extends AzureServiceClientOptions {
@@ -1264,24 +1452,24 @@ export interface EventGridManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
- * Result of the List Domains operation
+ * Result of the List Domains operation.
  * @extends Array<Domain>
  */
 export interface DomainsListResult extends Array<Domain> {
   /**
-   * A link for the next page of domains
+   * A link for the next page of domains.
    */
   nextLink?: string;
 }
 
 /**
  * @interface
- * Result of the List Domain Topics operation
+ * Result of the List Domain Topics operation.
  * @extends Array<DomainTopic>
  */
 export interface DomainTopicsListResult extends Array<DomainTopic> {
   /**
-   * A link for the next page of domain topics
+   * A link for the next page of domain topics.
    */
   nextLink?: string;
 }
@@ -1328,11 +1516,51 @@ export interface EventTypesListResult extends Array<EventType> {
 
 /**
  * @interface
+ * Result of the list of all private endpoint connections operation.
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+  /**
+   * A link for the next page of private endpoint connection resources.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the List private link resources operation.
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourcesListResult extends Array<PrivateLinkResource> {
+  /**
+   * A link for the next page of private link resources.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the List Topic Types operation
  * @extends Array<TopicTypeInfo>
  */
 export interface TopicTypesListResult extends Array<TopicTypeInfo> {
 }
+
+/**
+ * Defines values for PersistedConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type PersistedConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for ResourceProvisioningState.
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
 
 /**
  * Defines values for DomainProvisioningState.
@@ -1349,6 +1577,22 @@ export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Su
  * @enum {string}
  */
 export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventSchemaV1_0';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for IpActionType.
+ * Possible values include: 'Allow'
+ * @readonly
+ * @enum {string}
+ */
+export type IpActionType = 'Allow';
 
 /**
  * Defines values for DomainTopicProvisioningState.
@@ -1398,6 +1642,38 @@ export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
  * @enum {string}
  */
 export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+
+/**
+ * Defines values for ParentType.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType1.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType1 = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType2.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType2 = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType3.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType3 = 'topics' | 'domains';
 
 /**
  * Contains response data for the get operation.
@@ -2496,6 +2772,166 @@ export type TopicsListByResourceGroupNextResponse = TopicsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TopicsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByResource operation.
+ */
+export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceNext operation.
+ */
+export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByResource operation.
+ */
+export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceNext operation.
+ */
+export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResourcesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesListResult;
     };
 };
 

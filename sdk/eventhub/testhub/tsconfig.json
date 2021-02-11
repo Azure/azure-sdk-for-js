@@ -6,18 +6,19 @@
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "declarationMap": true /* Generates a sourcemap for each corresponding '.d.ts' file. */,
     "sourceMap": true /* Generates corresponding '.map' file. */,
+    "inlineSources": true,
     "outDir": "./dist-esm" /* Redirect output structure to the directory. */,
-    "declarationDir": "./typings", /* Output directory for generated declaration files.*/
+    "declarationDir": "./typings" /* Output directory for generated declaration files.*/,
     "importHelpers": true /* Import emit helpers from 'tslib'. */,
 
     /* Strict Type-Checking Options */
     "alwaysStrict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
+    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
 
     /* Additional Checks */
-    "noUnusedLocals": true, /* Report errors on unused locals. */
+    "noUnusedLocals": true /* Report errors on unused locals. */,
 
     /* Module Resolution Options */
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
@@ -28,8 +29,8 @@
     "forceConsistentCasingInFileNames": true,
 
     /* Other options */
-    "newLine": "LF", /*	Use the specified end of line sequence to be used when emitting files: "crlf" (windows) or "lf" (unix).”*/
-    "allowJs": false, /* Don't allow JavaScript files to be compiled.*/
+    "newLine": "LF" /*	Use the specified end of line sequence to be used when emitting files: "crlf" (windows) or "lf" (unix).”*/,
+    "allowJs": false /* Don't allow JavaScript files to be compiled.*/,
     "lib": [
       "es2015",
       "dom",
@@ -42,12 +43,6 @@
       "es2015.iterable"
     ]
   },
-  "compileOnSave": true,
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "cli.ts",
-    "./commands"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["cli.ts", "./commands"]
 }

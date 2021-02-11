@@ -1,23 +1,12 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
 
-import { AbortSignal, AbortSignalLike, AbortError } from "@azure/abort-controller";
-
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface RetriableReadableStreamOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof RetriableReadableStreamOptions
-   */
-  abortSignal?: AbortSignalLike;
-
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
@@ -46,9 +35,15 @@ export interface RetriableReadableStreamOptions {
    * @memberof RetriableReadableStreamOptions
    */
   doInjectErrorOnce?: boolean;
-}
 
-const ABORT_ERROR = new AbortError("The operation was aborted.");
+  /**
+   * A threshold, not a limit. Dictates the amount of data that a stream buffers before it stops asking for more data.
+   *
+   * @type {number}
+   * @memberof RetriableReadableStreamOptions
+   */
+  highWaterMark?: number;
+}
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -59,7 +54,6 @@ const ABORT_ERROR = new AbortError("The operation was aborted.");
  * @extends {Readable}
  */
 export class RetriableReadableStream extends Readable {
-  private aborter: AbortSignalLike;
   private start: number;
   private offset: number;
   private end: number;
@@ -69,10 +63,6 @@ export class RetriableReadableStream extends Readable {
   private maxRetryRequests: number;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
-  private abortHandler = () => {
-    this.source.pause();
-    this.emit("error", ABORT_ERROR);
-  };
 
   /**
    * Creates an instance of RetriableReadableStream.
@@ -92,8 +82,7 @@ export class RetriableReadableStream extends Readable {
     count: number,
     options: RetriableReadableStreamOptions = {}
   ) {
-    super();
-    this.aborter = options.abortSignal || AbortSignal.none;
+    super({ highWaterMark: options.highWaterMark });
     this.getter = getter;
     this.source = source;
     this.start = offset;
@@ -104,96 +93,101 @@ export class RetriableReadableStream extends Readable {
     this.onProgress = options.onProgress;
     this.options = options;
 
-    this.aborter.addEventListener("abort", this.abortHandler);
-
-    this.setSourceDataHandler();
-    this.setSourceEndHandler();
-    this.setSourceErrorHandler();
+    this.setSourceEventHandlers();
   }
 
   public _read() {
-    if (!this.aborter.aborted) {
-      this.source.resume();
+    this.source.resume();
+  }
+
+  private setSourceEventHandlers() {
+    this.source.on("data", this.sourceDataHandler);
+    this.source.on("end", this.sourceErrorOrEndHandler);
+    this.source.on("error", this.sourceErrorOrEndHandler);
+  }
+
+  private removeSourceEventHandlers() {
+    this.source.removeListener("data", this.sourceDataHandler);
+    this.source.removeListener("end", this.sourceErrorOrEndHandler);
+    this.source.removeListener("error", this.sourceErrorOrEndHandler);
+  }
+
+  private sourceDataHandler = (data: Buffer) => {
+    if (this.options.doInjectErrorOnce) {
+      this.options.doInjectErrorOnce = undefined;
+      this.source.pause();
+      this.source.removeAllListeners("data");
+      this.source.emit("end");
+      return;
     }
-  }
 
-  private setSourceDataHandler() {
-    this.source.on("data", (data: Buffer) => {
-      if (this.options.doInjectErrorOnce) {
-        this.options.doInjectErrorOnce = undefined;
-        this.source.pause();
-        this.source.removeAllListeners("data");
-        this.source.emit("end");
-        return;
-      }
+    // console.log(
+    //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
+    // );
+    this.offset += data.length;
+    if (this.onProgress) {
+      this.onProgress({ loadedBytes: this.offset - this.start });
+    }
+    if (!this.push(data)) {
+      this.source.pause();
+    }
+  };
 
+  private sourceErrorOrEndHandler = (err?: Error) => {
+    if (err && err.name === "AbortError") {
+      this.destroy(err);
+      return;
+    }
+
+    // console.log(
+    //   `Source stream emits end or error, offset: ${
+    //     this.offset
+    //   }, dest end : ${this.end}`
+    // );
+    this.removeSourceEventHandlers();
+    if (this.offset - 1 === this.end) {
+      this.push(null);
+    } else if (this.offset <= this.end) {
       // console.log(
-      //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
+      //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
       // );
-      this.offset += data.length;
-      if (this.onProgress) {
-        this.onProgress({ loadedBytes: this.offset - this.start });
-      }
-      if (!this.push(data)) {
-        this.source.pause();
-      }
-    });
-  }
-
-  private setSourceEndHandler() {
-    this.source.on("end", () => {
-      // console.log(
-      //   `Source stream emits end, offset: ${
-      //     this.offset
-      //   }, dest end : ${this.end}`
-      // );
-      if (this.offset - 1 === this.end) {
-        this.aborter.removeEventListener("abort", this.abortHandler);
-        this.push(null);
-      } else if (this.offset <= this.end) {
-        // console.log(
-        //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
-        // );
-        if (this.retries < this.maxRetryRequests) {
-          this.retries += 1;
-          this.getter(this.offset)
-            .then((newSource) => {
-              this.source = newSource;
-              this.setSourceDataHandler();
-              this.setSourceEndHandler();
-              this.setSourceErrorHandler();
-            })
-            .catch((error) => {
-              this.emit("error", error);
-            });
-        } else {
-          this.emit(
-            "error",
-            new Error(
-              // tslint:disable-next-line:max-line-length
-              `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
-                .offset - 1}, data needed offset: ${this.end}, retries: ${
-                this.retries
-              }, max retries: ${this.maxRetryRequests}`
-            )
-          );
-        }
+      if (this.retries < this.maxRetryRequests) {
+        this.retries += 1;
+        this.getter(this.offset)
+          .then((newSource) => {
+            this.source = newSource;
+            this.setSourceEventHandlers();
+          })
+          .catch((error) => {
+            this.destroy(error);
+          });
       } else {
-        this.emit(
-          "error",
+        this.destroy(
           new Error(
-            `Data corruption failure: Received more data than original request, data needed offset is ${
-              this.end
-            }, received offset: ${this.offset - 1}`
+            // tslint:disable-next-line:max-line-length
+            `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
+              .offset - 1}, data needed offset: ${this.end}, retries: ${
+              this.retries
+            }, max retries: ${this.maxRetryRequests}`
           )
         );
       }
-    });
-  }
+    } else {
+      this.destroy(
+        new Error(
+          `Data corruption failure: Received more data than original request, data needed offset is ${
+            this.end
+          }, received offset: ${this.offset - 1}`
+        )
+      );
+    }
+  };
 
-  private setSourceErrorHandler() {
-    this.source.on("error", (error) => {
-      this.emit("error", error);
-    });
+  _destroy(error: Error | null, callback: (error?: Error) => void): void {
+    // remove listener from source and release source
+    this.removeSourceEventHandlers();
+    (this.source as Readable).destroy();
+
+    callback(error === null ? undefined : error);
   }
 }

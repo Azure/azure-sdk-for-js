@@ -1,15 +1,15 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
-  retry,
-  translate,
-  RetryConfig,
-  RetryOperationType,
   Constants,
-  delay,
   MessagingError,
-  RetryMode
+  RetryConfig,
+  RetryMode,
+  RetryOperationType,
+  delay,
+  retry,
+  translate
 } from "../src";
 import * as chai from "chai";
 import debugModule from "debug";
@@ -21,7 +21,7 @@ dotenv.config();
 
 [RetryMode.Exponential, RetryMode.Fixed].forEach((mode) => {
   describe(`retry function for "${
-    mode == RetryMode.Exponential ? "Exponential" : "Fixed"
+    mode === RetryMode.Exponential ? "Exponential" : "Fixed"
   }" retry mode`, function() {
     it("should succeed if the operation succeeds.", async function() {
       let counter = 0;
@@ -81,7 +81,7 @@ dotenv.config();
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               throw translate({
                 condition: "com.microsoft:server-busy",
                 description: "The server is busy right now. Retry later."
@@ -114,11 +114,11 @@ dotenv.config();
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
-            } else if (counter == 2) {
+            } else if (counter === 2) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
@@ -150,11 +150,11 @@ dotenv.config();
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
-            } else if (counter == 2) {
+            } else if (counter === 2) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
@@ -200,6 +200,75 @@ dotenv.config();
         should.equal(true, err instanceof MessagingError);
         err.message.should.equal("I would always like to fail, keep retrying.");
         counter.should.equal(5);
+      }
+    });
+
+    it("should not sleep after final failure if all attempts return a retryable error (no retries)", async function() {
+      let counter = 0;
+      // Create an abort controller so we can clean up the delay's setTimeout ASAP after the race.
+      const delayAbortController = new AbortController();
+      try {
+        const config: RetryConfig<any> = {
+          operation: async () => {
+            counter++;
+            const e = new MessagingError("I would always like to fail, keep retrying.");
+            e.retryable = true;
+            throw e;
+          },
+          connectionId: "connection-1",
+          operationType: RetryOperationType.session,
+          retryOptions: {
+            maxRetries: 0,
+            retryDelayInMs: 60000,
+            mode: mode
+          }
+        };
+        // Since retry should not sleep since maxRetries is 0, `retry` should beat `delay`.
+        await Promise.race([retry(config), delay(10000, delayAbortController.signal)]);
+        // If we get here, `delay` won :-(
+        throw new Error("TestFailure: 'retry' took longer than expected to return.");
+      } catch (err) {
+        should.exist(err);
+        err.message.should.equal("I would always like to fail, keep retrying.");
+        should.equal(true, err instanceof MessagingError);
+        counter.should.equal(1);
+        // Clear delay's setTimeout...we don't need it anymore.
+        delayAbortController.abort();
+      }
+    });
+
+    it("should not sleep after final failure if all attempts return a retryable error (retries)", async function() {
+      let counter = 0;
+      // Create an abort controller so we can clean up the delay's setTimeout ASAP after the race.
+      const delayAbortController = new AbortController();
+      try {
+        const config: RetryConfig<any> = {
+          operation: async () => {
+            counter++;
+            const e = new MessagingError("I would always like to fail, keep retrying.");
+            e.retryable = true;
+            throw e;
+          },
+          connectionId: "connection-1",
+          operationType: RetryOperationType.session,
+          retryOptions: {
+            maxRetries: 1,
+            retryDelayInMs: 1000,
+            mode: mode
+          }
+        };
+        // `retry` should sleep once because `maxRetries` is 1, causing a 1000 ms delay.
+        // `retry` should beat `delay`.
+        await Promise.race([retry(config), delay(1500, delayAbortController.signal)]);
+        // If we get here, `delay` won :-(
+        throw new Error("TestFailure: 'retry' took longer than expected to return.");
+      } catch (err) {
+        should.exist(err);
+        err.message.should.equal("I would always like to fail, keep retrying.");
+        should.equal(true, err instanceof MessagingError);
+        counter.should.equal(2);
+        // Clear delay's setTimeout...we don't need it anymore.
+        delayAbortController.abort();
       }
     });
 
@@ -289,7 +358,7 @@ dotenv.config();
             operation: async () => {
               await delay(200);
               debug("counter: %d", ++counter);
-              if (counter == 1) {
+              if (counter === 1) {
                 throw translate({
                   condition: "com.microsoft:server-busy",
                   description: "The server is busy right now. Retry later."
@@ -322,11 +391,11 @@ dotenv.config();
             operation: async () => {
               await delay(200);
               debug("counter: %d", ++counter);
-              if (counter == 1) {
+              if (counter === 1) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;
-              } else if (counter == 2) {
+              } else if (counter === 2) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;
@@ -358,11 +427,11 @@ dotenv.config();
             operation: async () => {
               await delay(200);
               debug("counter: %d", ++counter);
-              if (counter == 1) {
+              if (counter === 1) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;
-              } else if (counter == 2) {
+              } else if (counter === 2) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;

@@ -1,32 +1,10 @@
 trigger: none
-resources:
-  repositories:
-    - repository: azure-sdk-build-tools
-      type: git
-      name: internal/azure-sdk-build-tools
-    - repository: azure-sdk-tools
-      type: github
-      name: Azure/azure-sdk-tools
-      endpoint: azure
-jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-    parameters:
-      PackageName: "@azure/event-processor-host"
-      # Remove Browser tests from matrix since they are currently a no-op
-      Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-        Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-        macOS_Node10:
-          OSVmImage: "macOS-10.13"
-          TestType: "node"
-      EnvVars:
-        EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-        EVENTHUB_NAME: $(js-event-hubs-test-name)
-        IOTHUB_CONNECTION_STRING: $(js-event-processor-host-test-iothub-connection-string)
-        STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
-      # Event Hubs tests do not support concurrent execution
-      MaxParallel: 1
+
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/event-processor-host"
+    ResourceServiceDirectory: eventhub
+    TimeoutInMinutes: 90
+    TestBrowser: false
+    TestSamples: false

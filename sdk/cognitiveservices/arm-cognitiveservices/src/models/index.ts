@@ -28,56 +28,17 @@ export interface Sku {
 }
 
 /**
- * The parameters to provide for the account.
+ * SkuCapability indicates the capability of a certain feature.
  */
-export interface CognitiveServicesAccountCreateParameters {
+export interface SkuCapability {
   /**
-   * Required. Gets or sets the SKU of the resource.
+   * The name of the SkuCapability.
    */
-  sku: Sku;
+  name?: string;
   /**
-   * Required. Gets or sets the Kind of the resource.
+   * The value of the SkuCapability.
    */
-  kind: string;
-  /**
-   * Required. Gets or sets the location of the resource. This will be one of the supported and
-   * registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of
-   * a resource cannot be changed once it is created, but if an identical geo region is specified
-   * on update the request will succeed.
-   */
-  location: string;
-  /**
-   * Gets or sets a list of key value pairs that describe the resource. These tags can be used in
-   * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
-   * provided for a resource. Each tag must have a key no greater than 128 characters and value no
-   * greater than 256 characters.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Must exist in the request. Must be an empty object. Must not be null.
-   */
-  properties: any;
-}
-
-/**
- * The parameters to provide for the account.
- */
-export interface CognitiveServicesAccountUpdateParameters {
-  /**
-   * Gets or sets the SKU of the resource.
-   */
-  sku?: Sku;
-  /**
-   * Gets or sets a list of key value pairs that describe the resource. These tags can be used in
-   * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
-   * provided for a resource. Each tag must have a key no greater than 128 characters and value no
-   * greater than 256 characters.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Additional properties for Account. Only provided fields will be updated.
-   */
-  properties?: any;
+  value?: string;
 }
 
 /**
@@ -115,11 +76,6 @@ export interface VirtualNetworkRule {
  */
 export interface NetworkRuleSet {
   /**
-   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not
-   * specified the default is 'AzureServices'. Possible values include: 'AzureServices', 'None'
-   */
-  bypass?: NetworkRuleBypassOptions;
-  /**
    * The default action when no rule from ipRules and from virtualNetworkRules match. This is only
    * used after the bypass property has been evaluated. Possible values include: 'Allow', 'Deny'
    */
@@ -135,21 +91,269 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * Properties to configure keyVault Properties
+ */
+export interface KeyVaultProperties {
+  /**
+   * Name of the Key from KeyVault
+   */
+  keyName?: string;
+  /**
+   * Version of the Key from KeyVault
+   */
+  keyVersion?: string;
+  /**
+   * Uri of KeyVault
+   */
+  keyVaultUri?: string;
+}
+
+/**
+ * Properties to configure Encryption
+ */
+export interface Encryption {
+  /**
+   * Properties of KeyVault
+   */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * Enumerates the possible value of keySource for Encryption. Possible values include:
+   * 'Microsoft.CognitiveServices', 'Microsoft.KeyVault'. Default value: 'Microsoft.KeyVault'.
+   */
+  keySource?: KeySource;
+}
+
+/**
+ * The user owned storage for Cognitive Services account.
+ */
+export interface UserOwnedStorage {
+  /**
+   * Full resource id of a Microsoft.Storage resource.
+   */
+  resourceId?: string;
+}
+
+/**
+ * The Private Endpoint resource.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * A collection of information about the state of the connection between service consumer and
+ * provider.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval/rejection of the connection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionRequired?: string;
+}
+
+/**
+ * Properties of the PrivateEndpointConnectProperties.
+ */
+export interface PrivateEndpointConnectionProperties {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The private link resource group ids.
+   */
+  groupIds?: string[];
+}
+
+/**
+ * An interface representing Resource.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * Resource properties.
+   */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+/**
+ * The api properties for special APIs.
+ */
+export interface CognitiveServicesAccountApiProperties {
+  /**
+   * (QnAMaker Only) The runtime endpoint of QnAMaker.
+   */
+  qnaRuntimeEndpoint?: string;
+  /**
+   * (Bing Search Only) The flag to enable statistics of Bing Search.
+   */
+  statisticsEnabled?: boolean;
+  /**
+   * (Personalization Only) The flag to enable statistics of Bing Search.
+   */
+  eventHubConnectionString?: string;
+  /**
+   * (Personalization Only) The storage account connection string.
+   */
+  storageAccountConnectionString?: string;
+}
+
+/**
+ * Properties of Cognitive Services account.
+ */
+export interface CognitiveServicesAccountProperties {
+  /**
+   * Gets the status of the cognitive services account at the time the operation was called.
+   * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded',
+   * 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Endpoint of the created account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endpoint?: string;
+  /**
+   * The internal identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly internalId?: string;
+  /**
+   * Gets the capabilities of the cognitive services account. Each item indicates the capability of
+   * a specific feature. The values are read-only and for reference only.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: SkuCapability[];
+  /**
+   * Optional subdomain name used for token-based authentication.
+   */
+  customSubDomainName?: string;
+  /**
+   * A collection of rules governing the accessibility from specific network locations.
+   */
+  networkAcls?: NetworkRuleSet;
+  /**
+   * The encryption properties for this resource.
+   */
+  encryption?: Encryption;
+  /**
+   * The storage accounts for this resource.
+   */
+  userOwnedStorage?: UserOwnedStorage[];
+  /**
+   * The private endpoint connection associated with the Cognitive Services account.
+   */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Whether or not public endpoint access is allowed for this account. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The api properties for special APIs.
+   */
+  apiProperties?: CognitiveServicesAccountApiProperties;
+}
+
+/**
+ * User-assigned managed identity.
+ */
+export interface UserAssignedIdentity {
+  /**
+   * Azure Active Directory principal ID associated with this Identity.
+   */
+  principalId?: string;
+  /**
+   * Client App Id associated with this identity.
+   */
+  clientId?: string;
+}
+
+/**
+ * Managed service identity.
+ */
+export interface Identity {
+  /**
+   * Type of managed service identity. Possible values include: 'None', 'SystemAssigned',
+   * 'UserAssigned'
+   */
+  type?: IdentityType;
+  /**
+   * Tenant of managed service identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * Principal Id of managed service identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The list of user assigned identities associated with the resource. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/**
  * Cognitive Services Account is an Azure resource representing the provisioned account, its type,
  * location and SKU.
  */
 export interface CognitiveServicesAccount extends BaseResource {
   /**
    * Entity Tag
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  etag?: string;
+  readonly etag?: string;
   /**
    * The id of the created account
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Type of cognitive service account.
+   * The Kind of the resource.
    */
   kind?: string;
   /**
@@ -162,28 +366,9 @@ export interface CognitiveServicesAccount extends BaseResource {
    */
   readonly name?: string;
   /**
-   * Gets the status of the cognitive services account at the time the operation was called.
-   * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded',
-   * 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Properties of Cognitive Services account.
    */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Endpoint of the created account.
-   */
-  endpoint?: string;
-  /**
-   * The internal identifier.
-   */
-  internalId?: string;
-  /**
-   * Optional subdomain name used for token-based authentication.
-   */
-  customSubDomainName?: string;
-  /**
-   * A collection of rules governing the accessibility from specific network locations.
-   */
-  networkAcls?: NetworkRuleSet;
+  properties?: CognitiveServicesAccountProperties;
   /**
    * The SKU of Cognitive Services account.
    */
@@ -200,6 +385,10 @@ export interface CognitiveServicesAccount extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
+  /**
+   * The identity of Cognitive Services account.
+   */
+  identity?: Identity;
 }
 
 /**
@@ -562,24 +751,80 @@ export interface ResourceSku {
 }
 
 /**
- * Optional Parameters.
+ * Properties of a private link resource.
  */
-export interface AccountsUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateLinkResourceProperties {
   /**
-   * Gets or sets the SKU of the resource.
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  sku?: Sku;
+  readonly groupId?: string;
   /**
-   * Gets or sets a list of key value pairs that describe the resource. These tags can be used in
-   * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
-   * provided for a resource. Each tag must have a key no greater than 128 characters and value no
-   * greater than 256 characters.
+   * The private link resource display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * Resource properties.
+   */
+  properties?: PrivateLinkResourceProperties;
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
+}
+
+/**
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * The resource model definition for a ARM tracked top level resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Additional properties for Account. Only provided fields will be updated.
+   * The geo-location where the resource lives
    */
-  properties?: any;
+  location: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -653,20 +898,44 @@ export type SkuTier = 'Free' | 'Standard' | 'Premium';
 export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleting' | 'Succeeded' | 'Failed';
 
 /**
- * Defines values for NetworkRuleBypassOptions.
- * Possible values include: 'AzureServices', 'None'
- * @readonly
- * @enum {string}
- */
-export type NetworkRuleBypassOptions = 'AzureServices' | 'None';
-
-/**
  * Defines values for NetworkRuleAction.
  * Possible values include: 'Allow', 'Deny'
  * @readonly
  * @enum {string}
  */
 export type NetworkRuleAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for KeySource.
+ * Possible values include: 'Microsoft.CognitiveServices', 'Microsoft.KeyVault'
+ * @readonly
+ * @enum {string}
+ */
+export type KeySource = 'Microsoft.CognitiveServices' | 'Microsoft.KeyVault';
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'None', 'SystemAssigned', 'UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned';
 
 /**
  * Defines values for KeyName.
@@ -1010,9 +1279,9 @@ export type OperationsListNextResponse = OperationEntityListResult & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the checkSkuAvailability operation.
  */
-export type CheckSkuAvailabilityListResponse = CheckSkuAvailabilityResultList & {
+export type CheckSkuAvailabilityResponse = CheckSkuAvailabilityResultList & {
   /**
    * The underlying HTTP response.
    */
@@ -1046,5 +1315,65 @@ export type CheckDomainAvailabilityResponse = CheckDomainAvailabilityResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: CheckDomainAvailabilityResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
     };
 };

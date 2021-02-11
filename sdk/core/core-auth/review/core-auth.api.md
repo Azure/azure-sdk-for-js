@@ -5,9 +5,6 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { SpanOptions } from '@opentelemetry/types';
-
-export { AbortSignalLike }
 
 // @public
 export interface AccessToken {
@@ -16,27 +13,56 @@ export interface AccessToken {
 }
 
 // @public
-export interface GetTokenOptions extends OperationOptions {
+export class AzureKeyCredential implements KeyCredential {
+    constructor(key: string);
+    get key(): string;
+    update(newKey: string): void;
 }
 
 // @public
-export function isTokenCredential(credential: any): credential is TokenCredential;
+export class AzureSASCredential implements SASCredential {
+    constructor(signature: string);
+    get signature(): string;
+    update(newSignature: string): void;
+}
 
 // @public
-export interface OperationOptions {
+export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
-    requestOptions?: OperationRequestOptions;
-    tracingOptions?: OperationTracingOptions;
+    requestOptions?: {
+        timeout?: number;
+    };
+    tracingOptions?: {
+        spanOptions?: SpanOptions;
+    };
 }
 
-// @public (undocumented)
-export interface OperationRequestOptions {
-    timeout?: number;
+// @public
+export function isTokenCredential(credential: unknown): credential is TokenCredential;
+
+// @public
+export interface KeyCredential {
+    readonly key: string;
 }
 
-// @public (undocumented)
-export interface OperationTracingOptions {
-    spanOptions?: SpanOptions;
+// @public
+export interface SASCredential {
+    readonly signature: string;
+}
+
+// @public
+export interface SpanContext {
+    spanId: string;
+    traceFlags: number;
+    traceId: string;
+}
+
+// @public
+export interface SpanOptions {
+    attributes?: {
+        [key: string]: unknown;
+    };
+    parent?: SpanContext | null;
 }
 
 // @public

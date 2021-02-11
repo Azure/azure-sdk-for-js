@@ -222,6 +222,32 @@ export class Service {
       submitBatchOperationSpec,
       callback) as Promise<Models.ServiceSubmitBatchResponse>;
   }
+
+  /**
+   * The Filter Blobs operation enables callers to list blobs across all containers whose tags match
+   * a given search expression.  Filter blobs searches across all containers within a storage account
+   * but can be scoped within the expression to a single container.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceFilterBlobsResponse>
+   */
+  filterBlobs(options?: Models.ServiceFilterBlobsOptionalParams): Promise<Models.ServiceFilterBlobsResponse>;
+  /**
+   * @param callback The callback
+   */
+  filterBlobs(callback: coreHttp.ServiceCallback<Models.FilterBlobSegment>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  filterBlobs(options: Models.ServiceFilterBlobsOptionalParams, callback: coreHttp.ServiceCallback<Models.FilterBlobSegment>): void;
+  filterBlobs(options?: Models.ServiceFilterBlobsOptionalParams | coreHttp.ServiceCallback<Models.FilterBlobSegment>, callback?: coreHttp.ServiceCallback<Models.FilterBlobSegment>): Promise<Models.ServiceFilterBlobsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      filterBlobsOperationSpec,
+      callback) as Promise<Models.ServiceFilterBlobsResponse>;
+  }
 }
 
 // Operation Specifications
@@ -448,6 +474,36 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.ServiceSubmitBatchHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const filterBlobsOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "GET",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.where,
+    Parameters.marker0,
+    Parameters.maxPageSize,
+    Parameters.comp5
+  ],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.FilterBlobSegment,
+      headersMapper: Mappers.ServiceFilterBlobsHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceFilterBlobsHeaders
     }
   },
   isXML: true,

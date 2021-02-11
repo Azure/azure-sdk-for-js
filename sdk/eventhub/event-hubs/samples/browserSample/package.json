@@ -1,0 +1,40 @@
+{
+  "name": "azure-event-hubs-samples-browser",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Event Hubs client library samples for JavaScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "webpack-cli ./src/index.js -o ./dist/app.js",
+    "start": "http-server ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Event Hubs",
+    "Browser",
+    "JavaScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/event-hubs": "^5.0.0",
+    "@azure/identity": "^1.0.2"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.1",
+    "rimraf": "^3.0.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}

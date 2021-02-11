@@ -1,83 +1,180 @@
 parameters:
-  PackageName: ""
-  PreIntegrationSteps: ""
-  PostIntegrationSteps: ""
-  ResourceServiceDirectory: ""
-  EnvVars: []
-  MaxParallel: 0
-  Matrix:
-    Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+- name: PackageName
+  type: string
+  default: ""
+- name: PreIntegrationSteps
+  type: string
+  default: ""
+- name: PostIntegrationSteps
+  type: string
+  default: ""
+- name: ResourceServiceDirectory
+  type: string
+  default: ""
+- name: EnvVars
+  type: object
+  default: {}
+- name: MaxParallel
+  type: number
+  default: 0
+- name: TimeoutInMinutes
+  type: number
+  default: 0
+- name: PublishCodeCoverage
+  type: boolean
+  default: false
+- name: SubscriptionConfiguration
+  type: string
+  default: $(sub-config-azure-cloud-test-resources)
+- name: ResourceGroupLocation
+  type: string
+  default: ""
+- name: ResourceGroupLocationCanary
+  type: string
+  default: "centraluseuap"
+- name: ArmTemplateParameters
+  type: string
+  default: "@{}"
+- name: TestBrowser
+  type: boolean
+  default: true
+- name: TestSamples
+  type: boolean
+  default: true
+- name: TestMinMax
+  type: boolean
+  default: false
+- name: TestSame
+  type: boolean
+  default: false
+- name: TestCanary
+  type: boolean
+  default: false
+- name: Matrix
+  type: object
+  default:
+    Windows Node 8:
+      Pool: azsdk-pool-mms-win-2019-general
+      OSVmImage: MMS2019
       TestType: "node"
-    Windows_Node10:
-      OSVmImage: "windows-2019"
+      NodeTestVersion: "8.x"
+      PublishCodeCoverage: true
+    Linux Node 10:
+      Pool: azsdk-pool-mms-ubuntu-1804-general
+      OSVmImage: MMSUbuntu18.04
       TestType: "node"
-    macOS_Node10:
-      OSVmImage: "macOS-10.13"
+      NodeTestVersion: "10.x"
+    Linux Node 12:
+      Pool: azsdk-pool-mms-ubuntu-1804-general
+      OSVmImage: MMSUbuntu18.04
       TestType: "node"
-    Browser_Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
-      TestType: "browser"
-    Browser_Windows_Node10:
-      OSVmImage: "windows-2019"
-      TestType: "browser"
-    Browser_macOS_Node10:
-      OSVmImage: "macOS-10.13"
-      TestType: "browser"
+      NodeTestVersion: "12.x"
+    MacOS Node 14:
+      Pool: Azure Pipelines
+      OSVmImage: "macOS-10.15"
+      TestType: "node"
+      NodeTestVersion: "14.x"
 
 jobs:
   - job: "IntegrationTest"
 
     variables:
       - template: ../variables/globals.yml
+      - name: SubscriptionConfiguration
+        value: ${{ parameters.SubscriptionConfiguration }}
+      - name: ResourceGroupLocation
+        value: ${{ parameters.ResourceGroupLocation }}
+      - name: ArmTemplateParameters
+        value: ${{ parameters.ArmTemplateParameters }}
+
 
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
       matrix:
         ${{ each matrixEntry in parameters.Matrix }}:
-          ${{ matrixEntry.key }}:
+          ${{ matrixEntry.key }}:         
             # TestResultsFiles
             ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
               TestResultsFiles: "**/test-results.browser.xml"
             ${{ if eq(matrixEntry.value.TestType, 'node') }}:
               TestResultsFiles: "**/test-results.xml"
-
             # Remaining entries from the matrix object
             ${{ insert }}: ${{ matrixEntry.value }}
+            # Include these entries in all test matrices. Note that TestResultsFile
+            # is specified because the template logic above is not running in this
+            # context.
+
+        # Add matrix entry for browser testing
+        ${{ if eq(parameters.TestBrowser, 'true') }}:
+          Windows Browser:
+            Pool: azsdk-pool-mms-win-2019-general
+            OSVmImage: MMS2019
+            TestType: "browser"
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.browser.xml"
+
+        # Add matrix entry for sample testing
+        ${{ if eq(parameters.TestSamples, 'true') }}:
+          Samples Linux Node 10:
+            Pool: azsdk-pool-mms-ubuntu-1804-general
+            OSVmImage: MMSUbuntu18.04
+            TestType: "sample"
+            NodeTestVersion: "10.x"            
+        
+        # Add matrix entry for min-max testing
+        ${{ if eq(parameters.TestMinMax, 'true') }}:
+          MaxVersion_Node:
+            Pool: azsdk-pool-mms-ubuntu-1804-general
+            OSVmImage: MMSUbuntu18.04
+            TestType: "node"
+            DependencyVersion: max
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"            
+          MinVersion_Node:
+            Pool: azsdk-pool-mms-ubuntu-1804-general
+            OSVmImage: MMSUbuntu18.04
+            TestType: "node"
+            DependencyVersion: min
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"                  
+
+        # Add matrix entry for same dep testing
+        ${{ if eq(parameters.TestSame, 'true') }}:
+          SameVersion_Node:
+            Pool: azsdk-pool-mms-ubuntu-1804-general
+            OSVmImage: MMSUbuntu18.04
+            TestType: "node"
+            DependencyVersion: same
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"   
+
+        # Add matrix entry for canary testing
+        ${{ if eq(parameters.TestCanary, 'true') }}:
+          CanaryTest_Node:
+            Pool: azsdk-pool-mms-ubuntu-1804-general
+            OSVmImage: MMSUbuntu18.04
+            TestType: "node"
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+            ResourceGroupLocation: ${{ parameters.ResourceGroupLocationCanary }}
 
     pool:
-      vmImage: "$(OSVmImage)"
+      name: $(Pool)
+      vmImage: $(OSVmImage)
 
-    timeoutInMinutes: 240
+    timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
 
     steps:
       - template: ../steps/common.yml
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
-          - pwsh: |
-              Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force
-            displayName: Install Az Module
-
-          - pwsh: |
-              $baseName = "t" + [guid]::NewGuid().ToString('n').Substring(0,16)
-              Write-Host "##vso[task.setvariable variable=BaseName;]$baseName"
-            displayName: Generate $(BaseName)
-
-          - pwsh: >-
-              eng/New-TestResources.ps1
-              -BaseName $(BaseName)
-              -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
-              -TestApplicationId $(aad-azure-sdk-test-client-id)
-              -TestApplicationSecret $(aad-azure-sdk-test-client-secret)
-              -TestApplicationOid $(aad-azure-sdk-test-client-oid)
-              -TenantId $(aad-azure-sdk-test-tenant-id)
-              -ProvisionerApplicationId $(provisioner-aad-id)
-              -ProvisionerApplicationSecret $(provisioner-aad-secret)
-              -DeleteAfterHours 24
-              -Location westus2
-              -Force
-              -Verbose
-            displayName: Provision Test Resources
+        - template: /eng/common/TestResources/deploy-test-resources.yml
+          parameters:
+            ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
+            SubscriptionConfiguration: $(SubscriptionConfiguration)
+            Location: $(ResourceGroupLocation)
+            ArmTemplateParameters: $(ArmTemplateParameters)
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -94,17 +191,57 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
+        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
+      
+      - script: |
+          npm install
+          node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
+        displayName: "Convert tests to run against package references"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - script: |
+          node common/scripts/install-run-rush.js update
+        displayName: "Rush update"
+        workingDirectory: $(Build.SourcesDirectory)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - script: |
+          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js build
+        displayName: "Build test package"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
+      - pwsh: |
+          npm install
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
+
+      - template: ../steps/use-node-test-version.yml
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
+          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
-        env: ${{parameters.EnvVars}}
-        condition: ne(variables['TestType'],'sample')
+        workingDirectory: $(PackagePath)
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+        env:
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
+
+      - script: |
+          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+        displayName: "Integration test libraries"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+        env:
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
@@ -112,27 +249,48 @@ jobs:
       - script: |
           node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
         displayName: "Execute Samples"
-        env: ${{parameters.EnvVars}}
-        condition: eq(variables['TestType'],'sample')
+        env:
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
+        condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
-          - pwsh: >-
-              eng/Remove-TestResources.ps1
-              -BaseName $(BaseName)
-              -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
-              -TenantId $(aad-azure-sdk-test-tenant-id)
-              -ProvisionerApplicationId $(provisioner-aad-id)
-              -ProvisionerApplicationSecret $(provisioner-aad-secret)
-              -Force
-              -Verbose
-            displayName: Remove Test Resources
-            condition: always()
+        - template: /eng/common/TestResources/remove-test-resources.yml
+          parameters:
+            ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
+            SubscriptionConfiguration: $(SubscriptionConfiguration)
+
+      - task: PublishCodeCoverageResults@1
+        displayName: "Publish NodeJs Code Coverage to DevOps"
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
+
+      - task: PublishPipelineArtifact@1
+        displayName: "Publish Browser Code Coverage Report Artifact"
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
+        inputs:
+          path: "$(PackagePath)/coverage-browser"
+          artifact: BrowserCodeCoverageReport
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-      - script: |
-          node eng/tools/rush-runner.js unlink
-        condition: succeededOrFailed()
+      # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+      # running in this repository" if the previous rush command was killed.
+      - pwsh: |
+          for ($i=0; $i -lt 30; $i++) {
+            node eng/tools/rush-runner.js unlink
+            if ($lastexitcode -eq 0) {
+              break
+            }
+            else {
+              start-sleep 1
+            }
+          }
+        condition: always()
         displayName: "Unlink dependencies"
 
       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
@@ -141,7 +299,7 @@ jobs:
         inputs:
           searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "**/test-results.xml"
-          testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeVersion)]"
+          testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeTestVersion)]"
         condition: and(always(), eq(variables['TestType'], 'node'))
         displayName: "Publish NodeJS integration test results"
 
@@ -151,6 +309,6 @@ jobs:
         inputs:
           searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "**/test-results.browser.xml"
-          testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
+          testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeTestVersion)]"
         condition: and(always(), eq(variables['TestType'], 'browser'))
         displayName: "Publish browser integration test results"

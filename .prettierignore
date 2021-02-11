@@ -1,0 +1,6 @@
+**/src/generated/
+**/review/*.api.md
+**/recordings/**
+**/*.yml
+**/*.yaml
+**/*.d.ts

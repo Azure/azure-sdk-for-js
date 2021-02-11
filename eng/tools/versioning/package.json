@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
     "semver": "^6.3.0",
-    "yargs": "^14.2.0"
+    "yargs": "^14.2.0",
+    "eng-package-utils": "file:../eng-package-utils"
   }
 }

@@ -9,7 +9,7 @@ import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-q
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -17,10 +17,11 @@ export async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -84,7 +85,7 @@ export async function main() {
       dequeueMessageItem.popReceipt
     );
     console.log(
-      `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
+      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`
     );
   }
 

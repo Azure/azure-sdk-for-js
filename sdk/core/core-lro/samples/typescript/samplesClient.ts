@@ -146,6 +146,13 @@ class SamplePoller extends Poller<SamplePollOperationState, ReturnValue> {
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
+
+  /**
+   * Could be used to get a publicly safe version of the poller state.
+   */
+  public getOperationState(): SamplePollOperationState {
+    return this.operation.state;
+  }
 }
 
 /**
@@ -208,7 +215,7 @@ class Client {
 
 // Now let's see how the client is used.
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   const client = new Client();
   let poller = await client.beginLongOperation();
   console.log(poller.getResult()); // Should show: { value: 1 }

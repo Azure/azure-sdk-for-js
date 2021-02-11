@@ -28,7 +28,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans for a subscription.
+   * Description for Get all App Service plans for a subscription.
    * @summary Get all App Service plans for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListResponse>
@@ -53,7 +53,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans in a resource group.
+   * Description for Get all App Service plans in a resource group.
    * @summary Get all App Service plans in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param [options] The optional parameters
@@ -82,7 +82,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get an App Service plan.
+   * Description for Get an App Service plan.
    * @summary Get an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -115,7 +115,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Creates or updates an App Service Plan.
+   * Description for Creates or updates an App Service Plan.
    * @summary Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -129,7 +129,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Delete an App Service plan.
+   * Description for Delete an App Service plan.
    * @summary Delete an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -162,7 +162,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Creates or updates an App Service Plan.
+   * Description for Creates or updates an App Service Plan.
    * @summary Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -199,7 +199,7 @@ export class AppServicePlans {
   }
 
   /**
-   * List all capabilities of an App Service plan.
+   * Description for List all capabilities of an App Service plan.
    * @summary List all capabilities of an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -232,7 +232,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Retrieve a Hybrid Connection in use in an App Service plan.
+   * Description for Retrieve a Hybrid Connection in use in an App Service plan.
    * @summary Retrieve a Hybrid Connection in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -273,7 +273,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Delete a Hybrid Connection in use in an App Service plan.
+   * Description for Delete a Hybrid Connection in use in an App Service plan.
    * @summary Delete a Hybrid Connection in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -314,7 +314,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get the send key name and value of a Hybrid Connection.
+   * Description for Get the send key name and value of a Hybrid Connection.
    * @summary Get the send key name and value of a Hybrid Connection.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -355,7 +355,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all apps that use a Hybrid Connection in an App Service Plan.
+   * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
    * @summary Get all apps that use a Hybrid Connection in an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -396,7 +396,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get the maximum number of Hybrid Connections allowed in an App Service plan.
+   * Description for Get the maximum number of Hybrid Connections allowed in an App Service plan.
    * @summary Get the maximum number of Hybrid Connections allowed in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -429,7 +429,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Retrieve all Hybrid Connections in use in an App Service plan.
+   * Description for Retrieve all Hybrid Connections in use in an App Service plan.
    * @summary Retrieve all Hybrid Connections in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -462,73 +462,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get metrics that can be queried for an App Service plan, and their definitions.
-   * @summary Get metrics that can be queried for an App Service plan, and their definitions.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service plan.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServicePlansListMetricDefintionsResponse>
-   */
-  listMetricDefintions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListMetricDefintionsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service plan.
-   * @param callback The callback
-   */
-  listMetricDefintions(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service plan.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMetricDefintions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefintions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServicePlansListMetricDefintionsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      listMetricDefintionsOperationSpec,
-      callback) as Promise<Models.AppServicePlansListMetricDefintionsResponse>;
-  }
-
-  /**
-   * Get metrics for an App Service plan.
-   * @summary Get metrics for an App Service plan.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service plan.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServicePlansListMetricsResponse>
-   */
-  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServicePlansListMetricsOptionalParams): Promise<Models.AppServicePlansListMetricsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service plan.
-   * @param callback The callback
-   */
-  listMetrics(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service plan.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMetrics(resourceGroupName: string, name: string, options: Models.AppServicePlansListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServicePlansListMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServicePlansListMetricsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      listMetricsOperationSpec,
-      callback) as Promise<Models.AppServicePlansListMetricsResponse>;
-  }
-
-  /**
-   * Restart all apps in an App Service plan.
+   * Description for Restart all apps in an App Service plan.
    * @summary Restart all apps in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -561,7 +495,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all apps associated with an App Service plan.
+   * Description for Get all apps associated with an App Service plan.
    * @summary Get all apps associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -594,7 +528,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Gets all selectable SKUs for a given App Service Plan
+   * Description for Gets all selectable SKUs for a given App Service Plan
    * @summary Gets all selectable SKUs for a given App Service Plan
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
@@ -627,7 +561,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Gets server farm usage information
+   * Description for Gets server farm usage information
    * @summary Gets server farm usage information
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
@@ -660,7 +594,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all Virtual Networks associated with an App Service plan.
+   * Description for Get all Virtual Networks associated with an App Service plan.
    * @summary Get all Virtual Networks associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -693,7 +627,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get a Virtual Network associated with an App Service plan.
+   * Description for Get a Virtual Network associated with an App Service plan.
    * @summary Get a Virtual Network associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -730,7 +664,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get a Virtual Network gateway.
+   * Description for Get a Virtual Network gateway.
    * @summary Get a Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -771,7 +705,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Update a Virtual Network gateway.
+   * Description for Update a Virtual Network gateway.
    * @summary Update a Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -816,7 +750,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all routes that are associated with a Virtual Network in an App Service plan.
+   * Description for Get all routes that are associated with a Virtual Network in an App Service
+   * plan.
    * @summary Get all routes that are associated with a Virtual Network in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -853,7 +788,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get a Virtual Network route in an App Service plan.
+   * Description for Get a Virtual Network route in an App Service plan.
    * @summary Get a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -894,7 +829,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Create or update a Virtual Network route in an App Service plan.
+   * Description for Create or update a Virtual Network route in an App Service plan.
    * @summary Create or update a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -939,7 +874,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Delete a Virtual Network route in an App Service plan.
+   * Description for Delete a Virtual Network route in an App Service plan.
    * @summary Delete a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -980,7 +915,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Create or update a Virtual Network route in an App Service plan.
+   * Description for Create or update a Virtual Network route in an App Service plan.
    * @summary Create or update a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -1025,7 +960,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Reboot a worker machine in an App Service plan.
+   * Description for Reboot a worker machine in an App Service plan.
    * @summary Reboot a worker machine in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -1062,7 +997,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Creates or updates an App Service Plan.
+   * Description for Creates or updates an App Service Plan.
    * @summary Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -1083,7 +1018,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans for a subscription.
+   * Description for Get all App Service plans for a subscription.
    * @summary Get all App Service plans for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1112,7 +1047,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans in a resource group.
+   * Description for Get all App Service plans in a resource group.
    * @summary Get all App Service plans in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1141,7 +1076,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all apps that use a Hybrid Connection in an App Service Plan.
+   * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
    * @summary Get all apps that use a Hybrid Connection in an App Service Plan.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1170,7 +1105,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Retrieve all Hybrid Connections in use in an App Service plan.
+   * Description for Retrieve all Hybrid Connections in use in an App Service plan.
    * @summary Retrieve all Hybrid Connections in use in an App Service plan.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1199,65 +1134,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Get metrics that can be queried for an App Service plan, and their definitions.
-   * @summary Get metrics that can be queried for an App Service plan, and their definitions.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServicePlansListMetricDefintionsNextResponse>
-   */
-  listMetricDefintionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListMetricDefintionsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listMetricDefintionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMetricDefintionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): void;
-  listMetricDefintionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricDefinitionCollection>): Promise<Models.AppServicePlansListMetricDefintionsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listMetricDefintionsNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListMetricDefintionsNextResponse>;
-  }
-
-  /**
-   * Get metrics for an App Service plan.
-   * @summary Get metrics for an App Service plan.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServicePlansListMetricsNextResponse>
-   */
-  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServicePlansListMetricsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listMetricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServicePlansListMetricsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listMetricsNextOperationSpec,
-      callback) as Promise<Models.AppServicePlansListMetricsNextResponse>;
-  }
-
-  /**
-   * Get all apps associated with an App Service plan.
+   * Description for Get all apps associated with an App Service plan.
    * @summary Get all apps associated with an App Service plan.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1286,7 +1163,7 @@ export class AppServicePlans {
   }
 
   /**
-   * Gets server farm usage information
+   * Description for Gets server farm usage information
    * @summary Gets server farm usage information
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1325,7 +1202,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.detailed,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1349,7 +1226,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1374,7 +1251,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1385,7 +1262,7 @@ const getOperationSpec: msRest.OperationSpec = {
     },
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1400,7 +1277,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1409,7 +1286,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1424,7 +1301,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1459,7 +1336,7 @@ const listCapabilitiesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1497,7 +1374,7 @@ const getHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1524,7 +1401,7 @@ const deleteHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1533,7 +1410,7 @@ const deleteHybridConnectionOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1550,7 +1427,7 @@ const listHybridConnectionKeysOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1577,7 +1454,7 @@ const listWebAppsByHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1602,7 +1479,7 @@ const getHybridConnectionPlanLimitOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1627,7 +1504,7 @@ const listHybridConnectionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1635,58 +1512,6 @@ const listHybridConnectionsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMetricDefintionsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/metricdefinitions",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMetricsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/metrics",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.details,
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -1705,7 +1530,7 @@ const restartWebAppsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.softRestart,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1713,7 +1538,7 @@ const restartWebAppsOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1731,7 +1556,7 @@ const listWebAppsOperationSpec: msRest.OperationSpec = {
     Parameters.skipToken,
     Parameters.filter,
     Parameters.top,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1756,7 +1581,7 @@ const getServerFarmSkusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1787,7 +1612,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1812,7 +1637,7 @@ const listVnetsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1849,7 +1674,7 @@ const getVnetFromServerFarmOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1860,7 +1685,7 @@ const getVnetFromServerFarmOperationSpec: msRest.OperationSpec = {
     },
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1877,7 +1702,7 @@ const getVnetGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1904,7 +1729,7 @@ const updateVnetGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1937,7 +1762,7 @@ const listRoutesForVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1975,7 +1800,7 @@ const getRouteForVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1997,7 +1822,7 @@ const getRouteForVnetOperationSpec: msRest.OperationSpec = {
     },
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2014,7 +1839,7 @@ const createOrUpdateVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2033,7 +1858,7 @@ const createOrUpdateVnetRouteOperationSpec: msRest.OperationSpec = {
     400: {},
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2050,7 +1875,7 @@ const deleteVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2059,7 +1884,7 @@ const deleteVnetRouteOperationSpec: msRest.OperationSpec = {
     200: {},
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2076,7 +1901,7 @@ const updateVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2095,7 +1920,7 @@ const updateVnetRouteOperationSpec: msRest.OperationSpec = {
     400: {},
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2111,7 +1936,7 @@ const rebootWorkerOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2119,7 +1944,7 @@ const rebootWorkerOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2134,7 +1959,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2148,9 +1973,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.AppServicePlan
-    },
-    201: {
       bodyMapper: Mappers.AppServicePlan
     },
     202: {
@@ -2239,48 +2061,6 @@ const listHybridConnectionsNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMetricDefintionsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMetricsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

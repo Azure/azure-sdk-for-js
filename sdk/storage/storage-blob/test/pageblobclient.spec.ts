@@ -1,18 +1,27 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import {
   bodyToString,
   getBSU,
+  getGenericBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
-import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier } from "../src";
+import {
+  ContainerClient,
+  BlobClient,
+  PageBlobClient,
+  PremiumPageBlobTier,
+  BlobServiceClient
+} from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("PageBlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -22,7 +31,8 @@ describe("PageBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -33,7 +43,7 @@ describe("PageBlobClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("create with default parameters", async () => {
@@ -84,11 +94,18 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err) {
-      if (err.message.indexOf("AccessTierNotSupportedForBlobType") == -1) {
-        // not found
-        assert.fail("Error thrown while it's not AccessTierNotSupportedForBlobType.");
-      }
+      assert.ok(err.message.startsWith("The access tier is not supported for this blob type."));
     }
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await pageBlobClient.createIfNotExists(512);
+    assert.ok(res.succeeded);
+    assert.ok(res.etag);
+
+    const res2 = await pageBlobClient.createIfNotExists(512);
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
   it("uploadPages", async () => {
@@ -172,11 +189,53 @@ describe("PageBlobClient", () => {
     await pageBlobClient.clearPages(512, 512);
 
     const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapshotResult.snapshot!);
+    assert.equal(rangesDiff.pageRange![0].offset, 0);
+    assert.equal(rangesDiff.pageRange![0].count, 511);
+    assert.equal(rangesDiff.clearRange![0].offset, 512);
+    assert.equal(rangesDiff.clearRange![0].count, 511);
+  });
+
+  it("getPageRangesDiffForManagedDisks", async function(): Promise<void> {
+    let mdBlobServiceClient: BlobServiceClient;
+    try {
+      mdBlobServiceClient = getGenericBSU("MD_", "");
+    } catch (err) {
+      // managed disk account is not properly configured
+      return this.skip();
+    }
+    const mdContainerName = recorder.getUniqueName("md-container");
+    const mdContainerClient = mdBlobServiceClient.getContainerClient(mdContainerName);
+    await mdContainerClient.create();
+    const mdBlobName = recorder.getUniqueName("md-blob");
+    const mdBlobClient = mdContainerClient.getBlobClient(mdBlobName);
+    const mdPageBlobClient = mdBlobClient.getPageBlobClient();
+
+    await mdPageBlobClient.create(1024);
+
+    const result = await mdBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    await mdPageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
+
+    const snapshotResult = await mdPageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    await mdPageBlobClient.uploadPages("a".repeat(512), 0, 512);
+    await mdPageBlobClient.clearPages(512, 512);
+
+    const snapshotUrl = mdPageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
+    const rangesDiff = await mdPageBlobClient.getPageRangesDiffForManagedDisks(
+      0,
+      1024,
+      snapshotUrl
+    );
 
     assert.equal(rangesDiff.pageRange![0].offset, 0);
     assert.equal(rangesDiff.pageRange![0].count, 511);
     assert.equal(rangesDiff.clearRange![0].offset, 512);
     assert.equal(rangesDiff.clearRange![0].count, 511);
+
+    await mdContainerClient.delete();
   });
 
   it("updateSequenceNumber", async () => {
@@ -205,7 +264,12 @@ describe("PageBlobClient", () => {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (
+        err instanceof Error &&
+        err.message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        )
+      ) {
         exceptionCaught = true;
       }
     }

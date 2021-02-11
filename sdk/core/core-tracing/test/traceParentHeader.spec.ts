@@ -1,9 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
-import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "../lib";
-import { TraceFlags, SpanContext } from "@opentelemetry/types";
+import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "../src";
+import { TraceFlags, SpanContext } from "@opentelemetry/api";
 
 describe("traceParentHeader", () => {
   describe("#extractSpanContextFromTraceParentHeader", () => {
@@ -22,7 +22,7 @@ describe("traceParentHeader", () => {
       assert.equal(spanContext.spanId, spanId, "Extracted spanId does not match expectation.");
       assert.equal(
         spanContext.traceFlags,
-        TraceFlags.UNSAMPLED,
+        TraceFlags.NONE,
         "Extracted traceFlags do not match expectations."
       );
     });
@@ -77,7 +77,8 @@ describe("traceParentHeader", () => {
     it("should set the traceFlag to UNSAMPLED if not provided in SpanContext", () => {
       const spanContext: SpanContext = {
         spanId: "2222222222222222",
-        traceId: "11111111111111111111111111111111"
+        traceId: "11111111111111111111111111111111",
+        traceFlags: TraceFlags.NONE
       };
 
       const traceParentHeader = getTraceParentHeader(spanContext);

@@ -59,7 +59,7 @@ export class TenantAccess {
   }
 
   /**
-   * Get tenant access information details
+   * Get tenant access information details without secrets.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -196,6 +196,38 @@ export class TenantAccess {
       regenerateSecondaryKeyOperationSpec,
       callback);
   }
+
+  /**
+   * Get tenant access information details.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TenantAccessListSecretsResponse>
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantAccessListSecretsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
+  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>, callback?: msRest.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        options
+      },
+      listSecretsOperationSpec,
+      callback) as Promise<Models.TenantAccessListSecretsResponse>;
+  }
 }
 
 // Operation Specifications
@@ -326,6 +358,33 @@ const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listSecretsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/listSecrets",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.accessName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessInformationContract,
+      headersMapper: Mappers.TenantAccessListSecretsHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

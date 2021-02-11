@@ -1,20 +1,17 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
-import { translate, MessagingError } from "./errors";
+import { MessagingError, translate } from "./errors";
 import { delay } from "./util/utils";
 import { logger } from "./log";
-import {
-  defaultMaxRetries,
-  defaultDelayBetweenOperationRetriesInMs,
-  defaultMaxDelayForExponentialRetryInMs
-} from "./util/constants";
+import { Constants } from "./util/constants";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkNetworkConnection } from "./util/checkNetworkConnection";
 
 /**
  * Determines whether the object is a Delivery object.
- * @ignore
+ * @hidden
  */
 function isDelivery(obj: any): boolean {
   let result: boolean = false;
@@ -32,7 +29,6 @@ function isDelivery(obj: any): boolean {
 
 /**
  * Describes the Retry Mode type
- * @enum RetryMode
  */
 export enum RetryMode {
   Exponential,
@@ -41,7 +37,6 @@ export enum RetryMode {
 
 /**
  * Describes the retry operation type.
- * @enum RetryOperationType
  */
 export enum RetryOperationType {
   cbsAuth = "cbsAuth",
@@ -59,12 +54,12 @@ export enum RetryOperationType {
  */
 export interface RetryOptions {
   /**
-   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
+   * Number of times the operation needs to be retried in case
    * of retryable error. Default: 3.
    */
   maxRetries?: number;
   /**
-   * @property {number} [retryDelayInMs] Amount of time to wait in milliseconds before making the
+   * Amount of time to wait in milliseconds before making the
    * next attempt. Default: `30000 milliseconds`.
    * When `mode` option is set to `Exponential`,
    * this is used to compute the exponentially increasing delays between retries.
@@ -76,11 +71,11 @@ export interface RetryOptions {
    */
   timeoutInMs?: number;
   /**
-   * @property {RetryMode} [mode] Denotes which retry mode to apply. If undefined, defaults to `Fixed`
+   * Denotes which retry mode to apply. If undefined, defaults to `Fixed`
    */
   mode?: RetryMode;
   /**
-   * @property {number} [maxRetryDelayInMs] Denotes the maximum delay between retries
+   * Denotes the maximum delay between retries
    * that the retry attempts will be capped at. Applicable only when performing exponential retry.
    */
   maxRetryDelayInMs?: number;
@@ -88,34 +83,33 @@ export interface RetryOptions {
 
 /**
  * Describes the parameters that need to be configured for the retry operation.
- * @interface RetryConfig
  */
 export interface RetryConfig<T> {
   /**
-   * @property {Promise<T>} operation The operation that needs to be retried.
+   * The operation that needs to be retried.
    */
   operation: () => Promise<T>;
   /**
-   * @property {string} connectionId The connection identifier. Used in logging information.
+   * The connection identifier. Used in logging information.
    * Extremely useful when multiple connections are logged in the same file.
    */
   connectionId: string;
   /**
-   * @property {RetryOperationType} operationType The name/type of operation to be performed.
+   * The name/type of operation to be performed.
    * Extremely useful in providing better debug logs.
    */
   operationType: RetryOperationType;
   /**
-   * @property {string} connectionHost The host "<yournamespace>.servicebus.windows.net".
+   * The host "<yournamespace>.servicebus.windows.net".
    * Used to check network connectivity.
    */
   connectionHost?: string;
   /**
-   * @property {RetryOptions} retryOptions The retry related options associated with given operation execution.
+   * The retry related options associated with given operation execution.
    */
   retryOptions?: RetryOptions;
   /**
-   * @property {AbortSignalLike} [abortSignal] The `AbortSignal` associated with the operation being retried on.
+   * The `AbortSignal` associated with the operation being retried on.
    * If this signal is fired during the wait time between retries, then the `retry()` method will ensure that the wait is abandoned and the retry process gets cancelled. If this signal is fired when the operation is in progress, then the operation is expected to react to it.
    */
   abortSignal?: AbortSignalLike;
@@ -123,7 +117,7 @@ export interface RetryConfig<T> {
 
 /**
  * Validates the retry config.
- * @ignore
+ * @hidden
  */
 function validateRetryConfig<T>(config: RetryConfig<T>): void {
   if (!config.operation) {
@@ -150,9 +144,9 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
  * If `mode` option is set to `Exponential`, then the delay between retries is adjusted to increase
  * exponentially with each attempt using back-off factor of power 2.
  *
- * @param {RetryConfig<T>} config Parameters to configure retry operation
+ * @param config - Parameters to configure retry operation
  *
- * @return {Promise<T>} Promise<T>.
+ * @returns Promise<T>.
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
@@ -160,16 +154,16 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
     config.retryOptions = {};
   }
   if (config.retryOptions.maxRetries == undefined || config.retryOptions.maxRetries < 0) {
-    config.retryOptions.maxRetries = defaultMaxRetries;
+    config.retryOptions.maxRetries = Constants.defaultMaxRetries;
   }
   if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
-    config.retryOptions.retryDelayInMs = defaultDelayBetweenOperationRetriesInMs;
+    config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
   if (
     config.retryOptions.maxRetryDelayInMs == undefined ||
     config.retryOptions.maxRetryDelayInMs < 0
   ) {
-    config.retryOptions.maxRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
+    config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
   }
   if (config.retryOptions.mode == undefined) {
     config.retryOptions.mode = RetryMode.Fixed;
@@ -179,7 +173,12 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   let success = false;
   const totalNumberOfAttempts = config.retryOptions.maxRetries + 1;
   for (let i = 1; i <= totalNumberOfAttempts; i++) {
-    logger.verbose("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
+    logger.verbose(
+      "[%s] Attempt number for '%s': %d.",
+      config.connectionId,
+      config.operationType,
+      i
+    );
     try {
       result = await config.operation();
       success = true;
@@ -198,7 +197,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         );
       }
       break;
-    } catch (err) {
+    } catch (_err) {
+      let err = _err;
       if (!err.translated) {
         err = translate(err);
       }
@@ -212,7 +212,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       }
       lastError = err;
       logger.verbose(
-        "[%s] Error occured for '%s' in attempt number %d: %O",
+        "[%s] Error occurred for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
         i,
@@ -232,7 +232,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
       }
 
-      if (lastError && lastError.retryable) {
+      if (lastError && lastError.retryable && totalNumberOfAttempts > i) {
         logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,

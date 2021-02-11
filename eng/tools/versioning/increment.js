@@ -21,6 +21,7 @@ let argv = require("yargs")
 const path = require("path");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
+const packageUtils = require("eng-package-utils");
 
 function incrementVersion(currentVersion) {
   const prerelease = semver.prerelease(currentVersion);
@@ -36,23 +37,19 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
-  const packageName = artifactName.replace("azure-", "@azure/");
-  const rushSpec = await versionUtils.getRushSpec(repoRoot);
-
+  const rushSpec = await packageUtils.getRushSpec(repoRoot);
   const targetPackage = rushSpec.projects.find(
-    packageSpec => packageSpec.packageName == packageName
+    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
   );
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await versionUtils.readFileJson(
-    packageJsonLocation
-  );
+  const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
 
   const oldVersion = packageJsonContents.version;
   const newVersion = incrementVersion(packageJsonContents.version);
-  console.log(`${packageName}: ${oldVersion} -> ${newVersion}`);
+  console.log(`${packageJsonContents.name}: ${oldVersion} -> ${newVersion}`);
 
   if (dryRun) {
     console.log("Dry run only, no changes");
@@ -63,13 +60,19 @@ async function main(argv) {
     ...packageJsonContents,
     version: newVersion
   };
-  await versionUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
+  await packageUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
 
-  await versionUtils.updatePackageConstants(
+  await versionUtils.updatePackageConstants(targetPackagePath, packageJsonContents, newVersion);
+  const updateStatus = versionUtils.updateChangelog(
     targetPackagePath,
-    packageJsonContents,
-    newVersion
+    artifactName,
+    repoRoot,
+    newVersion,
+    true,
+    false
   );
+  if (!updateStatus) {
+    process.exit(1);
+  }
 }
-
 main(argv);

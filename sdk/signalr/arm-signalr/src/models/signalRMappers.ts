@@ -8,19 +8,27 @@
 
 export {
   BaseResource,
-  CloudError,
+  ErrorResponse,
+  ErrorResponseBody,
   NameAvailability,
   NameAvailabilityParameters,
+  NetworkACL,
+  PrivateEndpoint,
+  PrivateEndpointACL,
+  PrivateEndpointConnection,
+  PrivateLinkResource,
+  PrivateLinkServiceConnectionState,
+  ProxyResource,
   RegenerateKeyParameters,
   Resource,
   ResourceSku,
+  ServerlessUpstreamSettings,
   SignalRCorsSettings,
-  SignalRCreateOrUpdateProperties,
-  SignalRCreateParameters,
   SignalRFeature,
   SignalRKeys,
+  SignalRNetworkACLs,
   SignalRResource,
   SignalRResourceList,
-  SignalRUpdateParameters,
-  TrackedResource
+  TrackedResource,
+  UpstreamTemplate
 } from "../models/mappers";

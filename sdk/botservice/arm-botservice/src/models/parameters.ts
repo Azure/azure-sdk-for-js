@@ -38,6 +38,7 @@ export const channelName0: msRest.OperationURLParameter = {
     type: {
       name: "Enum",
       allowedValues: [
+        "AlexaChannel",
         "FacebookChannel",
         "EmailChannel",
         "KikChannel",
@@ -47,7 +48,9 @@ export const channelName0: msRest.OperationURLParameter = {
         "SkypeChannel",
         "WebChatChannel",
         "DirectLineChannel",
-        "SmsChannel"
+        "SmsChannel",
+        "LineChannel",
+        "DirectLineSpeechChannel"
       ]
     }
   }
@@ -67,6 +70,20 @@ export const channelName1: msRest.OperationURLParameter = {
     }
   }
 };
+export const channelName2: msRest.OperationURLParameter = {
+  parameterPath: "channelName",
+  mapper: {
+    required: true,
+    serializedName: "channelName",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "WebChatChannel",
+        "DirectLineChannel"
+      ]
+    }
+  }
+};
 export const connectionName: msRest.OperationURLParameter = {
   parameterPath: "connectionName",
   mapper: {
@@ -75,7 +92,7 @@ export const connectionName: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 64,
       MinLength: 2,
-      Pattern: /^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/
+      Pattern: /^[a-zA-Z0-9][\sa-zA-Z0-9_.-]*$/
     },
     type: {
       name: "String"

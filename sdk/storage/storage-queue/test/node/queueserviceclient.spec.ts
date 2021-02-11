@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -6,18 +9,17 @@ import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedK
 import { newPipeline } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { setupEnvironment } from "../utils/testutils.common";
+import { recorderEnvSetup } from "../utils/testutils.common";
 
 describe("QueueServiceClient Node.js only", () => {
-  setupEnvironment();
   let recorder: Recorder;
 
   beforeEach(function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {
@@ -84,7 +86,10 @@ describe("QueueServiceClient Node.js only", () => {
           expiresOnTimestamp: 12345
         })
     };
-    const newClient = new QueueServiceClient("https://queue", tokenCredential);
+    const newClient = new QueueServiceClient(
+      "https://accountname.queue.core.windows.net",
+      tokenCredential
+    );
     assertClientUsesTokenCredential(newClient);
   });
 });

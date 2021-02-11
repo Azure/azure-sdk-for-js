@@ -1,9 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as fs from "fs";
 import * as util from "util";
-import { isNode } from "@azure/core-http";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
@@ -67,60 +66,28 @@ export async function streamToBuffer(
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * Writes the content of a readstream to a local file. Returns a Promise which is completed after the file handle is closed.
- * If Promise is rejected, the reason will be set to the first error raised by either the
- * ReadableStream or the fs.WriteStream.
  *
  * @export
  * @param {NodeJS.ReadableStream} rs The read stream.
  * @param {string} file Destination file path.
  * @returns {Promise<void>}
  */
-export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: string) {
+export async function readStreamToLocalFile(
+  rs: NodeJS.ReadableStream,
+  file: string
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const ws = fs.createWriteStream(file);
 
-    // Set STREAM_DEBUG env var to log stream events while running tests
-    if (process.env.STREAM_DEBUG) {
-      rs.on("close", () => console.log("rs.close"));
-      rs.on("data", () => console.log("rs.data"));
-      rs.on("end", () => console.log("rs.end"));
-      rs.on("error", () => console.log("rs.error"));
-
-      ws.on("close", () => console.log("ws.close"));
-      ws.on("drain", () => console.log("ws.drain"));
-      ws.on("error", () => console.log("ws.error"));
-      ws.on("finish", () => console.log("ws.finish"));
-      ws.on("pipe", () => console.log("ws.pipe"));
-      ws.on("unpipe", () => console.log("ws.unpipe"));
-    }
-
-    let error: Error;
-
     rs.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
-
-      // When rs.error is raised, rs.end will never be raised automatically, so it must be raised manually
-      // to ensure ws.close is eventually raised.
-      rs.emit("end");
+      reject(err);
     });
 
     ws.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
+      reject(err);
     });
 
-    ws.on("close", () => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
+    ws.on("close", resolve);
 
     rs.pipe(ws);
   });
@@ -131,4 +98,6 @@ export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: str
  *
  * Promisified version of fs.stat().
  */
-export const fsStat = util.promisify(isNode ? fs.stat : function stat() {});
+export const fsStat = util.promisify(fs.stat);
+
+export const fsCreateReadStream = fs.createReadStream;

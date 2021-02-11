@@ -1,15 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
-import { setupEnvironment } from "./utils/testutils.common";
-dotenv.config({ path: "../.env" });
+import { recorderEnvSetup } from "./utils/testutils.common";
+dotenv.config();
 
 describe("QueueClient message methods", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
   const messageContent = "Hello World";
@@ -17,7 +18,8 @@ describe("QueueClient message methods", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -25,11 +27,11 @@ describe("QueueClient message methods", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("enqueue, peek, dequeue and clear message with default parameters", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -42,7 +44,7 @@ describe("QueueClient message methods", () => {
 
     await queueClient.sendMessage(messageContent);
 
-    let pResult = await queueClient.peekMessages();
+    const pResult = await queueClient.peekMessages();
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(eResult.clientRequestId);
@@ -51,7 +53,7 @@ describe("QueueClient message methods", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
 
-    let dqResult = await queueClient.receiveMessages();
+    const dqResult = await queueClient.receiveMessages();
     assert.ok(dqResult.date);
     assert.ok(dqResult.requestId);
     assert.ok(eResult.clientRequestId);
@@ -61,20 +63,20 @@ describe("QueueClient message methods", () => {
     assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageText, messageContent);
     assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageId, eResult.messageId);
 
-    let cResult = await queueClient.clearMessages();
+    const cResult = await queueClient.clearMessages();
     assert.ok(cResult.date);
     assert.ok(cResult.requestId);
     assert.ok(eResult.clientRequestId);
     assert.ok(cResult.version);
 
     // check all messages are cleared
-    let pResult2 = await queueClient.peekMessages();
+    const pResult2 = await queueClient.peekMessages();
     assert.ok(pResult2.date);
     assert.deepStrictEqual(pResult2.peekedMessageItems.length, 0);
   });
 
   it("enqueue, peek, dequeue and clear message with all parameters", async () => {
-    let eResult = await queueClient.sendMessage(messageContent, {
+    const eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
       visibilityTimeout: 0
     });
@@ -87,7 +89,7 @@ describe("QueueClient message methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let eResult2 = await queueClient.sendMessage(messageContent, {
+    const eResult2 = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
       visibilityTimeout: 0
     });
@@ -100,7 +102,7 @@ describe("QueueClient message methods", () => {
       visibilityTimeout: 19
     });
 
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
@@ -117,7 +119,7 @@ describe("QueueClient message methods", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[1].insertedOn, eResult2.insertedOn);
     assert.deepStrictEqual(pResult.peekedMessageItems[1].expiresOn, eResult2.expiresOn);
 
-    let dResult = await queueClient.receiveMessages({
+    const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
       numberOfMessages: 2
     });
@@ -136,13 +138,13 @@ describe("QueueClient message methods", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[1].messageText, messageContent);
 
     // check no message is visible
-    let pResult2 = await queueClient.peekMessages();
+    const pResult2 = await queueClient.peekMessages();
     assert.ok(pResult2.date);
     assert.deepStrictEqual(pResult2.peekedMessageItems.length, 0);
   });
 
   it("enqueue, peek, dequeue empty message, and peek, dequeue with numberOfMessages > count(messages)", async () => {
-    let eResult = await queueClient.sendMessage("", {
+    const eResult = await queueClient.sendMessage("", {
       messageTimeToLive: 40,
       visibilityTimeout: 0
     });
@@ -155,7 +157,7 @@ describe("QueueClient message methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
@@ -166,7 +168,7 @@ describe("QueueClient message methods", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
 
-    let dResult = await queueClient.receiveMessages({
+    const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
       numberOfMessages: 2
     });
@@ -184,10 +186,10 @@ describe("QueueClient message methods", () => {
   });
 
   it("enqueue, peek, dequeue special characters", async () => {
-    let specialMessage =
+    const specialMessage =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦\u00E9";
 
-    let eResult = await queueClient.sendMessage(specialMessage, {
+    const eResult = await queueClient.sendMessage(specialMessage, {
       messageTimeToLive: 40,
       visibilityTimeout: 0
     });
@@ -200,7 +202,7 @@ describe("QueueClient message methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
@@ -211,7 +213,7 @@ describe("QueueClient message methods", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
 
-    let dResult = await queueClient.receiveMessages({
+    const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
       numberOfMessages: 2
     });
@@ -229,9 +231,9 @@ describe("QueueClient message methods", () => {
   });
 
   it("enqueue, peek, dequeue with 64KB characters size which is computed after encoding", async () => {
-    let messageContent = new Array(64 * 1024 + 1).join("a");
+    const messageContent = new Array(64 * 1024 + 1).join("a");
 
-    let eResult = await queueClient.sendMessage(messageContent, {
+    const eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
       visibilityTimeout: 0
     });
@@ -244,7 +246,7 @@ describe("QueueClient message methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
@@ -255,7 +257,7 @@ describe("QueueClient message methods", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
 
-    let dResult = await queueClient.receiveMessages({
+    const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
       numberOfMessages: 2
     });
@@ -273,7 +275,7 @@ describe("QueueClient message methods", () => {
   });
 
   it("enqueue, peek and dequeue negative", async () => {
-    let eResult = await queueClient.sendMessage(messageContent, {
+    const eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40
     });
     assert.ok(eResult.date);
@@ -304,7 +306,7 @@ describe("QueueClient message methods", () => {
     }
     assert.ok(errorPeek);
 
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
@@ -323,7 +325,7 @@ describe("QueueClient message methods", () => {
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters size which is computed after encoding", async () => {
-    let messageContent = new Array(64 * 1024 + 2).join("a");
+    const messageContent = new Array(64 * 1024 + 2).join("a");
 
     let error;
     try {

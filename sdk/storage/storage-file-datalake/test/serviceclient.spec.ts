@@ -1,22 +1,30 @@
-import { record, Recorder } from "@azure/test-utils-recorder";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { DataLakeServiceClient, ServiceListFileSystemsSegmentResponse } from "../src";
-import { getDataLakeServiceClient, getTokenDataLakeServiceClient, setupEnvironment } from "./utils";
+import {
+  getDataLakeServiceClient,
+  getSASConnectionStringFromEnvironment,
+  getTokenDataLakeServiceClient,
+  recorderEnvSetup,
+  getGenericDataLakeServiceClient
+} from "./utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakeServiceClient", () => {
-  setupEnvironment();
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("ListFileSystems with default parameters", async () => {
@@ -167,7 +175,7 @@ describe("DataLakeServiceClient", () => {
     await fileSystemClient1.create({ metadata: { key: "val" } });
     await fileSystemClient2.create({ metadata: { key: "val" } });
 
-    const iterator = await serviceClient.listFileSystems({
+    const iterator = serviceClient.listFileSystems({
       includeMetadata: true,
       prefix: fileSystemNamePrefix
     });
@@ -346,5 +354,160 @@ describe("DataLakeServiceClient", () => {
     assert.notDeepStrictEqual(response.signedService, undefined);
     assert.notDeepStrictEqual(response.signedObjectId, undefined);
     assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+  });
+
+  it("can be created from SASConnString", async () => {
+    const newClient = DataLakeServiceClient.fromConnectionString(
+      getSASConnectionStringFromEnvironment(),
+      {
+        retryOptions: {
+          maxTries: 1
+        }
+      }
+    );
+
+    const listIter = newClient.listFileSystems();
+    await listIter.next();
+    assert.ok(newClient.url.includes("dfs"));
+  });
+
+  it("renameFileSystem should work", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
+    const serviceClient = getDataLakeServiceClient();
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName);
+    const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName);
+
+    const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
+    assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
+    await newFileSystemClient.getProperties();
+
+    await newFileSystemClient.delete();
+  });
+
+  it("renameFileSystem should work with source lease", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
+    const serviceClient = getDataLakeServiceClient();
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const leaseClient = fileSystemClient.getDataLakeLeaseClient();
+    await leaseClient.acquireLease(-1);
+
+    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
+    const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName, {
+      sourceCondition: { leaseId: leaseClient.leaseId }
+    });
+
+    const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
+    assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
+    await newFileSystemClient.getProperties();
+
+    await newFileSystemClient.delete();
+  });
+
+  it("undelete and list deleted file system should work", async function() {
+    let serviceClient: DataLakeServiceClient;
+    try {
+      serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const metadata = { a: "a" };
+    await fileSystemClient.setMetadata(metadata);
+
+    await fileSystemClient.delete();
+    await delay(30 * 1000);
+
+    let listed = false;
+    for await (const fileSystemItem of serviceClient.listFileSystems({
+      includeDeleted: true,
+      includeMetadata: true
+    })) {
+      if (fileSystemItem.deleted && fileSystemItem.name === fileSystemName) {
+        listed = true;
+        // verify list container response
+        assert.ok(fileSystemItem.versionId);
+        assert.ok(fileSystemItem.deleted);
+        assert.ok(fileSystemItem.properties.deletedOn);
+        assert.ok(fileSystemItem.properties.remainingRetentionDays);
+        assert.deepStrictEqual(fileSystemItem.metadata, metadata);
+
+        const restoreRes = await serviceClient.undeleteFileSystem(
+          fileSystemName,
+          fileSystemItem.versionId!
+        );
+        assert.equal(restoreRes.fileSystemClient.name, fileSystemName);
+        await restoreRes.fileSystemClient.delete();
+        break;
+      }
+    }
+    assert.ok(listed);
+  });
+
+  it("undelete file system to a new name", async function() {
+    let serviceClient: DataLakeServiceClient;
+    try {
+      serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+    await fileSystemClient.delete();
+    await delay(30 * 1000);
+
+    let listed = false;
+    for await (const page of serviceClient
+      .listFileSystems({
+        includeDeleted: true
+      })
+      .byPage()) {
+      for (const fileSystemItem of page.fileSystemItems) {
+        if (fileSystemItem.deleted && fileSystemItem.name === fileSystemName) {
+          listed = true;
+          // verify list container response
+          assert.ok(fileSystemItem.versionId);
+          assert.ok(fileSystemItem.deleted);
+          assert.ok(fileSystemItem.properties.deletedOn);
+          assert.ok(fileSystemItem.properties.remainingRetentionDays);
+
+          const destinationFileSystemName = recorder.getUniqueName("newfilesystem");
+          const restoreRes = await serviceClient.undeleteFileSystem(
+            fileSystemName,
+            fileSystemItem.versionId!,
+            { destinationFileSystemName }
+          );
+          assert.equal(restoreRes.fileSystemClient.name, destinationFileSystemName);
+          await restoreRes.fileSystemClient.delete();
+          break;
+        }
+      }
+      if (listed) {
+        break;
+      }
+    }
+    assert.ok(listed);
   });
 });

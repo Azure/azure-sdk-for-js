@@ -1,26 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
-import { QueueClient, RestError, newPipeline } from "../src";
+import { QueueClient, RestError, newPipeline, QueueServiceClient } from "../src";
 import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { setupEnvironment } from "./utils/testutils.common";
+import { recorderEnvSetup } from "./utils/index.browser";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("RetryPolicy", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
+  let queueServiceClient: QueueServiceClient;
   let queueName: string;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -28,7 +31,7 @@ describe("RetryPolicy", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Retry policy should work when first request fails with 500", async () => {

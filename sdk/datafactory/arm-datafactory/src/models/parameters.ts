@@ -30,6 +30,21 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const dataFlowName: msRest.OperationURLParameter = {
+  parameterPath: "dataFlowName",
+  mapper: {
+    required: true,
+    serializedName: "dataFlowName",
+    constraints: {
+      MaxLength: 260,
+      MinLength: 1,
+      Pattern: /^[A-Za-z0-9_][^<>*#.%&:\\+?\/]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const datasetName: msRest.OperationURLParameter = {
   parameterPath: "datasetName",
   mapper: {
@@ -99,6 +114,18 @@ export const integrationRuntimeName: msRest.OperationURLParameter = {
     }
   }
 };
+export const isRecovery: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "isRecovery"
+  ],
+  mapper: {
+    serializedName: "isRecovery",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const isRecursive: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -131,6 +158,36 @@ export const locationId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "locationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const managedPrivateEndpointName: msRest.OperationURLParameter = {
+  parameterPath: "managedPrivateEndpointName",
+  mapper: {
+    required: true,
+    serializedName: "managedPrivateEndpointName",
+    constraints: {
+      MaxLength: 127,
+      MinLength: 1,
+      Pattern: /^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const managedVirtualNetworkName: msRest.OperationURLParameter = {
+  parameterPath: "managedVirtualNetworkName",
+  mapper: {
+    required: true,
+    serializedName: "managedVirtualNetworkName",
+    constraints: {
+      MaxLength: 127,
+      MinLength: 1,
+      Pattern: /^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$/
+    },
     type: {
       name: "String"
     }
@@ -189,21 +246,6 @@ export const referencePipelineRunId: msRest.OperationQueryParameter = {
     }
   }
 };
-export const rerunTriggerName: msRest.OperationURLParameter = {
-  parameterPath: "rerunTriggerName",
-  mapper: {
-    required: true,
-    serializedName: "rerunTriggerName",
-    constraints: {
-      MaxLength: 260,
-      MinLength: 1,
-      Pattern: /^[A-Za-z0-9_][^<>*#.%&:\\+?\/]*$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -226,6 +268,30 @@ export const runId: msRest.OperationURLParameter = {
     serializedName: "runId",
     type: {
       name: "String"
+    }
+  }
+};
+export const startActivityName: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "startActivityName"
+  ],
+  mapper: {
+    serializedName: "startActivityName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const startFromFailure: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "startFromFailure"
+  ],
+  mapper: {
+    serializedName: "startFromFailure",
+    type: {
+      name: "Boolean"
     }
   }
 };

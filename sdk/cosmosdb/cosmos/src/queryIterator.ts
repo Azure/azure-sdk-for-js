@@ -1,6 +1,8 @@
-/// <reference lib="esnext.asynciterable" />
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+/// <reference lib="esnext.asynciterable" />
+
 import { ClientContext } from "./ClientContext";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
@@ -241,8 +243,15 @@ export class QueryIterator<T> {
     return this.queryPlanPromise;
   }
 
-  private needsQueryPlan(error: any): error is ErrorResponse {
-    return error.code === StatusCodes.BadRequest;
+  private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+    if (
+      error.body?.additionalErrorInfo ||
+      error.message.includes("Cross partition query only supports")
+    ) {
+      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+    } else {
+      throw error;
+    }
   }
 
   private initPromise: Promise<void>;
@@ -256,7 +265,7 @@ export class QueryIterator<T> {
     return this.initPromise;
   }
   private async _init() {
-    if (this.options.forceQueryPlan === true) {
+    if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
       await this.createPipelinedExecutionContext();
     }
     this.isInitialized = true;

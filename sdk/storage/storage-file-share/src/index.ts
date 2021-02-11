@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { RestError } from "@azure/core-http";
 
@@ -9,22 +9,25 @@ export * from "./AccountSASServices";
 export * from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
 export * from "./FileSASSignatureValues";
-export * from "./ShareDirectoryClient";
-export * from "./ShareFileClient";
+export * from "./Clients";
 export * from "./ShareSASPermissions";
-export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export {
+  FileAndDirectoryCreateCommonOptions,
+  FileAndDirectorySetPropertiesCommonOptions,
+  FileHttpHeaders,
   FilePermissionInheritType,
   FilePermissionPreserveType,
+  Metadata,
   TimeNowType,
   TimePreserveType,
   FileAttributesPreserveType,
-  CloseHandlesInfo
+  CloseHandlesInfo,
+  ShareProtocols
 } from "./models";
 export * from "./FileSystemAttributes";
 export * from "./Pipeline";

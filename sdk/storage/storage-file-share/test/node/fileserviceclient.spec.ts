@@ -1,20 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
-import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "../utils";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import * as dotenv from "dotenv";
 import { ShareServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("FileServiceClient Node.js only", () => {
-  setupEnvironment();
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {

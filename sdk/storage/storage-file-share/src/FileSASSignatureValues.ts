@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
@@ -57,10 +57,10 @@ export interface FileSASSignatureValues {
    * Please refer to either {@link ShareSASPermissions} or {@link FileSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    *
-   * @type {FileSASPermissions}
+   * @type {FileSASPermissions | ShareSASPermissions}
    * @memberof FileSASSignatureValues
    */
-  permissions?: FileSASPermissions;
+  permissions?: FileSASPermissions | ShareSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
@@ -160,7 +160,7 @@ export function generateFileSASQueryParameters(
 ): SASQueryParameters {
   if (
     !fileSASSignatureValues.identifier &&
-    (!fileSASSignatureValues.permissions && !fileSASSignatureValues.expiresOn)
+    !(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided."
@@ -169,15 +169,17 @@ export function generateFileSASQueryParameters(
 
   const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "s";
-  let verifiedPermissions: string | undefined;
+  if (fileSASSignatureValues.filePath) {
+    resource = "f";
+  }
 
+  let verifiedPermissions: string | undefined;
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (fileSASSignatureValues.permissions) {
     if (fileSASSignatureValues.filePath) {
       verifiedPermissions = FileSASPermissions.parse(
         fileSASSignatureValues.permissions.toString()
       ).toString();
-      resource = "f";
     } else {
       verifiedPermissions = ShareSASPermissions.parse(
         fileSASSignatureValues.permissions.toString()

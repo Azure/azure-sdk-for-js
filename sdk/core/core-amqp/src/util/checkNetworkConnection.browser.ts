@@ -1,9 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * Checks whether a network connection is detected.
- * @ignore
+ * @hidden
  * @internal
  */
 export function checkNetworkConnection(): Promise<boolean> {

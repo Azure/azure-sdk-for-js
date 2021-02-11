@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
@@ -7,7 +7,7 @@ import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./ut
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { SpanOptions } from "@opentelemetry/types";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * An interface for options common to every remote operation.
@@ -17,13 +17,6 @@ export interface CommonOptions {
    * Options to configure spans created when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
-}
-
-export interface OperationTracingOptions {
-  /**
-   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
 }
 
 /**
@@ -46,7 +39,7 @@ export abstract class StorageClient {
    * Request policy pipeline.
    *
    * @internal
-   * @ignore
+   * @hidden
    * @type {Pipeline}
    * @memberof StorageClient
    */
@@ -96,10 +89,13 @@ export abstract class StorageClient {
     for (const factory of this.pipeline.factories) {
       if (
         (isNode && factory instanceof StorageSharedKeyCredential) ||
-        factory instanceof AnonymousCredential ||
-        isTokenCredential(factory)
+        factory instanceof AnonymousCredential
       ) {
         this.credential = factory;
+      } else if (isTokenCredential((factory as any).credential)) {
+        // Only works if the factory has been attached a "credential" property.
+        // We do that in newPipeline() when using TokenCredential.
+        this.credential = (factory as any).credential;
       }
     }
 

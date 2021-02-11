@@ -233,6 +233,22 @@ export class CloudEndpoints {
   }
 
   /**
+   * Triggers detection of changes performed on Azure File share connected to the specified Azure
+   * File Sync Cloud Endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param syncGroupName Name of Sync Group resource.
+   * @param cloudEndpointName Name of Cloud Endpoint object.
+   * @param parameters Trigger Change Detection Action parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CloudEndpointsTriggerChangeDetectionResponse>
+   */
+  triggerChangeDetection(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.TriggerChangeDetectionParameters, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsTriggerChangeDetectionResponse> {
+    return this.beginTriggerChangeDetection(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsTriggerChangeDetectionResponse>;
+  }
+
+  /**
    * Create a new CloudEndpoint.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -371,6 +387,31 @@ export class CloudEndpoints {
         options
       },
       beginPostRestoreOperationSpec,
+      options);
+  }
+
+  /**
+   * Triggers detection of changes performed on Azure File share connected to the specified Azure
+   * File Sync Cloud Endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param syncGroupName Name of Sync Group resource.
+   * @param cloudEndpointName Name of Cloud Endpoint object.
+   * @param parameters Trigger Change Detection Action parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginTriggerChangeDetection(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.TriggerChangeDetectionParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        parameters,
+        options
+      },
+      beginTriggerChangeDetectionOperationSpec,
       options);
   }
 }
@@ -671,6 +712,43 @@ const beginPostRestoreOperationSpec: msRest.OperationSpec = {
     },
     202: {
       headersMapper: Mappers.CloudEndpointsPostRestoreHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError
+    }
+  },
+  serializer
+};
+
+const beginTriggerChangeDetectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/triggerChangeDetection",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageSyncServiceName,
+    Parameters.syncGroupName,
+    Parameters.cloudEndpointName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TriggerChangeDetectionParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      headersMapper: Mappers.CloudEndpointsTriggerChangeDetectionHeaders
+    },
+    202: {
+      headersMapper: Mappers.CloudEndpointsTriggerChangeDetectionHeaders
     },
     default: {
       bodyMapper: Mappers.StorageSyncError

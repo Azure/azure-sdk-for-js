@@ -151,8 +151,9 @@ export interface ProxyResource extends Resource {
 export interface SyncGroup extends ProxyResource {
   /**
    * Unique Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  uniqueId?: string;
+  readonly uniqueId?: string;
   /**
    * Sync group status
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -201,6 +202,26 @@ export interface CloudEndpoint extends ProxyResource {
    * Resource Last Operation Name
    */
   lastOperationName?: string;
+}
+
+/**
+ * The parameters used when calling trigger change detection action on cloud endpoint.
+ */
+export interface TriggerChangeDetectionParameters {
+  /**
+   * Relative path to a directory Azure File share for which change detection is to be performed.
+   */
+  directoryPath?: string;
+  /**
+   * Change Detection Mode. Applies to a directory specified in directoryPath parameter. Possible
+   * values include: 'Default', 'Recursive'
+   */
+  changeDetectionMode?: ChangeDetectionMode;
+  /**
+   * Array of relative paths on the Azure File share to be included in the change detection. Can be
+   * files and directories.
+   */
+  paths?: string[];
 }
 
 /**
@@ -264,6 +285,10 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
    * Storage Account Tenant Id
    */
   storageAccountTenantId?: string;
+  /**
+   * Friendly Name
+   */
+  friendlyName?: string;
 }
 
 /**
@@ -385,7 +410,7 @@ export interface ServerEndpointUpdateParameters {
 /**
  * Files not syncing error object
  */
-export interface FilesNotSyncingError {
+export interface ServerEndpointFilesNotSyncingError {
   /**
    * Error code (HResult)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -406,7 +431,7 @@ export interface FilesNotSyncingError {
 /**
  * Sync Session status object.
  */
-export interface SyncSessionStatus {
+export interface ServerEndpointSyncSessionStatus {
   /**
    * Last sync result (HResult)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -428,26 +453,26 @@ export interface SyncSessionStatus {
    */
   readonly lastSyncPerItemErrorCount?: number;
   /**
-   * Count of persistent files not syncing. Reserved for future use.
+   * Count of persistent files not syncing.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly persistentFilesNotSyncingCount?: number;
   /**
-   * Count of transient files not syncing. Reserved for future use.
+   * Count of transient files not syncing.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly transientFilesNotSyncingCount?: number;
   /**
-   * Array of per-item errors coming from the last sync session. Reserved for future use.
+   * Array of per-item errors coming from the last sync session.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly filesNotSyncingErrors?: FilesNotSyncingError[];
+  readonly filesNotSyncingErrors?: ServerEndpointFilesNotSyncingError[];
 }
 
 /**
  * Sync Session status object.
  */
-export interface SyncActivityStatus {
+export interface ServerEndpointSyncActivityStatus {
   /**
    * Timestamp when properties were updated
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -508,8 +533,7 @@ export interface ServerEndpointSyncStatus {
    */
   readonly syncActivity?: SyncActivity;
   /**
-   * Total count of persistent files not syncing (combined upload + download). Reserved for future
-   * use.
+   * Total count of persistent files not syncing (combined upload + download).
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly totalPersistentFilesNotSyncingCount?: number;
@@ -522,28 +546,91 @@ export interface ServerEndpointSyncStatus {
    * Upload Status
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly uploadStatus?: SyncSessionStatus;
+  readonly uploadStatus?: ServerEndpointSyncSessionStatus;
   /**
    * Download Status
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly downloadStatus?: SyncSessionStatus;
+  readonly downloadStatus?: ServerEndpointSyncSessionStatus;
   /**
    * Upload sync activity
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly uploadActivity?: SyncActivityStatus;
+  readonly uploadActivity?: ServerEndpointSyncActivityStatus;
   /**
    * Download sync activity
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly downloadActivity?: SyncActivityStatus;
+  readonly downloadActivity?: ServerEndpointSyncActivityStatus;
   /**
    * Offline Data Transfer State. Possible values include: 'InProgress', 'Stopping', 'NotRunning',
    * 'Complete'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly offlineDataTransferStatus?: OfflineDataTransferStatus;
+}
+
+/**
+ * Server endpoint cloud tiering status object.
+ */
+export interface ServerEndpointCloudTieringStatus {
+  /**
+   * Cloud tiering health state. Possible values include: 'Healthy', 'Error'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly health?: Health;
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Last cloud tiering result (HResult)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastCloudTieringResult?: number;
+  /**
+   * Last cloud tiering success timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastSuccessTimestamp?: Date;
+}
+
+/**
+ * Server endpoint recall error object
+ */
+export interface ServerEndpointRecallError {
+  /**
+   * Error code (HResult)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * Count of occurences of the error
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly count?: number;
+}
+
+/**
+ * Server endpoint recall status object.
+ */
+export interface ServerEndpointRecallStatus {
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Total count of recall errors.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalRecallErrorsCount?: number;
+  /**
+   * Array of recall errors
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recallErrors?: ServerEndpointRecallError[];
 }
 
 /**
@@ -612,6 +699,16 @@ export interface ServerEndpoint extends ProxyResource {
    * Offline data transfer share name
    */
   offlineDataTransferShareName?: string;
+  /**
+   * Cloud tiering status. Only populated if cloud tiering is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cloudTieringStatus?: ServerEndpointCloudTieringStatus;
+  /**
+   * Recall status. Only populated if cloud tiering is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recallStatus?: ServerEndpointRecallStatus;
 }
 
 /**
@@ -842,9 +939,8 @@ export interface RestoreFileSpec {
   path?: string;
   /**
    * Restore file spec isdir
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly isdir?: boolean;
+  isdir?: boolean;
 }
 
 /**
@@ -960,6 +1056,37 @@ export interface StorageSyncServiceUpdateParameters {
    * The properties of the storage sync service.
    */
   properties?: any;
+}
+
+/**
+ * Operation status object
+ */
+export interface OperationStatus {
+  /**
+   * Operation Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Operation status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Start time of the operation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * End time of the operation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * Error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: StorageSyncApiError;
 }
 
 /**
@@ -1317,6 +1444,24 @@ export interface CloudEndpointsPostRestoreHeaders {
 }
 
 /**
+ * Defines headers for TriggerChangeDetection operation.
+ */
+export interface CloudEndpointsTriggerChangeDetectionHeaders {
+  /**
+   * Operation Status Location URI
+   */
+  location: string;
+  /**
+   * request id.
+   */
+  xMsRequestId: string;
+  /**
+   * correlation request id.
+   */
+  xMsCorrelationRequestId: string;
+}
+
+/**
  * Defines headers for Create operation.
  */
 export interface ServerEndpointsCreateHeaders {
@@ -1557,6 +1702,20 @@ export interface WorkflowsAbortHeaders {
 }
 
 /**
+ * Defines headers for Get operation.
+ */
+export interface OperationStatusGetHeaders {
+  /**
+   * request id.
+   */
+  xMsRequestId: string;
+  /**
+   * correlation request id.
+   */
+  xMsCorrelationRequestId: string;
+}
+
+/**
  * @interface
  * The list of storage sync operations.
  * @extends Array<OperationEntity>
@@ -1623,6 +1782,14 @@ export interface WorkflowArray extends Array<Workflow> {
  * @enum {string}
  */
 export type Reason = 'Registered' | 'Unregistered' | 'Warned' | 'Suspended' | 'Deleted';
+
+/**
+ * Defines values for ChangeDetectionMode.
+ * Possible values include: 'Default', 'Recursive'
+ * @readonly
+ * @enum {string}
+ */
+export type ChangeDetectionMode = 'Default' | 'Recursive';
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -1706,6 +1873,14 @@ export type SyncActivity = 'Upload' | 'Download' | 'UploadAndDownload';
  * @enum {string}
  */
 export type OfflineDataTransferStatus = 'InProgress' | 'Stopping' | 'NotRunning' | 'Complete';
+
+/**
+ * Defines values for Health.
+ * Possible values include: 'Healthy', 'Error'
+ * @readonly
+ * @enum {string}
+ */
+export type Health = 'Healthy' | 'Error';
 
 /**
  * Defines values for CloudTiering2.
@@ -2185,6 +2360,21 @@ export type CloudEndpointsPostRestoreResponse = CloudEndpointsPostRestoreHeaders
 };
 
 /**
+ * Contains response data for the triggerChangeDetection operation.
+ */
+export type CloudEndpointsTriggerChangeDetectionResponse = CloudEndpointsTriggerChangeDetectionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CloudEndpointsTriggerChangeDetectionHeaders;
+    };
+};
+
+/**
  * Contains response data for the create operation.
  */
 export type ServerEndpointsCreateResponse = ServerEndpoint & ServerEndpointsCreateHeaders & {
@@ -2481,5 +2671,30 @@ export type WorkflowsAbortResponse = WorkflowsAbortHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: WorkflowsAbortHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OperationStatusGetResponse = OperationStatus & OperationStatusGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: OperationStatusGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
     };
 };

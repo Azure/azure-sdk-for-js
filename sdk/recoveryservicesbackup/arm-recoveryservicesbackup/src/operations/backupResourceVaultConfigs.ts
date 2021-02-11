@@ -99,6 +99,45 @@ export class BackupResourceVaultConfigs {
       updateOperationSpec,
       callback) as Promise<Models.BackupResourceVaultConfigsUpdateResponse>;
   }
+
+  /**
+   * Updates vault security config.
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param parameters resource config request
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BackupResourceVaultConfigsPutResponse>
+   */
+  put(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceVaultConfigResource, options?: msRest.RequestOptionsBase): Promise<Models.BackupResourceVaultConfigsPutResponse>;
+  /**
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param parameters resource config request
+   * @param callback The callback
+   */
+  put(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceVaultConfigResource, callback: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): void;
+  /**
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param parameters resource config request
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  put(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceVaultConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): void;
+  put(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceVaultConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceVaultConfigResource>): Promise<Models.BackupResourceVaultConfigsPutResponse> {
+    return this.client.sendOperationRequest(
+      {
+        vaultName,
+        resourceGroupName,
+        parameters,
+        options
+      },
+      putOperationSpec,
+      callback) as Promise<Models.BackupResourceVaultConfigsPutResponse>;
+  }
 }
 
 // Operation Specifications
@@ -155,6 +194,38 @@ const updateOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const putOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupconfig/vaultconfig",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.BackupResourceVaultConfigResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupResourceVaultConfigResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -1,34 +1,34 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import uuid from "uuid/v4";
-import { logger, logErrorStackTrace } from "./log";
+import { v4 as uuid } from "uuid";
+import { logErrorStackTrace, logger } from "./log";
 import {
-  Receiver,
-  OnAmqpEvent,
   EventContext,
+  OnAmqpEvent,
+  Receiver,
   ReceiverOptions as RheaReceiverOptions,
-  types,
-  AmqpError
+  types
 } from "rhea-promise";
 import {
-  delay,
-  translate,
   Constants,
   MessagingError,
-  retry,
+  delay,
+  translate,
+  RetryConfig,
   RetryOperationType,
-  RetryConfig
+  retry
 } from "@azure/core-amqp";
-import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { EventHubConsumerOptions } from "./impl/eventHubClient";
+import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
+import { EventHubConsumerOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
- * @ignore
+ * @hidden
  */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -43,127 +43,120 @@ interface CreateReceiverOptions {
 /**
  * A set of information about the last enqueued event of a partition, as observed by the consumer as
  * events are received from the Event Hubs service
- * @interface LastEnqueuedEventProperties
  */
 export interface LastEnqueuedEventProperties {
   /**
-   * @property The sequence number of the event that was last enqueued into the Event Hub partition from which
+   * The sequence number of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
   sequenceNumber?: number;
   /**
-   * @property The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
+   * The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
    * which this event was received.
    */
   enqueuedOn?: Date;
   /**
-   * @property The offset of the event that was last enqueued into the Event Hub partition from which
+   * The offset of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
   offset?: string;
   /**
-   * @property The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
+   * The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
    */
   retrievedOn?: Date;
 }
 
 /**
  * Describes the message handler signature.
+ * @internal
  */
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
+ * @internal
  */
 export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the abort handler signature.
+ * @internal
  */
 export type OnAbort = () => void;
 
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
- * @class EventHubReceiver
  * @internal
- * @ignore
  */
 export class EventHubReceiver extends LinkEntity {
   /**
-   * @property consumerGroup The EventHub consumer group from which the receiver will
+   * The EventHub consumer group from which the receiver will
    * receive messages. (Default: "default").
    */
   consumerGroup: string;
   /**
-   * @property runtimeInfo The receiver runtime info.
+   * The receiver runtime info.
    */
   runtimeInfo: LastEnqueuedEventProperties;
   /**
-   * @property [ownerLevel] The Receiver ownerLevel.
+   * The Receiver ownerLevel.
    */
   ownerLevel?: number;
   /**
-   * @property eventPosition The event position in the partition at which to start receiving messages.
+   * The event position in the partition at which to start receiving messages.
    */
   eventPosition: EventPosition;
   /**
-   * @property [options] Optional properties that can be set while creating
+   * Optional properties that can be set while creating
    * the EventHubConsumer.
    */
   options: EventHubConsumerOptions;
   /**
-   * @property [_receiver] The RHEA AMQP-based receiver link.
-   * @private
+   * The RHEA AMQP-based receiver link.
    */
   private _receiver?: Receiver;
   /**
-   * @property _onMessage The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * @private
+   * The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onMessage?: OnMessage;
   /**
-   * @property _OnError The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * @private
+   * The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onError?: OnError;
   /**
-   * @property _onAbort The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * @private
+   * The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onAbort?: OnAbort;
   /**
-   * @property _abortSignal An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
-   * @private
+   * An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
    */
   private _abortSignal?: AbortSignalLike;
   /**
-   * @property _checkpoint The sequence number of the most recently received AMQP message.
-   * @private
+   * The sequence number of the most recently received AMQP message.
    */
   private _checkpoint: number = -1;
   /**
-   * @property _internalQueue A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
-   * @private
+   * A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
    */
   private _internalQueue: ReceivedEventData[] = [];
   /**
-   * @property _usingInternalQueue Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
-   * @private
+   * Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
    */
   private _usingInternalQueue: boolean = false;
   /**
-   * @property _isReceivingMessages Indicates if messages are being received from this receiver.
-   * @private
+   * Indicates if messages are being received from this receiver.
    */
   private _isReceivingMessages: boolean = false;
   /**
-   * @property _isStreaming Indicated if messages are being received in streaming mode.
-   * @private
+   * Indicated if messages are being received in streaming mode.
    */
   private _isStreaming: boolean = false;
-
   /**
-   * @property Returns sequenceNumber of the last event received from the service. This will not match the
+   * Denotes if close() was called on this receiver
+   */
+  private _isClosed: boolean = false;
+  /**
+   * Returns sequenceNumber of the last event received from the service. This will not match the
    * last event received by `EventHubConsumer` when the `_internalQueue` is not empty
    * @readonly
    */
@@ -172,7 +165,7 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * @property Indicates if messages are being received from this receiver.
+   * Indicates if messages are being received from this receiver.
    * @readonly
    */
   get isReceivingMessages(): boolean {
@@ -180,15 +173,30 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
+   * Indicates if the receiver has been closed.
+   */
+  get isClosed(): boolean {
+    return this._isClosed;
+  }
+
+  /**
+   * The last enqueued event information. This property will only
+   * be enabled when `trackLastEnqueuedEventProperties` option is set to true
+   * @readonly
+   */
+  public get lastEnqueuedEventProperties(): LastEnqueuedEventProperties {
+    return this.runtimeInfo;
+  }
+
+  /**
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
    * either batching or streaming mode.
-   * @ignore
-   * @constructor
-   * @param context        The connection context corresponding to the EventHubClient instance
-   * @param consumerGroup  The consumer group from which the receiver should receive events from.
-   * @param partitionId    The Partition ID from which to receive.
-   * @param eventPosition  The position in the stream from where to start receiving events.
-   * @param [options]      Receiver options.
+   * @hidden
+   * @param context -        The connection context corresponding to the EventHubClient instance
+   * @param consumerGroup -  The consumer group from which the receiver should receive events from.
+   * @param partitionId -    The Partition ID from which to receive.
+   * @param eventPosition -  The position in the stream from where to start receiving events.
+   * @param options -      Receiver options.
    */
   constructor(
     context: ConnectionContext,
@@ -215,9 +223,9 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
 
-    const data: EventDataInternal = fromAmqpMessage(context.message);
+    const data: EventDataInternal = fromRheaMessage(context.message);
     const receivedEventData: ReceivedEventData = {
-      body: this._context.dataTransformer.decode(context.message.body),
+      body: defaultDataTransformer.decode(context.message.body),
       properties: data.properties,
       offset: data.offset!,
       sequenceNumber: data.sequenceNumber!,
@@ -250,174 +258,88 @@ export class EventHubReceiver extends LinkEntity {
 
   private _onAmqpError(context: EventContext): void {
     const rheaReceiver = this._receiver || context.receiver;
-    if (!rheaReceiver) {
-      return;
-    }
+    const amqpError = rheaReceiver && rheaReceiver.error;
+    logger.verbose(
+      "[%s] 'receiver_error' event occurred on the receiver '%s' with address '%s'. " +
+        "The associated error is: %O",
+      this._context.connectionId,
+      this.name,
+      this.address,
+      amqpError
+    );
 
-    const amqpError = rheaReceiver.error;
-    if (!amqpError) {
-      return;
-    }
-
-    if (rheaReceiver.isItselfClosed()) {
-      logger.verbose(
-        "[%s] The receiver was closed by the user." +
-          "Hence not notifying the user's error handler.",
-        this._context.connectionId
-      );
-      return;
-    }
-
-    if (this._onError) {
+    if (this._onError && amqpError) {
       const error = translate(amqpError);
-      logger.warning(
-        "[%s] An error occurred for Receiver '%s': %O.",
-        this._context.connectionId,
-        this.name,
-        error
-      );
       logErrorStackTrace(error);
-      logger.verbose(
-        "[%s] Since the user did not close the receiver " +
-          "we let the user know about it by calling the user's error handler.",
-        this._context.connectionId
-      );
       this._onError(error);
     }
   }
 
   private _onAmqpSessionError(context: EventContext): void {
-    const rheaReceiver = this._receiver || context.receiver;
-    if (!rheaReceiver) {
-      return;
-    }
-
     const sessionError = context.session && context.session.error;
-    if (!sessionError) {
-      return;
-    }
+    logger.verbose(
+      "[%s] 'session_error' event occurred on the session of receiver '%s' with address '%s'. " +
+        "The associated error is: %O",
+      this._context.connectionId,
+      this.name,
+      this.address,
+      sessionError
+    );
 
-    if (rheaReceiver.isSessionItselfClosed()) {
-      logger.verbose(
-        "[%s] The receiver was closed by the user." +
-          "Hence not notifying the user's error handler.",
-        this._context.connectionId
-      );
-      return;
-    }
-
-    if (this._onError) {
+    if (this._onError && sessionError) {
       const error = translate(sessionError);
-      logger.warning(
-        "[%s] An error occurred on the session for Receiver '%s': %O.",
-        this._context.connectionId,
-        this.name,
-        error
-      );
       logErrorStackTrace(error);
-
-      logger.verbose(
-        "[%s] Since the user did not close the receiver, " +
-          "we let the user know about it by calling the user's error handler.",
-        this._context.connectionId
-      );
       this._onError(error);
     }
   }
 
   private async _onAmqpClose(context: EventContext): Promise<void> {
     const rheaReceiver = this._receiver || context.receiver;
-    if (!rheaReceiver || rheaReceiver.isItselfClosed()) {
-      logger.verbose(
-        "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-          "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-          "() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-      return;
-    }
-
-    const amqpError = rheaReceiver.error;
-    if (amqpError) {
-      logger.verbose(
-        "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-          "The associated error is: %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        amqpError
-      );
-    }
-
-    if (!this.isConnecting) {
-      logger.verbose(
-        "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-          "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-          "detached from the _onAmqpClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-      await this.onDetached(amqpError);
-    } else {
-      logger.verbose(
-        "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-          "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-          "Hence not calling detached from the _onAmqpClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
+    logger.verbose(
+      "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s'. " +
+        "Value for isItselfClosed on the receiver is: '%s' " +
+        "Value for isConnecting on the session is: '%s'.",
+      this._context.connectionId,
+      this.name,
+      this.address,
+      rheaReceiver ? rheaReceiver.isItselfClosed().toString() : undefined,
+      this.isConnecting
+    );
+    if (rheaReceiver && !this.isConnecting) {
+      // Call close to clean up timers & other resources
+      await rheaReceiver.close().catch((err) => {
+        logger.verbose(
+          "[%s] Error when closing receiver [%s] after 'receiver_close' event: %O",
+          this._context.connectionId,
+          this.name,
+          err
+        );
+      });
     }
   }
 
   private async _onAmqpSessionClose(context: EventContext): Promise<void> {
     const rheaReceiver = this._receiver || context.receiver;
-    if (!rheaReceiver || rheaReceiver.isSessionItselfClosed()) {
-      logger.verbose(
-        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-      return;
-    }
-
-    const sessionError = context.session && context.session.error;
-    if (sessionError) {
-      logger.verbose(
-        "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-          "The associated error is: %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        sessionError
-      );
-    }
-
-    if (!this.isConnecting) {
-      logger.verbose(
-        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-          "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-          "_onAmqpSessionClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-      await this.onDetached(sessionError);
-    } else {
-      logger.verbose(
-        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
+    logger.verbose(
+      "[%s] 'session_close' event occurred on the session of receiver '%s' with address '%s'. " +
+        "Value for isSessionItselfClosed on the session is: '%s' " +
+        "Value for isConnecting on the session is: '%s'.",
+      this._context.connectionId,
+      this.name,
+      this.address,
+      rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString() : undefined,
+      this.isConnecting
+    );
+    if (rheaReceiver && !this.isConnecting) {
+      // Call close to clean up timers & other resources
+      await rheaReceiver.close().catch((err) => {
+        logger.verbose(
+          "[%s] Error when closing receiver [%s] after 'session_close' event: %O",
+          this._context.connectionId,
+          this.name,
+          err
+        );
+      });
     }
   }
 
@@ -436,122 +358,8 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * Will reconnect the receiver link if necessary.
-   * @ignore
-   * @param [receiverError] The receiver error if any.
-   * @returns Promise<void>.
-   */
-  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
-    try {
-      const rheaReceiver = this._receiver;
-      const wasCloseInitiated = rheaReceiver && rheaReceiver.isItselfClosed();
-      // Clears the token renewal timer. Closes the link and its session if they are open.
-      // Removes the link and its session if they are present in rhea's cache.
-      await this._closeLink(rheaReceiver);
-      // We should attempt to reopen only when the receiver(sdk) did not initiate the close
-      let shouldReopen = false;
-      if (receiverError && !wasCloseInitiated) {
-        // if there was an error and it is retryable, recreate the link
-        const translatedError = translate(receiverError);
-        if (translatedError.retryable) {
-          shouldReopen = true;
-          logger.verbose(
-            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
-              "the receiver link.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-        } else {
-          logger.verbose(
-            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-              "the receiver link.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else if (!wasCloseInitiated) {
-        // there wasn't an error, and the client didn't initialize the close; recreate the link
-        shouldReopen = true;
-        logger.verbose(
-          "[%s] close() method of Receiver '%s' with address '%s' was not called. " +
-            "There was no accompanying error as well. This is a candidate for re-establishing " +
-            "the receiver link.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
-      } else {
-        const state: any = {
-          wasCloseInitiated: wasCloseInitiated,
-          receiverError: receiverError,
-          _receiver: this._receiver
-        };
-        logger.verbose(
-          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
-          this._context.connectionId,
-          this.name,
-          this.address,
-          state
-        );
-      }
-
-      if (!shouldReopen) {
-        return;
-      }
-
-      const receiverOptions: CreateReceiverOptions = {
-        onMessage: (context: EventContext) => this._onAmqpMessage(context),
-        onError: (context: EventContext) => this._onAmqpError(context),
-        onClose: (context: EventContext) => this._onAmqpClose(context),
-        onSessionClose: (context: EventContext) => this._onAmqpSessionClose(context),
-        onSessionError: (context: EventContext) => this._onAmqpSessionError(context),
-        newName: true // prevents service from sending an error stating that the link is still open
-      };
-
-      if (this.checkpoint > -1) {
-        receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.checkpoint);
-      }
-
-      // create RHEA receiver options
-      const initOptions = this._createReceiverOptions(receiverOptions);
-
-      // attempt to create the link
-      const linkCreationConfig: RetryConfig<void> = {
-        connectionId: this._context.connectionId,
-        connectionHost: this._context.config.host,
-        operation: () => this.initialize(initOptions),
-        operationType: RetryOperationType.receiverLink,
-        retryOptions: {
-          maxRetries: Constants.defaultMaxRetriesForConnection,
-          retryDelayInMs: 15000
-        }
-      };
-
-      await retry(linkCreationConfig);
-
-      // if the receiver is in streaming mode we need to add credits again.
-      if (this._isStreaming) {
-        this._addCredit(Constants.defaultPrefetchCount);
-      }
-    } catch (err) {
-      logger.verbose(
-        "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " +
-          "'%s': %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        err
-      );
-    }
-  }
-
-  /**
    * Clears the user-provided handlers and updates the receiving messages flag.
-   * @ignore
+   * @hidden
    */
   clearHandlers(): void {
     if (this._abortSignal && this._onAbort) {
@@ -568,24 +376,32 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Closes the underlying AMQP receiver.
-   * @ignore
-   * @returns
+   * @hidden
    */
   async close(): Promise<void> {
-    this.clearHandlers();
+    try {
+      this.clearHandlers();
 
-    if (!this._receiver) {
-      return;
+      if (!this._receiver) {
+        return;
+      }
+
+      const receiverLink = this._receiver;
+      this._deleteFromCache();
+      await this._closeLink(receiverLink);
+    } catch (err) {
+      const msg = `[${this._context.connectionId}] An error occurred while closing receiver ${this.name}: ${err?.name}: ${err?.message}`;
+      logger.warning(msg);
+      logErrorStackTrace(err);
+      throw err;
+    } finally {
+      this._isClosed = true;
     }
-
-    const receiverLink = this._receiver;
-    this._deleteFromCache();
-    await this._closeLink(receiverLink);
   }
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @ignore
+   * @hidden
    * @returns boolean
    */
   isOpen(): boolean {
@@ -603,7 +419,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Registers the user's onMessage and onError handlers.
    * Sends buffered events from the queue before adding additional credits to the AMQP link.
-   * @ignore
+   * @hidden
    */
   registerHandlers(
     onMessage: OnMessage,
@@ -640,7 +456,10 @@ export class EventHubReceiver extends LinkEntity {
               await this.abort();
             }
           } catch (err) {
-            return this._onError === onError && onError(err);
+            if (this._onError === onError) {
+              onError(err);
+            }
+            return;
           }
         } else {
           logger.verbose(
@@ -656,6 +475,7 @@ export class EventHubReceiver extends LinkEntity {
           0
         );
         this._addCredit(creditsToAdd);
+        return;
       })
       .catch((err) => {
         // something really unexpected happened, so attempt to call user's error handler
@@ -718,35 +538,28 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @ignore
-   * @returns
+   * @hidden
    */
-  async initialize(options?: RheaReceiverOptions): Promise<void> {
+  async initialize(): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
-        logger.verbose(
-          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
-        // attempt creating a connection
         this.isConnecting = true;
+
+        // Wait for the connectionContext to be ready to open the link.
+        await this._context.readyToOpenLink();
         await this._negotiateClaim();
-        if (!options) {
-          const receiverOptions: CreateReceiverOptions = {
-            onClose: (context: EventContext) => this._onAmqpClose(context),
-            onError: (context: EventContext) => this._onAmqpError(context),
-            onMessage: (context: EventContext) => this._onAmqpMessage(context),
-            onSessionClose: (context: EventContext) => this._onAmqpSessionClose(context),
-            onSessionError: (context: EventContext) => this._onAmqpSessionError(context)
-          };
-          if (this.checkpoint > -1) {
-            receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.checkpoint);
-          }
-          options = this._createReceiverOptions(receiverOptions);
+
+        const receiverOptions: CreateReceiverOptions = {
+          onClose: (context: EventContext) => this._onAmqpClose(context),
+          onError: (context: EventContext) => this._onAmqpError(context),
+          onMessage: (context: EventContext) => this._onAmqpMessage(context),
+          onSessionClose: (context: EventContext) => this._onAmqpSessionClose(context),
+          onSessionError: (context: EventContext) => this._onAmqpSessionError(context)
+        };
+        if (this.checkpoint > -1) {
+          receiverOptions.eventPosition = { sequenceNumber: this.checkpoint };
         }
+        const options = this._createReceiverOptions(receiverOptions);
 
         logger.verbose(
           "[%s] Trying to create receiver '%s' with options %O",
@@ -756,16 +569,6 @@ export class EventHubReceiver extends LinkEntity {
         );
         this._receiver = await this._context.connection.createReceiver(options);
         this.isConnecting = false;
-        logger.info(
-          "[%s] Receiver '%s' with address '%s' has established itself.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
-        logger.verbose(
-          "Promise to create the receiver resolved. Created receiver with name: ",
-          this.name
-        );
         logger.verbose(
           "[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId,
@@ -791,10 +594,10 @@ export class EventHubReceiver extends LinkEntity {
       this.isConnecting = false;
       const error = translate(err);
       logger.warning(
-        "[%s] An error occured while creating the receiver '%s': %O",
+        "[%s] An error occured while creating the receiver '%s': %s",
         this._context.connectionId,
         this.name,
-        error
+        `${error?.name}: ${error?.message}`
       );
       logErrorStackTrace(err);
       throw error;
@@ -803,7 +606,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @ignore
+   * @hidden
    */
   private _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
     if (options.newName) this.name = uuid();
@@ -844,5 +647,161 @@ export class EventHubReceiver extends LinkEntity {
       }
     }
     return rcvrOptions;
+  }
+
+  /**
+   * Returns a promise that resolves to an array of events received from the service.
+   *
+   * @param maxMessageCount - The maximum number of messages to receive.
+   * @param maxWaitTimeInSeconds - The maximum amount of time to wait to build up the requested message count;
+   * If not provided, it defaults to 60 seconds.
+   * @param abortSignal - An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @returns Promise<ReceivedEventData[]>.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   * @throws MessagingError if an error is encountered while receiving a message.
+   * @throws Error if the underlying connection or receiver has been closed.
+   * Create a new EventHubConsumer using the EventHubClient createConsumer method.
+   * @throws Error if the receiver is already receiving messages.
+   */
+  async receiveBatch(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds: number = 60,
+    abortSignal?: AbortSignalLike
+  ): Promise<ReceivedEventData[]> {
+    // store events across multiple retries
+    const receivedEvents: ReceivedEventData[] = [];
+
+    const retrieveEvents = (): Promise<ReceivedEventData[]> => {
+      return new Promise(async (resolve, reject) => {
+        // if this consumer was closed,
+        // resolve the operation's promise with the events collected thus far in case
+        // the promise hasn't already been resolved.
+        if (this._isClosed || this._context.wasConnectionCloseCalled) {
+          return resolve(receivedEvents);
+        }
+
+        let timer: any;
+        const logOnAbort = (): void => {
+          const name = this.name;
+          const address = this.address;
+          const desc: string =
+            `[${this._context.connectionId}] The request operation on the Receiver "${name}" with ` +
+            `address "${address}" has been cancelled by the user.`;
+          // Cancellation is intentional so logging to 'info'.
+          logger.info(desc);
+        };
+
+        const rejectOnAbort = async (): Promise<void> => {
+          logOnAbort();
+          try {
+            await this.close();
+          } finally {
+            reject(new AbortError("The receive operation has been cancelled by the user."));
+          }
+        };
+
+        // operation has been cancelled, so exit immediately
+        if (abortSignal && abortSignal.aborted) {
+          return rejectOnAbort();
+        }
+
+        // updates the prefetch count so that the baseConsumer adds
+        // the correct number of credits to receive the same number of events.
+        const prefetchCount = Math.max(maxMessageCount - receivedEvents.length, 0);
+        if (prefetchCount === 0) {
+          return resolve(receivedEvents);
+        }
+
+        logger.verbose(
+          "[%s] Receiver '%s', setting the prefetch count to %d.",
+          this._context.connectionId,
+          this.name,
+          prefetchCount
+        );
+
+        const cleanUpBeforeReturn = (): void => {
+          this.clearHandlers();
+          clearTimeout(timer);
+        };
+
+        const onAbort = (): void => {
+          clearTimeout(timer);
+          rejectOnAbort();
+        };
+
+        this.registerHandlers(
+          (eventData) => {
+            receivedEvents.push(eventData);
+
+            // resolve the operation's promise after the requested
+            // number of events are received.
+            if (receivedEvents.length === maxMessageCount) {
+              logger.info(
+                "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
+                this._context.connectionId,
+                this.name,
+                receivedEvents.length,
+                maxWaitTimeInSeconds
+              );
+              cleanUpBeforeReturn();
+              resolve(receivedEvents);
+            }
+          },
+          (err) => {
+            // restore events to the front of the internal queue.
+            while (receivedEvents.length) {
+              this._internalQueue.unshift(receivedEvents.pop()!);
+            }
+            cleanUpBeforeReturn();
+            if (err.name === "AbortError") {
+              rejectOnAbort();
+            } else {
+              reject(err);
+            }
+          },
+          maxMessageCount - receivedEvents.length,
+          false,
+          abortSignal,
+          onAbort
+        );
+
+        const addTimeout = (): void => {
+          const msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+          logger.verbose(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
+
+          // resolve the operation's promise after the requested
+          // max number of seconds have passed.
+          timer = setTimeout(() => {
+            logger.info(
+              "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
+              this._context.connectionId,
+              this.name,
+              receivedEvents.length,
+              maxWaitTimeInSeconds
+            );
+            cleanUpBeforeReturn();
+            resolve(receivedEvents);
+          }, maxWaitTimeInSeconds * 1000);
+        };
+
+        addTimeout();
+        if (abortSignal && !abortSignal.aborted) {
+          abortSignal.addEventListener("abort", onAbort);
+        }
+      });
+    };
+
+    const retryOptions = this.options.retryOptions || {};
+    const config: RetryConfig<ReceivedEventData[]> = {
+      connectionHost: this._context.config.host,
+      connectionId: this._context.connectionId,
+      operation: retrieveEvents,
+      operationType: RetryOperationType.receiveMessage,
+      abortSignal: abortSignal,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedEventData[]>(config);
   }
 }

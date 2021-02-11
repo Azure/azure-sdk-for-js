@@ -1,0 +1,46 @@
+{
+  "name": "azure-event-hubs-samples-ts",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Event Hubs client library samples for TypeScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Event Hubs",
+    "Checkpoint Store",
+    "Node.js",
+    "TypeScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/core-amqp": "latest",
+    "@azure/event-hubs": "latest",
+    "@types/ws": "^6.0.4",
+    "dotenv": "^8.2.0",
+    "https-proxy-agent": "^5.0.0",
+    "rhea-promise": "^1.0.0",
+    "tslib": "^1.9.3",
+    "ws": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.17",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.2"
+  }
+}

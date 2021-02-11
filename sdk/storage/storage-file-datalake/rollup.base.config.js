@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import replace from "@rollup/plugin-replace";
-import cjs from "rollup-plugin-commonjs";
-import multiEntry from "rollup-plugin-multi-entry";
-import nodeResolve from "rollup-plugin-node-resolve";
+import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
+import multiEntry from "@rollup/plugin-multi-entry";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import { terser } from "rollup-plugin-terser";
-
 
 // import visualizer from "rollup-plugin-visualizer";
 
@@ -34,7 +34,7 @@ export function nodeConfig(test = false) {
     "util"
   ];
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/storage-file-datalake/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
     output: {
       file: "dist/index.js",
@@ -46,13 +46,12 @@ export function nodeConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs({
         namedExports: {
           events: ["EventEmitter"],
@@ -66,7 +65,7 @@ export function nodeConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ],
@@ -80,8 +79,12 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.input = [
+      "dist-esm/storage-file-datalake/test/*.spec.js",
+      "dist-esm/storage-file-datalake/test/node/*.spec.js",
+      "dist-esm/storage-file-datalake/src/index.js"
+    ];
+    baseConfig.plugins.unshift(multiEntry());
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
@@ -104,9 +107,9 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/src/index.browser.js",
+    input: "dist-esm/storage-file-datalake/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-file-datalake.js",
+      file: "dist-browser/azure-storage-file-datalake.js",
       banner: banner,
       format: "umd",
       name: "azdatalake",
@@ -117,12 +120,10 @@ export function browserConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (false) since this is for
-          // browser only. Rollup's dead code elimination will remove
-          // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
-        }
+        // replace dynamic checks with if (false) since this is for
+        // browser only. Rollup's dead code elimination will remove
+        // any code guarded by if (isNode) { ... }
+        "if (isNode)": "if (false)"
       }),
       // fs and os are not used by the browser bundle, so just shim it
       // dotenv doesn't work in the browser, so replace it with a no-op function
@@ -158,12 +159,17 @@ export function browserConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ],
     onwarn(warning, warn) {
-      if (warning.code === "CIRCULAR_DEPENDENCY") {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" ||
+        warning.code === "UNRESOLVED_IMPORT"
+        // Unresolved imports in the browser may break apps with frameworks such as angular.
+        // Shim the modules with dummy src files for browser to avoid regressions.
+      ) {
         throw new Error(warning.message);
       }
       warn(warning);
@@ -171,11 +177,14 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/storage-file-datalake/test/*.spec.js",
+      "dist-esm/storage-file-datalake/test/browser/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
-    baseConfig.external = ["fs-extra"];
+
+    baseConfig.external = [];
 
     baseConfig.context = "null";
 

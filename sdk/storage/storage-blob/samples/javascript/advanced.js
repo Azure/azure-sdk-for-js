@@ -85,11 +85,11 @@ async function main() {
     );
   }
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadBrowserData()
-  // Uncomment following code in browsers because BlockBlobClient.uploadBrowserData() is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadData()
+  // Uncomment following code in browsers because document.getElementById() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await blockBlobClient.uploadBrowserData(browserFile, {
+  await blockBlobClient.uploadData(browserFile, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     concurrency: 20, // 20 concurrency
     onProgress: ev => console.log(ev)
@@ -132,8 +132,6 @@ async function main() {
   await containerClient.delete();
   console.log("deleted container");
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

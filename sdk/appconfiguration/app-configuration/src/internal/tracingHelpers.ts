@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/types";
+import { Span, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 
 import { RestError } from "@azure/core-http";
 
 /**
  * @internal
- * @ignore
  */
 export interface Spannable {
   spanOptions?: SpanOptions;
@@ -16,18 +16,17 @@ export interface Spannable {
 
 /**
  * @internal
- * @ignore
  */
 export class Spanner<TClient> {
-  constructor(private baseOperationName: string, private componentName: string) {}
+  constructor(private baseOperationName: string) {}
 
   /**
    * Traces an operation and properly handles reporting start, end and errors for a given span
    *
-   * @param operationName Name of a method in the TClient type
-   * @param options An options class, typically derived from @azure/core-http/RequestOptionsBase
-   * @param fn The function to call with an options class that properly propagates the span context
-   * @param translateToCanonicalCodeFn An optional function to translate thrown errors into a CanonicalCode for the span
+   * @param operationName - Name of a method in the TClient type
+   * @param options - An options class, typically derived from \@azure/core-http/RequestOptionsBase
+   * @param fn - The function to call with an options class that properly propagates the span context
+   * @param translateToCanonicalCodeFn - An optional function to translate thrown errors into a CanonicalCode for the span
    */
   async trace<OptionsT extends Spannable, ReturnT>(
     operationName: keyof TClient,
@@ -55,6 +54,7 @@ export class Spanner<TClient> {
       ...options.spanOptions,
       kind: SpanKind.INTERNAL
     });
+    span.setAttribute("az.namespace", "Microsoft.AppConfiguration");
 
     let newOptions = options;
 
@@ -64,7 +64,7 @@ export class Spanner<TClient> {
     return { span, newOptions };
   }
 
-  static getCanonicalCode(err: Error) {
+  static getCanonicalCode(err: Error): CanonicalCode {
     if (Spanner.isRestError(err)) {
       switch (err.statusCode) {
         case 401:
@@ -83,12 +83,17 @@ export class Spanner<TClient> {
     return err instanceof RestError;
   }
 
-  static addParentToOptions<T extends Spannable>(options: T, span: Span) {
+  static addParentToOptions<T extends Spannable>(options: T, span: Span): T {
+    const spanOptions = options.spanOptions || {};
     return {
       ...options,
       spanOptions: {
-        ...options.spanOptions,
-        parent: span
+        ...spanOptions,
+        parent: span.context(),
+        attributes: {
+          ...spanOptions.attributes,
+          "az.namespace": "Microsoft.AppConfiguration"
+        }
       }
     };
   }

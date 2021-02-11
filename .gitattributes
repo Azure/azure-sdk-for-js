@@ -14,8 +14,8 @@ yarn.lock                    merge=binary
 #
 *.json            linguist-language=JSON-with-Comments
 
-# Set the default behavior, in case people don't have core.autocrlf set.
-* text=auto
+# Use unix line endings everywhere, even on Windows
+* text=auto eol=lf
 
 # Mark recordings as auto generated
 **/recordings/**/*.js linguist-generated=true

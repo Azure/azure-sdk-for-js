@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable no-invalid-this */
 
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -7,8 +8,12 @@ import { PollOperationState, PollOperation } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 
+export interface PublicTestOperationState extends PollOperationState<string> {
+  previousResponse?: HttpOperationResponse;
+}
+
 export interface TestOperationState extends PollOperationState<string> {
-  client: TestServiceClient;
+  client?: TestServiceClient;
   requestOptions?: RequestOptionsBase;
   initialResponse?: HttpOperationResponse;
   previousResponse?: HttpOperationResponse;
@@ -27,21 +32,30 @@ async function update(
   const { client, requestOptions, initialResponse, previousResponse } = this.state;
   const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
+  if (!client) {
+    // The client property is assigned to the operation state during the instantiation of the `TestPoller`.
+    // So the client should always exist.
+    // Though `PublicTestOperationState` doesn't have the client property,
+    // so we have to make it optional in `TestOperationState`.
+    throw new Error("The client property should exist");
+  }
+
   let response: HttpOperationResponse;
   const doFinalResponse = previousResponse && previousResponse.parsedBody.doFinalResponse;
+  const newState = { ...this.state };
 
   if (!initialResponse) {
-    response = await client.sendInitialRequest(new TestWebResource(abortSignal));
-    this.state.initialResponse = response;
-    this.state.isStarted = true;
+    response = await client!.sendInitialRequest(new TestWebResource(abortSignal));
+    newState.initialResponse = response;
+    newState.isStarted = true;
   } else if (doFinalResponse) {
-    response = await client.sendFinalRequest(new TestWebResource(abortSignal));
-    this.state.isCompleted = true;
-    this.state.result = "Done";
-    this.state.previousResponse = response;
+    response = await client!.sendFinalRequest(new TestWebResource(abortSignal));
+    newState.isCompleted = true;
+    newState.result = "Done";
+    newState.previousResponse = response;
   } else {
-    response = await client.sendRequest(new TestWebResource(abortSignal));
-    this.state.previousResponse = response;
+    response = await client!.sendRequest(new TestWebResource(abortSignal));
+    newState.previousResponse = response;
   }
 
   if (!response) {
@@ -50,10 +64,10 @@ async function update(
 
   // Progress only after the poller has started and before the poller is done
   if (initialResponse && !doFinalResponse && options.fireProgress) {
-    options.fireProgress(this.state);
+    options.fireProgress(newState);
   }
 
-  return makeOperation(this.state);
+  return makeOperation(newState);
 }
 
 async function cancel(
@@ -65,7 +79,7 @@ async function cancel(
 
   if (abortSignal && abortSignal.aborted) {
     // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
-    return await this.update({
+    return this.update({
       abortSignal
     }); // This will throw
   }

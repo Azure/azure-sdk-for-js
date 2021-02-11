@@ -16,10 +16,11 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -82,7 +83,7 @@ async function main() {
       dequeueMessageItem.popReceipt
     );
     console.log(
-      `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
+      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`
     );
   }
 
@@ -92,8 +93,6 @@ async function main() {
     `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
   );
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

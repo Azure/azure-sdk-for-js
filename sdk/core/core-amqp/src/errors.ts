@@ -1,12 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
-import { AmqpResponseStatusCode, isAmqpError, AmqpError } from "rhea-promise";
-import { isNode } from "../src/util/utils";
+import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
+import { isNode, isNumber, isString } from "../src/util/utils";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
- * @enum {ConditionStatusMapper}
+ * @internal
  */
 export enum ConditionStatusMapper {
   "com.microsoft:timeout" = AmqpResponseStatusCode.RequestTimeout,
@@ -33,7 +34,6 @@ export enum ConditionStatusMapper {
 
 /**
  * Maps the amqp error conditions to the Error names.
- * @enum {ConditionErrorNameMapper}
  */
 export enum ConditionErrorNameMapper {
   /**
@@ -49,7 +49,7 @@ export enum ConditionErrorNameMapper {
    */
   "com.microsoft:no-matching-subscription" = "NoMatchingSubscriptionError",
   /**
-   * Error is thrown when an attempt is made to access a parition that is not owned by the
+   * Error is thrown when an attempt is made to access a partition that is not owned by the
    * requesting entity.
    */
   "com.microsoft:partition-not-owned" = "PartitionNotOwnedError",
@@ -78,7 +78,7 @@ export enum ConditionErrorNameMapper {
    */
   "com.microsoft:session-cannot-be-locked" = "SessionCannotBeLockedError",
   /**
-   * Error is thrown when an internal server error occured. You may have found a bug?
+   * Error is thrown when an internal server error occurred. You may have found a bug?
    */
   "amqp:internal-error" = "InternalServerError", // Retryable
   /**
@@ -239,7 +239,6 @@ export enum ConditionErrorNameMapper {
 
 /**
  * Maps the Error names to the amqp error conditions.
- * @enum {ErrorNameConditionMapper}
  */
 export enum ErrorNameConditionMapper {
   /**
@@ -255,7 +254,7 @@ export enum ErrorNameConditionMapper {
    */
   NoMatchingSubscriptionError = "com.microsoft:no-matching-subscription",
   /**
-   * Error is thrown when an attempt is made to access a parition that is not owned by the
+   * Error is thrown when an attempt is made to access a partition that is not owned by the
    * requesting entity.
    */
   PartitionNotOwnedError = "com.microsoft:partition-not-owned",
@@ -284,7 +283,7 @@ export enum ErrorNameConditionMapper {
    */
   SessionCannotBeLockedError = "com.microsoft:session-cannot-be-locked",
   /**
-   * Error is thrown when an internal server error occured. You may have found a bug?
+   * Error is thrown when an internal server error occurred. You may have found a bug?
    */
   InternalServerError = "amqp:internal-error", // Retryable
   /**
@@ -436,37 +435,103 @@ export enum ErrorNameConditionMapper {
 }
 
 /**
+ * Describes the fields on a Node.js SystemError.
+ * Omits fields that are not related to network calls (e.g. file system calls).
+ * See https://nodejs.org/dist/latest-v12.x/docs/api/errors.html#errors_class_systemerror
+ */
+export interface NetworkSystemError {
+  address?: string;
+  code: string;
+  errno: string | number;
+  info?: any;
+  message: string;
+  name: string;
+  port?: number;
+  stack: string;
+  syscall: string;
+}
+
+/**
+ * @internal
+ */
+const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message">)[] = [
+  "address",
+  "code",
+  "errno",
+  "info",
+  "port",
+  "stack",
+  "syscall"
+];
+
+/**
+ * Determines if an error is a MessagingError.
+ *
+ * @param error - An error that can either be an Error or a MessagingError.
+ */
+export function isMessagingError(error: Error | MessagingError): error is MessagingError {
+  return error.name === "MessagingError";
+}
+
+/**
  * Describes the base class for Messaging Error.
- * @class {MessagingError}
- * @extends Error
  */
 export class MessagingError extends Error {
   /**
-   * @property {string} [condition] The error condition.
+   * Address to which the network connection failed.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
    */
-  condition?: string;
+  address?: string;
   /**
-   * @property {string} name The error name. Default value: "MessagingError".
+   * A string label that identifies the error.
+   */
+  code?: string;
+  /**
+   * System-provided error number.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
+   */
+  errno?: number | string;
+  /**
+   * The error name. Default value: "MessagingError".
    */
   name: string = "MessagingError";
   /**
-   * @property {boolean} translated Has the error been translated. Default: true.
+   * The unavailable network connection port.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
    */
-  translated: boolean = true;
+  port?: number;
+  /**
+   * Name of the system call that triggered the error.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
+   */
+  syscall?: string;
   /**
    *
-   * @property {boolean} retryable Describes whether the error is retryable. Default: true.
+   * Describes whether the error is retryable. Default: true.
    */
   retryable: boolean = true;
   /**
-   * @property {any} [info] Any additional error information given by the service.
+   * Extra details about the error.
    */
   info?: any;
   /**
-   * @param {string} message The error message that provides more information about the error.
+   * @param message - The error message that provides more information about the error.
+   * @param originalError - An error whose properties will be copied to the MessagingError if the
+   * property matches one found on the Node.js `SystemError`.
    */
-  constructor(message: string) {
+  constructor(message: string, originalError?: Error) {
     super(message);
+
+    if (!originalError) {
+      return;
+    }
+
+    // copy properties from system error
+    for (const propName of systemErrorFieldsToCopy) {
+      if ((originalError as NetworkSystemError)[propName] != undefined) {
+        this[propName] = (originalError as NetworkSystemError)[propName];
+      }
+    }
   }
 }
 
@@ -498,8 +563,7 @@ export const retryableErrors: string[] = [
 ];
 
 /**
- * Maps some SytemErrors to amqp error conditions
- * @enum SystemErrorConditionMapper
+ * Maps some SystemErrors to amqp error conditions
  */
 export enum SystemErrorConditionMapper {
   ENOTFOUND = "amqp:not-found",
@@ -514,25 +578,32 @@ export enum SystemErrorConditionMapper {
   ENONET = "com.microsoft:timeout"
 }
 
-export function isSystemError(err: any): boolean {
-  let result: boolean = false;
-  if (
-    err.code &&
-    typeof err.code === "string" &&
-    (err.syscall && typeof err.syscall === "string") &&
-    (err.errno && (typeof err.errno === "string" || typeof err.errno === "number"))
-  ) {
-    result = true;
+/**
+ * Checks whether the provided error is a node.js SystemError.
+ * @param err - An object that may contain error information.
+ */
+export function isSystemError(err: any): err is NetworkSystemError {
+  if (!err) {
+    return false;
   }
-  return result;
+
+  if (!isString(err.code) || !isString(err.syscall)) {
+    return false;
+  }
+
+  if (!isString(err.errno) && !isNumber(err.errno)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
  * @internal
- * Since browser doesnt differentiate between the various kinds of service communication errors,
+ * Since browser doesn't differentiate between the various kinds of service communication errors,
  * this utility is used to look at the error target to identify such category of errors.
  * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
- * @param err object that may contain error information
+ * @param err - object that may contain error information
  */
 function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
@@ -548,64 +619,75 @@ function isBrowserWebsocketError(err: any): boolean {
 }
 
 /**
- * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError.
- *
- * @param {AmqpError} err The amqp error that was received.
- * @returns {MessagingError} MessagingError object.
+ * @internal
  */
-export function translate(err: AmqpError | Error): MessagingError {
-  if ((err as MessagingError).translated) {
-    // already translated
-    return err as MessagingError;
-  }
+const rheaPromiseErrors = [
+  // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
+  "OperationTimeoutError",
 
-  let error: MessagingError = err as MessagingError;
+  // InsufficientCreditError occurs when the number of credits available on Rhea link is insufficient.
+  "InsufficientCreditError",
 
+  // Defines the error that occurs when the Sender fails to send a message.
+  "SendOperationFailedError"
+];
+
+/**
+ * Translates the AMQP error received at the protocol layer or a SystemError into a MessagingError.
+ * All other errors are returned unaltered.
+ *
+ * @param err - The amqp error that was received.
+ * @returns MessagingError object.
+ */
+export function translate(err: AmqpError | Error): MessagingError | Error {
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
   if (err instanceof TypeError || err instanceof RangeError) {
-    error.retryable = false;
-    return error;
+    return err;
   }
 
   if (isAmqpError(err)) {
     // translate
-    const condition = (err as AmqpError).condition;
-    const description = (err as AmqpError).description as string;
-    error = new MessagingError(description);
+    const condition = err.condition;
+    const description = err.description!;
+    const error = new MessagingError(description);
     if ((err as any).stack) error.stack = (err as any).stack;
-    error.info = (err as AmqpError).info;
-    error.condition = condition;
+    error.info = err.info;
     if (condition) {
-      error.name = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
+      error.code = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
     }
-    if (!error.name) error.name = "MessagingError";
     if (
       description &&
       (description.includes("status-code: 404") ||
         description.match(/The messaging entity .* could not be found.*/i) !== null)
     ) {
-      error.name = "MessagingEntityNotFoundError";
+      error.code = "MessagingEntityNotFoundError";
     }
-    if (retryableErrors.indexOf(error.name) === -1) {
+    if (error.code && retryableErrors.indexOf(error.code) === -1) {
       // not found
       error.retryable = false;
     }
     return error;
   }
 
+  if (err.name === "MessagingError") {
+    // already translated
+    return err;
+  }
+
   if (isSystemError(err)) {
     // translate
-    const condition = (err as any).code;
-    const description = (err as Error).message;
-    error = new MessagingError(description);
-    if ((err as any).stack) error.stack = (err as any).stack;
+    const condition = err.code;
+    const description = err.message;
+    const error = new MessagingError(description, err);
+    let errorType = "SystemError";
     if (condition) {
-      const amqpErrorCondition = SystemErrorConditionMapper[condition as keyof typeof SystemErrorConditionMapper];
-      error.name = ConditionErrorNameMapper[amqpErrorCondition as keyof typeof ConditionErrorNameMapper];
+      const amqpErrorCondition =
+        SystemErrorConditionMapper[condition as keyof typeof SystemErrorConditionMapper];
+      errorType =
+        ConditionErrorNameMapper[amqpErrorCondition as keyof typeof ConditionErrorNameMapper];
     }
-    if (!error.name) error.name = "SystemError";
-    if (retryableErrors.indexOf(error.name) === -1) {
+    if (retryableErrors.indexOf(errorType) === -1) {
       // not found
       error.retryable = false;
     }
@@ -613,28 +695,31 @@ export function translate(err: AmqpError | Error): MessagingError {
   }
 
   if (isBrowserWebsocketError(err)) {
-    // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
-    error = new MessagingError("Websocket connection failed.");
-    error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
+    // Translate browser communication errors during opening handshake to generic ServiceCommunicationError
+    const error = new MessagingError("Websocket connection failed.");
+    error.code = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;
     return error;
   }
 
-  // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-  // Must do a name check until the custom error is updated, and that doesn't break compatibility
-  // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-  const errorName = (err as Error).name;
-  if (retryableErrors.indexOf(errorName) > -1) {
-    error.retryable = true;
-    return error;
-  }
-  if (errorName === "AbortError") {
-    error.retryable = false;
+  // Some errors come from rhea-promise and need to be converted to MessagingError.
+  // A subset of these are also retryable.
+  if (rheaPromiseErrors.indexOf(err.name) !== -1) {
+    const error = new MessagingError(err.message, err);
+    error.code = err.name;
+    if (error.code && retryableErrors.indexOf(error.code) === -1) {
+      // not found
+      error.retryable = false;
+    }
     return error;
   }
 
-  // Translate a generic error into MessagingError.
-  error = new MessagingError((err as Error).message);
-  error.stack = (err as Error).stack;
-  return error;
+  return err;
+}
+
+/**
+ * @internal
+ */
+function isAmqpError(error: any): error is AmqpError {
+  return rheaIsAmqpError(error);
 }

@@ -27,7 +27,7 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
-[Service Fabric cluster security scenarios](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-security)
+[Service Fabric cluster security scenarios](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-security)
 
 ```typescript
 import { ServiceFabricClient } from "@azure/servicefabric";

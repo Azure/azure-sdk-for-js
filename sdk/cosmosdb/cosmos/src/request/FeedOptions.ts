@@ -85,4 +85,15 @@ export interface FeedOptions extends SharedOptions {
    * and ensure parallelism can happen. Useful for when you know you're doing cross-partition or aggregate queries.
    */
   forceQueryPlan?: boolean;
+  /** Limits the query to a specific partition key. Default: undefined
+   *
+   *  Scoping a query to a single partition can be accomplished two ways:
+   *
+   * container.items.query('SELECT * from c', { partitionKey: "foo" }).toArray()
+   * container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray()
+   *
+   * The former is useful when the query body is out of your control
+   * but you still want to restrict it to a single partition. Example: an end user specified query.
+   */
+  partitionKey?: any;
 }

@@ -3,13 +3,13 @@
 
 // @ts-check
 
-import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import multiEntry from "@rollup/plugin-multi-entry";
+import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
-import inject from "rollup-plugin-inject";
+import inject from "@rollup/plugin-inject";
 import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
 
@@ -50,11 +50,9 @@ export function nodeConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs(),
@@ -88,7 +86,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/index.js",
+      file: "dist-browser/index.js",
       format: "umd",
       name: "Azure.AMQPCommon",
       sourcemap: true
@@ -99,29 +97,19 @@ export function browserConfig(test = false) {
 
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (false) since this is for
-          // browser only. Rollup's dead code elimination will remove
-          // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
-        }
+        // replace dynamic checks with if (false) since this is for
+        // browser only. Rollup's dead code elimination will remove
+        // any code guarded by if (isNode) { ... }
+        "if (isNode)": "if (false)"
       }),
 
-      // fs, net, and tls are used by rhea and need to be shimmed
-      // TODO: get these into rhea's pkg.browser field
       // dotenv doesn't work in the browser, so replace it with a no-op function
+      // os and path are shimmed by bundlers (e.g. webpack, parcel) automatically,
+      // but needs to be configured in rollup.
       shim({
-        fs: `export default {}`,
-        net: `export default {}`,
-        tls: `export default {}`,
         dotenv: `export function config() { }`,
-        os: `
-          export function arch() { return "javascript" }
-          export function type() { return "Browser" }
-          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
-        `,
-        path: `export default {}`,
-        dns: `export function resolve() { }`
+        os: `export default { }`,
+        path: `export default { }`
       }),
 
       nodeResolve({
@@ -131,7 +119,7 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          chai: ["should"],
+          chai: ["should", "assert"],
           assert: ["equal", "deepEqual", "notEqual"]
         }
       }),

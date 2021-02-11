@@ -16,7 +16,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Create a container
@@ -35,7 +35,7 @@ async function main() {
     const content = "hello";
     const blobName = "newblob" + new Date().getTime();
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
@@ -54,8 +54,6 @@ async function main() {
 
   asyncIter.next().then(printBlob);
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.log(err.message);

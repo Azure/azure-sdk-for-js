@@ -1,72 +1,67 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { TokenType } from "./auth/token";
-import { AccessToken } from "@azure/core-auth";
 import {
-  EventContext,
-  ReceiverOptions,
-  Message as AmqpMessage,
-  SenderEvents,
-  ReceiverEvents,
+  Message as RheaMessage,
   Connection,
+  EventContext,
+  ReceiverEvents,
+  ReceiverOptions,
+  SenderEvents,
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
-import * as Constants from "./util/constants";
-import { logger, logErrorStackTrace } from "./log";
+import { Constants } from "./util/constants";
+import { logErrorStackTrace, logger } from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
 
 /**
  * Describes the CBS Response.
- * @interface CbsResponse
  */
 export interface CbsResponse {
   correlationId: string;
   statusCode: string;
-  satusDescription: string;
+  statusDescription: string;
 }
 
 /**
- * @class CbsClient
- * Describes the EventHub/ServiceBus Cbs client that talks to the $cbs endopint over AMQP connection.
+ * Describes the EventHub/ServiceBus Cbs client that talks to the $cbs endpoint over AMQP connection.
  */
 export class CbsClient {
   /**
-   * @property {string} endpoint CBS endpoint - "$cbs"
+   * CBS endpoint - "$cbs"
    */
   readonly endpoint: string = Constants.cbsEndpoint;
   /**
-   * @property {string} replyTo CBS replyTo - The reciever link name that the service should reply to.
+   * CBS replyTo - The receiver link name that the service should reply to.
    */
   readonly replyTo: string = `${Constants.cbsReplyTo}-${generate_uuid()}`;
   /**
-   * @property {string} cbsLock The unqiue lock name per $cbs session per connection that is used to
-   * acquire the lock for establishing a cbs session if one does not exist for an aqmp connection.
+   * The unique lock name per $cbs session per connection that is used to
+   * acquire the lock for establishing a cbs session if one does not exist for an amqp connection.
    */
   readonly cbsLock: string = `${Constants.negotiateCbsKey}-${generate_uuid()}`;
   /**
-   * @property {string} connectionLock The unqiue lock name per connection that is used to
+   * The unique lock name per connection that is used to
    * acquire the lock for establishing an amqp connection if one does not exist.
    */
   readonly connectionLock: string;
   /**
-   * @property {Connection} connection The AMQP connection.
+   * The AMQP connection.
    */
   connection: Connection;
 
   /**
    * CBS sender, receiver on the same session.
-   * @private
    */
   private _cbsSenderReceiverLink?: RequestResponseLink;
 
   /**
-   * @constructor
-   * @param {Connection} connection The AMQP conection.
-   * @param {string} connectionLock A unique string (usually a guid) per connection.
+   * @param connection - The AMQP connection.
+   * @param connectionLock - A unique string (usually a guid) per connection.
    */
   constructor(connection: Connection, connectionLock: string) {
     this.connection = connection;
@@ -76,7 +71,7 @@ export class CbsClient {
   /**
    * Creates a singleton instance of the CBS session if it hasn't been initialized previously on
    * the given connection.
-   * @returns {Promise<void>} Promise<void>.
+   * @returns Promise<void>.
    */
   async init(): Promise<void> {
     try {
@@ -144,20 +139,20 @@ export class CbsClient {
         );
       }
     } catch (err) {
-      err = translate(err);
+      const translatedError = translate(err);
       logger.warning(
-        "[%s] An error occured while establishing the cbs links: %O",
+        "[%s] An error occurred while establishing the cbs links: %s",
         this.connection.id,
-        err
+        `${translatedError?.name}: ${translatedError?.message}`
       );
-      logErrorStackTrace(err);
-      throw err;
+      logErrorStackTrace(translatedError);
+      throw translatedError;
     }
   }
 
   /**
    * Negotiates the CBS claim with the EventHub/ServiceBus Service.
-   * @param {string} audience The entity token audience for which the token is requested in one
+   * @param audience - The entity token audience for which the token is requested in one
    * of the following forms:
    *
    * - **ServiceBus**
@@ -183,18 +178,22 @@ export class CbsClient {
    *
    *     - **ManagementClient**
    *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
-   * @param {TokenInfo} tokenObject The token object that needs to be sent in the put-token request.
-   * @return {Promise<any>} Returns a Promise that resolves when $cbs authentication is successful
+   * @param token - The token that needs to be sent in the put-token request.
+   * @returns A Promise that resolves when $cbs authentication is successful
    * and rejects when an error occurs during $cbs authentication.
    */
   async negotiateClaim(
     audience: string,
-    tokenObject: AccessToken,
+    token: string,
     tokenType: TokenType
   ): Promise<CbsResponse> {
     try {
-      const request: AmqpMessage = {
-        body: tokenObject.token,
+      if (!this._cbsSenderReceiverLink) {
+        throw new Error("Attempted to negotiate a claim but the CBS link does not exist.");
+      }
+
+      const request: RheaMessage = {
+        body: token,
         message_id: generate_uuid(),
         reply_to: this.replyTo,
         to: this.endpoint,
@@ -204,14 +203,14 @@ export class CbsClient {
           type: tokenType
         }
       };
-      const responseMessage = await this._cbsSenderReceiverLink!.sendRequest(request);
+      const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request);
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
-      return this._fromAmqpMessageResponse(responseMessage);
+      return this._fromRheaMessageResponse(responseMessage);
     } catch (err) {
       logger.warning(
-        "[%s] An error occurred while negotiating the cbs claim: %O",
+        "[%s] An error occurred while negotiating the cbs claim: %s",
         this.connection.id,
-        err
+        `${err?.name}: ${err?.message}`
       );
       logErrorStackTrace(err);
       throw err;
@@ -221,7 +220,7 @@ export class CbsClient {
   /**
    * Closes the AMQP cbs session to the EventHub/ServiceBus for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @return {Promise<void>}
+   * @returns
    */
   async close(): Promise<void> {
     try {
@@ -241,7 +240,7 @@ export class CbsClient {
 
   /**
    * Removes the AMQP cbs session to the EventHub/ServiceBus for this client,
-   * @returns {void} void
+   * @returns void
    */
   remove(): void {
     try {
@@ -261,18 +260,17 @@ export class CbsClient {
 
   /**
    * Indicates whether the cbs sender receiver link is open or closed.
-   * @private
-   * @return {boolean} `true` open, `false` closed.
+   * @returns `true` open, `false` closed.
    */
   private _isCbsSenderReceiverLinkOpen(): boolean {
     return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();
   }
 
-  private _fromAmqpMessageResponse(msg: AmqpMessage): CbsResponse {
+  private _fromRheaMessageResponse(msg: RheaMessage): CbsResponse {
     const cbsResponse = {
       correlationId: msg.correlation_id! as string,
       statusCode: msg.application_properties ? msg.application_properties["status-code"] : "",
-      satusDescription: msg.application_properties
+      statusDescription: msg.application_properties
         ? msg.application_properties["status-description"]
         : ""
     };

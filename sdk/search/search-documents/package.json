@@ -1,0 +1,135 @@
+{
+  "name": "@azure/search-documents",
+  "version": "11.1.0",
+  "description": "Azure client library to use Cognitive Search for node.js and browser.",
+  "sdk-type": "client",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "types/search-documents.d.ts",
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm test-dist temp types *.tgz *.log",
+    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/**/*.spec.js --harmony",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js --harmony",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/search-documents.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "browser": {
+    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/data/searchClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/service/searchServiceClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/core-auth": "^1.2.0",
+    "@azure/core-http": "^1.2.0",
+    "@azure/core-paging": "^1.1.1",
+    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/logger": "^1.0.0",
+    "@opentelemetry/api": "^0.10.2",
+    "tslib": "^2.0.0",
+    "events": "^3.0.0"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
+    "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^8.0.0",
+    "@types/sinon": "^9.0.4",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.15.0",
+    "inherits": "^2.0.3",
+    "karma": "^5.1.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.8",
+    "mocha": "^7.1.1",
+    "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^14.0.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "rollup-plugin-shim": "^1.0.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
+    "sinon": "^9.0.2",
+    "ts-node": "^8.3.0",
+    "typescript": "4.1.2",
+    "util": "^0.12.1",
+    "typedoc": "0.15.2"
+  }
+}

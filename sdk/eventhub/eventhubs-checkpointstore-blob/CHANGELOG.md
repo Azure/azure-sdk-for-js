@@ -1,9 +1,20 @@
 # Release History
 
-## 1.0.0-preview.6 (Unreleased)
+## 1.0.2 (Unreleased)
 
+
+## 1.0.1 (2020-08-03)
+
+- Fixes issue [#10132](https://github.com/Azure/azure-sdk-for-js/issues/10132)
+  where using an Azure Storage Account with soft-deletes or blob versioning enabled
+  would cause `listCheckpoints` to suffer performance penalties proportional to the
+  number of times `updateCheckpoint` was called.
+
+## 1.0.0 (2020-01-09)
+
+- This release marks the general availability of the `@azure/eventhubs-checkpointstore-blob` package.
 - `claimOwnership()` will throw on underlying issues with storage, rather than
-   failing silently.
+  failing silently.
 
 ## 1.0.0-preview.5 (2019-12-03)
 

@@ -28,7 +28,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * List all certificate orders in a subscription.
+   * Description for List all certificate orders in a subscription.
    * @summary List all certificate orders in a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersListResponse>
@@ -53,7 +53,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Validate information for a certificate order.
+   * Description for Validate information for a certificate order.
    * @summary Validate information for a certificate order.
    * @param appServiceCertificateOrder Information for a certificate order.
    * @param [options] The optional parameters
@@ -82,7 +82,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Get certificate orders in a resource group.
+   * Description for Get certificate orders in a resource group.
    * @summary Get certificate orders in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param [options] The optional parameters
@@ -111,7 +111,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Get a certificate order.
+   * Description for Get a certificate order.
    * @summary Get a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order..
@@ -144,7 +144,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Create or update a certificate purchase order.
+   * Description for Create or update a certificate purchase order.
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -158,7 +158,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Delete an existing certificate order.
+   * Description for Delete an existing certificate order.
    * @summary Delete an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -191,7 +191,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Create or update a certificate purchase order.
+   * Description for Create or update a certificate purchase order.
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -228,7 +228,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * List all certificates associated with a certificate order.
+   * Description for List all certificates associated with a certificate order.
    * @summary List all certificates associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -261,7 +261,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Get the certificate associated with a certificate order.
+   * Description for Get the certificate associated with a certificate order.
    * @summary Get the certificate associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -298,7 +298,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Creates or updates a certificate and associates with key vault secret.
+   * Description for Creates or updates a certificate and associates with key vault secret.
    * @summary Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -313,7 +313,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Delete the certificate associated with a certificate order.
+   * Description for Delete the certificate associated with a certificate order.
    * @summary Delete the certificate associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -350,7 +350,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Creates or updates a certificate and associates with key vault secret.
+   * Description for Creates or updates a certificate and associates with key vault secret.
    * @summary Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -391,7 +391,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Reissue an existing certificate order.
+   * Description for Reissue an existing certificate order.
    * @summary Reissue an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -428,7 +428,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Renew an existing certificate order.
+   * Description for Renew an existing certificate order.
    * @summary Renew an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -465,7 +465,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Resend certificate email.
+   * Description for Resend certificate email.
    * @summary Resend certificate email.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -498,7 +498,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Verify domain ownership for this certificate order.
+   * Description for Verify domain ownership for this certificate order.
    * @summary Verify domain ownership for this certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -531,7 +531,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Verify domain ownership for this certificate order.
+   * Description for Verify domain ownership for this certificate order.
    * @summary Verify domain ownership for this certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -568,7 +568,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Verify domain ownership for this certificate order.
+   * Description for Verify domain ownership for this certificate order.
    * @summary Verify domain ownership for this certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -601,7 +601,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Retrieve the list of certificate actions.
+   * Description for Retrieve the list of certificate actions.
    * @summary Retrieve the list of certificate actions.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
@@ -634,7 +634,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Retrieve email history.
+   * Description for Retrieve email history.
    * @summary Retrieve email history.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
@@ -667,7 +667,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Create or update a certificate purchase order.
+   * Description for Create or update a certificate purchase order.
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -688,7 +688,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Creates or updates a certificate and associates with key vault secret.
+   * Description for Creates or updates a certificate and associates with key vault secret.
    * @summary Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -711,7 +711,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * List all certificate orders in a subscription.
+   * Description for List all certificate orders in a subscription.
    * @summary List all certificate orders in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -740,7 +740,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * Get certificate orders in a resource group.
+   * Description for Get certificate orders in a resource group.
    * @summary Get certificate orders in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -769,7 +769,7 @@ export class AppServiceCertificateOrders {
   }
 
   /**
-   * List all certificates associated with a certificate order.
+   * Description for List all certificates associated with a certificate order.
    * @summary List all certificates associated with a certificate order.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -807,7 +807,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -830,7 +830,7 @@ const validatePurchaseInformationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -845,7 +845,7 @@ const validatePurchaseInformationOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -859,7 +859,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -884,7 +884,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -909,7 +909,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -918,7 +918,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -933,7 +933,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -968,7 +968,7 @@ const listCertificatesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -994,7 +994,7 @@ const getCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1020,7 +1020,7 @@ const deleteCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1029,7 +1029,7 @@ const deleteCertificateOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1045,7 +1045,7 @@ const updateCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1080,7 +1080,7 @@ const reissueOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1095,7 +1095,7 @@ const reissueOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1110,7 +1110,7 @@ const renewOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1125,7 +1125,7 @@ const renewOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1140,7 +1140,7 @@ const resendEmailOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1148,7 +1148,7 @@ const resendEmailOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1163,7 +1163,7 @@ const resendRequestEmailsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1183,7 +1183,7 @@ const resendRequestEmailsOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1198,7 +1198,7 @@ const retrieveSiteSealOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1230,7 +1230,7 @@ const verifyDomainOwnershipOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1238,7 +1238,7 @@ const verifyDomainOwnershipOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1253,7 +1253,7 @@ const retrieveCertificateActionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1289,7 +1289,7 @@ const retrieveCertificateEmailHistoryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1325,7 +1325,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1361,7 +1361,7 @@ const beginCreateOrUpdateCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -1,0 +1,90 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue158978152108502408",
+   "query": {
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 18 May 2020 05:58:40 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "793552df-6525-4732-b9de-d14d683a111a",
+    "x-ms-request-id": "3d8b668d-5003-001e-53d9-2c4ed7000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue158978152108502408",
+   "query": {
+    "comp": "metadata",
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "date": "Mon, 18 May 2020 05:58:40 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-approximate-messages-count": "0",
+    "x-ms-client-request-id": "5908d4f5-f42d-4adc-a27b-c25ded6aa59c",
+    "x-ms-request-id": "3d8b6aec-5003-001e-18d9-2c4ed7000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue158978152108502408158978152313603258",
+   "query": {
+    "comp": "metadata",
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>QueueNotFound</Code><Message>The specified queue does not exist.\nRequestId:3d8b6f17-5003-001e-22d9-2c4ed7000000\nTime:2020-05-18T05:58:41.7027617Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "217",
+    "content-type": "application/xml",
+    "date": "Mon, 18 May 2020 05:58:41 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "12cf103f-f6c1-4a4d-bc46-d435e3b4981f",
+    "x-ms-error-code": "QueueNotFound",
+    "x-ms-request-id": "3d8b6f17-5003-001e-22d9-2c4ed7000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue158978152108502408",
+   "query": {
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 18 May 2020 05:58:41 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "7529fb45-f9eb-45a9-a082-fcf9f77436db",
+    "x-ms-request-id": "3d8b74f5-5003-001e-64d9-2c4ed7000000",
+    "x-ms-version": "2019-07-07"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "queue": "queue158978152108502408",
+   "queue158978152108502408": "queue158978152108502408158978152313603258"
+  },
+  "newDate": {}
+ },
+ "hash": "b378eed67d5e32bad7a662a0828b1601"
+}

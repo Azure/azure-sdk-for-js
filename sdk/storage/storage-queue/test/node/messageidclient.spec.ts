@@ -1,14 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { setupEnvironment } from "../utils/testutils.common";
+import { recorderEnvSetup } from "../utils/index.browser";
 
 describe("QueueClient messageId methods, Node.js only", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
   const messageContent = "Hello World";
@@ -16,7 +17,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -24,11 +26,11 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -39,13 +41,13 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let specialChars =
+    const specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
-    let buffer = Buffer.alloc(64 * 1024); //64KB
+    const buffer = Buffer.alloc(64 * 1024); // 64KB
     buffer.fill("a");
     buffer.write(specialChars, 0);
-    let newMessage = buffer.toString();
-    let uResult = await queueClient.updateMessage(
+    const newMessage = buffer.toString();
+    const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
       newMessage
@@ -57,13 +59,13 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(eResult.clientRequestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await queueClient.peekMessages();
+    const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -73,12 +75,12 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let specialChars =
+    const specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
-    let buffer = Buffer.alloc(64 * 1024 + 1);
+    const buffer = Buffer.alloc(64 * 1024 + 1);
     buffer.fill("a");
     buffer.write(specialChars, 0);
-    let newMessage = buffer.toString();
+    const newMessage = buffer.toString();
 
     let error;
     try {

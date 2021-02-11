@@ -27,8 +27,8 @@ export class Operations {
   }
 
   /**
-   * List the available operations supported by the Microsoft.EventGrid resource provider
-   * @summary List available operations
+   * List the available operations supported by the Microsoft.EventGrid resource provider.
+   * @summary List available operations.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */

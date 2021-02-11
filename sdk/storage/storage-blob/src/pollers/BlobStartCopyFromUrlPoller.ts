@@ -1,13 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { delay } from "@azure/core-http";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
-import {
-  BlobClient,
-  BlobStartCopyFromURLOptions,
-  BlobBeginCopyFromURLResponse
-} from "../Clients";
+import { BlobClient, BlobStartCopyFromURLOptions, BlobBeginCopyFromURLResponse } from "../Clients";
 
 /**
  * Defines the operations from a {@link BlobClient} that are needed for the poller
@@ -56,7 +52,7 @@ export interface BlobBeginCopyFromUrlPollState
  *  - performing the initial startCopyFromURL
  *  - checking the copy status via getProperties
  *  - cancellation via abortCopyFromURL
- * @ignore
+ * @hidden
  */
 export interface BlobBeginCopyFromURLPollOperation
   extends PollOperation<BlobBeginCopyFromUrlPollState, BlobBeginCopyFromURLResponse> {}
@@ -65,7 +61,7 @@ export interface BlobBeginCopyFromURLPollOperation
  * The set of options used to configure the poller.
  * This is an internal interface populated by {@link BlobClient.beginCopyFromURL}.
  *
- * @ignore
+ * @hidden
  */
 export interface BlobBeginCopyFromUrlPollerOptions {
   blobClient: CopyPollerBlobClient;
@@ -80,7 +76,7 @@ export interface BlobBeginCopyFromUrlPollerOptions {
  * This is the poller returned by {@link BlobClient.beginCopyFromURL}.
  * This can not be instantiated directly outside of this package.
  *
- * @ignore
+ * @hidden
  */
 export class BlobBeginCopyFromUrlPoller extends Poller<
   BlobBeginCopyFromUrlPollState,
@@ -129,7 +125,7 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
  * Note: Intentionally using function expression over arrow function expression
  * so that the function can be invoked with a different context.
  * This affects what `this` refers to.
- * @ignore
+ * @hidden
  */
 const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cancel(
   this: BlobBeginCopyFromURLPollOperation,
@@ -159,7 +155,7 @@ const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cance
  * Note: Intentionally using function expression over arrow function expression
  * so that the function can be invoked with a different context.
  * This affects what `this` refers to.
- * @ignore
+ * @hidden
  */
 const update: BlobBeginCopyFromURLPollOperation["update"] = async function update(
   this: BlobBeginCopyFromURLPollOperation,
@@ -215,7 +211,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
  * Note: Intentionally using function expression over arrow function expression
  * so that the function can be invoked with a different context.
  * This affects what `this` refers to.
- * @ignore
+ * @hidden
  */
 const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toString(
   this: BlobBeginCopyFromURLPollOperation
@@ -231,7 +227,7 @@ const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toStrin
 
 /**
  * Creates a poll operation given the provided state.
- * @ignore
+ * @hidden
  */
 function makeBlobBeginCopyFromURLPollOperation(
   state: BlobBeginCopyFromUrlPollState

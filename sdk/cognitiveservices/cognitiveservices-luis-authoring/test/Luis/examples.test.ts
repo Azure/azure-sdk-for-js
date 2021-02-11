@@ -59,6 +59,50 @@ describe("Example Module Functionality Tests", () => {
     });
   });
 
+  it("should add example with nested children", async () => {
+    await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+      const appId = await client.apps.add({
+        name: "Examples Test App",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
+      await client.model.addIntent(appId.body, "0.1", { name: "WeatherInPlace" });
+      await client.model.addEntity(appId.body, "0.1", { 
+        name: "Place",
+        children:[{
+            name: "City"
+          },
+          {
+            name: "Country"
+          }
+        ]});
+      let example = {
+        text: "whats the weather in buenos aires, argentina?",
+        intentName: "WeatherInPlace",
+        entityLabels: [{
+          entityName: "Place",
+          startCharIndex: 21,
+          endCharIndex: 43,
+          children: [{
+            entityName: "City",
+            startCharIndex: 21,
+            endCharIndex: 32
+          },
+          {
+            entityName: "Country",
+            startCharIndex: 35,
+            endCharIndex: 43
+          }]
+        }]
+      };
+      const result = await client.examples.add(appId.body, "0.1", example, {enableNestedChildren: true});
+      await client.apps.deleteMethod(appId.body);
+      chai.expect(result.utteranceText).to.eql(example.text)
+    });
+  });
+
   it("should add examples in batch", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({

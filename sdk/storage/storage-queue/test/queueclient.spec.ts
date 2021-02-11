@@ -1,23 +1,26 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { QueueClient } from "../src";
+import { QueueClient, QueueServiceClient } from "../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { setupEnvironment } from "./utils/testutils.common";
-import { URLBuilder } from "@azure/core-http";
-dotenv.config({ path: "../.env" });
+import { URLBuilder, RestError } from "@azure/core-http";
+import { Recorder, record } from "@azure/test-utils-recorder";
+import { recorderEnvSetup } from "./utils/testutils.common";
+dotenv.config();
 
 describe("QueueClient", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
+  let queueServiceClient: QueueServiceClient;
   let queueName: string;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -25,7 +28,7 @@ describe("QueueClient", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -52,18 +55,18 @@ describe("QueueClient", () => {
   it("getProperties negative", async () => {
     const queueName2 = recorder.getUniqueName("queue", "queue2");
     const queueClient2 = queueServiceClient.getQueueClient(queueName2);
-    let error;
+    let error: RestError | undefined;
     try {
       await queueClient2.getProperties();
     } catch (err) {
       error = err;
     }
     assert.ok(error);
-    assert.ok(error.statusCode);
-    assert.deepEqual(error.statusCode, 404);
-    assert.ok(error.response);
-    assert.ok(error.response.body);
-    assert.ok(error.response.body.includes("QueueNotFound"));
+    assert.ok(error!.statusCode);
+    assert.deepEqual(error!.statusCode, 404);
+    assert.ok(error!.response);
+    assert.ok(error!.response!.bodyAsText);
+    assert.ok(error!.response!.bodyAsText!.includes("QueueNotFound"));
   });
 
   it("create with default parameters", (done) => {
@@ -94,6 +97,38 @@ describe("QueueClient", () => {
       "Unable to extract queueName with provided information.",
       "Unexpected error caught: " + error
     );
+  });
+
+  it("exists", async () => {
+    assert.ok(await queueClient.exists());
+
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    assert.ok(!(await qClient.exists()));
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await queueClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+
+    const metadata = { key: "value" };
+    const res2 = await queueClient.createIfNotExists({ metadata });
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "QueueAlreadyExists");
+
+    queueClient = queueServiceClient.getQueueClient(recorder.getUniqueName("queue2"));
+    const res3 = await queueClient.createIfNotExists();
+    assert.ok(res3.succeeded);
+  });
+
+  it("deleteIfExists", async () => {
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    const res = await qClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "QueueNotFound");
+
+    await qClient.create();
+    const res2 = await qClient.deleteIfExists();
+    assert.ok(res2.succeeded);
   });
 
   it("delete", (done) => {
@@ -161,22 +196,13 @@ describe("QueueClient", () => {
     }
   });
 
-  it("verify accountName and queueName passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new QueueClient(`https://${accountName}.queue.core.windows.net/` + queueName);
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
-    assert.equal(
-      newClient.accountName,
-      accountName,
-      "Account name is not the same as the one provided."
-    );
-  });
-
   it("getProperties with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    await queueClient.getProperties({ tracingOptions: { spanOptions: { parent: rootSpan } } });
+    await queueClient.getProperties({
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+    });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();
@@ -206,5 +232,58 @@ describe("QueueClient", () => {
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+});
+
+describe("QueueClient - Verify Name Properties", () => {
+  const queueName = "queueName";
+  const accountName = "myAccount";
+
+  function verifyNameProperties(url: string, accountName: string, queueName: string) {
+    const newClient = new QueueClient(url);
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+  }
+
+  it("verify accountName and queueName passed to the client - Endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.queue.core.windows.net/` + queueName,
+      accountName,
+      queueName
+    );
+  });
+
+  it("verify accountName and queueName passed to the client - IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
+  });
+
+  it("verify accountName and queueName passed to the client - IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
+  });
+
+  it("verify accountName and queueName passed to the client - Endpoint without dots", async () => {
+    verifyNameProperties(
+      `https://localhost:80/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new QueueClient(`https://customdomain.com/${queueName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });
 });

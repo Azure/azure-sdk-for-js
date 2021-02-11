@@ -4,20 +4,52 @@ trigger:
       - master
   paths:
     exclude:
-      - sdk/core/
+      - eng/common/
+      - sdk/anomalydetector/ai-anomaly-detector/
+      - sdk/appconfiguration/app-configuration/
+      - sdk/communication/communication-administration/
+      - sdk/communication/communication-chat/
+      - sdk/communication/communication-common/
+      - sdk/communication/communication-sms/
+      - sdk/core/abort-controller/
+      - sdk/core/core-amqp/
+      - sdk/core/core-asynciterator-polyfill/
+      - sdk/core/core-auth/
+      - sdk/core/core-client/
+      - sdk/core/core-http/
+      - sdk/core/core-https/
+      - sdk/core/core-lro/
+      - sdk/core/core-paging/
+      - sdk/core/core-tracing/
+      - sdk/core/core-xml/
+      - sdk/core/logger/
       - sdk/cosmosdb/cosmos/
-      - sdk/eventhub/
-      - sdk/identity/
+      - sdk/digitaltwins/digital-twins-core/
+      - sdk/eventgrid/eventgrid/
+      - sdk/eventhub/event-hubs/
+      - sdk/eventhub/event-processor-host/
+      - sdk/eventhub/eventhubs-checkpointstore-blob/
+      - sdk/formrecognizer/ai-form-recognizer/
+      - sdk/identity/identity/
+      - sdk/keyvault/keyvault-admin/
       - sdk/keyvault/keyvault-certificates/
       - sdk/keyvault/keyvault-keys/
       - sdk/keyvault/keyvault-secrets/
-      - sdk/keyvault/keyvault/
+      - sdk/metricsadvisor/ai-metrics-advisor/
+      - sdk/monitor/monitor-opentelemetry-exporter/
+      - sdk/schemaregistry/schema-registry/
+      - sdk/schemaregistry/schema-registry-avro/
+      - sdk/search/search-documents/
       - sdk/servicebus/service-bus/
       - sdk/storage/storage-blob/
-      - sdk/storage/storage-datalake/
+      - sdk/storage/storage-blob-changefeed/
+      - sdk/storage/storage-file-datalake/
       - sdk/storage/storage-file-share/
       - sdk/storage/storage-queue/
+      - sdk/tables/data-tables/
       - sdk/template/template/
+      - sdk/test-utils/recorder/
+      - sdk/textanalytics/ai-text-analytics/
 
 pr: none
 

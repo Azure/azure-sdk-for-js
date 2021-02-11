@@ -8,14 +8,12 @@
 
 export {
   BaseResource,
-  CloudError,
   Disk,
   ErrorResponse,
   HanaInstance,
   HanaInstancesListResult,
   HardwareProfile,
   IpAddress,
-  MonitoringDetails,
   NetworkProfile,
   OSProfile,
   Resource,

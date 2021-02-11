@@ -1,15 +1,20 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
-  ModifiedAccessConditions,
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
   AppendPositionAccessConditions,
   AccessTier,
-  CpkInfo
+  CpkInfo,
+  BlobDownloadResponseModel
 } from "./generatedModels";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
+
+/**
+ * Blob tags.
+ */
+export type Tags = Record<string, string>;
 
 /**
  * A map of name-value pairs to associate with the resource.
@@ -22,7 +27,15 @@ export interface Metadata {
 }
 
 /**
- * Conditions to add to the creation of this blob.
+ * standard HTTP conditional headers and tags condition.
+ */
+export interface ModifiedAccessConditions
+  extends MatchConditions,
+    ModificationConditions,
+    TagConditions {}
+
+/**
+ * standard HTTP conditional headers, tags condition and lease condition
  */
 export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {}
 
@@ -41,12 +54,57 @@ export interface AppendBlobRequestConditions
     AppendPositionAccessConditions {}
 
 /**
+ * Specifies HTTP options for conditional requests based on modification time.
+ */
+export interface ModificationConditions {
+  /**
+   * Specify this header value to operate only on a blob if it has been modified since the
+   * specified date/time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * Specify this header value to operate only on a blob if it has not been modified since the
+   * specified date/time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Specifies HTTP options for conditional requests based on ETag matching.
+ */
+export interface MatchConditions {
+  /**
+   * Specify an ETag value to operate only on blobs with a matching value.
+   */
+  ifMatch?: string;
+  /**
+   * Specify an ETag value to operate only on blobs without a matching value.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Specifies HTTP options for conditional requests based on blob tags.
+ */
+export interface TagConditions {
+  /**
+   * Optional SQL statement to apply to the tags of the blob.
+   */
+  tagConditions?: string;
+}
+
+/**
+ * Conditions to meet for the container.
+ */
+export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {}
+
+/**
  * Represents the access tier on a blob.
  * For detailed information about block blob level tiering see {@link https://docs.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers|Hot, cool and archive storage tiers.}
  */
 export enum BlockBlobTier {
   /**
-   * Optmized for storing data that is accessed frequently.
+   * Optimized for storing data that is accessed frequently.
    */
   Hot = "Hot",
   /**
@@ -63,7 +121,7 @@ export enum BlockBlobTier {
 /**
  * Specifies the page blob tier to set the blob to. This is only applicable to page blobs on premium storage accounts.
  * Please see {@link https://docs.microsoft.com/azure/storage/storage-premium-storage#scalability-and-performance-targets|here}
- * for detailed information on the corresponding IOPS and throughtput per PageBlobTier.
+ * for detailed information on the corresponding IOPS and throughput per PageBlobTier.
  */
 export enum PremiumPageBlobTier {
   /**
@@ -130,4 +188,134 @@ export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean)
   if (cpk && !cpk.encryptionAlgorithm) {
     cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
   }
+}
+
+/**
+ * Specifies the Replication Status of a blob. This is used when a storage account has
+ * Object Replication Policy(s) applied. See {@link ObjectReplicationPolicy} and {@link ObjectReplicationRule}.
+ */
+export type ObjectReplicationStatus = "complete" | "failed";
+
+/**
+ * Contains the Object Replication Rule ID and {@link ObjectReplicationStatus} of a blob.
+ * There can be more than one {@link ObjectReplicationRule} under a {@link ObjectReplicationPolicy}.
+ */
+export interface ObjectReplicationRule {
+  /**
+   * The Object Replication Rule ID.
+   *
+   * @type {string}
+   * @memberof ObjectReplicationRule
+   */
+  ruleId: string;
+
+  /**
+   * The Replication Status
+   *
+   * @type {ObjectReplicationStatus}
+   * @memberof ObjectReplicationRule
+   */
+  replicationStatus: ObjectReplicationStatus;
+}
+
+/**
+ * Contains Object Replication Policy ID and the respective list of {@link ObjectReplicationRule}.
+ * This is used when retrieving the Object Replication Properties on the source blob. The policy id for the
+ * destination blob is set in ObjectReplicationDestinationPolicyId of the respective method responses
+ * (e.g. {@link BlobProperties.ObjectReplicationDestinationPolicyId}.
+ *
+ * @export
+ * @interface ObjectReplicationPolicy
+ */
+export interface ObjectReplicationPolicy {
+  /**
+   * The Object Replication Policy ID.
+   *
+   * @type {string}
+   * @memberof ObjectReplicationPolicy
+   */
+  policyId: string;
+
+  /**
+   * The Rule ID(s) and respective Replication Status(s) that are under the Policy ID.
+   *
+   * @type {ObjectReplicationRule[]}
+   * @memberof ObjectReplicationPolicy
+   */
+  rules: ObjectReplicationRule[];
+}
+
+/**
+ * Contains response data for the {@link BlobClient.download} operation.
+ *
+ * @export
+ * @interface BlobDownloadResponseParsed
+ */
+export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
+  /**
+   * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
+   *
+   * @type {ObjectReplicationPolicy[]}
+   * @memberof BlobDownloadResponseParsed
+   */
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+
+  /**
+   * Object Replication Policy Id of the destination blob.
+   *
+   * @type {string}
+   * @memberof BlobDownloadResponseParsed
+   */
+  objectReplicationDestinationPolicyId?: string;
+}
+
+/**
+ * The type of a {@link BlobQueryArrowField}.
+ */
+export type BlobQueryArrowFieldType =
+  | "int64"
+  | "bool"
+  | "timestamp[ms]"
+  | "string"
+  | "double"
+  | "decimal";
+
+/**
+ * Describe a field in {@link BlobQueryArrowConfiguration}.
+ *
+ * @export
+ * @interface BlobQueryArrowField
+ */
+export interface BlobQueryArrowField {
+  /**
+   * The type of the field.
+   *
+   * @type {BlobQueryArrowFieldType}
+   * @memberof BlobQueryArrowField
+   */
+  type: BlobQueryArrowFieldType;
+
+  /**
+   * The name of the field.
+   *
+   * @type {string}
+   * @memberof BlobQueryArrowField
+   */
+  name?: string;
+
+  /**
+   * The precision of the field. Required if type is "decimal".
+   *
+   * @type {number}
+   * @memberof BlobQueryArrowField
+   */
+  precision?: number;
+
+  /**
+   * The scale of the field.  Required if type is is "decimal".
+   *
+   * @type {number}
+   * @memberof BlobQueryArrowField
+   */
+  scale?: number;
 }

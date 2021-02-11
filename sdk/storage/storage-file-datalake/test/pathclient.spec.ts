@@ -1,29 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder } from "@azure/core-http";
+import { isNode, URLBuilder, delay } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
-import { bodyToString, getDataLakeServiceClient, setupEnvironment } from "./utils";
+import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakePathClient", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
   let fileClient: DataLakeFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -36,7 +38,7 @@ describe("DataLakePathClient", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("read with with default parameters", async () => {
@@ -58,7 +60,7 @@ describe("DataLakePathClient", () => {
       rangeGetContentCrc64: true
     });
     assert.ok(result1.clientRequestId);
-    //assert.ok(result1.contentCrc64!);
+    // assert.ok(result1.contentCrc64!);
     assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
     assert.ok(result1.clientRequestId);
 
@@ -66,7 +68,7 @@ describe("DataLakePathClient", () => {
       rangeGetContentMD5: true
     });
     assert.ok(result2.clientRequestId);
-    //assert.ok(result2.contentMD5!);
+    // assert.ok(result2.contentMD5!);
 
     let exceptionCaught = false;
     try {
@@ -153,7 +155,7 @@ describe("DataLakePathClient", () => {
 
     const result = await fileClient.read(undefined, undefined, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
@@ -244,15 +246,15 @@ describe("DataLakePathClient", () => {
     const fileName = recorder.getUniqueName("tempfile2");
     const tempFileClient = fileSystemClient.getFileClient(fileName);
 
-    let permissions = {
+    const permissions = {
       owner: { read: false, write: false, execute: false },
       group: { read: false, write: false, execute: false },
       other: { read: false, write: false, execute: false },
       stickyBit: false,
       extendedAcls: false
     };
-    let permissionsString = toPermissionsString(permissions);
-    let metadata = {
+    const permissionsString = toPermissionsString(permissions);
+    const metadata = {
       a: "val-a",
       b: "val-b"
     };
@@ -279,7 +281,7 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(properties.contentType, pathHttpHeaders.contentType);
     assert.deepStrictEqual(properties.metadata, metadata);
 
-    let acl = await tempFileClient.getAccessControl();
+    const acl = await tempFileClient.getAccessControl();
     assert.deepStrictEqual(acl.permissions, permissions);
 
     await tempFileClient.append(body, 0, body.length, {
@@ -315,5 +317,110 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(properties.metadata, metadata);
 
     await tempFileClient.delete();
+  });
+
+  it("exists returns true on an existing file", async () => {
+    const result = await fileClient.exists();
+    assert.ok(result, "exists() should return true for an existing file");
+  });
+
+  it("exists returns false on non-existing file or directory", async () => {
+    const newFileClient = fileSystemClient.getFileClient(recorder.getUniqueName("newFile"));
+    const result = await newFileClient.exists();
+    assert.ok(result === false, "exists() should return false for a non-existing file");
+
+    const newDirectoryClient = fileSystemClient.getDirectoryClient(
+      recorder.getUniqueName("newDirectory")
+    );
+    const dirResult = await newDirectoryClient.exists();
+    assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
+  });
+
+  it("DataLakeDirectoryClient-createIfNotExists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const res = await directoryClient.createIfNotExists();
+    assert.ok(res.succeeded);
+
+    const res2 = await directoryClient.createIfNotExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "PathAlreadyExists");
+  });
+
+  it("DataLakeFileClient-createIfNotExists", async () => {
+    const res = await fileClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "PathAlreadyExists");
+  });
+
+  it("DataLakePathClient-deleteIfExists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const res = await directoryClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "PathNotFound");
+
+    await directoryClient.create();
+    const res2 = await directoryClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("DataLakePathClient-deleteIfExists when parent not exists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const newFileClient = directoryClient.getFileClient(fileName);
+    const res2 = await newFileClient.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.deepStrictEqual(res2.errorCode, "PathNotFound");
+  });
+
+  it("set expiry - NeverExpire", async () => {
+    await fileClient.setExpiry("NeverExpire");
+    const getRes = await fileClient.getProperties();
+    assert.equal(getRes.expiresOn, undefined);
+  });
+
+  it("set expiry - Absolute", async () => {
+    const now = new Date();
+    const recordedNow = recorder.newDate("now"); // Flaky workaround for the recording to work.
+    const delta = 5 * 1000;
+    const expiresOn = new Date(now.getTime() + delta);
+    await fileClient.setExpiry("Absolute", { expiresOn });
+
+    const getRes = await fileClient.getProperties();
+    const recordedExpiresOn = new Date(recordedNow.getTime() + delta);
+    recordedExpiresOn.setMilliseconds(0); // milliseconds dropped
+    assert.equal(getRes.expiresOn?.getTime(), recordedExpiresOn.getTime());
+
+    await delay(delta);
+    assert.ok(!(await fileClient.exists()));
+  });
+
+  it("set expiry - RelativeToNow", async () => {
+    const delta = 1000;
+    await fileClient.setExpiry("RelativeToNow", { timeToExpireInMs: delta });
+
+    await delay(delta);
+    assert.ok(!(await fileClient.exists()));
+  });
+
+  it("set expiry - RelativeToCreation", async () => {
+    const delta = 1000 * 3600 + 0.12;
+    await fileClient.setExpiry("RelativeToCreation", { timeToExpireInMs: delta });
+
+    const getRes = await fileClient.getProperties();
+    assert.equal(getRes.expiresOn?.getTime(), getRes.createdOn!.getTime() + Math.round(delta));
+  });
+
+  it("set expiry - override", async () => {
+    const delta = 1000 * 3600;
+    await fileClient.setExpiry("RelativeToCreation", { timeToExpireInMs: delta });
+
+    const getRes = await fileClient.getProperties();
+    assert.equal(getRes.expiresOn?.getTime(), getRes.createdOn!.getTime() + delta);
+
+    await fileClient.setExpiry("NeverExpire");
+    const getRes2 = await fileClient.getProperties();
+    assert.equal(getRes2.expiresOn, undefined);
   });
 });

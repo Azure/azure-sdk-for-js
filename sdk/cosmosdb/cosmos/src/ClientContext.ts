@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
@@ -30,7 +30,7 @@ const QueryJsonContentType = "application/query+json";
 
 /**
  * @hidden
- * @ignore
+ * @hidden
  */
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
@@ -45,7 +45,7 @@ export class ClientContext {
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
   }
-  /** @ignore */
+  /** @hidden */
   public async read<T>({
     path,
     resourceType,
@@ -541,6 +541,55 @@ export class ClientContext {
 
   public getReadEndpoint(): Promise<string> {
     return this.globalEndpointManager.getReadEndpoint();
+  }
+
+  public async bulk<T>({
+    body,
+    path,
+    resourceId,
+    partitionKeyRangeId,
+    options = {}
+  }: {
+    body: T;
+    path: string;
+    partitionKeyRangeId: string;
+    resourceId: string;
+    options?: RequestOptions;
+  }) {
+    try {
+      const request: RequestContext = {
+        globalEndpointManager: this.globalEndpointManager,
+        requestAgent: this.cosmosClientOptions.agent,
+        connectionPolicy: this.connectionPolicy,
+        method: HTTPMethod.post,
+        client: this,
+        operationType: OperationType.Batch,
+        path,
+        body,
+        resourceType: ResourceType.item,
+        resourceId,
+        plugins: this.cosmosClientOptions.plugins,
+        options
+      };
+
+      request.headers = await this.buildHeaders(request);
+      request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
+      request.headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
+      request.headers[Constants.HttpHeaders.IsBatchAtomic] = false;
+
+      this.applySessionToken(request);
+
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
+        request.resourceType,
+        request.operationType
+      );
+      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
+      return response;
+    } catch (err) {
+      this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      throw err;
+    }
   }
 
   private captureSessionToken(

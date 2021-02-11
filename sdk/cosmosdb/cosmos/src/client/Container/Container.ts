@@ -20,6 +20,9 @@ import { Scripts } from "../Script/Scripts";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
 import { PartitionKeyRange } from "./PartitionKeyRange";
+import { Offer, OfferDefinition } from "../Offer";
+import { OfferResponse } from "../Offer/OfferResponse";
+import { Resource } from "../Resource";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -99,12 +102,12 @@ export class Container {
    * Use `.items` for creating new items, or querying/reading all items.
    *
    * @param id The id of the {@link Item}.
-   * @param partitionKey The partition key of the {@link Item}
+   * @param partitionKeyValue The value of the {@link Item} partition key
    * @example Replace an item
-   * const {body: replacedItem} = await container.item("<item id>", "<partition key>").replace({id: "<item id>", title: "Updated post", authorID: 5});
+   * const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
-  public item(id: string, partitionKey: any): Item {
-    return new Item(this, id, partitionKey, this.clientContext);
+  public item(id: string, partitionKeyValue?: any): Item {
+    return new Item(this, id, partitionKeyValue, this.clientContext);
   }
 
   /**
@@ -182,7 +185,7 @@ export class Container {
 
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
-   * @ignore
+   * @hidden
    * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
    * @param {function} callback       - \
    * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
@@ -204,6 +207,28 @@ export class Container {
       headers,
       statusCode
     );
+  }
+
+  /**
+   * Gets offer on container. If none exists, returns an OfferResponse with undefined.
+   * @param options
+   */
+  public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
+    const { resource: container } = await this.read();
+    const path = "/offers";
+    const url = container._self;
+    const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
+      path,
+      resourceId: "",
+      resourceType: ResourceType.offer,
+      query: `SELECT * from root where root.resource = "${url}"`,
+      resultFn: (result) => result.Offers,
+      options
+    });
+    const offer = response.result[0]
+      ? new Offer(this.database.client, response.result[0].id, this.clientContext)
+      : undefined;
+    return new OfferResponse(response.result[0], response.headers, response.code, offer);
   }
 
   public async getQueryPlan(

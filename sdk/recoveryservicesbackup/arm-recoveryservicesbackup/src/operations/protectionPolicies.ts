@@ -226,7 +226,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.policyName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

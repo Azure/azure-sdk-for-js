@@ -1,24 +1,21 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common";
 import { SERVICE_VERSION } from "./utils/constants";
-import { SpanOptions } from "@opentelemetry/types";
+import { OperationTracingOptions } from "@azure/core-tracing";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Credential } from "./credentials/Credential";
+import { isNode } from "@azure/core-http";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 
 /**
  * An interface for options common to every remote operation.
  */
 export interface CommonOptions {
   tracingOptions?: OperationTracingOptions;
-}
-
-export interface OperationTracingOptions {
-  /**
-   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
 }
 
 /**
@@ -41,11 +38,22 @@ export abstract class StorageClient {
    * Request policy pipeline.
    *
    * @internal
-   * @ignore
+   * @hidden
    * @type {Pipeline}
    * @memberof StorageClient
    */
   protected readonly pipeline: Pipeline;
+
+  /**
+   * Credential in the pipleline to authenticate requests to the service, such as AnonymousCredential, StorageSharedKeyCredential.
+   * Initialized to an AnonymousCredential if not able to retrieve it from the pipeline.
+   *
+   * @internal
+   * @hidden
+   * @type {Credential}
+   * @memberof StorageClient
+   */
+  protected readonly credential: Credential;
 
   /**
    * StorageClient is a reference to protocol layer operations entry, which is
@@ -79,6 +87,18 @@ export abstract class StorageClient {
     const storageClientContext = this.storageClientContext as any;
     if (storageClientContext.requestContentType) {
       storageClientContext.requestContentType = undefined;
+    }
+
+    // Retrieve credential from the pipeline.
+    this.credential = new AnonymousCredential();
+    for (const factory of this.pipeline.factories) {
+      if (
+        (isNode && factory instanceof StorageSharedKeyCredential) ||
+        factory instanceof AnonymousCredential
+      ) {
+        this.credential = factory;
+        break;
+      }
     }
   }
 }

@@ -1,12 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { checkTenantId } from "../util/checkTenantId";
+
+const logger = credentialLogger("UsernamePasswordCredential");
 
 /**
  * Enables authentication to Azure Active Directory with a user's
@@ -26,11 +31,11 @@ export class UsernamePasswordCredential implements TokenCredential {
    * needed to authenticate against Azure Active Directory with a username
    * and password.
    *
-   * @param tenantIdOrName The Azure Active Directory tenant (directory) ID or name.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param username The user account's e-mail address (user name).
-   * @param password The user account's account password
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param tenantIdOrName - The Azure Active Directory tenant (directory) ID or name.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param username - The user account's e-mail address (user name).
+   * @param password - The user account's account password
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantIdOrName: string,
@@ -39,6 +44,8 @@ export class UsernamePasswordCredential implements TokenCredential {
     password: string,
     options?: TokenCredentialOptions
   ) {
+    checkTenantId(logger, tenantIdOrName);
+
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
     this.clientId = clientId;
@@ -52,8 +59,8 @@ export class UsernamePasswordCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
@@ -65,8 +72,9 @@ export class UsernamePasswordCredential implements TokenCredential {
       options
     );
     try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
       const webResource = this.identityClient.createWebResource({
-        url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
         method: "POST",
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
@@ -87,6 +95,7 @@ export class UsernamePasswordCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -97,6 +106,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         code,
         message: err.message
       });
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

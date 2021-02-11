@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { HttpHeaders } from "../src";
@@ -7,11 +10,10 @@ import {
   extractConnectionStringParts
 } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { setupEnvironment } from "./utils";
-dotenv.config({ path: "../.env" });
+import { recorderEnvSetup } from "./utils";
+dotenv.config();
 
 describe("Utility Helpers", () => {
-  setupEnvironment();
   let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
@@ -31,14 +33,19 @@ describe("Utility Helpers", () => {
       connectionStringParts.url,
       "extractConnectionStringParts().url is different than expected."
     );
+    assert.equal(
+      accountName,
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
   }
 
   beforeEach(function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("sanitizeURL redacts SAS token", () => {

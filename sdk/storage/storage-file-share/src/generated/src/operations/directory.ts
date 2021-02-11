@@ -230,20 +230,20 @@ export class Directory {
 
   /**
    * Closes all handles open for given directory.
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectoryForceCloseHandlesResponse>
    */
   forceCloseHandles(handleId: string, options?: Models.DirectoryForceCloseHandlesOptionalParams): Promise<Models.DirectoryForceCloseHandlesResponse>;
   /**
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param callback The callback
    */
   forceCloseHandles(handleId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param options The optional parameters
    * @param callback The callback
@@ -277,7 +277,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
-    Parameters.fileAttributes,
+    Parameters.fileAttributes0,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn
   ],
@@ -362,7 +362,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
-    Parameters.fileAttributes,
+    Parameters.fileAttributes0,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn
   ],
@@ -388,7 +388,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype2,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
@@ -450,7 +450,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxResults,
     Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
-    Parameters.comp7
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.recursive,
@@ -480,7 +480,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
-    Parameters.comp8
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.handleId,

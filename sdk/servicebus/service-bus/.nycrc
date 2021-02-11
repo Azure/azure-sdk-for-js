@@ -1,15 +1,9 @@
 {
     "include": [
-      "src/**/*.ts"
+      "dist-esm/src/**/*.js"
     ],
     "exclude": [
       "**/*.d.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
     ],
     "reporter": [
       "text-summary",

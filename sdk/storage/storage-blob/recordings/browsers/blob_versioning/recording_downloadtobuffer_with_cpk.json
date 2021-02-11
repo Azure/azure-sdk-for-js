@@ -1,0 +1,108 @@
+{
+  "recordings": [
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container158511872811209823",
+      "query": {
+        "restype": "container"
+      },
+      "requestBody": null,
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "etag": "\"0x8D7D088247799F1\"",
+        "last-modified": "Wed, 25 Mar 2020 06:45:44 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "a230ec0b-5bc5-4873-9740-1d8dbd9304d2",
+        "x-ms-request-id": "47f60f3c-701e-000e-3471-02ac8e000000",
+        "x-ms-version": "2019-12-12"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container158511872811209823/blob158511874330506488",
+      "query": {},
+      "requestBody": "Hello World",
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+        "etag": "\"0x8D7D08824D7A94E\"",
+        "last-modified": "Wed, 25 Mar 2020 06:45:44 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "bb8f97a8-b03f-4699-be5c-106b9b6450d5",
+        "x-ms-content-crc64": "YeJLfssylmU=",
+        "x-ms-request-id": "47f60f94-701e-000e-0571-02ac8e000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2019-12-12",
+        "x-ms-version-id": "2020-03-25T06:45:44.8457550Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container158511872811209823/blob158511874330506488",
+      "query": {},
+      "requestBody": "",
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+        "etag": "\"0x8D7D088251028EC\"",
+        "last-modified": "Wed, 25 Mar 2020 06:45:45 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "22d5561c-ff2c-4c51-bbcc-7756f42d25e2",
+        "x-ms-content-crc64": "AAAAAAAAAAA=",
+        "x-ms-request-id": "47f60fbe-701e-000e-2c71-02ac8e000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2019-12-12",
+        "x-ms-version-id": "2020-03-25T06:45:45.2180241Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container158511872811209823/blobCPK158511874487009760",
+      "query": {},
+      "requestBody": "Hello World",
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+        "etag": "\"0x8D7D088261BD6C2\"",
+        "last-modified": "Wed, 25 Mar 2020 06:45:46 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "1ee340f9-586a-40ac-993b-306ef51680ac",
+        "x-ms-content-crc64": "YeJLfssylmU=",
+        "x-ms-encryption-key-sha256": "3QFFFpRA5+XANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=",
+        "x-ms-request-id": "47f610a7-701e-000e-7971-02ac8e000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2019-12-12",
+        "x-ms-version-id": "2020-03-25T06:45:46.9702850Z"
+      }
+    },
+    {
+      "method": "DELETE",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container158511872811209823",
+      "query": {
+        "restype": "container"
+      },
+      "requestBody": null,
+      "status": 202,
+      "response": "",
+      "responseHeaders": {
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "ae301404-f7a7-4e7c-81ca-27bf05c75cda",
+        "x-ms-request-id": "47f61146-701e-000e-0171-02ac8e000000",
+        "x-ms-version": "2019-12-12"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {
+      "container": "container158511872811209823",
+      "blob": "blob158511874330506488",
+      "blobCPK": "blobCPK158511874487009760"
+    },
+    "newDate": {}
+  },
+  "hash": "2fb68ec85232c1b9404e9963df18ac77"
+}

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import {
   TokenProvider,
   EventHubRuntimeInformation,

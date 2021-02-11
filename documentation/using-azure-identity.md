@@ -2,10 +2,10 @@
 
 This document intends to demystify the configuration and use of [Microsoft
 identity
-platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/),
+platform](https://docs.microsoft.com/azure/active-directory/develop/),
 also known as Azure Active Directory v2, with the Azure SDK libraries.
 Microsoft identity platform implements the [OAuth 2.0 and OpenID Connect
-standards](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols)
+standards](https://docs.microsoft.com/azure/active-directory/develop/active-directory-v2-protocols)
 to provide authentication for users and services who may be granted access to
 Azure services.
 
@@ -26,12 +26,12 @@ tenant.
 A "tenant" is basically instance of Azure Active Directory associated with your
 Azure account.  You can follow the instructions on [this quick start guide for
 setting up a
-tenant](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
+tenant](https://docs.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant)
 to check if you have AAD tenant already or, if not, create one.
 
 Once you have a tenant, you can create an app registration by following [this
 quickstart guide for app
-registrations](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app).
+registrations](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app).
 Your app registration holds the configuration for how your application will
 authenticate users and services, so it's very important to it set up correctly
 before using any of the credential types below.  The section on each credential
@@ -47,7 +47,7 @@ inside of your AAD tenant or if you'd like other organizations and individuals
 to use it.
 
 The [app registration quickstart
-guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#register-a-new-application-using-the-azure-portal)
+guide](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app#register-a-new-application-using-the-azure-portal)
 gives a helpful breakdown for the various tenancy options in the "Supported
 account types" documentation.
 
@@ -62,7 +62,7 @@ serve different use cases and application types.  A primary differentiator
 between these flows is whether the "client" that initiates the flow is running
 on a user device or on a system managed by the application developer (like a web
 server).  The [Microsoft Authentication
-Library](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-client-applications)
+Library](https://docs.microsoft.com/azure/active-directory/develop/msal-client-applications)
 documentation describes this distinction as _public_ versus _confidential_
 clients.
 
@@ -70,7 +70,7 @@ Most of the credential types are strictly public or confidential as they serve a
 specific purpose, like authenticating a backend service for use with storage
 APIs.  Some credentials may be both public or confidential depending on how you
 configure them.  For example, the [authorization code
-flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
 can be initiated from a mobile application _or_ from within a web application
 running in a server.
 
@@ -106,7 +106,7 @@ environment?**
 
 The identity platform provides an authorization model for Azure services with
 [two types of
-permissions](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#troubleshooting-permissions-and-consent):
+permissions](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#troubleshooting-permissions-and-consent):
 
 - **Application permissions** authorize an application to access resources
   directly.  Administrator consent must be granted to your application.
@@ -120,7 +120,7 @@ with a _public credential_, you must configure API permissions for the Azure
 service you need to access (Key Vault, Storage, etc) so that user accounts can
 be authorized to use them through your application.  The [quick start guide for
 configuring API
-permissions](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
+permissions](https://docs.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
 explains how to do this in detail.
 
 ### User-Granted Consent
@@ -130,19 +130,19 @@ delegated permissions, they may be presented with a consent screen that asks
 whether they want to grant your application permission to access resources on
 their behalf.  An example of this consent flow can be found in the [consent
 framework documentation
-page](https://docs.microsoft.com/en-us/azure/active-directory/develop/consent-framework).
+page](https://docs.microsoft.com/azure/active-directory/develop/consent-framework).
 
 An administrator can also grant consent for your application on behalf of all
 users.  In this case, users may never see a consent screen.  If you'd like to
 make it easy for an administrator to grant access to all users, follow the
 instructions in the [admin consent endpoint request
-documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#request-the-permissions-from-a-directory-admin).
+documentation](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#request-the-permissions-from-a-directory-admin).
 
 There are some cases where a user may not be allowed to grant consent to an
 application.  When this occurs, the user may have to speak with an administrator
 to have the permissions granted on their behalf.  The [user consent
 troubleshooting
-page](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/application-sign-in-unexpected-user-consent-error)
+page](https://docs.microsoft.com/azure/active-directory/manage-apps/application-sign-in-unexpected-user-consent-error)
 provides more details on the consent errors a user might encounter.
 
 ## Credential Types in @azure/identity
@@ -150,7 +150,7 @@ provides more details on the consent errors a user might encounter.
 ### ClientSecretCredential and ClientCertificateCredential
 
 The `ClientSecretCredential` implements the [client credentials
-flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow)
+flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow)
 to enable confidential clients, like web services, to access Azure resources.
 To use this credential, you will need to create a client secret using the
 "Certificates & secrets" page for your app registration.
@@ -159,7 +159,7 @@ The `ClientCertificateCredential` implements the same client credentials flow,
 but instead uses a certificate as the means to authenticate the client. You must
 must generate your own PEM-formatted certificate for use in this flow and then
 [register
-it](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad)
+it](https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad)
 in the "Certificates & secrets" page for your app registration. Using a
 certificate to authenticate is recommended as it is generally more secure than
 using a client secret.
@@ -174,7 +174,7 @@ on which credential you are using.
 ### UsernamePasswordCredential
 
 The `UsernamePasswordCredential` follows the [resource owner password credential
-flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
+flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)
 to authenticate public or confidential clients.  To use this credential, you
 will need the `tenantId` and `clientId` of your app and a `username` and
 `password` of the user you are authenticating.
@@ -193,7 +193,7 @@ directly is a major security risk.
 
 > NOTE: This credential type does not work with personal Microsoft accounts or
 > multi-factor authentication at this time.  See the
-> [documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
+> [documentation](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)
 > for more information.
 
 ### EnvironmentCredential
@@ -228,7 +228,7 @@ application to learn how to configure environment variables for your deployment.
 The `ManagedIdentityCredential` takes advantage of authentication endpoints that
 are hosted within the virtual network of applications deployed to Azure virtual
 machines, App Services, Functions, Container Services, [and
-more](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities).
+more](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities).
 
 One important distinction of this credential compared to the others is that it
 _does not require an app registration_.  This authentication scheme relates to
@@ -240,10 +240,10 @@ to grant one of two types of managed identity to the resource that runs your
 code:
 
 - A [system-assigned
-  identity](https://docs.microsoft.com/en-us/azure/app-service/overview-managed-identity#adding-a-system-assigned-identity)
+  identity](https://docs.microsoft.com/azure/app-service/overview-managed-identity#adding-a-system-assigned-identity)
   which uniquely identifies your resource
 - A [user-assigned
-  identity](https://docs.microsoft.com/en-us/azure/app-service/overview-managed-identity#adding-a-user-assigned-identity)
+  identity](https://docs.microsoft.com/azure/app-service/overview-managed-identity#adding-a-user-assigned-identity)
   which can be assigned to your resource (and others)
 
 Once your resource has an identity assigned, that identity can be granted access
@@ -256,15 +256,15 @@ the managed identity you wish to use for authentication.
 
 More information on configuring and using managed identities can be found in the
 [Managed identities for Azure
-resources](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview)
+resources](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
 documentation.  There is also a [list of Azure
-services](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-services-that-support-azure-ad-authentication)
+services](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-services-that-support-azure-ad-authentication)
 that have been tested to confirm support for managed identity authentication.
 
 ### InteractiveBrowserCredential
 
 The `InteractiveBrowserCredential` follows the [implicit grant
-flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
+flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
 which enables authentication for clients that run completely in the browser.  It
 is primarily useful for single-page web applications (SPAs) which need to
 authenticate to access Azure resources and APIs directly.
@@ -285,7 +285,7 @@ creating an `InteractiveBrowserCredential`.
 ### DeviceCodeCredential
 
 The `DeviceCodeCredential` follows the [device code authorization
-flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code)
+flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-device-code)
 which enables input-constrained devices, like TVs or IoT devices, to
 authenticate by having the user enter a provided "device code" into an
 authorization site that the user visits on another device.
@@ -297,7 +297,7 @@ section of the **Authentication** page of your app registration.
 ### AuthorizationCodeCredential
 
 The `AuthorizationCodeCredential` follows the [authorization code
-flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
 which enables server-hosted web applications, native desktop and mobile
 applications, and web APIs to access resources on the user's behalf.
 
@@ -310,7 +310,7 @@ locally, you can also add a redirect URI for your development endpoint
 
 A complete example of hosting your own authentication response endpoint can be
 found in the [`authorization code
-sample`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts).
+sample`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts).
 
 ### DefaultAzureCredential
 

@@ -1,17 +1,17 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 export * from "./DataLakeServiceClient";
 export * from "./DataLakeFileSystemClient";
 export * from "./clients";
 export * from "./DataLakeLeaseClient";
-export * from "./AccountSASPermissions";
-export * from "./AccountSASResourceTypes";
-export * from "./AccountSASServices";
-export * from "./AccountSASSignatureValues";
-export * from "./DataLakeSASPermissions";
-export * from "./DataLakeSASSignatureValues";
-export * from "./FileSystemSASPermissions";
+export * from "./sas/AccountSASPermissions";
+export * from "./sas/AccountSASResourceTypes";
+export * from "./sas/AccountSASServices";
+export * from "./sas/AccountSASSignatureValues";
+export * from "./sas/DataLakeSASPermissions";
+export * from "./sas/DataLakeSASSignatureValues";
+export * from "./sas/FileSystemSASPermissions";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
@@ -21,10 +21,12 @@ export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./StorageRetryPolicyFactory";
 export * from "./policies/StorageSharedKeyCredentialPolicy";
-export * from "./SASQueryParameters";
+export * from "./sas/SASQueryParameters";
 export * from "./models";
+export * from "./utils/DataLakeAclChangeFailedError";
 export { CommonOptions } from "./StorageClient";
-export { SasIPRange } from "./SasIPRange";
+export { SasIPRange } from "./sas/SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-http";
 export { logger } from "./log";
+export * from "./sas/DirectorySASPermissions";

@@ -23,12 +23,15 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
+      "karma-sourcemap-loader",
       "karma-junit-reporter"
     ],
 
     // list of files / patterns to load in the browser
-    files: ["test-browser/index.js"],
+    files: [
+      "test-browser/index.js",
+      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -45,20 +48,17 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+    reporters: ["mocha", "coverage", "junit"],
 
-    coverageReporter: { type: "in-memory" },
-
-    // Coverage report settings
-    remapCoverageReporter: {
-      "text-summary": null, // to show summary in console
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
-    },
-
-    // Exclude coverage calculation for following files
-    remapOptions: {
-      exclude: /node_modules|tests/g
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {

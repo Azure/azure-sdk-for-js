@@ -81,16 +81,6 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const subnetName: msRest.OperationURLParameter = {
-  parameterPath: "subnetName",
-  mapper: {
-    required: true,
-    serializedName: "subnetName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -110,16 +100,6 @@ export const tail: msRest.OperationQueryParameter = {
     serializedName: "tail",
     type: {
       name: "Number"
-    }
-  }
-};
-export const virtualNetworkName: msRest.OperationURLParameter = {
-  parameterPath: "virtualNetworkName",
-  mapper: {
-    required: true,
-    serializedName: "virtualNetworkName",
-    type: {
-      name: "String"
     }
   }
 };

@@ -7,7 +7,8 @@
  */
 
 export {
-  CloudError,
+  ErrorFieldContract,
+  ErrorResponse,
   ResourceSku,
   ResourceSkuCapacity,
   ResourceSkuResult,

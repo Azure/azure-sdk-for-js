@@ -1,20 +1,23 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getBSU, getSASConnectionStringFromEnvironment, setupEnvironment } from "./utils";
-import { ShareClient } from "../src";
+import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
+import { ShareClient, ShareServiceClient } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("ShareClient", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
+  let serviceClient: ShareServiceClient;
   let shareName: string;
   let shareClient: ShareClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -22,7 +25,7 @@ describe("ShareClient", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -35,6 +38,13 @@ describe("ShareClient", () => {
 
     const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  it("exists", async () => {
+    assert.ok(await shareClient.exists());
+
+    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    assert.ok(!(await shareClient2.exists()));
   });
 
   it("getProperties", async () => {
@@ -59,9 +69,33 @@ describe("ShareClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
+  it("createIfNotExists", async () => {
+    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    const res = await shareClient2.createIfNotExists();
+    assert.ok(res.succeeded);
+
+    const res2 = await shareClient2.createIfNotExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "ShareAlreadyExists");
+
+    await shareClient2.delete();
+  });
+
   it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
+  });
+
+  it("deleteIfExists", async () => {
+    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    await shareClient2.create();
+    const res = await shareClient2.deleteIfExists();
+    assert.ok(res.succeeded);
+
+    const shareClient3 = serviceClient.getShareClient(recorder.getUniqueName(shareName + "3"));
+    const res2 = await shareClient3.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "ShareNotFound");
   });
 
   it("setQuota", async () => {
@@ -199,14 +233,71 @@ describe("ShareClient", () => {
     assert.ok(createPermResp.version!);
   });
 
-  it("verify accountName and shareName passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareClient(`https://${accountName}.file.core.windows.net/` + shareName);
-    assert.equal(newClient.name, shareName, "Queue name is not the same as the one provided.");
+  it("create share specifying accessTier and listShare", async () => {
+    const newShareName = recorder.getUniqueName("newshare");
+    const newShareClient = serviceClient.getShareClient(newShareName);
+    await newShareClient.create({ accessTier: "Hot" });
+
+    for await (const shareItem of serviceClient.listShares({ prefix: newShareName })) {
+      if (shareItem.name === newShareName) {
+        assert.deepStrictEqual(shareItem.properties.accessTier, "Hot");
+        assert.ok(shareItem.properties.accessTierChangeTime);
+        break;
+      }
+    }
+
+    await newShareClient.delete();
+  });
+
+  it("setProperties", async () => {
+    const accessTier = "Hot";
+    const quotaInGB = 20;
+    await shareClient.setProperties({ accessTier, quotaInGB });
+    const getRes = await shareClient.getProperties();
+
+    assert.deepStrictEqual(getRes.accessTier, accessTier);
+    assert.ok(getRes.accessTierChangeTime);
+    assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
+    assert.equal(getRes.quota, quotaInGB);
+  });
+});
+
+describe("ShareDirectoryClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const shareName = "shareName";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ShareClient(url);
     assert.equal(
       newClient.accountName,
       accountName,
       "Account name is not the same as the one provided."
     );
+    assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(`https://${accountName}.file.core.windows.net/${shareName}`);
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${shareName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${shareName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ShareClient(`https://customdomain.com/${shareName}`);
+
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
   });
 });

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import multiEntry from "@rollup/plugin-multi-entry";
+import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
@@ -45,11 +45,9 @@ export function nodeConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
@@ -64,14 +62,18 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.input = [
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/node/*.spec.js",
+      "dist-esm/src/index.js"
+    ];
+    baseConfig.plugins.unshift(multiEntry());
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("assert", "fs", "path", "buffer", "zlib");
 
     baseConfig.context = "null";
 
@@ -90,7 +92,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-file-share.js",
+      file: "dist-browser/azure-storage-file-share.js",
       banner: banner,
       format: "umd",
       name: "azfile",
@@ -101,12 +103,10 @@ export function browserConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (false) since this is for
-          // browser only. Rollup's dead code elimination will remove
-          // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
-        }
+        // replace dynamic checks with if (false) since this is for
+        // browser only. Rollup's dead code elimination will remove
+        // any code guarded by if (isNode) { ... }
+        "if (isNode)": "if (false)"
       }),
       // fs and os are not used by the browser bundle, so just shim it
       // dotenv doesn't work in the browser, so replace it with a no-op function
@@ -143,12 +143,17 @@ export function browserConfig(test = false) {
             "notEqual",
             "strictEqual"
           ],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ],
     onwarn(warning, warn) {
-      if (warning.code === "CIRCULAR_DEPENDENCY") {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" ||
+        warning.code === "UNRESOLVED_IMPORT"
+        // Unresolved imports in the browser may break apps with frameworks such as angular.
+        // Shim the modules with dummy src files for browser to avoid regressions.
+      ) {
         throw new Error(warning.message);
       }
       warn(warning);
@@ -159,8 +164,8 @@ export function browserConfig(test = false) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
-    baseConfig.external = ["fs-extra"];
+
+    baseConfig.external = [];
 
     baseConfig.context = "null";
 

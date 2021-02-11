@@ -1,18 +1,9 @@
 steps:
+  - template: /eng/common/pipelines/templates/steps/bypass-local-dns.yml
+
   - task: UsePythonVersion@0
     displayName: "Use Python 3.6"
     inputs:
       versionSpec: "3.6"
 
-  - template: eng/pipelines/templates/scripts/verify-agent-os.yml@azure-sdk-tools
-    parameters:
-      OSName: $(OSVmImage)
-
-  - task: NodeTool@0
-    inputs:
-      versionSpec: "$(NodeVersion)"
-    displayName: "Use NodeJS $(NodeVersion)"
-
-  - script: |
-      npm --version
-    displayName: NPM version
+  - template: use-node-version.yml

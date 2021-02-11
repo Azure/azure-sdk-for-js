@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { hmac } from "./hmac";
-import { HTTPMethod, ResourceType } from "../common";
+import { HTTPMethod, ResourceType, Constants } from "../common";
 
 export async function generateHeaders(
   masterKey: string,
@@ -11,8 +14,8 @@ export async function generateHeaders(
   const sig = await signature(masterKey, method, resourceType, resourceId, date);
 
   return {
-    Authorization: sig,
-    "x-ms-date": date.toUTCString()
+    [Constants.HttpHeaders.Authorization]: sig,
+    [Constants.HttpHeaders.XDate]: date.toUTCString()
   };
 }
 

@@ -9,35 +9,34 @@ This package contains an isomorphic SDK for OperationalInsightsManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-operationalinsights
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get linkedServices as an example written in TypeScript.
+#### nodejs - client creation and listByWorkspace dataExports as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
-npm install @azure/ms-rest-nodeauth
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { OperationalInsightsManagementClient, OperationalInsightsManagementModels, OperationalInsightsManagementMappers } from "@azure/arm-operationalinsights";
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
+```typescript
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new OperationalInsightsManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
   const workspaceName = "testworkspaceName";
-  const linkedServiceName = "testlinkedServiceName";
-  client.linkedServices.get(resourceGroupName, workspaceName, linkedServiceName).then((result) => {
+  client.dataExports.listByWorkspace(resourceGroupName, workspaceName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -46,11 +45,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get linkedServices as an example written in JavaScript.
+#### browser - Authentication, client creation and listByWorkspace dataExports as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -82,8 +81,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmOperationalinsights.OperationalInsightsManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const workspaceName = "testworkspaceName";
-        const linkedServiceName = "testlinkedServiceName";
-        client.linkedServices.get(resourceGroupName, workspaceName, linkedServiceName).then((result) => {
+        client.dataExports.listByWorkspace(resourceGroupName, workspaceName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -101,5 +99,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Foperationalinsights%2Farm-operationalinsights%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/operationalinsights/arm-operationalinsights/README.png)

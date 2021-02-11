@@ -26,14 +26,11 @@ export enum ParallelQueryExecutionContextBaseStates {
 
 /** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
-  private static readonly DEFAULT_PAGE_SIZE = 10;
-
   private err: any;
   private state: any;
   private static STATES = ParallelQueryExecutionContextBaseStates;
   private routingProvider: SmartRoutingMapProvider;
   protected sortOrders: any;
-  private pageSize: any;
   private requestContinuation: any;
   private respHeaders: CosmosHeaders;
   private orderByPQ: PriorityQueue<DocumentProducer>;
@@ -51,7 +48,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @param {string} collectionLink                - The Collection Link
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
-   * @ignore
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,
@@ -70,13 +67,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
-
-    if (options === undefined || options["maxItemCount"] === undefined) {
-      this.pageSize = ParallelQueryExecutionContextBase.DEFAULT_PAGE_SIZE;
-      this.options["maxItemCount"] = this.pageSize;
-    } else {
-      this.pageSize = options["maxItemCount"];
-    }
 
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
@@ -97,14 +87,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const targetPartitionRanges = await this._onTargetPartitionRanges();
         this.waitingForInternalExecutionContexts = targetPartitionRanges.length;
 
-        // default to 1 if 0 or undefined is provided.
         const maxDegreeOfParallelism =
-          options.maxDegreeOfParallelism === 0 || options.maxDegreeOfParallelism === undefined
-            ? 1
-            : // use maximum parallelism if -1 (or less) is provided
-            options.maxDegreeOfParallelism > 0
-            ? Math.min(options.maxDegreeOfParallelism + 1, targetPartitionRanges.length)
-            : targetPartitionRanges.length;
+          options.maxDegreeOfParallelism === undefined || options.maxDegreeOfParallelism < 1
+            ? targetPartitionRanges.length
+            : Math.min(options.maxDegreeOfParallelism, targetPartitionRanges.length);
 
         log.info(
           "Query starting against " +

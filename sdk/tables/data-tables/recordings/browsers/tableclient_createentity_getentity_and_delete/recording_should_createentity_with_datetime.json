@@ -1,0 +1,69 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestbrowser",
+   "query": {},
+   "requestBody": "{\"PartitionKey\":\"P7_browser\",\"RowKey\":\"R7\",\"testField\":\"2020-09-17T00:00:00.99999Z\",\"testField@odata.type\":\"Edm.DateTime\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "dataserviceid": "https://fakestorageaccount.table.core.windows.net/tableClientTestbrowser(PartitionKey='P7_browser',RowKey='R7')",
+    "date": "Mon, 01 Feb 2021 20:59:17 GMT",
+    "etag": "W/\"datetime'2021-02-01T20%3A59%3A18.6745375Z'\"",
+    "location": "https://fakestorageaccount.table.core.windows.net/tableClientTestbrowser(PartitionKey='P7_browser',RowKey='R7')",
+    "preference-applied": "return-no-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "80e5beb2-9a64-4559-bd95-2d8b257b6eaa",
+    "x-ms-request-id": "5939a981-1002-00b3-1fdd-f858a0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestbrowser(PartitionKey='P7_browser',RowKey='R7')",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestbrowser/@Element\",\"odata.etag\":\"W/\\\"datetime'2021-02-01T20%3A59%3A18.6745375Z'\\\"\",\"PartitionKey\":\"P7_browser\",\"RowKey\":\"R7\",\"Timestamp\":\"2021-02-01T20:59:18.6745375Z\",\"testField@odata.type\":\"Edm.DateTime\",\"testField\":\"2020-09-17T00:00:00.99999Z\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Mon, 01 Feb 2021 20:59:18 GMT",
+    "etag": "W/\"datetime'2021-02-01T20%3A59%3A18.6745375Z'\"",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "69ad9e85-4bd6-4a4c-941a-cdea4cf81e91",
+    "x-ms-request-id": "5939a9d1-1002-00b3-68dd-f858a0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestbrowser(PartitionKey='P7_browser',RowKey='R7')",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "date": "Mon, 01 Feb 2021 20:59:18 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "9b120f3c-4cb0-4075-96f2-e76af6a4b670",
+    "x-ms-request-id": "5939aa05-1002-00b3-14dd-f858a0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "22e889a7df1a57a74b986ad28881c198"
+}

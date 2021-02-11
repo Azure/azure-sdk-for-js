@@ -7,7 +7,11 @@
  */
 
 export {
+  ClearRange,
   FileAbortCopyHeaders,
+  FileAcquireLeaseHeaders,
+  FileBreakLeaseHeaders,
+  FileChangeLeaseHeaders,
   FileCreateHeaders,
   FileDeleteHeaders,
   FileDownloadHeaders,
@@ -15,6 +19,8 @@ export {
   FileGetPropertiesHeaders,
   FileGetRangeListHeaders,
   FileListHandlesHeaders,
+  FileRange,
+  FileReleaseLeaseHeaders,
   FileSetHTTPHeadersHeaders,
   FileSetMetadataHeaders,
   FileStartCopyHeaders,
@@ -22,6 +28,6 @@ export {
   FileUploadRangeHeaders,
   HandleItem,
   ListHandlesResponse,
-  Range,
+  ShareFileRangeList,
   StorageError
 } from "../models/mappers";

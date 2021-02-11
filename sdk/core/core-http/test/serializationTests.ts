@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import { assert } from "chai";
 import "chai/register-should";
 
-import * as msRest from "../lib/coreHttp";
-import { TestClient } from "./data/TestClient/lib/testClient";
-import { Mappers } from "./data/TestClient/lib/models/mappers";
+import * as msRest from "../src/coreHttp";
+import { TestClient } from "./data/TestClient/src/testClient";
+import { Mappers } from "./data/TestClient/src/models/mappers";
 
 const Serializer = new msRest.Serializer({});
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
@@ -21,6 +23,54 @@ function stringToByteArray(str: string): Uint8Array {
 
 describe("msrest", function() {
   describe("serializeObject", function() {
+    it("should correctly serialize flattened properties", (done) => {
+      const expected = {
+        id: 1,
+        name: "testProduct",
+        details: {
+          max_product_capacity: "Large",
+          max_product_display_name: "MaxDisplayName"
+        }
+      };
+
+      const serialized = Serializer.serialize(
+        Mappers.SimpleProduct,
+        {
+          id: 1,
+          name: "testProduct",
+          maxProductDisplayName: "MaxDisplayName"
+        },
+        "SimpleProduct"
+      );
+
+      assert.deepEqual(serialized, expected);
+      done();
+    });
+
+    it("should correctly serialize flattened properties when flattened constant is defined first", (done) => {
+      const expected = {
+        id: 1,
+        name: "testProduct",
+        details: {
+          max_product_capacity: "Large",
+          max_product_display_name: "MaxDisplayName"
+        }
+      };
+
+      const serialized = Serializer.serialize(
+        Mappers.SimpleProductConstFirst,
+        {
+          id: 1,
+          name: "testProduct",
+          maxProductDisplayName: "MaxDisplayName"
+        },
+        "SimpleProduct"
+      );
+
+      assert.deepEqual(serialized, expected);
+      done();
+    });
+
     it("should correctly serialize a Date Object", function(done) {
       const dateObj = new Date("2015-01-01");
       const dateISO = "2015-01-01T00:00:00.000Z";
@@ -286,9 +336,9 @@ describe("msrest", function() {
         required: false,
         serializedName: "DateTimeRfc1123"
       };
-      const rfc = new Date("Mon, 01 Jan 0001 00:00:00 GMT");
+      const rfc = new Date("Wed, 01 Jan 2020 00:00:00 GMT");
       const serializedDateString = Serializer.serialize(mapper, rfc, "dateTimeObj");
-      serializedDateString.should.equal("Mon, 01 Jan 2001 00:00:00 GMT");
+      serializedDateString.should.equal("Wed, 01 Jan 2020 00:00:00 GMT");
       done();
     });
 
@@ -1264,97 +1314,6 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize without failing when encountering no discriminator", function(done) {
-      const client = new TestClient("http://localhost:9090");
-      const mapper = Mappers.Fish;
-      const responseBody = {
-        age: 22,
-        birthday: new Date("2012-01-05T01:00:00Z").toISOString(),
-        species: "king",
-        length: 1.0,
-        picture: Buffer.from([255, 255, 255, 255, 254]).toString(),
-        siblings: [
-          {
-            "fish.type": "mutatedshark",
-            age: 105,
-            birthday: new Date("1900-01-05T01:00:00Z").toISOString(),
-            length: 10.0,
-            picture: Buffer.from([255, 255, 255, 255, 254]).toString(),
-            species: "dangerous",
-            siblings: [
-              {
-                "fish.type": "mutatedshark",
-                age: 6,
-                length: 20.0,
-                species: "predator"
-              }
-            ]
-          }
-        ]
-      };
-      const deserializedSawshark = client.serializer.deserialize(
-        mapper,
-        responseBody,
-        "responseBody"
-      );
-      deserializedSawshark.fishtype.should.equal("Fish");
-      deserializedSawshark.siblings.length.should.equal(1);
-      deserializedSawshark.siblings[0].fishtype.should.equal("mutatedshark");
-      deserializedSawshark.siblings[0].species.should.equal("dangerous");
-      deserializedSawshark.siblings[0].birthday.should.equal("1900-01-05T01:00:00.000Z");
-      deserializedSawshark.siblings[0].age.should.equal(105);
-      deserializedSawshark.siblings[0].siblings[0].fishtype.should.equal("mutatedshark");
-      deserializedSawshark.siblings[0].siblings[0].species.should.equal("predator");
-      deserializedSawshark.siblings[0].siblings[0].age.should.equal(6);
-      done();
-    });
-
-    it("should correctly serialize without failing when encountering no discriminator", function(done) {
-      const client = new TestClient("http://localhost:9090");
-      const mapper = Mappers.SawShark;
-      const sawshark = {
-        age: 22,
-        birthday: new Date("2012-01-05T01:00:00Z"),
-        species: "king",
-        length: 1.0,
-        picture: Buffer.from([255, 255, 255, 255, 254]),
-        siblings: [
-          {
-            fishtype: "shark",
-            age: 6,
-            birthday: new Date("2012-01-05T01:00:00Z"),
-            length: 20.0,
-            species: "predator"
-          },
-          {
-            fishtype: "sawshark",
-            age: 105,
-            birthday: new Date("1900-01-05T01:00:00Z"),
-            length: 10.0,
-            picture: Buffer.from([255, 255, 255, 255, 254]),
-            species: "dangerous"
-          }
-        ]
-      };
-      const serializedSawshark = client.serializer.serialize(mapper, sawshark, "result");
-      serializedSawshark.age.should.equal(22);
-      serializedSawshark["fish.type"].should.equal("sawshark");
-      serializedSawshark.siblings.length.should.equal(2);
-      serializedSawshark.siblings[0]["fish.type"].should.equal("shark");
-      serializedSawshark.siblings[0].age.should.equal(6);
-      serializedSawshark.siblings[0].birthday.should.equal(
-        new Date("2012-01-05T01:00:00Z").toISOString()
-      );
-      serializedSawshark.siblings[1]["fish.type"].should.equal("sawshark");
-      serializedSawshark.siblings[1].age.should.equal(105);
-      serializedSawshark.siblings[1].birthday.should.equal(
-        new Date("1900-01-05T01:00:00Z").toISOString()
-      );
-      serializedSawshark.siblings[1].picture.should.equal("//////4=");
-      serializedSawshark.picture.should.equal("//////4=");
-      done();
-    });
-
     it("should deserialize headerCollectionPrefix", function() {
       const mapper: msRest.CompositeMapper = {
         serializedName: "something",
@@ -1640,6 +1599,46 @@ describe("msrest", function() {
         const result: any = serializer.deserialize(fish, "", "mockFishProperty");
 
         assert.deepEqual(result, {});
+      });
+
+      it("should be deserialized properly when item list wrapper is an empty string", function() {
+        const blobServiceProperties: msRest.CompositeMapper = {
+          xmlName: "StorageServiceProperties",
+          serializedName: "BlobServiceProperties",
+          type: {
+            name: "Composite",
+            className: "BlobServiceProperties",
+            modelProperties: {
+              cors: {
+                xmlIsWrapped: true,
+                xmlName: "Cors",
+                xmlElementName: "CorsRule",
+                serializedName: "Cors",
+                type: {
+                  name: "Sequence",
+                  element: {
+                    type: {
+                      name: "Composite",
+                      className: "CorsRule"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const mappers = {
+          BlobServiceProperties: blobServiceProperties
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+        const result: any = serializer.deserialize(
+          blobServiceProperties,
+          { Cors: "" },
+          "mockedBlobServiceProperties"
+        );
+
+        assert.deepEqual(result, { cors: [] });
       });
     });
 

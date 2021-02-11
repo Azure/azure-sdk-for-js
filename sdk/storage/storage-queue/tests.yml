@@ -1,14 +1,9 @@
 trigger: none
-resources:
-  repositories:
-    - repository: azure-sdk-build-tools
-      type: git
-      name: internal/azure-sdk-build-tools
-    - repository: azure-sdk-tools
-      type: github
-      name: Azure/azure-sdk-tools
-      endpoint: azure
-jobs:
-  - template: ../archetype-sdk-tests-storage.yml
-    parameters:
-      PackageName: "@azure/storage-queue"
+
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/storage-queue"
+    ResourceServiceDirectory: storage
+    ResourceGroupLocation: canadacentral
+    SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)

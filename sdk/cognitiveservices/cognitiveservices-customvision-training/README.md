@@ -18,15 +18,13 @@ npm install @azure/cognitiveservices-customvision-training
 #### nodejs - Authentication, client creation and getDomains  as an example written in TypeScript.
 
 ##### Sample code
-The following sample performs a quick test of the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
+The following sample performs a quick test of the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/azure/cognitive-services/custom-vision-service/home).
 
-```typescript
-import {
-  TrainingAPIClient,
-  TrainingAPIModels
-} from "@azure/cognitiveservices-customvision-training";
+```javascript
+const { TrainingAPIClient } = require("@azure/cognitiveservices-customvision-training");
+const { ApiKeyCredentials } = require("@azure/ms-rest-js");
 
-async function main(): Promise<void> {
+async function main() {
   const customVisionTrainingKey =
     process.env["customVisionTrainingKey"] || "<customVisionTrainingKey>";
   const customVisionTrainingEndPoint =
@@ -35,15 +33,13 @@ async function main(): Promise<void> {
   const projectId = process.env["projectId"] || "<projectId>";
   const iterationId = process.env["iterationId"] || "<iterationId>";
 
+  const credentials = new ApiKeyCredentials({ inHeader: { "Training-key": customVisionTrainingKey } });
+  const client = new TrainingAPIClient(credentials, customVisionTrainingEndPoint);
+
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
 
-  const client = new TrainingAPIClient(
-    customVisionTrainingKey,
-    customVisionTrainingEndPoint
-  );
-
-  const options: TrainingAPIModels.TrainingAPIClientQuickTestImageUrlOptionalParams = {
+  const options = {
     iterationId: iterationId
   };
 
@@ -86,12 +82,17 @@ main();
         "<YOUR_CUSTOM_VISION_TRAINING_ENDPOINT>";
       const projectId = "<YOUR_PROJECT_ID>";
       const iterationId = "<YOUR_ITERATION_ID>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": customVisionTrainingKey
+        }
+      });
 
       const imageURL =
         "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
 
       const client = new Azure.CognitiveservicesCustomvisionTraining.TrainingAPIClient(
-        customVisionTrainingKey,
+        cognitiveServiceCredentials,
         customVisionTrainingEndPoint
       );
 

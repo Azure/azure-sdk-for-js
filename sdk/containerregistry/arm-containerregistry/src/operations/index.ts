@@ -8,11 +8,17 @@
  * regenerated.
  */
 
+export * from "./exportPipelines";
 export * from "./registries";
+export * from "./importPipelines";
 export * from "./operations";
+export * from "./pipelineRuns";
+export * from "./privateEndpointConnections";
 export * from "./replications";
 export * from "./webhooks";
+export * from "./agentPools";
 export * from "./runs";
+export * from "./taskRuns";
 export * from "./tasks";
 export * from "./scopeMaps";
 export * from "./tokens";

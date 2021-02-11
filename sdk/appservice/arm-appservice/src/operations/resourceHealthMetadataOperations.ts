@@ -27,7 +27,7 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * List all ResourceHealthMetadata for all sites in the subscription.
+   * Description for List all ResourceHealthMetadata for all sites in the subscription.
    * @summary List all ResourceHealthMetadata for all sites in the subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListResponse>
@@ -52,7 +52,8 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+   * Description for List all ResourceHealthMetadata for all sites in the resource group in the
+   * subscription.
    * @summary List all ResourceHealthMetadata for all sites in the resource group in the
    * subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -82,7 +83,8 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
+   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
+   * collection
    * @summary Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -115,7 +117,7 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * Gets the category of ResourceHealthMetadata to use for the given site
+   * Description for Gets the category of ResourceHealthMetadata to use for the given site
    * @summary Gets the category of ResourceHealthMetadata to use for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
@@ -148,7 +150,8 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
+   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
+   * collection
    * @summary Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -185,7 +188,7 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * Gets the category of ResourceHealthMetadata to use for the given site
+   * Description for Gets the category of ResourceHealthMetadata to use for the given site
    * @summary Gets the category of ResourceHealthMetadata to use for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
@@ -222,7 +225,7 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * List all ResourceHealthMetadata for all sites in the subscription.
+   * Description for List all ResourceHealthMetadata for all sites in the subscription.
    * @summary List all ResourceHealthMetadata for all sites in the subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -251,7 +254,8 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+   * Description for List all ResourceHealthMetadata for all sites in the resource group in the
+   * subscription.
    * @summary List all ResourceHealthMetadata for all sites in the resource group in the
    * subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -281,7 +285,8 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
+   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
+   * collection
    * @summary Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -310,7 +315,8 @@ export class ResourceHealthMetadataOperations {
   }
 
   /**
-   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
+   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
+   * collection
    * @summary Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -348,7 +354,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -372,7 +378,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -397,7 +403,7 @@ const listBySiteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -422,7 +428,7 @@ const getBySiteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -448,7 +454,7 @@ const listBySiteSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -474,7 +480,7 @@ const getBySiteSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

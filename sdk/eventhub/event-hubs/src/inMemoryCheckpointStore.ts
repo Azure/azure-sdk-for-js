@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { PartitionOwnership, CheckpointStore } from "./eventProcessor";
+import { CheckpointStore, PartitionOwnership } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
@@ -15,9 +15,7 @@ import { throwTypeErrorIfParameterMissing } from "./util/error";
  * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  *
- * @class
  * @internal
- * @ignore
  */
 export class InMemoryCheckpointStore implements CheckpointStore {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
@@ -27,16 +25,16 @@ export class InMemoryCheckpointStore implements CheckpointStore {
    * Get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
-   * @return Partition ownership details of all the partitions that have/had an owner..
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @returns Partition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
-    fullyQualifiedNamespace: string,
-    eventHubName: string,
-    consumerGroup: string
+    _fullyQualifiedNamespace: string,
+    _eventHubName: string,
+    _consumerGroup: string
   ): Promise<PartitionOwnership[]> {
     const ownerships = [];
 
@@ -51,8 +49,8 @@ export class InMemoryCheckpointStore implements CheckpointStore {
    * Claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
-   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
-   * @return A list partitions this instance successfully claimed ownership.
+   * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
+   * @returns A list partitions this instance successfully claimed ownership.
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     const claimedOwnerships = [];
@@ -62,14 +60,14 @@ export class InMemoryCheckpointStore implements CheckpointStore {
         !this._partitionOwnershipMap.has(ownership.partitionId) ||
         this._partitionOwnershipMap.get(ownership.partitionId)!.etag === ownership.etag
       ) {
-        var date = new Date();
+        const date = new Date();
 
         const newOwnership = {
           ...ownership,
           etag: generate_uuid(),
           lastModifiedTimeInMs: date.getTime()
         };
-        
+
         this._partitionOwnershipMap.set(newOwnership.partitionId, newOwnership);
         claimedOwnerships.push(newOwnership);
       }
@@ -80,7 +78,7 @@ export class InMemoryCheckpointStore implements CheckpointStore {
   /**
    * Updates the checkpoint in the data store for a partition.
    *
-   * @param checkpoint The checkpoint.
+   * @param checkpoint - The checkpoint.
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     throwTypeErrorIfParameterMissing(

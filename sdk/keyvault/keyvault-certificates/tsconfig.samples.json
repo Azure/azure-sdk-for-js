@@ -19,6 +19,5 @@
     "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "esModuleInterop": true
   },
-  "compileOnSave": true,
   "include": ["./samples/**/*.ts"]
 }

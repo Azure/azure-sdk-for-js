@@ -13,7 +13,7 @@ import {
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -21,10 +21,11 @@ export async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -63,10 +64,10 @@ export async function main() {
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
-  const content = "hello";
+  const content = "hello, 你好";
   const blobName = "newblob" + new Date().getTime();
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
@@ -81,7 +82,7 @@ export async function main() {
   const downloadBlockBlobResponse: BlobDownloadResponseModel = await blockBlobClient.download(0);
   console.log(
     "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody!)
+    (await streamToBuffer(downloadBlockBlobResponse.readableStreamBody!)).toString()
   );
 
   // Delete container
@@ -90,15 +91,15 @@ export async function main() {
   console.log("deleted container");
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream: NodeJS.ReadableStream) {
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const chunks: string[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });

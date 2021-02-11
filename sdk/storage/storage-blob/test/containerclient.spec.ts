@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -6,24 +9,29 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   isSuperSet,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { URLBuilder } from "@azure/core-http";
-import { ContainerClient, BlockBlobTier, ContainerListBlobHierarchySegmentResponse } from "../src";
+import {
+  ContainerClient,
+  BlockBlobTier,
+  ContainerListBlobHierarchySegmentResponse,
+  BlobServiceClient
+} from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("ContainerClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -31,7 +39,7 @@ describe("ContainerClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -58,6 +66,34 @@ describe("ContainerClient", () => {
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
     assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await containerClient.createIfNotExists();
+    assert.equal(res.succeeded, false);
+    assert.equal(res.errorCode, "ContainerAlreadyExists");
+
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    const res2 = await containerClient2.createIfNotExists();
+    assert.equal(res2.succeeded, true);
+    assert.ok(res2.etag);
+
+    await containerClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    await containerClient2.create();
+    const res = await containerClient2.deleteIfExists();
+    assert.ok(res.succeeded);
+
+    const containerName3 = recorder.getUniqueName("container3");
+    const containerClient3 = blobServiceClient.getContainerClient(containerName3);
+    const res2 = await containerClient3.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "ContainerNotFound");
   });
 
   it("create with default parameters", (done) => {
@@ -284,7 +320,7 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const iterator = await containerClient.listBlobsFlat({
+    const iterator = containerClient.listBlobsFlat({
       includeCopy: true,
       includeDeleted: true,
       includeMetadata: true,
@@ -592,6 +628,22 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsByHierarchy with empty delimiter should throw error", async () => {
+    try {
+      await containerClient
+        .listBlobsByHierarchy("", { prefix: "" })
+        .byPage()
+        .next();
+      assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
+    } catch (error) {
+      assert.equal(
+        "delimiter should contain one or more characters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
   it("uploadBlockBlob and deleteBlob", async () => {
     const body: string = recorder.getUniqueName("randomstring");
     const options = {
@@ -646,7 +698,7 @@ describe("ContainerClient", () => {
       blobHTTPHeaders: options,
       metadata: options.metadata,
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
 
@@ -745,23 +797,6 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("verify containerName passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ContainerClient(
-      `https://${accountName}.blob.core.windows.net/` + containerName
-    );
-    assert.equal(
-      newClient.containerName,
-      containerName,
-      "Container name is not the same as the one provided."
-    );
-    assert.equal(
-      newClient.accountName,
-      accountName,
-      "Account name is not the same as the one provided."
-    );
-  });
-
   it("exists returns true on an existing container", async () => {
     const result = await containerClient.exists();
     assert.ok(result, "exists() should return true for an existing container");
@@ -773,5 +808,91 @@ describe("ContainerClient", () => {
     );
     const result = await newContainerClient.exists();
     assert.ok(result === false, "exists() should return true for an existing container");
+  });
+
+  it("can list blobs with underscore metadata key name", async () => {
+    const body: string = recorder.getUniqueName("randomstring");
+    const options = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentType: "blobContentType",
+      metadata: {
+        _: "underscore value",
+        keyb: "value b"
+      }
+    };
+    const newContainerClient = blobServiceClient.getContainerClient(
+      recorder.getUniqueName("listingcontainer")
+    );
+    await newContainerClient.create();
+    await newContainerClient.uploadBlockBlob(
+      recorder.getUniqueName("listblob"),
+      body,
+      body.length,
+      {
+        blobHTTPHeaders: options,
+        metadata: options.metadata
+      }
+    );
+
+    const iterator = newContainerClient
+      .listBlobsFlat({ includeMetadata: true })
+      .byPage({ maxPageSize: 5 });
+    const page = await iterator.next();
+    assert.ok(!page.done && page.value, "Expecting valid blob listing");
+    if (!page.done) {
+      assert.ok(page.value.segment.blobItems.length > 0, "Expecting blobItems");
+      const blobItem = page.value.segment.blobItems[0];
+      assert.deepStrictEqual(blobItem.metadata, options.metadata);
+    }
+  });
+});
+
+describe("ContainerClient - Verify Name Properties", () => {
+  const containerName = "containerName";
+  const accountName = "myAccount";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ContainerClient(url);
+    assert.equal(
+      newClient.containerName,
+      containerName,
+      "Container name is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(`https://${accountName}.blob.core.windows.net/` + containerName);
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${containerName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${containerName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ContainerClient(`https://customdomain.com/${containerName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(
+      newClient.containerName,
+      containerName,
+      "Container name is not the same as the one provided."
+    );
   });
 });

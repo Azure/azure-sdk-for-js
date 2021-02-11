@@ -4,7 +4,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](http://azure.github.io/guidelines/).
+If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](https://azure.github.io/guidelines/).
 
 The Azure Storage development team uses Visual Studio Code. However, any preferred IDE or other toolset should be usable.
 
@@ -18,28 +18,46 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Configuration
 
-The only step to configure testing is to set the appropriate environment variables. Create environment variables named "ACCOUNT_NAME", "ACCOUNT_KEY" or "ACCOUNT_SAS". The first two will be used for most requests. The "ACCOUNT_SAS" will only be used for tests in browsers.
+The only step to configure testing is to set the appropriate environment variables. Create environment variables as per below.
 
-You can generate a valid account SAS from Azure portal or tools like Azure Storage Explorer. A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like following:
+#### TEST_MODE
 
-```bash
-set "ACCOUNT_SAS=<YOUR_SAS>"
-```
+TEST_MODE can be `"record"` or `"live"` or `"playback"`
 
-### Record and playback tests
+- `record` - to test against the service while recording the HTTP requests and responses
+- `playback` - to test against the saved recordings without hitting the live service
+- `live` - to test against the service directly without recording
 
-The environment variable **TEST_MODE** controls how tests are running.
+The default TEST_MODE is `playback`.
+Explicitly set the TEST_MODE for `live` and `record` modes.
+
+Example - `export TEST_MODE=record` or `set TEST_MODE=record`
+
+- If the TEST_MODE is `"record"` or `"live"`, please follow the the table below and set the environment variables accordingly. No need to set them for `playback`.
+
+  | Environment variables     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                   | Required/Not                                                                     |
+  | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+  | ACCOUNT_NAME              | Name of your storage account.                                                                                                                                                                                                                                                                                                                                                                                                                 | Required                                                                         |
+  | ACCOUNT_KEY               | Can be obtained from the Azure portal. Go to the `Access Keys` tab under the `Settings` section of your storage account in the portal and note down the key.                                                                                                                                                                                                                                                                                  | Required                                                                         |
+  | ACCOUNT_SAS               | Can be obtained from the Azure portal. Go to the `Shared access signature` tab under the `Settings` section of your storage account in the portal. Generate SAS by enabling permissions, setting exiry dates, etc. You can also generate SAS from tools like Azure Storage Explorer. <br>A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like this - `set "ACCOUNT_SAS=<YOUR_SAS>"` | Required to run the browser tests                                                |
+  | ACCOUNT_TOKEN             | Preferred way is to get a Token through Azure CLI.<br> - `az login`<br> - `az account get-access-token --resource "https://storage.azure.com"`<br>For more info - refer [Azure CLI - get-access-token](https://docs.microsoft.com/cli/azure/account?view=azure-cli-latest#az-account-get-access-token)                                                                                                                                  | Not required (Some of the tests will be skipped if this variable is not defined) |
+  | STORAGE_CONNECTION_STRING | Can be obtained from the Azure portal. Go to the `Access Keys` tab under the `Settings` section of your storage account in the portal and note down the connection string.                                                                                                                                                                                                                                                                    | Required                                                                         |
+  | ENCRYPTION_SCOPE_1        | An encryption scope created under your storage account. The two encryption scopes need to be different. Can be created using the SRP API.                                                                                                                                                                                                                                                                                                                                                     | Not required (Some of the tests will be skipped if this variable is not defined) |
+  | ENCRYPTION_SCOPE_2        | Another encryption scope created under your storage account. The two encryption scopes need to be different. Can be created using the SRP API.                                                                                                                                                                                                                                                                                                                                                | Not required (Some of the tests will be skipped if this variable is not defined) |
+  |                           |                                                                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                  |
+
+The environment variable **TEST_MODE** controls how the tests are running.
 
 - If TEST_MODE = "record",
   - Tests hit the live-service
-  - Nock/Nise are used for recording the request-responses for future use
+  - [Nock](https://www.npmjs.com/package/nock)/[Nise](https://www.npmjs.com/package/nise) are leveraged for recording the request-responses for future use
   - If recordings are already present, forces re-recording
-- Else If TEST_MODE = "playback",
-  - Existing recordings are used
-- Else
+- Else If TEST_MODE = "live",
   - Tests hit the live-service, we don't record the requests/responses
+- Else If TEST_MODE = "playback" (or if the TEST_MODE is not set or set to an invalid value),
+  - Existing recordings are played back as responses to the HTTP requests in the tests
 
-Please refers to [RecordAndPlayback.md](./RecordAndPlayback.md) for more details about record and playback tests.
+Please refer to the [guidelines on Record and Playback](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md) for more details.
 
 ### Emulator Tests
 
@@ -88,9 +106,14 @@ npm run test:browser
 
 Browser testing is based on Karma, you can change default testing browser by modifying karma.conf.js file.
 
-### Record & Play
+### Record & Playback
 
-By default, above test commands are live testing against real Azure Storage accounts. Before running above tests, set environment value `TEST_MODE` to switch to offline mock test mode or test recording mode.
+By default, above test commands run the tests in `playback` mode i.e using the existing request/response recordings instead of making the request to Azure Storage accounts.
+To run the tests against live Azure Storage accounts, set the environment value `TEST_MODE` to `live` before running the test commands.
+`export TEST_MODE=live`
+
+To add or update recordings for the tests, set the `TEST_MODE` to `record` before running the test commands.
+`export TEST_MODE=record`
 
 Playback mode is for offline mock test, which doesn't require a storage account, it's quick but less coverage:
 
@@ -100,9 +123,9 @@ Record tests for next playback. Recording is necessary after adding or updating 
 
 `export TEST_MODE=record`
 
-Live tests by clearing `TEST_MODE` environment variable:
+Live tests by setting `TEST_MODE` environment variable:
 
-`export TEST_MODE=`
+`export TEST_MODE=live`
 
 ### Testing Features
 
@@ -122,7 +145,7 @@ New env variable for recordings - TEST_MODE [Supposed to be added in the `.env` 
 
   - Existing recordings(present in the `/recordings` folder) are used to verify the tests
 
-- Else,
+- Else If TEST_MODE = "live",
 
   - Tests hit the live-service, we don't record the requests/responses
 
@@ -133,7 +156,7 @@ npm run test
 
 `npm run test` would run the the tests in both node and the browser.
 
-**Link** - [Guidelines for record and playback](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/RecordAndPlayback.md)
+**Link** - [Guidelines for record and playback - `@azure/test-utils-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md)
 
 ## Pull Requests
 

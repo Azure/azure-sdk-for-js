@@ -1,19 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { newPipeline } from "../../src/Pipeline";
-import { getUniqueName } from "./testutils.common";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import {
   AccountSASPermissions,
-  SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-  generateAccountSASQueryParameters
+  generateAccountSASQueryParameters,
+  SASProtocol
 } from "../../src";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
+import { newPipeline } from "../../src/Pipeline";
+import { ShareServiceClient } from "../../src/ShareServiceClient";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { getUniqueName } from "./testutils.common";
 
 export * from "./testutils.common";
 
@@ -53,6 +56,10 @@ export function getAlternateBSU(): ShareServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
+export function getSoftDeleteBSU(): ShareServiceClient {
+  return getGenericBSU("SOFT_DELETE_");
+}
+
 export function getConnectionStringFromEnvironment(): string {
   const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
   const connectionString = process.env[connectionStringEnvVar];
@@ -66,7 +73,7 @@ export function getConnectionStringFromEnvironment(): string {
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment
@@ -88,6 +95,10 @@ export async function bodyToString(
     });
 
     response.readableStreamBody!.on("error", reject);
+
+    response.readableStreamBody!.on("end", () => {
+      resolve("");
+    });
   });
 }
 
@@ -164,4 +175,35 @@ export function getSASConnectionStringFromEnvironment(): string {
     ".file.",
     ".table."
   )}/;SharedAccessSignature=${sas}`;
+}
+
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+    });
+    readableStream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    readableStream.on("error", reject);
+  });
+}
+
+/**
+ * Compare the content of body from downloading operation methods with a Uint8Array.
+ * Works in both Node.js and browsers.
+ *
+ * @param response Convenience layer methods response with downloaded body
+ */
+export async function compareBodyWithUint8Array(
+  response: {
+    readableStreamBody?: NodeJS.ReadableStream;
+    blobBody?: Promise<Blob>;
+  },
+  uint8arry: Uint8Array
+): Promise<boolean> {
+  const buf = await streamToBuffer(response.readableStreamBody!);
+  return buf.equals(Buffer.from(uint8arry.buffer, uint8arry.byteOffset, uint8arry.byteLength));
 }

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2015",
+
+    "allowSyntheticDefaultImports": true,
+
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src/**.ts"],
+  "exclude": ["node_modules"]
+}

@@ -113,6 +113,13 @@ export const StorageError: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      code: {
+        xmlName: "Code",
+        serializedName: "Code",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -148,7 +155,7 @@ export const DataLakeStorageError: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DataLakeStorageError",
     modelProperties: {
-      error: {
+      dataLakeStorageErrorDetails: {
         xmlName: "error",
         serializedName: "error",
         type: {
@@ -168,7 +175,6 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
     modelProperties: {
       startsOn: {
         xmlName: "Start",
-        required: true,
         serializedName: "Start",
         type: {
           name: "String"
@@ -176,7 +182,6 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
       },
       expiresOn: {
         xmlName: "Expiry",
-        required: true,
         serializedName: "Expiry",
         type: {
           name: "String"
@@ -184,7 +189,6 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
       },
       permissions: {
         xmlName: "Permission",
-        required: true,
         serializedName: "Permission",
         type: {
           name: "String"
@@ -194,12 +198,12 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobProperties: coreHttp.CompositeMapper = {
+export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
   xmlName: "Properties",
-  serializedName: "BlobProperties",
+  serializedName: "BlobPropertiesInternal",
   type: {
     name: "Composite",
-    className: "BlobProperties",
+    className: "BlobPropertiesInternal",
     modelProperties: {
       createdOn: {
         xmlName: "Creation-Time",
@@ -439,9 +443,51 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        xmlName: "EncryptionScope",
+        serializedName: "EncryptionScope",
+        type: {
+          name: "String"
+        }
+      },
       accessTierChangedOn: {
         xmlName: "AccessTierChangeTime",
         serializedName: "AccessTierChangeTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      tagCount: {
+        xmlName: "TagCount",
+        serializedName: "TagCount",
+        type: {
+          name: "Number"
+        }
+      },
+      expiresOn: {
+        xmlName: "Expiry-Time",
+        serializedName: "Expiry-Time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isSealed: {
+        xmlName: "Sealed",
+        serializedName: "Sealed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      rehydratePriority: {
+        xmlName: "RehydratePriority",
+        serializedName: "RehydratePriority",
+        type: {
+          name: "String"
+        }
+      },
+      lastAccessedOn: {
+        xmlName: "LastAccessTime",
+        serializedName: "LastAccessTime",
         type: {
           name: "DateTimeRfc1123"
         }
@@ -450,12 +496,66 @@ export const BlobProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobItem: coreHttp.CompositeMapper = {
-  xmlName: "Blob",
-  serializedName: "BlobItem",
+export const BlobTag: coreHttp.CompositeMapper = {
+  xmlName: "Tag",
+  serializedName: "BlobTag",
   type: {
     name: "Composite",
-    className: "BlobItem",
+    className: "BlobTag",
+    modelProperties: {
+      key: {
+        xmlName: "Key",
+        required: true,
+        serializedName: "Key",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        xmlName: "Value",
+        required: true,
+        serializedName: "Value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobTags: coreHttp.CompositeMapper = {
+  xmlName: "Tags",
+  serializedName: "BlobTags",
+  type: {
+    name: "Composite",
+    className: "BlobTags",
+    modelProperties: {
+      blobTagSet: {
+        xmlIsWrapped: true,
+        xmlName: "TagSet",
+        xmlElementName: "Tag",
+        required: true,
+        serializedName: "BlobTagSet",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BlobTag"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BlobItemInternal: coreHttp.CompositeMapper = {
+  xmlName: "Blob",
+  serializedName: "BlobItemInternal",
+  type: {
+    name: "Composite",
+    className: "BlobItemInternal",
     modelProperties: {
       name: {
         xmlName: "Name",
@@ -481,18 +581,52 @@ export const BlobItem: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        xmlName: "VersionId",
+        serializedName: "VersionId",
+        type: {
+          name: "String"
+        }
+      },
+      isCurrentVersion: {
+        xmlName: "IsCurrentVersion",
+        serializedName: "IsCurrentVersion",
+        type: {
+          name: "Boolean"
+        }
+      },
       properties: {
         xmlName: "Properties",
         required: true,
         serializedName: "Properties",
         type: {
           name: "Composite",
-          className: "BlobProperties"
+          className: "BlobPropertiesInternal"
         }
       },
       metadata: {
         xmlName: "Metadata",
         serializedName: "Metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      blobTags: {
+        xmlName: "Tags",
+        serializedName: "BlobTags",
+        type: {
+          name: "Composite",
+          className: "BlobTags"
+        }
+      },
+      objectReplicationMetadata: {
+        xmlName: "OrMetadata",
+        serializedName: "ObjectReplicationMetadata",
         type: {
           name: "Dictionary",
           value: {
@@ -523,7 +657,7 @@ export const BlobFlatListSegment: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BlobItem"
+              className: "BlobItemInternal"
             }
           }
         }
@@ -647,7 +781,7 @@ export const BlobHierarchyListSegment: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BlobItem"
+              className: "BlobItemInternal"
             }
           }
         }
@@ -923,6 +1057,34 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      defaultEncryptionScope: {
+        xmlName: "DefaultEncryptionScope",
+        serializedName: "DefaultEncryptionScope",
+        type: {
+          name: "String"
+        }
+      },
+      preventEncryptionScopeOverride: {
+        xmlName: "DenyEncryptionScopeOverride",
+        serializedName: "DenyEncryptionScopeOverride",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deletedOn: {
+        xmlName: "DeletedTime",
+        serializedName: "DeletedTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      remainingRetentionDays: {
+        xmlName: "RemainingRetentionDays",
+        serializedName: "RemainingRetentionDays",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -939,6 +1101,20 @@ export const ContainerItem: coreHttp.CompositeMapper = {
         xmlName: "Name",
         required: true,
         serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      deleted: {
+        xmlName: "Deleted",
+        serializedName: "Deleted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      version: {
+        xmlName: "Version",
+        serializedName: "Version",
         type: {
           name: "String"
         }
@@ -960,6 +1136,140 @@ export const ContainerItem: coreHttp.CompositeMapper = {
           value: {
             type: {
               name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DelimitedTextConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "DelimitedTextConfiguration",
+  type: {
+    name: "Composite",
+    className: "DelimitedTextConfiguration",
+    modelProperties: {
+      columnSeparator: {
+        xmlName: "ColumnSeparator",
+        required: true,
+        serializedName: "ColumnSeparator",
+        type: {
+          name: "String"
+        }
+      },
+      fieldQuote: {
+        xmlName: "FieldQuote",
+        required: true,
+        serializedName: "FieldQuote",
+        type: {
+          name: "String"
+        }
+      },
+      recordSeparator: {
+        xmlName: "RecordSeparator",
+        required: true,
+        serializedName: "RecordSeparator",
+        type: {
+          name: "String"
+        }
+      },
+      escapeChar: {
+        xmlName: "EscapeChar",
+        required: true,
+        serializedName: "EscapeChar",
+        type: {
+          name: "String"
+        }
+      },
+      headersPresent: {
+        xmlName: "HasHeaders",
+        required: true,
+        serializedName: "HeadersPresent",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const JsonTextConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "JsonTextConfiguration",
+  type: {
+    name: "Composite",
+    className: "JsonTextConfiguration",
+    modelProperties: {
+      recordSeparator: {
+        xmlName: "RecordSeparator",
+        required: true,
+        serializedName: "RecordSeparator",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ArrowField: coreHttp.CompositeMapper = {
+  xmlName: "Field",
+  serializedName: "ArrowField",
+  type: {
+    name: "Composite",
+    className: "ArrowField",
+    modelProperties: {
+      type: {
+        xmlName: "Type",
+        required: true,
+        serializedName: "Type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        xmlName: "Name",
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      precision: {
+        xmlName: "Precision",
+        serializedName: "Precision",
+        type: {
+          name: "Number"
+        }
+      },
+      scale: {
+        xmlName: "Scale",
+        serializedName: "Scale",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ArrowConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "ArrowConfiguration",
+  type: {
+    name: "Composite",
+    className: "ArrowConfiguration",
+    modelProperties: {
+      schema: {
+        xmlIsWrapped: true,
+        xmlName: "Schema",
+        xmlElementName: "Field",
+        required: true,
+        serializedName: "Schema",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArrowField"
             }
           }
         }
@@ -1079,6 +1389,92 @@ export const CorsRule: coreHttp.CompositeMapper = {
         },
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FilterBlobItem: coreHttp.CompositeMapper = {
+  xmlName: "Blob",
+  serializedName: "FilterBlobItem",
+  type: {
+    name: "Composite",
+    className: "FilterBlobItem",
+    modelProperties: {
+      name: {
+        xmlName: "Name",
+        required: true,
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        xmlName: "ContainerName",
+        required: true,
+        serializedName: "ContainerName",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        xmlName: "Tags",
+        serializedName: "Tags",
+        type: {
+          name: "Composite",
+          className: "BlobTags"
+        }
+      }
+    }
+  }
+};
+
+export const FilterBlobSegment: coreHttp.CompositeMapper = {
+  xmlName: "EnumerationResults",
+  serializedName: "FilterBlobSegment",
+  type: {
+    name: "Composite",
+    className: "FilterBlobSegment",
+    modelProperties: {
+      serviceEndpoint: {
+        xmlIsAttribute: true,
+        xmlName: "ServiceEndpoint",
+        required: true,
+        serializedName: "ServiceEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      where: {
+        xmlName: "Where",
+        required: true,
+        serializedName: "Where",
+        type: {
+          name: "String"
+        }
+      },
+      blobs: {
+        xmlIsWrapped: true,
+        xmlName: "Blobs",
+        xmlElementName: "Blob",
+        required: true,
+        serializedName: "Blobs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FilterBlobItem"
+            }
+          }
+        }
+      },
+      continuationToken: {
+        xmlName: "NextMarker",
+        serializedName: "NextMarker",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1320,6 +1716,115 @@ export const PageList: coreHttp.CompositeMapper = {
   }
 };
 
+export const QueryFormat: coreHttp.CompositeMapper = {
+  serializedName: "QueryFormat",
+  type: {
+    name: "Composite",
+    className: "QueryFormat",
+    modelProperties: {
+      type: {
+        xmlName: "Type",
+        serializedName: "Type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "delimited",
+            "json",
+            "arrow"
+          ]
+        }
+      },
+      delimitedTextConfiguration: {
+        xmlName: "DelimitedTextConfiguration",
+        serializedName: "DelimitedTextConfiguration",
+        type: {
+          name: "Composite",
+          className: "DelimitedTextConfiguration"
+        }
+      },
+      jsonTextConfiguration: {
+        xmlName: "JsonTextConfiguration",
+        serializedName: "JsonTextConfiguration",
+        type: {
+          name: "Composite",
+          className: "JsonTextConfiguration"
+        }
+      },
+      arrowConfiguration: {
+        xmlName: "ArrowConfiguration",
+        serializedName: "ArrowConfiguration",
+        type: {
+          name: "Composite",
+          className: "ArrowConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const QuerySerialization: coreHttp.CompositeMapper = {
+  serializedName: "QuerySerialization",
+  type: {
+    name: "Composite",
+    className: "QuerySerialization",
+    modelProperties: {
+      format: {
+        xmlName: "Format",
+        required: true,
+        serializedName: "Format",
+        type: {
+          name: "Composite",
+          className: "QueryFormat"
+        }
+      }
+    }
+  }
+};
+
+export const QueryRequest: coreHttp.CompositeMapper = {
+  serializedName: "QueryRequest",
+  type: {
+    name: "Composite",
+    className: "QueryRequest",
+    modelProperties: {
+      queryType: {
+        xmlName: "QueryType",
+        required: true,
+        isConstant: true,
+        serializedName: "QueryType",
+        defaultValue: 'SQL',
+        type: {
+          name: "String"
+        }
+      },
+      expression: {
+        xmlName: "Expression",
+        required: true,
+        serializedName: "Expression",
+        type: {
+          name: "String"
+        }
+      },
+      inputSerialization: {
+        xmlName: "InputSerialization",
+        serializedName: "InputSerialization",
+        type: {
+          name: "Composite",
+          className: "QuerySerialization"
+        }
+      },
+      outputSerialization: {
+        xmlName: "OutputSerialization",
+        serializedName: "OutputSerialization",
+        type: {
+          name: "Composite",
+          className: "QuerySerialization"
+        }
+      }
+    }
+  }
+};
+
 export const SignedIdentifier: coreHttp.CompositeMapper = {
   serializedName: "SignedIdentifier",
   type: {
@@ -1371,6 +1876,13 @@ export const StaticWebsite: coreHttp.CompositeMapper = {
       errorDocument404Path: {
         xmlName: "ErrorDocument404Path",
         serializedName: "ErrorDocument404Path",
+        type: {
+          name: "String"
+        }
+      },
+      defaultIndexDocumentPath: {
+        xmlName: "DefaultIndexDocumentPath",
+        serializedName: "DefaultIndexDocumentPath",
         type: {
           name: "String"
         }
@@ -1471,6 +1983,28 @@ export const BlobServiceStatistics: coreHttp.CompositeMapper = {
   }
 };
 
+export const ContainerEncryptionScope: coreHttp.CompositeMapper = {
+  xmlName: "container-encryption-scope",
+  type: {
+    name: "Composite",
+    className: "ContainerEncryptionScope",
+    modelProperties: {
+      defaultEncryptionScope: {
+        xmlName: "defaultEncryptionScope",
+        type: {
+          name: "String"
+        }
+      },
+      preventEncryptionScopeOverride: {
+        xmlName: "preventEncryptionScopeOverride",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const LeaseAccessConditions: coreHttp.CompositeMapper = {
   xmlName: "lease-access-conditions",
   type: {
@@ -1513,6 +2047,12 @@ export const ModifiedAccessConditions: coreHttp.CompositeMapper = {
       },
       ifNoneMatch: {
         xmlName: "ifNoneMatch",
+        type: {
+          name: "String"
+        }
+      },
+      ifTags: {
+        xmlName: "ifTags",
         type: {
           name: "String"
         }
@@ -1587,6 +2127,12 @@ export const SourceModifiedAccessConditions: coreHttp.CompositeMapper = {
       },
       sourceIfNoneMatch: {
         xmlName: "sourceIfNoneMatch",
+        type: {
+          name: "String"
+        }
+      },
+      sourceIfTags: {
+        xmlName: "sourceIfTags",
         type: {
           name: "String"
         }
@@ -1954,8 +2500,16 @@ export const ServiceGetAccountInfoHeaders: coreHttp.CompositeMapper = {
           allowedValues: [
             "Storage",
             "BlobStorage",
-            "StorageV2"
+            "StorageV2",
+            "FileStorage",
+            "BlockBlobStorage"
           ]
+        }
+      },
+      isHierarchicalNamespaceEnabled: {
+        serializedName: "x-ms-is-hns-enabled",
+        type: {
+          name: "Boolean"
         }
       },
       errorCode: {
@@ -1996,6 +2550,46 @@ export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceFilterBlobsHeaders: coreHttp.CompositeMapper = {
+  serializedName: "service-filterblobs-headers",
+  type: {
+    name: "Composite",
+    className: "ServiceFilterBlobsHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
         }
       },
       errorCode: {
@@ -2161,6 +2755,18 @@ export const ContainerGetPropertiesHeaders: coreHttp.CompositeMapper = {
       },
       hasLegalHold: {
         serializedName: "x-ms-has-legal-hold",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultEncryptionScope: {
+        serializedName: "x-ms-default-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
+      denyEncryptionScopeOverride: {
+        serializedName: "x-ms-deny-encryption-scope-override",
         type: {
           name: "Boolean"
         }
@@ -2365,6 +2971,120 @@ export const ContainerSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
         serializedName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRestoreHeaders: coreHttp.CompositeMapper = {
+  serializedName: "container-restore-headers",
+  type: {
+    name: "Composite",
+    className: "ContainerRestoreHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRenameHeaders: coreHttp.CompositeMapper = {
+  serializedName: "container-rename-headers",
+  type: {
+    name: "Composite",
+    className: "ContainerRenameHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerSubmitBatchHeaders: coreHttp.CompositeMapper = {
+  serializedName: "container-submitbatch-headers",
+  type: {
+    name: "Composite",
+    className: "ContainerSubmitBatchHeaders",
+    modelProperties: {
+      contentType: {
+        serializedName: "content-type",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -2803,7 +3523,9 @@ export const ContainerGetAccountInfoHeaders: coreHttp.CompositeMapper = {
           allowedValues: [
             "Storage",
             "BlobStorage",
-            "StorageV2"
+            "StorageV2",
+            "FileStorage",
+            "BlockBlobStorage"
           ]
         }
       },
@@ -3107,6 +3829,24 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         },
         headerCollectionPrefix: "x-ms-meta-"
       },
+      objectReplicationPolicyId: {
+        serializedName: "x-ms-or-policy-id",
+        type: {
+          name: "String"
+        }
+      },
+      objectReplicationRules: {
+        serializedName: "x-ms-or",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        },
+        headerCollectionPrefix: "x-ms-or-"
+      },
       contentLength: {
         serializedName: "content-length",
         type: {
@@ -3271,6 +4011,18 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
+      isCurrentVersion: {
+        serializedName: "x-ms-is-current-version",
+        type: {
+          name: "Boolean"
+        }
+      },
       acceptRanges: {
         serializedName: "accept-ranges",
         type: {
@@ -3301,10 +4053,34 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       blobContentMD5: {
         serializedName: "x-ms-blob-content-md5",
         type: {
           name: "ByteArray"
+        }
+      },
+      tagCount: {
+        serializedName: "x-ms-tag-count",
+        type: {
+          name: "Number"
+        }
+      },
+      isSealed: {
+        serializedName: "x-ms-blob-sealed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      lastAccessed: {
+        serializedName: "x-ms-last-access-time",
+        type: {
+          name: "DateTimeRfc1123"
         }
       },
       contentCrc64: {
@@ -3352,6 +4128,24 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           }
         },
         headerCollectionPrefix: "x-ms-meta-"
+      },
+      objectReplicationPolicyId: {
+        serializedName: "x-ms-or-policy-id",
+        type: {
+          name: "String"
+        }
+      },
+      objectReplicationRules: {
+        serializedName: "x-ms-or",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        },
+        headerCollectionPrefix: "x-ms-or-"
       },
       blobType: {
         serializedName: "x-ms-blob-type",
@@ -3553,6 +4347,12 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       accessTier: {
         serializedName: "x-ms-access-tier",
         type: {
@@ -3573,6 +4373,48 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
       },
       accessTierChangedOn: {
         serializedName: "x-ms-access-tier-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
+      isCurrentVersion: {
+        serializedName: "x-ms-is-current-version",
+        type: {
+          name: "Boolean"
+        }
+      },
+      tagCount: {
+        serializedName: "x-ms-tag-count",
+        type: {
+          name: "Number"
+        }
+      },
+      expiresOn: {
+        serializedName: "x-ms-expiry-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isSealed: {
+        serializedName: "x-ms-blob-sealed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      rehydratePriority: {
+        serializedName: "x-ms-rehydrate-priority",
+        type: {
+          name: "String"
+        }
+      },
+      lastAccessed: {
+        serializedName: "x-ms-last-access-time",
         type: {
           name: "DateTimeRfc1123"
         }
@@ -3837,6 +4679,12 @@ export const PageBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {
@@ -3851,6 +4699,12 @@ export const PageBlobCreateHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -3907,6 +4761,12 @@ export const AppendBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {
@@ -3921,6 +4781,12 @@ export const AppendBlobCreateHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -3977,6 +4843,12 @@ export const BlockBlobUploadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {
@@ -3991,6 +4863,94 @@ export const BlockBlobUploadHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlockBlobPutBlobFromUrlHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blockblob-putblobfromurl-headers",
+  type: {
+    name: "Composite",
+    className: "BlockBlobPutBlobFromUrlHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      contentMD5: {
+        serializedName: "content-md5",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -4011,6 +4971,58 @@ export const BlobUndeleteHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobUndeleteHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobSetExpiryHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blob-setexpiry-headers",
+  type: {
+    name: "Composite",
+    className: "BlobSetExpiryHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       clientRequestId: {
         serializedName: "x-ms-client-request-id",
         type: {
@@ -4139,6 +5151,12 @@ export const BlobSetMetadataHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {
@@ -4153,6 +5171,12 @@ export const BlobSetMetadataHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -4493,6 +5517,12 @@ export const BlobCreateSnapshotHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {
@@ -4547,6 +5577,12 @@ export const BlobStartCopyFromURLHeaders: coreHttp.CompositeMapper = {
       },
       version: {
         serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      versionId: {
+        serializedName: "x-ms-version-id",
         type: {
           name: "String"
         }
@@ -4621,6 +5657,12 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {
@@ -4640,6 +5682,18 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
           allowedValues: [
             "success"
           ]
+        }
+      },
+      contentMD5: {
+        serializedName: "content-md5",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
         }
       },
       errorCode: {
@@ -4776,7 +5830,9 @@ export const BlobGetAccountInfoHeaders: coreHttp.CompositeMapper = {
           allowedValues: [
             "Storage",
             "BlobStorage",
-            "StorageV2"
+            "StorageV2",
+            "FileStorage",
+            "BlockBlobStorage"
           ]
         }
       },
@@ -4840,6 +5896,12 @@ export const BlockBlobStageBlockHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -4908,6 +5970,12 @@ export const BlockBlobStageBlockFromURLHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -4966,6 +6034,12 @@ export const BlockBlobCommitBlockListHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {
@@ -4980,6 +6054,12 @@ export const BlockBlobCommitBlockListHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -5130,6 +6210,12 @@ export const PageBlobUploadPagesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -5272,6 +6358,12 @@ export const PageBlobUploadPagesFromURLHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -5666,6 +6758,12 @@ export const AppendBlobAppendBlockHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -5742,10 +6840,400 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       isServerEncrypted: {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppendBlobSealHeaders: coreHttp.CompositeMapper = {
+  serializedName: "appendblob-seal-headers",
+  type: {
+    name: "Composite",
+    className: "AppendBlobSealHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isSealed: {
+        serializedName: "x-ms-blob-sealed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobQueryHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blob-query-headers",
+  type: {
+    name: "Composite",
+    className: "BlobQueryHeaders",
+    modelProperties: {
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      metadata: {
+        serializedName: "x-ms-meta",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        },
+        headerCollectionPrefix: "x-ms-meta-"
+      },
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      contentType: {
+        serializedName: "content-type",
+        type: {
+          name: "String"
+        }
+      },
+      contentRange: {
+        serializedName: "content-range",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      contentMD5: {
+        serializedName: "content-md5",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      contentEncoding: {
+        serializedName: "content-encoding",
+        type: {
+          name: "String"
+        }
+      },
+      cacheControl: {
+        serializedName: "cache-control",
+        type: {
+          name: "String"
+        }
+      },
+      contentDisposition: {
+        serializedName: "content-disposition",
+        type: {
+          name: "String"
+        }
+      },
+      contentLanguage: {
+        serializedName: "content-language",
+        type: {
+          name: "String"
+        }
+      },
+      blobSequenceNumber: {
+        serializedName: "x-ms-blob-sequence-number",
+        type: {
+          name: "Number"
+        }
+      },
+      blobType: {
+        serializedName: "x-ms-blob-type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "BlockBlob",
+            "PageBlob",
+            "AppendBlob"
+          ]
+        }
+      },
+      copyCompletionTime: {
+        serializedName: "x-ms-copy-completion-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      copyStatusDescription: {
+        serializedName: "x-ms-copy-status-description",
+        type: {
+          name: "String"
+        }
+      },
+      copyId: {
+        serializedName: "x-ms-copy-id",
+        type: {
+          name: "String"
+        }
+      },
+      copyProgress: {
+        serializedName: "x-ms-copy-progress",
+        type: {
+          name: "String"
+        }
+      },
+      copySource: {
+        serializedName: "x-ms-copy-source",
+        type: {
+          name: "String"
+        }
+      },
+      copyStatus: {
+        serializedName: "x-ms-copy-status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "pending",
+            "success",
+            "aborted",
+            "failed"
+          ]
+        }
+      },
+      leaseDuration: {
+        serializedName: "x-ms-lease-duration",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
+        }
+      },
+      leaseState: {
+        serializedName: "x-ms-lease-state",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
+        }
+      },
+      leaseStatus: {
+        serializedName: "x-ms-lease-status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      acceptRanges: {
+        serializedName: "accept-ranges",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      blobCommittedBlockCount: {
+        serializedName: "x-ms-blob-committed-block-count",
+        type: {
+          name: "Number"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
+      blobContentMD5: {
+        serializedName: "x-ms-blob-content-md5",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      contentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobGetTagsHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blob-gettags-headers",
+  type: {
+    name: "Composite",
+    className: "BlobGetTagsHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobSetTagsHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blob-settags-headers",
+  type: {
+    name: "Composite",
+    className: "BlobSetTagsHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
         }
       },
       errorCode: {

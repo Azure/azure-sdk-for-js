@@ -1,0 +1,68 @@
+trigger: none
+
+# This pipeline helps to run NPM admin tasks like remove or add tag to a released package version or deprecate a pacakge version
+# Following variables should be set at queue time to run this pipeline
+# variable name: TaskType
+# valid Options: 'AddTag', 'RemoveTag', 'Deprecate', 'Unpublish'
+
+# variable name: PackageName
+# e.g. values: '@azure/storage-blob', '@azure/core-http'
+
+# variable name: 'PkgVersion'
+# e.g. values '1.0.0', '2.1.0.beta.1'
+
+# variable name: 'TagName'
+# e.g values: 'latest', 'next'
+
+parameters:
+  - name: TaskType
+    displayName: Task Type
+    type: string
+    default: AddTag
+    values:
+    - AddTag
+    - RemoveTag
+    - Deprecate
+    - Unpublish
+
+  - name: PackageName
+    displayName: Package Name (e.g. @azure/template)
+    type: string
+    default: ''
+
+  - name: PkgVersion
+    displayName: Package Version (e.g. 1.1.0)
+    type: string
+    default: ''
+
+  - name: TagName
+    displayName: Tag (e.g. latest, next)
+    type: string
+    default: ''
+
+  - name: Reason
+    displayName: Reason
+    type: string
+    default: ''
+
+jobs:
+- job: 'NPM_Admin_Job'
+  displayName: NPM package management
+
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:
+    - task: PowerShell@2
+      displayName: 'Run Task'
+      inputs:
+        targetType: filePath
+        filePath: "eng/scripts/npm-admin-tasks.ps1"
+        arguments: >
+          -taskType ${{parameters.TaskType}}
+          -packageName ${{parameters.PackageName}}
+          -pkgVersion ${{parameters.PkgVersion}}
+          -tagName ${{parameters.TagName}}
+          -npmToken "$(azure-sdk-npm-token)"
+          -reason "${{parameters.Reason}}"
+        pwsh: true

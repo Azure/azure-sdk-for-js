@@ -3,6 +3,6 @@
   "out": "../../../docGen/keyvault-certificates",
   "excludeNotExported": true,
   "excludePrivate": true,
-  "exclude": ["node_modules/**/*", "src/core/**/*"],
+  "exclude": ["node_modules/**/*", "src/generated/**/*"],
   "ignoreCompilerErrors": true
 }

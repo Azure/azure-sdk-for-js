@@ -270,6 +270,64 @@ export const BotChannel: msRest.CompositeMapper = {
   }
 };
 
+export const AlexaChannelProperties: msRest.CompositeMapper = {
+  serializedName: "AlexaChannelProperties",
+  type: {
+    name: "Composite",
+    className: "AlexaChannelProperties",
+    modelProperties: {
+      alexaSkillId: {
+        required: true,
+        serializedName: "alexaSkillId",
+        type: {
+          name: "String"
+        }
+      },
+      urlFragment: {
+        readOnly: true,
+        serializedName: "urlFragment",
+        type: {
+          name: "String"
+        }
+      },
+      serviceEndpointUri: {
+        readOnly: true,
+        serializedName: "serviceEndpointUri",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        required: true,
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AlexaChannel: msRest.CompositeMapper = {
+  serializedName: "AlexaChannel",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Channel.type.polymorphicDiscriminator,
+    uberParent: "Channel",
+    className: "AlexaChannel",
+    modelProperties: {
+      ...Channel.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AlexaChannelProperties"
+        }
+      }
+    }
+  }
+};
+
 export const FacebookPage: msRest.CompositeMapper = {
   serializedName: "FacebookPage",
   type: {
@@ -1007,6 +1065,12 @@ export const SlackChannelProperties: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      signingSecret: {
+        serializedName: "signingSecret",
+        type: {
+          name: "String"
+        }
+      },
       isEnabled: {
         required: true,
         serializedName: "isEnabled",
@@ -1032,6 +1096,181 @@ export const SlackChannel: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SlackChannelProperties"
+        }
+      }
+    }
+  }
+};
+
+export const LineRegistration: msRest.CompositeMapper = {
+  serializedName: "LineRegistration",
+  type: {
+    name: "Composite",
+    className: "LineRegistration",
+    modelProperties: {
+      generatedId: {
+        readOnly: true,
+        serializedName: "generatedId",
+        type: {
+          name: "String"
+        }
+      },
+      channelSecret: {
+        serializedName: "channelSecret",
+        type: {
+          name: "String"
+        }
+      },
+      channelAccessToken: {
+        serializedName: "channelAccessToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LineChannelProperties: msRest.CompositeMapper = {
+  serializedName: "LineChannelProperties",
+  type: {
+    name: "Composite",
+    className: "LineChannelProperties",
+    modelProperties: {
+      lineRegistrations: {
+        required: true,
+        serializedName: "lineRegistrations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LineRegistration"
+            }
+          }
+        }
+      },
+      callbackUrl: {
+        readOnly: true,
+        serializedName: "callbackUrl",
+        type: {
+          name: "String"
+        }
+      },
+      isValidated: {
+        readOnly: true,
+        serializedName: "isValidated",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const LineChannel: msRest.CompositeMapper = {
+  serializedName: "LineChannel",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Channel.type.polymorphicDiscriminator,
+    uberParent: "Channel",
+    className: "LineChannel",
+    modelProperties: {
+      ...Channel.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "LineChannelProperties"
+        }
+      }
+    }
+  }
+};
+
+export const DirectLineSpeechChannelProperties: msRest.CompositeMapper = {
+  serializedName: "DirectLineSpeechChannelProperties",
+  type: {
+    name: "Composite",
+    className: "DirectLineSpeechChannelProperties",
+    modelProperties: {
+      cognitiveServicesSubscriptionId: {
+        required: true,
+        serializedName: "cognitiveServicesSubscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      customVoiceDeploymentId: {
+        serializedName: "customVoiceDeploymentId",
+        type: {
+          name: "String"
+        }
+      },
+      customSpeechModelId: {
+        serializedName: "customSpeechModelId",
+        type: {
+          name: "String"
+        }
+      },
+      isDefaultBotForCogSvcAccount: {
+        serializedName: "isDefaultBotForCogSvcAccount",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DirectLineSpeechChannel: msRest.CompositeMapper = {
+  serializedName: "DirectLineSpeechChannel",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Channel.type.polymorphicDiscriminator,
+    uberParent: "Channel",
+    className: "DirectLineSpeechChannel",
+    modelProperties: {
+      ...Channel.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DirectLineSpeechChannelProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SiteInfo: msRest.CompositeMapper = {
+  serializedName: "SiteInfo",
+  type: {
+    name: "Composite",
+    className: "SiteInfo",
+    modelProperties: {
+      siteName: {
+        required: true,
+        serializedName: "siteName",
+        type: {
+          name: "String"
+        }
+      },
+      key: {
+        required: true,
+        serializedName: "key",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "key1",
+            "key2"
+          ]
         }
       }
     }
@@ -1463,135 +1702,6 @@ export const CheckNameAvailabilityResponseBody: msRest.CompositeMapper = {
   }
 };
 
-export const EnterpriseChannelCheckNameAvailabilityRequest: msRest.CompositeMapper = {
-  serializedName: "EnterpriseChannelCheckNameAvailabilityRequest",
-  type: {
-    name: "Composite",
-    className: "EnterpriseChannelCheckNameAvailabilityRequest",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EnterpriseChannelCheckNameAvailabilityResponse: msRest.CompositeMapper = {
-  serializedName: "EnterpriseChannelCheckNameAvailabilityResponse",
-  type: {
-    name: "Composite",
-    className: "EnterpriseChannelCheckNameAvailabilityResponse",
-    modelProperties: {
-      valid: {
-        serializedName: "valid",
-        type: {
-          name: "Boolean"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EnterpriseChannelNode: msRest.CompositeMapper = {
-  serializedName: "EnterpriseChannelNode",
-  type: {
-    name: "Composite",
-    className: "EnterpriseChannelNode",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      azureSku: {
-        required: true,
-        serializedName: "azureSku",
-        type: {
-          name: "String"
-        }
-      },
-      azureLocation: {
-        required: true,
-        serializedName: "azureLocation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EnterpriseChannelProperties: msRest.CompositeMapper = {
-  serializedName: "EnterpriseChannelProperties",
-  type: {
-    name: "Composite",
-    className: "EnterpriseChannelProperties",
-    modelProperties: {
-      state: {
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      nodes: {
-        required: true,
-        serializedName: "nodes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EnterpriseChannelNode"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const EnterpriseChannel: msRest.CompositeMapper = {
-  serializedName: "EnterpriseChannel",
-  type: {
-    name: "Composite",
-    className: "EnterpriseChannel",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "EnterpriseChannelProperties"
-        }
-      }
-    }
-  }
-};
-
 export const BotResponseList: msRest.CompositeMapper = {
   serializedName: "BotResponseList",
   type: {
@@ -1707,37 +1817,9 @@ export const ConnectionSettingResponseList: msRest.CompositeMapper = {
   }
 };
 
-export const EnterpriseChannelResponseList: msRest.CompositeMapper = {
-  serializedName: "EnterpriseChannelResponseList",
-  type: {
-    name: "Composite",
-    className: "EnterpriseChannelResponseList",
-    modelProperties: {
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EnterpriseChannel"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const discriminators = {
   'Channel' : Channel,
+  'Channel.AlexaChannel' : AlexaChannel,
   'Channel.FacebookChannel' : FacebookChannel,
   'Channel.EmailChannel' : EmailChannel,
   'Channel.MsTeamsChannel' : MsTeamsChannel,
@@ -1747,6 +1829,8 @@ export const discriminators = {
   'Channel.DirectLineChannel' : DirectLineChannel,
   'Channel.TelegramChannel' : TelegramChannel,
   'Channel.SmsChannel' : SmsChannel,
-  'Channel.SlackChannel' : SlackChannel
+  'Channel.SlackChannel' : SlackChannel,
+  'Channel.LineChannel' : LineChannel,
+  'Channel.DirectLineSpeechChannel' : DirectLineSpeechChannel
 
 };

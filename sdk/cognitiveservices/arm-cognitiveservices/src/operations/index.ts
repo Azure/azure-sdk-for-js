@@ -11,4 +11,5 @@
 export * from "./accounts";
 export * from "./resourceSkus";
 export * from "./operations";
-export * from "./checkSkuAvailability";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

@@ -8,7 +8,23 @@
  * regenerated.
  */
 
+export * from "./billingAccounts";
+export * from "./address";
+export * from "./availableBalances";
+export * from "./instructions";
+export * from "./billingProfiles";
+export * from "./customers";
+export * from "./invoiceSections";
+export * from "./billingPermissions";
+export * from "./billingSubscriptions";
+export * from "./products";
+export * from "./invoices";
+export * from "./transactions";
+export * from "./policies";
+export * from "./billingPropertyOperations";
+export * from "./operations";
+export * from "./billingRoleDefinitions";
+export * from "./billingRoleAssignments";
+export * from "./agreements";
 export * from "./enrollmentAccounts";
 export * from "./billingPeriods";
-export * from "./invoices";
-export * from "./operations";

@@ -53,8 +53,9 @@ export interface HardwareProfile {
   readonly hardwareType?: HanaHardwareTypeNamesEnum;
   /**
    * Specifies the HANA instance SKU. Possible values include: 'S72m', 'S144m', 'S72', 'S144',
-   * 'S192', 'S192m', 'S192xm', 'S96', 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm',
-   * 'S768', 'S768m', 'S768xm', 'S960m', 'S224o', 'S224m', 'S224om', 'S224oxm', 'S224oxxm'
+   * 'S192', 'S192m', 'S192xm', 'S96', 'S112', 'S224', 'S224m', 'S224om', 'S224oo', 'S224oom',
+   * 'S224ooo', 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm',
+   * 'S960m'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hanaInstanceSize?: HanaInstanceSizeNamesEnum;
@@ -335,11 +336,45 @@ export interface SapMonitor extends Resource {
    */
   hanaDbPassword?: string;
   /**
+   * KeyVault URL link to the password for the HANA database.
+   */
+  hanaDbPasswordKeyVaultUrl?: string;
+  /**
+   * MSI ID passed by customer which has access to customer's KeyVault and to be assigned to the
+   * Collector VM.
+   */
+  hanaDbCredentialsMsiId?: string;
+  /**
+   * Key Vault ID containing customer's HANA credentials.
+   */
+  keyVaultId?: string;
+  /**
    * State of provisioning of the HanaInstance. Possible values include: 'Accepted', 'Creating',
    * 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: HanaProvisioningStatesEnum;
+  /**
+   * The name of the resource group the SAP Monitor resources get deployed into.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly managedResourceGroupName?: string;
+  /**
+   * The ARM ID of the Log Analytics Workspace that is used for monitoring
+   */
+  logAnalyticsWorkspaceArmId?: string;
+  /**
+   * The value indicating whether to send analytics to Microsoft
+   */
+  enableCustomerAnalytics?: boolean;
+  /**
+   * The workspace ID of the log analytics workspace to be used for monitoring
+   */
+  logAnalyticsWorkspaceId?: string;
+  /**
+   * The shared key of the log analytics workspace that is used for monitoring
+   */
+  logAnalyticsWorkspaceSharedKey?: string;
 }
 
 /**
@@ -392,12 +427,12 @@ export type HanaHardwareTypeNamesEnum = 'Cisco_UCS' | 'HPE';
 /**
  * Defines values for HanaInstanceSizeNamesEnum.
  * Possible values include: 'S72m', 'S144m', 'S72', 'S144', 'S192', 'S192m', 'S192xm', 'S96',
- * 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m',
- * 'S224o', 'S224m', 'S224om', 'S224oxm', 'S224oxxm'
+ * 'S112', 'S224', 'S224m', 'S224om', 'S224oo', 'S224oom', 'S224ooo', 'S384', 'S384m', 'S384xm',
+ * 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
  * @readonly
  * @enum {string}
  */
-export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m' | 'S224o' | 'S224m' | 'S224om' | 'S224oxm' | 'S224oxxm';
+export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S112' | 'S224' | 'S224m' | 'S224om' | 'S224oo' | 'S224oom' | 'S224ooo' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m';
 
 /**
  * Defines values for HanaInstancePowerStateEnum.

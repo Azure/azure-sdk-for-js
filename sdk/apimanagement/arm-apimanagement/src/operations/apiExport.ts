@@ -34,7 +34,7 @@ export class ApiExport {
    * @param apiId API revision identifier. Must be unique in the current API Management service
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid
-   * for 5 minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi'
+   * for 5 minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi', 'OpenapiJson'
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiExportGetResponse>
    */
@@ -45,7 +45,7 @@ export class ApiExport {
    * @param apiId API revision identifier. Must be unique in the current API Management service
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid
-   * for 5 minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi'
+   * for 5 minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi', 'OpenapiJson'
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, callback: msRest.ServiceCallback<Models.ApiExportResult>): void;
@@ -55,7 +55,7 @@ export class ApiExport {
    * @param apiId API revision identifier. Must be unique in the current API Management service
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid
-   * for 5 minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi'
+   * for 5 minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi', 'OpenapiJson'
    * @param options The optional parameters
    * @param callback The callback
    */

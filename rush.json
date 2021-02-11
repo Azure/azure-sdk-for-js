@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.17.2",
+  "rushVersion": "5.36.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "4.3.3",
+  "pnpmVersion": "5.15.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -333,18 +333,68 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/cognitiveservices-textanalytics",
-      "projectFolder": "sdk/textanalytics/cognitiveservices-textanalytics",
+      "packageName": "@azure/ai-anomaly-detector",
+      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/ai-text-analytics",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/search-documents",
+      "projectFolder": "sdk/search/search-documents",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/attestation",
+      "projectFolder": "sdk/attestation/attestation",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/quantum-jobs",
+      "projectFolder": "sdk/quantum/quantum-jobs",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-administration",
+      "projectFolder": "sdk/communication/communication-administration",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-chat",
+      "projectFolder": "sdk/communication/communication-chat",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-common",
+      "projectFolder": "sdk/communication/communication-common",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-identity",
+      "projectFolder": "sdk/communication/communication-identity",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-sms",
+      "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
-      "versionPolicyName": "core"
-    },
-    {
-      "packageName": "@azure/core-arm",
-      "projectFolder": "sdk/core/core-arm",
       "versionPolicyName": "core"
     },
     {
@@ -358,8 +408,23 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-client",
+      "projectFolder": "sdk/core/core-client",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/core-crypto",
+      "projectFolder": "sdk/core/core-crypto",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/core-https",
+      "projectFolder": "sdk/core/core-https",
       "versionPolicyName": "core"
     },
     {
@@ -378,8 +443,28 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-xml",
+      "projectFolder": "sdk/core/core-xml",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/dev-tool",
+      "projectFolder": "common/tools/dev-tool",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/eventgrid",
+      "projectFolder": "sdk/eventgrid/eventgrid",
       "versionPolicyName": "client"
     },
     {
@@ -408,6 +493,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/keyvault-common",
+      "projectFolder": "sdk/keyvault/keyvault-common",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/keyvault-admin",
+      "projectFolder": "sdk/keyvault/keyvault-admin",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/keyvault-certificates",
       "projectFolder": "sdk/keyvault/keyvault-certificates",
       "versionPolicyName": "client"
@@ -428,13 +523,33 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/schema-registry",
+      "projectFolder": "sdk/schemaregistry/schema-registry",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/storage-internal-avro",
+      "projectFolder": "sdk/storage/storage-internal-avro",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/storage-blob-changefeed",
+      "projectFolder": "sdk/storage/storage-blob-changefeed",
       "versionPolicyName": "client"
     },
     {
@@ -453,14 +568,64 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-artifacts",
+      "projectFolder": "sdk/synapse/synapse-artifacts",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-managed-private-endpoints",
+      "projectFolder": "sdk/synapse/synapse-managed-private-endpoints",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-monitoring",
+      "projectFolder": "sdk/synapse/synapse-monitoring",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-spark",
+      "projectFolder": "sdk/synapse/synapse-spark",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/data-tables",
+      "projectFolder": "sdk/tables/data-tables",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/eslint-plugin-azure-sdk",
+      "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
     },
     {
       "packageName": "@azure/test-utils-recorder",
       "projectFolder": "sdk/test-utils/recorder",
       "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/test-utils-perfstress",
+      "projectFolder": "sdk/test-utils/perfstress",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/test-utils-multi-version",
+      "projectFolder": "sdk/test-utils/multi-version",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/digital-twins-core",
+      "projectFolder": "sdk/digitaltwins/digital-twins-core",
+      "versionPolicyName": "client"
     }
   ]
 }

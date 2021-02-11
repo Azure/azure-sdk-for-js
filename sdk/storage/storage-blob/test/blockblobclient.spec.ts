@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -7,16 +10,14 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { BlockBlobTier } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlockBlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -26,7 +27,8 @@ describe("BlockBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -36,8 +38,10 @@ describe("BlockBlobClient", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      await recorder.stop();
+    }
   });
 
   it("upload with string body and default parameters", async () => {
@@ -393,11 +397,48 @@ describe("BlockBlobClient", () => {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (
+        err instanceof Error &&
+        err.message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        )
+      ) {
         exceptionCaught = true;
       }
     }
 
     assert.ok(exceptionCaught);
+  });
+
+  it("syncUploadFromURL with public source should work", async () => {
+    const metadata = {
+      key1: "val1",
+      key2: "val2"
+    };
+
+    await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      conditions: {
+        ifNoneMatch: "*"
+      },
+      metadata
+    });
+
+    const getRes = await blockBlobClient.getProperties();
+    assert.deepStrictEqual(getRes.metadata, metadata);
+
+    try {
+      await blockBlobClient.syncUploadFromURL(
+        "https://azure.github.io/azure-sdk-for-js/index.html",
+        {
+          conditions: {
+            ifNoneMatch: "*"
+          },
+          metadata
+        }
+      );
+      assert.fail();
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "BlobAlreadyExists");
+    }
   });
 });

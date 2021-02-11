@@ -74,34 +74,38 @@ export class InformationProtectionPolicies {
    * (/providers/Microsoft.Management/managementGroups/mgName).
    * @param informationProtectionPolicyName Name of the information protection policy. Possible
    * values include: 'effective', 'custom'
+   * @param informationProtectionPolicy Information protection policy.
    * @param [options] The optional parameters
    * @returns Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, options?: msRest.RequestOptionsBase): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, options?: msRest.RequestOptionsBase): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    * (/providers/Microsoft.Management/managementGroups/mgName).
    * @param informationProtectionPolicyName Name of the information protection policy. Possible
    * values include: 'effective', 'custom'
+   * @param informationProtectionPolicy Information protection policy.
    * @param callback The callback
    */
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
+  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    * (/providers/Microsoft.Management/managementGroups/mgName).
    * @param informationProtectionPolicyName Name of the information protection policy. Possible
    * values include: 'effective', 'custom'
+   * @param informationProtectionPolicy Information protection policy.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicy>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
+  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicy>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         informationProtectionPolicyName,
+        informationProtectionPolicy,
         options
       },
       createOrUpdateOperationSpec,
@@ -181,7 +185,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.informationProtectionPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -205,11 +209,18 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.informationProtectionPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: "informationProtectionPolicy",
+    mapper: {
+      ...Mappers.InformationProtectionPolicy,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.InformationProtectionPolicy
@@ -231,7 +242,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.scope
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage

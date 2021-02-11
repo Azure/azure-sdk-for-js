@@ -132,6 +132,110 @@ export class Products {
 
   /**
    * Returns a list of products.
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProductsGetProductsResponse>
+   */
+  getProducts(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductsGetProductsResponse>;
+  /**
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param callback The callback
+   */
+  getProducts(resourceGroup: string, registrationName: string, callback: msRest.ServiceCallback<Models.ProductList>): void;
+  /**
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getProducts(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductList>): void;
+  getProducts(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductList>, callback?: msRest.ServiceCallback<Models.ProductList>): Promise<Models.ProductsGetProductsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroup,
+        registrationName,
+        options
+      },
+      getProductsOperationSpec,
+      callback) as Promise<Models.ProductsGetProductsResponse>;
+  }
+
+  /**
+   * Returns the specified product.
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProductsGetProductResponse>
+   */
+  getProduct(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductsGetProductResponse>;
+  /**
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param callback The callback
+   */
+  getProduct(resourceGroup: string, registrationName: string, productName: string, callback: msRest.ServiceCallback<Models.Product>): void;
+  /**
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getProduct(resourceGroup: string, registrationName: string, productName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Product>): void;
+  getProduct(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Product>, callback?: msRest.ServiceCallback<Models.Product>): Promise<Models.ProductsGetProductResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroup,
+        registrationName,
+        productName,
+        options
+      },
+      getProductOperationSpec,
+      callback) as Promise<Models.ProductsGetProductResponse>;
+  }
+
+  /**
+   * Returns the specified product.
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProductsUploadLogResponse>
+   */
+  uploadLog(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductsUploadLogResponse>;
+  /**
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param callback The callback
+   */
+  uploadLog(resourceGroup: string, registrationName: string, productName: string, callback: msRest.ServiceCallback<Models.ProductLog>): void;
+  /**
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  uploadLog(resourceGroup: string, registrationName: string, productName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductLog>): void;
+  uploadLog(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductLog>, callback?: msRest.ServiceCallback<Models.ProductLog>): Promise<Models.ProductsUploadLogResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroup,
+        registrationName,
+        productName,
+        options
+      },
+      uploadLogOperationSpec,
+      callback) as Promise<Models.ProductsUploadLogResponse>;
+  }
+
+  /**
+   * Returns a list of products.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductsListNextResponse>
@@ -233,6 +337,104 @@ const listDetailsOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getProductsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/_all/GetProducts",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+    Parameters.registrationName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "deviceConfiguration"
+    ],
+    mapper: Mappers.DeviceConfiguration
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getProductOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/GetProduct",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+    Parameters.registrationName,
+    Parameters.productName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "deviceConfiguration"
+    ],
+    mapper: Mappers.DeviceConfiguration
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Product
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const uploadLogOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/uploadProductLog",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+    Parameters.registrationName,
+    Parameters.productName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "marketplaceProductLogUpdate"
+    ],
+    mapper: Mappers.MarketplaceProductLogUpdate
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductLog
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

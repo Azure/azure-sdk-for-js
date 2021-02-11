@@ -1,7 +1,11 @@
 {
   "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "ignorePatterns": ["src/core"],
+  "rules": {
+    "@typescript-eslint/no-this-alias": "off",
+    "no-invalid-this": "off",
+    "@azure/azure-sdk/ts-package-json-module": "warn",
+    "no-use-before-define": "warn"
   }
 }

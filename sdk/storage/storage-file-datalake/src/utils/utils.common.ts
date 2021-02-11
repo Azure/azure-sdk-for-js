@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 
@@ -187,14 +187,12 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getAccountNameFromUrl(blobEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(blobEndpoint);
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    } else if (!accountName) {
-      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
     return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
@@ -231,6 +229,28 @@ export function appendToURLPath(url: string, name: string): string {
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
   urlParsed.setPath(path);
 
+  return urlParsed.toString();
+}
+
+/**
+ * Append a string to URL query.
+ *
+ * @export
+ * @param {string} url Source URL string.
+ * @param {string} queryParts String to be appended to the URL query.
+ * @returns {string} An updated URL string.
+ */
+export function appendToURLQuery(url: string, queryParts: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let query = urlParsed.getQuery();
+  if (query) {
+    query += "&" + queryParts;
+  } else {
+    query = queryParts;
+  }
+
+  urlParsed.setQuery(query);
   return urlParsed.toString();
 }
 
@@ -375,6 +395,28 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
+ * Get URL query string.
+ *
+ * @param {string} url
+ */
+export function getURLQueryString(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getQuery();
+}
+
+/**
+ * Set URL query string.
+ *
+ * @param {string} url
+ * @param {string} queryString
+ */
+export function setURLQueries(url: string, queryString: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  urlParsed.setQuery(queryString);
+  return urlParsed.toString();
+}
+
+/**
  * Rounds a date off to seconds.
  *
  * @export
@@ -448,7 +490,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
  * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {
@@ -486,6 +528,8 @@ export function padStart(
   targetLength: number,
   padString: string = " "
 ): string {
+  // TS doesn't know this code needs to run downlevel sometimes.
+  // @ts-expect-error
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }
@@ -537,29 +581,47 @@ export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 }
 
+/**
+ * Extracts account name from the blobEndpointUrl
+ * @param {string} blobEndpointUrl blobEndpointUrl to extract the account name from
+ * @returns {string} account name
+ */
 export function getAccountNameFromUrl(blobEndpointUrl: string): string {
-  if (blobEndpointUrl.startsWith("http://127.0.0.1:10000")) {
-    // Dev Conn String
-    return getValueInConnString(DevelopmentConnectionString, "AccountName");
-  } else {
-    try {
+  const parsedUrl: URLBuilder = URLBuilder.parse(blobEndpointUrl);
+  let accountName;
+  try {
+    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-      // Slicing off '/' at the end if exists
-      blobEndpointUrl = blobEndpointUrl.endsWith("/")
-        ? blobEndpointUrl.slice(0, -1)
-        : blobEndpointUrl;
-
-      const accountName = blobEndpointUrl.substring(
-        blobEndpointUrl.lastIndexOf("://") + 3,
-        blobEndpointUrl.lastIndexOf(".blob.")
-      );
-      if (!accountName) {
-        throw new Error("Provided accountName is invalid.");
-      }
-
-      return accountName;
-    } catch (error) {
-      throw new Error("Unable to extract accountName with provided information.");
+      accountName = parsedUrl.getHost()!.split(".")[0];
+    } else if (isIpEndpointStyle(parsedUrl)) {
+      // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+      // .getPath() -> /devstoreaccount1/
+      accountName = parsedUrl.getPath()!.split("/")[1];
+    } else {
+      // Custom domain case: "https://customdomain.com/containername/blob".
+      accountName = "";
     }
+
+    return accountName;
+  } catch (error) {
+    throw new Error("Unable to extract accountName with provided information.");
   }
+}
+
+export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
+  if (parsedUrl.getHost() == undefined) {
+    return false;
+  }
+
+  const host =
+    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+
+  // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
+  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
+  // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
+  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    host
+  );
 }

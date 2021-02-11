@@ -1,8 +1,15 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { HttpResponse, isNode } from "@azure/core-http";
-import { CopyStatusType, FileDownloadHeaders, FileDownloadResponseModel } from "./generatedModels";
+import {
+  CopyStatusType,
+  FileDownloadHeaders,
+  FileDownloadResponseModel,
+  LeaseDurationType,
+  LeaseStateType,
+  LeaseStatusType
+} from "./generatedModels";
 import { Metadata } from "./models";
 import {
   ReadableStreamGetter,
@@ -413,6 +420,29 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    */
   public get contentAsBlob(): Promise<Blob> | undefined {
     return this.originalResponse.blobBody;
+  }
+
+  /**
+   * When a file is leased, specifies whether the lease is of infinite or fixed duration. Possible
+   * values include: 'infinite', 'fixed'
+   */
+  public get leaseDuration(): LeaseDurationType | undefined {
+    return this.originalResponse.leaseDuration;
+  }
+
+  /**
+   * Lease state of the file. Possible values include: 'available', 'leased', 'expired',
+   * 'breaking', 'broken'
+   */
+  public get leaseState(): LeaseStateType | undefined {
+    return this.originalResponse.leaseState;
+  }
+
+  /**
+   * The current lease status of the file. Possible values include: 'locked', 'unlocked'
+   */
+  public get leaseStatus(): LeaseStatusType | undefined {
+    return this.originalResponse.leaseStatus;
   }
 
   /**

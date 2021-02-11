@@ -18,17 +18,17 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  startsOn: string;
+  startsOn?: string;
   /**
    * the date-time the policy expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiresOn: string;
+  expiresOn?: string;
   /**
    * the permissions for the acl policy
    */
-  permissions: string;
+  permissions?: string;
 }
 
 /**
@@ -148,6 +148,7 @@ export interface Logging {
  */
 export interface StorageError {
   message?: string;
+  code?: string;
 }
 
 /**
@@ -583,11 +584,12 @@ export interface MessagesClearOptionalParams extends coreHttp.RequestOptionsBase
  */
 export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Optional. Specifies the new visibility timeout value, in seconds, relative to server time. The
-   * default value is 30 seconds. A specified value must be larger than or equal to 1 second, and
-   * cannot be larger than 7 days, or larger than 2 hours on REST protocol versions prior to
-   * version 2011-08-18. The visibility timeout of a message can be set to a value later than the
-   * expiry time.
+   * Optional. If specified, the request must be made using an x-ms-version of 2011-08-18 or later.
+   * If not specified, the default value is 0. Specifies the new visibility timeout value, in
+   * seconds, relative to server time. The new value must be larger than or equal to 0, and cannot
+   * be larger than 7 days. The visibility timeout of a message cannot be set to a value later than
+   * the expiry time. visibilitytimeout should be set to a value smaller than the time-to-live
+   * value.
    */
   visibilityTimeout?: number;
   /**
@@ -637,6 +639,10 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
  * Optional Parameters.
  */
 export interface MessageIdUpdateOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A Message object which can be stored in a Queue
+   */
+  queueMessage?: QueueMessage;
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting

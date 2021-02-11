@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-luis-authoring";
-const packageVersion = "3.1.0-preview";
+const packageVersion = "4.0.0-preview.3";
 
 export class LUISAuthoringClientContext extends msRest.ServiceClient {
   endpoint: string;

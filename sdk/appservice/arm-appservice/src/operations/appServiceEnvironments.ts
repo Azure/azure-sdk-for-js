@@ -28,7 +28,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all App Service Environments for a subscription.
+   * Description for Get all App Service Environments for a subscription.
    * @summary Get all App Service Environments for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceEnvironmentsListResponse>
@@ -53,7 +53,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all App Service Environments in a resource group.
+   * Description for Get all App Service Environments in a resource group.
    * @summary Get all App Service Environments in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param [options] The optional parameters
@@ -82,7 +82,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get the properties of an App Service Environment.
+   * Description for Get the properties of an App Service Environment.
    * @summary Get the properties of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -115,7 +115,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update an App Service Environment.
+   * Description for Create or update an App Service Environment.
    * @summary Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -129,7 +129,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Delete an App Service Environment.
+   * Description for Delete an App Service Environment.
    * @summary Delete an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -142,7 +142,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update an App Service Environment.
+   * Description for Create or update an App Service Environment.
    * @summary Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -179,7 +179,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get the used, available, and total worker capacity an App Service Environment.
+   * Description for Get the used, available, and total worker capacity an App Service Environment.
    * @summary Get the used, available, and total worker capacity an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -212,40 +212,40 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get IP addresses assigned to an App Service Environment.
+   * Description for Get IP addresses assigned to an App Service Environment.
    * @summary Get IP addresses assigned to an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListVipsResponse>
+   * @returns Promise<Models.AppServiceEnvironmentsGetVipInfoResponse>
    */
-  listVips(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsListVipsResponse>;
+  getVipInfo(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetVipInfoResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param callback The callback
    */
-  listVips(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.AddressResponse>): void;
+  getVipInfo(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.AddressResponse>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVips(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AddressResponse>): void;
-  listVips(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AddressResponse>, callback?: msRest.ServiceCallback<Models.AddressResponse>): Promise<Models.AppServiceEnvironmentsListVipsResponse> {
+  getVipInfo(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AddressResponse>): void;
+  getVipInfo(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AddressResponse>, callback?: msRest.ServiceCallback<Models.AddressResponse>): Promise<Models.AppServiceEnvironmentsGetVipInfoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         options
       },
-      listVipsOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListVipsResponse>;
+      getVipInfoOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetVipInfoResponse>;
   }
 
   /**
-   * Move an App Service Environment to a different VNET.
+   * Description for Move an App Service Environment to a different VNET.
    * @summary Move an App Service Environment to a different VNET.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -259,7 +259,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get diagnostic information for an App Service Environment.
+   * Description for Get diagnostic information for an App Service Environment.
    * @summary Get diagnostic information for an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -292,7 +292,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get a diagnostics item for an App Service Environment.
+   * Description for Get a diagnostics item for an App Service Environment.
    * @summary Get a diagnostics item for an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -329,7 +329,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * Description for Get the network endpoints of all inbound dependencies of an App Service
+   * Environment.
    * @summary Get the network endpoints of all inbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -362,73 +363,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get global metric definitions of an App Service Environment.
-   * @summary Get global metric definitions of an App Service Environment.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListMetricDefinitionsResponse>
-   */
-  listMetricDefinitions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsListMetricDefinitionsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param callback The callback
-   */
-  listMetricDefinitions(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.MetricDefinition>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMetricDefinitions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinition>): void;
-  listMetricDefinitions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinition>, callback?: msRest.ServiceCallback<Models.MetricDefinition>): Promise<Models.AppServiceEnvironmentsListMetricDefinitionsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      listMetricDefinitionsOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListMetricDefinitionsResponse>;
-  }
-
-  /**
-   * Get global metrics of an App Service Environment.
-   * @summary Get global metrics of an App Service Environment.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListMetricsResponse>
-   */
-  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMetricsOptionalParams): Promise<Models.AppServiceEnvironmentsListMetricsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param callback The callback
-   */
-  listMetrics(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMetrics(resourceGroupName: string, name: string, options: Models.AppServiceEnvironmentsListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMetricsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      listMetricsOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListMetricsResponse>;
-  }
-
-  /**
-   * Get all multi-role pools.
+   * Description for Get all multi-role pools.
    * @summary Get all multi-role pools.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -461,7 +396,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get properties of a multi-role pool.
+   * Description for Get properties of a multi-role pool.
    * @summary Get properties of a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -494,7 +429,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update a multi-role pool.
+   * Description for Create or update a multi-role pool.
    * @summary Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -508,7 +443,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update a multi-role pool.
+   * Description for Create or update a multi-role pool.
    * @summary Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -545,8 +480,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metric definitions for a specific instance of a multi-role pool of an App Service
-   * Environment.
+   * Description for Get metric definitions for a specific instance of a multi-role pool of an App
+   * Service Environment.
    * @summary Get metric definitions for a specific instance of a multi-role pool of an App Service
    * Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -585,44 +520,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-   * @summary Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param instance Name of the instance in the multi-role pool.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsResponse>
-   */
-  listMultiRolePoolInstanceMetrics(resourceGroupName: string, name: string, instance: string, options?: Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsOptionalParams): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param instance Name of the instance in the multi-role pool.
-   * @param callback The callback
-   */
-  listMultiRolePoolInstanceMetrics(resourceGroupName: string, name: string, instance: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param instance Name of the instance in the multi-role pool.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMultiRolePoolInstanceMetrics(resourceGroupName: string, name: string, instance: string, options: Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRolePoolInstanceMetrics(resourceGroupName: string, name: string, instance: string, options?: Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        instance,
-        options
-      },
-      listMultiRolePoolInstanceMetricsOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsResponse>;
-  }
-
-  /**
-   * Get metric definitions for a multi-role pool of an App Service Environment.
+   * Description for Get metric definitions for a multi-role pool of an App Service Environment.
    * @summary Get metric definitions for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -655,40 +553,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a multi-role pool of an App Service Environment.
-   * @summary Get metrics for a multi-role pool of an App Service Environment.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsResponse>
-   */
-  listMultiRoleMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMultiRoleMetricsOptionalParams): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param callback The callback
-   */
-  listMultiRoleMetrics(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMultiRoleMetrics(resourceGroupName: string, name: string, options: Models.AppServiceEnvironmentsListMultiRoleMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRoleMetrics(resourceGroupName: string, name: string, options?: Models.AppServiceEnvironmentsListMultiRoleMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      listMultiRoleMetricsOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsResponse>;
-  }
-
-  /**
-   * Get available SKUs for scaling a multi-role pool.
+   * Description for Get available SKUs for scaling a multi-role pool.
    * @summary Get available SKUs for scaling a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -721,7 +586,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get usage metrics for a multi-role pool of an App Service Environment.
+   * Description for Get usage metrics for a multi-role pool of an App Service Environment.
    * @summary Get usage metrics for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -754,7 +619,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * List all currently running operations on the App Service Environment.
+   * Description for List all currently running operations on the App Service Environment.
    * @summary List all currently running operations on the App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -787,7 +652,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * Description for Get the network endpoints of all outbound dependencies of an App Service
+   * Environment.
    * @summary Get the network endpoints of all outbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -820,7 +686,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Reboot all machines in an App Service Environment.
+   * Description for Reboot all machines in an App Service Environment.
    * @summary Reboot all machines in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -853,7 +719,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Resume an App Service Environment.
+   * Description for Resume an App Service Environment.
    * @summary Resume an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -866,7 +732,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all App Service plans in an App Service Environment.
+   * Description for Get all App Service plans in an App Service Environment.
    * @summary Get all App Service plans in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -899,7 +765,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all apps in an App Service Environment.
+   * Description for Get all apps in an App Service Environment.
    * @summary Get all apps in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -932,7 +798,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Suspend an App Service Environment.
+   * Description for Suspend an App Service Environment.
    * @summary Suspend an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -945,7 +811,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get global usage metrics of an App Service Environment.
+   * Description for Get global usage metrics of an App Service Environment.
    * @summary Get global usage metrics of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -978,7 +844,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all worker pools of an App Service Environment.
+   * Description for Get all worker pools of an App Service Environment.
    * @summary Get all worker pools of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1011,7 +877,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get properties of a worker pool.
+   * Description for Get properties of a worker pool.
    * @summary Get properties of a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1048,7 +914,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update a worker pool.
+   * Description for Create or update a worker pool.
    * @summary Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1063,7 +929,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update a worker pool.
+   * Description for Create or update a worker pool.
    * @summary Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1104,7 +970,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+   * Description for Get metric definitions for a specific instance of a worker pool of an App
+   * Service Environment.
    * @summary Get metric definitions for a specific instance of a worker pool of an App Service
    * Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -1146,48 +1013,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a specific instance of a worker pool of an App Service Environment.
-   * @summary Get metrics for a specific instance of a worker pool of an App Service Environment.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param workerPoolName Name of the worker pool.
-   * @param instance Name of the instance in the worker pool.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsResponse>
-   */
-  listWorkerPoolInstanceMetrics(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsOptionalParams): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param workerPoolName Name of the worker pool.
-   * @param instance Name of the instance in the worker pool.
-   * @param callback The callback
-   */
-  listWorkerPoolInstanceMetrics(resourceGroupName: string, name: string, workerPoolName: string, instance: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param workerPoolName Name of the worker pool.
-   * @param instance Name of the instance in the worker pool.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listWorkerPoolInstanceMetrics(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options: Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWorkerPoolInstanceMetrics(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        workerPoolName,
-        instance,
-        options
-      },
-      listWorkerPoolInstanceMetricsOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsResponse>;
-  }
-
-  /**
-   * Get metric definitions for a worker pool of an App Service Environment.
+   * Description for Get metric definitions for a worker pool of an App Service Environment.
    * @summary Get metric definitions for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1224,44 +1050,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-   * @summary Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param workerPoolName Name of worker pool
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsResponse>
-   */
-  listWebWorkerMetrics(resourceGroupName: string, name: string, workerPoolName: string, options?: Models.AppServiceEnvironmentsListWebWorkerMetricsOptionalParams): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param workerPoolName Name of worker pool
-   * @param callback The callback
-   */
-  listWebWorkerMetrics(resourceGroupName: string, name: string, workerPoolName: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the App Service Environment.
-   * @param workerPoolName Name of worker pool
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listWebWorkerMetrics(resourceGroupName: string, name: string, workerPoolName: string, options: Models.AppServiceEnvironmentsListWebWorkerMetricsOptionalParams, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWebWorkerMetrics(resourceGroupName: string, name: string, workerPoolName: string, options?: Models.AppServiceEnvironmentsListWebWorkerMetricsOptionalParams | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        workerPoolName,
-        options
-      },
-      listWebWorkerMetricsOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsResponse>;
-  }
-
-  /**
-   * Get available SKUs for scaling a worker pool.
+   * Description for Get available SKUs for scaling a worker pool.
    * @summary Get available SKUs for scaling a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1298,7 +1087,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get usage metrics for a worker pool of an App Service Environment.
+   * Description for Get usage metrics for a worker pool of an App Service Environment.
    * @summary Get usage metrics for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1335,7 +1124,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update an App Service Environment.
+   * Description for Create or update an App Service Environment.
    * @summary Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1356,7 +1145,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Delete an App Service Environment.
+   * Description for Delete an App Service Environment.
    * @summary Delete an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1375,7 +1164,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Move an App Service Environment to a different VNET.
+   * Description for Move an App Service Environment to a different VNET.
    * @summary Move an App Service Environment to a different VNET.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1396,7 +1185,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update a multi-role pool.
+   * Description for Create or update a multi-role pool.
    * @summary Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1417,7 +1206,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Resume an App Service Environment.
+   * Description for Resume an App Service Environment.
    * @summary Resume an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1436,7 +1225,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Suspend an App Service Environment.
+   * Description for Suspend an App Service Environment.
    * @summary Suspend an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1455,7 +1244,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Create or update a worker pool.
+   * Description for Create or update a worker pool.
    * @summary Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -1478,7 +1267,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all App Service Environments for a subscription.
+   * Description for Get all App Service Environments for a subscription.
    * @summary Get all App Service Environments for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1507,7 +1296,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all App Service Environments in a resource group.
+   * Description for Get all App Service Environments in a resource group.
    * @summary Get all App Service Environments in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1536,7 +1325,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get the used, available, and total worker capacity an App Service Environment.
+   * Description for Get the used, available, and total worker capacity an App Service Environment.
    * @summary Get the used, available, and total worker capacity an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1565,7 +1354,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Move an App Service Environment to a different VNET.
+   * Description for Move an App Service Environment to a different VNET.
    * @summary Move an App Service Environment to a different VNET.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1577,7 +1366,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * Description for Get the network endpoints of all inbound dependencies of an App Service
+   * Environment.
    * @summary Get the network endpoints of all inbound dependencies of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1607,36 +1397,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get global metrics of an App Service Environment.
-   * @summary Get global metrics of an App Service Environment.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListMetricsNextResponse>
-   */
-  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsListMetricsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listMetricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMetricsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listMetricsNextOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListMetricsNextResponse>;
-  }
-
-  /**
-   * Get all multi-role pools.
+   * Description for Get all multi-role pools.
    * @summary Get all multi-role pools.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1665,8 +1426,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metric definitions for a specific instance of a multi-role pool of an App Service
-   * Environment.
+   * Description for Get metric definitions for a specific instance of a multi-role pool of an App
+   * Service Environment.
    * @summary Get metric definitions for a specific instance of a multi-role pool of an App Service
    * Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -1697,36 +1458,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-   * @summary Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsNextResponse>
-   */
-  listMultiRolePoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listMultiRolePoolInstanceMetricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMultiRolePoolInstanceMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRolePoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listMultiRolePoolInstanceMetricsNextOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListMultiRolePoolInstanceMetricsNextResponse>;
-  }
-
-  /**
-   * Get metric definitions for a multi-role pool of an App Service Environment.
+   * Description for Get metric definitions for a multi-role pool of an App Service Environment.
    * @summary Get metric definitions for a multi-role pool of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1755,36 +1487,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a multi-role pool of an App Service Environment.
-   * @summary Get metrics for a multi-role pool of an App Service Environment.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsNextResponse>
-   */
-  listMultiRoleMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listMultiRoleMetricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listMultiRoleMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listMultiRoleMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listMultiRoleMetricsNextOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListMultiRoleMetricsNextResponse>;
-  }
-
-  /**
-   * Get available SKUs for scaling a multi-role pool.
+   * Description for Get available SKUs for scaling a multi-role pool.
    * @summary Get available SKUs for scaling a multi-role pool.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1813,7 +1516,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get usage metrics for a multi-role pool of an App Service Environment.
+   * Description for Get usage metrics for a multi-role pool of an App Service Environment.
    * @summary Get usage metrics for a multi-role pool of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1842,7 +1545,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * Description for Get the network endpoints of all outbound dependencies of an App Service
+   * Environment.
    * @summary Get the network endpoints of all outbound dependencies of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1872,7 +1576,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Resume an App Service Environment.
+   * Description for Resume an App Service Environment.
    * @summary Resume an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1884,7 +1588,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all App Service plans in an App Service Environment.
+   * Description for Get all App Service plans in an App Service Environment.
    * @summary Get all App Service plans in an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1913,7 +1617,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all apps in an App Service Environment.
+   * Description for Get all apps in an App Service Environment.
    * @summary Get all apps in an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1942,7 +1646,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Suspend an App Service Environment.
+   * Description for Suspend an App Service Environment.
    * @summary Suspend an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1954,7 +1658,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get global usage metrics of an App Service Environment.
+   * Description for Get global usage metrics of an App Service Environment.
    * @summary Get global usage metrics of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1983,7 +1687,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get all worker pools of an App Service Environment.
+   * Description for Get all worker pools of an App Service Environment.
    * @summary Get all worker pools of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -2012,7 +1716,8 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+   * Description for Get metric definitions for a specific instance of a worker pool of an App
+   * Service Environment.
    * @summary Get metric definitions for a specific instance of a worker pool of an App Service
    * Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -2043,36 +1748,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a specific instance of a worker pool of an App Service Environment.
-   * @summary Get metrics for a specific instance of a worker pool of an App Service Environment.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsNextResponse>
-   */
-  listWorkerPoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listWorkerPoolInstanceMetricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listWorkerPoolInstanceMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWorkerPoolInstanceMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listWorkerPoolInstanceMetricsNextOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListWorkerPoolInstanceMetricsNextResponse>;
-  }
-
-  /**
-   * Get metric definitions for a worker pool of an App Service Environment.
+   * Description for Get metric definitions for a worker pool of an App Service Environment.
    * @summary Get metric definitions for a worker pool of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -2101,36 +1777,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-   * @summary Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsNextResponse>
-   */
-  listWebWorkerMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listWebWorkerMetricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listWebWorkerMetricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceMetricCollection>): void;
-  listWebWorkerMetricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceMetricCollection>, callback?: msRest.ServiceCallback<Models.ResourceMetricCollection>): Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listWebWorkerMetricsNextOperationSpec,
-      callback) as Promise<Models.AppServiceEnvironmentsListWebWorkerMetricsNextResponse>;
-  }
-
-  /**
-   * Get available SKUs for scaling a worker pool.
+   * Description for Get available SKUs for scaling a worker pool.
    * @summary Get available SKUs for scaling a worker pool.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -2159,7 +1806,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Get usage metrics for a worker pool of an App Service Environment.
+   * Description for Get usage metrics for a worker pool of an App Service Environment.
    * @summary Get usage metrics for a worker pool of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -2188,7 +1835,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Move an App Service Environment to a different VNET.
+   * Description for Move an App Service Environment to a different VNET.
    * @summary Move an App Service Environment to a different VNET.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -2205,7 +1852,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Resume an App Service Environment.
+   * Description for Resume an App Service Environment.
    * @summary Resume an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -2222,7 +1869,7 @@ export class AppServiceEnvironments {
   }
 
   /**
-   * Suspend an App Service Environment.
+   * Description for Suspend an App Service Environment.
    * @summary Suspend an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -2248,7 +1895,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2272,7 +1919,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2297,7 +1944,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2322,7 +1969,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2338,14 +1985,14 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.AppServiceEnvironmentResource
     },
+    201: {
+      bodyMapper: Mappers.AppServiceEnvironmentResource
+    },
     202: {
       bodyMapper: Mappers.AppServiceEnvironmentResource
     },
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2360,7 +2007,7 @@ const listCapacitiesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2376,7 +2023,7 @@ const listCapacitiesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listVipsOperationSpec: msRest.OperationSpec = {
+const getVipInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/virtualip",
   urlParameters: [
@@ -2385,7 +2032,7 @@ const listVipsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2410,7 +2057,7 @@ const listDiagnosticsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2447,7 +2094,7 @@ const getDiagnosticsItemOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2472,7 +2119,7 @@ const getInboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec 
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2480,58 +2127,6 @@ const getInboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec 
   responses: {
     200: {
       bodyMapper: Mappers.InboundEnvironmentEndpointCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metricdefinitions",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetricDefinition
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMetricsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metrics",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.details,
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -2549,7 +2144,7 @@ const listMultiRolePoolsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2574,7 +2169,7 @@ const getMultiRolePoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2599,7 +2194,7 @@ const updateMultiRolePoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2618,11 +2213,8 @@ const updateMultiRolePoolOperationSpec: msRest.OperationSpec = {
     202: {
       bodyMapper: Mappers.WorkerPoolResource
     },
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2638,7 +2230,7 @@ const listMultiRolePoolInstanceMetricDefinitionsOperationSpec: msRest.OperationS
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2646,33 +2238,6 @@ const listMultiRolePoolInstanceMetricDefinitionsOperationSpec: msRest.OperationS
   responses: {
     200: {
       bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMultiRolePoolInstanceMetricsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metrics",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.instance,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.details,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -2690,7 +2255,7 @@ const listMultiRoleMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2698,36 +2263,6 @@ const listMultiRoleMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMultiRoleMetricsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/metrics",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.startTime1,
-    Parameters.endTime1,
-    Parameters.timeGrain1,
-    Parameters.details,
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -2745,7 +2280,7 @@ const listMultiRolePoolSkusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2770,7 +2305,7 @@ const listMultiRoleUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2795,7 +2330,7 @@ const listOperationsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2831,7 +2366,7 @@ const getOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2856,18 +2391,15 @@ const rebootOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     202: {},
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -2882,7 +2414,7 @@ const listAppServicePlansOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2908,7 +2440,7 @@ const listWebAppsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.propertiesToInclude,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2934,7 +2466,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2959,7 +2491,7 @@ const listWorkerPoolsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2985,7 +2517,7 @@ const getWorkerPoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3011,7 +2543,7 @@ const updateWorkerPoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3030,11 +2562,8 @@ const updateWorkerPoolOperationSpec: msRest.OperationSpec = {
     202: {
       bodyMapper: Mappers.WorkerPoolResource
     },
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -3051,7 +2580,7 @@ const listWorkerPoolInstanceMetricDefinitionsOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3059,35 +2588,6 @@ const listWorkerPoolInstanceMetricDefinitionsOperationSpec: msRest.OperationSpec
   responses: {
     200: {
       bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listWorkerPoolInstanceMetricsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metrics",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.workerPoolName,
-    Parameters.instance,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.details,
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -3106,7 +2606,7 @@ const listWebWorkerMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3114,34 +2614,6 @@ const listWebWorkerMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listWebWorkerMetricsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metrics",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.workerPoolName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.details,
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -3160,7 +2632,7 @@ const listWorkerPoolSkusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3186,7 +2658,7 @@ const listWebWorkerUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3211,7 +2683,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3227,14 +2699,14 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.AppServiceEnvironmentResource
     },
+    201: {
+      bodyMapper: Mappers.AppServiceEnvironmentResource
+    },
     202: {
       bodyMapper: Mappers.AppServiceEnvironmentResource
     },
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -3250,7 +2722,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.forceDelete,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3258,11 +2730,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -3277,7 +2746,7 @@ const beginChangeVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3312,7 +2781,7 @@ const beginCreateOrUpdateMultiRolePoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3331,11 +2800,8 @@ const beginCreateOrUpdateMultiRolePoolOperationSpec: msRest.OperationSpec = {
     202: {
       bodyMapper: Mappers.WorkerPoolResource
     },
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -3350,7 +2816,7 @@ const beginResumeOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3378,7 +2844,7 @@ const beginSuspendOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3407,7 +2873,7 @@ const beginCreateOrUpdateWorkerPoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3426,11 +2892,8 @@ const beginCreateOrUpdateWorkerPoolOperationSpec: msRest.OperationSpec = {
     202: {
       bodyMapper: Mappers.WorkerPoolResource
     },
-    400: {},
-    404: {},
-    409: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -3520,27 +2983,6 @@ const getInboundNetworkDependenciesEndpointsNextOperationSpec: msRest.OperationS
   serializer
 };
 
-const listMetricsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
 const listMultiRolePoolsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -3583,27 +3025,6 @@ const listMultiRolePoolInstanceMetricDefinitionsNextOperationSpec: msRest.Operat
   serializer
 };
 
-const listMultiRolePoolInstanceMetricsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
 const listMultiRoleMetricDefinitionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -3617,27 +3038,6 @@ const listMultiRoleMetricDefinitionsNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listMultiRoleMetricsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -3814,27 +3214,6 @@ const listWorkerPoolInstanceMetricDefinitionsNextOperationSpec: msRest.Operation
   serializer
 };
 
-const listWorkerPoolInstanceMetricsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
 const listWebWorkerMetricDefinitionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -3848,27 +3227,6 @@ const listWebWorkerMetricDefinitionsNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ResourceMetricDefinitionCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listWebWorkerMetricsNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceMetricCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

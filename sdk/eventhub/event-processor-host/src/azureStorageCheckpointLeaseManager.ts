@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import { CheckpointInfo } from "./checkpointInfo";
 import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
@@ -25,7 +25,7 @@ import * as log from "./log";
 import path from "path";
 
 /**
- * @ignore
+ * @hidden
  */
 enum UploadActivity {
   create = "create",
@@ -35,7 +35,7 @@ enum UploadActivity {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export class AzureStorageCheckpointLeaseManager implements CheckpointManager, LeaseManager {
   leaseRenewInterval: number;

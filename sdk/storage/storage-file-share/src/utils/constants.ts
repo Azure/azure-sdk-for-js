@@ -1,10 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.0.1";
-export const SERVICE_VERSION: string = "2019-02-02";
+export const SDK_VERSION: string = "12.4.2";
+export const SERVICE_VERSION: string = "2020-04-08";
 
-export const FILE_MAX_SIZE_BYTES: number = 1024 * 1024 * 1024 * 1024; // 1TB
+export const FILE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024 * 1024 * 1024; // 4TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
 export const DEFAULT_HIGH_LEVEL_CONCURRENCY: number = 5;

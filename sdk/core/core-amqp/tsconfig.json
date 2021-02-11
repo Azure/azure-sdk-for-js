@@ -3,10 +3,9 @@
   "compilerOptions": {
     "target": "es6",
     "outDir": "./dist-esm",
-    "declarationDir": "./typings",
+    "declarationDir": "./types",
     "resolveJsonModule": true
   },
-  "compileOnSave": true,
-  "exclude": ["node_modules", "typings/**", "./samples/**/*.ts"],
+  "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

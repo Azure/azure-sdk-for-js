@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-customimagesearch";
-const packageVersion = "2.0.0";
+const packageVersion = "2.0.1";
 
 export class CustomImageSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;

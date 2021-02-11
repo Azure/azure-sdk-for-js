@@ -14,6 +14,7 @@ import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
 import { KeepAliveOptions } from '@azure/core-http';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
@@ -21,16 +22,15 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
-    expiresOn: string;
-    permissions: string;
-    startsOn: string;
+    expiresOn?: string;
+    permissions?: string;
+    startsOn?: string;
 }
 
 // @public
@@ -92,7 +92,6 @@ export { BaseRequestPolicy }
 
 // @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
     tracingOptions?: OperationTracingOptions;
 }
 
@@ -317,7 +316,7 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface PeekedMessageItem {
@@ -350,7 +349,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 export type QueueClearMessagesResponse = MessagesClearResponse;
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient extends StorageClient {
     constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
@@ -358,17 +357,21 @@ export class QueueClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     clearMessages(options?: QueueClearMessagesOptions): Promise<QueueClearMessagesResponse>;
     create(options?: QueueCreateOptions): Promise<QueueCreateResponse>;
+    createIfNotExists(options?: QueueCreateOptions): Promise<QueueCreateIfNotExistsResponse>;
     delete(options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
+    deleteIfExists(options?: QueueDeleteOptions): Promise<QueueDeleteIfExistsResponse>;
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
+    exists(options?: QueueExistsOptions): Promise<boolean>;
+    generateSasUrl(options: QueueGenerateSasUrlOptions): string;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
-    readonly name: string;
+    get name(): string;
     peekMessages(options?: QueuePeekMessagesOptions): Promise<QueuePeekMessagesResponse>;
     receiveMessages(options?: QueueReceiveMessageOptions): Promise<QueueReceiveMessageResponse>;
     sendMessage(messageText: string, options?: QueueSendMessageOptions): Promise<QueueSendMessageResponse>;
     setAccessPolicy(queueAcl?: SignedIdentifier[], options?: QueueSetAccessPolicyOptions): Promise<QueueSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: QueueSetMetadataOptions): Promise<QueueSetMetadataResponse>;
-    updateMessage(messageId: string, popReceipt: string, message: string, visibilityTimeout?: number, options?: QueueUpdateMessageOptions): Promise<QueueUpdateMessageResponse>;
+    updateMessage(messageId: string, popReceipt: string, message?: string, visibilityTimeout?: number, options?: QueueUpdateMessageOptions): Promise<QueueUpdateMessageResponse>;
 }
 
 // @public
@@ -379,6 +382,11 @@ export interface QueueCreateHeaders {
     errorCode?: string;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface QueueCreateIfNotExistsResponse extends QueueCreateResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -405,6 +413,11 @@ export interface QueueDeleteHeaders {
 }
 
 // @public
+export interface QueueDeleteIfExistsResponse extends QueueDeleteResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface QueueDeleteMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -423,6 +436,22 @@ export type QueueDeleteResponse = QueueDeleteHeaders & {
         parsedHeaders: QueueDeleteHeaders;
     };
 };
+
+// @public
+export interface QueueExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface QueueGenerateSasUrlOptions {
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: QueueSASPermissions;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
 
 // @public
 export interface QueueGetAccessPolicyHeaders {
@@ -564,6 +593,7 @@ export class QueueServiceClient extends StorageClient {
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
@@ -670,7 +700,7 @@ export class SASQueryParameters {
     constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
@@ -680,6 +710,14 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
 }
 
 // @public
@@ -779,9 +817,9 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 // @public
 export interface SignedIdentifier {
     accessPolicy: {
-        startsOn: Date;
-        expiresOn: Date;
-        permissions: string;
+        startsOn?: Date;
+        expiresOn?: Date;
+        permissions?: string;
     };
     id: string;
 }

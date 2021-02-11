@@ -83,11 +83,7 @@ describe("Long Running Operations - working with abort signals", function() {
     const abortController = new AbortController();
     const poller = await client.startLRO();
 
-    // Testing subscriptions to the poll errors
-    let doneError: Error | undefined;
-    poller.pollUntilDone().catch((e) => {
-      doneError = e;
-    });
+    const donePromise = poller.pollUntilDone();
 
     await poller.poll();
     assert.equal(client.totalSentRequests, 2);
@@ -102,8 +98,14 @@ describe("Long Running Operations - working with abort signals", function() {
     } catch (e) {
       pollError = e;
     }
-
     assert.equal(pollError!.message, "The operation was aborted.");
+
+    let doneError: Error | undefined;
+    try {
+      await donePromise;
+    } catch (e) {
+      doneError = e;
+    }
     assert.equal(doneError!.message, "The operation was aborted.");
 
     assert.equal(client.totalSentRequests, 2);

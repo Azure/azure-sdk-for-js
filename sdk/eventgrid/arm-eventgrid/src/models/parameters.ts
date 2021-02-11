@@ -93,6 +93,46 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const parentName: msRest.OperationURLParameter = {
+  parameterPath: "parentName",
+  mapper: {
+    required: true,
+    serializedName: "parentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const parentType: msRest.OperationURLParameter = {
+  parameterPath: "parentType",
+  mapper: {
+    required: true,
+    serializedName: "parentType",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateLinkResourceName: msRest.OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    required: true,
+    serializedName: "privateLinkResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const providerNamespace: msRest.OperationURLParameter = {
   parameterPath: "providerNamespace",
   mapper: {

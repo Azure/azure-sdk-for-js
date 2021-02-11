@@ -82,28 +82,31 @@ export interface FilterTrackSelection {
 }
 
 /**
- * The core properties of ARM resources.
+ * An interface representing Resource.
  */
 export interface Resource extends BaseResource {
   /**
-   * Fully qualified resource ID for the resource.
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * The name of the resource.
+   * The name of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * The type of the resource.
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
 }
 
 /**
- * The resource model definition for a ARM proxy resource.
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
  */
 export interface ProxyResource extends Resource {
 }
@@ -153,13 +156,13 @@ export interface ODataError {
  */
 export interface ApiError {
   /**
-   * ApiError. The error properties.
+   * The error properties.
    */
   error?: ODataError;
 }
 
 /**
- * The resource model definition for a ARM tracked resource.
+ * The resource model definition for a ARM tracked top level resource
  */
 export interface TrackedResource extends Resource {
   /**
@@ -167,9 +170,20 @@ export interface TrackedResource extends Resource {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * The Azure Region of the resource.
+   * The geo-location where the resource lives
    */
-  location?: string;
+  location: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -228,7 +242,7 @@ export interface MetricDimension {
 /**
  * A metric emitted by service.
  */
-export interface Metric {
+export interface MetricSpecification {
   /**
    * The metric name.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -255,6 +269,10 @@ export interface Metric {
    */
   readonly aggregationType?: MetricAggregationType;
   /**
+   * Supported aggregation types.
+   */
+  supportedAggregationTypes?: string[];
+  /**
    * The metric dimensions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -262,20 +280,46 @@ export interface Metric {
 }
 
 /**
+ * A diagnostic log emitted by service.
+ */
+export interface LogSpecification {
+  /**
+   * The diagnostic log category name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The diagnostic log category display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * The time range for requests in each blob.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly blobDuration?: string;
+}
+
+/**
  * The service metric specifications.
  */
 export interface ServiceSpecification {
   /**
+   * List of log specifications.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logSpecifications?: LogSpecification[];
+  /**
    * List of metric specifications.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly metricSpecifications?: Metric[];
+  readonly metricSpecifications?: MetricSpecification[];
 }
 
 /**
- * Metric properties.
+ * The service specification property.
  */
-export interface MetricProperties {
+export interface Properties {
   /**
    * The service specifications.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -302,7 +346,7 @@ export interface Operation {
   /**
    * Operation properties format.
    */
-  properties?: MetricProperties;
+  properties?: Properties;
 }
 
 /**
@@ -358,6 +402,58 @@ export interface SyncStorageKeysInput {
 }
 
 /**
+ * An interface representing KeyVaultProperties.
+ */
+export interface KeyVaultProperties {
+  /**
+   * The URL of the Key Vault key used to encrypt the account. The key may either be versioned (for
+   * example https://vault/keys/mykey/version1) or reference a key without a version (for example
+   * https://vault/keys/mykey).
+   */
+  keyIdentifier?: string;
+  /**
+   * The current key used to encrypt the Media Services account, including the key version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentKeyIdentifier?: string;
+}
+
+/**
+ * An interface representing AccountEncryption.
+ */
+export interface AccountEncryption {
+  /**
+   * The type of key used to encrypt the Account Key. Possible values include: 'SystemKey',
+   * 'CustomerKey'
+   */
+  type: AccountEncryptionKeyType;
+  /**
+   * The properties of the key used to encrypt the account.
+   */
+  keyVaultProperties?: KeyVaultProperties;
+}
+
+/**
+ * An interface representing MediaServiceIdentity.
+ */
+export interface MediaServiceIdentity {
+  /**
+   * The identity type. Possible values include: 'SystemAssigned', 'None'
+   */
+  type: ManagedIdentityType;
+  /**
+   * The Principal ID of the identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The Tenant ID of the identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+}
+
+/**
  * A Media Services account.
  */
 export interface MediaService extends TrackedResource {
@@ -370,21 +466,76 @@ export interface MediaService extends TrackedResource {
    * The storage accounts for this resource.
    */
   storageAccounts?: StorageAccount[];
+  /**
+   * Possible values include: 'System', 'ManagedIdentity'
+   */
+  storageAuthentication?: StorageAuthentication;
+  /**
+   * The account encryption properties.
+   */
+  encryption?: AccountEncryption;
+  /**
+   * The Managed Identity for the Media Services account.
+   */
+  identity?: MediaServiceIdentity;
 }
 
 /**
- * A Media Services account.
+ * An interface representing ListEdgePoliciesInput.
  */
-export interface SubscriptionMediaService extends TrackedResource {
+export interface ListEdgePoliciesInput {
   /**
-   * The Media Services account ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Unique identifier of the edge device.
    */
-  readonly mediaServiceId?: string;
+  deviceId?: string;
+}
+
+/**
+ * An interface representing EdgeUsageDataEventHub.
+ */
+export interface EdgeUsageDataEventHub {
   /**
-   * The storage accounts for this resource.
+   * Name of the Event Hub where usage will be reported.
    */
-  storageAccounts?: StorageAccount[];
+  name?: string;
+  /**
+   * Namespace of the Event Hub where usage will be reported.
+   */
+  namespace?: string;
+  /**
+   * SAS token needed to interact with Event Hub.
+   */
+  token?: string;
+}
+
+/**
+ * An interface representing EdgeUsageDataCollectionPolicy.
+ */
+export interface EdgeUsageDataCollectionPolicy {
+  /**
+   * Usage data collection frequency in ISO 8601 duration format e.g. PT10M , PT5H.
+   */
+  dataCollectionFrequency?: string;
+  /**
+   * Usage data reporting frequency in ISO 8601 duration format e.g. PT10M , PT5H.
+   */
+  dataReportingFrequency?: string;
+  /**
+   * Maximum time for which the functionality of the device will not be hampered for not reporting
+   * the usage data.
+   */
+  maxAllowedUnreportedUsageDuration?: string;
+  /**
+   * Details of Event Hub where the usage will be reported.
+   */
+  eventHubDetails?: EdgeUsageDataEventHub;
+}
+
+/**
+ * An interface representing EdgePolicies.
+ */
+export interface EdgePolicies {
+  usageDataCollectionPolicy?: EdgeUsageDataCollectionPolicy;
 }
 
 /**
@@ -399,6 +550,97 @@ export interface CheckNameAvailabilityInput {
    * The account type. For a Media Services account, this should be 'MediaServices'.
    */
   type?: string;
+}
+
+/**
+ * A collection of information about the state of the connection between service consumer and
+ * provider.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval/rejection of the connection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * The Private Endpoint resource.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/**
+ * List of private endpoint connection associated with the specified storage account
+ */
+export interface PrivateEndpointConnectionListResult {
+  /**
+   * Array of private endpoint connections
+   */
+  value?: PrivateEndpointConnection[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
 }
 
 /**
@@ -1108,7 +1350,7 @@ export interface Preset {
 /**
  * Contains the possible cases for Codec.
  */
-export type CodecUnion = Codec | AudioUnion | CopyVideo | VideoUnion | CopyAudio;
+export type CodecUnion = Codec | AudioUnion | VideoUnion | CopyVideo | CopyAudio;
 
 /**
  * Describes the basic properties of all codecs.
@@ -1187,6 +1429,75 @@ export interface AacAudio {
 }
 
 /**
+ * Contains the possible cases for Layer.
+ */
+export type LayerUnion = Layer | VideoLayerUnion | JpgLayer | PngLayer;
+
+/**
+ * The encoder can be configured to produce video and/or images (thumbnails) at different
+ * resolutions, by specifying a layer for each desired resolution. A layer represents the
+ * properties for the video or image at a resolution.
+ */
+export interface Layer {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "Layer";
+  /**
+   * The width of the output video for this layer. The value can be absolute (in pixels) or
+   * relative (in percentage). For example 50% means the output video has half as many pixels in
+   * width as the input.
+   */
+  width?: string;
+  /**
+   * The height of the output video for this layer. The value can be absolute (in pixels) or
+   * relative (in percentage). For example 50% means the output video has half as many pixels in
+   * height as the input.
+   */
+  height?: string;
+  /**
+   * The alphanumeric label for this layer, which can be used in multiplexing different video and
+   * audio layers, or in naming the output file.
+   */
+  label?: string;
+}
+
+/**
+ * Contains the possible cases for Video.
+ */
+export type VideoUnion = Video | ImageUnion | H264Video;
+
+/**
+ * Describes the basic properties for encoding the input video.
+ */
+export interface Video {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Media.Video";
+  /**
+   * An optional label for the codec. The label can be used to control muxing behavior.
+   */
+  label?: string;
+  /**
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
+   */
+  keyFrameInterval?: string;
+  /**
+   * The resizing mode - how the input video will be resized to fit the desired output
+   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
+   */
+  stretchMode?: StretchMode;
+  /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
+}
+
+/**
  * Describes all the settings to be used when analyzing a video in order to detect all the faces
  * present.
  */
@@ -1232,15 +1543,21 @@ export interface AudioAnalyzerPreset {
   /**
    * The language for the audio payload in the input using the BCP-47 format of 'language
    * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
-   * you specify it. If the language isn't specified or set to null, automatic language detection
-   * will choose the first language detected and process with the selected language for the
-   * duration of the file. It does not currently support dynamically switching between languages
-   * after the first language is detected. The automatic detection works best with audio recordings
-   * with clearly discernable speech. If automatic detection fails to find the language,
-   * transcription would fallback to 'en-US'." The list of supported languages is available here:
-   * https://go.microsoft.com/fwlink/?linkid=2109463
+   * you specify it. The language must be specified explicitly for AudioAnalysisMode::Basic, since
+   * automatic language detection is not included in basic mode. If the language isn't specified or
+   * set to null, automatic language detection will choose the first language detected and process
+   * with the selected language for the duration of the file. It does not currently support
+   * dynamically switching between languages after the first language is detected. The automatic
+   * detection works best with audio recordings with clearly discernable speech. If automatic
+   * detection fails to find the language, transcription would fallback to 'en-US'." The list of
+   * supported languages is available here: https://go.microsoft.com/fwlink/?linkid=2109463
    */
   audioLanguage?: string;
+  /**
+   * Determines the set of audio analysis operations to be performed. If unspecified, the Standard
+   * AudioAnalysisMode would be chosen. Possible values include: 'Standard', 'Basic'
+   */
+  mode?: AudioAnalysisMode;
   /**
    * Dictionary containing key value pairs for parameters not exposed in the preset itself
    */
@@ -1269,16 +1586,17 @@ export interface Overlay {
   inputLabel: string;
   /**
    * The start position, with reference to the input video, at which the overlay starts. The value
-   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds in to the
+   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds into the
    * input video. If not specified the overlay starts from the beginning of the input video.
    */
   start?: string;
   /**
-   * The position in the input video at which the overlay ends. The value should be in ISO 8601
-   * duration format. For example, PT30S to end the overlay at 30 seconds in to the input video. If
-   * not specified the overlay will be applied until the end of the input video if inputLoop is
-   * true. Else, if inputLoop is false, then overlay will last as long as the duration of the
-   * overlay media.
+   * The end position, with reference to the input video, at which the overlay ends. The value
+   * should be in ISO 8601 format. For example, PT30S to end the overlay at 30 seconds into the
+   * input video. If not specified or the value is greater than the input video duration, the
+   * overlay will be applied until the end of the input video if the overlay media duration is
+   * greater than the input video duration, else the overlay will last as long as the overlay media
+   * duration.
    */
   end?: string;
   /**
@@ -1317,16 +1635,17 @@ export interface AudioOverlay {
   inputLabel: string;
   /**
    * The start position, with reference to the input video, at which the overlay starts. The value
-   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds in to the
+   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds into the
    * input video. If not specified the overlay starts from the beginning of the input video.
    */
   start?: string;
   /**
-   * The position in the input video at which the overlay ends. The value should be in ISO 8601
-   * duration format. For example, PT30S to end the overlay at 30 seconds in to the input video. If
-   * not specified the overlay will be applied until the end of the input video if inputLoop is
-   * true. Else, if inputLoop is false, then overlay will last as long as the duration of the
-   * overlay media.
+   * The end position, with reference to the input video, at which the overlay ends. The value
+   * should be in ISO 8601 format. For example, PT30S to end the overlay at 30 seconds into the
+   * input video. If not specified or the value is greater than the input video duration, the
+   * overlay will be applied until the end of the input video if the overlay media duration is
+   * greater than the input video duration, else the overlay will last as long as the overlay media
+   * duration.
    */
   end?: string;
   /**
@@ -1363,36 +1682,6 @@ export interface CopyVideo {
 }
 
 /**
- * Contains the possible cases for Video.
- */
-export type VideoUnion = Video | ImageUnion | H264Video;
-
-/**
- * Describes the basic properties for encoding the input video.
- */
-export interface Video {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Media.Video";
-  /**
-   * An optional label for the codec. The label can be used to control muxing behavior.
-   */
-  label?: string;
-  /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
-   */
-  keyFrameInterval?: string;
-  /**
-   * The resizing mode - how the input video will be resized to fit the desired output
-   * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
-   */
-  stretchMode?: StretchMode;
-}
-
-/**
  * Contains the possible cases for Image.
  */
 export type ImageUnion = Image | JpgImage | PngImage;
@@ -1410,9 +1699,10 @@ export interface Image {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -1421,22 +1711,40 @@ export interface Image {
    */
   stretchMode?: StretchMode;
   /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
+  /**
    * The position in the input video from where to start generating thumbnails. The value can be in
-   * absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th
-   * frame), or a relative value (For example, 1%). Also supports a macro {Best}, which tells the
-   * encoder to select the best thumbnail from the first few seconds of the video.
+   * ISO 8601 format (For example, PT05S to start at 5 seconds), or a frame count (For example, 10
+   * to start at the 10th frame), or a relative value to stream duration (For example, 10% to start
+   * at 10% of stream duration). Also supports a macro {Best}, which tells the encoder to select
+   * the best thumbnail from the first few seconds of the video and will only produce one
+   * thumbnail, no matter what other settings are for Step and Range. The default value is macro
+   * {Best}.
    */
   start: string;
   /**
-   * The intervals at which thumbnails are generated. The value can be in absolute timestamp (ISO
-   * 8601, e.g: PT05S for one image every 5 seconds), or a frame count (For example, 30 for every
-   * 30 frames), or a relative value (For example, 1%).
+   * The intervals at which thumbnails are generated. The value can be in ISO 8601 format (For
+   * example, PT05S for one image every 5 seconds), or a frame count (For example, 30 for one image
+   * every 30 frames), or a relative value to stream duration (For example, 10% for one image every
+   * 10% of stream duration). Note: Step value will affect the first generated thumbnail, which may
+   * not be exactly the one specified at transform preset start time. This is due to the encoder,
+   * which tries to select the best thumbnail between start time and Step position from start time
+   * as the first output. As the default value is 10%, it means if stream has long duration, the
+   * first generated thumbnail might be far away from the one specified at start time. Try to
+   * select reasonable value for Step if the first thumbnail is expected close to start time, or
+   * set Range value at 1 if only one thumbnail is needed at start time.
    */
   step?: string;
   /**
-   * The position in the input video at which to stop generating thumbnails. The value can be in
-   * absolute timestamp (ISO 8601, e.g: PT5M30S to stop at 5 minutes and 30 seconds), or a frame
-   * count (For example, 300 to stop at the 300th frame), or a relative value (For example, 100%).
+   * The position relative to transform preset start time in the input video at which to stop
+   * generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5
+   * minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the
+   * 300th frame from the frame at start time. If this value is 1, it means only producing one
+   * thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop
+   * at half of stream duration from start time). The default value is 100%, which means to stop at
+   * the end of the stream.
    */
   range?: string;
 }
@@ -1456,11 +1764,15 @@ export interface Format {
   odatatype: "Format";
   /**
    * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - The base name of the input video {Extension} - The
-   * appropriate extension for this format. {Label} - The label assigned to the codec/layer.
-   * {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The
-   * audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video
-   * codec. Any unsubstituted macros will be collapsed and removed from the filename.
+   * supported in the file name: {Basename} - An expansion macro that will use the name of the
+   * input video file. If the base name(the file suffix is not included) of the input video file is
+   * less than 32 characters long, the base name of input video files will be used. If the length
+   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
+   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
+   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
+   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
+   * {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and
+   * removed from the filename.
    */
   filenamePattern: string;
 }
@@ -1480,11 +1792,15 @@ export interface ImageFormat {
   odatatype: "#Microsoft.Media.ImageFormat";
   /**
    * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - The base name of the input video {Extension} - The
-   * appropriate extension for this format. {Label} - The label assigned to the codec/layer.
-   * {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The
-   * audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video
-   * codec. Any unsubstituted macros will be collapsed and removed from the filename.
+   * supported in the file name: {Basename} - An expansion macro that will use the name of the
+   * input video file. If the base name(the file suffix is not included) of the input video file is
+   * less than 32 characters long, the base name of input video files will be used. If the length
+   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
+   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
+   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
+   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
+   * {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and
+   * removed from the filename.
    */
   filenamePattern: string;
 }
@@ -1499,11 +1815,15 @@ export interface JpgFormat {
   odatatype: "#Microsoft.Media.JpgFormat";
   /**
    * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - The base name of the input video {Extension} - The
-   * appropriate extension for this format. {Label} - The label assigned to the codec/layer.
-   * {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The
-   * audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video
-   * codec. Any unsubstituted macros will be collapsed and removed from the filename.
+   * supported in the file name: {Basename} - An expansion macro that will use the name of the
+   * input video file. If the base name(the file suffix is not included) of the input video file is
+   * less than 32 characters long, the base name of input video files will be used. If the length
+   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
+   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
+   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
+   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
+   * {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and
+   * removed from the filename.
    */
   filenamePattern: string;
 }
@@ -1518,11 +1838,15 @@ export interface PngFormat {
   odatatype: "#Microsoft.Media.PngFormat";
   /**
    * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - The base name of the input video {Extension} - The
-   * appropriate extension for this format. {Label} - The label assigned to the codec/layer.
-   * {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The
-   * audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video
-   * codec. Any unsubstituted macros will be collapsed and removed from the filename.
+   * supported in the file name: {Basename} - An expansion macro that will use the name of the
+   * input video file. If the base name(the file suffix is not included) of the input video file is
+   * less than 32 characters long, the base name of input video files will be used. If the length
+   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
+   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
+   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
+   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
+   * {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and
+   * removed from the filename.
    */
   filenamePattern: string;
 }
@@ -1607,40 +1931,6 @@ export interface Filters {
    * video overlays.
    */
   overlays?: OverlayUnion[];
-}
-
-/**
- * Contains the possible cases for Layer.
- */
-export type LayerUnion = Layer | VideoLayerUnion | JpgLayer | PngLayer;
-
-/**
- * The encoder can be configured to produce video and/or images (thumbnails) at different
- * resolutions, by specifying a layer for each desired resolution. A layer represents the
- * properties for the video or image at a resolution.
- */
-export interface Layer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "Layer";
-  /**
-   * The width of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * width as the input.
-   */
-  width?: string;
-  /**
-   * The height of the output video for this layer. The value can be absolute (in pixels) or
-   * relative (in percentage). For example 50% means the output video has half as many pixels in
-   * height as the input.
-   */
-  height?: string;
-  /**
-   * The alphanumeric label for this layer, which can be used in multiplexing different video and
-   * audio layers, or in naming the output file.
-   */
-  label?: string;
 }
 
 /**
@@ -1809,9 +2099,10 @@ export interface H264Video {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -1819,6 +2110,10 @@ export interface H264Video {
    * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
    */
   stretchMode?: StretchMode;
+  /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
   /**
    * Whether or not the encoder should insert key frames at scene changes. If not specified, the
    * default is false. This flag should be set to true only when the encoder is being configured to
@@ -1880,9 +2175,10 @@ export interface JpgImage {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -1891,28 +2187,54 @@ export interface JpgImage {
    */
   stretchMode?: StretchMode;
   /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
+  /**
    * The position in the input video from where to start generating thumbnails. The value can be in
-   * absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th
-   * frame), or a relative value (For example, 1%). Also supports a macro {Best}, which tells the
-   * encoder to select the best thumbnail from the first few seconds of the video.
+   * ISO 8601 format (For example, PT05S to start at 5 seconds), or a frame count (For example, 10
+   * to start at the 10th frame), or a relative value to stream duration (For example, 10% to start
+   * at 10% of stream duration). Also supports a macro {Best}, which tells the encoder to select
+   * the best thumbnail from the first few seconds of the video and will only produce one
+   * thumbnail, no matter what other settings are for Step and Range. The default value is macro
+   * {Best}.
    */
   start: string;
   /**
-   * The intervals at which thumbnails are generated. The value can be in absolute timestamp (ISO
-   * 8601, e.g: PT05S for one image every 5 seconds), or a frame count (For example, 30 for every
-   * 30 frames), or a relative value (For example, 1%).
+   * The intervals at which thumbnails are generated. The value can be in ISO 8601 format (For
+   * example, PT05S for one image every 5 seconds), or a frame count (For example, 30 for one image
+   * every 30 frames), or a relative value to stream duration (For example, 10% for one image every
+   * 10% of stream duration). Note: Step value will affect the first generated thumbnail, which may
+   * not be exactly the one specified at transform preset start time. This is due to the encoder,
+   * which tries to select the best thumbnail between start time and Step position from start time
+   * as the first output. As the default value is 10%, it means if stream has long duration, the
+   * first generated thumbnail might be far away from the one specified at start time. Try to
+   * select reasonable value for Step if the first thumbnail is expected close to start time, or
+   * set Range value at 1 if only one thumbnail is needed at start time.
    */
   step?: string;
   /**
-   * The position in the input video at which to stop generating thumbnails. The value can be in
-   * absolute timestamp (ISO 8601, e.g: PT5M30S to stop at 5 minutes and 30 seconds), or a frame
-   * count (For example, 300 to stop at the 300th frame), or a relative value (For example, 100%).
+   * The position relative to transform preset start time in the input video at which to stop
+   * generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5
+   * minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the
+   * 300th frame from the frame at start time. If this value is 1, it means only producing one
+   * thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop
+   * at half of stream duration from start time). The default value is 100%, which means to stop at
+   * the end of the stream.
    */
   range?: string;
   /**
    * A collection of output JPEG image layers to be produced by the encoder.
    */
   layers?: JpgLayer[];
+  /**
+   * Sets the number of columns used in thumbnail sprite image.  The number of rows are
+   * automatically calculated and a VTT file is generated with the coordinate mappings for each
+   * thumbnail in the sprite. Note: this value should be a positive integer and a proper value is
+   * recommended so that the output image resolution will not go beyond JPEG maximum pixel
+   * resolution limit 65535x65535.
+   */
+  spriteColumn?: number;
 }
 
 /**
@@ -1946,11 +2268,15 @@ export interface MultiBitrateFormat {
   odatatype: "#Microsoft.Media.MultiBitrateFormat";
   /**
    * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - The base name of the input video {Extension} - The
-   * appropriate extension for this format. {Label} - The label assigned to the codec/layer.
-   * {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The
-   * audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video
-   * codec. Any unsubstituted macros will be collapsed and removed from the filename.
+   * supported in the file name: {Basename} - An expansion macro that will use the name of the
+   * input video file. If the base name(the file suffix is not included) of the input video file is
+   * less than 32 characters long, the base name of input video files will be used. If the length
+   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
+   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
+   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
+   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
+   * {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and
+   * removed from the filename.
    */
   filenamePattern: string;
   /**
@@ -1970,11 +2296,15 @@ export interface Mp4Format {
   odatatype: "#Microsoft.Media.Mp4Format";
   /**
    * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - The base name of the input video {Extension} - The
-   * appropriate extension for this format. {Label} - The label assigned to the codec/layer.
-   * {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The
-   * audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video
-   * codec. Any unsubstituted macros will be collapsed and removed from the filename.
+   * supported in the file name: {Basename} - An expansion macro that will use the name of the
+   * input video file. If the base name(the file suffix is not included) of the input video file is
+   * less than 32 characters long, the base name of input video files will be used. If the length
+   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
+   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
+   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
+   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
+   * {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and
+   * removed from the filename.
    */
   filenamePattern: string;
   /**
@@ -2024,9 +2354,10 @@ export interface PngImage {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -2035,22 +2366,40 @@ export interface PngImage {
    */
   stretchMode?: StretchMode;
   /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
+  /**
    * The position in the input video from where to start generating thumbnails. The value can be in
-   * absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th
-   * frame), or a relative value (For example, 1%). Also supports a macro {Best}, which tells the
-   * encoder to select the best thumbnail from the first few seconds of the video.
+   * ISO 8601 format (For example, PT05S to start at 5 seconds), or a frame count (For example, 10
+   * to start at the 10th frame), or a relative value to stream duration (For example, 10% to start
+   * at 10% of stream duration). Also supports a macro {Best}, which tells the encoder to select
+   * the best thumbnail from the first few seconds of the video and will only produce one
+   * thumbnail, no matter what other settings are for Step and Range. The default value is macro
+   * {Best}.
    */
   start: string;
   /**
-   * The intervals at which thumbnails are generated. The value can be in absolute timestamp (ISO
-   * 8601, e.g: PT05S for one image every 5 seconds), or a frame count (For example, 30 for every
-   * 30 frames), or a relative value (For example, 1%).
+   * The intervals at which thumbnails are generated. The value can be in ISO 8601 format (For
+   * example, PT05S for one image every 5 seconds), or a frame count (For example, 30 for one image
+   * every 30 frames), or a relative value to stream duration (For example, 10% for one image every
+   * 10% of stream duration). Note: Step value will affect the first generated thumbnail, which may
+   * not be exactly the one specified at transform preset start time. This is due to the encoder,
+   * which tries to select the best thumbnail between start time and Step position from start time
+   * as the first output. As the default value is 10%, it means if stream has long duration, the
+   * first generated thumbnail might be far away from the one specified at start time. Try to
+   * select reasonable value for Step if the first thumbnail is expected close to start time, or
+   * set Range value at 1 if only one thumbnail is needed at start time.
    */
   step?: string;
   /**
-   * The position in the input video at which to stop generating thumbnails. The value can be in
-   * absolute timestamp (ISO 8601, e.g: PT5M30S to stop at 5 minutes and 30 seconds), or a frame
-   * count (For example, 300 to stop at the 300th frame), or a relative value (For example, 100%).
+   * The position relative to transform preset start time in the input video at which to stop
+   * generating thumbnails. The value can be in ISO 8601 format (For example, PT5M30S to stop at 5
+   * minutes and 30 seconds from start time), or a frame count (For example, 300 to stop at the
+   * 300th frame from the frame at start time. If this value is 1, it means only producing one
+   * thumbnail at start time), or a relative value to the stream duration (For example, 50% to stop
+   * at half of stream duration from start time). The default value is 100%, which means to stop at
+   * the end of the stream.
    */
   range?: string;
   /**
@@ -2071,7 +2420,8 @@ export interface BuiltInStandardEncoderPreset {
    * The built-in preset to be used for encoding videos. Possible values include:
    * 'H264SingleBitrateSD', 'H264SingleBitrate720p', 'H264SingleBitrate1080p', 'AdaptiveStreaming',
    * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental', 'ContentAwareEncoding',
-   * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+   * 'CopyAllBitrateNonInterleaved', 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
+   * 'H264MultipleBitrateSD'
    */
   presetName: EncoderNamedPreset;
 }
@@ -2110,15 +2460,21 @@ export interface VideoAnalyzerPreset {
   /**
    * The language for the audio payload in the input using the BCP-47 format of 'language
    * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
-   * you specify it. If the language isn't specified or set to null, automatic language detection
-   * will choose the first language detected and process with the selected language for the
-   * duration of the file. It does not currently support dynamically switching between languages
-   * after the first language is detected. The automatic detection works best with audio recordings
-   * with clearly discernable speech. If automatic detection fails to find the language,
-   * transcription would fallback to 'en-US'." The list of supported languages is available here:
-   * https://go.microsoft.com/fwlink/?linkid=2109463
+   * you specify it. The language must be specified explicitly for AudioAnalysisMode::Basic, since
+   * automatic language detection is not included in basic mode. If the language isn't specified or
+   * set to null, automatic language detection will choose the first language detected and process
+   * with the selected language for the duration of the file. It does not currently support
+   * dynamically switching between languages after the first language is detected. The automatic
+   * detection works best with audio recordings with clearly discernable speech. If automatic
+   * detection fails to find the language, transcription would fallback to 'en-US'." The list of
+   * supported languages is available here: https://go.microsoft.com/fwlink/?linkid=2109463
    */
   audioLanguage?: string;
+  /**
+   * Determines the set of audio analysis operations to be performed. If unspecified, the Standard
+   * AudioAnalysisMode would be chosen. Possible values include: 'Standard', 'Basic'
+   */
+  mode?: AudioAnalysisMode;
   /**
    * Dictionary containing key value pairs for parameters not exposed in the preset itself
    */
@@ -2147,11 +2503,15 @@ export interface TransportStreamFormat {
   odatatype: "#Microsoft.Media.TransportStreamFormat";
   /**
    * The pattern of the file names for the generated output files. The following macros are
-   * supported in the file name: {Basename} - The base name of the input video {Extension} - The
-   * appropriate extension for this format. {Label} - The label assigned to the codec/layer.
-   * {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The
-   * audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video
-   * codec. Any unsubstituted macros will be collapsed and removed from the filename.
+   * supported in the file name: {Basename} - An expansion macro that will use the name of the
+   * input video file. If the base name(the file suffix is not included) of the input video file is
+   * less than 32 characters long, the base name of input video files will be used. If the length
+   * of base name of the input video file exceeds 32 characters, the base name is truncated to the
+   * first 32 characters in total length. {Extension} - The appropriate extension for this format.
+   * {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only
+   * applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails.
+   * {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and
+   * removed from the filename.
    */
   filenamePattern: string;
   /**
@@ -2178,16 +2538,17 @@ export interface VideoOverlay {
   inputLabel: string;
   /**
    * The start position, with reference to the input video, at which the overlay starts. The value
-   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds in to the
+   * should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds into the
    * input video. If not specified the overlay starts from the beginning of the input video.
    */
   start?: string;
   /**
-   * The position in the input video at which the overlay ends. The value should be in ISO 8601
-   * duration format. For example, PT30S to end the overlay at 30 seconds in to the input video. If
-   * not specified the overlay will be applied until the end of the input video if inputLoop is
-   * true. Else, if inputLoop is false, then overlay will last as long as the duration of the
-   * overlay media.
+   * The end position, with reference to the input video, at which the overlay ends. The value
+   * should be in ISO 8601 format. For example, PT30S to end the overlay at 30 seconds into the
+   * input video. If not specified or the value is greater than the input video duration, the
+   * overlay will be applied until the end of the input video if the overlay media duration is
+   * greater than the input video duration, else the overlay will last as long as the overlay media
+   * duration.
    */
   end?: string;
   /**
@@ -2292,7 +2653,7 @@ export interface JobInput {
 /**
  * Contains the possible cases for ClipTime.
  */
-export type ClipTimeUnion = ClipTime | AbsoluteClipTime;
+export type ClipTimeUnion = ClipTime | AbsoluteClipTime | UtcClipTime;
 
 /**
  * Base class for specifying a clip time. Use sub classes of this class to specify the time
@@ -2357,6 +2718,21 @@ export interface AbsoluteClipTime {
    * period. e.g PT30S for 30 seconds.
    */
   time: string;
+}
+
+/**
+ * Specifies the clip time as a Utc time position in the media file.  The Utc time can point to a
+ * different position depending on whether the media file starts from a timestamp of zero or not.
+ */
+export interface UtcClipTime {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Media.UtcClipTime";
+  /**
+   * The time position on the timeline of the input media based on Utc time.
+   */
+  time: Date;
 }
 
 /**
@@ -2616,7 +2992,7 @@ export interface JobOutputAsset {
  */
 export interface Job extends ProxyResource {
   /**
-   * The UTC date and time when the Job was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * The UTC date and time when the customer has created the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly created?: Date;
@@ -2635,7 +3011,8 @@ export interface Job extends ProxyResource {
    */
   input: JobInputUnion;
   /**
-   * The UTC date and time when the Job was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+   * The UTC date and time when the customer has last updated the Job, in 'YYYY-MM-DDThh:mm:ssZ'
+   * format.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastModified?: Date;
@@ -3090,11 +3467,12 @@ export interface StreamingLocator extends ProxyResource {
 }
 
 /**
- * The HLS configuration.
+ * HTTP Live Streaming (HLS) packing setting for the live output.
  */
 export interface Hls {
   /**
-   * The amount of fragments per HTTP Live Streaming (HLS) segment.
+   * The number of fragments in an HTTP Live Streaming (HLS) TS segment in the output of the live
+   * event. This value does not affect the packing ratio for HLS CMAF output.
    */
   fragmentsPerTsSegment?: number;
 }
@@ -3104,47 +3482,49 @@ export interface Hls {
  */
 export interface LiveOutput extends ProxyResource {
   /**
-   * The description of the Live Output.
+   * The description of the live output.
    */
   description?: string;
   /**
-   * The asset name.
+   * The asset that the live output will write to.
    */
   assetName: string;
   /**
-   * ISO 8601 timespan duration of the archive window length. This is duration that customer want
-   * to retain the recorded content.
+   * ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be
+   * archived in the asset for this live output. This also sets the maximum content length for the
+   * rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window.
    */
   archiveWindowLength: string;
   /**
-   * The manifest file name.  If not provided, the service will generate one automatically.
+   * The manifest file name. If not provided, the service will generate one automatically.
    */
   manifestName?: string;
   /**
-   * The HLS configuration.
+   * HTTP Live Streaming (HLS) packing setting for the live output.
    */
   hls?: Hls;
   /**
-   * The output snapshot time.
+   * The initial timestamp that the live output will start at, any content before this value will
+   * not be archived.
    */
   outputSnapTime?: number;
   /**
-   * The exact time the Live Output was created.
+   * The creation time the live output.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly created?: Date;
   /**
-   * The exact time the Live Output was last modified.
+   * The time the live output was last modified.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastModified?: Date;
   /**
-   * The provisioning state of the Live Output.
+   * The provisioning state of the live output.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
   /**
-   * The resource state of the Live Output. Possible values include: 'Creating', 'Running',
+   * The resource state of the live output. Possible values include: 'Creating', 'Running',
    * 'Deleting'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -3152,7 +3532,7 @@ export interface LiveOutput extends ProxyResource {
 }
 
 /**
- * The Live Event endpoint.
+ * The live event endpoint.
  */
 export interface LiveEventEndpoint {
   /**
@@ -3194,7 +3574,7 @@ export interface IPAccessControl {
 }
 
 /**
- * The IP access control for Live Event Input.
+ * The IP access control for live event input.
  */
 export interface LiveEventInputAccessControl {
   /**
@@ -3204,35 +3584,37 @@ export interface LiveEventInputAccessControl {
 }
 
 /**
- * The Live Event input.
+ * The live event input.
  */
 export interface LiveEventInput {
   /**
-   * The streaming protocol for the Live Event.  This is specified at creation time and cannot be
+   * The input protocol for the live event. This is specified at creation time and cannot be
    * updated. Possible values include: 'FragmentedMP4', 'RTMP'
    */
   streamingProtocol: LiveEventInputProtocol;
   /**
-   * The access control for LiveEvent Input.
+   * Access control for live event input.
    */
   accessControl?: LiveEventInputAccessControl;
   /**
-   * ISO 8601 timespan duration of the key frame interval duration.
+   * ISO 8601 time duration of the key frame interval duration of the input. This value sets the
+   * EXT-X-TARGETDURATION property in the HLS output. For example, use PT2S to indicate 2 seconds.
+   * Leave the value empty for encoding live events.
    */
   keyFrameIntervalDuration?: string;
   /**
-   * A unique identifier for a stream.  This can be specified at creation time but cannot be
-   * updated.  If omitted, the service will generate a unique value.
+   * A UUID in string form to uniquely identify the stream. This can be specified at creation time
+   * but cannot be updated. If omitted, the service will generate a unique value.
    */
   accessToken?: string;
   /**
-   * The input endpoints for the Live Event.
+   * The input endpoints for the live event.
    */
   endpoints?: LiveEventEndpoint[];
 }
 
 /**
- * The IP access control for Live Event preview.
+ * The IP access control for the live event preview endpoint.
  */
 export interface LiveEventPreviewAccessControl {
   /**
@@ -3242,32 +3624,32 @@ export interface LiveEventPreviewAccessControl {
 }
 
 /**
- * The Live Event preview.
+ * Live event preview settings.
  */
 export interface LiveEventPreview {
   /**
-   * The endpoints for preview.
+   * The endpoints for preview. Do not share the preview URL with the live event audience.
    */
   endpoints?: LiveEventEndpoint[];
   /**
-   * The access control for LiveEvent preview.
+   * The access control for live event preview.
    */
   accessControl?: LiveEventPreviewAccessControl;
   /**
-   * The identifier of the preview locator in Guid format.  Specifying this at creation time allows
-   * the caller to know the preview locator url before the event is created.  If omitted, the
-   * service will generate a random identifier.  This value cannot be updated once the live event
-   * is created.
+   * The identifier of the preview locator in Guid format. Specifying this at creation time allows
+   * the caller to know the preview locator url before the event is created. If omitted, the
+   * service will generate a random identifier. This value cannot be updated once the live event is
+   * created.
    */
   previewLocator?: string;
   /**
-   * The name of streaming policy used for the LiveEvent preview.  This value is specified at
+   * The name of streaming policy used for the live event preview. This value is specified at
    * creation time and cannot be updated.
    */
   streamingPolicyName?: string;
   /**
-   * An Alternative Media Identifier associated with the StreamingLocator created for the preview.
-   * This value is specified at creation time and cannot be updated.  The identifier can be used in
+   * An alternative media identifier associated with the streaming locator created for the preview.
+   * This value is specified at creation time and cannot be updated. The identifier can be used in
    * the CustomLicenseAcquisitionUrlTemplate or the CustomKeyAcquisitionUrlTemplate of the
    * StreamingPolicy specified in the StreamingPolicyName field.
    */
@@ -3275,18 +3657,100 @@ export interface LiveEventPreview {
 }
 
 /**
- * The Live Event encoding.
+ * Specifies the live event type and optional encoding settings for encoding live events.
  */
 export interface LiveEventEncoding {
   /**
-   * The encoding type for Live Event.  This value is specified at creation time and cannot be
-   * updated. Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
+   * Live event type. When encodingType is set to None, the service simply passes through the
+   * incoming video and audio layer(s) to the output. When encodingType is set to Standard or
+   * Premium1080p, a live encoder transcodes the incoming stream into multiple bitrates or layers.
+   * See https://go.microsoft.com/fwlink/?linkid=2095101 for more information. This property cannot
+   * be modified after the live event is created. Possible values include: 'None', 'Standard',
+   * 'Premium1080p'
    */
   encodingType?: LiveEventEncodingType;
   /**
-   * The encoding preset name.  This value is specified at creation time and cannot be updated.
+   * The optional encoding preset name, used when encodingType is not None. This value is specified
+   * at creation time and cannot be updated. If the encodingType is set to Standard, then the
+   * default preset name is ‘Default720p’. Else if the encodingType is set to Premium1080p, the
+   * default preset is ‘Default1080p’.
    */
   presetName?: string;
+  /**
+   * Specifies how the input video will be resized to fit the desired output resolution(s). Default
+   * is None. Possible values include: 'None', 'AutoSize', 'AutoFit'
+   */
+  stretchMode?: StretchMode;
+  /**
+   * Use an ISO 8601 time value between 0.5 to 20 seconds to specify the output fragment length for
+   * the video and audio tracks of an encoding live event. For example, use PT2S to indicate 2
+   * seconds. For the video track it also defines the key frame interval, or the length of a GoP
+   * (group of pictures).   If this value is not set for an encoding live event, the fragment
+   * duration defaults to 2 seconds. The value cannot be set for pass-through live events.
+   */
+  keyFrameInterval?: string;
+}
+
+/**
+ * A track selection condition. This property is reserved for future use, any value set on this
+ * property will be ignored.
+ */
+export interface LiveEventInputTrackSelection {
+  /**
+   * Property name to select. This property is reserved for future use, any value set on this
+   * property will be ignored.
+   */
+  property?: string;
+  /**
+   * Comparing operation. This property is reserved for future use, any value set on this property
+   * will be ignored.
+   */
+  operation?: string;
+  /**
+   * Property value to select. This property is reserved for future use, any value set on this
+   * property will be ignored.
+   */
+  value?: string;
+}
+
+/**
+ * Describes a transcription track in the output of a live event, generated using speech-to-text
+ * transcription. This property is reserved for future use, any value set on this property will be
+ * ignored.
+ */
+export interface LiveEventOutputTranscriptionTrack {
+  /**
+   * The output track name. This property is reserved for future use, any value set on this
+   * property will be ignored.
+   */
+  trackName: string;
+}
+
+/**
+ * Describes the transcription tracks in the output of a live event, generated using speech-to-text
+ * transcription. This property is reserved for future use, any value set on this property will be
+ * ignored.
+ */
+export interface LiveEventTranscription {
+  /**
+   * Specifies the language (locale) to be used for speech-to-text transcription – it should match
+   * the spoken language in the audio track. The value should be in BCP-47 format (e.g: 'en-US').
+   * See https://go.microsoft.com/fwlink/?linkid=2133742 for more information about the live
+   * transcription feature and the list of supported languages.
+   */
+  language?: string;
+  /**
+   * Provides a mechanism to select the audio track in the input live feed, to which speech-to-text
+   * transcription is applied. This property is reserved for future use, any value set on this
+   * property will be ignored.
+   */
+  inputTrackSelection?: LiveEventInputTrackSelection[];
+  /**
+   * Describes a transcription track in the output of a live event, generated using speech-to-text
+   * transcription. This property is reserved for future use, any value set on this property will
+   * be ignored.
+   */
+  outputTranscriptionTrack?: LiveEventOutputTranscriptionTrack;
 }
 
 /**
@@ -3308,63 +3772,81 @@ export interface CrossSiteAccessPolicies {
  */
 export interface LiveEventActionInput {
   /**
-   * The flag indicates if remove LiveOutputs on Stop.
+   * The flag indicates whether live outputs are automatically deleted when live event is being
+   * stopped. Deleting live outputs do not delete the underlying assets.
    */
   removeOutputsOnStop?: boolean;
 }
 
 /**
- * The Live Event.
+ * The live event.
  */
 export interface LiveEvent extends TrackedResource {
   /**
-   * The Live Event description.
+   * A description for the live event.
    */
   description?: string;
   /**
-   * The Live Event input.
+   * Live event input settings. It defines how the live event receives input from a contribution
+   * encoder.
    */
   input: LiveEventInput;
   /**
-   * The Live Event preview.
+   * Live event preview settings. Preview allows live event producers to preview the live streaming
+   * content without creating any live output.
    */
   preview?: LiveEventPreview;
   /**
-   * The Live Event encoding.
+   * Encoding settings for the live event. It configures whether a live encoder is used for the
+   * live event and settings for the live encoder if it is used.
    */
   encoding?: LiveEventEncoding;
   /**
-   * The provisioning state of the Live Event.
+   * Live transcription settings for the live event. See
+   * https://go.microsoft.com/fwlink/?linkid=2133742 for more information about the live
+   * transcription feature.
+   */
+  transcriptions?: LiveEventTranscription[];
+  /**
+   * The provisioning state of the live event.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
   /**
-   * The resource state of the Live Event. Possible values include: 'Stopped', 'Starting',
+   * The resource state of the live event. See https://go.microsoft.com/fwlink/?linkid=2139012 for
+   * more information. Possible values include: 'Stopped', 'Allocating', 'StandBy', 'Starting',
    * 'Running', 'Stopping', 'Deleting'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly resourceState?: LiveEventResourceState;
   /**
-   * The Live Event access policies.
+   * Live event cross site access policies.
    */
   crossSiteAccessPolicies?: CrossSiteAccessPolicies;
   /**
-   * Specifies whether to use a vanity url with the Live Event.  This value is specified at
-   * creation time and cannot be updated.
+   * Specifies whether a static hostname would be assigned to the live event preview and ingest
+   * endpoints. This value can only be updated if the live event is in Standby state
    */
-  vanityUrl?: boolean;
+  useStaticHostname?: boolean;
   /**
-   * The options to use for the LiveEvent.  This value is specified at creation time and cannot be
-   * updated.
+   * When useStaticHostname is set to true, the hostnamePrefix specifies the first part of the
+   * hostname assigned to the live event preview and ingest endpoints. The final hostname would be
+   * a combination of this prefix, the media service account name and a short code for the Azure
+   * Media Services data center.
+   */
+  hostnamePrefix?: string;
+  /**
+   * The options to use for the LiveEvent. This value is specified at creation time and cannot be
+   * updated. The valid values for the array entry values are 'Default' and 'LowLatency'.
    */
   streamOptions?: StreamOptionsFlag[];
   /**
-   * The exact time the Live Event was created.
+   * The creation time for the live event
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly created?: Date;
   /**
-   * The exact time the Live Event was last modified.
+   * The last modified time of the live event.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastModified?: Date;
@@ -3399,7 +3881,7 @@ export interface AkamaiAccessControl {
 }
 
 /**
- * StreamingEndpoint access control definition.
+ * Streaming endpoint access control definition.
  */
 export interface StreamingEndpointAccessControl {
   /**
@@ -3407,7 +3889,7 @@ export interface StreamingEndpointAccessControl {
    */
   akamai?: AkamaiAccessControl;
   /**
-   * The IP access control of the StreamingEndpoint.
+   * The IP access control of the streaming endpoint.
    */
   ip?: IPAccessControl;
 }
@@ -3417,30 +3899,29 @@ export interface StreamingEndpointAccessControl {
  */
 export interface StreamingEntityScaleUnit {
   /**
-   * The scale unit number of the StreamingEndpoint.
+   * The scale unit number of the streaming endpoint.
    */
   scaleUnit?: number;
 }
 
 /**
- * The StreamingEndpoint.
+ * The streaming endpoint.
  */
 export interface StreamingEndpoint extends TrackedResource {
   /**
-   * The StreamingEndpoint description.
+   * The streaming endpoint description.
    */
   description?: string;
   /**
-   * The number of scale units.  Use the Scale operation to adjust this value.
+   * The number of scale units. Use the Scale operation to adjust this value.
    */
   scaleUnits: number;
   /**
-   * The name of the AvailabilitySet used with this StreamingEndpoint for high availability
-   * streaming.  This value can only be set at creation time.
+   * This feature is deprecated, do not set a value for this property.
    */
   availabilitySetName?: string;
   /**
-   * The access control definition of the StreamingEndpoint.
+   * The access control definition of the streaming endpoint.
    */
   accessControl?: StreamingEndpointAccessControl;
   /**
@@ -3448,11 +3929,11 @@ export interface StreamingEndpoint extends TrackedResource {
    */
   maxCacheAge?: number;
   /**
-   * The custom host names of the StreamingEndpoint
+   * The custom host names of the streaming endpoint
    */
   customHostNames?: string[];
   /**
-   * The StreamingEndpoint host name.
+   * The streaming endpoint host name.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hostName?: string;
@@ -3469,18 +3950,18 @@ export interface StreamingEndpoint extends TrackedResource {
    */
   cdnProfile?: string;
   /**
-   * The provisioning state of the StreamingEndpoint.
+   * The provisioning state of the streaming endpoint.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
   /**
-   * The resource state of the StreamingEndpoint. Possible values include: 'Stopped', 'Starting',
+   * The resource state of the streaming endpoint. Possible values include: 'Stopped', 'Starting',
    * 'Running', 'Stopping', 'Deleting', 'Scaling'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly resourceState?: StreamingEndpointResourceState;
   /**
-   * The StreamingEndpoint access policies.
+   * The streaming endpoint access policies.
    */
   crossSiteAccessPolicies?: CrossSiteAccessPolicies;
   /**
@@ -3489,12 +3970,12 @@ export interface StreamingEndpoint extends TrackedResource {
    */
   readonly freeTrialEndTime?: Date;
   /**
-   * The exact time the StreamingEndpoint was created.
+   * The exact time the streaming endpoint was created.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly created?: Date;
   /**
-   * The exact time the StreamingEndpoint was last modified.
+   * The exact time the streaming endpoint was last modified.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastModified?: Date;
@@ -3696,19 +4177,6 @@ export interface MediaServiceCollection extends Array<MediaService> {
 
 /**
  * @interface
- * A collection of SubscriptionMediaService items.
- * @extends Array<SubscriptionMediaService>
- */
-export interface SubscriptionMediaServiceCollection extends Array<SubscriptionMediaService> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
  * A collection of Asset items.
  * @extends Array<Asset>
  */
@@ -3810,8 +4278,8 @@ export interface LiveEventListResult extends Array<LiveEvent> {
    */
   odatacount?: number;
   /**
-   * Th link to the next set of results. Not empty if value contains incomplete list of Live
-   * Outputs.
+   * The link to the next set of results. Not empty if value contains incomplete list of live
+   * outputs.
    */
   odatanextLink?: string;
 }
@@ -3828,15 +4296,15 @@ export interface LiveOutputListResult extends Array<LiveOutput> {
    */
   odatacount?: number;
   /**
-   * Th link to the next set of results. Not empty if value contains incomplete list of Live
-   * Outputs.
+   * The link to the next set of results. Not empty if value contains incomplete list of live
+   * outputs.
    */
   odatanextLink?: string;
 }
 
 /**
  * @interface
- * The StreamingEndpoint list result.
+ * The streaming endpoint list result.
  * @summary StreamingEndpointListResult
  * @extends Array<StreamingEndpoint>
  */
@@ -3846,8 +4314,8 @@ export interface StreamingEndpointListResult extends Array<StreamingEndpoint> {
    */
   odatacount?: number;
   /**
-   * Th link to the next set of results. Not empty if value contains incomplete list of
-   * StreamingEndpoints.
+   * The link to the next set of results. Not empty if value contains incomplete list of streaming
+   * endpoints.
    */
   odatanextLink?: string;
 }
@@ -3891,6 +4359,46 @@ export type MetricAggregationType = 'Average' | 'Count' | 'Total';
  * @enum {string}
  */
 export type StorageAccountType = 'Primary' | 'Secondary';
+
+/**
+ * Defines values for StorageAuthentication.
+ * Possible values include: 'System', 'ManagedIdentity'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAuthentication = 'System' | 'ManagedIdentity';
+
+/**
+ * Defines values for AccountEncryptionKeyType.
+ * Possible values include: 'SystemKey', 'CustomerKey'
+ * @readonly
+ * @enum {string}
+ */
+export type AccountEncryptionKeyType = 'SystemKey' | 'CustomerKey';
+
+/**
+ * Defines values for ManagedIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedIdentityType = 'SystemAssigned' | 'None';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
 
 /**
  * Defines values for AssetStorageEncryptionFormat.
@@ -3958,6 +4466,22 @@ export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefin
 export type AacAudioProfile = 'AacLc' | 'HeAacV1' | 'HeAacV2';
 
 /**
+ * Defines values for StretchMode.
+ * Possible values include: 'None', 'AutoSize', 'AutoFit'
+ * @readonly
+ * @enum {string}
+ */
+export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
+
+/**
+ * Defines values for VideoSyncMode.
+ * Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+ * @readonly
+ * @enum {string}
+ */
+export type VideoSyncMode = 'Auto' | 'Passthrough' | 'Cfr' | 'Vfr';
+
+/**
  * Defines values for AnalysisResolution.
  * Possible values include: 'SourceResolution', 'StandardDefinition'
  * @readonly
@@ -3966,12 +4490,12 @@ export type AacAudioProfile = 'AacLc' | 'HeAacV1' | 'HeAacV2';
 export type AnalysisResolution = 'SourceResolution' | 'StandardDefinition';
 
 /**
- * Defines values for StretchMode.
- * Possible values include: 'None', 'AutoSize', 'AutoFit'
+ * Defines values for AudioAnalysisMode.
+ * Possible values include: 'Standard', 'Basic'
  * @readonly
  * @enum {string}
  */
-export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
+export type AudioAnalysisMode = 'Standard' | 'Basic';
 
 /**
  * Defines values for DeinterlaceParity.
@@ -4025,12 +4549,12 @@ export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
  * Defines values for EncoderNamedPreset.
  * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
  * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
- * 'ContentAwareEncodingExperimental', 'ContentAwareEncoding', 'H264MultipleBitrate1080p',
- * 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+ * 'ContentAwareEncodingExperimental', 'ContentAwareEncoding', 'CopyAllBitrateNonInterleaved',
+ * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
  * @readonly
  * @enum {string}
  */
-export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'ContentAwareEncoding' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
+export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'ContentAwareEncoding' | 'CopyAllBitrateNonInterleaved' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
 
 /**
  * Defines values for InsightsType.
@@ -4150,19 +4674,20 @@ export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
 
 /**
  * Defines values for LiveEventEncodingType.
- * Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
+ * Possible values include: 'None', 'Standard', 'Premium1080p'
  * @readonly
  * @enum {string}
  */
-export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard' | 'Premium1080p';
+export type LiveEventEncodingType = 'None' | 'Standard' | 'Premium1080p';
 
 /**
  * Defines values for LiveEventResourceState.
- * Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping', 'Deleting'
+ * Possible values include: 'Stopped', 'Allocating', 'StandBy', 'Starting', 'Running', 'Stopping',
+ * 'Deleting'
  * @readonly
  * @enum {string}
  */
-export type LiveEventResourceState = 'Stopped' | 'Starting' | 'Running' | 'Stopping' | 'Deleting';
+export type LiveEventResourceState = 'Stopped' | 'Allocating' | 'StandBy' | 'Starting' | 'Running' | 'Stopping' | 'Deleting';
 
 /**
  * Defines values for StreamOptionsFlag.
@@ -4401,9 +4926,9 @@ export type MediaservicesUpdateResponse = MediaService & {
 };
 
 /**
- * Contains response data for the listBySubscription operation.
+ * Contains response data for the listEdgePolicies operation.
  */
-export type MediaservicesListBySubscriptionResponse = SubscriptionMediaServiceCollection & {
+export type MediaservicesListEdgePoliciesResponse = EdgePolicies & {
   /**
    * The underlying HTTP response.
    */
@@ -4416,14 +4941,34 @@ export type MediaservicesListBySubscriptionResponse = SubscriptionMediaServiceCo
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionMediaServiceCollection;
+      parsedBody: EdgePolicies;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type MediaservicesListBySubscriptionResponse = MediaServiceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MediaServiceCollection;
     };
 };
 
 /**
  * Contains response data for the getBySubscription operation.
  */
-export type MediaservicesGetBySubscriptionResponse = SubscriptionMediaService & {
+export type MediaservicesGetBySubscriptionResponse = MediaService & {
   /**
    * The underlying HTTP response.
    */
@@ -4436,7 +4981,7 @@ export type MediaservicesGetBySubscriptionResponse = SubscriptionMediaService & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionMediaService;
+      parsedBody: MediaService;
     };
 };
 
@@ -4463,7 +5008,7 @@ export type MediaservicesListNextResponse = MediaServiceCollection & {
 /**
  * Contains response data for the listBySubscriptionNext operation.
  */
-export type MediaservicesListBySubscriptionNextResponse = SubscriptionMediaServiceCollection & {
+export type MediaservicesListBySubscriptionNextResponse = MediaServiceCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -4476,7 +5021,107 @@ export type MediaservicesListBySubscriptionNextResponse = SubscriptionMediaServi
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionMediaServiceCollection;
+      parsedBody: MediaServiceCollection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
     };
 };
 

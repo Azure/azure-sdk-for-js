@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * Items in Cosmos DB are simply JSON objects.
  * Most of the Item operations allow for your to provide your own type

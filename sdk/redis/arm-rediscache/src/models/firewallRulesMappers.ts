@@ -14,6 +14,7 @@ export {
   RedisFirewallRule,
   RedisFirewallRuleCreateParameters,
   RedisFirewallRuleListResult,
+  RedisInstanceDetails,
   RedisLinkedServer,
   RedisLinkedServerWithProperties,
   RedisPatchSchedule,

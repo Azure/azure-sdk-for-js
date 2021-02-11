@@ -1,66 +1,77 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.0.0-preview.8",
+  "version": "5.4.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
     "azure",
     "cloud",
     "event hubs",
-    "events"
+    "events",
+    "Azure"
   ],
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./typings/event-hubs.d.ts",
-  "browser": {
-    "./dist/index.js": "./browser/index.js"
+  "types": "./types/latest/event-hubs.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
   },
-  "engine": {
-    "node": ">=8.0.0"
+  "browser": {
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
-    "typings/event-hubs.d.ts",
-    "tsconfig.json"
+    "types/latest/",
+    "types/3.1/",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "cd samples && tsc -p .",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
-    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
-    "execute:samples": "echo skipped",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api && npm run build:types",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
+    "execute:samples": "npm run build:samples && echo Skipped.",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "mocha -t 1200000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-esm/test/internal/*.spec.js dist-esm/test/public/*.spec.js dist-esm/test/public/**/*.spec.js dist-esm/test/internal/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix",
-    "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o event-hubs-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o event-hubs-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
+    "perf-test:node": "tsc -p . --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "//metadata": {
     "constantPaths": [
@@ -70,28 +81,40 @@
       }
     ]
   },
+  "//sampleConfiguration": {
+    "skip": [
+      "iothubConnectionString.js",
+      "useWithIotHub.js",
+      "usingAadAuth.js"
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "1.0.0-preview.7",
+    "@azure/core-amqp": "^2.1.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.7",
-    "@azure/identity": "^1.0.0",
+    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-auth": "^1.2.0",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/types": "^0.2.0",
-    "async-lock": "^1.1.3",
+    "@opentelemetry/api": "^0.10.2",
     "buffer": "^5.2.1",
-    "debug": "^4.1.1",
     "is-buffer": "^2.0.3",
-    "jssha": "^2.3.1",
+    "jssha": "^3.1.0",
     "process": "^0.11.10",
-    "rhea-promise": "^1.0.0",
-    "tslib": "^1.10.0",
-    "uuid": "^3.3.2"
+    "rhea-promise": "^1.1.0",
+    "tslib": "^2.0.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
+    "@azure/test-utils-perfstress": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
@@ -99,26 +122,23 @@
     "@types/chai-string": "^1.4.1",
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
-    "@types/sinon": "^7.0.13",
-    "@types/uuid": "^3.4.3",
-    "@types/ws": "^6.0.1",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
+    "@types/sinon": "^9.0.4",
+    "@types/uuid": "^8.0.0",
+    "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-string": "^1.5.0",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
+    "debug": "^4.1.1",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-no-null": "^1.0.2",
-    "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",
-    "https-proxy-agent": "^3.0.1",
-    "karma": "^4.0.1",
+    "downlevel-dts": "~0.4.0",
+    "eslint": "^7.15.0",
+    "esm": "^3.2.18",
+    "https-proxy-agent": "^5.0.0",
+    "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -126,28 +146,24 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^1.3.0",
+    "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-coverage": "^0.1.5",
-    "mocha": "^6.2.2",
+    "karma-sourcemap-loader": "^0.3.8",
+    "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3",
+    "moment": "^2.24.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^2.0.0",
+    "puppeteer": "^3.3.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-inject": "^3.0.0",
-    "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-resolve": "^5.0.2",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "sinon": "^7.1.0",
-    "ts-mocha": "^6.0.0",
+    "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.6.4",
-    "ws": "^7.1.1"
+    "typescript": "4.1.2",
+    "ws": "^7.1.1",
+    "typedoc": "0.15.2"
   }
 }

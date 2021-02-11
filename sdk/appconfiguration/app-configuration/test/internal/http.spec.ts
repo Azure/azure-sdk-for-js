@@ -1,18 +1,28 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  parseSyncToken,
-  SyncTokens,
-} from "../../src/internal/synctokenpolicy";
+import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
-import { getGeneratedClientOptions, packageVersion } from '../../src/appConfigurationClient';
-import { createAppConfigurationClientForTests, assertThrowsRestError } from "../testHelpers";
-import * as chai from "chai";
+import {
+  getUserAgentPrefix,
+  InternalAppConfigurationClientOptions,
+  packageVersion
+} from "../../src/appConfigurationClient";
+import {
+  createAppConfigurationClientForTests,
+  assertThrowsRestError,
+  startRecorder
+} from "../public/utils/testHelpers";
 
-describe("http request related tests", () => {
+import * as chai from "chai";
+import { Recorder } from "@azure/test-utils-recorder";
+
+describe("http request related tests", function() {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
@@ -24,45 +34,37 @@ describe("http request related tests", () => {
       });
 
       it("throws on invalid sync tokens", () => {
-        for (const invalidToken of ["invalid token", "missing=sequencenumber", "key=value;"])
+        for (const invalidToken of ["invalid token", "missing=sequencenumber", "key=value;"]) {
           assert.throws(
             () => parseSyncToken(invalidToken),
             new RegExp(`Failed to parse sync token '${invalidToken}' with regex .+$`)
           );
-      });
-    });
-
-    it("useragentheadername", () => {
-      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        isNodeOverride: false
-      });
-
-      assert.equal(options.userAgentHeaderName, "x-ms-useragent", "Pretending we're running in a browser.");
-
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        isNodeOverride: true
-      });
-
-      assert.equal(options.userAgentHeaderName, "User-Agent", "Pretending we're running in node.");
-
-      // since we're only running these tests in node this will be the same as the 
-      // case above (undefined, thus using the normal User-Agent header)
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-
-      assert.equal(options.userAgentHeaderName, "User-Agent", "We know that we're running node.");
-    });
-      
-    it("useragent", () => {
-      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        userAgentOptions: {
-          userAgentPrefix: "MyCustomUserAgent"
         }
       });
+    });
 
-      chai.assert.match(options.userAgent as string, new RegExp(`^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`), `Using a custom user agent`);
+    it("useragent", () => {
+      describe("with user prefix", () => {
+        const prefix = getUserAgentPrefix("MyCustomUserAgent");
 
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-      chai.assert.match(options.userAgent as string, new RegExp(`^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`), "Using the default user agent");
+        chai.assert.match(
+          prefix,
+          new RegExp(
+            `^MyCustomUserAgent azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`
+          ),
+          `Using a custom user agent`
+        );
+      });
+
+      describe("without user prefix", () => {
+        const prefix = getUserAgentPrefix(undefined);
+
+        chai.assert.match(
+          prefix,
+          new RegExp(`^azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`),
+          `Using the default user agent`
+        );
+      });
     });
 
     describe("syncTokens", () => {
@@ -106,25 +108,19 @@ describe("http request related tests", () => {
 
   describe("custom client ID", () => {
     let client: AppConfigurationClient;
-    let scope: nock.Scope;
+    let recorder: Recorder;
 
     beforeEach(function() {
+      recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
-      scope = nock(/.*/);
     });
 
-    afterEach(() => {
-      assert.ok(scope.isDone());
-      nock.cleanAll();
-    });    
+    afterEach(async function() {
+      await recorder.stop();
+    });
 
     it("custom client request ID", async () => {
-      scope
-        .matchHeader('x-ms-client-request-id', /this is my custom client request id/)
-        .get(/.*/)
-        .reply(200);
-      
-      const iterator = await client.listConfigurationSettings({
+      const iterator = client.listConfigurationSettings({
         requestOptions: {
           customHeaders: {
             "x-ms-client-request-id": "this is my custom client request id"
@@ -136,13 +132,7 @@ describe("http request related tests", () => {
     });
 
     it("default client request ID", async () => {
-      scope
-        .matchHeader('x-ms-client-request-id', /^[A-Za-z0-9\-]+$/)
-        .get(/.*/)
-        .reply(200);
-      
-      const iterator = await client.listConfigurationSettings();
-
+      const iterator = client.listConfigurationSettings();
       await iterator.next();
     });
   });
@@ -157,20 +147,39 @@ describe("http request related tests", () => {
     let scope: nock.Scope;
 
     beforeEach(function() {
+      if (nock == null || nock.recorder == null) {
+        this.skip();
+        return;
+      }
+
       syncTokens = new SyncTokens();
 
       client =
-        createAppConfigurationClientForTests({
+        createAppConfigurationClientForTests<InternalAppConfigurationClientOptions>({
           syncTokens: syncTokens
         }) || this.skip();
-      
+
+      nock.recorder.clear();
+      nock.restore();
+      nock.cleanAll();
+      if (!nock.isActive()) {
+        nock.activate();
+      }
       scope = nock(/.*/);
     });
 
-    afterEach(() => {
-      assert.ok(scope.isDone());
+    afterEach(function() {
+      if (nock == null || nock.recorder == null) {
+        return;
+      }
+
+      if (!this.currentTest?.isPending()) {
+        assert.ok(scope.isDone());
+      }
+      nock.recorder.clear();
+      nock.restore();
       nock.cleanAll();
-    });    
+    });
 
     it("policy is setup properly to send sync tokens", async function() {
       syncTokens.addSyncTokenFromHeaderValue(`hello=world;sn=1`);
@@ -182,10 +191,10 @@ describe("http request related tests", () => {
       })
         .get(/.*/)
         .reply(418);
-      
+
       await assertThrowsRestError(
         async () =>
-          await client.getConfigurationSetting({
+          client.getConfigurationSetting({
             key: "doesntmatter"
           }),
         418
@@ -195,101 +204,91 @@ describe("http request related tests", () => {
     });
 
     it("addConfigurationSetting", async () => {
-      scope
-        .put(/.*/)
-        .reply(200, '', { 'sync-token': 'addConfigurationSetting=value;sn=1'});
+      scope.put(/.*/).reply(200, "", { "sync-token": "addConfigurationSetting=value;sn=1" });
 
       await client.addConfigurationSetting({
         key: "doesntmatter"
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'addConfigurationSetting=value');
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "addConfigurationSetting=value");
     });
 
     it("getConfigurationSetting", async () => {
-      scope
-        .get(/.*/)
-        .reply(200, '', { 'sync-token': 'getConfigurationSetting=value;sn=1'});
+      scope.get(/.*/).reply(200, "", { "sync-token": "getConfigurationSetting=value;sn=1" });
 
       await client.getConfigurationSetting({
         key: "doesntmatter"
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'getConfigurationSetting=value');
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "getConfigurationSetting=value");
     });
 
     it("setConfigurationSetting", async () => {
-      scope
-        .put(/.*/)
-        .reply(200, '', { 'sync-token': 'setConfigurationSetting=value;sn=1'});
+      scope.put(/.*/).reply(200, "", { "sync-token": "setConfigurationSetting=value;sn=1" });
 
       await client.setConfigurationSetting({
         key: "doesntmatter"
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'setConfigurationSetting=value');
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "setConfigurationSetting=value");
     });
 
     it("deleteConfigurationSetting", async () => {
-      scope
-        .delete(/.*/)
-        .reply(200, '', { 'sync-token': 'deleteConfigurationSetting=value;sn=1'});
+      scope.delete(/.*/).reply(200, "", { "sync-token": "deleteConfigurationSetting=value;sn=1" });
 
       await client.deleteConfigurationSetting({
         key: "doesntmatter"
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'deleteConfigurationSetting=value');
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "deleteConfigurationSetting=value");
     });
 
     it("listConfigurationSetting", async () => {
-      scope
-        .get(/.*/)
-        .reply(200, '', { 'sync-token': 'listConfigurationSetting=value;sn=1'});
+      scope.get(/.*/).reply(200, "", { "sync-token": "listConfigurationSetting=value;sn=1" });
 
       const iterator = client.listConfigurationSettings({
         keyFilter: "doesntmatter"
       });
 
       await iterator.next();
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'listConfigurationSetting=value');
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "listConfigurationSetting=value");
     });
 
     it("listRevisions", async () => {
-      scope
-        .get(/.*/)
-        .reply(200, '', { 'sync-token': 'listRevisions=value;sn=1'});
+      scope.get(/.*/).reply(200, "", { "sync-token": "listRevisions=value;sn=1" });
 
       const iterator = client.listRevisions({
         keyFilter: "doesntmatter"
       });
 
       await iterator.next();
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'listRevisions=value');
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "listRevisions=value");
     });
 
     it("setReadOnly (clear and set)", async () => {
-      scope
-        .put(/.*/)
-        .reply(200, '', { 'sync-token': 'setReadOnly=value;sn=1'});
+      scope.put(/.*/).reply(200, "", { "sync-token": "setReadOnly=value;sn=1" });
 
-      scope
-        .delete(/.*/)
-        .reply(200, '', { 'sync-token': 'clearReadOnly=value;sn=1'});
-      
-      await client.setReadOnly({
-        key: "doesntmatter"
-      }, true);
+      scope.delete(/.*/).reply(200, "", { "sync-token": "clearReadOnly=value;sn=1" });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'setReadOnly=value');
+      await client.setReadOnly(
+        {
+          key: "doesntmatter"
+        },
+        true
+      );
 
-      syncTokens.addSyncTokenFromHeaderValue(undefined);    // clear out any previous sync tokens
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "setReadOnly=value");
 
-      await client.setReadOnly({
-        key: "doesntmatter"
-      }, false);
+      syncTokens.addSyncTokenFromHeaderValue(undefined); // clear out any previous sync tokens
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'clearReadOnly=value');
+      await client.setReadOnly(
+        {
+          key: "doesntmatter"
+        },
+        false
+      );
+
+      assert.equal(syncTokens.getSyncTokenHeaderValue(), "clearReadOnly=value");
     });
   });
 });

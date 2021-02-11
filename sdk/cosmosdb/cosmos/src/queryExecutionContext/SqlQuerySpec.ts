@@ -36,4 +36,4 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 export interface JSONObject {
   [key: string]: JSONValue;
 }
-export interface JSONArray extends Array<JSONValue> {}
+export interface JSONArray extends ArrayLike<JSONValue> {}

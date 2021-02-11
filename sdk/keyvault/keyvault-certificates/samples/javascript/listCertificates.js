@@ -1,5 +1,11 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample list previously created certificates in a single chunk and by page,
 // then changes one of them and lists all the versions of that certificate,
@@ -11,14 +17,14 @@ async function main() {
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const credential = new DefaultAzureCredential();
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName1 = "MyCertificate1";
-  const certificateName2 = "MyCertificate2";
+  const uniqueString = new Date().getTime();
+  const certificateName1 = `cert1${uniqueString}`;
+  const certificateName2 = `cert2${uniqueString}`;
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {
@@ -43,7 +49,9 @@ async function main() {
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  let listPropertiesOfCertificatesByPage = client.listPropertiesOfCertificates({ includePending: true }).byPage();
+  let listPropertiesOfCertificatesByPage = client
+    .listPropertiesOfCertificates({ includePending: true })
+    .byPage();
   while (true) {
     let { done, value } = await listPropertiesOfCertificatesByPage.next();
     if (done) {
@@ -64,7 +72,10 @@ async function main() {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(certificateName1, {});
+  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(
+    certificateName1,
+    {}
+  );
   while (true) {
     let { done, value } = await listPropertiesOfCertificateVersions.next();
     if (done) {

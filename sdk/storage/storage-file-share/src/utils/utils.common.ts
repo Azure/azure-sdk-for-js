@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
@@ -160,15 +160,12 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     };
   } else {
     // SAS connection string
-
-    let accountName = getAccountNameFromUrl(fileEndpoint);
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(fileEndpoint);
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    } else if (!accountName) {
-      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
     return { kind: "SASConnString", url: fileEndpoint, accountName, accountSas };
@@ -205,6 +202,28 @@ export function appendToURLPath(url: string, name: string): string {
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
   urlParsed.setPath(path);
 
+  return urlParsed.toString();
+}
+
+/**
+ * Append a string to URL query.
+ *
+ * @export
+ * @param {string} url Source URL string.
+ * @param {string} queryParts String to be appended to the URL query.
+ * @returns {string} An updated URL string.
+ */
+export function appendToURLQuery(url: string, queryParts: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let query = urlParsed.getQuery();
+  if (query) {
+    query += "&" + queryParts;
+  } else {
+    query = queryParts;
+  }
+
+  urlParsed.setQuery(query);
   return urlParsed.toString();
 }
 
@@ -346,7 +365,7 @@ export function base64decode(encodedString: string): string {
  * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {
@@ -384,6 +403,8 @@ export function padStart(
   targetLength: number,
   padString: string = " "
 ): string {
+  // TS doesn't know this code needs to run downlevel sometimes.
+  // @ts-expect-error
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }
@@ -424,20 +445,51 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   return headers;
 }
 
+/**
+ * Extracts account name from the url
+ * @param {string} url url to extract the account name from
+ * @returns {string} with the account name
+ */
 export function getAccountNameFromUrl(url: string): string {
-  // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-  // Slicing off '/' at the end if exists
+  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  let accountName;
   try {
-    url = url.endsWith("/") ? url.slice(0, -1) : url;
+    if (parsedUrl.getHost()!.split(".")[1] === "file") {
+      // `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`;
+      // Slicing off '/' at the end if exists
+      url = url.endsWith("/") ? url.slice(0, -1) : url;
 
-    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".file."));
-    if (!accountName) {
-      throw new Error("Provided accountName is invalid.");
+      accountName = parsedUrl.getHost()!.split(".")[0];
+    } else if (isIpEndpointStyle(parsedUrl)) {
+      // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+      // .getPath() -> /devstoreaccount1/
+      accountName = parsedUrl.getPath()!.split("/")[1];
+    } else {
+      // Custom domain case: "https://customdomain.com/containername/blob".
+      accountName = "";
     }
     return accountName;
   } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
   }
+}
+
+export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
+  if (parsedUrl.getHost() == undefined) {
+    return false;
+  }
+
+  const host =
+    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+
+  // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
+  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
+  // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
+  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    host
+  );
 }
 
 export function getShareNameAndPathFromUrl(
@@ -450,21 +502,44 @@ export function getShareNameAndPathFromUrl(
   // "https://myaccount.file.core.windows.net/myshare/mydirectory";
   // "https://myaccount.file.core.windows.net/myshare?sasString";
   // "https://myaccount.file.core.windows.net/myshare";
+  // IPv4/IPv6 address hosts, Endpoints - `http://187.24.0.1:1000/devstoreaccount1/mydirectory/file`
+  // http://localhost:1000/devstoreaccount1/mydirectory/file
   // mydirectory can consist of multiple directories - dir1/dir2/dir3
 
-  try {
-    let urlWithoutSAS = url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+  let shareName;
+  let path;
+  let baseName;
 
-    let shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+  try {
+    const parsedUrl = URLBuilder.parse(url);
+    if (parsedUrl.getHost()!.split(".")[1] === "file") {
+      // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
+      // .getPath() -> /myshare/mydirectory/file
+      const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+      shareName = pathComponents![1];
+      path = pathComponents![3];
+    } else if (isIpEndpointStyle(parsedUrl)) {
+      // IPv4/IPv6 address hosts... Example - http://187.24.0.1:1000/devstoreaccount1/mydirectory/file
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:1000/devstoreaccount1/mydirectory/file
+      // .getPath() -> /devstoreaccount1/mydirectory/file
+      const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
+      shareName = pathComponents![2];
+      path = pathComponents![4];
+    } else {
+      // "https://customdomain.com/myshare/mydirectory/file";
+      // .getPath() -> /myshare/mydirectory/file
+      const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+      shareName = pathComponents![1];
+      path = pathComponents![3];
+    }
 
     // decode the encoded shareName and filePath - to get all the special characters that might be present in it
-    const shareName = decodeURIComponent(shareNameAndFilePath![3]);
-    const path = decodeURIComponent(shareNameAndFilePath![5]);
+    shareName = decodeURIComponent(shareName);
+    path = decodeURIComponent(path);
 
     // Cast to string is required as TypeScript cannot infer that split() always returns
     // an array with length >= 1
-    const baseName = path.split("/").pop() as string;
+    baseName = path.split("/").pop() as string;
 
     if (!shareName) {
       throw new Error("Provided shareName is invalid.");

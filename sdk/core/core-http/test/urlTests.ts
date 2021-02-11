@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
-import { URLTokenizer, URLToken, URLBuilder, URLQuery } from "../lib/url";
+import { URLTokenizer, URLToken, URLBuilder, URLQuery } from "../src/url";
 
 describe("URLQuery", () => {
   it(`constructor()`, () => {
@@ -97,7 +97,15 @@ describe("URLQuery", () => {
     });
 
     it(`with "A=="`, () => {
-      assert.strictEqual(URLQuery.parse("A==").toString(), "");
+      assert.strictEqual(URLQuery.parse("A==").toString(), "A==");
+    });
+
+    it(`with "A=B&C=123=="`, () => {
+      assert.strictEqual(URLQuery.parse("A=B&C=123==").toString(), "A=B&C=123==");
+    });
+
+    it(`with "A===&C=123"`, () => {
+      assert.strictEqual(URLQuery.parse("A===&C=123").toString(), "A===&C=123");
     });
 
     it(`with "A=&B=C"`, () => {
@@ -963,6 +971,28 @@ describe("URLBuilder", () => {
   });
 
   describe("replaceAll()", () => {
+    it("should handle parametrized path containing a full url", () => {
+      const url = URLBuilder.parse("http://localhost");
+      url.appendPath("{nextLink}");
+      url.replaceAll("{nextLink}", "http://localhost:80/paging/multiple/page/2");
+
+      assert.strictEqual(url.toString(), "http://localhost:80/paging/multiple/page/2");
+    });
+
+    it("should handle parametrized path containing a full url, when path contains parts", () => {
+      const url = URLBuilder.parse("https://localhost/formrecognizer/v2.0-preview");
+      url.appendPath("{nextLink}");
+      url.replaceAll(
+        "{nextLink}",
+        "https://localhost/formrecognizer/v2.0-preview/custom/models?nextLink=1"
+      );
+
+      assert.strictEqual(
+        url.toString(),
+        "https://localhost/formrecognizer/v2.0-preview/custom/models?nextLink=1"
+      );
+    });
+
     it(`with undefined path, "{arg}" searchValue, and "cats" replaceValue`, () => {
       const urlBuilder = new URLBuilder();
       urlBuilder.setPath(undefined);

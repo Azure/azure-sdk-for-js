@@ -1,11 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
-import {
-  env,
-  isPlaybackMode,
-  setReplaceableVariables,
-  setReplacements,
-  skipQueryParams,
-} from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 import { padStart } from "../../src/utils/utils.common";
 
@@ -13,32 +10,50 @@ export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined
 };
 
-export function setupEnvironment() {
-  // setReplaceableVariables()
-  // 1. The key-value pairs will be used as the environment variables in playback
-  // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values
-  setReplaceableVariables({
-    // Providing dummy values
-    DFS_ACCOUNT_NAME: "fakestorageaccount",
-    DFS_ACCOUNT_KEY: "aaaaa",
-    DFS_ACCOUNT_SAS: "aaaaa",
-    DFS_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${env.ACCOUNT_NAME};AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`,
+const mockAccountName = "fakestorageaccount";
+const mockAccountKey = "aaaaa";
+export const recorderEnvSetup: RecorderEnvironmentSetup = {
+  replaceableVariables: {
+    // Used in record and playback modes
+    // 1. The key-value pairs will be used as the environment variables in playback mode
+    // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
+    DFS_ACCOUNT_NAME: `${mockAccountName}`,
+    DFS_ACCOUNT_KEY: `${mockAccountKey}`,
+    DFS_ACCOUNT_SAS: `${mockAccountKey}`,
+    DFS_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
-    DFS_ACCOUNT_TOKEN: "aaaaa"
-  });
-
-  // Array of callback functions can be passed to `setReplacements` to customize the generated recordings
-  // `sig` param of SAS Token is being filtered here
-  setReplacements([
+    DFS_ACCOUNT_TOKEN: `${mockAccountKey}`,
+    DFS_SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
+    DFS_SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
+    DFS_SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    AZURE_CLIENT_ID: `${mockAccountKey}`,
+    AZURE_TENANT_ID: `${mockAccountKey}`,
+    AZURE_CLIENT_SECRET: `${mockAccountKey}`
+  },
+  customizationsOnRecordings: [
+    // Used in record mode
+    // Array of callback functions can be provided to customize the generated recordings in record mode
+    // `sig` param of SAS Token is being filtered here
     (recording: string): string =>
-      recording.replace(new RegExp(env.DFS_ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa")
-  ]);
-
+      recording.replace(
+        new RegExp(env.DFS_ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
+        `${mockAccountKey}`
+      )
+  ],
   // SAS token may contain sensitive information
-  // skipQueryParams() method will filter out the plain parameter info from the recordings
-  skipQueryParams(["se", "sig", "sp", "spr", "srt", "ss", "st", "sv"]);
-}
+  queryParametersToSkip: [
+    // Used in record and playback modes
+    "se",
+    "sig",
+    "sp",
+    "spr",
+    "srt",
+    "ss",
+    "st",
+    "sv"
+  ]
+};
 
 /**
  * A TokenCredential that always returns the given token. This class can be
@@ -116,7 +131,7 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
     throw new RangeError("m1 or m2 is invalid");
   }
 
-  for (let p in m2) {
+  for (const p in m2) {
     if (m1[p] !== m2[p]) {
       return false;
     }

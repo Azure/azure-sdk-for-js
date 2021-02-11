@@ -59,7 +59,7 @@ export interface ErrorResponse {
 }
 
 /**
- * An interface representing ParameterValuesValue.
+ * The value of a parameter.
  */
 export interface ParameterValuesValue {
   /**
@@ -97,7 +97,8 @@ export interface Identity {
    */
   readonly tenantId?: string;
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'None'
+   * The identity type. This is the only required field when adding a system assigned identity to a
+   * resource. Possible values include: 'SystemAssigned', 'None'
    */
   type?: ResourceIdentityType;
 }
@@ -188,7 +189,7 @@ export interface ParameterDefinitionsValueMetadata {
 }
 
 /**
- * An interface representing ParameterDefinitionsValue.
+ * The definition of a parameter that can be provided to the policy.
  */
 export interface ParameterDefinitionsValue {
   /**
@@ -571,6 +572,26 @@ export type PolicyAssignmentsListForResourceResponse = PolicyAssignmentListResul
 };
 
 /**
+ * Contains response data for the listForManagementGroup operation.
+ */
+export type PolicyAssignmentsListForManagementGroupResponse = PolicyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyAssignmentListResult;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type PolicyAssignmentsListResponse = PolicyAssignmentListResult & {
@@ -674,6 +695,26 @@ export type PolicyAssignmentsListForResourceGroupNextResponse = PolicyAssignment
  * Contains response data for the listForResourceNext operation.
  */
 export type PolicyAssignmentsListForResourceNextResponse = PolicyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForManagementGroupNext operation.
+ */
+export type PolicyAssignmentsListForManagementGroupNextResponse = PolicyAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */

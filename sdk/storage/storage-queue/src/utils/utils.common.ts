@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
@@ -238,8 +238,8 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getAccountNameFromUrl(queueEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(queueEndpoint);
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -277,7 +277,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {
@@ -315,6 +315,8 @@ export function padStart(
   targetLength: number,
   padString: string = " "
 ): string {
+  // TS doesn't know this code needs to run downlevel sometimes.
+  // @ts-expect-error
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }
@@ -371,24 +373,42 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
  * @returns {string} with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  if (url.startsWith("http://127.0.0.1:10000")) {
-    // Dev Conn String
-    return getValueInConnString(DevelopmentConnectionString, "AccountName");
-  } else {
-    try {
+  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  let accountName;
+  try {
+    if (parsedUrl.getHost()!.split(".")[1] === "queue") {
       // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
-      // Slicing off '/' at the end if exists
-      url = url.endsWith("/") ? url.slice(0, -1) : url;
-
-      const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".queue."));
-      if (!accountName) {
-        throw new Error("Provided accountName is invalid.");
-      }
-      return accountName;
-    } catch (error) {
-      throw new Error("Unable to extract accountName with provided information.");
+      accountName = parsedUrl.getHost()!.split(".")[0];
+    } else if (isIpEndpointStyle(parsedUrl)) {
+      // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+      // .getPath() -> /devstoreaccount1/
+      accountName = parsedUrl.getPath()!.split("/")[1];
+    } else {
+      // Custom domain case: "https://customdomain.com/containername/blob".
+      accountName = "";
     }
+    return accountName;
+  } catch (error) {
+    throw new Error("Unable to extract accountName with provided information.");
   }
+}
+
+export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
+  if (parsedUrl.getHost() == undefined) {
+    return false;
+  }
+
+  const host =
+    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+
+  // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
+  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
+  // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
+  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    host
+  );
 }
 
 /**
@@ -403,4 +423,26 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
   // Override protocol layer's default content-type
   (storageClientContext as any).requestContentType = undefined;
   return storageClientContext;
+}
+
+/**
+ * Append a string to URL query.
+ *
+ * @export
+ * @param {string} url Source URL string.
+ * @param {string} queryParts String to be appended to the URL query.
+ * @returns {string} An updated URL string.
+ */
+export function appendToURLQuery(url: string, queryParts: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let query = urlParsed.getQuery();
+  if (query) {
+    query += "&" + queryParts;
+  } else {
+    query = queryParts;
+  }
+
+  urlParsed.setQuery(query);
+  return urlParsed.toString();
 }

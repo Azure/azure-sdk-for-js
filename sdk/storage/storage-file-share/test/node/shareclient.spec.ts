@@ -1,18 +1,20 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { newPipeline, ShareClient, StorageSharedKeyCredential, SignedIdentifier } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "./../utils";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "./../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("ShareClient Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -20,7 +22,7 @@ describe("ShareClient Node.js only", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setAccessPolicy", async () => {
@@ -61,6 +63,20 @@ describe("ShareClient Node.js only", () => {
   it("getAccessPolicy", (done) => {
     // create() with default parameters has been tested in setAccessPolicy
     done();
+  });
+
+  it("setAccessPolicy and getAccessPolicy with empty SignedIdentifier", async () => {
+    const identifiers: any = [
+      {
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await shareClient.setAccessPolicy(identifiers);
+    const getAccessPolicyResponse = await shareClient.getAccessPolicy();
+
+    assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
+    assert.deepStrictEqual(getAccessPolicyResponse.signedIdentifiers[0].accessPolicy, undefined);
   });
 
   it("can be created with a url and a credential", async () => {

@@ -355,6 +355,45 @@ export class Subscription {
   }
 
   /**
+   * Gets the subscription keys.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user
+   * and a product in API Management.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionListSecretsResponse>
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionListSecretsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user
+   * and a product in API Management.
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, sid: string, callback: msRest.ServiceCallback<Models.SubscriptionKeysContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user
+   * and a product in API Management.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionKeysContract>): void;
+  listSecrets(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionKeysContract>, callback?: msRest.ServiceCallback<Models.SubscriptionKeysContract>): Promise<Models.SubscriptionListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        sid,
+        options
+      },
+      listSecretsOperationSpec,
+      callback) as Promise<Models.SubscriptionListSecretsResponse>;
+  }
+
+  /**
    * Lists all subscriptions of the API Management service instance.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -606,6 +645,32 @@ const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listSecretsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/listSecrets",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.sid,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionKeysContract
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

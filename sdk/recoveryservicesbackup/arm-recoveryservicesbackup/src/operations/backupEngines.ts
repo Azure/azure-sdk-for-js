@@ -142,7 +142,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.skipToken
   ],
@@ -170,7 +170,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.backupEngineName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.skipToken
   ],

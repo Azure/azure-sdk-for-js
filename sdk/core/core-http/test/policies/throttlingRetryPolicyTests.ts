@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert, AssertionError } from "chai";
 import sinon from "sinon";
-import { ThrottlingRetryPolicy } from "../../lib/policies/throttlingRetryPolicy";
-import { WebResource } from "../../lib/webResource";
-import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpHeaders, RequestPolicyOptions } from "../../lib/coreHttp";
+import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
+import { WebResource } from "../../src/webResource";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
@@ -33,7 +33,7 @@ describe("ThrottlingRetryPolicy", () => {
       httpRequest: WebResource,
       response: HttpOperationResponse
     ) => Promise<HttpOperationResponse>
-  ) {
+  ): ThrottlingRetryPolicy {
     if (!response) {
       response = defaultResponse;
     }
@@ -65,8 +65,8 @@ describe("ThrottlingRetryPolicy", () => {
 
       const policy = createDefaultThrottlingRetryPolicy();
       const response = await policy.sendRequest(request);
-      delete response.request.requestId;
-      delete request.requestId;
+      delete (response.request as any).requestId;
+      delete (request as any).requestId;
 
       assert.deepEqual(response.request, request);
     });
@@ -85,8 +85,8 @@ describe("ThrottlingRetryPolicy", () => {
       });
 
       const response = await policy.sendRequest(request);
-      delete request.requestId;
-      delete response.request.requestId;
+      delete (request as any).requestId;
+      delete (response.request as any).requestId;
 
       assert.deepEqual(response, mockResponse);
     });
@@ -101,15 +101,15 @@ describe("ThrottlingRetryPolicy", () => {
         request: request
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_, response) => {
-        delete response.request.requestId;
-        delete mockResponse.request.requestId;
+        delete (response.request as any).requestId;
+        delete (mockResponse.request as any).requestId;
         assert.deepEqual(response, mockResponse);
         return Promise.resolve(response);
       });
 
       const response = await policy.sendRequest(request);
-      delete request.requestId;
-      delete response.request.requestId;
+      delete (request as any).requestId;
+      delete (response.request as any).requestId;
       assert.deepEqual(response, mockResponse);
     });
   });

@@ -47,6 +47,24 @@ export class GalleryImageVersions {
   }
 
   /**
+   * Update a gallery Image Version.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+   * @param galleryImageName The name of the gallery Image Definition in which the Image Version is
+   * to be updated.
+   * @param galleryImageVersionName The name of the gallery Image Version to be updated. Needs to
+   * follow semantic version name pattern: The allowed characters are digit and period. Digits must
+   * be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param galleryImageVersion Parameters supplied to the update gallery Image Version operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GalleryImageVersionsUpdateResponse>
+   */
+  update(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: Models.GalleryImageVersionUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GalleryImageVersionsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,galleryName,galleryImageName,galleryImageVersionName,galleryImageVersion,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleryImageVersionsUpdateResponse>;
+  }
+
+  /**
    * Retrieves information about a gallery Image Version.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
@@ -172,6 +190,33 @@ export class GalleryImageVersions {
   }
 
   /**
+   * Update a gallery Image Version.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+   * @param galleryImageName The name of the gallery Image Definition in which the Image Version is
+   * to be updated.
+   * @param galleryImageVersionName The name of the gallery Image Version to be updated. Needs to
+   * follow semantic version name pattern: The allowed characters are digit and period. Digits must
+   * be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param galleryImageVersion Parameters supplied to the update gallery Image Version operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: Models.GalleryImageVersionUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        galleryName,
+        galleryImageName,
+        galleryImageVersionName,
+        galleryImageVersion,
+        options
+      },
+      beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * Delete a gallery Image Version.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
@@ -237,7 +282,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand0,
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -263,7 +308,7 @@ const listByGalleryImageOperationSpec: msRest.OperationSpec = {
     Parameters.galleryImageName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -290,7 +335,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.galleryImageVersionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -319,6 +364,40 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryImageName,
+    Parameters.galleryImageVersionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "galleryImageVersion",
+    mapper: {
+      ...Mappers.GalleryImageVersionUpdate,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImageVersion
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
@@ -330,7 +409,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.galleryImageVersionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -28,7 +28,7 @@ export class Annotations {
 
   /**
    * Gets the list of annotations for a component for given time range
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param start The start time to query from for annotations, cannot be older than 90 days from
    * current date.
@@ -38,7 +38,7 @@ export class Annotations {
    */
   list(resourceGroupName: string, resourceName: string, start: string, end: string, options?: msRest.RequestOptionsBase): Promise<Models.AnnotationsListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param start The start time to query from for annotations, cannot be older than 90 days from
    * current date.
@@ -47,7 +47,7 @@ export class Annotations {
    */
   list(resourceGroupName: string, resourceName: string, start: string, end: string, callback: msRest.ServiceCallback<Models.AnnotationsListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param start The start time to query from for annotations, cannot be older than 90 days from
    * current date.
@@ -71,7 +71,7 @@ export class Annotations {
 
   /**
    * Create an Annotation of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationProperties Properties that need to be specified to create an annotation of a
    * Application Insights component.
@@ -80,7 +80,7 @@ export class Annotations {
    */
   create(resourceGroupName: string, resourceName: string, annotationProperties: Models.Annotation, options?: msRest.RequestOptionsBase): Promise<Models.AnnotationsCreateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationProperties Properties that need to be specified to create an annotation of a
    * Application Insights component.
@@ -88,7 +88,7 @@ export class Annotations {
    */
   create(resourceGroupName: string, resourceName: string, annotationProperties: Models.Annotation, callback: msRest.ServiceCallback<Models.Annotation[]>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationProperties Properties that need to be specified to create an annotation of a
    * Application Insights component.
@@ -110,32 +110,32 @@ export class Annotations {
 
   /**
    * Delete an Annotation of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationId The unique annotation ID. This is unique within a Application Insights
    * component.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AnnotationsDeleteMethodResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase): Promise<Models.AnnotationsDeleteMethodResponse>;
+  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationId The unique annotation ID. This is unique within a Application Insights
    * component.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, callback: msRest.ServiceCallback<any>): void;
+  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationId The unique annotation ID. This is unique within a Application Insights
    * component.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.AnnotationsDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,12 +144,12 @@ export class Annotations {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.AnnotationsDeleteMethodResponse>;
+      callback);
   }
 
   /**
    * Get the annotation for given id.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationId The unique annotation ID. This is unique within a Application Insights
    * component.
@@ -158,7 +158,7 @@ export class Annotations {
    */
   get(resourceGroupName: string, resourceName: string, annotationId: string, options?: msRest.RequestOptionsBase): Promise<Models.AnnotationsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationId The unique annotation ID. This is unique within a Application Insights
    * component.
@@ -166,7 +166,7 @@ export class Annotations {
    */
   get(resourceGroupName: string, resourceName: string, annotationId: string, callback: msRest.ServiceCallback<Models.Annotation[]>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param annotationId The unique annotation ID. This is unique within a Application Insights
    * component.
@@ -198,7 +198,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.start,
     Parameters.end
   ],
@@ -225,7 +225,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -269,20 +269,13 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.annotationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Object"
-        }
-      }
-    },
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -300,7 +293,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.annotationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

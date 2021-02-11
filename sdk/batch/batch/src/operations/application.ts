@@ -27,11 +27,11 @@ export class Application {
   }
 
   /**
-   * This operation returns only applications and versions that are available for use on compute
-   * nodes; that is, that can be used in an application package reference. For administrator
-   * information about applications and versions that are not yet available to compute nodes, use the
-   * Azure portal or the Azure Resource Manager API.
-   * @summary Lists all of the applications available in the specified account.
+   * This operation returns only Applications and versions that are available for use on Compute
+   * Nodes; that is, that can be used in an Package reference. For administrator information about
+   * applications and versions that are not yet available to Compute Nodes, use the Azure portal or
+   * the Azure Resource Manager API.
+   * @summary Lists all of the applications available in the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListResponse>
    */
@@ -55,23 +55,23 @@ export class Application {
   }
 
   /**
-   * This operation returns only applications and versions that are available for use on compute
-   * nodes; that is, that can be used in an application package reference. For administrator
-   * information about applications and versions that are not yet available to compute nodes, use the
-   * Azure portal or the Azure Resource Manager API.
-   * @summary Gets information about the specified application.
-   * @param applicationId The ID of the application.
+   * This operation returns only Applications and versions that are available for use on Compute
+   * Nodes; that is, that can be used in an Package reference. For administrator information about
+   * Applications and versions that are not yet available to Compute Nodes, use the Azure portal or
+   * the Azure Resource Manager API.
+   * @summary Gets information about the specified Application.
+   * @param applicationId The ID of the Application.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGetResponse>
    */
   get(applicationId: string, options?: Models.ApplicationGetOptionalParams): Promise<Models.ApplicationGetResponse>;
   /**
-   * @param applicationId The ID of the application.
+   * @param applicationId The ID of the Application.
    * @param callback The callback
    */
   get(applicationId: string, callback: msRest.ServiceCallback<Models.ApplicationSummary>): void;
   /**
-   * @param applicationId The ID of the application.
+   * @param applicationId The ID of the Application.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -87,11 +87,11 @@ export class Application {
   }
 
   /**
-   * This operation returns only applications and versions that are available for use on compute
-   * nodes; that is, that can be used in an application package reference. For administrator
-   * information about applications and versions that are not yet available to compute nodes, use the
-   * Azure portal or the Azure Resource Manager API.
-   * @summary Lists all of the applications available in the specified account.
+   * This operation returns only Applications and versions that are available for use on Compute
+   * Nodes; that is, that can be used in an Package reference. For administrator information about
+   * applications and versions that are not yet available to Compute Nodes, use the Azure portal or
+   * the Azure Resource Manager API.
+   * @summary Lists all of the applications available in the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListResponse>
@@ -144,7 +144,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApplicationListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ApplicationListHeaders
     }
   },
   serializer
@@ -173,7 +174,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApplicationGetHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ApplicationGetHeaders
     }
   },
   serializer
@@ -198,7 +200,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ApplicationListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ApplicationListHeaders
     }
   },
   serializer

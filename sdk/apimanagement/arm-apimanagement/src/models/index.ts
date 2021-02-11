@@ -295,12 +295,6 @@ export interface AuthenticationSettingsContract {
    * OpenID Connect Authentication Settings
    */
   openid?: OpenIdAuthenticationSettingsContract;
-  /**
-   * Specifies whether subscription key is required during call to this API, true - API is included
-   * into closed products only, false - API is included into open products alone, null - there is a
-   * mix of products.
-   */
-  subscriptionKeyRequired?: boolean;
 }
 
 /**
@@ -528,6 +522,10 @@ export interface TagDescriptionContract extends Resource {
    */
   externalDocsDescription?: string;
   /**
+   * Identifier of the tag in the form of /tags/{tagId}
+   */
+  tagId?: string;
+  /**
    * Tag name.
    */
   displayName?: string;
@@ -747,10 +745,19 @@ export interface DiagnosticContract extends Resource {
    */
   backend?: PipelineDiagnosticSettings;
   /**
-   * Whether to process Correlation Headers coming to Api Management Service. Only applicable to
-   * Application Insights diagnostics. Default is true.
+   * Log the ClientIP. Default is false.
    */
-  enableHttpCorrelationHeaders?: boolean;
+  logClientIp?: boolean;
+  /**
+   * Sets correlation protocol to use for Application Insights diagnostics. Possible values
+   * include: 'None', 'Legacy', 'W3C'
+   */
+  httpCorrelationProtocol?: HttpCorrelationProtocol;
+  /**
+   * The verbosity level applied to traces emitted by trace policies. Possible values include:
+   * 'verbose', 'information', 'error'
+   */
+  verbosity?: Verbosity;
 }
 
 /**
@@ -767,28 +774,14 @@ export interface SchemaContract extends Resource {
    */
   contentType: string;
   /**
-   * Properties of the Schema Document.
-   */
-  document?: any;
-}
-
-/**
- * Schema Contract details.
- */
-export interface SchemaCreateOrUpdateContract extends Resource {
-  /**
-   * Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media
-   * type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema
-   * use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use
-   * `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use
-   * `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use
-   * `application/vnd.ms-azure-apim.wadl.grammars+xml`.
-   */
-  contentType: string;
-  /**
-   * Json escaped string defining the document representing the Schema.
+   * Json escaped string defining the document representing the Schema. Used for schemas other than
+   * Swagger/OpenAPI.
    */
   value?: string;
+  /**
+   * Types definitions. Used for Swagger/OpenAPI schemas only, null otherwise.
+   */
+  definitions?: any;
 }
 
 /**
@@ -1391,7 +1384,7 @@ export interface ApiCreateOrUpdateParameter {
   /**
    * Format of the Content in which the API is getting imported. Possible values include:
    * 'wadl-xml', 'wadl-link-json', 'swagger-json', 'swagger-link-json', 'wsdl', 'wsdl-link',
-   * 'openapi', 'openapi+json', 'openapi-link'
+   * 'openapi', 'openapi+json', 'openapi-link', 'openapi+json-link'
    */
   format?: ContentFormat;
   /**
@@ -1483,6 +1476,16 @@ export interface ApiVersionSetContract extends Resource {
 }
 
 /**
+ * Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.
+ */
+export interface ClientSecretContract {
+  /**
+   * Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.
+   */
+  clientSecret?: string;
+}
+
+/**
  * OAuth acquire token request body parameter (www-url-form-encoded).
  */
 export interface TokenBodyParameterContract {
@@ -1540,10 +1543,6 @@ export interface AuthorizationServerContractBaseProperties {
    */
   bearerTokenSendingMethods?: BearerTokenSendingMethod[];
   /**
-   * Client or app secret registered with this authorization server.
-   */
-  clientSecret?: string;
-  /**
    * Can be optionally specified when resource owner password grant type is supported by this
    * authorization server. Default resource owner username.
    */
@@ -1599,10 +1598,6 @@ export interface AuthorizationServerUpdateContract extends Resource {
    */
   bearerTokenSendingMethods?: BearerTokenSendingMethod[];
   /**
-   * Client or app secret registered with this authorization server.
-   */
-  clientSecret?: string;
-  /**
    * Can be optionally specified when resource owner password grant type is supported by this
    * authorization server. Default resource owner username.
    */
@@ -1633,6 +1628,11 @@ export interface AuthorizationServerUpdateContract extends Resource {
    * Client or app id registered with this authorization server.
    */
   clientId?: string;
+  /**
+   * Client or app secret registered with this authorization server. This property will not be
+   * filled on 'GET' operations! Use '/listSecrets' POST request to get the value.
+   */
+  clientSecret?: string;
 }
 
 /**
@@ -1679,10 +1679,6 @@ export interface AuthorizationServerContract extends Resource {
    */
   bearerTokenSendingMethods?: BearerTokenSendingMethod[];
   /**
-   * Client or app secret registered with this authorization server.
-   */
-  clientSecret?: string;
-  /**
    * Can be optionally specified when resource owner password grant type is supported by this
    * authorization server. Default resource owner username.
    */
@@ -1713,6 +1709,11 @@ export interface AuthorizationServerContract extends Resource {
    * Client or app id registered with this authorization server.
    */
   clientId: string;
+  /**
+   * Client or app secret registered with this authorization server. This property will not be
+   * filled on 'GET' operations! Use '/listSecrets' POST request to get the value.
+   */
+  clientSecret?: string;
 }
 
 /**
@@ -2214,9 +2215,10 @@ export interface ApiManagementServiceSkuProperties {
    */
   name: SkuType;
   /**
-   * Capacity of the SKU (number of deployed units of the SKU).
+   * Capacity of the SKU (number of deployed units of the SKU). For Consumption SKU capacity must
+   * be specified as 0.
    */
-  capacity?: number;
+  capacity: number;
 }
 
 /**
@@ -2253,6 +2255,11 @@ export interface AdditionalLocation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly gatewayRegionalUrl?: string;
+  /**
+   * Property only valid for an Api Management service deployed in multiple locations. This can be
+   * used to disable the gateway in this additional location. Default value: false.
+   */
+  disableGateway?: boolean;
 }
 
 /**
@@ -2275,6 +2282,17 @@ export interface ApiManagementServiceBackupRestoreParameters {
    * The name of the backup file to create.
    */
   backupName: string;
+}
+
+/**
+ * Control Plane Apis version constraint for the API Management service.
+ */
+export interface ApiVersionConstraint {
+  /**
+   * Limit control plane API calls to API Management service with version equal to or newer than
+   * this value.
+   */
+  minApiVersion?: string;
 }
 
 /**
@@ -2330,6 +2348,11 @@ export interface ApiManagementServiceBaseProperties {
    */
   readonly scmUrl?: string;
   /**
+   * DEveloper Portal endpoint URL of the API Management service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly developerPortalUrl?: string;
+  /**
    * Custom hostname configuration of the API Management service.
    */
   hostnameConfigurations?: HostnameConfiguration[];
@@ -2379,7 +2402,9 @@ export interface ApiManagementServiceBaseProperties {
    * TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA.
    * For example,
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`.
-   * The default value is `true` for them.
+   * The default value is `true` for them.  Note: next ciphers can't be disabled since they are
+   * required by Azure CloudService internal components:
+   * TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2394,6 +2419,11 @@ export interface ApiManagementServiceBaseProperties {
    */
   enableClientCertificate?: boolean;
   /**
+   * Property only valid for an Api Management service deployed in multiple locations. This can be
+   * used to disable the gateway in master region. Default value: false.
+   */
+  disableGateway?: boolean;
+  /**
    * The type of VPN in which API Management service needs to be configured in. None (Default
    * Value) means the API Management service is not part of any Virtual Network, External means the
    * API Management deployment is set up inside a Virtual Network having an Internet Facing
@@ -2402,12 +2432,37 @@ export interface ApiManagementServiceBaseProperties {
    * 'Internal'. Default value: 'None'.
    */
   virtualNetworkType?: VirtualNetworkType;
+  /**
+   * Control Plane Apis version constraint for the API Management service.
+   */
+  apiVersionConstraint?: ApiVersionConstraint;
+}
+
+/**
+ * An interface representing UserIdentityProperties.
+ */
+export interface UserIdentityProperties {
+  /**
+   * The principal id of user assigned identity.
+   */
+  principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   */
+  clientId?: string;
 }
 
 /**
  * Identity properties of the Api Management service resource.
  */
 export interface ApiManagementServiceIdentity {
+  /**
+   * The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes
+   * both an implicitly created identity and a set of user assigned identities. The type 'None'
+   * will remove any identities from the service. Possible values include: 'SystemAssigned',
+   * 'UserAssigned', 'SystemAssigned, UserAssigned', 'None'
+   */
+  type: ApimIdentityType;
   /**
    * The principal id of the identity.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2418,6 +2473,13 @@ export interface ApiManagementServiceIdentity {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
+  /**
+   * The list of user identities associated with the resource. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+   * providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
 }
 
 /**
@@ -2498,6 +2560,11 @@ export interface ApiManagementServiceResource extends ApimResource {
    */
   readonly scmUrl?: string;
   /**
+   * DEveloper Portal endpoint URL of the API Management service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly developerPortalUrl?: string;
+  /**
    * Custom hostname configuration of the API Management service.
    */
   hostnameConfigurations?: HostnameConfiguration[];
@@ -2547,7 +2614,9 @@ export interface ApiManagementServiceResource extends ApimResource {
    * TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA.
    * For example,
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`.
-   * The default value is `true` for them.
+   * The default value is `true` for them.  Note: next ciphers can't be disabled since they are
+   * required by Azure CloudService internal components:
+   * TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2562,6 +2631,11 @@ export interface ApiManagementServiceResource extends ApimResource {
    */
   enableClientCertificate?: boolean;
   /**
+   * Property only valid for an Api Management service deployed in multiple locations. This can be
+   * used to disable the gateway in master region. Default value: false.
+   */
+  disableGateway?: boolean;
+  /**
    * The type of VPN in which API Management service needs to be configured in. None (Default
    * Value) means the API Management service is not part of any Virtual Network, External means the
    * API Management deployment is set up inside a Virtual Network having an Internet Facing
@@ -2570,6 +2644,10 @@ export interface ApiManagementServiceResource extends ApimResource {
    * 'Internal'. Default value: 'None'.
    */
   virtualNetworkType?: VirtualNetworkType;
+  /**
+   * Control Plane Apis version constraint for the API Management service.
+   */
+  apiVersionConstraint?: ApiVersionConstraint;
   /**
    * Publisher email.
    */
@@ -2650,6 +2728,11 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    */
   readonly scmUrl?: string;
   /**
+   * DEveloper Portal endpoint URL of the API Management service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly developerPortalUrl?: string;
+  /**
    * Custom hostname configuration of the API Management service.
    */
   hostnameConfigurations?: HostnameConfiguration[];
@@ -2699,7 +2782,9 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    * TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA.
    * For example,
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`.
-   * The default value is `true` for them.
+   * The default value is `true` for them.  Note: next ciphers can't be disabled since they are
+   * required by Azure CloudService internal components:
+   * TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2714,6 +2799,11 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    */
   enableClientCertificate?: boolean;
   /**
+   * Property only valid for an Api Management service deployed in multiple locations. This can be
+   * used to disable the gateway in master region. Default value: false.
+   */
+  disableGateway?: boolean;
+  /**
    * The type of VPN in which API Management service needs to be configured in. None (Default
    * Value) means the API Management service is not part of any Virtual Network, External means the
    * API Management deployment is set up inside a Virtual Network having an Internet Facing
@@ -2722,6 +2812,10 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    * 'Internal'. Default value: 'None'.
    */
   virtualNetworkType?: VirtualNetworkType;
+  /**
+   * Control Plane Apis version constraint for the API Management service.
+   */
+  apiVersionConstraint?: ApiVersionConstraint;
   /**
    * Publisher email.
    */
@@ -2923,6 +3017,120 @@ export interface EmailTemplateContract extends Resource {
 }
 
 /**
+ * Association entity details.
+ */
+export interface AssociationContract extends Resource {
+  /**
+   * Provisioning state. Possible values include: 'created'
+   */
+  provisioningState?: ProvisioningState;
+}
+
+/**
+ * Gateway hostname configuration details.
+ */
+export interface GatewayHostnameConfigurationContract extends Resource {
+  /**
+   * Hostname value. Supports valid domain name, partial or full wildcard
+   */
+  hostname?: string;
+  /**
+   * Identifier of Certificate entity that will be used for TLS connection establishment
+   */
+  certificateId?: string;
+  /**
+   * Determines whether gateway requests client certificate
+   */
+  negotiateClientCertificate?: boolean;
+}
+
+/**
+ * Gateway access token.
+ */
+export interface GatewayTokenContract {
+  /**
+   * Shared Access Authentication token value for the Gateway.
+   */
+  value?: string;
+}
+
+/**
+ * Gateway token request contract properties.
+ */
+export interface GatewayTokenRequestContract {
+  /**
+   * The Key to be used to generate gateway token. Possible values include: 'primary', 'secondary'.
+   * Default value: 'primary'.
+   */
+  keyType: KeyType;
+  /**
+   * The Expiry time of the Token. Maximum token expiry time is set to 30 days. The date conforms
+   * to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   */
+  expiry: Date;
+}
+
+/**
+ * Gateway key regeneration request contract properties.
+ */
+export interface GatewayKeyRegenerationRequestContract {
+  /**
+   * The Key being regenerated. Possible values include: 'primary', 'secondary'
+   */
+  keyType: KeyType;
+}
+
+/**
+ * Gateway authentication keys.
+ */
+export interface GatewayKeysContract {
+  /**
+   * Primary gateway key.
+   */
+  primary?: string;
+  /**
+   * Secondary gateway key.
+   */
+  secondary?: string;
+}
+
+/**
+ * Resource location data properties.
+ */
+export interface ResourceLocationDataContract {
+  /**
+   * A canonical name for the geographic or physical location.
+   */
+  name: string;
+  /**
+   * The city or locality where the resource is located.
+   */
+  city?: string;
+  /**
+   * The district, state, or province where the resource is located.
+   */
+  district?: string;
+  /**
+   * The country or region where the resource is located.
+   */
+  countryOrRegion?: string;
+}
+
+/**
+ * Gateway details.
+ */
+export interface GatewayContract extends Resource {
+  /**
+   * Gateway location.
+   */
+  locationData?: ResourceLocationDataContract;
+  /**
+   * Gateway description
+   */
+  description?: string;
+}
+
+/**
  * User identity details.
  */
 export interface UserIdentityContract {
@@ -3116,6 +3324,10 @@ export interface IdentityProviderBaseParameters {
    */
   type?: IdentityProviderType;
   /**
+   * The TenantId to use instead of Common when logging into Active Directory
+   */
+  signinTenant?: string;
+  /**
    * List of Allowed Tenants when configuring Azure Active Directory login.
    */
   allowedTenants?: string[];
@@ -3150,6 +3362,10 @@ export interface IdentityProviderUpdateParameters {
    * 'twitter', 'aad', 'aadB2C'
    */
   type?: IdentityProviderType;
+  /**
+   * The TenantId to use instead of Common when logging into Active Directory
+   */
+  signinTenant?: string;
   /**
    * List of Allowed Tenants when configuring Azure Active Directory login.
    */
@@ -3197,6 +3413,10 @@ export interface IdentityProviderContract extends Resource {
    */
   identityProviderContractType?: IdentityProviderType;
   /**
+   * The TenantId to use instead of Common when logging into Active Directory
+   */
+  signinTenant?: string;
+  /**
    * List of Allowed Tenants when configuring Azure Active Directory login.
    */
   allowedTenants?: string[];
@@ -3228,7 +3448,59 @@ export interface IdentityProviderContract extends Resource {
   /**
    * Client secret of the Application in external Identity Provider, used to authenticate login
    * request. For example, it is App Secret for Facebook login, API Key for Google login, Public
-   * Key for Microsoft.
+   * Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets'
+   * POST request to get the value.
+   */
+  clientSecret?: string;
+}
+
+/**
+ * Identity Provider details.
+ */
+export interface IdentityProviderCreateContract extends Resource {
+  /**
+   * Identity Provider Type identifier. Possible values include: 'facebook', 'google', 'microsoft',
+   * 'twitter', 'aad', 'aadB2C'
+   */
+  identityProviderCreateContractType?: IdentityProviderType;
+  /**
+   * The TenantId to use instead of Common when logging into Active Directory
+   */
+  signinTenant?: string;
+  /**
+   * List of Allowed Tenants when configuring Azure Active Directory login.
+   */
+  allowedTenants?: string[];
+  /**
+   * OpenID Connect discovery endpoint hostname for AAD or AAD B2C.
+   */
+  authority?: string;
+  /**
+   * Signup Policy Name. Only applies to AAD B2C Identity Provider.
+   */
+  signupPolicyName?: string;
+  /**
+   * Signin Policy Name. Only applies to AAD B2C Identity Provider.
+   */
+  signinPolicyName?: string;
+  /**
+   * Profile Editing Policy Name. Only applies to AAD B2C Identity Provider.
+   */
+  profileEditingPolicyName?: string;
+  /**
+   * Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
+   */
+  passwordResetPolicyName?: string;
+  /**
+   * Client Id of the Application in the external Identity Provider. It is App ID for Facebook
+   * login, Client ID for Google login, App ID for Microsoft.
+   */
+  clientId: string;
+  /**
+   * Client secret of the Application in external Identity Provider, used to authenticate login
+   * request. For example, it is App Secret for Facebook login, API Key for Google login, Public
+   * Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets'
+   * POST request to get the value.
    */
   clientSecret: string;
 }
@@ -3281,6 +3553,108 @@ export interface LoggerContract extends Resource {
    * Insights resource).
    */
   resourceId?: string;
+}
+
+/**
+ * Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.
+ */
+export interface PropertyValueContract {
+  /**
+   * This is secret value of the NamedValue entity.
+   */
+  value?: string;
+}
+
+/**
+ * NamedValue Entity Base Parameters set.
+ */
+export interface NamedValueEntityBaseParameters {
+  /**
+   * Optional tags that when provided can be used to filter the NamedValue list.
+   */
+  tags?: string[];
+  /**
+   * Determines whether the value is a secret and should be encrypted or not. Default value is
+   * false.
+   */
+  secret?: boolean;
+}
+
+/**
+ * NamedValue details.
+ */
+export interface NamedValueContract extends Resource {
+  /**
+   * Optional tags that when provided can be used to filter the NamedValue list.
+   */
+  tags?: string[];
+  /**
+   * Determines whether the value is a secret and should be encrypted or not. Default value is
+   * false.
+   */
+  secret?: boolean;
+  /**
+   * Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore
+   * characters.
+   */
+  displayName: string;
+  /**
+   * Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only
+   * of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST
+   * request to get the value.
+   */
+  value?: string;
+}
+
+/**
+ * NamedValue update Parameters.
+ */
+export interface NamedValueUpdateParameters {
+  /**
+   * Optional tags that when provided can be used to filter the NamedValue list.
+   */
+  tags?: string[];
+  /**
+   * Determines whether the value is a secret and should be encrypted or not. Default value is
+   * false.
+   */
+  secret?: boolean;
+  /**
+   * Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore
+   * characters.
+   */
+  displayName?: string;
+  /**
+   * Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only
+   * of whitespace.
+   */
+  value?: string;
+}
+
+/**
+ * NamedValue details.
+ */
+export interface NamedValueCreateContract extends Resource {
+  /**
+   * Optional tags that when provided can be used to filter the NamedValue list.
+   */
+  tags?: string[];
+  /**
+   * Determines whether the value is a secret and should be encrypted or not. Default value is
+   * false.
+   */
+  secret?: boolean;
+  /**
+   * Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore
+   * characters.
+   */
+  displayName: string;
+  /**
+   * Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only
+   * of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST
+   * request to get the value.
+   */
+  value: string;
 }
 
 /**
@@ -3477,24 +3851,14 @@ export interface OpenidConnectProviderContract extends Resource {
 }
 
 /**
- * Policy snippet.
+ * Policy description details.
  */
-export interface PolicySnippetContract {
+export interface PolicyDescriptionContract extends Resource {
   /**
-   * Snippet name.
+   * Policy description.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
-  /**
-   * Snippet content.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly content?: string;
-  /**
-   * Snippet toolTip.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly toolTip?: string;
+  readonly description?: string;
   /**
    * Binary OR value of the Snippet scope.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3503,13 +3867,27 @@ export interface PolicySnippetContract {
 }
 
 /**
- * The response of the list policy snippets operation.
+ * Descriptions of APIM policies.
  */
-export interface PolicySnippetsCollection {
+export interface PolicyDescriptionCollection {
   /**
-   * Policy snippet value.
+   * Descriptions of APIM policies.
    */
-  value?: PolicySnippetContract[];
+  value?: PolicyDescriptionContract[];
+  /**
+   * Total record count number.
+   */
+  count?: number;
+}
+
+/**
+ * Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.
+ */
+export interface PortalSettingValidationKeyContract {
+  /**
+   * This is secret value of the validation key in portal settings.
+   */
+  validationKey?: string;
 }
 
 /**
@@ -3659,13 +4037,15 @@ export interface SubscriptionContract extends Resource {
    */
   notificationDate?: Date;
   /**
-   * Subscription primary key.
+   * Subscription primary key. This property will not be filled on 'GET' operations! Use
+   * '/listSecrets' POST request to get the value.
    */
-  primaryKey: string;
+  primaryKey?: string;
   /**
-   * Subscription secondary key.
+   * Subscription secondary key. This property will not be filled on 'GET' operations! Use
+   * '/listSecrets' POST request to get the value.
    */
-  secondaryKey: string;
+  secondaryKey?: string;
   /**
    * Optional subscription comment added by an administrator.
    */
@@ -3721,71 +4101,6 @@ export interface ProductUpdateParameters {
    * Product name.
    */
   displayName?: string;
-}
-
-/**
- * Property Entity Base Parameters set.
- */
-export interface PropertyEntityBaseParameters {
-  /**
-   * Optional tags that when provided can be used to filter the property list.
-   */
-  tags?: string[];
-  /**
-   * Determines whether the value is a secret and should be encrypted or not. Default value is
-   * false.
-   */
-  secret?: boolean;
-}
-
-/**
- * Property update Parameters.
- */
-export interface PropertyUpdateParameters {
-  /**
-   * Optional tags that when provided can be used to filter the property list.
-   */
-  tags?: string[];
-  /**
-   * Determines whether the value is a secret and should be encrypted or not. Default value is
-   * false.
-   */
-  secret?: boolean;
-  /**
-   * Unique name of Property. It may contain only letters, digits, period, dash, and underscore
-   * characters.
-   */
-  displayName?: string;
-  /**
-   * Value of the property. Can contain policy expressions. It may not be empty or consist only of
-   * whitespace.
-   */
-  value?: string;
-}
-
-/**
- * Property details.
- */
-export interface PropertyContract extends Resource {
-  /**
-   * Optional tags that when provided can be used to filter the property list.
-   */
-  tags?: string[];
-  /**
-   * Determines whether the value is a secret and should be encrypted or not. Default value is
-   * false.
-   */
-  secret?: boolean;
-  /**
-   * Unique name of Property. It may contain only letters, digits, period, dash, and underscore
-   * characters.
-   */
-  displayName: string;
-  /**
-   * Value of the property. Can contain policy expressions. It may not be empty or consist only of
-   * whitespace.
-   */
-  value: string;
 }
 
 /**
@@ -4050,6 +4365,20 @@ export interface ReportRecordContract {
 }
 
 /**
+ * Subscription keys.
+ */
+export interface SubscriptionKeysContract {
+  /**
+   * Subscription primary key.
+   */
+  primaryKey?: string;
+  /**
+   * Subscription secondary key.
+   */
+  secondaryKey?: string;
+}
+
+/**
  * Subscription update details.
  */
 export interface SubscriptionUpdateParameters {
@@ -4286,11 +4615,13 @@ export interface AccessInformationContract {
    */
   id?: string;
   /**
-   * Primary access key.
+   * Primary access key. This property will not be filled on 'GET' operations! Use '/listSecrets'
+   * POST request to get the value.
    */
   primaryKey?: string;
   /**
-   * Secondary access key.
+   * Secondary access key. This property will not be filled on 'GET' operations! Use '/listSecrets'
+   * POST request to get the value.
    */
   secondaryKey?: string;
   /**
@@ -4415,6 +4746,11 @@ export interface UserCreateParameters {
    * User Password. If no value is provided, a default password is generated.
    */
   password?: string;
+  /**
+   * Determines the type of application which send the create user request. Default is old
+   * publisher portal. Possible values include: 'developerPortal'
+   */
+  appType?: AppType;
   /**
    * Determines the type of confirmation e-mail that will be sent to the newly created user.
    * Possible values include: 'signup', 'invite'
@@ -4845,6 +5181,17 @@ export interface ApiSchemaDeleteMethodOptionalParams extends msRest.RequestOptio
    * If true removes all references to the schema before deleting it.
    */
   force?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ApiSchemaBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the Entity. Not required when creating an entity, but required when updating an
+   * entity.
+   */
+  ifMatch?: string;
 }
 
 /**
@@ -5304,6 +5651,66 @@ export interface EmailTemplateCreateOrUpdateOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
+export interface GatewayListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Number of records to return.
+   */
+  top?: number;
+  /**
+   * Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface GatewayCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the Entity. Not required when creating an entity, but required when updating an
+   * entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface GatewayHostnameConfigurationListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Number of records to return.
+   */
+  top?: number;
+  /**
+   * Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface GatewayApiListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Number of records to return.
+   */
+  top?: number;
+  /**
+   * Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface GatewayApiCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  parameters?: AssociationContract;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface GroupListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
@@ -5443,6 +5850,49 @@ export interface LoggerDeleteMethodOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
+export interface NamedValueListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * |   Field     |     Usage     |     Supported operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le,
+   * eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all | </br>| displayName |
+   * filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * Number of records to return.
+   */
+  top?: number;
+  /**
+   * Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NamedValueCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the Entity. Not required when creating an entity, but required when updating an
+   * entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface NamedValueBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the Entity. Not required when creating an entity, but required when updating an
+   * entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface NotificationListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Number of records to return.
@@ -5521,7 +5971,7 @@ export interface PolicyCreateOrUpdateOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface PolicySnippetListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyDescriptionListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Policy scope. Possible values include: 'Tenant', 'Product', 'Api', 'Operation', 'All'
    */
@@ -5730,38 +6180,6 @@ export interface ProductPolicyGetOptionalParams extends msRest.RequestOptionsBas
  * Optional Parameters.
  */
 export interface ProductPolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * ETag of the Entity. Not required when creating an entity, but required when updating an
-   * entity.
-   */
-  ifMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PropertyListByServiceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * |   Field     |     Usage     |     Supported operators     |     Supported functions
-   * |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le,
-   * eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all | </br>| displayName |
-   * filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>
-   */
-  filter?: string;
-  /**
-   * Number of records to return.
-   */
-  top?: number;
-  /**
-   * Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PropertyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -6745,6 +7163,94 @@ export interface EmailTemplateGetHeaders {
 /**
  * Defines headers for GetEntityTag operation.
  */
+export interface GatewayGetEntityTagHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for Get operation.
+ */
+export interface GatewayGetHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for CreateOrUpdate operation.
+ */
+export interface GatewayCreateOrUpdateHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for ListKeys operation.
+ */
+export interface GatewayListKeysHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for GetEntityTag operation.
+ */
+export interface GatewayHostnameConfigurationGetEntityTagHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for Get operation.
+ */
+export interface GatewayHostnameConfigurationGetHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for CreateOrUpdate operation.
+ */
+export interface GatewayHostnameConfigurationCreateOrUpdateHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for GetEntityTag operation.
+ */
+export interface GatewayApiGetEntityTagHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for GetEntityTag operation.
+ */
 export interface GroupGetEntityTagHeaders {
   /**
    * Current entity state version. Should be treated as opaque and used to make conditional HTTP
@@ -6845,6 +7351,50 @@ export interface LoggerGetHeaders {
  * Defines headers for CreateOrUpdate operation.
  */
 export interface LoggerCreateOrUpdateHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for GetEntityTag operation.
+ */
+export interface NamedValueGetEntityTagHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for Get operation.
+ */
+export interface NamedValueGetHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for CreateOrUpdate operation.
+ */
+export interface NamedValueCreateOrUpdateHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for Update operation.
+ */
+export interface NamedValueUpdateHeaders {
   /**
    * Current entity state version. Should be treated as opaque and used to make conditional HTTP
    * requests.
@@ -7075,39 +7625,6 @@ export interface TagGetByProductHeaders {
 /**
  * Defines headers for GetEntityTag operation.
  */
-export interface PropertyGetEntityTagHeaders {
-  /**
-   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
-   * requests.
-   */
-  eTag: string;
-}
-
-/**
- * Defines headers for Get operation.
- */
-export interface PropertyGetHeaders {
-  /**
-   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
-   * requests.
-   */
-  eTag: string;
-}
-
-/**
- * Defines headers for CreateOrUpdate operation.
- */
-export interface PropertyCreateOrUpdateHeaders {
-  /**
-   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
-   * requests.
-   */
-  eTag: string;
-}
-
-/**
- * Defines headers for GetEntityTag operation.
- */
 export interface SubscriptionGetEntityTagHeaders {
   /**
    * Current entity state version. Should be treated as opaque and used to make conditional HTTP
@@ -7194,9 +7711,31 @@ export interface TenantAccessGetHeaders {
 }
 
 /**
+ * Defines headers for ListSecrets operation.
+ */
+export interface TenantAccessListSecretsHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
  * Defines headers for Get operation.
  */
 export interface TenantAccessGitGetHeaders {
+  /**
+   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
+   * requests.
+   */
+  eTag: string;
+}
+
+/**
+ * Defines headers for ListSecrets operation.
+ */
+export interface TenantAccessGitListSecretsHeaders {
   /**
    * Current entity state version. Should be treated as opaque and used to make conditional HTTP
    * requests.
@@ -7517,6 +8056,32 @@ export interface EmailTemplateCollection extends Array<EmailTemplateContract> {
 
 /**
  * @interface
+ * Paged Gateway list representation.
+ * @extends Array<GatewayContract>
+ */
+export interface GatewayCollection extends Array<GatewayContract> {
+  /**
+   * Next page link if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Paged Gateway hostname configuration list representation.
+ * @extends Array<GatewayHostnameConfigurationContract>
+ */
+export interface GatewayHostnameConfigurationCollection extends Array<GatewayHostnameConfigurationContract> {
+  /**
+   * Next page link if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * Paged Group list representation.
  * @extends Array<GroupContract>
  */
@@ -7569,6 +8134,18 @@ export interface LoggerCollection extends Array<LoggerContract> {
 
 /**
  * @interface
+ * Paged NamedValue list representation.
+ * @extends Array<NamedValueContract>
+ */
+export interface NamedValueCollection extends Array<NamedValueContract> {
+  /**
+   * Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Paged Notification list representation.
  * @extends Array<NotificationContract>
  */
@@ -7597,18 +8174,6 @@ export interface OpenIdConnectProviderCollection extends Array<OpenidConnectProv
  * @extends Array<SubscriptionContract>
  */
 export interface SubscriptionCollection extends Array<SubscriptionContract> {
-  /**
-   * Next page link if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Paged Property list representation.
- * @extends Array<PropertyContract>
- */
-export interface PropertyCollection extends Array<PropertyContract> {
   /**
    * Next page link if any.
    */
@@ -7710,11 +8275,11 @@ export type Protocol = 'http' | 'https';
 /**
  * Defines values for ContentFormat.
  * Possible values include: 'wadl-xml', 'wadl-link-json', 'swagger-json', 'swagger-link-json',
- * 'wsdl', 'wsdl-link', 'openapi', 'openapi+json', 'openapi-link'
+ * 'wsdl', 'wsdl-link', 'openapi', 'openapi+json', 'openapi-link', 'openapi+json-link'
  * @readonly
  * @enum {string}
  */
-export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'swagger-link-json' | 'wsdl' | 'wsdl-link' | 'openapi' | 'openapi+json' | 'openapi-link';
+export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'swagger-link-json' | 'wsdl' | 'wsdl-link' | 'openapi' | 'openapi+json' | 'openapi-link' | 'openapi+json-link';
 
 /**
  * Defines values for SoapApiType.
@@ -7755,6 +8320,22 @@ export type SamplingType = 'fixed';
  * @enum {string}
  */
 export type AlwaysLog = 'allErrors';
+
+/**
+ * Defines values for HttpCorrelationProtocol.
+ * Possible values include: 'None', 'Legacy', 'W3C'
+ * @readonly
+ * @enum {string}
+ */
+export type HttpCorrelationProtocol = 'None' | 'Legacy' | 'W3C';
+
+/**
+ * Defines values for Verbosity.
+ * Possible values include: 'verbose', 'information', 'error'
+ * @readonly
+ * @enum {string}
+ */
+export type Verbosity = 'verbose' | 'information' | 'error';
 
 /**
  * Defines values for PolicyContentFormat.
@@ -7846,12 +8427,45 @@ export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm' | 'Develope
 export type VirtualNetworkType = 'None' | 'External' | 'Internal';
 
 /**
+ * Defines values for ApimIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ApimIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+
+/**
  * Defines values for NameAvailabilityReason.
  * Possible values include: 'Valid', 'Invalid', 'AlreadyExists'
  * @readonly
  * @enum {string}
  */
 export type NameAvailabilityReason = 'Valid' | 'Invalid' | 'AlreadyExists';
+
+/**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'created'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'created';
+
+/**
+ * Defines values for KeyType.
+ * Possible values include: 'primary', 'secondary'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyType = 'primary' | 'secondary';
+
+/**
+ * Defines values for AppType.
+ * Possible values include: 'developerPortal'
+ * @readonly
+ * @enum {string}
+ */
+export type AppType = 'developerPortal';
 
 /**
  * Defines values for Confirmation.
@@ -7918,14 +8532,6 @@ export type SubscriptionState = 'suspended' | 'active' | 'expired' | 'submitted'
 export type AsyncOperationStatus = 'Started' | 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
- * Defines values for KeyType.
- * Possible values include: 'primary', 'secondary'
- * @readonly
- * @enum {string}
- */
-export type KeyType = 'primary' | 'secondary';
-
-/**
  * Defines values for NotificationName.
  * Possible values include: 'RequestPublisherNotificationMessage',
  * 'PurchasePublisherNotificationMessage', 'NewApplicationNotificationMessage', 'BCC',
@@ -7968,11 +8574,11 @@ export type PolicyScopeContract = 'Tenant' | 'Product' | 'Api' | 'Operation' | '
 
 /**
  * Defines values for ExportFormat.
- * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi'
+ * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi', 'OpenapiJson'
  * @readonly
  * @enum {string}
  */
-export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link' | 'openapi-link';
+export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link' | 'openapi-link' | 'openapi+json-link';
 
 /**
  * Defines values for VersioningScheme1.
@@ -9866,6 +10472,26 @@ export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerContr
 };
 
 /**
+ * Contains response data for the listSecrets operation.
+ */
+export type AuthorizationServerListSecretsResponse = ClientSecretContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClientSecretContract;
+    };
+};
+
+/**
  * Contains response data for the listByServiceNext operation.
  */
 export type AuthorizationServerListByServiceNextResponse = AuthorizationServerCollection & {
@@ -10868,6 +11494,336 @@ export type EmailTemplateListByServiceNextResponse = EmailTemplateCollection & {
 /**
  * Contains response data for the listByService operation.
  */
+export type GatewayListByServiceResponse = GatewayCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type GatewayGetEntityTagResponse = GatewayGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type GatewayGetResponse = GatewayContract & GatewayGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type GatewayCreateOrUpdateResponse = GatewayContract & GatewayCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayCreateOrUpdateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayContract;
+    };
+};
+
+/**
+ * Contains response data for the listKeys operation.
+ */
+export type GatewayListKeysResponse = GatewayKeysContract & GatewayListKeysHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayListKeysHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayKeysContract;
+    };
+};
+
+/**
+ * Contains response data for the generateToken operation.
+ */
+export type GatewayGenerateTokenResponse = GatewayTokenContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayTokenContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type GatewayListByServiceNextResponse = GatewayCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type GatewayHostnameConfigurationListByServiceResponse = GatewayHostnameConfigurationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayHostnameConfigurationCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type GatewayHostnameConfigurationGetEntityTagResponse = GatewayHostnameConfigurationGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayHostnameConfigurationGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type GatewayHostnameConfigurationGetResponse = GatewayHostnameConfigurationContract & GatewayHostnameConfigurationGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayHostnameConfigurationGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayHostnameConfigurationContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type GatewayHostnameConfigurationCreateOrUpdateResponse = GatewayHostnameConfigurationContract & GatewayHostnameConfigurationCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayHostnameConfigurationCreateOrUpdateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayHostnameConfigurationContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type GatewayHostnameConfigurationListByServiceNextResponse = GatewayHostnameConfigurationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayHostnameConfigurationCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type GatewayApiListByServiceResponse = ApiCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type GatewayApiGetEntityTagResponse = GatewayApiGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GatewayApiGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type GatewayApiCreateOrUpdateResponse = ApiContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type GatewayApiListByServiceNextResponse = ApiCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
 export type GroupListByServiceResponse = GroupCollection & {
   /**
    * The underlying HTTP response.
@@ -11141,6 +12097,26 @@ export type IdentityProviderCreateOrUpdateResponse = IdentityProviderContract & 
 };
 
 /**
+ * Contains response data for the listSecrets operation.
+ */
+export type IdentityProviderListSecretsResponse = ClientSecretContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClientSecretContract;
+    };
+};
+
+/**
  * Contains response data for the listByServiceNext operation.
  */
 export type IdentityProviderListByServiceNextResponse = IdentityProviderList & {
@@ -11327,6 +12303,156 @@ export type LoggerListByServiceNextResponse = LoggerCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: LoggerCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type NamedValueListByServiceResponse = NamedValueCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NamedValueCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type NamedValueGetEntityTagResponse = NamedValueGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: NamedValueGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type NamedValueGetResponse = NamedValueContract & NamedValueGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: NamedValueGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NamedValueContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type NamedValueCreateOrUpdateResponse = NamedValueContract & NamedValueCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: NamedValueCreateOrUpdateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NamedValueContract;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type NamedValueUpdateResponse = NamedValueContract & NamedValueUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: NamedValueUpdateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NamedValueContract;
+    };
+};
+
+/**
+ * Contains response data for the listValue operation.
+ */
+export type NamedValueListValueResponse = PropertyValueContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PropertyValueContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type NamedValueListByServiceNextResponse = NamedValueCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NamedValueCollection;
     };
 };
 
@@ -11666,6 +12792,26 @@ export type OpenIdConnectProviderCreateOrUpdateResponse = OpenidConnectProviderC
 };
 
 /**
+ * Contains response data for the listSecrets operation.
+ */
+export type OpenIdConnectProviderListSecretsResponse = ClientSecretContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClientSecretContract;
+    };
+};
+
+/**
  * Contains response data for the listByServiceNext operation.
  */
 export type OpenIdConnectProviderListByServiceNextResponse = OpenIdConnectProviderCollection & {
@@ -11773,7 +12919,7 @@ export type PolicyCreateOrUpdateResponse = PolicyContract & PolicyCreateOrUpdate
 /**
  * Contains response data for the listByService operation.
  */
-export type PolicySnippetListByServiceResponse = PolicySnippetsCollection & {
+export type PolicyDescriptionListByServiceResponse = PolicyDescriptionCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -11786,7 +12932,7 @@ export type PolicySnippetListByServiceResponse = PolicySnippetsCollection & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PolicySnippetsCollection;
+      parsedBody: PolicyDescriptionCollection;
     };
 };
 
@@ -11967,6 +13113,26 @@ export type DelegationSettingsCreateOrUpdateResponse = PortalDelegationSettings 
        * The response body as parsed JSON or XML
        */
       parsedBody: PortalDelegationSettings;
+    };
+};
+
+/**
+ * Contains response data for the listSecrets operation.
+ */
+export type DelegationSettingsListSecretsResponse = PortalSettingValidationKeyContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PortalSettingValidationKeyContract;
     };
 };
 
@@ -12357,111 +13523,6 @@ export type ProductPolicyCreateOrUpdateResponse = PolicyContract & ProductPolicy
        * The response body as parsed JSON or XML
        */
       parsedBody: PolicyContract;
-    };
-};
-
-/**
- * Contains response data for the listByService operation.
- */
-export type PropertyListByServiceResponse = PropertyCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PropertyCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityTag operation.
- */
-export type PropertyGetEntityTagResponse = PropertyGetEntityTagHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PropertyGetEntityTagHeaders;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PropertyGetResponse = PropertyContract & PropertyGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PropertyGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PropertyContract;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PropertyCreateOrUpdateResponse = PropertyContract & PropertyCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PropertyCreateOrUpdateHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PropertyContract;
-    };
-};
-
-/**
- * Contains response data for the listByServiceNext operation.
- */
-export type PropertyListByServiceNextResponse = PropertyCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PropertyCollection;
     };
 };
 
@@ -12931,6 +13992,26 @@ export type SubscriptionCreateOrUpdateResponse = SubscriptionContract & Subscrip
 };
 
 /**
+ * Contains response data for the listSecrets operation.
+ */
+export type SubscriptionListSecretsResponse = SubscriptionKeysContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionKeysContract;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type SubscriptionListNextResponse = SubscriptionCollection & {
@@ -13031,6 +14112,31 @@ export type TenantAccessGetResponse = AccessInformationContract & TenantAccessGe
 };
 
 /**
+ * Contains response data for the listSecrets operation.
+ */
+export type TenantAccessListSecretsResponse = AccessInformationContract & TenantAccessListSecretsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TenantAccessListSecretsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccessInformationContract;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type TenantAccessGitGetResponse = AccessInformationContract & TenantAccessGitGetHeaders & {
@@ -13042,6 +14148,31 @@ export type TenantAccessGitGetResponse = AccessInformationContract & TenantAcces
        * The parsed HTTP response headers.
        */
       parsedHeaders: TenantAccessGitGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccessInformationContract;
+    };
+};
+
+/**
+ * Contains response data for the listSecrets operation.
+ */
+export type TenantAccessGitListSecretsResponse = AccessInformationContract & TenantAccessGitListSecretsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TenantAccessGitListSecretsHeaders;
 
       /**
        * The response body as text (string format)

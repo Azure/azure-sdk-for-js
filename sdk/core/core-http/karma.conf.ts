@@ -4,11 +4,12 @@ const defaults = {
 
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 
-module.exports = function (config: any) {
+module.exports = function(config: any) {
   config.set({
     plugins: [
       "karma-mocha",
       "karma-chrome-launcher",
+      "karma-edge-launcher",
       "karma-firefox-launcher"
     ],
 
@@ -18,10 +19,8 @@ module.exports = function (config: any) {
 
     // list of files / patterns to load in the browser
     files: [
-      { pattern: "dist/coreHttp.browser.js" },
-      { pattern: "dist/coreHttp.browser.js.map", included: false },
-      { pattern: "test/coreHttp.browser.test.js" },
-      { pattern: "test/coreHttp.browser.test.js.map", included: false }
+      { pattern: "dist-test/coreHttp.browser.test.js" },
+      { pattern: "dist-test/coreHttp.browser.test.js.map", included: false }
     ],
 
     // test results reporter to use
@@ -40,7 +39,8 @@ module.exports = function (config: any) {
     autoWatch: false,
 
     // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher, for example:
+    // browsers: ["Chrome", "Firefox", "Edge"],
     browsers: ["ChromeHeadless"],
 
     // Continuous Integration mode
@@ -58,12 +58,16 @@ module.exports = function (config: any) {
       },
       ChromeDebugging: {
         base: "Chrome",
-        flags: [`http://localhost:${defaults.port}/debug.html`, "--auto-open-devtools-for-tabs", "--disable-web-security"]
+        flags: [
+          `http://localhost:${defaults.port}/debug.html`,
+          "--auto-open-devtools-for-tabs",
+          "--disable-web-security"
+        ]
       },
       FirefoxDebugging: {
         base: "Firefox",
         flags: ["-url", `http://localhost:${defaults.port}/debug.html`, "-devtools"]
       }
-    },
+    }
   });
 };

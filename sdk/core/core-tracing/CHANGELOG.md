@@ -1,8 +1,19 @@
 # Release History
 
-## 1.0.0-preview.8 (Unreleased)
+## 1.0.0-beta.1 (Unreleased)
+
+## 1.0.0-preview.9 (2020-08-04)
+
+- Update `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
+
+## 1.0.0-preview.8 (2020-04-28)
 
 - Update `TestSpan` to allow setting span attributes [PR link](https://github.com/Azure/azure-sdk-for-js/pull/6565).
+- [BREAKING] Migrate to OpenTelemetry 0.6 using the new `@opentelemetry/api` package. There were a few breaking changes:
+  - `SpanContext` now requires traceFlags to be set.
+  - `Tracer` has removed `recordSpanData`, `getBinaryFormat`, and `getHttpTextFormat`.
+  - `Tracer.getCurrentSpan` returns `undefined` instead of `null` when unset.
+  - `Link` objects renamed `spanContext` property to `context`.
 
 ## 1.0.0-preview.7 (2019-12-03)
 

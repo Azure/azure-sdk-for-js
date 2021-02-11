@@ -28,23 +28,23 @@ export class Topics {
   }
 
   /**
-   * Get properties of a topic
-   * @summary Get a topic
+   * Get properties of a topic.
+   * @summary Get a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsGetResponse>
    */
   get(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param callback The callback
    */
   get(resourceGroupName: string, topicName: string, callback: msRest.ServiceCallback<Models.Topic>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -62,10 +62,10 @@ export class Topics {
 
   /**
    * Asynchronously creates a new topic with the specified parameters.
-   * @summary Create a topic
+   * @summary Create a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
-   * @param topicInfo Topic information
+   * @param topicName Name of the topic.
+   * @param topicInfo Topic information.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsCreateOrUpdateResponse>
    */
@@ -75,10 +75,10 @@ export class Topics {
   }
 
   /**
-   * Delete existing topic
-   * @summary Delete a topic
+   * Delete existing topic.
+   * @summary Delete a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -89,10 +89,10 @@ export class Topics {
 
   /**
    * Asynchronously updates a topic with the specified parameters.
-   * @summary Update a topic
+   * @summary Update a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
-   * @param topicUpdateParameters Topic update information
+   * @param topicName Name of the topic.
+   * @param topicUpdateParameters Topic update information.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsUpdateResponse>
    */
@@ -102,8 +102,8 @@ export class Topics {
   }
 
   /**
-   * List all the topics under an Azure subscription
-   * @summary List topics under an Azure subscription
+   * List all the topics under an Azure subscription.
+   * @summary List topics under an Azure subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListBySubscriptionResponse>
    */
@@ -127,8 +127,8 @@ export class Topics {
   }
 
   /**
-   * List all the topics under a resource group
-   * @summary List topics under a resource group
+   * List all the topics under a resource group.
+   * @summary List topics under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListByResourceGroupResponse>
@@ -156,23 +156,23 @@ export class Topics {
   }
 
   /**
-   * List the two keys used to publish to a topic
-   * @summary List keys for a topic
+   * List the two keys used to publish to a topic.
+   * @summary List keys for a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListSharedAccessKeysResponse>
    */
   listSharedAccessKeys(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsListSharedAccessKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param callback The callback
    */
   listSharedAccessKeys(resourceGroupName: string, topicName: string, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -189,26 +189,26 @@ export class Topics {
   }
 
   /**
-   * Regenerate a shared access key for a topic
-   * @summary Regenerate key for a topic
+   * Regenerate a shared access key for a topic.
+   * @summary Regenerate key for a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
-   * @param regenerateKeyRequest Request body to regenerate key
+   * @param topicName Name of the topic.
+   * @param regenerateKeyRequest Request body to regenerate key.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsRegenerateKeyResponse>
    */
   regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, options?: msRest.RequestOptionsBase): Promise<Models.TopicsRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
-   * @param regenerateKeyRequest Request body to regenerate key
+   * @param topicName Name of the topic.
+   * @param regenerateKeyRequest Request body to regenerate key.
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
-   * @param regenerateKeyRequest Request body to regenerate key
+   * @param topicName Name of the topic.
+   * @param regenerateKeyRequest Request body to regenerate key.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -226,29 +226,29 @@ export class Topics {
   }
 
   /**
-   * List event types for a topic
-   * @summary List topic event types
+   * List event types for a topic.
+   * @summary List topic event types.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param providerNamespace Namespace of the provider of the topic
-   * @param resourceTypeName Name of the topic type
-   * @param resourceName Name of the topic
+   * @param providerNamespace Namespace of the provider of the topic.
+   * @param resourceTypeName Name of the topic type.
+   * @param resourceName Name of the topic.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListEventTypesResponse>
    */
   listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsListEventTypesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param providerNamespace Namespace of the provider of the topic
-   * @param resourceTypeName Name of the topic type
-   * @param resourceName Name of the topic
+   * @param providerNamespace Namespace of the provider of the topic.
+   * @param resourceTypeName Name of the topic type.
+   * @param resourceName Name of the topic.
    * @param callback The callback
    */
   listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param providerNamespace Namespace of the provider of the topic
-   * @param resourceTypeName Name of the topic type
-   * @param resourceName Name of the topic
+   * @param providerNamespace Namespace of the provider of the topic.
+   * @param resourceTypeName Name of the topic type.
+   * @param resourceName Name of the topic.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -268,10 +268,10 @@ export class Topics {
 
   /**
    * Asynchronously creates a new topic with the specified parameters.
-   * @summary Create a topic
+   * @summary Create a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
-   * @param topicInfo Topic information
+   * @param topicName Name of the topic.
+   * @param topicInfo Topic information.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -288,10 +288,10 @@ export class Topics {
   }
 
   /**
-   * Delete existing topic
-   * @summary Delete a topic
+   * Delete existing topic.
+   * @summary Delete a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
+   * @param topicName Name of the topic.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -308,10 +308,10 @@ export class Topics {
 
   /**
    * Asynchronously updates a topic with the specified parameters.
-   * @summary Update a topic
+   * @summary Update a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the topic
-   * @param topicUpdateParameters Topic update information
+   * @param topicName Name of the topic.
+   * @param topicUpdateParameters Topic update information.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -328,8 +328,8 @@ export class Topics {
   }
 
   /**
-   * List all the topics under an Azure subscription
-   * @summary List topics under an Azure subscription
+   * List all the topics under an Azure subscription.
+   * @summary List topics under an Azure subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListBySubscriptionNextResponse>
@@ -357,8 +357,8 @@ export class Topics {
   }
 
   /**
-   * List all the topics under a resource group
-   * @summary List topics under a resource group
+   * List all the topics under a resource group.
+   * @summary List topics under a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListByResourceGroupNextResponse>
@@ -626,6 +626,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {},
     201: {
       bodyMapper: Mappers.Topic
     },

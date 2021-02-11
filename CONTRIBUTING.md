@@ -14,7 +14,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 # How to contribute to the Azure SDK for Javascript
 
-There are many ways that you can contribute to the Azure Event Hubs client project:
+There are many ways that you can contribute to the Azure SDK for JavaScript project:
 
 - Submit a bug
 - Submit a code fix for a bug
@@ -39,11 +39,11 @@ If your contribution is significantly big it is better to first check with the p
 
 ## Project orchestration
 
-This project uses [Rush](https://rushjs.io) to manage our many Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
+This project uses [Rush](https://rushjs.io) to manage many of our Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
 
-While you
-can continue to contribute to the project using the standard `npm` workflow, adopting Rush will provide you many benefits:
+Rush provides many benefits:
 
+- Some of our devDependencies are not published to the public registry (e.g. our ESLint plugin), and Rush is configured to install them correctly.
 - Your local build results will match what occurs on our build server, since the build server uses Rush to build the SDK.
 - Rush will ensure that all libraries use the same versions of a given dependency, making it easier to reason about our dependency graph and reducing bundle size.
 - Rush uses [PNPM](https://pnpm.js.org) to install all dependencies across the SDK. Together they solve problems involving [phantom dependencies](https://rushjs.io/pages/advanced/phantom_deps/) and [NPM doppelgangers](https://rushjs.io/pages/advanced/npm_doppelgangers/). The way PNPM lays out packages also ensures that you can never accidentally use a dependency you don't directly declare in your package.json.
@@ -51,11 +51,25 @@ can continue to contribute to the project using the standard `npm` workflow, ado
 - When a change is made in a local dependency, Rush will detect that the dependency is dirty and will rebuild it if you attempt to build a project that consumes that dependency.
 - Rush runs project tasks in parallel, subject to the inter-project dependencies that it detects. It also performs incremental builds by default, not rebuilding anything unnecessary (unless you tell it to).
 
+Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/master/rush.json). Packages not managed by Rush can still be managed using `npm`.
+
 ## Setting up your environment
 
-Want to get started hacking on the code? Super! Follow these instructions to get up and running.
+Want to get started hacking on the code? Great! Keep reading.
 
-First, make sure you have the prerequisites installed and available on your `$PATH`:
+### Using Visual Studio Code
+
+We love [Visual Studio Code](https://code.visualstudio.com/) for many reasons, mainly:
+
+- You can debug JavaScript/TypeScript code right away with [automatic debugging configuration](https://code.visualstudio.com/updates/v1_45#_automatic-debug-configurations).
+- You can use it with GitHub's [Codespaces](https://visualstudio.microsoft.com/services/github-codespaces/) to develop inside a docker container that has all the prerequisites.
+- You get [excellent support for TypeScript](https://code.visualstudio.com/Docs/languages/typescript).
+
+### Prerequisites
+
+With GitHub's Codespaces, the container already has all prerequisites installed. You can create a codespace in Visual Studio Code by following the instructions [here](https://docs.github.com/en/free-pro-team@latest/github/developing-online-with-codespaces/using-codespaces-in-visual-studio-code).
+
+If you prefer to setup your own environment instead, make sure you have these prerequisites installed and available on your `$PATH`:
 
 - Git
 - Node 8.x or higher
@@ -64,39 +78,26 @@ First, make sure you have the prerequisites installed and available on your `$PA
   - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
   - If you're unable to install a global tool, you can instead call the wrapper script `node <repo root>/common/scripts/install-run-rush.js` any time the guide instructs you to run `rush`. The wrapper script will install a managed copy of Rush in a temporary directory for you.
 
-Next, get the code:
+### Building our repository
 
 1. Fork this repo
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
+
+To build packages managed by Rush:
+
 4. Install and link all dependencies (`rush update`)
+5. Build the code base (`rush rebuild`)
 
-### Making the switch
+To build packages not managed by Rush:
 
-If you have previously worked in this repo using the `npm` workflow, the first time you switch to using Rush you should commit or stash any untracked files and then get back to a clean state by running `rush reset-workspace` before proceeding any further. This will get rid of any latent package-lock files, as well as your existing (incompatible) node_modules directories. You can then proceed down the path outlined below.
+4. Navigate to the package directory as described in our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/policies/repostructure.md)
+5. Install the package dependencies (`npm install`)
+6. Build the package (`npm run build`)
 
-### Warnings for VSCode users
-
-Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
-
-The current version of VSCode for Windows has a bug that may cause a "file locked" error when you run any Rush command that modifies your node_modules directory:
-
-```
-ERROR: Error: Error: EPERM: operation not permitted, mkdir 'C:\XXXXX\node_modules'
-Often this is caused by a file lock from a process such as your text editor, command prompt, or "gulp serve"
-```
-
-This bug is fixed in the Insiders build of VSCode (1.34), and will be included in the next release. Until then, you can resolve this by running the "Typescript: Restart TS server" command from the Command Palette to release the lock on the files.
-
-### Warnings for Windows users
-
-Git for Windows has a bug where repository files may be unintentionally removed by `git clean -df` when a directory is locally linked. Because Rush creates local links between packages, you may encounter this. It's highly recommended to use the `rush reset-workspace` command to get your working directory back to a clean state instead. If you prefer to run `git clean -df` manually, you must first run `rush unlink` so that the operation can be performed safely.
-
-## Inner loop developer workflow with Rush
+## Development Workflows
 
 ### Installing and managing dependencies
-
-Run `rush update` to install the current set of package dependencies in all projects inside the repo.
 
 To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `rush add -p "<packagename>" --caret [--dev]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `rush update` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `rush add -p "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.
 
@@ -120,18 +121,50 @@ If you know your library requires functionality introduced in a newer version of
 
 On the other hand, if you know your library does not work with the existing version of the dependency and you explicitly need an older version, you have a few options. The preferred option would be to update your library so that it works with the existing version of the dependency. If this is not feasible, Rush can be instructed to permit an exception to the "consistent versions" policy. Reach out to a member of the [engineering system team](mailto:azuresdkengsysteam@microsoft.com) to describe your situation and they will be able to help you add the exception.
 
-### Building
+### Building using Rush
 
 Run `rush build` from anywhere in the repo to build any projects that have been modified since the last build.
 Run `rush rebuild` from anywhere in the repo to rebuild all projects from scratch.
 
 Run `rush build -t <packagename>` to build a single project, and all local projects that it depends on. You can pass `-t` multiple times to build multiple projects. This works for `rush rebuild` as well. Keep in mind that Rush refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.
 
-By default, Rush only displays things written to `STDERR`. If you want to see the full output, pass `--verbose` to any of the build commands. This is also true for script commands (see below).
+By default, Rush only displays things written to `STDERR`. If you want to see the full output, pass `--verbose` to any of the build commands.
+
+### Testing
+
+If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`.
+
+By default, these npm scripts run previously recorded tests. The recordings have been generated by using a custom recording library called [test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md). We will examine how to run recorded tests and live tests in the following sections.
+
+#### Recorded tests
+
+Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
+
+#### Live tests
+
+To use the `rushx test` command to run the tests against live resources, you must:
+
+- Set the environment variable `TEST_MODE` to `live`.
+- Have previously created the necessary Azure resources needed by the tests.
+- Set the appropriate environment variables to point to these resources.
+
+The readme file in the `test` folder of each package lists the Azure resources and the environment variables needed.
+
+> Note: Our projects use dotenv to allow you to use `.env` files to set environment variables. Find the `sample.env` file nearest to the project you want to test to see a template of the expected `.env` file.
+
+You can create the necessary Azure resources on your own, or automate this process by using the script called `New-TestResources.ps1` which uses ARM templates defined in a file named `test-resources.json` that exists in each project's folder. Follow the steps in [`Example 1 of New-TestResources.ps1`](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy the live test resources.
+
+#### Regenerating recordings
+
+If you modify the network calls (both the number of calls or their shape) either by changing the tests or source code of the project you're working on, the recordings will need to be re-generated.
+
+Regenerating the recordings has the same requirements as running the live tests. You will be using the same `test` npm script with the environment variables pointing to previously created Azure resources. The only difference is that the `TEST_MODE` environment variable needs to be set to `record`. When this process finishes without errors, the recordings will be updated.
+
+For more information the recorder, please visit the [test-utils-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
 
 ### Other NPM scripts
 
-Most package scripts are exposed as Rush commands. Use `rush <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
+Most package scripts are exposed as Rush commands. Use `rushx <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
 
 All projects have at least the following scripts:
 
@@ -184,9 +217,29 @@ Generally speaking, the following commands are roughly equivalent:
 |                                      | `rushx <scriptname>`                    | Run named script in the current project only                     |
 | `npx <command>`                      | `node_modules/.bin/<command>`           | Run named command provided by installed dependency package       |
 
+### Documentation
+
+We care deeply about the quality of our documentation in order to make the experience of using our SDK smooth and fun. We use [TSDoc](https://tsdoc.org/pages/tags/alpha/) tags to mainly document our methods, classes, and interfaces, and we use [TypeDoc](https://typedoc.org/) to generate the documentation.
+
+In the case where you do not want to generate documentation for a specific definition:
+
+- use `@hidden` if the definition is exported by `src/index.ts`
+- use `@internal` otherwise
+
+To maintain the quality of the documentation, the following two facilities are provided:
+
+- an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
+- the documentation can be generated locally for a particular package using `rushx docs` and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser
+
+TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
+
 ## Onboarding a new library
 
-To add a new library to the repo, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Your new library must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/engineering-system/repo-structure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's package.json must contain the required scripts as documented [above](#other-npm-scripts). Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
+All libraries must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/policies/repostructure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's `package.json` must contain the required scripts as documented [above](#other-npm-scripts).
+
+The repository contains two different sets of libraries, each follows different rules for development and maintaining. The first type is generated automatically from the [swagger specifications](https://github.com/Azure/azure-rest-api-specs) and their code should not be edited by hand. Onboarding such library is just a matter of pushing its auto-generated directory to the right location in the repository.
+
+The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
 Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append `2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
 
@@ -218,3 +271,13 @@ nodeResolve({
   preferBuiltins: false
 }),
 ```
+
+### Package Versioning
+
+For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
+
+### Dev Packages
+
+The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
+
+The daily dev packages are considered volatile and taking dependencies on a dev package should be considered a temporary arrangement.

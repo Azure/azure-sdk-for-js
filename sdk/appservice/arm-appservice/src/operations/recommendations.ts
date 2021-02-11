@@ -27,7 +27,7 @@ export class Recommendations {
   }
 
   /**
-   * List all recommendations for a subscription.
+   * Description for List all recommendations for a subscription.
    * @summary List all recommendations for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListResponse>
@@ -52,7 +52,7 @@ export class Recommendations {
   }
 
   /**
-   * Reset all recommendation opt-out settings for a subscription.
+   * Description for Reset all recommendation opt-out settings for a subscription.
    * @summary Reset all recommendation opt-out settings for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -77,7 +77,8 @@ export class Recommendations {
   }
 
   /**
-   * Disables the specified rule so it will not apply to a subscription in the future.
+   * Description for Disables the specified rule so it will not apply to a subscription in the
+   * future.
    * @summary Disables the specified rule so it will not apply to a subscription in the future.
    * @param name Rule name
    * @param [options] The optional parameters
@@ -106,7 +107,7 @@ export class Recommendations {
   }
 
   /**
-   * Get past recommendations for an app, optionally specified by the time range.
+   * Description for Get past recommendations for an app, optionally specified by the time range.
    * @summary Get past recommendations for an app, optionally specified by the time range.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
@@ -139,7 +140,7 @@ export class Recommendations {
   }
 
   /**
-   * Get all recommendations for an app.
+   * Description for Get all recommendations for an app.
    * @summary Get all recommendations for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the app.
@@ -172,7 +173,7 @@ export class Recommendations {
   }
 
   /**
-   * Disable all recommendations for an app.
+   * Description for Disable all recommendations for an app.
    * @summary Disable all recommendations for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
@@ -209,7 +210,7 @@ export class Recommendations {
   }
 
   /**
-   * Reset all recommendation opt-out settings for an app.
+   * Description for Reset all recommendation opt-out settings for an app.
    * @summary Reset all recommendation opt-out settings for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
@@ -246,7 +247,7 @@ export class Recommendations {
   }
 
   /**
-   * Get a recommendation rule for an app.
+   * Description for Get a recommendation rule for an app.
    * @summary Get a recommendation rule for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
@@ -283,7 +284,7 @@ export class Recommendations {
   }
 
   /**
-   * Disables the specific rule for a web site permanently.
+   * Description for Disables the specific rule for a web site permanently.
    * @summary Disables the specific rule for a web site permanently.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Site name
@@ -324,7 +325,7 @@ export class Recommendations {
   }
 
   /**
-   * Get past recommendations for an app, optionally specified by the time range.
+   * Description for Get past recommendations for an app, optionally specified by the time range.
    * @summary Get past recommendations for an app, optionally specified by the time range.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
@@ -357,7 +358,7 @@ export class Recommendations {
   }
 
   /**
-   * Get all recommendations for an app.
+   * Description for Get all recommendations for an app.
    * @summary Get all recommendations for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
@@ -390,7 +391,7 @@ export class Recommendations {
   }
 
   /**
-   * Disable all recommendations for an app.
+   * Description for Disable all recommendations for an app.
    * @summary Disable all recommendations for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
@@ -423,7 +424,7 @@ export class Recommendations {
   }
 
   /**
-   * Reset all recommendation opt-out settings for an app.
+   * Description for Reset all recommendation opt-out settings for an app.
    * @summary Reset all recommendation opt-out settings for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
@@ -456,7 +457,7 @@ export class Recommendations {
   }
 
   /**
-   * Get a recommendation rule for an app.
+   * Description for Get a recommendation rule for an app.
    * @summary Get a recommendation rule for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
@@ -493,7 +494,7 @@ export class Recommendations {
   }
 
   /**
-   * Disables the specific rule for a web site permanently.
+   * Description for Disables the specific rule for a web site permanently.
    * @summary Disables the specific rule for a web site permanently.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site name
@@ -530,7 +531,7 @@ export class Recommendations {
   }
 
   /**
-   * List all recommendations for a subscription.
+   * Description for List all recommendations for a subscription.
    * @summary List all recommendations for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -559,7 +560,7 @@ export class Recommendations {
   }
 
   /**
-   * Get past recommendations for an app, optionally specified by the time range.
+   * Description for Get past recommendations for an app, optionally specified by the time range.
    * @summary Get past recommendations for an app, optionally specified by the time range.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -588,7 +589,7 @@ export class Recommendations {
   }
 
   /**
-   * Get all recommendations for an app.
+   * Description for Get all recommendations for an app.
    * @summary Get all recommendations for an app.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -617,7 +618,7 @@ export class Recommendations {
   }
 
   /**
-   * Get past recommendations for an app, optionally specified by the time range.
+   * Description for Get past recommendations for an app, optionally specified by the time range.
    * @summary Get past recommendations for an app, optionally specified by the time range.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -646,7 +647,7 @@ export class Recommendations {
   }
 
   /**
-   * Get all recommendations for an app.
+   * Description for Get all recommendations for an app.
    * @summary Get all recommendations for an app.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -686,7 +687,7 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.featured,
     Parameters.filter,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -709,7 +710,7 @@ const resetAllFiltersOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -717,7 +718,7 @@ const resetAllFiltersOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -731,7 +732,7 @@ const disableRecommendationForSubscriptionOperationSpec: msRest.OperationSpec = 
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -739,7 +740,7 @@ const disableRecommendationForSubscriptionOperationSpec: msRest.OperationSpec = 
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -756,7 +757,7 @@ const listHistoryForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.expiredOnly,
     Parameters.filter,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -783,7 +784,7 @@ const listRecommendedRulesForHostingEnvironmentOperationSpec: msRest.OperationSp
   queryParameters: [
     Parameters.featured,
     Parameters.filter,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -809,7 +810,7 @@ const disableAllForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.environmentName,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -817,7 +818,7 @@ const disableAllForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -833,7 +834,7 @@ const resetAllFiltersForHostingEnvironmentOperationSpec: msRest.OperationSpec = 
   ],
   queryParameters: [
     Parameters.environmentName,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -841,7 +842,7 @@ const resetAllFiltersForHostingEnvironmentOperationSpec: msRest.OperationSpec = 
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -859,7 +860,7 @@ const getRuleDetailsByHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.updateSeen,
     Parameters.recommendationId,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -886,7 +887,7 @@ const disableRecommendationForHostingEnvironmentOperationSpec: msRest.OperationS
   ],
   queryParameters: [
     Parameters.environmentName,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -894,7 +895,7 @@ const disableRecommendationForHostingEnvironmentOperationSpec: msRest.OperationS
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -911,7 +912,7 @@ const listHistoryForWebAppOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.expiredOnly,
     Parameters.filter,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -938,7 +939,7 @@ const listRecommendedRulesForWebAppOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.featured,
     Parameters.filter,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -963,7 +964,7 @@ const disableAllForWebAppOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -971,7 +972,7 @@ const disableAllForWebAppOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -986,7 +987,7 @@ const resetAllFiltersForWebAppOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -994,7 +995,7 @@ const resetAllFiltersForWebAppOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1012,7 +1013,7 @@ const getRuleDetailsByWebAppOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.updateSeen,
     Parameters.recommendationId,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1038,7 +1039,7 @@ const disableRecommendationForSiteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1046,7 +1047,7 @@ const disableRecommendationForSiteOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer

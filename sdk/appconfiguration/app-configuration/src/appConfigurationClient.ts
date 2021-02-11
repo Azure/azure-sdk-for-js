@@ -14,7 +14,8 @@ import {
   systemErrorRetryPolicy,
   ServiceClientCredentials,
   UserAgentOptions,
-  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue
+  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
+  userAgentPolicy
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
@@ -44,18 +45,19 @@ import {
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
-  formatWildcards,
+  formatFiltersAndSelect,
   makeConfigurationSettingEmpty,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   transformKeyValue,
-  formatAcceptDateTime
+  formatAcceptDateTime,
+  formatFieldsForSelect
 } from "./internal/helpers";
-import { tracingPolicy, isNode as coreHttpIsNode } from "@azure/core-http";
+import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import {
-  GetKeyValuesResponse,
-  AppConfigurationOptions as GeneratedAppConfigurationClientOptions
+  AppConfigurationGetKeyValuesResponse,
+  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
 
@@ -65,9 +67,8 @@ const packageName = "azsdk-js-app-configuration";
  * This constant should always be the same as the package.json's version - we use it when forming the
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
- * @ignore
  */
-export const packageVersion = "1.0.0-preview.11";
+export const packageVersion = "1.1.1";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -101,7 +102,6 @@ export interface AppConfigurationClientOptions {
 /**
  * Provides internal configuration options for AppConfigurationClient.
  * @internal
- * @ignore
  */
 export interface InternalAppConfigurationClientOptions extends AppConfigurationClientOptions {
   /**
@@ -109,11 +109,6 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
    * NOTE: this is an internal option, not for general client usage.
    */
   syncTokens?: SyncTokens;
-  /**
-   * Whether we want to run as if we're in node or in the browser.
-   * (currently only affects which name we use for the user agent header)
-   */
-  isNodeOverride?: boolean;
 }
 
 /**
@@ -125,16 +120,16 @@ export class AppConfigurationClient {
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
-   * @param connectionString Connection string needed for a client to connect to Azure.
-   * @param options Options for the AppConfigurationClient.
+   * @param connectionString - Connection string needed for a client to connect to Azure.
+   * @param options - Options for the AppConfigurationClient.
    */
   constructor(connectionString: string, options?: AppConfigurationClientOptions);
   /**
    * Initializes a new instance of the AppConfigurationClient class using
    * a TokenCredential.
-   * @param endpoint The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
-   * @param tokenCredential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param options Options for the AppConfigurationClient.
+   * @param endpoint - The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
+   * @param tokenCredential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param options - Options for the AppConfigurationClient.
    */
   constructor(
     endpoint: string,
@@ -173,11 +168,12 @@ export class AppConfigurationClient {
 
     this.client = new AppConfiguration(
       appConfigCredential,
+      appConfigEndpoint,
       apiVersion,
       getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
     );
 
-    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration", "appconfig");
+    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration");
   }
 
   /**
@@ -188,8 +184,8 @@ export class AppConfigurationClient {
    * ```ts
    * const result = await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
    * ```
-   * @param configurationSetting A configuration setting.
-   * @param options Optional parameters for the request.
+   * @param configurationSetting - A configuration setting.
+   * @param options - Optional parameters for the request.
    */
   addConfigurationSetting(
     configurationSetting: AddConfigurationSettingParam,
@@ -215,8 +211,8 @@ export class AppConfigurationClient {
    * ```ts
    * const deletedSetting = await client.deleteConfigurationSetting({ key: "MyKey", label: "MyLabel" });
    * ```
-   * @param id The id of the configuration setting to delete.
-   * @param options Optional parameters for the request (ex: etag, label)
+   * @param id - The id of the configuration setting to delete.
+   * @param options - Optional parameters for the request (ex: etag, label)
    */
   deleteConfigurationSetting(
     id: ConfigurationSettingId,
@@ -241,19 +237,19 @@ export class AppConfigurationClient {
    * ```ts
    * const setting = await client.getConfigurationSetting({ key: "MyKey", label: "MyLabel" });
    * ```
-   * @param id The id of the configuration setting to get.
-   * @param options Optional parameters for the request.
+   * @param id - The id of the configuration setting to get.
+   * @param options - Optional parameters for the request.
    */
   async getConfigurationSetting(
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    return await this.spanner.trace("getConfigurationSetting", opts, async (newOptions) => {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    return this.spanner.trace("getConfigurationSetting", requestOptions, async (newOptions) => {
       const originalResponse = await this.client.getKeyValue(id.key, {
-        label: id.label,
-        select: newOptions.fields,
         ...newOptions,
+        label: id.label,
+        select: formatFieldsForSelect(options.fields),
         ...formatAcceptDateTime(options),
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
@@ -283,9 +279,9 @@ export class AppConfigurationClient {
    *
    * Example code:
    * ```ts
-   * const allSettingsWithLabel = await client.listConfigurationSettings({ labels: [ "MyLabel" ] });
+   * const allSettingsWithLabel = client.listConfigurationSettings({ labels: [ "MyLabel" ] });
    * ```
-   * @param options Optional parameters for the request.
+   * @param options - Optional parameters for the request.
    */
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {}
@@ -320,15 +316,15 @@ export class AppConfigurationClient {
   private async *listConfigurationSettingsByPage(
     options: ListConfigurationSettingsOptions = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
-    const opts = operationOptionsToRequestOptionsBase(options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
     let currentResponse = await this.spanner.trace(
       "listConfigurationSettings",
-      opts,
+      requestOptions,
       async (newOptions) => {
         const response = await this.client.getKeyValues({
           ...newOptions,
           ...formatAcceptDateTime(options),
-          ...formatWildcards(newOptions)
+          ...formatFiltersAndSelect(options)
         });
 
         return response;
@@ -340,12 +336,13 @@ export class AppConfigurationClient {
     while (currentResponse.nextLink) {
       currentResponse = await this.spanner.trace(
         "listConfigurationSettings",
-        opts,
+        requestOptions,
         // TODO: same code up above. Unify.
         async (newOptions) => {
           const response = await this.client.getKeyValues({
             ...newOptions,
-            ...formatWildcards(newOptions),
+            ...formatAcceptDateTime(options),
+            ...formatFiltersAndSelect(options),
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
           });
 
@@ -361,7 +358,9 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListConfigurationPageFromResponse(currentResponse: GetKeyValuesResponse) {
+  private *createListConfigurationPageFromResponse(
+    currentResponse: AppConfigurationGetKeyValuesResponse
+  ) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
@@ -374,9 +373,9 @@ export class AppConfigurationClient {
    *
    * Example code:
    * ```ts
-   * const revisionsIterator = await client.listRevisions({ keys: ["MyKey"] });
+   * const revisionsIterator = client.listRevisions({ keys: ["MyKey"] });
    * ```
-   * @param options Optional parameters for the request.
+   * @param options - Optional parameters for the request.
    */
   listRevisions(
     options?: ListRevisionsOptions
@@ -411,16 +410,20 @@ export class AppConfigurationClient {
   private async *listRevisionsByPage(
     options: ListRevisionsOptions = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace("listRevisions", opts, async (newOptions) => {
-      const response = await this.client.getRevisions({
-        ...newOptions,
-        ...formatAcceptDateTime(options),
-        ...formatWildcards(newOptions)
-      });
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    let currentResponse = await this.spanner.trace(
+      "listRevisions",
+      requestOptions,
+      async (newOptions) => {
+        const response = await this.client.getRevisions({
+          ...newOptions,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(newOptions)
+        });
 
-      return response;
-    });
+        return response;
+      }
+    );
 
     yield {
       ...currentResponse,
@@ -428,11 +431,11 @@ export class AppConfigurationClient {
     };
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace("listRevisions", opts, (newOptions) => {
+      currentResponse = await this.spanner.trace("listRevisions", requestOptions, (newOptions) => {
         return this.client.getRevisions({
           ...newOptions,
-          ...formatWildcards(newOptions),
-          select: newOptions.fields,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(options),
           after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
         });
       });
@@ -450,9 +453,9 @@ export class AppConfigurationClient {
 
   /**
    * Sets the value of a key in the Azure App Configuration service, allowing for an optional etag.
-   * @param key The name of the key.
-   * @param configurationSetting A configuration value.
-   * @param options Optional parameters for the request.
+   * @param key - The name of the key.
+   * @param configurationSetting - A configuration value.
+   * @param options - Optional parameters for the request.
    *
    * Example code:
    * ```ts
@@ -463,9 +466,9 @@ export class AppConfigurationClient {
     configurationSetting: SetConfigurationSettingParam,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    return await this.spanner.trace("setConfigurationSetting", opts, async (newOptions) => {
+    return this.spanner.trace("setConfigurationSetting", requestOptions, async (newOptions) => {
       const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
@@ -479,7 +482,7 @@ export class AppConfigurationClient {
 
   /**
    * Sets or clears a key's read-only status.
-   * @param id The id of the configuration setting to modify.
+   * @param id - The id of the configuration setting to modify.
    */
   async setReadOnly(
     id: ConfigurationSettingId,
@@ -513,10 +516,9 @@ export class AppConfigurationClient {
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal
- * @ignore
  */
 export function getGeneratedClientOptions(
-  baseUri: string,
+  endpoint: string,
   syncTokens: SyncTokens,
   internalAppConfigOptions: InternalAppConfigurationClientOptions
 ): GeneratedAppConfigurationClientOptions {
@@ -532,25 +534,23 @@ export function getGeneratedClientOptions(
   );
 
   return {
-    baseUri,
+    endpoint,
     deserializationContentTypes,
     // we'll add in our own custom retry policies
     noRetryPolicy: true,
     requestPolicyFactories: (defaults) => [
       tracingPolicy({ userAgent }),
       syncTokenPolicy(syncTokens),
+      userAgentPolicy({ value: userAgent }),
       ...retryPolicies,
-      ...defaults,
-    ],    
-    generateClientRequestIdHeader: true,
-    userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions.isNodeOverride),
-    userAgent
+      ...defaults
+    ],
+    generateClientRequestIdHeader: true
   };
 }
 
 /**
  * @internal
- * @ignore
  */
 export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): string {
   const appConfigDefaultUserAgent = `${packageName}/${packageVersion} ${getCoreHttpDefaultUserAgentValue()}`;
@@ -560,21 +560,4 @@ export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): s
   }
 
   return `${userSuppliedUserAgent} ${appConfigDefaultUserAgent}`;
-}
-
-/**
- * @ignore
- * @internal
- */
-function getUserAgentHeaderName(isNodeOverride: boolean | undefined): string {
-  const definitelyIsNode = isNodeOverride != null ? isNodeOverride : coreHttpIsNode;
-
-  if (definitelyIsNode) {
-    return "User-Agent";
-  } else {
-    // we only need to override this when we're in the browser
-    // where we're (mostly) not allowed to override the User-Agent
-    // header.
-    return "x-ms-useragent";
-  }
 }

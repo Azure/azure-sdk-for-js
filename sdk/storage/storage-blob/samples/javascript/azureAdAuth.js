@@ -3,6 +3,7 @@
 
 /*
   ONLY AVAILABLE IN NODE.JS RUNTIME
+  If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
 
   Setup :
     - Reference - Authorize access to blobs and queues with Azure Active Directory from a client application 
@@ -44,6 +45,7 @@ async function main() {
   }
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -68,8 +70,6 @@ async function main() {
     .create();
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

@@ -30,6 +30,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const attachedDatabaseConfigurationName: msRest.OperationURLParameter = {
+  parameterPath: "attachedDatabaseConfigurationName",
+  mapper: {
+    required: true,
+    serializedName: "attachedDatabaseConfigurationName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const clusterName: msRest.OperationURLParameter = {
   parameterPath: "clusterName",
   mapper: {
@@ -80,6 +90,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const principalAssignmentName: msRest.OperationURLParameter = {
+  parameterPath: "principalAssignmentName",
+  mapper: {
+    required: true,
+    serializedName: "principalAssignmentName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",

@@ -4,9 +4,8 @@
     "module": "commonjs",
     "outDir": "dist",
     "target": "es5",
-    "lib": ["dom"]
+    "declarationDir": "./types/latest"
   },
-  "compileOnSave": true,
   "exclude": ["node_modules"],
-  "include": ["./lib/**/*.ts", "./samples/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./samples/**/*.ts", "./test/**/*.ts"]
 }

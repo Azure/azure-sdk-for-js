@@ -1,33 +1,31 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { EventHubReceiver } from "./eventHubReceiver";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers.
  * The ReceiveHandler is used to stop receiving more messages.
- * @class ReceiveHandler
+ * @internal
  */
 export class ReceiveHandler {
   /**
-   * @property _receiver  The underlying EventHubReceiver.
-   * @private
+   * The underlying EventHubReceiver.
    */
   private _receiver: EventHubReceiver;
 
   /**
    * Creates an instance of the ReceiveHandler.
-   * @constructor
    * @internal
-   * @param receiver The underlying EventHubReceiver.
+   * @param receiver - The underlying EventHubReceiver.
    */
   constructor(receiver: EventHubReceiver) {
     this._receiver = receiver;
   }
 
   /**
-   * @property The partitionId from which the handler is receiving events.
+   * The partitionId from which the handler is receiving events.
    * @readonly
    */
   get partitionId(): string | undefined {
@@ -35,7 +33,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property The consumer group from which the handler is receiving events.
+   * The consumer group from which the handler is receiving events.
    * @readonly
    */
   get consumerGroup(): string | undefined {
@@ -43,7 +41,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property Indicates whether the receiver is connected/open.
+   * Indicates whether the receiver is connected/open.
    * `true` - is open; `false` otherwise.
    * @readonly
    */
@@ -54,7 +52,7 @@ export class ReceiveHandler {
   /**
    * Stops the underlying EventHubReceiver from receiving more messages.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async stop(): Promise<void> {
     if (this._receiver) {
@@ -62,10 +60,10 @@ export class ReceiveHandler {
         await this._receiver.close();
       } catch (err) {
         logger.warning(
-          "An error occurred while stopping the receiver '%s' with address '%s': %O",
+          "An error occurred while stopping the receiver '%s' with address '%s': %s",
           this._receiver.name,
           this._receiver.address,
-          err
+          `${err?.name}: ${err?.message}`
         );
         logErrorStackTrace(err);
       }

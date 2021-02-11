@@ -11,7 +11,8 @@
     "import-blacklist": [true, "assert", "util"],
     "no-unnecessary-class": true,
     "no-invalid-this": true,
-    "no-console": false
+    "no-console": false,
+    "no-bitwise": false
   },
   "linterOptions": {
     "exclude": ["*.json"]

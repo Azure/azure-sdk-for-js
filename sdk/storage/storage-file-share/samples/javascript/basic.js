@@ -16,7 +16,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Use AnonymousCredential when url already includes a SAS signature
@@ -49,13 +49,14 @@ async function main() {
 
   // Create a file
   const content = "Hello World!";
+  const contentByteLength = Buffer.byteLength(content);
   const fileName = "newfile" + new Date().getTime();
   const fileClient = directoryClient.getFileClient(fileName);
-  await fileClient.create(content.length);
+  await fileClient.create(contentByteLength);
   console.log(`Create file ${fileName} successfully`);
 
   // Upload file range
-  await fileClient.uploadRange(content, 0, content.length);
+  await fileClient.uploadRange(content, 0, contentByteLength);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
 
   // List directories and files
@@ -74,7 +75,9 @@ async function main() {
   // In browsers, get downloaded data by accessing downloadFileResponse.contentAsBlob
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
+    `Downloaded file content: ${(
+      await streamToBuffer(downloadFileResponse.readableStreamBody)
+    ).toString()}`
   );
 
   // Delete share
@@ -82,21 +85,19 @@ async function main() {
   console.log(`deleted share ${shareName}`);
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream) {
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

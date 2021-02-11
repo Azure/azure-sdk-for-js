@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   BaseRequestPolicy,
   deserializationPolicy,
@@ -13,13 +16,13 @@ import {
   bearerTokenAuthenticationPolicy,
   isNode
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";
-import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
+import { attachCredential, getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
 import {
   HeaderConstants,
   BATCH_MAX_REQUEST,
@@ -332,7 +335,10 @@ export class BlobBatch {
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
             tier,
-            { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+            {
+              ...options,
+              tracingOptions: { ...options!.tracingOptions, spanOptions }
+            }
           );
         }
       );
@@ -365,7 +371,7 @@ class InnerBatchRequest {
     this.operationCount = 0;
     this.body = "";
 
-    let tempGuid = generateUuid();
+    const tempGuid = generateUuid();
 
     // batch_{batchid}
     this.boundary = `batch_${tempGuid}`;
@@ -382,7 +388,7 @@ class InnerBatchRequest {
   }
 
   /**
-   * Create pipeline to assemble sub requests. The idea here is to use exising
+   * Create pipeline to assemble sub requests. The idea here is to use existing
    * credential and serialization/deserialization components, with additional policies to
    * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
@@ -392,14 +398,17 @@ class InnerBatchRequest {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential
   ): Pipeline {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
-    const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserilizationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
-    let factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
+    const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserializationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
+    const factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
 
     factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer
     factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
     if (!isAnonymousCreds) {
       factories[2] = isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+        ? attachCredential(
+            bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+            credential
+          )
         : credential;
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire

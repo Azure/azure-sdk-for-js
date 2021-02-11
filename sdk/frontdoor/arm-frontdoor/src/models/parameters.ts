@@ -20,27 +20,105 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const aggregationInterval: msRest.OperationQueryParameter = {
+  parameterPath: "aggregationInterval",
   mapper: {
     required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-08-01',
+    serializedName: "aggregationInterval",
     type: {
       name: "String"
     }
   }
 };
-export const backendPoolName: msRest.OperationURLParameter = {
-  parameterPath: "backendPoolName",
+export const apiVersion0: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
     required: true,
-    serializedName: "backendPoolName",
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-11-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-01-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-10-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const country: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "country"
+  ],
+  mapper: {
+    serializedName: "country",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const endDateTimeUTC0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "endDateTimeUTC"
+  ],
+  mapper: {
+    serializedName: "endDateTimeUTC",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const endDateTimeUTC1: msRest.OperationQueryParameter = {
+  parameterPath: "endDateTimeUTC",
+  mapper: {
+    required: true,
+    serializedName: "endDateTimeUTC",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+export const endpoint: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "endpoint"
+  ],
+  mapper: {
+    serializedName: "endpoint",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const experimentName: msRest.OperationURLParameter = {
+  parameterPath: "experimentName",
+  mapper: {
+    required: true,
+    serializedName: "experimentName",
     constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$/
+      Pattern: /^[a-zA-Z0-9_\-\(\)\.]*[^\.]$/
     },
     type: {
       name: "String"
@@ -77,36 +155,6 @@ export const frontendEndpointName: msRest.OperationURLParameter = {
     }
   }
 };
-export const healthProbeSettingsName: msRest.OperationURLParameter = {
-  parameterPath: "healthProbeSettingsName",
-  mapper: {
-    required: true,
-    serializedName: "healthProbeSettingsName",
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const loadBalancingSettingsName: msRest.OperationURLParameter = {
-  parameterPath: "loadBalancingSettingsName",
-  mapper: {
-    required: true,
-    serializedName: "loadBalancingSettingsName",
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -131,7 +179,20 @@ export const policyName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName0: msRest.OperationURLParameter = {
+export const profileName: msRest.OperationURLParameter = {
+  parameterPath: "profileName",
+  mapper: {
+    required: true,
+    serializedName: "profileName",
+    constraints: {
+      Pattern: /^[a-zA-Z0-9_\-\(\)\.]*[^\.]$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -146,21 +207,11 @@ export const resourceGroupName0: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName1: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const rulesEngineName: msRest.OperationURLParameter = {
+  parameterPath: "rulesEngineName",
   mapper: {
     required: true,
-    serializedName: "resourceGroupName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const routingRuleName: msRest.OperationURLParameter = {
-  parameterPath: "routingRuleName",
-  mapper: {
-    required: true,
-    serializedName: "routingRuleName",
+    serializedName: "rulesEngineName",
     constraints: {
       MaxLength: 90,
       MinLength: 1,
@@ -171,11 +222,31 @@ export const routingRuleName: msRest.OperationURLParameter = {
     }
   }
 };
+export const startDateTimeUTC: msRest.OperationQueryParameter = {
+  parameterPath: "startDateTimeUTC",
+  mapper: {
+    required: true,
+    serializedName: "startDateTimeUTC",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const timeseriesType: msRest.OperationQueryParameter = {
+  parameterPath: "timeseriesType",
+  mapper: {
+    required: true,
+    serializedName: "timeseriesType",
     type: {
       name: "String"
     }

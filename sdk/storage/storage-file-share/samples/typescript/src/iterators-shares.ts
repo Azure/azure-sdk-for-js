@@ -9,7 +9,7 @@ import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-f
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -17,7 +17,7 @@ export async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const serviceClient = new ShareServiceClient(
@@ -42,7 +42,7 @@ export async function main() {
 
   // 3. Generator syntax .next()
   i = 1;
-  iter = await serviceClient.listShares();
+  iter = serviceClient.listShares();
   let shareItem = await iter.next();
   while (!shareItem.done) {
     console.log(`Share ${i++}: ${shareItem.value.name}`);

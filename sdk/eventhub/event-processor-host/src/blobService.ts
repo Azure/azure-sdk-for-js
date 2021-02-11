@@ -12,7 +12,7 @@ import { validateType, getStorageError } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
 import path from "path";
 /**
- * @ignore
+ * @hidden
  */
 export interface CreateContainerResult {
   created: StorageBlobService.ContainerResult;
@@ -20,7 +20,7 @@ export interface CreateContainerResult {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum LeaseState {
   /**
@@ -55,7 +55,7 @@ export enum LeaseState {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export class BlobService {
   private _hostName: string;
@@ -144,7 +144,7 @@ export class BlobService {
             containerName,
             result.exists
           );
-          resolve(result.exists);
+          resolve(Boolean(result.exists));
         }
       });
     });
@@ -177,7 +177,7 @@ export class BlobService {
             containerName,
             result.exists
           );
-          resolve(result.exists);
+          resolve(Boolean(result.exists));
         }
       });
     });
@@ -407,32 +407,27 @@ export class BlobService {
         partitionId,
         blobPath
       );
-      this._storageBlobService.getBlobToText(
-        containerName,
-        blobPath,
-        options,
-        (error, text, result) => {
-          if (error) {
-            log.error(
-              "[%s] [%s] An error occurred while getting content from blobPath '%s': %O.",
-              this._hostName,
-              partitionId,
-              blobPath,
-              getStorageError(error)
-            );
-            reject(error);
-          } else {
-            log.blobService(
-              "[%s] [%s] Successfully, fetched blob content '%s' for blobPath '%s'.",
-              this._hostName,
-              partitionId,
-              text,
-              blobPath
-            );
-            resolve(text);
-          }
+      this._storageBlobService.getBlobToText(containerName, blobPath, options, (error, text) => {
+        if (error) {
+          log.error(
+            "[%s] [%s] An error occurred while getting content from blobPath '%s': %O.",
+            this._hostName,
+            partitionId,
+            blobPath,
+            getStorageError(error)
+          );
+          reject(error);
+        } else {
+          log.blobService(
+            "[%s] [%s] Successfully, fetched blob content '%s' for blobPath '%s'.",
+            this._hostName,
+            partitionId,
+            text,
+            blobPath
+          );
+          resolve(text);
         }
-      );
+      });
     });
   }
 

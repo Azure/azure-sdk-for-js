@@ -29,23 +29,23 @@ export class Policies {
 
   /**
    * Lists all of the protection policies within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesListResponse>
    */
   list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoliciesListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.PoliciesListResponse> {
+  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>): void;
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>): Promise<Models.PoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,26 +57,26 @@ export class Policies {
 
   /**
    * Retrieve protection policy with specified name within a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesGetResponse>
    */
   get(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoliciesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
    * @param callback The callback
    */
-  get(resourceGroupName: string, policyName: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): void;
+  get(resourceGroupName: string, policyName: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): void;
-  get(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): Promise<Models.PoliciesGetResponse> {
+  get(resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
+  get(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): Promise<Models.PoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,45 +88,22 @@ export class Policies {
   }
 
   /**
-   * Creates or update policy with specified ruleset name within a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
+   * Create or update policy with specified rule set name within a resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
    * @param parameters Policy to be created.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy1, options?: msRest.RequestOptionsBase): Promise<Models.PoliciesCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
-   * @param parameters Policy to be created.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy1, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
-   * @param parameters Policy to be created.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy1, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): void;
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy1, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): Promise<Models.PoliciesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        policyName,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.PoliciesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options?: msRest.RequestOptionsBase): Promise<Models.PoliciesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,policyName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoliciesCreateOrUpdateResponse>;
   }
 
   /**
    * Deletes Policy
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -136,9 +113,29 @@ export class Policies {
   }
 
   /**
+   * Create or update policy with specified rule set name within a resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
+   * @param parameters Policy to be created.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        policyName,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * Deletes Policy
-   * @param resourceGroupName The name of the resource group.
-   * @param policyName The name of the resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the Web Application Firewall Policy.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -164,14 +161,14 @@ export class Policies {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.PoliciesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyList>): Promise<Models.PoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -188,18 +185,18 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
   urlParameters: [
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.WebApplicationFirewallPolicyListResult
+      bodyMapper: Mappers.WebApplicationFirewallPolicyList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -212,19 +209,19 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
   urlParameters: [
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.policyName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.WebApplicationFirewallPolicy1
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -233,16 +230,16 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
   urlParameters: [
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.policyName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -250,16 +247,19 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.WebApplicationFirewallPolicy1,
+      ...Mappers.WebApplicationFirewallPolicy,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.WebApplicationFirewallPolicy1
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
     },
     201: {
-      bodyMapper: Mappers.WebApplicationFirewallPolicy1
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
+    },
+    202: {
+      bodyMapper: Mappers.WebApplicationFirewallPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -272,12 +272,12 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
   urlParameters: [
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.policyName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -305,7 +305,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.WebApplicationFirewallPolicyListResult
+      bodyMapper: Mappers.WebApplicationFirewallPolicyList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

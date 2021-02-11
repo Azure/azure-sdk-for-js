@@ -9,7 +9,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
@@ -57,7 +57,7 @@ export async function main() {
 
     // Create a new block blob
     console.log("// Create a new block blob...");
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully,`);
     console.log(
       `requestId - ${uploadBlobResponse.requestId}, statusCode - ${uploadBlobResponse._response.status}\n`
@@ -69,7 +69,7 @@ export async function main() {
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
   const blobProperties = await blockBlobClient.getProperties();
   console.log(
-    `getProperties() on blob - ${blobName}, blobType = ${blobProperties.blobType}, accesTier = ${blobProperties.accessTier} `
+    `getProperties() on blob - ${blobName}, blobType = ${blobProperties.blobType}, accessTier = ${blobProperties.accessTier} `
   );
   console.log(
     `requestId - ${blobProperties.requestId}, statusCode - ${blobProperties._response.status}\n`
@@ -91,9 +91,9 @@ export async function main() {
     blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const downloadBlockBlobResponse = await blockBlobClient.download();
     console.log(
-      `Downloaded blob content - ${await streamToString(
-        downloadBlockBlobResponse.readableStreamBody!
-      )},`
+      `Downloaded blob content - ${(
+        await streamToBuffer(downloadBlockBlobResponse.readableStreamBody!)
+      ).toString()},`
     );
     console.log(
       `requestId - ${downloadBlockBlobResponse.requestId}, statusCode - ${downloadBlockBlobResponse._response.status}\n`
@@ -138,15 +138,15 @@ export async function main() {
   }
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream: NodeJS.ReadableStream) {
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const chunks: string[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });

@@ -7,26 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Client Unit Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-            "args": [
-                "-u",
-                "bdd",
-                "--timeout",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/test-dist/index.js"
-            ],
-            "internalConsoleOptions": "openOnSessionStart",
-            "preLaunchTask": "npm: build:test",
-            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Client Example",
+            "name": "Current JS file",
             "program": "${file}",
-            "preLaunchTask": "npm: build:samples",
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"
             ],

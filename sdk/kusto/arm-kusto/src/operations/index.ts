@@ -9,6 +9,9 @@
  */
 
 export * from "./clusters";
+export * from "./clusterPrincipalAssignments";
 export * from "./databases";
+export * from "./databasePrincipalAssignments";
+export * from "./attachedDatabaseConfigurations";
 export * from "./dataConnections";
 export * from "./operations";

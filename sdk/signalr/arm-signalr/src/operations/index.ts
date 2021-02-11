@@ -10,4 +10,6 @@
 
 export * from "./operations";
 export * from "./signalR";
+export * from "./signalRPrivateEndpointConnections";
+export * from "./signalRPrivateLinkResources";
 export * from "./usages";

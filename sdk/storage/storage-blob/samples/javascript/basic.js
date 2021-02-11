@@ -20,6 +20,7 @@ async function main() {
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -61,7 +62,7 @@ async function main() {
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
@@ -76,7 +77,7 @@ async function main() {
   const downloadBlockBlobResponse = await blockBlobClient.download(0);
   console.log(
     "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody)
+    (await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)).toString()
   );
 
   // Delete container
@@ -85,21 +86,19 @@ async function main() {
   console.log("deleted container");
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream) {
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

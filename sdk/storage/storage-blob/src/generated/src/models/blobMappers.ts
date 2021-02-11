@@ -7,6 +7,8 @@
  */
 
 export {
+  ArrowConfiguration,
+  ArrowField,
   BlobAbortCopyFromURLHeaders,
   BlobAcquireLeaseHeaders,
   BlobBreakLeaseHeaders,
@@ -18,16 +20,27 @@ export {
   BlobGetAccessControlHeaders,
   BlobGetAccountInfoHeaders,
   BlobGetPropertiesHeaders,
+  BlobGetTagsHeaders,
+  BlobQueryHeaders,
   BlobReleaseLeaseHeaders,
   BlobRenameHeaders,
   BlobRenewLeaseHeaders,
   BlobSetAccessControlHeaders,
+  BlobSetExpiryHeaders,
   BlobSetHTTPHeadersHeaders,
   BlobSetMetadataHeaders,
+  BlobSetTagsHeaders,
   BlobSetTierHeaders,
   BlobStartCopyFromURLHeaders,
+  BlobTag,
+  BlobTags,
   BlobUndeleteHeaders,
   DataLakeStorageError,
   DataLakeStorageErrorError,
+  DelimitedTextConfiguration,
+  JsonTextConfiguration,
+  QueryFormat,
+  QueryRequest,
+  QuerySerialization,
   StorageError
 } from "../models/mappers";

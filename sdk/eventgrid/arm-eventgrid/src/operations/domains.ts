@@ -28,23 +28,23 @@ export class Domains {
   }
 
   /**
-   * Get properties of a domain
-   * @summary Get a domain
+   * Get properties of a domain.
+   * @summary Get a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsGetResponse>
    */
   get(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param callback The callback
    */
   get(resourceGroupName: string, domainName: string, callback: msRest.ServiceCallback<Models.Domain>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -62,10 +62,10 @@ export class Domains {
 
   /**
    * Asynchronously creates or updates a new domain with the specified parameters.
-   * @summary Create or update a domain
+   * @summary Create or update a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainInfo Domain information
+   * @param domainName Name of the domain.
+   * @param domainInfo Domain information.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsCreateOrUpdateResponse>
    */
@@ -75,10 +75,10 @@ export class Domains {
   }
 
   /**
-   * Delete existing domain
-   * @summary Delete a domain
+   * Delete existing domain.
+   * @summary Delete a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -89,10 +89,10 @@ export class Domains {
 
   /**
    * Asynchronously updates a domain with the specified parameters.
-   * @summary Update a domain
+   * @summary Update a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainUpdateParameters Domain update information
+   * @param domainName Name of the domain.
+   * @param domainUpdateParameters Domain update information.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsUpdateResponse>
    */
@@ -102,8 +102,8 @@ export class Domains {
   }
 
   /**
-   * List all the domains under an Azure subscription
-   * @summary List domains under an Azure subscription
+   * List all the domains under an Azure subscription.
+   * @summary List domains under an Azure subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListBySubscriptionResponse>
    */
@@ -127,8 +127,8 @@ export class Domains {
   }
 
   /**
-   * List all the domains under a resource group
-   * @summary List domains under a resource group
+   * List all the domains under a resource group.
+   * @summary List domains under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListByResourceGroupResponse>
@@ -156,23 +156,23 @@ export class Domains {
   }
 
   /**
-   * List the two keys used to publish to a domain
-   * @summary List keys for a domain
+   * List the two keys used to publish to a domain.
+   * @summary List keys for a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListSharedAccessKeysResponse>
    */
   listSharedAccessKeys(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListSharedAccessKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param callback The callback
    */
   listSharedAccessKeys(resourceGroupName: string, domainName: string, callback: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -189,26 +189,26 @@ export class Domains {
   }
 
   /**
-   * Regenerate a shared access key for a domain
-   * @summary Regenerate key for a domain
+   * Regenerate a shared access key for a domain.
+   * @summary Regenerate key for a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param regenerateKeyRequest Request body to regenerate key
+   * @param domainName Name of the domain.
+   * @param regenerateKeyRequest Request body to regenerate key.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsRegenerateKeyResponse>
    */
   regenerateKey(resourceGroupName: string, domainName: string, regenerateKeyRequest: Models.DomainRegenerateKeyRequest, options?: msRest.RequestOptionsBase): Promise<Models.DomainsRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param regenerateKeyRequest Request body to regenerate key
+   * @param domainName Name of the domain.
+   * @param regenerateKeyRequest Request body to regenerate key.
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, domainName: string, regenerateKeyRequest: Models.DomainRegenerateKeyRequest, callback: msRest.ServiceCallback<Models.DomainSharedAccessKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param regenerateKeyRequest Request body to regenerate key
+   * @param domainName Name of the domain.
+   * @param regenerateKeyRequest Request body to regenerate key.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -227,10 +227,10 @@ export class Domains {
 
   /**
    * Asynchronously creates or updates a new domain with the specified parameters.
-   * @summary Create or update a domain
+   * @summary Create or update a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainInfo Domain information
+   * @param domainName Name of the domain.
+   * @param domainInfo Domain information.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -247,10 +247,10 @@ export class Domains {
   }
 
   /**
-   * Delete existing domain
-   * @summary Delete a domain
+   * Delete existing domain.
+   * @summary Delete a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
+   * @param domainName Name of the domain.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -267,10 +267,10 @@ export class Domains {
 
   /**
    * Asynchronously updates a domain with the specified parameters.
-   * @summary Update a domain
+   * @summary Update a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainUpdateParameters Domain update information
+   * @param domainName Name of the domain.
+   * @param domainUpdateParameters Domain update information.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -287,8 +287,8 @@ export class Domains {
   }
 
   /**
-   * List all the domains under an Azure subscription
-   * @summary List domains under an Azure subscription
+   * List all the domains under an Azure subscription.
+   * @summary List domains under an Azure subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListBySubscriptionNextResponse>
@@ -316,8 +316,8 @@ export class Domains {
   }
 
   /**
-   * List all the domains under a resource group
-   * @summary List domains under a resource group
+   * List all the domains under a resource group.
+   * @summary List domains under a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListByResourceGroupNextResponse>
@@ -558,6 +558,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {},
     201: {
       bodyMapper: Mappers.Domain
     },

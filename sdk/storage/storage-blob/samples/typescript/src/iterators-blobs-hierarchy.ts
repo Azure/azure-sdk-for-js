@@ -9,7 +9,7 @@ import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -17,7 +17,7 @@ export async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Create a container
@@ -32,44 +32,45 @@ export async function main() {
 
   // create some blobs with delimiters in names
   const content = "hello";
+  const contentByteLength = Buffer.byteLength(content);
   let blobName = "a1";
   let blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  let uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  let uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "a2";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix1/b1";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix1/b2";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix2/sub1/c";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix2/sub1/d";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix2/sub1/e";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // 1. List blobs by hierarchy
   console.log("Listing blobs by hierarchy");
-  let iter = await containerClient.listBlobsByHierarchy("/");
+  let iter = containerClient.listBlobsByHierarchy("/");
   for await (const item of iter) {
     if (item.kind === "prefix") {
       console.log(`\tBlobPrefix: ${item.name}`);
@@ -82,7 +83,7 @@ export async function main() {
 
   // 2. Generator syntax .next() and passing a prefix
   console.log("Listing blobs by hierarchy, specifying a prefix");
-  iter = await containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
+  iter = containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
   let entity = await iter.next();
   while (!entity.done) {
     let item = entity.value;

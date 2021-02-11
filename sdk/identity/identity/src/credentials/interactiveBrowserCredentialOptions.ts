@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
 
@@ -20,7 +20,8 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
   /**
    * Specifies whether a redirect or a popup window should be used to
    * initiate the user authentication flow. Possible values are "redirect"
-   * or "popup" (default).
+   * or "popup" (default) for browser and "popup" (default) for node.
+   *
    */
   loginStyle?: BrowserLoginStyle;
 
@@ -40,7 +41,7 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
    * The Azure Active Directory tenant (directory) ID.
    */
   tenantId?: string;
-  
+
   /**
    * The client (application) ID of an App Registration in the tenant.
    */

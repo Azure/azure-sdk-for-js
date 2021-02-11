@@ -1,55 +1,48 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
-import { KVPoller } from "../core-lro-update";
+import { CertificateOperationPollOperation, CertificateOperationState } from "./operation";
+import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
-  CertificateOperationPollOperationState,
-  makeCertificateOperationPollOperation,
-  CertificateOperationState
-} from "./operation";
-import {
-  CertificateOperation,
-  CertificateClientInterface,
-  KeyVaultCertificateWithPolicy
-} from "../../certificatesModels";
+  KeyVaultCertificatePoller,
+  KeyVaultCertificatePollerOptions,
+  cleanState
+} from "../keyVaultCertificatePoller";
 
-export interface CertificateOperationPollerOptions {
-  client: CertificateClientInterface;
-  certificateName: string;
-  requestOptions?: RequestOptionsBase;
-  intervalInMs?: number;
-  resumeFrom?: string;
-}
+export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
 
 /**
- * Class that deletes a poller that waits until a certificate finishes being deleted
+ * Class that creates a poller that waits until a certificate finishes being created
  */
-export class CertificateOperationPoller extends KVPoller<
-  CertificateOperationPollOperationState,
+export class CertificateOperationPoller extends KeyVaultCertificatePoller<
+  CertificateOperationState,
   KeyVaultCertificateWithPolicy
 > {
-  /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
-   * @memberof CertificateOperationPoller
-   */
-  public intervalInMs: number;
-
   constructor(options: CertificateOperationPollerOptions) {
-    const { client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const {
+      vaultUrl,
+      client,
+      certificateName,
+      requestOptions,
+      intervalInMs = 2000,
+      resumeFrom
+    } = options;
 
-    let state: CertificateOperationPollOperationState | undefined;
+    let state: CertificateOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeCertificateOperationPollOperation({
-      ...state,
-      certificateName,
-      requestOptions,
-      client
-    });
+    const operation = new CertificateOperationPollOperation(
+      {
+        ...state,
+        certificateName
+      },
+      vaultUrl,
+      client,
+      requestOptions
+    );
 
     super(operation);
 
@@ -57,33 +50,12 @@ export class CertificateOperationPoller extends KVPoller<
   }
 
   /**
-   * The method used by the poller to wait before attempting to update its operation.
-   * @memberof CertificateOperationPoller
-   */
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
-  }
-
-  /**
-   * Method to get the certificate operation
-   */
-  public getCertificateOperation(): CertificateOperation {
-    return this.operation.state.certificateOperation!;
-  }
-
-  /**
-   * Gets the state of the polling operation
+   * Gets the public state of the polling operation
    */
   public getOperationState(): CertificateOperationState {
-    const state: CertificateOperationState = this.operation.state;
     return {
-      isStarted: state.isStarted,
-      isCompleted: state.isCompleted,
-      isCancelled: state.isCancelled,
-      error: state.error,
-      result: state.result,
-      certificateName: state.certificateName,
-      certificateOperation: state.certificateOperation
+      ...cleanState(this.operation.state),
+      certificateOperation: this.operation.state.certificateOperation
     };
   }
 }

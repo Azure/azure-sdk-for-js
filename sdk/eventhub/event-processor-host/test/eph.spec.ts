@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import os from "os";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import chaiString from "chai-string";

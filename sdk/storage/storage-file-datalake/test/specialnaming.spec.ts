@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // import { DataLakeFileClient } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -5,25 +8,20 @@ import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { getDataLakeServiceClient, setupEnvironment } from "./utils";
+import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 // import { appendToURLPath } from "../src/utils/utils.common";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Special Naming Tests", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
 
-  before(async function() {});
-
-  after(async function() {});
-
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("1container-with-dash");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -31,7 +29,7 @@ describe("Special Naming Tests", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Should work with special container and blob names with spaces", async () => {
@@ -180,7 +178,7 @@ describe("Special Naming Tests", () => {
       await fileSystemClient
         .listPaths({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-          //.replace(/\\/g, "/")
+          // .replace(/\\/g, "/")
         })
         .byPage()
         .next()

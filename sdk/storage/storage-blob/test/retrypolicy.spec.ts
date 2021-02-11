@@ -1,26 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { ContainerClient, RestError } from "../src";
-import { newPipeline, Pipeline } from "../src/Pipeline";
-import { getBSU, setupEnvironment } from "./utils";
+import { ContainerClient, RestError, BlobServiceClient } from "../src";
+import { newPipeline, Pipeline } from "../src";
+import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("RetryPolicy", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -28,7 +31,7 @@ describe("RetryPolicy", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -38,6 +41,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
     const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
@@ -51,6 +55,7 @@ describe("RetryPolicy", () => {
     };
     await injectContainerClient.setMetadata(metadata);
 
+    assert.equal(injectCounter, 1);
     const result = await containerClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
@@ -62,6 +67,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
 
     const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
@@ -123,6 +129,7 @@ describe("RetryPolicy", () => {
       if (injectCounter++ < 1) {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
 
     const url = blobServiceClient.url;
@@ -153,5 +160,31 @@ describe("RetryPolicy", () => {
     }
 
     assert.deepStrictEqual(URLBuilder.parse(finalRequestURL).getHost(), secondaryHost);
+  });
+
+  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {
+    let injectCounter = 0;
+    const injector = new InjectorPolicyFactory(() => {
+      if (injectCounter === 0) {
+        injectCounter++;
+        return new RestError(`Error "Error: Unclosed root tag`, "PARSE_ERROR");
+      }
+      return;
+    });
+    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
+    factories.push(injector);
+    const pipeline = new Pipeline(factories);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
+
+    const metadata = {
+      key0: "val0",
+      keya: "vala",
+      keyb: "valb"
+    };
+    await injectContainerClient.setMetadata(metadata);
+
+    assert.equal(injectCounter, 1);
+    const result = await containerClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
   });
 });

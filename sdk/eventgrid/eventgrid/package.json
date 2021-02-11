@@ -1,58 +1,142 @@
 {
   "name": "@azure/eventgrid",
+  "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "description": "EventGridClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.0.0",
-  "dependencies": {
-    "@azure/ms-rest-azure-js": "^2.0.1",
-    "@azure/ms-rest-js": "^2.0.4",
-    "tslib": "^1.10.0"
-  },
+  "description": "An isomorphic client library for the Azure Event Grid service.",
+  "version": "3.0.0-beta.4",
   "keywords": [
     "node",
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
-  "main": "./dist/eventgrid.js",
-  "module": "./esm/eventGridClient.js",
-  "types": "./esm/eventGridClient.d.ts",
-  "devDependencies": {
-    "typescript": "^3.5.3",
-    "rollup": "^1.18.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "uglify-js": "^3.6.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/eventgrid.d.ts",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "src/**/*.ts",
+    "dist/",
+    "dist-esm/src/",
+    "types/eventgrid.d.ts",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "browser": {
+    "./dist-esm/src/cryptoHelpers.js": "./dist-esm/src/cryptoHelpers.browser.js"
+  },
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/eventgrid.js.map'\" -o ./dist/eventgrid.min.js ./dist/eventgrid.js",
-    "prepack": "npm install && npm run build"
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:autorest": "autorest ./swagger/README.md --typescript --v3",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
+    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
+    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/**/*.spec.js",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-test/index.node.js",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "autoPublish": false,
+  "dependencies": {
+    "@azure/core-auth": "^1.2.0",
+    "@azure/core-client": "1.0.0-beta.1",
+    "@azure/core-https": "1.0.0-beta.1",
+    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/logger": "^1.0.0",
+    "@opentelemetry/api": "^0.10.2",
+    "tslib": "^2.0.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/service-bus": "^7.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
+    "@types/chai": "^4.1.6",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^8.0.0",
+    "@types/sinon": "^9.0.4",
+    "@types/uuid": "^8.0.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.15.0",
+    "karma": "^5.1.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.8",
+    "mocha": "^7.1.1",
+    "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^14.0.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
+    "rollup-plugin-shim": "^1.0.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
+    "sinon": "^9.0.2",
+    "source-map-support": "^0.5.9",
+    "ts-node": "^8.3.0",
+    "typescript": "4.1.2",
+    "typedoc": "0.15.2"
+  }
 }

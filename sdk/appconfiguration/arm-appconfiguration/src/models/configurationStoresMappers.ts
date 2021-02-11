@@ -13,9 +13,18 @@ export {
   ConfigurationStore,
   ConfigurationStoreListResult,
   ConfigurationStoreUpdateParameters,
+  EncryptionProperties,
   ErrorModel,
   KeyValue,
+  KeyVaultProperties,
   ListKeyValueParameters,
+  PrivateEndpoint,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionReference,
+  PrivateLinkServiceConnectionState,
   RegenerateKeyParameters,
-  Resource
+  Resource,
+  ResourceIdentity,
+  Sku,
+  UserIdentity
 } from "../models/mappers";

@@ -28,8 +28,8 @@ tests of an sdk.
 
 - [Key concepts](#key-concepts).
 - [Getting started](#getting-started).
-    - [Installing the package](#installing-the-package).
-    - [Configuring your project](#configuring-your-project).
+  - [Installing the package](#installing-the-package).
+  - [Configuring your project](#configuring-your-project).
 - [Examples](#examples).
   - [How to record](#how-to-record).
   - [How to playback](#how-to-playback).
@@ -139,12 +139,12 @@ Or, if you know what functions you want to import, you can also do the following
 ```typescript
 import { record, env, delay } from "@azure/test-utils-recorder";
 ```
- 
+
 The common recorder provides the following public methods and properties:
 
-- `record`: Which deals with recording and playing back the network requests,
+- `record()`: Which deals with recording and playing back the network requests,
   depending on the value assigned to the `TEST_MODE` environment variable. If
-  `TEST_MODE` equals to `record`, it will automatically store network requests
+  `TEST_MODE` equals to `record` or `soft-record`, it will automatically store network requests
   in a plain text file in the folder `recordings` at the root of your
   repository (which for our example case is the root of the
   `@azure/keyvault/keyvault-keys` repository).
@@ -155,7 +155,7 @@ The common recorder provides the following public methods and properties:
   package in the repo. It also returns an object with a method `stop()`, which
   will allow you to control when you want the recorder to stop re-routing your
   http requests.
-- `Recorder`: The return of `record` is going to be an instance of the
+- `Recorder`: The return of the `record()` method is going to be an instance of the
   `Recorder`, which has some useful functions: `stop`, `skip`, `getUniqueName`,
   and `newDate`. `stop` will stop the recorder from storing a copy of the HTTP
   requests and responses. `skip` will pause the recorder only during the test
@@ -169,7 +169,9 @@ The common recorder provides the following public methods and properties:
   but only while the `TEST_MODE` is not `playback`, since you want to make sure you can run the playback tests
   as fast as possible.
 - `isRecordMode`, which is a shorthand for checking if the environment variable
-  `TEST_MODE` is set to `record`.
+  `TEST_MODE` is set to `record` or `soft-record`.
+- `isSoftRecordMode`, which is a shorthand for checking if the environment
+  variable `TEST_MODE` is set to `soft-record` only.
 - `isPlaybackMode`, which is a shorthand for checking if the environment
   variable `TEST_MODE` is set to `playback`.
 - `setReplaceableVariables`, which will allow you to hide sensitive content
@@ -183,12 +185,12 @@ The common recorder provides the following public methods and properties:
 ### Configuring your project
 
 Having the common recorder as a devDependency means that you'll be able to start
-recording tests right away by using the exported method `record`. We'll get
+recording tests right away by using the exported method `record()`. We'll get
 into the details further down this document. This function will do recordings,
 or will play back previous recordings, depending on an environment variable:
-`TEST_MODE`. If the environment variable `TEST_MODE` is empty, `record` (and most
+`TEST_MODE`. If the environment variable `TEST_MODE` is empty, `record()` (and most
 of the functions provided by test-utils-recorder) won't be doing anything. You'll need
-to set this environment variable to `record` to start recording, and then to
+to set the `TEST_MODE` environment variable to `record` (or `soft-record`) to start recording, and then to
 `playback` to play the recordings back at your code.
 
 #### package.json scripts
@@ -201,7 +203,7 @@ make it easier to switch from record mode to playback mode, on a meaningful cont
   // ... your package.json properties
   "integration-test:node": "mocha myNodeTests.js",
   "unit-test:node": "TEST_MODE=playback npm run integration-test:node",
-  "test:node:record": "TEST_MODE=record npm run integration-test:node",
+  "test:node:record": "TEST_MODE=record npm run integration-test:node"
   // ... more of your package.json properties
 }
 ```
@@ -214,7 +216,7 @@ add a way to clear the recordings on your `package.json`, like the following one
 ```json
 {
   // ... your package.json properties
-  "clear-recordings": "rm -fr recordings",
+  "clear-recordings": "rm -fr recordings"
   // ... more of your package.json properties
 }
 ```
@@ -243,7 +245,7 @@ config.set({
   files: [
     // ... you might have other things here. Keep them.
     "recordings/browsers/**/*.json"
-  ],
+  ]
   // ... more configuration properties here
 });
 ```
@@ -256,7 +258,7 @@ config.set({
   preprocessors: {
     // ... you might have other things here. Keep them.
     "recordings/browsers/**/*.json": ["json"]
-  },
+  }
   // ... more configuration properties here
 });
 ```
@@ -270,7 +272,7 @@ config.set({
   envPreprocessor: [
     // ... you might have other things here. Keep them.
     "TEST_MODE"
-  ],
+  ]
   // ... more configuration properties here
 });
 ```
@@ -283,7 +285,7 @@ config.set({
   // ... more configuration properties here
   browserConsoleLogOptions: {
     terminal: process.env.TEST_MODE !== "record"
-  },
+  }
   // ... more configuration properties here
 });
 ```
@@ -297,7 +299,7 @@ section of our guidelines:
 ### How to record
 
 To record your tests, make sure to set the environment variable `TEST_MODE` to
-`record`, then in your code, call to the `record` function exported from
+`record` or `soft-record`, then in your code, call to the `record()` function exported from
 `@azure/test-utils-recorder`, then call it before the http request you want to
 make. In the following example, we'll invoke the `record()` method before
 authenticating our KeyVault client:
@@ -325,8 +327,8 @@ describe("My test", () => {
     client = new KeysClient(keyVaultUrl, credential);
   });
 
-  afterEach(function () {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 });
 ```
@@ -335,6 +337,9 @@ After running this test with the `TEST_MODE` environment variable set to
 `record`, the common recorder will create a recording file located in
 `recordings/node/my_test/recording_before_each_hook.js` with the contents of
 the HTTP request as well as the contents of the HTTP response.
+
+If `TEST_MODE` is set to `soft-record` instead, the recorder will only create
+this recording file if the test has changed from a previous execution.
 
 You'll see in the code above that we're invoking `recorder.stop`. This is so
 that, after each test, we can stop recording and the test file can be
@@ -362,8 +367,8 @@ recordings.
     client = new KeysClient(keyVaultUrl, credential);
   });
 
-  afterEach(function () {
-    recorder.stop();
+  afterEach(async function () {
+    await recorder.stop();
   });
 
   it("my first test", async function() {
@@ -383,7 +388,7 @@ recordings.
 ### How to playback
 
 Once you have recorded something, you can run your tests again with `TEST_MODE`
-set to `playback`.  You'll notice how they pass much faster. This time, they
+set to `playback`. You'll notice how they pass much faster. This time, they
 will not reach out to the remote address, but instead they will respond every
 request according to their matching copy stored in the recordings.
 
@@ -391,6 +396,8 @@ request according to their matching copy stored in the recordings.
 
 Once you have your recorded files, to update them after changing one of the tests, simply
 re-run the tests with `TEST_MODE` set to `record`. This will overwrite previously existing files.
+Or re run the tests with `TEST_MODE` set to `soft-record` to only overwrite the files related to
+tests that have changed.
 
 > **Note:** If you rename the file of the test, or the name of the test, the
 > path of the recording will change. Make sure to delete the recordings
@@ -404,9 +411,9 @@ Writing live tests can take considerable time, specially since each time you
 want to check that everything works fine, you potentially need to run again
 every test. With the common recorder, you can specify what test to run by following Mocha's
 approach of setting certain tests to `it.only`, and also to skip specific tests
-with `it.skip`.  If you launch the recorder in record mode with some of these
+with `it.skip`. If you launch the recorder in record mode with some of these
 changes (and given that you activate the recorder on `beforeEach`), only the
-files that relate to the changed tests will be updated.  Skipped tests won't
+files that relate to the changed tests will be updated. Skipped tests won't
 update their recordings. This way, you can focus on fixing a specific set of
 test with `.only`, then remove all the `.only` calls and trust that the playback will
 keep confirming that the unaffected tests are fine and green.
@@ -467,10 +474,7 @@ the recorded string and return a string.
 Let's say your project can't include the word `mango`. You will be able to get rid of it with the following code inside your `beforeEach`:
 
 ```typescript
-setReplacements([
-  (recording: string): string =>
-    recording.replace(/mango/g, "bananas"),
-]);
+setReplacements([(recording: string): string => recording.replace(/mango/g, "bananas")]);
 ```
 
 This lets you have control over the generated recordings and filter any
@@ -482,12 +486,12 @@ Some HTTP requests might have parameters with sensitive information. To get
 them out of your recordings, you can call to `skipQueryParams` with an array of strings
 where you specify the names of the query parameter you want to remove.
 
-For example, give nthat we find this query parameters in our recordings:
+For example, given that we find this query parameters in our recordings:
 `?sv=2018-11-09&sr=c&sig=<sig>&sktid=<sktid>&skv=2018-11-09&se=2019-08-07T07%3A00%3A00Z&sp=rwdl`,
 if we don't want the parameters "sr", "sig" and "sp" to appear in these files, we can do the following:
 
 ```typescript
-skipQueryParams(["sr", "sig", "sp"])
+skipQueryParams(["sr", "sig", "sp"]);
 ```
 
 ### Ever-changing tests
@@ -507,13 +511,13 @@ understand, and we might be able to help by providing you with the following
 suggestions:
 
 1. Use randomly generated strings as prefixes or suffixes for the resources you
-create.  This will help you, but it will also only work so far, since new
-resources are likely to get accumulated, even if you set code to delete them in
-between tests, since some tests will eventually fail and crash your program.
+   create. This will help you, but it will also only work so far, since new
+   resources are likely to get accumulated, even if you set code to delete them in
+   between tests, since some tests will eventually fail and crash your program.
 2. Set up a separate program as part of your CI to automatically create and
-destroy new resources each time you run a test. It doesn't sound easy, but it
-might be a better solution.  You'll need to make sure to clear resources in
-case this program fails.
+   destroy new resources each time you run a test. It doesn't sound easy, but it
+   might be a better solution. You'll need to make sure to clear resources in
+   case this program fails.
 
 These ideas come with their own issue and things to consider, so please take them
 as ideas. We understand that might not be an easy problem to fix.
@@ -535,32 +539,13 @@ make sure to handle it as soon as we find the time.
 ## Next steps
 
 The common recorder might not be used yet in each one of the libraries in the
-azure-sdk-for-js repository (we're working on it).  In the mean time, an easy
+azure-sdk-for-js repository (we're working on it). In the mean time, an easy
 way to find where we're using this package is by going through the following
 search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-utils-recorder>
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Please read the
-[contributing guidelines](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
-for detailed information about how to contribute and what to expect while contributing.
-
-
-### Testing
-
-To run our tests, first install the dependencies (with `npm install` or `rush install`),
-then run the unit tests with: `npm run unit-test`.
-
----
-
-We appreciate feedback on how well this tool works for you. Please write to us
-[here](https://github.com/Azure/azure-sdk-for-js/issues).
-
----
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Frecorder%2FREADME.png)

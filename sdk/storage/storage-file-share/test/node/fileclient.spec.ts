@@ -1,25 +1,28 @@
-import * as assert from "assert";
-import { Duplex } from "stream";
-import { bodyToString, getBSU, createRandomLocalFile, setupEnvironment } from "../utils";
-import { Buffer } from "buffer";
-import {
-  ShareFileClient,
-  newPipeline,
-  StorageSharedKeyCredential,
-  ShareClient,
-  ShareDirectoryClient,
-  generateFileSASQueryParameters,
-  FileSASPermissions
-} from "../../src";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
+import * as assert from "assert";
+import { Buffer } from "buffer";
 import * as fs from "fs";
 import * as path from "path";
-import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import * as zlib from "zlib";
+import { Duplex } from "stream";
+
 import { record, Recorder } from "@azure/test-utils-recorder";
 
+import {
+  FileSASPermissions,
+  generateFileSASQueryParameters,
+  newPipeline,
+  ShareClient,
+  ShareDirectoryClient,
+  ShareFileClient,
+  StorageSharedKeyCredential
+} from "../../src";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+import { bodyToString, createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
+
 describe("FileClient Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -27,11 +30,13 @@ describe("FileClient Node.js only", () => {
   let fileName: string;
   let fileClient: ShareFileClient;
   const content = "Hello World";
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -45,8 +50,10 @@ describe("FileClient Node.js only", () => {
   });
 
   afterEach(async function() {
-    await shareClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete();
+      await recorder.stop();
+    }
   });
 
   it("uploadData - large Buffer as data", async () => {
@@ -61,14 +68,14 @@ describe("FileClient Node.js only", () => {
 
     const downloadResponse = await fileClient.download();
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileLarge);
 
     fs.unlinkSync(downloadedFile);
     assert.ok(downloadedData.equals(uploadedData));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("upload with buffer and default parameters", async () => {
     const body: string = recorder.getUniqueName("randomstring");
@@ -78,6 +85,12 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadRange(bodyBuffer, 0, body.length);
     const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("uploadData with empty buffer", async () => {
+    await fileClient.uploadData(Buffer.alloc(0));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), "");
   });
 
   it("upload with Node.js stream", async () => {
@@ -210,5 +223,20 @@ describe("FileClient Node.js only", () => {
 
     assert.equal(await bodyToString(range1, 512), "a".repeat(512));
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
+  });
+
+  it("should not decompress during downloading", async () => {
+    const body: string = "hello world body string!";
+    const deflated = zlib.deflateSync(body);
+
+    await fileClient.uploadData(deflated, {
+      fileHttpHeaders: {
+        fileContentEncoding: "deflate",
+        fileContentType: "text/plain"
+      }
+    });
+
+    const downloaded = await fileClient.downloadToBuffer();
+    assert.deepStrictEqual(downloaded, deflated);
   });
 });

@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
-import { getBSU, setupEnvironment } from "./utils";
+import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -7,18 +10,18 @@ import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { URLBuilder } from "@azure/core-http";
-dotenv.config({ path: "../.env" });
+import { MockPolicyFactory } from "./utils/MockPolicyFactory";
+import { Pipeline } from "../src/Pipeline";
+dotenv.config();
 
 describe("DirectoryClient", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let recorder: Recorder;
-  let fullDirAttributes = new FileSystemAttributes();
+  const fullDirAttributes = new FileSystemAttributes();
   fullDirAttributes.readonly = true;
   fullDirAttributes.hidden = true;
   fullDirAttributes.system = true;
@@ -29,7 +32,8 @@ describe("DirectoryClient", () => {
   fullDirAttributes.noScrubData = true;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -50,7 +54,7 @@ describe("DirectoryClient", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -149,6 +153,44 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await dirClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceAlreadyExists");
+
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res2 = await dirClient2.createIfNotExists();
+    assert.ok(res2.succeeded);
+
+    await dirClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res = await dirClient2.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await dirClient2.create();
+    const res2 = await dirClient2.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("deleteIfExists when parent not exists ", async () => {
+    const subDirName = recorder.getUniqueName("subdir");
+    const dirClient2 = dirClient.getDirectoryClient(subDirName);
+    const dirClient3 = dirClient2.getDirectoryClient(subDirName);
+    const res = await dirClient3.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ParentNotFound");
+  });
+
+  it("exists", async () => {
+    assert.ok(await dirClient.exists());
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    assert.ok(!(await dirClient2.exists()));
   });
 
   it("setProperties with default parameters", async () => {
@@ -448,7 +490,7 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const iter = await rootDirClient.listFilesAndDirectories({ prefix });
+    const iter = rootDirClient.listFilesAndDirectories({ prefix });
     let entity = (await iter.next()).value;
     assert.ok(entity.name.startsWith(prefix));
     if (entity.kind == "file") {
@@ -629,7 +671,7 @@ describe("DirectoryClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    const spanOptions = { parent: rootSpan };
+    const spanOptions = { parent: rootSpan.context() };
     const tracingOptions = { spanOptions };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
@@ -780,7 +822,7 @@ describe("DirectoryClient", () => {
 
     assert.deepStrictEqual(
       await dirClient.forceCloseAllHandles(),
-      { closedHandlesCount: 0 },
+      { closedHandlesCount: 0, closeFailureCount: 0 },
       "Error in forceCloseAllHandles"
     );
   });
@@ -800,28 +842,104 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("verify shareName and dirPath passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareDirectoryClient(
-      `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName
+  it("forceCloseHandle could return closeFailureCount", async () => {
+    // TODO: Open or create a handle; currently have to do this manually
+    const result = (
+      await dirClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
+      const factories = (dirClient as any).pipeline.factories.slice(); // clone factories array
+      factories.unshift(mockPolicyFactory);
+      const pipeline = new Pipeline(factories);
+      const mockDirClient = new ShareDirectoryClient(dirClient.url, pipeline);
+
+      const handle = result.handleList[0];
+      const closeResp = await mockDirClient.forceCloseHandle(handle.handleId);
+      assert.equal(
+        closeResp.closeFailureCount,
+        1,
+        "Number of handles failed to close is not as set."
+      );
+    }
+  });
+
+  it("forceCloseAllHandles return correct closeFailureCount", async () => {
+    const closeRes = await dirClient.forceCloseAllHandles();
+    assert.equal(
+      closeRes.closeFailureCount,
+      0,
+      "The closeFailureCount is not set to 0 as default."
     );
+  });
+});
+
+describe("ShareDirectoryClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const shareName = "shareName";
+  const dirPath = "dir1/dir2";
+  const baseName = "baseName";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ShareDirectoryClient(url);
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
-    assert.equal(newClient.path, dirName, "DirPath is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirPath + "/" + baseName,
+      "DirPath is not the same as the one provided."
+    );
     assert.equal(
       newClient.accountName,
       accountName,
       "Account name is not the same as the one provided."
     );
+    assert.equal(
+      newClient.name,
+      baseName,
+      "DirectoryClient name is not the same as the baseName of the provided directory URI"
+    );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirPath}/${baseName}`
+    );
   });
 
-  it("verify DirectoryClient name matches file name", async () => {
-    const accountName = "myaccount";
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${shareName}/${dirPath}/${baseName}`
+    );
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirPath}/${baseName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirPath}/${baseName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
     const newClient = new ShareDirectoryClient(
-      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}`
+      `https://customdomain.com/${shareName}/${dirPath}/${baseName}`
+    );
+
+    assert.equal(newClient.accountName, "", "Account name is not the same as the one provided.");
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirPath + "/" + baseName,
+      "DirPath is not the same as the one provided."
     );
     assert.equal(
       newClient.name,
-      dirName,
+      baseName,
       "DirectoryClient name is not the same as the baseName of the provided directory URI"
     );
   });

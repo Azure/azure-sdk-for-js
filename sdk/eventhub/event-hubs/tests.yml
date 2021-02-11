@@ -1,75 +1,15 @@
 trigger: none
 
-resources:
-  repositories:
-    - repository: azure-sdk-build-tools
-      type: git
-      name: internal/azure-sdk-build-tools
-    - repository: azure-sdk-tools
-      type: github
-      name: Azure/azure-sdk-tools
-      endpoint: azure
-
-jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-    parameters:
-      PackageName: "@azure/event-hubs"
-      # Remove Browser tests from matrix since they are currently a no-op
-      Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-          NodeVersion: "10.x"
-          EVENTHUB_NAME: "hub_linux_node10"
-        Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-          NodeVersion: "10.x"
-          EVENTHUB_NAME: "hub_windows_node10"
-        macOS_Node10:
-          OSVmImage: "macOS-10.13"
-          TestType: "node"
-          NodeVersion: "10.x"
-          EVENTHUB_NAME: "hub_mac_node10"
-        Linux_Node12:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-          NodeVersion: "12.x"
-          EVENTHUB_NAME: "hub_linux_node12"
-        Windows_Node12:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-          NodeVersion: "12.x"
-          EVENTHUB_NAME: "hub_windows_node12"
-        macOS_Node12:
-          OSVmImage: "macOS-10.13"
-          TestType: "node"
-          NodeVersion: "12.x"
-          EVENTHUB_NAME: "hub_mac_node12"
-        Linux_Node8:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-          NodeVersion: "8.x"
-          EVENTHUB_NAME: "hub_linux_node8"
-        Windows_Node8:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-          NodeVersion: "8.x"
-          EVENTHUB_NAME: "hub_windows_node8"
-        macOS_Node8:
-          OSVmImage: "macOS-10.13"
-          TestType: "node"
-          NodeVersion: "8.x"
-          EVENTHUB_NAME: "hub_mac_node8"
-        Windows_Browser:
-          OSVmImage: "windows-2019"
-          TestType: "browser"
-          EVENTHUB_NAME: "hub_windows_chrome"
-      EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        IOTHUB_EH_COMPATIBLE_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
-        EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-        IOTHUB_EH_COMPATIBLE_CONNECTION_STRING_BROWSER: $(js-event-hubs-test-browser-iothub-connection-string)
-        EVENTHUB_CONNECTION_STRING_BROWSER: $(js-event-hubs-test-browser-connection-string)
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/event-hubs"
+    ResourceServiceDirectory: eventhub
+    TestSamples: false
+    TestCanary: true
+    TestMinMax: true
+    EnvVars:
+      AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+      AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+      AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+      AZURE_LOG_LEVEL: info

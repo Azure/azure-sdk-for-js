@@ -1,36 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./core/models";
+import { DeletionRecoveryLevel } from "./generated/models";
 
 /**
- * @internal
- * @ignore
- * An interface representing the SecretClient. For internal use.
+ * The latest supported KeyVault service API version
  */
-export interface SecretClientInterface {
+export const LATEST_API_VERSION = "7.1";
+
+/**
+ * The optional parameters accepted by the KeyVault's KeyClient
+ */
+export interface SecretClientOptions extends coreHttp.PipelineOptions {
   /**
-   * Recovers the deleted secret in the specified vault.
+   * The accepted versions of the KeyVault's service API.
    */
-  recoverDeletedSecret(
-    secretName: string,
-    options?: RecoverDeletedSecretOptions
-  ): Promise<SecretProperties>;
-  /**
-   * The getSecret method is applicable to any secret stored in Azure Key Vault. This operation requires
-   * the secrets/get permission.
-   */
-  getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-  /**
-   * Deletes a secret stored in Azure Key Vault.
-   */
-  deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-  /**
-   * The getDeletedSecret method returns the specified deleted secret along with its properties.
-   * This operation requires the secrets/get permission.
-   */
-  getDeletedSecret(secretName: string, options?: DeleteSecretOptions): Promise<DeletedSecret>;
+  serviceVersion?: "7.0" | "7.1";
 }
 
 /**
@@ -131,6 +117,12 @@ export interface SecretProperties {
    * the server.**
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**
@@ -282,14 +274,12 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
  * Options for {@link recoverDeletedSecret}.
  */
 export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
  * Options for {@link deleteSecret}.
  */
 export interface DeleteSecretOptions extends coreHttp.OperationOptions {}

@@ -4,6 +4,7 @@
     "noImplicitAny": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "inlineSources": true,
     "newLine": "LF",
     "target": "es5",
     "moduleResolution": "node",
@@ -15,11 +16,10 @@
     "declaration": true,
     "declarationMap": true,
     "importHelpers": true,
-    "declarationDir": "./typings",
+    "declarationDir": "./typings/latest",
     "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "esModuleInterop": true
   },
-  "compileOnSave": true,
   "exclude": ["node_modules", "./samples/*"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

@@ -1,5 +1,11 @@
-const { KeyClient } = require("../../src");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -7,14 +13,13 @@ async function main() {
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
-
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
-  const keyName = "MyKeyName53";
-  const ecKeyName = "MyECKeyName53";
-  const rsaKeyName = "MyRSAKeyName53";
+  const uniqueString = new Date().getTime();
+  const keyName = `KeyName${uniqueString}`;
+  const ecKeyName = `ECKeyName${uniqueString}`;
+  const rsaKeyName = `RSAKeyName${uniqueString}`;
 
   // You can create keys using the general method
   const result = await client.createKey(keyName, "EC");
@@ -43,7 +48,9 @@ async function main() {
   }
 
   // Update the key
-  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version, { enabled: false });
+  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version, {
+    enabled: false
+  });
   console.log("updated key: ", updatedKey);
 
   await client.beginDeleteKey(keyName);

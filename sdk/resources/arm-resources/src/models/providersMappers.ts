@@ -7,8 +7,11 @@
  */
 
 export {
-  AliasPathType,
-  AliasType,
+  Alias,
+  AliasPath,
+  AliasPathMetadata,
+  AliasPattern,
+  ApiProfile,
   CloudError,
   ErrorAdditionalInfo,
   ErrorResponse,

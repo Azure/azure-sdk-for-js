@@ -1,43 +1,73 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import {
-  isPlaybackMode,
-  setReplaceableVariables,
-  skipQueryParams,
-  env,
-  setReplacements
-} from "@azure/test-utils-recorder";
+import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined
 };
 
-export function setupEnvironment() {
-  // setReplaceableVariables()
-  // 1. The key-value pairs will be used as the environment variables in playback
-  // 2. If the env variales are present in the recordings as plain strings, they will be replaced with the provided values
-  setReplaceableVariables({
-    // Providing dummy values
-    ACCOUNT_NAME: "fakestorageaccount",
-    ACCOUNT_KEY: "aaaaa",
-    ACCOUNT_SAS: "aaaaa",
-    STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${env.ACCOUNT_NAME};AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`,
+const mockAccountName = "fakestorageaccount";
+const mockMDAccountName = "md-fakestorageaccount";
+const mockAccountName1 = "fakestorageaccount1";
+const mockAccountKey = "aaaaa";
+export const recorderEnvSetup: RecorderEnvironmentSetup = {
+  replaceableVariables: {
+    // Used in record and playback modes
+    // 1. The key-value pairs will be used as the environment variables in playback mode
+    // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
+    ACCOUNT_NAME: `${mockAccountName}`,
+    ACCOUNT_KEY: `${mockAccountKey}`,
+    ACCOUNT_SAS: `${mockAccountKey}`,
+    STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
-    ACCOUNT_TOKEN: "aaaaa"
-  });
-
-  // Array of callback functions can be passed to `setReplacements` to customize the generated recordings
-  // `sig` param of SAS Token is being filtered here
-  setReplacements([
+    ACCOUNT_TOKEN: `${mockAccountKey}`,
+    AZURE_CLIENT_ID: `${mockAccountKey}`,
+    AZURE_TENANT_ID: `${mockAccountKey}`,
+    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
+    MD_ACCOUNT_NAME: `${mockMDAccountName}`,
+    MD_ACCOUNT_KEY: `${mockAccountKey}`,
+    MD_ACCOUNT_SAS: `${mockAccountKey}`,
+    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    ENCRYPTION_SCOPE_1: "antjoscope1",
+    ENCRYPTION_SCOPE_2: "antjoscope2",
+    ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
+    ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
+    ORS_DEST_ACCOUNT_SAS: `${mockAccountKey}`,
+    ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
+    SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
+    SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+  },
+  customizationsOnRecordings: [
+    // Used in record mode
+    // Array of callback functions can be provided to customize the generated recordings in record mode
+    // `sig` param of SAS Token is being filtered here
     (recording: string): string =>
-      recording.replace(new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa")
-  ]);
-
+      recording.replace(
+        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
+        `${mockAccountKey}`
+      )
+  ],
   // SAS token may contain sensitive information
-  // skipQueryParams() method will filter out the plain parameter info from the recordings
-  skipQueryParams(["se", "sig", "sp", "spr", "srt", "ss", "st", "sv"]);
-}
+  queryParametersToSkip: [
+    // Used in record and playback modes
+    "se",
+    "sig",
+    "sip",
+    "sp",
+    "spr",
+    "srt",
+    "ss",
+    "sr",
+    "st",
+    "sv"
+  ]
+};
 
 /**
  * A TokenCredential that always returns the given token. This class can be
@@ -115,11 +145,39 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
     throw new RangeError("m1 or m2 is invalid");
   }
 
-  for (let p in m2) {
+  for (const p in m2) {
     if (m1[p] !== m2[p]) {
       return false;
     }
   }
 
   return true;
+}
+
+/**
+ * Sleep for seconds.
+ *
+ * @export
+ * @param {number} seconds
+ * @returns {Promise<void>}
+ */
+export function sleep(seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+}
+
+/**
+ * Generate a Uint8Array with specified byteLength and randome content.
+ *
+ * @export
+ * @param {number} byteLength
+ * @returns {Uint8Array}
+ */
+export function genearteRandomUint8Array(byteLength: number): Uint8Array {
+  const uint8Arr = new Uint8Array(byteLength);
+  for (let j = 0; j < byteLength; j++) {
+    uint8Arr[j] = Math.floor(Math.random() * 256);
+  }
+  return uint8Arr;
 }

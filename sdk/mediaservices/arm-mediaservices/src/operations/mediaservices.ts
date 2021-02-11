@@ -234,6 +234,43 @@ export class Mediaservices {
   }
 
   /**
+   * List the media edge policies associated with the Media Services account.
+   * @summary List the media edge policies associated with the Media Services account.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MediaservicesListEdgePoliciesResponse>
+   */
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, options?: msRest.RequestOptionsBase): Promise<Models.MediaservicesListEdgePoliciesResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param callback The callback
+   */
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, callback: msRest.ServiceCallback<Models.EdgePolicies>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EdgePolicies>): void;
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgePolicies>, callback?: msRest.ServiceCallback<Models.EdgePolicies>): Promise<Models.MediaservicesListEdgePoliciesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        parameters,
+        options
+      },
+      listEdgePoliciesOperationSpec,
+      callback) as Promise<Models.MediaservicesListEdgePoliciesResponse>;
+  }
+
+  /**
    * List Media Services accounts in the subscription.
    * @summary List Media Services accounts
    * @param [options] The optional parameters
@@ -243,13 +280,13 @@ export class Mediaservices {
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): void;
+  listBySubscription(callback: msRest.ServiceCallback<Models.MediaServiceCollection>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionResponse> {
+  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaServiceCollection>): void;
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaServiceCollection>, callback?: msRest.ServiceCallback<Models.MediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -270,14 +307,14 @@ export class Mediaservices {
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  getBySubscription(accountName: string, callback: msRest.ServiceCallback<Models.SubscriptionMediaService>): void;
+  getBySubscription(accountName: string, callback: msRest.ServiceCallback<Models.MediaService>): void;
   /**
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBySubscription(accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionMediaService>): void;
-  getBySubscription(accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionMediaService>, callback?: msRest.ServiceCallback<Models.SubscriptionMediaService>): Promise<Models.MediaservicesGetBySubscriptionResponse> {
+  getBySubscription(accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaService>): void;
+  getBySubscription(accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaService>, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesGetBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         accountName,
@@ -328,14 +365,14 @@ export class Mediaservices {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MediaServiceCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaServiceCollection>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaServiceCollection>, callback?: msRest.ServiceCallback<Models.MediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -448,6 +485,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ApiError
     }
@@ -517,6 +555,38 @@ const syncStorageKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listEdgePoliciesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/listEdgePolicies",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ListEdgePoliciesInput,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.EdgePolicies
+    },
+    default: {
+      bodyMapper: Mappers.ApiError
+    }
+  },
+  serializer
+};
+
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Media/mediaservices",
@@ -531,7 +601,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionMediaServiceCollection
+      bodyMapper: Mappers.MediaServiceCollection
     },
     default: {
       bodyMapper: Mappers.ApiError
@@ -555,7 +625,7 @@ const getBySubscriptionOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionMediaService
+      bodyMapper: Mappers.MediaService
     },
     default: {
       bodyMapper: Mappers.ApiError
@@ -597,7 +667,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionMediaServiceCollection
+      bodyMapper: Mappers.MediaServiceCollection
     },
     default: {
       bodyMapper: Mappers.ApiError

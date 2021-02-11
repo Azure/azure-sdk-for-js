@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": [
+    "./**/*.ts",
+    "../utils/**/*.ts"
+  ],
+  "exclude": [
+    "*.json",
+    "**/node_modules/",
+    "../node_modules",
+    "../typings",
+    "**/browser"
+  ]
+}

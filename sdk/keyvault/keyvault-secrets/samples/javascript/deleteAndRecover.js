@@ -1,5 +1,11 @@
-const { SecretClient } = require("../../src");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -11,13 +17,12 @@ async function main() {
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
-
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "BankAccountPassword1112923";
-  const storageAccountSecretName = "StorageAccountPassword1112923";
+  const uniqueString = new Date().getTime();
+  const bankAccountSecretName = `bankSecret${uniqueString}`;
+  const storageAccountSecretName = `storageSecret${uniqueString}`;
 
   // Create our secrets
   console.log("Creating our secrets");

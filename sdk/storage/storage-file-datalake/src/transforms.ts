@@ -1,20 +1,22 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { URLBuilder } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@azure/storage-blob";
 
-import { PathGetPropertiesResponse } from "./generated/src/models";
+import { AclFailedEntry, PathGetPropertiesResponse } from "./generated/src/models";
 import {
+  AccessControlChangeError,
   FileSystemItem,
   Metadata,
   PathAccessControlItem,
   PathGetAccessControlResponse,
   PathPermissions,
   PublicAccessType,
+  RemovePathAccessControlItem,
   RolePermissions,
   ServiceListContainersSegmentResponse,
-  ServiceListFileSystemsSegmentResponse,
+  ServiceListFileSystemsSegmentResponse
 } from "./models";
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 import { base64encode } from "./utils/utils.common";
@@ -100,6 +102,7 @@ function toFileSystemAsyncIterableIterator(
           (val: ContainerItem): FileSystemItem => {
             return {
               ...val,
+              versionId: val.version,
               properties: {
                 ...val.properties,
                 publicAccess: toPublicAccessType(val.properties.publicAccess)
@@ -127,6 +130,7 @@ export function toFileSystemPagedAsyncIterableIterator(
         result.value.properties.publicAccess = toPublicAccessType(
           rawResult.value.properties.publicAccess
         );
+        result.value.versionId = rawResult.value.version;
       }
       return result;
     },
@@ -339,6 +343,53 @@ export function toAccessControlItem(aclItemString: string): PathAccessControlIte
   };
 }
 
+export function toRemoveAccessControlItem(aclItemString: string): RemovePathAccessControlItem {
+  const error = new RangeError(
+    `toAccessControlItem() Parameter access control item string "${aclItemString}" is not valid.`
+  );
+  if (aclItemString === "") {
+    throw error;
+  }
+
+  aclItemString = aclItemString.toLowerCase();
+
+  const parts = aclItemString.split(":");
+  if (parts.length < 1 || parts.length > 3) {
+    throw error;
+  }
+
+  if (parts.length === 3) {
+    if (parts[0] !== "default") {
+      throw error;
+    }
+  }
+
+  let defaultScope = false;
+  let index = 0;
+  if (parts[index] === "default") {
+    defaultScope = true;
+    index++;
+  }
+
+  const accessControlType = parts[index++];
+  if (
+    accessControlType !== "user" &&
+    accessControlType !== "group" &&
+    accessControlType !== "mask" &&
+    accessControlType !== "other"
+  ) {
+    throw error;
+  }
+
+  const entityId = parts[index++];
+
+  return {
+    defaultScope,
+    accessControlType,
+    entityId
+  };
+}
+
 export function toAcl(aclString?: string): PathAccessControlItem[] {
   if (aclString === undefined || aclString === "" || aclString === null) {
     return [];
@@ -353,10 +404,27 @@ export function toAcl(aclString?: string): PathAccessControlItem[] {
   return acls;
 }
 
+export function toRemoveAcl(aclString?: string): RemovePathAccessControlItem[] {
+  if (aclString === undefined || aclString === "" || aclString === null) {
+    return [];
+  }
+
+  const acls = [];
+  const aclParts = aclString.split(",");
+  for (const aclPart of aclParts) {
+    acls.push(toRemoveAccessControlItem(aclPart));
+  }
+
+  return acls;
+}
+
 export function toAccessControlItemString(item: PathAccessControlItem): string {
-  return `${item.defaultScope ? "default:" : ""}${item.accessControlType}:${
-    item.entityId
-  }:${toRolePermissionsString(item.permissions)}`;
+  const entityIdString = item.entityId !== undefined ? `:${item.entityId}` : "";
+  const permissionsString =
+    item.permissions !== undefined ? `:${toRolePermissionsString(item.permissions)}` : "";
+  return `${item.defaultScope ? "default:" : ""}${
+    item.accessControlType
+  }${entityIdString}${permissionsString}`;
 }
 
 export function toAclString(acl: PathAccessControlItem[]): string {
@@ -373,4 +441,16 @@ export function toPermissionsString(permissions: PathPermissions): string {
   )}${toRolePermissionsString(permissions.other, permissions.stickyBit)}${
     permissions.extendedAcls ? "+" : ""
   }`;
+}
+
+export function toAccessControlChangeFailureArray(
+  aclFailedEntry: AclFailedEntry[] = []
+): AccessControlChangeError[] {
+  return aclFailedEntry.map((aclFailedEntry: AclFailedEntry) => {
+    return {
+      name: aclFailedEntry.name || "",
+      isDirectory: (aclFailedEntry.type || "").toLowerCase() === "directory",
+      message: aclFailedEntry.errorMessage || ""
+    };
+  });
 }

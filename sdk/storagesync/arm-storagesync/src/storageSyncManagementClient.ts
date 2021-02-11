@@ -24,6 +24,7 @@ class StorageSyncManagementClient extends StorageSyncManagementClientContext {
   serverEndpoints: operations.ServerEndpoints;
   registeredServers: operations.RegisteredServers;
   workflows: operations.Workflows;
+  operationStatus: operations.OperationStatusOperations;
 
   /**
    * Initializes a new instance of the StorageSyncManagementClient class.
@@ -40,6 +41,7 @@ class StorageSyncManagementClient extends StorageSyncManagementClientContext {
     this.serverEndpoints = new operations.ServerEndpoints(this);
     this.registeredServers = new operations.RegisteredServers(this);
     this.workflows = new operations.Workflows(this);
+    this.operationStatus = new operations.OperationStatusOperations(this);
   }
 }
 

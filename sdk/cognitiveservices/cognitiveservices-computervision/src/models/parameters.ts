@@ -159,20 +159,6 @@ export const maxCandidates: msRest.OperationQueryParameter = {
     }
   }
 };
-export const mode: msRest.OperationQueryParameter = {
-  parameterPath: "mode",
-  mapper: {
-    required: true,
-    serializedName: "mode",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "Handwritten",
-        "Printed"
-      ]
-    }
-  }
-};
 export const model: msRest.OperationURLParameter = {
   parameterPath: "model",
   mapper: {
@@ -189,7 +175,7 @@ export const operationId: msRest.OperationURLParameter = {
     required: true,
     serializedName: "operationId",
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };

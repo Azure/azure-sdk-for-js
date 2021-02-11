@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -111,7 +111,7 @@ export function generateQueueSASQueryParameters(
 ): SASQueryParameters {
   if (
     !queueSASSignatureValues.identifier &&
-    (!queueSASSignatureValues.permissions && !queueSASSignatureValues.expiresOn)
+    !(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when 'identifier' is not provided."

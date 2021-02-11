@@ -1,23 +1,31 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpHeaders, WebResource, ServiceClientCredentials } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
+import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
+import { HttpHeaders, ServiceClientCredentials, WebResource } from "@azure/core-http";
 import { generateKey } from "./crypto";
 
+/**
+ * @internal
+ */
 export class SasServiceClientCredentials implements ServiceClientCredentials {
   keyName: string;
   keyValue: string;
-
+  private sharedKeyCredential: SharedKeyCredential;
   /**
    * Creates a new sasServiceClientCredentials object.
    *
-   * @constructor
-   * @param {string} sharedAccessKeyName The SAS key name to use.
-   * @param {string} sharedAccessKey The SAS key value to use
+   * @param sharedAccessKeyName - The SAS key name to use.
+   * @param sharedAccessKey - The SAS key value to use
    */
   constructor(sharedAccessKeyName: string, sharedAccessKey: string) {
     this.keyName = sharedAccessKeyName;
     this.keyValue = sharedAccessKey;
+    this.sharedKeyCredential = new SharedKeyCredential(this.keyName, this.keyValue);
   }
 
   private async _generateSignature(targetUri: string, expirationDate: number): Promise<string> {
@@ -29,7 +37,7 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
   /**
    * Signs a request with the Authentication header.
    *
-   * @param {WebResource} webResource The WebResource to be signed.
+   * @param webResource - The WebResource to be signed.
    * @returns {Promise<WebResource>} The signed request object.
    */
   async signRequest(webResource: WebResource): Promise<WebResource> {
@@ -47,5 +55,9 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
     );
     webResource.withCredentials = true;
     return webResource;
+  }
+
+  getToken(audience: string): AccessToken {
+    return this.sharedKeyCredential.getToken(audience);
   }
 }

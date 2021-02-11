@@ -144,6 +144,16 @@ export const locationName: msRest.OperationURLParameter = {
     }
   }
 };
+export const name: msRest.OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    required: true,
+    serializedName: "name",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {

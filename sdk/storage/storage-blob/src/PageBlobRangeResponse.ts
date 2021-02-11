@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { HttpResponse } from "@azure/core-http";
 import {
   PageBlobGetPageRangesHeaders,

@@ -24,16 +24,13 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample translates the given text which is in Chinese to English. To know more, refer to the [Azure Documentation on Translator](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/)
+The following sample translates the given text which is in Chinese to English. To know more, refer to the [Azure Documentation on Translator](https://docs.microsoft.com/azure/cognitive-services/translator/)
 
-```typescript
-import {
-  TranslatorTextClient,
-  TranslatorTextModels
-} from "@azure/cognitiveservices-translatortext";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { TranslatorTextClient } = require("@azure/cognitiveservices-translatortext");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const translatorTextKey =
     process.env["translatorTextKey"] || "<translatorTextKey>";
   const translatorTextEndPoint =
@@ -46,7 +43,7 @@ async function main(): Promise<void> {
     translatorTextEndPoint
   );
 
-  const text: TranslatorTextModels.DetectTextInput[] = [
+  const text = [
     {
       text: "你好，世界"
     }

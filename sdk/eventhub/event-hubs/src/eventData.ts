@@ -1,124 +1,138 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { Message, Dictionary, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
+import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
+import { isDefined } from "./util/typeGuards";
 
 /**
  * Describes the delivery annotations.
- * @interface EventHubDeliveryAnnotations
- * @ignore
+ * @hidden
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
   /**
-   * @property [last_enqueued_offset] The offset of the last event.
+   * The offset of the last event.
    */
   last_enqueued_offset?: string;
   /**
-   * @property [last_enqueued_sequence_number] The sequence number of the last event.
+   * The sequence number of the last event.
    */
   last_enqueued_sequence_number?: number;
   /**
-   * @property [last_enqueued_time_utc] The enqueued time of the last event.
+   * The enqueued time of the last event.
    */
   last_enqueued_time_utc?: number;
   /**
-   * @property [runtime_info_retrieval_time_utc] The retrieval time of the last event.
+   * The retrieval time of the last event.
    */
   runtime_info_retrieval_time_utc?: number;
   /**
-   * @property Any unknown delivery annotations.
+   * Any unknown delivery annotations.
    */
   [x: string]: any;
 }
 
 /**
  * Map containing message attributes that will be held in the message header.
- * @interface EventHubMessageAnnotations
- * @ignore
+ * @hidden
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
   /**
-   * @property [x-opt-partition-key] Annotation for the partition key set for the event.
+   * Annotation for the partition key set for the event.
    */
   "x-opt-partition-key"?: string | null;
   /**
-   * @property [x-opt-sequence-number] Annontation for the sequence number of the event.
+   * Annontation for the sequence number of the event.
    */
   "x-opt-sequence-number"?: number;
   /**
-   * @property [x-opt-enqueued-time] Annotation for the enqueued time of the event.
+   * Annotation for the enqueued time of the event.
    */
   "x-opt-enqueued-time"?: number;
   /**
-   * @property [x-opt-offset] Annotation for the offset of the event.
+   * Annotation for the offset of the event.
    */
   "x-opt-offset"?: string;
   /**
-   * @property Any other annotation that can be added to the message.
+   * Any other annotation that can be added to the message.
    */
   [x: string]: any;
 }
 
 /**
  * Describes the structure of an event to be sent or received from the EventHub.
- * @interface
- * @ignore
+ * @hidden
  */
 export interface EventDataInternal {
   /**
-   * @property body - The message body that needs to be sent or is received.
+   * The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property [enqueuedTimeUtc] The enqueued time of the event.
+   * The enqueued time of the event.
    */
   enqueuedTimeUtc?: Date;
   /**
-   * @property [partitionKey] If specified EventHub will hash this to a partitionId.
+   * If specified EventHub will hash this to a partitionId.
    * It guarantees that messages end up in a specific partition on the event hub.
    */
   partitionKey?: string | null;
   /**
-   * @property [offset] The offset of the event.
+   * The offset of the event.
    */
   offset?: number;
   /**
-   * @property [sequenceNumber] The sequence number of the event.
+   * The sequence number of the event.
    */
   sequenceNumber?: number;
   /**
-   * @property [properties] The application specific properties.
+   * The application specific properties.
    */
-  properties?: Dictionary<any>;
+  properties?: { [property: string]: any };
   /**
-   * @property [lastSequenceNumber] The last sequence number of the event within the partition stream of the Event Hub.
+   * The last sequence number of the event within the partition stream of the Event Hub.
    */
   lastSequenceNumber?: number;
   /**
-   * @property [lastEnqueuedOffset] The offset of the last enqueued event.
+   * The offset of the last enqueued event.
    */
   lastEnqueuedOffset?: string;
   /**
-   * @property [lastEnqueuedTime] The enqueued UTC time of the last event.
+   * The enqueued UTC time of the last event.
    */
   lastEnqueuedTime?: Date;
   /**
-   * @property [retrievalTime] The time when the runtime info was retrieved
+   * The time when the runtime info was retrieved
    */
   retrievalTime?: Date;
   /**
-   * @property [systemProperties] The properties set by the service.
+   * The properties set by the service.
    */
-  systemProperties?: Dictionary<any>;
+  systemProperties?: { [property: string]: any };
 }
+
+const messagePropertiesMap = {
+  message_id: "messageId",
+  user_id: "userId",
+  to: "to",
+  subject: "subject",
+  reply_to: "replyTo",
+  correlation_id: "correlationId",
+  content_type: "contentType",
+  content_encoding: "contentEncoding",
+  absolute_expiry_time: "absoluteExpiryTime",
+  creation_time: "creationTime",
+  group_id: "groupId",
+  group_sequence: "groupSequence",
+  reply_to_group_id: "replyToGroupId"
+} as const;
 
 /**
  * Converts the AMQP message to an EventData.
- * @param msg The AMQP message that needs to be converted to EventData.
- * @ignore
+ * @param msg - The AMQP message that needs to be converted to EventData.
+ * @hidden
  */
-export function fromAmqpMessage(msg: Message): EventDataInternal {
+export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
   const data: EventDataInternal = {
     body: msg.body
   };
@@ -159,17 +173,29 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
     );
   }
 
+  const messageProperties = Object.keys(messagePropertiesMap) as Array<
+    keyof typeof messagePropertiesMap
+  >;
+  for (const messageProperty of messageProperties) {
+    if (!data.systemProperties) {
+      data.systemProperties = {};
+    }
+    if (msg[messageProperty] != null) {
+      data.systemProperties[messagePropertiesMap[messageProperty]] = msg[messageProperty];
+    }
+  }
+
   return data;
 }
 
 /**
  * Converts an EventData object to an AMQP message.
- * @param data The EventData object that needs to be converted to an AMQP message.
- * @param partitionKey An optional key to determine the partition that this event should land in.
- * @ignore
+ * @param data - The EventData object that needs to be converted to an AMQP message.
+ * @param partitionKey - An optional key to determine the partition that this event should land in.
+ * @hidden
  */
-export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
-  const msg: Message = {
+export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessage {
+  const msg: RheaMessage = {
     body: data.body
   };
   // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
@@ -178,7 +204,7 @@ export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
   if (data.properties) {
     msg.application_properties = data.properties;
   }
-  if (partitionKey != undefined) {
+  if (isDefined(partitionKey)) {
     msg.message_annotations[Constants.partitionKey] = partitionKey;
     // Event Hub service cannot route messages to a specific partition based on the partition key
     // if AMQP message header is an empty object. Hence we make sure that header is always present
@@ -190,17 +216,27 @@ export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
 }
 
 /**
- * `EventData` is the interface that describes the event data to be sent to Event Hub.
- * A simple instance can be `{ body: "your-data" }`.
- * @interface
+ * The interface that describes the data to be sent to Event Hub.
+ * Use this as a reference when creating the object to be sent when using the `EventHubProducerClient`.
+ * For example, `{ body: "your-data" }` or
+ * ```
+ * {
+ *    body: "your-data",
+ *    properties: {
+ *       propertyName: "property value"
+ *    }
+ * }
  */
 export interface EventData {
   /**
-   * @property The message body that needs to be sent.
+   * The message body that needs to be sent.
+   * If the application reading the events is not using this SDK,
+   * convert your body payload to a byte array or Buffer for better
+   * cross-language compatibility.
    */
   body: any;
   /**
-   * @property Set of key value pairs that can be used to set properties specific to user application.
+   * Set of key value pairs that can be used to set properties specific to user application.
    */
   properties?: {
     [key: string]: any;
@@ -208,38 +244,40 @@ export interface EventData {
 }
 
 /**
- * Describes the structure of an event received from Event Hub.
+ * The interface that describes the structure of the event received from Event Hub.
+ * Use this as a reference when creating the `processEvents` function to process the events
+ * recieved from an Event Hub when using the `EventHubConsumerClient`.
  */
 export interface ReceivedEventData {
   /**
-   * @property The message body that needs to be sent or is received.
+   * The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property The application specific properties.
+   * The application specific properties.
    */
   properties?: {
     [key: string]: any;
   };
   /**
-   * @property The enqueued time of the event.
+   * The enqueued time of the event.
    */
   enqueuedTimeUtc: Date;
   /**
-   * @property When specified Event Hub will hash this to a partitionId.
+   * When specified Event Hub will hash this to a partitionId.
    * It guarantees that messages end up in a specific partition on the event hub.
    */
   partitionKey: string | null;
   /**
-   * @property The offset of the event.
+   * The offset of the event.
    */
   offset: number;
   /**
-   * @property The sequence number of the event.
+   * The sequence number of the event.
    */
   sequenceNumber: number;
   /**
-   * @property The properties set by the service.
+   * The properties set by the service.
    */
   systemProperties?: {
     [key: string]: any;

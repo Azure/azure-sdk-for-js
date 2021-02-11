@@ -118,7 +118,7 @@ export async function setAutoPublish(azureSdkForJsRoot: string, include?: RegExp
             continue;
         }
 
-        config.content["authPublish"] = true;
+        config.content["autoPublish"] = true;
         fs.writeFileSync(config.path, JSON.stringify(config.content, undefined, "  ") + "\n");
         _logger.log("Saved");
     }

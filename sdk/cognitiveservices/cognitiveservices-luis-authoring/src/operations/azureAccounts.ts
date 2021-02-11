@@ -62,7 +62,7 @@ export class AzureAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsGetAssignedResponse>
    */
-  getAssigned(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsGetAssignedResponse>;
+  getAssigned(appId: string, options?: Models.AzureAccountsGetAssignedOptionalParams): Promise<Models.AzureAccountsGetAssignedResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -73,8 +73,8 @@ export class AzureAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAssigned(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
-  getAssigned(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetAssignedResponse> {
+  getAssigned(appId: string, options: Models.AzureAccountsGetAssignedOptionalParams, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getAssigned(appId: string, options?: Models.AzureAccountsGetAssignedOptionalParams | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetAssignedResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -119,7 +119,7 @@ export class AzureAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsListUserLUISAccountsResponse>
    */
-  listUserLUISAccounts(options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
+  listUserLUISAccounts(options?: Models.AzureAccountsListUserLUISAccountsOptionalParams): Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
   /**
    * @param callback The callback
    */
@@ -128,8 +128,8 @@ export class AzureAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUserLUISAccounts(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
-  listUserLUISAccounts(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsListUserLUISAccountsResponse> {
+  listUserLUISAccounts(options: Models.AzureAccountsListUserLUISAccountsOptionalParams, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  listUserLUISAccounts(options?: Models.AzureAccountsListUserLUISAccountsOptionalParams | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsListUserLUISAccountsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -147,6 +147,9 @@ const assignToAppOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
+  ],
+  headerParameters: [
+    Parameters.armToken
   ],
   requestBody: {
     parameterPath: [
@@ -172,6 +175,9 @@ const getAssignedOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.appId
+  ],
+  headerParameters: [
+    Parameters.armToken
   ],
   responses: {
     200: {
@@ -202,6 +208,9 @@ const removeFromAppOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId
   ],
+  headerParameters: [
+    Parameters.armToken
+  ],
   requestBody: {
     parameterPath: [
       "options",
@@ -225,6 +234,9 @@ const listUserLUISAccountsOperationSpec: msRest.OperationSpec = {
   path: "azureaccounts",
   urlParameters: [
     Parameters.endpoint
+  ],
+  headerParameters: [
+    Parameters.armToken
   ],
   responses: {
     200: {

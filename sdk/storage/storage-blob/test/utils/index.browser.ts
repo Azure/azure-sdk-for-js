@@ -1,6 +1,9 @@
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { BlobServiceClient } from "../../src/BlobServiceClient";
-import { newPipeline } from "../../src/Pipeline";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { AnonymousCredential } from "../../src";
+import { BlobServiceClient } from "../../src";
+import { newPipeline } from "../../src";
 import { SimpleTokenCredential } from "./testutils.common";
 import { TokenCredential } from "@azure/core-http";
 
@@ -84,7 +87,7 @@ export function getAlternateBSU(): BlobServiceClient {
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment

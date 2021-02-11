@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 enum MutexLockStatus {
   LOCKED,
   UNLOCKED
@@ -53,8 +56,8 @@ export class Mutex {
     });
   }
 
-  private static keys: {[key: string]: MutexLockStatus} = {};
-  private static listeners: {[key: string]: Callback[]} = {};
+  private static keys: { [key: string]: MutexLockStatus } = {};
+  private static listeners: { [key: string]: Callback[] } = {};
 
   private static onUnlockEvent(key: string, handler: Callback) {
     if (this.listeners[key] === undefined) {

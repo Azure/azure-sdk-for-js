@@ -31,7 +31,7 @@ specified in order of most verbose to least verbose:
 - warning
 - error
 
-When setting a log level, either programmitcally or via the `AZURE_LOG_LEVEL` environment variable,
+When setting a log level, either programmatically or via the `AZURE_LOG_LEVEL` environment variable,
 any logs that are written using a log level equal to or less than the one you choose
 will be emitted.
 
@@ -56,7 +56,7 @@ client.getPartitionIds()
 });
 ```
 
-### Example 2 - redirect log ouput
+### Example 2 - redirect log output
 
 ```js
 const { AzureLogger, setLogLevel } = require("@azure/logger");
@@ -75,19 +75,6 @@ a location other than stderr.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor
-License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your
-contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and
-decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot.
-You will only need to do this once across all repos using our CLA.
-
-If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
-
-This project has adopted the Microsoft Open Source Code of Conduct.
-For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional
-questions or comments.
-
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Flogger%2FREADME.png)

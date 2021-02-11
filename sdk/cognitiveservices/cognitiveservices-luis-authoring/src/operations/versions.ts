@@ -290,6 +290,102 @@ export class Versions {
       deleteUnlabelledUtteranceOperationSpec,
       callback) as Promise<Models.VersionsDeleteUnlabelledUtteranceResponse>;
   }
+
+  /**
+   * Imports a new version into a LUIS application.
+   * @param appId The application ID.
+   * @param luisAppV2 A LUIS application structure.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VersionsImportV2AppResponse>
+   */
+  importV2App(appId: string, luisAppV2: Models.LuisAppV2, options?: Models.VersionsImportV2AppOptionalParams): Promise<Models.VersionsImportV2AppResponse>;
+  /**
+   * @param appId The application ID.
+   * @param luisAppV2 A LUIS application structure.
+   * @param callback The callback
+   */
+  importV2App(appId: string, luisAppV2: Models.LuisAppV2, callback: msRest.ServiceCallback<string>): void;
+  /**
+   * @param appId The application ID.
+   * @param luisAppV2 A LUIS application structure.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  importV2App(appId: string, luisAppV2: Models.LuisAppV2, options: Models.VersionsImportV2AppOptionalParams, callback: msRest.ServiceCallback<string>): void;
+  importV2App(appId: string, luisAppV2: Models.LuisAppV2, options?: Models.VersionsImportV2AppOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsImportV2AppResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        luisAppV2,
+        options
+      },
+      importV2AppOperationSpec,
+      callback) as Promise<Models.VersionsImportV2AppResponse>;
+  }
+
+  /**
+   * Imports a new version into a LUIS application.
+   * @param appId The application ID.
+   * @param luisAppLu An LU representing the LUIS application structure.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VersionsImportLuFormatResponse>
+   */
+  importLuFormat(appId: string, luisAppLu: string, options?: Models.VersionsImportLuFormatOptionalParams): Promise<Models.VersionsImportLuFormatResponse>;
+  /**
+   * @param appId The application ID.
+   * @param luisAppLu An LU representing the LUIS application structure.
+   * @param callback The callback
+   */
+  importLuFormat(appId: string, luisAppLu: string, callback: msRest.ServiceCallback<string>): void;
+  /**
+   * @param appId The application ID.
+   * @param luisAppLu An LU representing the LUIS application structure.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  importLuFormat(appId: string, luisAppLu: string, options: Models.VersionsImportLuFormatOptionalParams, callback: msRest.ServiceCallback<string>): void;
+  importLuFormat(appId: string, luisAppLu: string, options?: Models.VersionsImportLuFormatOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsImportLuFormatResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        luisAppLu,
+        options
+      },
+      importLuFormatOperationSpec,
+      callback) as Promise<Models.VersionsImportLuFormatResponse>;
+  }
+
+  /**
+   * Exports a LUIS application to text format.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VersionsExportLuFormatResponse>
+   */
+  exportLuFormat(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.VersionsExportLuFormatResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  exportLuFormat(appId: string, versionId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  exportLuFormat(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  exportLuFormat(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.VersionsExportLuFormatResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        options
+      },
+      exportLuFormatOperationSpec,
+      callback) as Promise<Models.VersionsExportLuFormatResponse>;
+  }
 }
 
 // Operation Specifications
@@ -499,6 +595,101 @@ const deleteUnlabelledUtteranceOperationSpec: msRest.OperationSpec = {
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
+  },
+  serializer
+};
+
+const importV2AppOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "apps/{appId}/versions/import",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
+  queryParameters: [
+    Parameters.versionId1
+  ],
+  requestBody: {
+    parameterPath: "luisAppV2",
+    mapper: {
+      ...Mappers.LuisAppV2,
+      required: true
+    }
+  },
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const importLuFormatOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "apps/{appId}/versions/import",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
+  queryParameters: [
+    Parameters.versionId1
+  ],
+  requestBody: {
+    parameterPath: "luisAppLu",
+    mapper: {
+      required: true,
+      serializedName: "luisAppLu",
+      type: {
+        name: "String"
+      }
+    }
+  },
+  contentType: "text/plain",
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const exportLuFormatOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "apps/{appId}/versions/{versionId}/export",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
+  queryParameters: [
+    Parameters.format
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
+        }
+      }
+    },
+    default: {}
   },
   serializer
 };

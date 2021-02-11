@@ -1,89 +1,66 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import AsyncLock from "async-lock";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { WebSocketImpl } from "rhea-promise";
 
 export { AsyncLock };
 /**
+ * @internal
+ *
  * Describes the options that can be provided to create an async lock.
- * @interface AsyncLockOptions
  */
 export interface AsyncLockOptions {
   /**
-   * @property {number} [timeout] The max timeout. Default is: 0 (never timeout).
+   * The max timeout. Default is: 0 (never timeout).
    */
   timeout?: number;
   /**
-   * @property {number} [maxPending] Maximum pending tasks. Default is: 1000.
+   * Maximum pending tasks. Default is: 1000.
    */
   maxPending?: number;
   /**
-   * @property {boolean} [domainReentrant] Whether lock can reenter in the same domain.
+   * Whether lock can reenter in the same domain.
    * Default is: false.
    */
   domainReentrant?: boolean;
   /**
-   * @property {any} [Promise] Your implementation of the promise. Default is: global promise.
+   * Your implementation of the promise. Default is: global promise.
    */
   Promise?: any;
 }
+
 /**
+ * Options to configure the channelling of the AMQP connection over Web Sockets.
+ */
+export interface WebSocketOptions {
+  /**
+   * The WebSocket constructor used to create an AMQP connection over a WebSocket.
+   * This option should be provided in the below scenarios:
+   * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
+   * - Your application needs to be run behind a proxy server.
+   * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
+   *   instead of the built-in WebSocket in the browser.
+   */
+  webSocket?: WebSocketImpl;
+  /**
+   * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
+   * the WebSocket.
+   */
+  webSocketConstructorOptions?: any;
+}
+
+/**
+ * @internal
+ *
  * A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 /**
- * Describes the servicebus connection string model.
- * @interface ServiceBusConnectionStringModel
- */
-export interface ServiceBusConnectionStringModel {
-  Endpoint: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  EntityPath?: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the eventhub connection string model.
- * @interface EventHubConnectionStringModel
- */
-export interface EventHubConnectionStringModel {
-  Endpoint: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  EntityPath?: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the stroage connection string model.
- * @interface StorageConnectionStringModel
- */
-export interface StorageConnectionStringModel {
-  DefaultEndpointsProtocol: string;
-  AccountName: string;
-  AccountKey: string;
-  EndpointSuffix: string;
-  [x: string]: any;
-}
-
-/**
- * Describes the iothub connection string model.
- * @interface IotHubConnectionStringModel
- */
-export interface IotHubConnectionStringModel {
-  HostName: string;
-  SharedAccessKeyName: string;
-  SharedAccessKey: string;
-  DeviceId?: string;
-}
-
-/**
  * Defines an object with possible properties defined in T.
- * @type ParsedOutput<T>
  */
 export type ParsedOutput<T> = { [P in keyof T]: T[P] };
 
@@ -98,8 +75,8 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  * Literal          ::= ? any sequence of characters except ; or = or WhiteSpace ?
  * WhiteSpace       ::= ? all whitespace characters including \r and \n ?
  *
- * @param {string} connectionString The connection string to be parsed.
- * @returns {ParsedOutput<T>} ParsedOutput<T>.
+ * @param connectionString - The connection string to be parsed.
+ * @returns ParsedOutput<T>.
  */
 export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   const output: { [k: string]: string } = {};
@@ -134,23 +111,26 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
 }
 
 /**
+ * @internal
+ *
  * Gets a new instance of the async lock with desired settings.
- * @param {AsyncLockOptions} [options] The async lock options.
- * @returns {AsyncLock} AsyncLock
+ * @param options - The async lock options.
+ * @returns AsyncLock
  */
 export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
   return new AsyncLock(options);
 }
 
 /**
- * @constant {AsyncLock} defaultLock The async lock instance with default settings.
+ * The async lock instance with default settings.
  */
 export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
 /**
+ * @internal
+ *
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
  * the promise with the given value.
- * @class Timout
  */
 export class Timeout {
   // Node and browsers return different types from setTimeout
@@ -178,11 +158,11 @@ export class Timeout {
   }
 
   private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
-    const success = (result: T) => {
+    const success = (result: T): T => {
       fn();
       return result;
     };
-    const error = (e: Error) => {
+    const error = (e: Error): Promise<never> => {
       fn();
       return Promise.reject(e);
     };
@@ -200,32 +180,32 @@ export class Timeout {
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param {number} delayInMs - The number of milliseconds to be delayed.
- * @param {AbortSignalLike} abortSignal - The abortSignal associated with containing operation.
- * @param {string} abortErrorMsg - The abort error message associated with containing operation.
- * @param {T} value - The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} - Resolved promise
+ * @param delayInMs - The number of milliseconds to be delayed.
+ * @param abortSignal - The abortSignal associated with containing operation.
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns - Resolved promise
  */
 export function delay<T>(
   delayInMs: number,
   abortSignal?: AbortSignalLike,
   abortErrorMsg?: string,
   value?: T
-): Promise<T> {
+): Promise<T | void> {
   return new Promise((resolve, reject) => {
-    const rejectOnAbort = () => {
+    const rejectOnAbort = (): void => {
       return reject(
         new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
       );
     };
 
-    const removeListeners = () => {
+    const removeListeners = (): void => {
       if (abortSignal) {
         abortSignal.removeEventListener("abort", onAborted);
       }
     };
 
-    const onAborted = () => {
+    const onAborted = (): void => {
       clearTimeout(timer);
       removeListeners();
       return rejectOnAbort();
@@ -247,34 +227,40 @@ export function delay<T>(
 }
 
 /**
+ * @internal
+ *
  * Generates a random number between the given interval
- * @param {number} min Min number of the range (inclusive).
- * @param {number} max Max number of the range (inclusive).
+ * @param min - Min number of the range (inclusive).
+ * @param max - Max number of the range (inclusive).
  */
 export function randomNumberFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 /**
+ * @internal
+ *
  * Type declaration for a Function type where T is the input to the function and V is the output
  * of the function.
  */
 export type Func<T, V> = (a: T) => V;
 
-/*
+/**
+ * @internal
+ *
  * Executes an array of promises sequentially. Inspiration of this method is here:
  * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
  *
- * @param {Array} promiseFactories An array of promise factories(A function that return a promise)
+ * @param promiseFactories - An array of promise factories(A function that return a promise)
  *
- * @param {any} [kickstart] Input to the first promise that is used to kickstart the promise chain.
+ * @param kickstart - Input to the first promise that is used to kickstart the promise chain.
  * If not provided then the promise chain starts with undefined.
  *
- * @return A chain of resolved or rejected promises
+ * @returns A chain of resolved or rejected promises
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  kickstart?: any
+  kickstart?: unknown
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
@@ -284,9 +270,11 @@ export function executePromisesSequentially(
 }
 
 /**
+ * @internal
+ *
  * Determines whether the given connection string is an iothub connection string.
- * @param {string} connectionString The connection string.
- * @return {boolean} boolean.
+ * @param connectionString - The connection string.
+ * @returns boolean.
  */
 export function isIotHubConnectionString(connectionString: string): boolean {
   connectionString = String(connectionString);
@@ -297,4 +285,20 @@ export function isIotHubConnectionString(connectionString: string): boolean {
     result = true;
   }
   return result;
+}
+
+/**
+ * @hidden
+ * @internal
+ */
+export function isString(s: unknown): s is string {
+  return typeof s === "string";
+}
+
+/**
+ * @hidden
+ * @internal
+ */
+export function isNumber(n: unknown): n is number {
+  return typeof n === "number";
 }

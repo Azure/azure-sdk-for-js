@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { BatchSubRequest } from "./BlobBatch";
 import { HttpHeaders } from "@azure/core-http";
 
@@ -11,12 +14,12 @@ export interface BatchSubResponse {
   status: number;
 
   /**
-   * The status message of the sub opeartion.
+   * The status message of the sub operation.
    */
   statusMessage: string;
 
   /**
-   * The error code of the sub opeartion, if the sub operation failed.
+   * The error code of the sub operation, if the sub operation failed.
    */
   errorCode?: string;
 

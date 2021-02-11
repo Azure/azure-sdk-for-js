@@ -1,13 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
 import { SimpleTokenCredential } from "./testutils.common";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { BlobServiceClient } from "../../src/BlobServiceClient";
+import { StoragePipelineOptions, StorageSharedKeyCredential } from "../../src";
+import { BlobServiceClient } from "../../src";
 import { getUniqueName } from "./testutils.common";
-import { newPipeline } from "../../src/Pipeline";
+import { newPipeline } from "../../src";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
@@ -18,8 +21,9 @@ import {
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
+import { DefaultAzureCredential } from "@azure/identity";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export * from "./testutils.common";
 
@@ -44,14 +48,19 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  pipelineOptions: StoragePipelineOptions = {}
 ): BlobServiceClient {
-  if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+  if (
+    env.STORAGE_CONNECTION_STRING &&
+    env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")
+  ) {
     return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, {
+      ...pipelineOptions
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
     });
@@ -93,8 +102,27 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getBSU(): BlobServiceClient {
-  return getGenericBSU("");
+export function getTokenBSUWithDefaultCredential(
+  pipelineOptions: StoragePipelineOptions = {},
+  accountType: string = "",
+  accountNameSuffix: string = ""
+): BlobServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  const accountName = process.env[accountNameEnvVar];
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = new DefaultAzureCredential();
+  const pipeline = newPipeline(credential, {
+    ...pipelineOptions
+  });
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
+}
+
+export function getBSU(pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
+  return getGenericBSU("", undefined, pipelineOptions);
 }
 
 export function getAlternateBSU(): BlobServiceClient {
@@ -114,7 +142,7 @@ export function getConnectionStringFromEnvironment(): string {
 
 /**
  * Read body from downloading operation methods to string.
- * Work on both Node.js and browser environment.
+ * Works in both Node.js and browsers.
  *
  * @param response Convenience layer methods response with downloaded body
  * @param length Length of Readable stream, needed for Node.js environment
@@ -136,20 +164,51 @@ export async function bodyToString(
     });
 
     response.readableStreamBody!.on("error", reject);
+    response.readableStreamBody!.on("end", () => {
+      resolve("");
+    });
   });
 }
 
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
+  blockContent: Buffer
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
   blockSize: number
+): Promise<string>;
+
+// Total file size = (blockNumber -1)*blockSize + lastBlockSize
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSize: number,
+  lastBlockSize: number
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSizeOrContent: number | Buffer,
+  lastBlockSize: number = 0
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(len = blockSize) {
+    function randomValueHex(blockIndex: number) {
+      if (blockSizeOrContent instanceof Buffer) {
+        return blockSizeOrContent;
+      }
+
+      let len = blockSizeOrContent;
+      if (blockIndex === blockNumber && lastBlockSize !== 0) {
+        len = lastBlockSize;
+      }
+
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
         .slice(0, len); // return required number of characters
@@ -157,7 +216,7 @@ export async function createRandomLocalFile(
 
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -165,7 +224,7 @@ export async function createRandomLocalFile(
 
     ws.on("drain", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -173,6 +232,19 @@ export async function createRandomLocalFile(
     ws.on("finish", () => resolve(destFile));
     ws.on("error", reject);
   });
+}
+
+export async function createRandomLocalFileWithTotalSize(
+  folder: string,
+  totalSize: number,
+  blockSize?: number
+): Promise<string> {
+  if (blockSize === undefined || isNaN(blockSize) || blockSize <= 0) {
+    blockSize = 1024 * 1024;
+  }
+  const blockNumber = Math.ceil(totalSize / blockSize);
+  const lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
+  return createRandomLocalFile(folder, blockNumber, blockSize, lastBlockSize);
 }
 
 export function getSASConnectionStringFromEnvironment(): string {

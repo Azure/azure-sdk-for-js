@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { getTracer } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind } from "@opentelemetry/types";
-import { OperationTracingOptions } from "../StorageClient";
+import { getTracer, OperationTracingOptions, SpanOptions } from "@azure/core-tracing";
+import { Span, SpanOptions as OTSpanOptions, SpanKind } from "@opentelemetry/api";
 
 /**
  * Creates a span using the global tracer.
@@ -15,18 +14,23 @@ export function createSpan(
   tracingOptions: OperationTracingOptions = {}
 ): { span: Span; spanOptions: SpanOptions } {
   const tracer = getTracer();
-  const spanOptions: SpanOptions = {
+  const spanOptions: OTSpanOptions = {
     ...tracingOptions.spanOptions,
     kind: SpanKind.INTERNAL
   };
 
   const span = tracer.startSpan(`Azure.Storage.Blob.${operationName}`, spanOptions);
+  span.setAttribute("az.namespace", "Microsoft.Storage");
 
   let newOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newOptions = {
-      ...tracingOptions,
-      parent: span
+      ...tracingOptions.spanOptions,
+      parent: span.context(),
+      attributes: {
+        ...spanOptions.attributes,
+        "az.namespace": "Microsoft.Storage"
+      }
     };
   }
 

@@ -1,6 +1,13 @@
-const { KeyClient, CryptographyClient } = require("../../src");
-const { DefaultAzureCredential } = require("@azure/identity");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 const crypto = require("crypto");
+
+const { KeyClient, CryptographyClient } = require("@azure/keyvault-keys");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -8,19 +15,20 @@ async function main() {
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
-
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   // Connection to Azure Key Vault
   const client = new KeyClient(url, credential);
 
-  let keyName = "localWorkKey11241";
+  const uniqueString = new Date().getTime();
+  const keyName = `key${uniqueString}`;
 
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");
 
-  const cryptoClient = new CryptographyClient(myWorkKey.id, credential);
+  const cryptoClient = new CryptographyClient(
+    myWorkKey // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
+  , credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";
@@ -50,8 +58,9 @@ async function main() {
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 
-  await client.beginDeleteKey(keyName)
+  await client.beginDeleteKey(keyName);
 }
+
 main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);

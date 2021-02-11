@@ -34,7 +34,7 @@ export class Examples {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesAddResponse>
    */
-  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase): Promise<Models.ExamplesAddResponse>;
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: Models.ExamplesAddOptionalParams): Promise<Models.ExamplesAddResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -49,8 +49,8 @@ export class Examples {
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
-  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabelExampleResponse>, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): Promise<Models.ExamplesAddResponse> {
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: Models.ExamplesAddOptionalParams, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: Models.ExamplesAddOptionalParams | msRest.ServiceCallback<Models.LabelExampleResponse>, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): Promise<Models.ExamplesAddResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -70,7 +70,7 @@ export class Examples {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesBatchResponse>
    */
-  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase): Promise<Models.ExamplesBatchResponse>;
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: Models.ExamplesBatchOptionalParams): Promise<Models.ExamplesBatchResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -85,8 +85,8 @@ export class Examples {
    * @param options The optional parameters
    * @param callback The callback
    */
-  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
-  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchLabelExample[]>, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): Promise<Models.ExamplesBatchResponse> {
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: Models.ExamplesBatchOptionalParams, callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: Models.ExamplesBatchOptionalParams | msRest.ServiceCallback<Models.BatchLabelExample[]>, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): Promise<Models.ExamplesBatchResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -177,6 +177,9 @@ const addOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.versionId0
   ],
+  queryParameters: [
+    Parameters.enableNestedChildren
+  ],
   requestBody: {
     parameterPath: "exampleLabelObject",
     mapper: {
@@ -202,6 +205,9 @@ const batchOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
+  ],
+  queryParameters: [
+    Parameters.enableNestedChildren
   ],
   requestBody: {
     parameterPath: "exampleLabelObjectArray",
@@ -265,7 +271,8 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.skip,
-    Parameters.take
+    Parameters.take,
+    Parameters.enableNestedChildren
   ],
   responses: {
     200: {

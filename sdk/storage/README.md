@@ -8,13 +8,13 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - [Source Code - File Data Lake](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake)
 - [Source Code - File Share](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
 - [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
-- [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
+- [Product documentation](https://docs.microsoft.com/azure/storage)
 - @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
 - @azure/storage-file-datalake [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake)
 - @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share)
 - @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
-- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage)
-- [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
+- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage-overview)
+- [Azure Storage REST APIs](https://docs.microsoft.com/rest/api/storageservices/)
 
 ## Key concepts
 
@@ -51,7 +51,7 @@ These libraries are compatible with Node.js and browsers, and validated against 
 
 The Azure Storage client libraries for JavaScript provides low-level and high-level APIs. Take Blob client library as example:
 
-- `BlobServiceClient`, `ContainerClient` and `BlobClient` objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
+- `BlobServiceClient`, `ContainerClient` and `BlobClient` objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api).
 
 - The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
 
@@ -70,16 +70,6 @@ Please check out examples for each libraries
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit <https://cla.microsoft.com.>
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2FREADME.png)

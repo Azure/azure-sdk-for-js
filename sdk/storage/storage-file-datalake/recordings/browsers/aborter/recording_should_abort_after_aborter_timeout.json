@@ -1,8 +1,20 @@
 {
- "recordings": [],
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157870427564701676",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 0,
+   "response": "",
+   "responseHeaders": {}
+  }
+ ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "container": "container157534334234609564"
+   "container": "container157870427564701676"
   },
   "newDate": {}
  }

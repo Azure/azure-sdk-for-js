@@ -27,7 +27,7 @@ export class JobDetails {
   }
 
   /**
-   * Gets exteded information associated with the job.
+   * Gets extended information associated with the job.
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -78,7 +78,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

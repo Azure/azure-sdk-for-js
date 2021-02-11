@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workflowsMappers";
 import * as Parameters from "../models/parameters";
@@ -150,32 +151,28 @@ export class Workflows {
    * Updates a workflow.
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
-   * @param workflow The workflow.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsUpdateResponse>
    */
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsUpdateResponse>;
+  update(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
-   * @param workflow The workflow.
    * @param callback The callback
    */
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, callback: msRest.ServiceCallback<Models.Workflow>): void;
+  update(resourceGroupName: string, workflowName: string, callback: msRest.ServiceCallback<Models.Workflow>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
-   * @param workflow The workflow.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workflow>): void;
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsUpdateResponse> {
+  update(resourceGroupName: string, workflowName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workflow>): void;
+  update(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workflowName,
-        workflow,
         options
       },
       updateOperationSpec,
@@ -390,32 +387,9 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param moveParameter The workflow to move.
-   * @param callback The callback
-   */
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param moveParameter The workflow to move.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workflowName,
-        moveParameter,
-        options
-      },
-      moveOperationSpec,
-      callback);
+  move(resourceGroupName: string, workflowName: string, moveParameter: Models.WorkflowReference, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginMove(resourceGroupName,workflowName,moveParameter,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -495,39 +469,59 @@ export class Workflows {
    * @param resourceGroupName The resource group name.
    * @param location The workflow location.
    * @param workflowName The workflow name.
-   * @param workflow The workflow definition.
+   * @param validate The workflow.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  validateByLocation(resourceGroupName: string, location: string, workflowName: string, validate: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param location The workflow location.
    * @param workflowName The workflow name.
-   * @param workflow The workflow definition.
+   * @param validate The workflow.
    * @param callback The callback
    */
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, callback: msRest.ServiceCallback<void>): void;
+  validateByLocation(resourceGroupName: string, location: string, workflowName: string, validate: Models.Workflow, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param location The workflow location.
    * @param workflowName The workflow name.
-   * @param workflow The workflow definition.
+   * @param validate The workflow.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  validateByLocation(resourceGroupName: string, location: string, workflowName: string, validate: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  validateByLocation(resourceGroupName: string, location: string, workflowName: string, validate: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         location,
         workflowName,
-        workflow,
+        validate,
         options
       },
       validateByLocationOperationSpec,
       callback);
+  }
+
+  /**
+   * Moves an existing workflow.
+   * @param resourceGroupName The resource group name.
+   * @param workflowName The workflow name.
+   * @param moveParameter The workflow to move.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMove(resourceGroupName: string, workflowName: string, moveParameter: Models.WorkflowReference, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        workflowName,
+        moveParameter,
+        options
+      },
+      beginMoveOperationSpec,
+      options);
   }
 
   /**
@@ -608,7 +602,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -634,7 +628,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -659,7 +653,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Workflow
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -694,7 +688,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Workflow
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -714,19 +708,12 @@ const updateOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: "workflow",
-    mapper: {
-      ...Mappers.Workflow,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.Workflow
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -750,7 +737,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -773,7 +760,7 @@ const disableOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -796,7 +783,7 @@ const enableOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -833,7 +820,7 @@ const generateUpgradedDefinitionOperationSpec: msRest.OperationSpec = {
       }
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -865,7 +852,7 @@ const listCallbackUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerCallbackUrl
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -895,38 +882,7 @@ const listSwaggerOperationSpec: msRest.OperationSpec = {
       }
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const moveOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/move",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "moveParameter",
-    mapper: {
-      ...Mappers.Workflow,
-      required: true
-    }
-  },
-  responses: {
-    200: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -956,7 +912,7 @@ const regenerateAccessKeyOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -986,7 +942,7 @@ const validateByResourceGroupOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -1008,7 +964,7 @@ const validateByLocationOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "workflow",
+    parameterPath: "validate",
     mapper: {
       ...Mappers.Workflow,
       required: true
@@ -1017,7 +973,38 @@ const validateByLocationOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginMoveOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/move",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "moveParameter",
+    mapper: {
+      ...Mappers.WorkflowReference,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -1038,7 +1025,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -1059,7 +1046,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -1,120 +1,144 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { RequestOptionsBase } from "@azure/core-http";
-import { DeletedCertificate, CertificateClientInterface } from "../../certificatesModels";
+import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import {
+  DeleteCertificateOptions,
+  DeletedCertificate,
+  GetDeletedCertificateOptions
+} from "../../certificatesModels";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
+import { KeyVaultClient } from "../../generated/keyVaultClient";
+import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
+import {
+  KeyVaultClientDeleteCertificateResponse,
+  KeyVaultClientGetDeletedCertificateResponse
+} from "../../generated/models";
+import { createSpan, setParentSpan } from "../../../../keyvault-common";
 
 /**
  * The public representation of the DeleteCertificatePoller operation state.
  */
-export type DeleteCertificateState = PollOperationState<DeletedCertificate>;
+export type DeleteCertificateState = KeyVaultCertificatePollOperationState<DeletedCertificate>;
 
 /**
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperationState
-  extends PollOperationState<DeletedCertificate> {
-  /**
-   * The name of the certificate.
-   */
-  certificateName: string;
-  /**
-   * Options for the core-http requests.
-   */
-  requestOptions?: RequestOptionsBase;
-  /**
-   * An interface representing a CertificateClient. For internal use.
-   */
-  client: CertificateClientInterface;
-}
+  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
 
 /**
  * An interface representing a delete certificate's poll operation
  */
-export interface DeleteCertificatePollOperation
-  extends PollOperation<DeleteCertificatePollOperationState, DeletedCertificate> {}
-
-/**
- * @summary Reaches to the service and updates the delete certificate's poll operation.
- * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
- */
-async function update(
-  this: DeleteCertificatePollOperation,
-  options: {
-    abortSignal?: AbortSignalLike;
-    fireProgress?: (state: DeleteCertificatePollOperationState) => void;
-  } = {}
-): Promise<DeleteCertificatePollOperation> {
-  const state = this.state;
-  const { certificateName, client } = state;
-
-  const requestOptions = state.requestOptions || {};
-  if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
+export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOperation<
+  DeleteCertificatePollOperationState,
+  DeletedCertificate
+> {
+  constructor(
+    public state: DeleteCertificatePollOperationState,
+    private vaultUrl: string,
+    private client: KeyVaultClient,
+    private requestOptions: RequestOptionsBase = {}
+  ) {
+    super(state, { cancelMessage: "Canceling the deletion of a certificate is not supported." });
   }
 
-  if (!state.isStarted) {
-    const deletedCertificate = await client.deleteCertificate(certificateName, requestOptions);
-    state.isStarted = true;
-    state.result = deletedCertificate;
-    if (!deletedCertificate.recoveryId) {
-      state.isCompleted = true;
-    }
-  }
+  /**
+   * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
+   * to an individual version of a certificate. This operation requires the certificates/delete permission.
+   */
+  private async deleteCertificate(
+    certificateName: string,
+    options: DeleteCertificateOptions = {}
+  ): Promise<DeletedCertificate> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-  if (!state.isCompleted) {
+    const span = createSpan("generatedClient.deleteCertificate", requestOptions);
+
+    let response: KeyVaultClientDeleteCertificateResponse;
     try {
-      state.result = await client.getDeletedCertificate(certificateName, { requestOptions });
-      state.isCompleted = true;
-    } catch (error) {
-      if (error.statusCode === 403) {
-        // At this point, the resource exists but the user doesn't have access to it.
-        state.isCompleted = true;
-      } else if (error.statusCode !== 404) {
-        state.error = error;
+      response = await this.client.deleteCertificate(
+        this.vaultUrl,
+        certificateName,
+        setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return getDeletedCertificateFromDeletedCertificateBundle(response);
+  }
+
+  /**
+   * Retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the
+   * current deletion recovery level. This operation requires the certificates/get permission.
+   */
+  public async getDeletedCertificate(
+    certificateName: string,
+    options: GetDeletedCertificateOptions = {}
+  ): Promise<DeletedCertificate> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("generatedClient.getDeletedCertificate", requestOptions);
+
+    let result: KeyVaultClientGetDeletedCertificateResponse;
+    try {
+      result = await this.client.getDeletedCertificate(
+        this.vaultUrl,
+        certificateName,
+        setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+  }
+
+  /**
+   * Reaches to the service and updates the delete certificate's poll operation.
+   */
+  async update(
+    this: DeleteCertificatePollOperation,
+    options: {
+      abortSignal?: AbortSignalLike;
+      fireProgress?: (state: DeleteCertificatePollOperationState) => void;
+    } = {}
+  ): Promise<DeleteCertificatePollOperation> {
+    const state = this.state;
+    const { certificateName } = state;
+
+    if (options.abortSignal) {
+      this.requestOptions.abortSignal = options.abortSignal;
+    }
+
+    if (!state.isStarted) {
+      const deletedCertificate = await this.deleteCertificate(certificateName, this.requestOptions);
+      state.isStarted = true;
+      state.result = deletedCertificate;
+      if (!deletedCertificate.recoveryId) {
         state.isCompleted = true;
       }
     }
+
+    if (!state.isCompleted) {
+      try {
+        state.result = await this.getDeletedCertificate(certificateName, this.requestOptions);
+        state.isCompleted = true;
+      } catch (error) {
+        if (error.statusCode === 403) {
+          // At this point, the resource exists but the user doesn't have access to it.
+          state.isCompleted = true;
+        } else if (error.statusCode !== 404) {
+          state.error = error;
+          state.isCompleted = true;
+        }
+      }
+    }
+
+    return this;
   }
-
-  return makeDeleteCertificatePollOperation(state);
-}
-
-/**
- * @summary Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
- * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
- */
-async function cancel(
-  this: DeleteCertificatePollOperation,
-  _: { abortSignal?: AbortSignal } = {}
-): Promise<DeleteCertificatePollOperation> {
-  throw new Error("Canceling the deletion of a certificate is not supported.");
-}
-
-/**
- * @summary Serializes the create certificate's poll operation
- */
-function toString(this: DeleteCertificatePollOperation): string {
-  return JSON.stringify({
-    state: this.state
-  });
-}
-
-/**
- * @summary Builds a create certificate's poll operation
- * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
- */
-export function makeDeleteCertificatePollOperation(
-  state: DeleteCertificatePollOperationState
-): DeleteCertificatePollOperation {
-  return {
-    state: {
-      ...state
-    },
-    update,
-    cancel,
-    toString
-  };
 }

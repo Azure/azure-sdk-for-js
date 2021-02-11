@@ -1,25 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
-import { SuiteFunction, PendingSuiteFunction, TestFunction, PendingTestFunction } from "mocha";
-import { isNode } from "../lib/util/utils";
-
-export const nodeIt: TestFunction | PendingTestFunction = !isNode ? it.skip : it;
-export const browserIt: TestFunction | PendingTestFunction = isNode ? it.skip : it;
-export const nodeDescribe: SuiteFunction | PendingSuiteFunction = !isNode
-  ? describe.skip
-  : describe;
-export const browserDescribe: SuiteFunction | PendingSuiteFunction = isNode
-  ? describe.skip
-  : describe;
 
 /**
  * Assert that the provided syncFunction throws an Error. If the expectedError is undefined, then
  * this function will just assert that an Error was thrown. If the expectedError is defined, then
  * this function will assert that the Error that was thrown is equal to the provided expectedError.
- * @param syncFunction The synchronous function that is expected to thrown an Error.
- * @param expectedError The Error that is expected to be thrown.
+ * @param syncFunction - The synchronous function that is expected to thrown an Error.
+ * @param expectedError - The Error that is expected to be thrown.
  */
 export function throws(
   syncFunction: () => void,
@@ -34,7 +23,9 @@ export function throws(
   }
 
   if (!thrownError) {
-    assert.throws(() => {});
+    assert.throws(() => {
+      // Nothing to do here.
+    });
   } else if (expectedError instanceof Error) {
     assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {
@@ -48,8 +39,8 @@ export function throws(
  * Assert that the provided asyncFunction throws an Error. If the expectedError is undefined, then
  * this function will just assert that an Error was thrown. If the expectedError is defined, then
  * this function will assert that the Error that was thrown is equal to the provided expectedError.
- * @param asyncFunction The asynchronous function that is expected to thrown an Error.
- * @param expectedError The Error that is expected to be thrown.
+ * @param asyncFunction - The asynchronous function that is expected to thrown an Error.
+ * @param expectedError - The Error that is expected to be thrown.
  */
 export async function throwsAsync<T>(
   asyncFunction: (() => Promise<T>) | Promise<T>,
@@ -64,7 +55,9 @@ export async function throwsAsync<T>(
   }
 
   if (!thrownError) {
-    assert.throws(() => {});
+    assert.throws(() => {
+      // Nothing to do here.
+    });
   } else if (expectedError instanceof Error) {
     assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {

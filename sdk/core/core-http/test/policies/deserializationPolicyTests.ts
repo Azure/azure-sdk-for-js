@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
-import { HttpHeaders } from "../../lib/httpHeaders";
-import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../lib/coreHttp";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../src/coreHttp";
 import {
   DeserializationPolicy,
-  deserializationPolicy,
+  deserializationPolicy as createDeserializationPolicy,
   deserializeResponseBody,
   defaultJsonContentTypes,
   defaultXmlContentTypes
-} from "../../lib/policies/deserializationPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
-import { WebResource } from "../../lib/webResource";
+} from "../../src/policies/deserializationPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { WebResource } from "../../src/webResource";
 
 describe("deserializationPolicy", function() {
   const mockPolicy: RequestPolicy = {
@@ -27,17 +27,38 @@ describe("deserializationPolicy", function() {
   };
 
   it(`should not modify a request that has no request body mapper`, async function() {
-    const deserializationPolicy = new DeserializationPolicy(
-      mockPolicy,
-      {},
-      new RequestPolicyOptions()
-    );
+    const deserializationPolicy = new DeserializationPolicy(mockPolicy, new RequestPolicyOptions());
 
     const request = createRequest();
     request.body = "hello there!";
 
     await deserializationPolicy.sendRequest(request);
     assert.strictEqual(request.body, "hello there!");
+  });
+
+  it(`should deserialize underscore xml element with custom xml char key`, async function() {
+    const request = createRequest();
+    const mockClient: HttpClient = {
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders({ "Content-Type": "application/xml" }),
+          bodyAsText: "<Metadata><h>v</h><_>underscore</_></Metadata>"
+        })
+    };
+    const deserializationPolicy = new DeserializationPolicy(
+      mockClient,
+      new RequestPolicyOptions(),
+      {},
+      { xmlCharKey: "#" }
+    );
+
+    const response = await deserializationPolicy.sendRequest(request);
+    assert.deepStrictEqual(response.parsedBody, {
+      h: "v",
+      _: "underscore"
+    });
   });
 
   it("should parse a JSON response body", async function() {
@@ -52,7 +73,7 @@ describe("deserializationPolicy", function() {
         })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = createDeserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -69,7 +90,7 @@ describe("deserializationPolicy", function() {
         })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = createDeserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -86,7 +107,7 @@ describe("deserializationPolicy", function() {
         })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = createDeserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -103,7 +124,7 @@ describe("deserializationPolicy", function() {
         })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = createDeserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -412,6 +433,66 @@ describe("deserializationPolicy", function() {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
+    it(`with custom xml char key`, async function() {
+      const response: HttpOperationResponse = {
+        request: createRequest(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
+        [],
+        ["application/xml"],
+        response,
+        {
+          xmlCharKey: "#"
+        }
+      );
+
+      assert(deserializedResponse);
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        apples: {
+          $: {
+            taste: "good"
+          },
+          "#": "3"
+        }
+      });
+    });
+
+    it(`with custom xml char key for underscore xml element`, async function() {
+      const response: HttpOperationResponse = {
+        request: createRequest(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<Metadata><h>v</h><_>underscore</_></Metadata>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
+        [],
+        ["application/xml"],
+        response,
+        {
+          xmlCharKey: "#"
+        }
+      );
+
+      assert(deserializedResponse);
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<Metadata><h>v</h><_>underscore</_></Metadata>`
+      );
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        h: "v",
+        _: "underscore"
+      });
+    });
+
     it(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
@@ -502,6 +583,183 @@ describe("deserializationPolicy", function() {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
+    it("should deserialize xml response bodies with empty list wrapper", async function() {
+      const blobServiceProperties: CompositeMapper = {
+        xmlName: "StorageServiceProperties",
+        serializedName: "BlobServiceProperties",
+        type: {
+          name: "Composite",
+          className: "BlobServiceProperties",
+          modelProperties: {
+            cors: {
+              xmlIsWrapped: true,
+              xmlName: "Cors",
+              xmlElementName: "CorsRule",
+              serializedName: "Cors",
+              type: {
+                name: "Sequence",
+                element: {
+                  type: {
+                    name: "Composite",
+                    className: "CorsRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer({}, true),
+          responses: {
+            200: {
+              bodyMapper: blobServiceProperties
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?><StorageServiceProperties><Cors /></StorageServiceProperties>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert.deepStrictEqual(deserializedResponse.parsedBody, { cors: [] });
+    });
+
+    it("should deserialize xml response bodies with wrapper around empty list", async function() {
+      const blobServiceProperties: CompositeMapper = {
+        xmlName: "StorageServiceProperties",
+        serializedName: "BlobServiceProperties",
+        type: {
+          name: "Composite",
+          className: "BlobServiceProperties",
+          modelProperties: {
+            cors: {
+              xmlIsWrapped: true,
+              xmlName: "Cors",
+              xmlElementName: "CorsRule",
+              serializedName: "Cors",
+              type: {
+                name: "Sequence",
+                element: {
+                  type: {
+                    name: "Composite",
+                    className: "CorsRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer({}, true),
+          responses: {
+            200: {
+              bodyMapper: blobServiceProperties
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?><StorageServiceProperties><Cors></Cors></StorageServiceProperties>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert.deepStrictEqual(deserializedResponse.parsedBody, { cors: [] });
+    });
+
+    it("should deserialize xml response bodies with wrapper around non-empty list", async function() {
+      const corsRule: CompositeMapper = {
+        serializedName: "CorsRule",
+        type: {
+          name: "Composite",
+          className: "CorsRule",
+          modelProperties: {
+            allowedOrigins: {
+              xmlName: "AllowedOrigins",
+              required: true,
+              serializedName: "AllowedOrigins",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+      const blobServiceProperties: CompositeMapper = {
+        xmlName: "StorageServiceProperties",
+        serializedName: "BlobServiceProperties",
+        type: {
+          name: "Composite",
+          className: "BlobServiceProperties",
+          modelProperties: {
+            cors: {
+              xmlIsWrapped: true,
+              xmlName: "Cors",
+              xmlElementName: "CorsRule",
+              serializedName: "Cors",
+              type: {
+                name: "Sequence",
+                element: {
+                  type: {
+                    name: "Composite",
+                    className: "CorsRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      const mappers = {
+        CorsRule: corsRule,
+        BlobServiceProperties: blobServiceProperties
+      };
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer(mappers, true),
+          responses: {
+            200: {
+              bodyMapper: blobServiceProperties
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?>
+        <StorageServiceProperties>
+            <Cors>
+                <CorsRule>
+                    <AllowedOrigins>example1.com</AllowedOrigins>
+                </CorsRule>
+                <CorsRule>
+                    <AllowedOrigins>example2.com</AllowedOrigins>
+                </CorsRule>
+            </Cors>
+        </StorageServiceProperties>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+      assert.deepStrictEqual(deserializedResponse.parsedBody, {
+        cors: [{ allowedOrigins: "example1.com" }, { allowedOrigins: "example2.com" }]
+      });
+    });
+
     it(`with default response headers`, async function() {
       const BodyMapper: CompositeMapper = {
         serializedName: "getproperties-body",
@@ -563,6 +821,233 @@ describe("deserializationPolicy", function() {
         assert(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
+      }
+    });
+
+    it(`with non default error response headers`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = new Serializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          500: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper,
+            isError: true
+          }
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders({
+          "x-ms-error-code": "InvalidResourceNameHeader"
+        }),
+        bodyAsText: '{"message": "InvalidResourceNameBody"}'
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail();
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
+      }
+    });
+
+    it(`should throw when the response code is not defined in the operationSpec`, async function() {
+      const serializer = new Serializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          200: {}
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders(),
+        bodyAsText: '{"message": "InternalServerError"}'
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail("Expected deserializeResponse to throw an error");
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.statusCode, 500);
+        assert.include(e.message, "InternalServerError");
+      }
+    });
+
+    it(`with non default complex error response`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message1: {
+              type: {
+                name: "String"
+              }
+            },
+            message2: {
+              type: {
+                name: "String"
+              }
+            },
+            message3: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = new Serializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          503: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper,
+            isError: true
+          }
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 503,
+        headers: new HttpHeaders({
+          "x-ms-error-code": "InvalidResourceNameHeader"
+        }),
+        bodyAsText:
+          '{"message1": "InvalidResourceNameBody1", "message2": "InvalidResourceNameBody2", "message3": "InvalidResourceNameBody3"}'
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail();
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
+        assert.strictEqual(e.response.parsedBody.message2, "InvalidResourceNameBody2");
+        assert.strictEqual(e.response.parsedBody.message3, "InvalidResourceNameBody3");
+      }
+    });
+
+    it(`with default error response body`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "StorageError",
+        type: {
+          name: "Composite",
+          className: "StorageError",
+          modelProperties: {
+            code: {
+              xmlName: "Code",
+              serializedName: "Code",
+              type: {
+                name: "String"
+              }
+            },
+            message: {
+              xmlName: "Message",
+              serializedName: "Message",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = new Serializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            bodyMapper: BodyMapper
+          }
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?><Error><Code>ContainerAlreadyExists</Code><Message>The specified container already exists.</Message></Error>`
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail();
+      } catch (e) {
+        assert(e);
+        assert.equal(e.code, "ContainerAlreadyExists");
+        assert.equal(e.message, "The specified container already exists.");
       }
     });
   });

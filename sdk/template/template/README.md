@@ -1,31 +1,102 @@
-## Template for Azure Node Libraries
+# Azure Template client library for JavaScript
 
-This template serves as a starting point for JavaScript libraries targeting both Node and the Browser and implemented in TypeScript.
+<!-- NOTE: This README file is a template. Read through it and replace the instructions (keeping an eye out for package names like "@azure/template") with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
 
-## Building the Template
+This project is used as a template package for the Azure SDK for JavaScript. It is intended to help Azure SDK developers bootstrap new packages, and it provides an example of how to organize the code and documentation of a client library for an Azure service.
 
-Once you clone this template, you can build the package with the following commands:
+## Getting started
 
-```sh
-npm install
-npm run build
+### Currently supported environments
+
+- Node.js version 8.x or higher
+
+### Prerequisites
+
+- An [Azure subscription][azure_sub].
+
+Usually you'd put a shell command for provisioning the necessary Azure services here.
+
+### Install the `@azure/template` package
+
+Install the Template client library for JavaScript with `npm`:
+
+```bash
+npm install @azure/template
 ```
 
-Run tests via:
+### Browser support
 
-```sh
-npm test
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+#### CORS
+
+<!--
+
+NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
+
+Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
+
+-->
+
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+
+For example, you can create the following CORS settings for debugging. But please customize the settings carefully according to your requirements in a production environment.
+
+- Allowed origins: \*
+- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+- Allowed headers: \*
+- Exposed headers: \*
+- Maximum age (seconds): 86400
+
+### Further examples
+
+Top-level examples usually include things like creating and authenticating the main Client. If your service supports multiple means of authenticating (e.g. key-based and Azure Active Directory) you can give a separate example of each.
+
+## Key concepts
+
+### ConfigurationClient
+
+Describe your primary client here. Talk about what operations it can do and when a developer would want to use it.
+
+### Additional Examples
+
+Create a section for each top-level service concept you want to explain.
+
+## Examples
+
+### First Example
+
+<!-- Examples should showcase the primary, or "champion" scenarios of the client SDK. -->
+
+Create several code examples for how someone would use your library to accomplish a common task with the service.
+
+## Troubleshooting
+
+### Enable logs
+
+You can set the following environment variable to see debug logs when using this library.
+
+- Getting debug logs from the Azure TextAnalytics client library
+
+```bash
+export DEBUG=azure*
 ```
 
-## Implementation Details
+## Next steps
 
-The overall build pipeline looks like the following:
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
 
-1. TypeScript builds all source files under `./src` to ECMAScript Modules (ESM) under `./dist-esm`
-2. Rollup builds `./dist-esm` to an optimized single file at `./dist/index.js` as the Node entry point.
-3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/index.js`.
+## Contributing
 
-Tests follow a similar pipeline, however output folders have the `test-` prefix.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftemplate%2Ftemplate%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/

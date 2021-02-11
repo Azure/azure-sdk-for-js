@@ -9,7 +9,7 @@ import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -17,7 +17,7 @@ export async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Create a container
@@ -35,14 +35,14 @@ export async function main() {
     const content = "hello";
     const blobName = "newblob" + new Date().getTime();
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
   // 1. List blobs
   console.log("Listing all blobs using iter");
   let i = 1;
-  let iter = await containerClient.listBlobsFlat();
+  let iter = containerClient.listBlobsFlat();
   for await (const blob of iter) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
@@ -100,7 +100,7 @@ export async function main() {
   }
 
   // 7. Passing marker as an argument (similar to the previous example)
-  console.log("Listing all blobs by page, using iteartor.next() and continuation token");
+  console.log("Listing all blobs by page, using iterator.next() and continuation token");
   i = 1;
   iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
   response = await iterator.next();

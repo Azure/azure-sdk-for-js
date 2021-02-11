@@ -1,18 +1,18 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { resolve, CONNREFUSED, TIMEOUT } from "dns";
+import { CONNREFUSED, TIMEOUT, resolve as dnsResolve } from "dns";
 import { logger } from "../log";
 
 /**
  * Checks whether a network connection is detected.
- * @ignore
+ * @hidden
  * @internal
  */
 export function checkNetworkConnection(host: string): Promise<boolean> {
-  return new Promise((res) => {
+  return new Promise((resolve) => {
     logger.verbose("Calling dns.resolve to determine network connection status.");
-    resolve(host, function(err: any): void {
+    dnsResolve(host, function(err: any): void {
       if (err) {
         logger.verbose(
           "Error thrown from dns.resolve in network connection check: '%s', %O",
@@ -20,15 +20,15 @@ export function checkNetworkConnection(host: string): Promise<boolean> {
           err
         );
         // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
-        // Only when dns.resolve returns an error we expect to see when the network is down, resolve as 'false'.
+        // We only resolve with `false` when dnsResolve fails with an error we expect to see when the network is down.
         if (err.code === CONNREFUSED || err.code === TIMEOUT) {
-          return res(false);
+          return resolve(false);
         }
       } else {
         logger.verbose("Successfully resolved host via dns.resolve in network connection check.");
       }
 
-      return res(true);
+      return resolve(true);
     });
   });
 }

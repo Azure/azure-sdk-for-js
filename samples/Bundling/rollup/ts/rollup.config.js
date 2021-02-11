@@ -1,5 +1,5 @@
-import resolve from "rollup-plugin-node-resolve";
-import cjs from "rollup-plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
 import typescript from "rollup-plugin-typescript2";
@@ -13,16 +13,16 @@ export default {
   },
   plugins: [
     shim({
-        fs: `
+      fs: `
       export function stat() { }
       export function createReadStream() { }
       export function createWriteStream() { }
     `,
-        os: `
+      os: `
       export const type = 1;
       export const release = 1;
     `,
-        util: `
+      util: `
         export function promisify() { }
     `
     }),
@@ -32,7 +32,7 @@ export default {
     }),
     cjs({
       namedExports: {
-        events: ["EventEmitter"],
+        events: ["EventEmitter"]
       }
     }),
     json(),

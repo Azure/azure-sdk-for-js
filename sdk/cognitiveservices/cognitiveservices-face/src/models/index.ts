@@ -319,7 +319,8 @@ export interface FaceAttributes {
 export interface DetectedFace {
   faceId?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02'. Default value: 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
+   * 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
   faceRectangle: FaceRectangle;
@@ -568,7 +569,8 @@ export interface NameAndUserDataContract {
  */
 export interface MetaDataContract extends NameAndUserDataContract {
   /**
-   * Possible values include: 'recognition_01', 'recognition_02'. Default value: 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
+   * 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -915,7 +917,7 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
    * name can be provided when performing Face - Detect or (Large)FaceList - Create or
    * (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed,
    * please explicitly specify the model you need. Possible values include: 'recognition_01',
-   * 'recognition_02'. Default value: 'recognition_01'.
+   * 'recognition_02', 'recognition_03'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
   /**
@@ -978,7 +980,7 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
    * name can be provided when performing Face - Detect or (Large)FaceList - Create or
    * (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed,
    * please explicitly specify the model you need. Possible values include: 'recognition_01',
-   * 'recognition_02'. Default value: 'recognition_01'.
+   * 'recognition_02', 'recognition_03'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
   /**
@@ -1111,7 +1113,8 @@ export interface PersonGroupCreateOptionalParams extends msRest.RequestOptionsBa
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02'. Default value: 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
+   * 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1173,7 +1176,8 @@ export interface FaceListCreateOptionalParams extends msRest.RequestOptionsBase 
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02'. Default value: 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
+   * 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1379,7 +1383,8 @@ export interface LargePersonGroupCreateOptionalParams extends msRest.RequestOpti
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02'. Default value: 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
+   * 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1441,7 +1446,8 @@ export interface LargeFaceListCreateOptionalParams extends msRest.RequestOptions
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02'. Default value: 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
+   * 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1637,11 +1643,11 @@ export interface SnapshotApplyHeaders {
 
 /**
  * Defines values for RecognitionModel.
- * Possible values include: 'recognition_01', 'recognition_02'
+ * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'
  * @readonly
  * @enum {string}
  */
-export type RecognitionModel = 'recognition_01' | 'recognition_02';
+export type RecognitionModel = 'recognition_01' | 'recognition_02' | 'recognition_03';
 
 /**
  * Defines values for Gender.

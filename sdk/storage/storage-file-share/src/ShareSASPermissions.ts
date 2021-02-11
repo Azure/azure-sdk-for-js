@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a share.
@@ -18,7 +18,6 @@ export class ShareSASPermissions {
    *
    * @static
    * @param {string} permissions
-   * @returns
    * @memberof ShareSASPermissions
    */
   public static parse(permissions: string) {

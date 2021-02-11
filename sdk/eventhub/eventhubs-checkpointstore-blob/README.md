@@ -1,8 +1,8 @@
 # Azure Event Hubs Checkpoint Store library for Javascript using Storage Blobs
 
-An Azure Blob storage based solution to store checkpoints and to aid in load balancing when using `EventProcessor` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
+An Azure Blob storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhub.html#azure-eventhubs-checkpointstore-blob) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
 
 ## Getting started
 
@@ -13,7 +13,7 @@ Install the Azure Event Hubs Checkpoint Store Blob library using npm
 `npm install @azure/eventhubs-checkpointstore-blob`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/), an
-[Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
+[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction)
 
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
@@ -27,13 +27,14 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
-### Key concepts
+## Key concepts
 
 - **Scale:** Create multiple consumers, with each consumer taking ownership of reading from a few Event Hubs partitions.
 
-- **Load balance:** Event Processor based application consists of one or more instances of `EventProcessor` which have been
-  configured to consume events from the same Event Hub and consumer group. They balance the
-  workload across different instances by distributing the partitions to be processed among themselves.
+- **Load balance:** Applications that support load balancing consist of one or more instances of
+  `EventHubConsumerClient` which have been configured to consume events from the same Event Hub and consumer group
+  and the same `CheckpointStore`.
+  They balance the workload across different instances by distributing the partitions to be processed among themselves.
 
 - **Checkpointing:** It is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and
   occurs on a per-partition basis within a consumer group. This responsibility means that for each consumer group, each partition reader must keep track of its current position
@@ -44,7 +45,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-  A [BlobCheckpointStore](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-eventhubs-checkpointstore-blob/1.0.0-preview.5/classes/blobcheckpointstore.html) 
+  A [BlobCheckpointStore](https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob/blobcheckpointstore)
   is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
 
 ## Examples
@@ -71,77 +72,112 @@ const checkpointStore =  new BlobCheckpointStore(containerClient);
 
 ### Checkpoint events using Azure Blob storage
 
-To checkpoint events received using  Azure Blob Storage, you will need to pass an object
-that is compatible with the [SubscriptionEventHandlers](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/interfaces/subscriptioneventhandlers.html) 
+To checkpoint events received using Azure Blob Storage, you will need to pass an object
+that is compatible with the [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
 interface along with code to call the `updateCheckpoint()` method.
 
-In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/interfaces/subscriptioneventhandlers.html) and also handles checkpointing.
+In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
 
 ```javascript
-import { ContainerClient } from "@azure/storage-blob";
-import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
-import { EventHubConsumerClient } from "@azure/event-hubs";
+const { EventHubConsumerClient } = require("@azure/event-hubs");
+const { ContainerClient } = require("@azure/storage-blob");
+const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 
-const consumerGroup = "consumer-group-name";
-const connectionString = "event-hub-connectionstring";
+const storageAccountConnectionString = "storage-account-connection-string";
+const containerName = "container-name";
+const eventHubConnectionString = "eventhub-connection-string";
+const consumerGroup = "my-consumer-group";
+const eventHubName = "eventHubName";
 
-const containerClient = new ContainerClient("storage-connection-string", "container-name");
+async function main() {
+  const blobContainerClient = new ContainerClient(storageAccountConnectionString, containerName);
 
-if (!await containerClient.exists()) {
-  await containerClient.create(); // This can be skipped if the container already exists
-}
-
-const checkpointStore =  new BlobCheckpointStore(containerClient);
-
-class SubscriptionHandlers {
-  async processEvents(event, context) {
-    // custom logic for processing events goes here   
-    
-    // Checkpointing will allow your service to restart and pick
-    // up from where it left off. 
-    //
-    // You'll want to balance how often you checkpoint with the 
-    // performance of your underlying checkpoint store.
-    await context.updateCheckpoint(event);
+  if (!(await blobContainerClient.exists())) {
+    await blobContainerClient.create();
   }
 
-  async processError(err, context) {
-    // handle any errors that occur during the course of
-    // this subscription
-    console.log(`Errors in subscription: ${err}`);
-  }
+  const checkpointStore = new BlobCheckpointStore(blobContainerClient);
+  const consumerClient = new EventHubConsumerClient(
+    consumerGroup,
+    eventHubConnectionString,
+    eventHubName,
+    checkpointStore
+  );
+
+  const subscription = consumerClient.subscribe({
+    processEvents: async (events, context) => {
+      // event processing code goes here
+      if (events.length === 0) {
+        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
+        // will pass you an empty array.
+        return;
+      }
+
+      // Checkpointing will allow your service to pick up from
+      // where it left off when restarting.
+      //
+      // You'll want to balance how often you checkpoint with the
+      // performance of your underlying checkpoint store.
+      await context.updateCheckpoint(events[events.length - 1]);
+    },
+    processError: async (err, context) => {
+      // handle any errors that occur during the course of
+      // this subscription
+      console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
+    }
+  });
+
+  // Wait for a few seconds to receive events before closing
+  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+
+  await subscription.close();
+  await consumerClient.close();
+  console.log(`Exiting sample`);
 }
 
-const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, checkpointStore);
-
-const subscription = consumerClient.subscribe(new SubscriptionHandlers());
-
-// events will now flow into the handlers defined above
-// to stop the subscription:
-subscription.close();
+main();
 ```
 
 ## Troubleshooting
 
 ### Enable logs
 
+You can set the `AZURE_LOG_LEVEL` environment variable to one of the following values to enable logging to `stderr`:
+
+- verbose
+- info
+- warning
+- error
+
+You can also set the log level programatically by importing the
+[@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
+`setLogLevel` function with one of the log level values.
+
+When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
+any logs that are written using a log level equal to or less than the one you choose will be emitted.
+For example, when you set the log level to `info`, the logs that are written for levels
+`warning` and `error` are also emitted.
+This SDK follows the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
+when determining which level to log to.
+
+You can alternatively set the `DEBUG` environment variable to get logs when using this library.
+This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
+
+**Note:** AZURE_LOG_LEVEL, if set, takes precedence over DEBUG.
+Do not specify any `azure` libraries via DEBUG when also specifying
+AZURE_LOG_LEVEL or calling setLogLevel.
+
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the Eventhubs Checkpointstore Blob
+- Getting only info level debug logs from the Eventhubs Checkpointstore Blob.
 
 ```bash
-export DEBUG=azure:eventhubs-checkpointstore-blob*
-```
-
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure:event-hubs:error,azure:eventhubs-checkpointstore-blob:error
+export DEBUG=azure:eventhubs-checkpointstore-blob:info
 ```
 
 ### Logging to a file
 
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
+- Enable logging as shown above and then run your test script as follows:
 
   - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
@@ -154,7 +190,7 @@ export DEBUG=azure:event-hubs:error,azure:eventhubs-checkpointstore-blob:error
   - Logging statements from your test script and the sdk go to the same file `out.log`.
 
     ```bash
-      node your-test-script.js &> out.log
+    node your-test-script.js &> out.log
     ```
 
 ## Next Steps
@@ -164,6 +200,6 @@ directory for detailed example.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Feventhubs-checkpointstore-blob%2FREADME.png)

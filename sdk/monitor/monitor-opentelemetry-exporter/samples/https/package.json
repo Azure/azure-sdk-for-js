@@ -1,0 +1,47 @@
+{
+  "name": "https-example",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Example of HTTPs integration with OpenTelemetry",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "build": "echo 'nothing to build'",
+    "test": "echo 'nothing to test'",
+    "lint": "echo 'nothing to lint'",
+    "server": "cross-env APPINSIGHTS_INSTRUMENTATIONKEY=ikey node ./server.js",
+    "client": "cross-env APPINSIGHTS_INSTRUMENTATIONKEY=ikey node ./client.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/open-telemetry/opentelemetry-js.git"
+  },
+  "keywords": [
+    "opentelemetry",
+    "https",
+    "tracing"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "author": "OpenTelemetry Authors",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/open-telemetry/opentelemetry-js/issues"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
+  },
+  "dependencies": {
+    "@azure/monitor-opentelemetry-exporter": "latest",
+    "@opentelemetry/api": "latest",
+    "@opentelemetry/core": "latest",
+    "@opentelemetry/node": "latest",
+    "@opentelemetry/plugin-http": "latest",
+    "@opentelemetry/plugin-https": "latest",
+    "@opentelemetry/tracing": "latest",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "homepage": "https://github.com/open-telemetry/opentelemetry-js#readme"
+}

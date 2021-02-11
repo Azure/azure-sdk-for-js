@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-02-02/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-06-12/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -350,7 +350,6 @@ directive:
     transform: >
       $.Start["x-ms-client-name"] = "startsOn";
       $.Expiry["x-ms-client-name"] = "expiresOn";
-
 ```
 
 ### Rename KeyInfo start -> startsOn
@@ -362,8 +361,67 @@ directive:
     transform: >
       $.Start["x-ms-client-name"] = "startsOn";
       $.Expiry["x-ms-client-name"] = "expiresOn";
-
 ```
 
+### Un-group encryptionScope
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.EncryptionScope
+    transform: >
+      const grouping = $["x-ms-parameter-grouping"];
+      if (grouping) {
+        delete $["x-ms-parameter-grouping"];
+      }
+```
+
+### Rename ContainerCpkScopeInfo -> ContainerEncryptionScope
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.DefaultEncryptionScope
+    transform: >
+      $["x-ms-parameter-grouping"]["name"] = "container-encryption-scope";
+  - from: swagger-document
+    where: $.parameters.DenyEncryptionScopeOverride
+    transform: >
+      $["x-ms-parameter-grouping"]["name"] = "container-encryption-scope";
+```
+
+### Use string union instead of string for RehydratePriority in getProperties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["head"]["responses"]["200"]["headers"]["x-ms-rehydrate-priority"]
+    transform: >
+      $["description"] = "If an object is in rehydrate pending state then this header is returned with priority of rehydrate.";
+      $["enum"] =  ["High", "Standard"];
+      $["x-ms-enum"] =  {};
+      $["x-ms-enum"]["name"] = "RehydratePriority";
+      $["x-ms-enum"]["modelAsString"] = true;
+```
+
+### Add Code to StorageError properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $.properties.Code = { "type": "string" };
+```
+
+### Hide AllowPermanentDelete
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RetentionPolicy
+    transform: >
+      delete $.properties["AllowPermanentDelete"];
+```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

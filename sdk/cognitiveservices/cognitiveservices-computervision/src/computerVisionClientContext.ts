@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-computervision";
-const packageVersion = "6.0.0";
+const packageVersion = "7.1.0";
 
 export class ComputerVisionClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -42,7 +42,7 @@ export class ComputerVisionClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/vision/v2.1";
+    this.baseUri = "{Endpoint}/vision/v3.1";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

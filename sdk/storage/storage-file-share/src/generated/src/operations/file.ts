@@ -28,7 +28,7 @@ export class File {
 
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -38,7 +38,7 @@ export class File {
    */
   create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
   /**
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -47,7 +47,7 @@ export class File {
    */
   create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -206,6 +206,114 @@ export class File {
   }
 
   /**
+   * [Update] The Lease File operation establishes and manages a lock on a file for write and delete
+   * operations
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileAcquireLeaseResponse>
+   */
+  acquireLease(options?: Models.FileAcquireLeaseOptionalParams): Promise<Models.FileAcquireLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
+  acquireLease(callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  acquireLease(options: Models.FileAcquireLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  acquireLease(options?: Models.FileAcquireLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileAcquireLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      acquireLeaseOperationSpec,
+      callback) as Promise<Models.FileAcquireLeaseResponse>;
+  }
+
+  /**
+   * [Update] The Lease File operation establishes and manages a lock on a file for write and delete
+   * operations
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileReleaseLeaseResponse>
+   */
+  releaseLease(leaseId: string, options?: Models.FileReleaseLeaseOptionalParams): Promise<Models.FileReleaseLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
+  releaseLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  releaseLease(leaseId: string, options: Models.FileReleaseLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  releaseLease(leaseId: string, options?: Models.FileReleaseLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileReleaseLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        leaseId,
+        options
+      },
+      releaseLeaseOperationSpec,
+      callback) as Promise<Models.FileReleaseLeaseResponse>;
+  }
+
+  /**
+   * [Update] The Lease File operation establishes and manages a lock on a file for write and delete
+   * operations
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileChangeLeaseResponse>
+   */
+  changeLease(leaseId: string, options?: Models.FileChangeLeaseOptionalParams): Promise<Models.FileChangeLeaseResponse>;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param callback The callback
+   */
+  changeLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param leaseId Specifies the current lease ID on the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  changeLease(leaseId: string, options: Models.FileChangeLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  changeLease(leaseId: string, options?: Models.FileChangeLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileChangeLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        leaseId,
+        options
+      },
+      changeLeaseOperationSpec,
+      callback) as Promise<Models.FileChangeLeaseResponse>;
+  }
+
+  /**
+   * [Update] The Lease File operation establishes and manages a lock on a file for write and delete
+   * operations
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileBreakLeaseResponse>
+   */
+  breakLease(options?: Models.FileBreakLeaseOptionalParams): Promise<Models.FileBreakLeaseResponse>;
+  /**
+   * @param callback The callback
+   */
+  breakLease(callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  breakLease(options: Models.FileBreakLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  breakLease(options?: Models.FileBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileBreakLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      breakLeaseOperationSpec,
+      callback) as Promise<Models.FileBreakLeaseResponse>;
+  }
+
+  /**
    * Upload a range of bytes to a file.
    * @param range Specifies the range of bytes to be written. Both the start and end of the range
    * must be specified. For an update operation, the range can be up to 4 MB in size. For a clear
@@ -337,13 +445,13 @@ export class File {
   /**
    * @param callback The callback
    */
-  getRangeList(callback: coreHttp.ServiceCallback<Models.Range[]>): void;
+  getRangeList(callback: coreHttp.ServiceCallback<Models.ShareFileRangeList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRangeList(options: Models.FileGetRangeListOptionalParams, callback: coreHttp.ServiceCallback<Models.Range[]>): void;
-  getRangeList(options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.Range[]>, callback?: coreHttp.ServiceCallback<Models.Range[]>): Promise<Models.FileGetRangeListResponse> {
+  getRangeList(options: Models.FileGetRangeListOptionalParams, callback: coreHttp.ServiceCallback<Models.ShareFileRangeList>): void;
+  getRangeList(options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.ShareFileRangeList>, callback?: coreHttp.ServiceCallback<Models.ShareFileRangeList>): Promise<Models.FileGetRangeListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -456,20 +564,20 @@ export class File {
 
   /**
    * Closes all handles open for given file
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileForceCloseHandlesResponse>
    */
   forceCloseHandles(handleId: string, options?: Models.FileForceCloseHandlesOptionalParams): Promise<Models.FileForceCloseHandlesResponse>;
   /**
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param callback The callback
    */
   forceCloseHandles(handleId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param options The optional parameters
    * @param callback The callback
@@ -504,7 +612,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.metadata,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
-    Parameters.fileAttributes,
+    Parameters.fileAttributes0,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
     Parameters.fileContentType,
@@ -512,7 +620,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileContentLanguage,
     Parameters.fileCacheControl,
     Parameters.fileContentMD5,
-    Parameters.fileContentDisposition
+    Parameters.fileContentDisposition,
+    Parameters.leaseId0
   ],
   responses: {
     201: {
@@ -539,7 +648,8 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.range0,
-    Parameters.rangeGetContentMD5
+    Parameters.rangeGetContentMD5,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -580,7 +690,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds
   ],
   headerParameters: [
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -605,7 +716,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds
   ],
   headerParameters: [
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     202: {
@@ -635,7 +747,7 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileContentLength1,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
-    Parameters.fileAttributes,
+    Parameters.fileAttributes0,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
     Parameters.fileContentType,
@@ -643,7 +755,8 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileContentLanguage,
     Parameters.fileCacheControl,
     Parameters.fileContentMD5,
-    Parameters.fileContentDisposition
+    Parameters.fileContentDisposition,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -666,11 +779,12 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -685,6 +799,124 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
+const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}/{fileName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.comp2
+  ],
+  headerParameters: [
+    Parameters.duration,
+    Parameters.proposedLeaseId,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action0
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.FileAcquireLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileAcquireLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}/{fileName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.comp2
+  ],
+  headerParameters: [
+    Parameters.leaseId1,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action1
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.FileReleaseLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileReleaseLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const changeLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}/{fileName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.comp2
+  ],
+  headerParameters: [
+    Parameters.leaseId1,
+    Parameters.proposedLeaseId,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action2
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.FileChangeLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileChangeLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const breakLeaseOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}/{fileName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.comp2
+  ],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.action4,
+    Parameters.leaseId0
+  ],
+  responses: {
+    202: {
+      headersMapper: Mappers.FileBreakLeaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileBreakLeaseHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
 const uploadRangeOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
@@ -693,14 +925,15 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.range1,
     Parameters.fileRangeWrite,
     Parameters.contentLength,
     Parameters.contentMD5,
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   requestBody: {
     parameterPath: [
@@ -736,7 +969,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.range1,
@@ -747,7 +980,8 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.sourceContentCrc64,
     Parameters.version,
     Parameters.sourceIfMatchCrc64,
-    Parameters.sourceIfNoneMatchCrc64
+    Parameters.sourceIfNoneMatchCrc64,
+    Parameters.leaseId0
   ],
   responses: {
     201: {
@@ -770,28 +1004,18 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.shareSnapshot,
+    Parameters.prevsharesnapshot,
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.version,
-    Parameters.range0
+    Parameters.range0,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
-      bodyMapper: {
-        xmlElementName: "Range",
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Range"
-            }
-          }
-        }
-      },
+      bodyMapper: Mappers.ShareFileRangeList,
       headersMapper: Mappers.FileGetRangeListHeaders
     },
     default: {
@@ -815,7 +1039,16 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.metadata,
-    Parameters.copySource
+    Parameters.copySource,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.filePermissionCopyMode,
+    Parameters.ignoreReadOnly,
+    Parameters.fileAttributes1,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime,
+    Parameters.setArchiveAttribute,
+    Parameters.leaseId0
   ],
   responses: {
     202: {
@@ -839,11 +1072,12 @@ const abortCopyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.copyId,
     Parameters.timeoutInSeconds,
-    Parameters.comp11
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.copyActionAbortConstant,
-    Parameters.version
+    Parameters.version,
+    Parameters.leaseId0
   ],
   responses: {
     204: {
@@ -869,7 +1103,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxResults,
     Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
-    Parameters.comp7
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.version
@@ -898,7 +1132,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
-    Parameters.comp8
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.handleId,

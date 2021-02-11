@@ -1,26 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
-import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "../utils";
-import { PublicAccessType } from "../../src/generated/src/models/index";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import { PublicAccessType } from "../../src";
 import {
   ContainerClient,
   newPipeline,
   StorageSharedKeyCredential,
-  ContainerSASPermissions
+  ContainerSASPermissions,
+  BlobServiceClient
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("ContainerClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
-  let recorder: any;
+  let recorder: Recorder;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -28,7 +32,7 @@ describe("ContainerClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("getAccessPolicy", async () => {
@@ -60,7 +64,7 @@ describe("ContainerClient Node.js only", () => {
     assert.deepEqual(result.blobPublicAccess, access);
   });
 
-  it("setAccessPolicy should work when expiry and start undefined", async () => {
+  it("setAccessPolicy should work when permissions, expiry and start undefined", async () => {
     const access: PublicAccessType = "blob";
     const containerAcl = [
       {
@@ -75,6 +79,18 @@ describe("ContainerClient Node.js only", () => {
     const result = await containerClient.getAccessPolicy();
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
+
+    const containerAclEmpty = [
+      {
+        accessPolicy: {},
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await containerClient.setAccessPolicy(access, containerAclEmpty);
+    const resultEmpty = await containerClient.getAccessPolicy();
+    assert.deepEqual(resultEmpty.signedIdentifiers[0].accessPolicy, undefined);
+    assert.deepEqual(resultEmpty.blobPublicAccess, access);
   });
 
   it("can be created with a url and a credential", async () => {

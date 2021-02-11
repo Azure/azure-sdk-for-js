@@ -1,21 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TokenCredential } from "@azure/core-http";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
-import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline, StorageSharedKeyCredential } from "../../src";
+import {
+  DataLakeFileSystemClient,
+  FileSystemSASPermissions,
+  newPipeline,
+  StorageSharedKeyCredential
+} from "../../src";
 import { PublicAccessType } from "../../src/models";
-import { getDataLakeServiceClient, setupEnvironment } from "../utils";
+import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -23,7 +30,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("getAccessPolicy", async () => {

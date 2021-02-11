@@ -1,0 +1,32 @@
+{
+  "name": "electron-test-app",
+  "version": "1.0.0",
+  "description": "A sample Electron application",
+  "main": "main.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && electron dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "electron",
+    "javascript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/qs": "^6.9.5",
+    "babel": "^6.23.0",
+    "electron": "^10.2.0",
+    "prettier": "^1.16.4",
+    "typescript": "^4.1.2",
+    "webpack": "^5.6.0"
+  },
+  "dependencies": {
+    "@azure/identity": "^1.2.0",
+    "@azure/logger": "^1.0.0",
+    "@azure/service-bus": "^7.0.0",
+    "@azure/storage-blob": "^12.3.0",
+    "qs": "^6.9.4"
+  }
+}

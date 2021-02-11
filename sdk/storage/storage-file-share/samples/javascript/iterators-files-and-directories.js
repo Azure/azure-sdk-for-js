@@ -16,7 +16,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const serviceClient = new ShareServiceClient(
@@ -47,7 +47,7 @@ async function main() {
     console.log(`Create sub directory ${directoryName + "-sub-" + i} successfully`);
 
     const fileClient = directoryClient.getFileClient(fileName + "-sub-" + i);
-    await fileClient.create(content.length);
+    await fileClient.create(Buffer.byteLength(content));
     console.log(`Create file ${fileName + "-sub-" + i} successfully`);
   }
 
@@ -76,7 +76,7 @@ async function main() {
 
   // 3. Generator syntax .next()
   i = 1;
-  iter = await directoryClient.listFilesAndDirectories();
+  iter = directoryClient.listFilesAndDirectories();
   let entity = await iter.next();
   while (!entity.done) {
     if (entity.value.kind === "directory") {
@@ -162,8 +162,6 @@ async function main() {
   await shareClient.delete();
   console.log(`deleted share ${shareName}`);
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

@@ -30,6 +30,18 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const configurationName: msRest.OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "configurationName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

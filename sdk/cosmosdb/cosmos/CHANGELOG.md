@@ -1,5 +1,191 @@
 # Release History
 
+## 3.10.0 (2021-01-21)
+
+- FEATURE: Adds AAD authentication via @azure/identity.
+
+## 3.9.5 (2021-01-18)
+
+- BUGFIX: Throws correct Invalid Continuation Token error when making request with malformed token
+- BUGFIX: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
+- BUGFIX: Sums group by operations for cross-partition queries correctly with null values.
+
+## 3.9.3 (2020-10-19)
+
+- BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.
+
+## 3.9.2 (2020-09-16)
+
+- BUGFIX: Fixes slow `userAgent` lookup on azure functions.
+
+## 3.9.1 (2020-08-28)
+
+- BUGFIX: Fixes `OperationInput` type to be more accurate based on `OperationType`.
+- FEATURE: Bulk requests with `Create` operations will now autogenerate IDs if they are not present.
+- FEATURE: The `BulkOperationType` enum now exists and can be used when making bulk requests.
+
+## 3.9.0 (2020-08-13)
+
+- FEATURE: Adds support for autoscale parameters on container and database create methods
+
+Note that `maxThroughput` cannot be passed with `throughput`.
+
+```js
+// correct
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  maxThroughput: 500,
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
+database.container.create(containerDefinition)
+
+// incorrect
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 500, // do not specify throughput with maxThroughput
+  maxThroughput: 500
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
+database.container.create(containerDefinition)
+```
+
+## 3.8.2 (2020-08-12)
+
+- BUGFIX: Fix checkURL function for Node 8
+
+## 3.8.1 (2020-08-12)
+
+- BUGFIX: Adds separate URL module for browser/node.
+
+## 3.8.0 (2020-08-10)
+
+- FEATURE: Throws when initializing ClientContext with an invalid endpoint
+- FEATURE: Changes JSONArray type internal from Array to ArrayLike to avoid requiring type coercion for immutable data
+- FEATURE: Adds bulk request to container.items. Allows aggregate bulk request for up to 100 operations on items with the types: Create, Upsert, Read, Replace, Delete
+
+```js
+// up to 100 operations
+const operations: OperationInput[] = [
+  {
+    operationType: "Create",
+    resourceBody: { id: "doc1", name: "sample", key: "A" }
+  },
+  {
+    operationType: "Upsert",
+    resourceBody: { id: "doc2", name: "other", key: "A" }
+  },
+  {
+    operationType: "Read",
+    id: "readItemId",
+    partitionKey: "key"
+  }
+];
+
+await database.container.items.bulk(operations);
+```
+
+## 3.7.4 (2020-06-30)
+
+- BUGFIX: Properly escape ASCII "DEL" character in partition key header
+
+## 3.7.3 (2020-06-29)
+
+- BUGFIX: Cannot create item with automatic id generation and a container partitioned on ID (#9734)
+
+## 3.7.2 (2020-06-16)
+
+- BUGFIX: Internal abort signal incorrectly triggered when user passes a custom abort signal. See #9510 for details.
+
+## 3.7.1 (2020-06-12)
+
+- BUGFIX: Typo in globalCrypto.js causing errors in IE browser
+- BUGFIX: Resource tokens not matching for item delete operations (#9110)
+
+## 3.7.0 (2020-06-08)
+
+- BUGFIX: Support crypto functions in Internet Explorer browser
+- BUGFIX: Incorrect key casing in object returned by `setAuthorizationHeader`
+- FEATURE: Adds `readOffer` methods to container and database
+- FEATURE: Allows string value `partitionKey` parameter when creating containers
+
+The following result in the same behavior:
+
+```js
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 400,
+  partitionKey: { paths: ["/key"] }
+};
+database.container.create(containerDefinition);
+
+// OR as a string
+
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 400,
+  partitionKey: "/key" } // must have leading slash "/"
+};
+database.container.create(containerDefinition);
+```
+
+## 3.6.3 (2020-04-08)
+
+- FEATURE: Add `partitionKey` to `FeedOptions` for scoping a query to a single partition key value
+
+@azure/cosmos V2 has two different but equivalent ways to specify the partition key for a query:
+
+```js
+// V2 These are effectively the same
+container.items.query("SELECT * from c", { partitionKey: "foo" }).toArray();
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray();
+```
+
+In an effort to simplify, the V3 SDK removed `partitionKey` from `FeedOptions` so there was only one way to specify the partition key:
+
+```js
+// V3
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll();
+```
+
+Based on customer feedback, we identified scenarios where it still makes sense to support passing the partition key via `FeedOptions` and have decided to restore the behavior.
+
+## 3.6.2 (2020-02-20)
+
+- BUG FIX: Support signing in web workers where this === self
+
+## 3.6.1 (2020-02-11)
+
+- BUG FIX: Normalize location names when selecting endpoint. Allows passing of normalized endpoint names
+
+## 3.6.0 (2020-02-10)
+
+- FEATURE: Add support for spatial indexing, bounding boxes, and geospatial configuration
+- BUG FIX: Fix bug when passing forceQueryPlan to QueryIterator for non-item resources (#7333)
+
+## 3.5.4 (2020-01-28)
+
+- BUG FIX: Return parsed number instead of string for request charge
+
+## 3.5.3 (2020-01-06)
+
+- BUG FIX: maxDegreeOfParallelism was defaulting to 1 and should default to the number of partitions of the collection
+- BUG FIX: maxItemCount was defaulting to 10 and should default to undefined
+- Set default TLS version to 1.2 (#6761)
+- Use tslib 1.10.0 (#6710)
+- Add partition key to code sample (#6612)
+
 ## 3.5.2 (2019-12-03)
 
 - Fix handling of special characters in item ids when signing tokens in the browser (#6379)
@@ -101,9 +287,9 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - DISTINCT queries
   - LIMIT/OFFSET queries
   - User cancelable requests
-- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
+- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
-- Better align with the new [Azure JS SDK guidlines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+- Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
 ### Migration Guide for Breaking Changes
 
@@ -156,9 +342,26 @@ for await(const { result: item } in client.databases.readAll().getAsyncIterator(
 }
 ```
 
+#### Simplified Partition Keys for Queries
+
+v2 has two different but equivalent ways to specify the partition key for a query:
+
+```js
+// v2. These are effectively the same
+container.items.query("SELECT * from c", { partitionKey: "foo" }).toArray();
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray();
+```
+
+v3 removed `partitionKey` from `FeedOptions` so there is now only one way to specify the partition key:
+
+```js
+// v3
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll();
+```
+
 #### Fixed Containers are now Paritioned (#308)
 
-[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
+[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
 
 #### `upsert` removed for Stored Procedures (#356)
 
@@ -470,7 +673,6 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Updated API documentation.
 - Issue [#41](https://github.com/Azure/azure-documentdb-node/issues/41) - client.createDocumentAsync error.
 
-
 Microsoft will provide notification at least **12 months** in advance of retiring an SDK in order to smooth the transition to a newer/supported version.
 
 New features, functionality, and optimizations are only added to the current SDK. So it's recommended that you always upgrade to the latest SDK version as early as possible.
@@ -479,73 +681,72 @@ Any request to Cosmos DB using a retired SDK will be rejected by the service.
 
 > [!WARNING]
 > All versions **1.x** of the Cosmos JavaScript SDK for SQL API will be retired on **August 30, 2020**.
-> 
 >
-<br/>
+> <br/>
 
-| Version | Release Date | Retirement Date |
-| --- | --- | --- |
-| [3.4.2](#3.4.2) |November 7, 2019 |--- |
-| [3.4.1](#3.4.1) |November 5, 2019 |--- |
-| [3.4.0](#3.4.0) |October 28, 2019 |--- |
-| [3.3.6](#3.3.6) |October 14, 2019 |--- |
-| [3.3.5](#3.3.5) |October 14, 2019 |--- |
-| [3.3.4](#3.3.4) |October 14, 2019 |--- |
-| [3.3.3](#3.3.3) |October 3, 2019 |--- |
-| [3.3.2](#3.3.2) |October 3, 2019 |--- |
-| [3.3.1](#3.3.1) |October 1, 2019 |--- |
-| [3.3.0](#3.3.0) |September 24, 2019 |--- |
-| [3.2.0](#3.2.0) |August 26, 2019 |--- |
-| [3.1.1](#3.1.1) |August 7, 2019 |--- |
-| [3.1.0](#3.1.0) |July 26, 2019 |--- |
-| [3.0.4](#3.0.4) |July 22, 2019 |--- |
-| [3.0.3](#3.0.3) |July 17, 2019 |--- |
-| [3.0.2](#3.0.2) |July 9, 2019 |--- |
-| [3.0.0](#3.0.0) |June 28, 2019 |--- |
-| [2.1.5](#2.1.5) |March 20, 2019 |--- |
-| [2.1.4](#2.1.4) |March 15, 2019 |--- |
-| [2.1.3](#2.1.3) |March 8, 2019 |--- |
-| [2.1.2](#2.1.2) |January 28, 2019 |--- |
-| [2.1.1](#2.1.1) |December 5, 2018 |--- |
-| [2.1.0](#2.1.0) |December 4, 2018 |--- |
-| [2.0.5](#2.0.5) |November 7, 2018 |--- |
-| [2.0.4](#2.0.4) |October 30, 2018 |--- |
-| [2.0.3](#2.0.3) |October 30, 2018 |--- |
-| [2.0.2](#2.0.2) |October 10, 2018 |--- |
-| [2.0.1](#2.0.1) |September 25, 2018 |--- |
-| [2.0.0](#2.0.0) |September 24, 2018 |--- |
-| [2.0.0-3 (RC)](#2.0.0-3) |August 2, 2018 |--- |
-| [1.14.4](#1.14.4) |May 03, 2018 |August 30, 2020 |
-| [1.14.3](#1.14.3) |May 03, 2018 |August 30, 2020 |
-| [1.14.2](#1.14.2) |December 21, 2017 |August 30, 2020 |
-| [1.14.1](#1.14.1) |November 10, 2017 |August 30, 2020 |
-| [1.14.0](#1.14.0) |November 9, 2017 |August 30, 2020 |
-| [1.13.0](#1.13.0) |October 11, 2017 |August 30, 2020 |
-| [1.12.2](#1.12.2) |August 10, 2017 |August 30, 2020 |
-| [1.12.1](#1.12.1) |August 10, 2017 |August 30, 2020 |
-| [1.12.0](#1.12.0) |May 10, 2017 |August 30, 2020 |
-| [1.11.0](#1.11.0) |March 16, 2017 |August 30, 2020 |
-| [1.10.2](#1.10.2) |January 27, 2017 |August 30, 2020 |
-| [1.10.1](#1.10.1) |December 22, 2016 |August 30, 2020 |
-| [1.10.0](#1.10.0) |October 03, 2016 |August 30, 2020 |
-| [1.9.0](#1.9.0) |July 07, 2016 |August 30, 2020 |
-| [1.8.0](#1.8.0) |June 14, 2016 |August 30, 2020 |
-| [1.7.0](#1.7.0) |April 26, 2016 |August 30, 2020 |
-| [1.6.0](#1.6.0) |March 29, 2016 |August 30, 2020 |
-| [1.5.6](#1.5.6) |March 08, 2016 |August 30, 2020 |
-| [1.5.5](#1.5.5) |February 02, 2016 |August 30, 2020 |
-| [1.5.4](#1.5.4) |February 01, 2016 |August 30, 2020 |
-| [1.5.2](#1.5.2) |January 26, 2016 |August 30, 2020 |
-| [1.5.2](#1.5.2) |January 22, 2016 |August 30, 2020 |
-| [1.5.1](#1.5.1) |January 4, 2016 |August 30, 2020 |
-| [1.5.0](#1.5.0) |December 31, 2015 |August 30, 2020 |
-| [1.4.0](#1.4.0) |October 06, 2015 |August 30, 2020 |
-| [1.3.0](#1.3.0) |October 06, 2015 |August 30, 2020 |
-| [1.2.2](#1.2.2) |September 10, 2015 |August 30, 2020 |
-| [1.2.1](#1.2.1) |August 15, 2015 |August 30, 2020 |
-| [1.2.0](#1.2.0) |August 05, 2015 |August 30, 2020 |
-| [1.1.0](#1.1.0) |July 09, 2015 |August 30, 2020 |
-| [1.0.3](#1.0.3) |June 04, 2015 |August 30, 2020 |
-| [1.0.2](#1.0.2) |May 23, 2015 |August 30, 2020 |
-| [1.0.1](#1.0.1) |May 15, 2015 |August 30, 2020 |
-| [1.0.0](#1.0.0) |April 08, 2015 |August 30, 2020 |
+| Version                  | Release Date       | Retirement Date |
+| ------------------------ | ------------------ | --------------- |
+| [3.4.2](#3.4.2)          | November 7, 2019   | ---             |
+| [3.4.1](#3.4.1)          | November 5, 2019   | ---             |
+| [3.4.0](#3.4.0)          | October 28, 2019   | ---             |
+| [3.3.6](#3.3.6)          | October 14, 2019   | ---             |
+| [3.3.5](#3.3.5)          | October 14, 2019   | ---             |
+| [3.3.4](#3.3.4)          | October 14, 2019   | ---             |
+| [3.3.3](#3.3.3)          | October 3, 2019    | ---             |
+| [3.3.2](#3.3.2)          | October 3, 2019    | ---             |
+| [3.3.1](#3.3.1)          | October 1, 2019    | ---             |
+| [3.3.0](#3.3.0)          | September 24, 2019 | ---             |
+| [3.2.0](#3.2.0)          | August 26, 2019    | ---             |
+| [3.1.1](#3.1.1)          | August 7, 2019     | ---             |
+| [3.1.0](#3.1.0)          | July 26, 2019      | ---             |
+| [3.0.4](#3.0.4)          | July 22, 2019      | ---             |
+| [3.0.3](#3.0.3)          | July 17, 2019      | ---             |
+| [3.0.2](#3.0.2)          | July 9, 2019       | ---             |
+| [3.0.0](#3.0.0)          | June 28, 2019      | ---             |
+| [2.1.5](#2.1.5)          | March 20, 2019     | ---             |
+| [2.1.4](#2.1.4)          | March 15, 2019     | ---             |
+| [2.1.3](#2.1.3)          | March 8, 2019      | ---             |
+| [2.1.2](#2.1.2)          | January 28, 2019   | ---             |
+| [2.1.1](#2.1.1)          | December 5, 2018   | ---             |
+| [2.1.0](#2.1.0)          | December 4, 2018   | ---             |
+| [2.0.5](#2.0.5)          | November 7, 2018   | ---             |
+| [2.0.4](#2.0.4)          | October 30, 2018   | ---             |
+| [2.0.3](#2.0.3)          | October 30, 2018   | ---             |
+| [2.0.2](#2.0.2)          | October 10, 2018   | ---             |
+| [2.0.1](#2.0.1)          | September 25, 2018 | ---             |
+| [2.0.0](#2.0.0)          | September 24, 2018 | ---             |
+| [2.0.0-3 (RC)](#2.0.0-3) | August 2, 2018     | ---             |
+| [1.14.4](#1.14.4)        | May 03, 2018       | August 30, 2020 |
+| [1.14.3](#1.14.3)        | May 03, 2018       | August 30, 2020 |
+| [1.14.2](#1.14.2)        | December 21, 2017  | August 30, 2020 |
+| [1.14.1](#1.14.1)        | November 10, 2017  | August 30, 2020 |
+| [1.14.0](#1.14.0)        | November 9, 2017   | August 30, 2020 |
+| [1.13.0](#1.13.0)        | October 11, 2017   | August 30, 2020 |
+| [1.12.2](#1.12.2)        | August 10, 2017    | August 30, 2020 |
+| [1.12.1](#1.12.1)        | August 10, 2017    | August 30, 2020 |
+| [1.12.0](#1.12.0)        | May 10, 2017       | August 30, 2020 |
+| [1.11.0](#1.11.0)        | March 16, 2017     | August 30, 2020 |
+| [1.10.2](#1.10.2)        | January 27, 2017   | August 30, 2020 |
+| [1.10.1](#1.10.1)        | December 22, 2016  | August 30, 2020 |
+| [1.10.0](#1.10.0)        | October 03, 2016   | August 30, 2020 |
+| [1.9.0](#1.9.0)          | July 07, 2016      | August 30, 2020 |
+| [1.8.0](#1.8.0)          | June 14, 2016      | August 30, 2020 |
+| [1.7.0](#1.7.0)          | April 26, 2016     | August 30, 2020 |
+| [1.6.0](#1.6.0)          | March 29, 2016     | August 30, 2020 |
+| [1.5.6](#1.5.6)          | March 08, 2016     | August 30, 2020 |
+| [1.5.5](#1.5.5)          | February 02, 2016  | August 30, 2020 |
+| [1.5.4](#1.5.4)          | February 01, 2016  | August 30, 2020 |
+| [1.5.2](#1.5.2)          | January 26, 2016   | August 30, 2020 |
+| [1.5.2](#1.5.2)          | January 22, 2016   | August 30, 2020 |
+| [1.5.1](#1.5.1)          | January 4, 2016    | August 30, 2020 |
+| [1.5.0](#1.5.0)          | December 31, 2015  | August 30, 2020 |
+| [1.4.0](#1.4.0)          | October 06, 2015   | August 30, 2020 |
+| [1.3.0](#1.3.0)          | October 06, 2015   | August 30, 2020 |
+| [1.2.2](#1.2.2)          | September 10, 2015 | August 30, 2020 |
+| [1.2.1](#1.2.1)          | August 15, 2015    | August 30, 2020 |
+| [1.2.0](#1.2.0)          | August 05, 2015    | August 30, 2020 |
+| [1.1.0](#1.1.0)          | July 09, 2015      | August 30, 2020 |
+| [1.0.3](#1.0.3)          | June 04, 2015      | August 30, 2020 |
+| [1.0.2](#1.0.2)          | May 23, 2015       | August 30, 2020 |
+| [1.0.1](#1.0.1)          | May 15, 2015       | August 30, 2020 |
+| [1.0.0](#1.0.0)          | April 08, 2015     | August 30, 2020 |

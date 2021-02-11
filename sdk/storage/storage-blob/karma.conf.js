@@ -1,6 +1,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "./.env" });
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -20,7 +26,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-istanbul",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
@@ -29,10 +35,11 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always",
-      "dist-test/index.browser.js"
-    ].concat(process.env.TEST_MODE === "playback" ? ["recordings/browsers/**/*.json"] : []),
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys,Symbol.iterator
+      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator,Number.isInteger",
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -40,36 +47,45 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"],
+      "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.browser.js": ["coverage"],
+      // "dist-test/index.browser.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE", "ACCOUNT_TOKEN"],
+    envPreprocessor: [
+      "ACCOUNT_NAME",
+      "ACCOUNT_SAS",
+      "TEST_MODE",
+      "ACCOUNT_TOKEN",
+      "MD_ACCOUNT_NAME",
+      "MD_ACCOUNT_SAS",
+      "ENCRYPTION_SCOPE_1",
+      "ENCRYPTION_SCOPE_2",
+      "ORS_DEST_ACCOUNT_NAME",
+      "ORS_DEST_ACCOUNT_SAS",
+      "SOFT_DELETE_ACCOUNT_NAME",
+      "SOFT_DELETE_ACCOUNT_SAS"
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit", "json-to-file", "karma-remap-istanbul"],
+    reporters: ["mocha", "coverage", "junit", "json-to-file"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
-    },
-
-    remapIstanbulReporter: {
-      src: "coverage-browser/coverage.json",
-      reports: {
-        lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report",
-        "text-summary": null
-      }
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {
@@ -83,33 +99,8 @@ module.exports = function(config) {
     },
 
     jsonToFileReporter: {
-      filter: function(obj) {
-        // - jsonToFileReporter filters the JSON strings in console.logs.
-        // - Console logs with `.writeFile` property are captured and are written to a file(recordings).
-        // - The other console statements are captured and printed normally.
-        // - Example - console.warn("hello"); -> console.log({ warn: "hello" });
-        // - Example - console.log("hello"); -> console.log({ log: "hello" });
-        if (process.env.TEST_MODE === "record") {
-          if (obj.writeFile) {
-            const fs = require("fs-extra");
-            // Create the directories recursively incase they don't exist
-            try {
-              // Stripping away the filename from the file path and retaining the directory structure
-              fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-            } catch (err) {
-              if (err.code !== "EEXIST") throw err;
-            }
-            fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-              if (err) {
-                throw err;
-              }
-            });
-          } else {
-            console.log(obj);
-          }
-          return false;
-        }
-      },
+      // required - to save the recordings of browser tests
+      filter: jsonRecordingFilterFunction,
       outputPath: "."
     },
 
@@ -139,19 +130,18 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 600000,
+    browserNoActivityTimeout: 1200000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: process.env.TEST_MODE !== "record"
+      terminal: !isRecordMode()
     },
 
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000",
-        retries: 2
+        timeout: "600000"
       }
     }
   });

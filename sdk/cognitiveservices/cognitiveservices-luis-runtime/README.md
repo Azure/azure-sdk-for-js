@@ -25,15 +25,15 @@ npm install @azure/ms-rest-azure-js
 
 ##### Sample code
 
-```typescript
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
-import { LUISRuntimeClient } from "@azure/cognitiveservices-luis-runtime";
+```javascript
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
+const { LUISRuntimeClient } = require("@azure/cognitiveservices-luis-runtime");
 
 let authoringKey = process.env["luis-authoring-key"];
 const creds = new CognitiveServicesCredentials(authoringKey);
 
 // check the following link to find your region
-// https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
+// https://docs.microsoft.com/azure/cognitive-services/luis/luis-reference-regions
 const region = "<your-region>";
 const client = new LUISRuntimeClient(creds, "https://" + region + ".api.cognitive.microsoft.com/");
 
@@ -103,7 +103,7 @@ client.prediction
 
 
       // check the following link to find your region
-      // https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
+      // https://docs.microsoft.com/azure/cognitive-services/luis/luis-reference-regions
       const region = "<your-region>";
       const client = new Azure.CognitiveservicesLuisRuntime.LUISRuntimeClient(
         creds,

@@ -115,7 +115,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.skipToken
   ],

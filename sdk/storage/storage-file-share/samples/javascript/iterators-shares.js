@@ -16,7 +16,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const serviceClient = new ShareServiceClient(
@@ -41,7 +41,7 @@ async function main() {
 
   // 3. Generator syntax .next()
   i = 1;
-  iter = await serviceClient.listShares();
+  iter = serviceClient.listShares();
   let shareItem = await iter.next();
   while (!shareItem.done) {
     console.log(`Share ${i++}: ${shareItem.value.name}`);
@@ -107,8 +107,6 @@ async function main() {
     }
   }
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

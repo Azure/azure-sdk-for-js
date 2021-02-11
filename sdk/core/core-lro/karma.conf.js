@@ -16,38 +16,36 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
-      "karma-junit-reporter",
-      "karma-json-to-file-reporter",
-      "karma-json-preprocessor"
+      "karma-sourcemap-loader",
+      "karma-junit-reporter"
     ],
 
     files: [
       // polyfill service supporting IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ],
 
     exclude: [],
 
     preprocessors: {
-      "**/*.js": ["env"],
+      "**/*.js": ["sourcemap", "env"],
       "dist-test/index.browser.js": ["coverage"]
     },
 
-    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit"],
 
-    coverageReporter: { type: "in-memory" },
-
-    remapCoverageReporter: {
-      "text-summary": null,
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
-    },
-
-    remapOptions: {
-      exclude: /node_modules|test/g
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {
@@ -58,27 +56,6 @@ module.exports = function(config) {
       nameFormatter: undefined,
       classNameFormatter: undefined,
       properties: {}
-    },
-
-    jsonToFileReporter: {
-      filter: function(obj) {
-        if (obj.writeFile) {
-          const fs = require("fs-extra");
-          try {
-            // Stripping away the filename from the file path and retaining the directory structure
-            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-          } catch (err) {
-            if (err.code !== "EEXIST") throw err;
-          }
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-            if (err) {
-              throw err;
-            }
-          });
-        }
-        return false;
-      },
-      outputPath: "."
     },
 
     port: 9328,

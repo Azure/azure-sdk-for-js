@@ -13,4 +13,6 @@ export * from "./domainTopics";
 export * from "./eventSubscriptions";
 export * from "./operations";
 export * from "./topics";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
 export * from "./topicTypes";

@@ -16,7 +16,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Create a container
@@ -34,14 +34,14 @@ async function main() {
     const content = "hello";
     const blobName = "newblob" + new Date().getTime();
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
   // 1. List blobs
   console.log("Listing all blobs using iter");
   let i = 1;
-  let iter = await containerClient.listBlobsFlat();
+  let iter = containerClient.listBlobsFlat();
   for await (const blob of iter) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
@@ -99,7 +99,7 @@ async function main() {
   }
 
   // 7. Passing marker as an argument (similar to the previous example)
-  console.log("Listing all blobs by page, using iteartor.next() and continuation token");
+  console.log("Listing all blobs by page, using iterator.next() and continuation token");
   i = 1;
   iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 20 });
   response = await iterator.next();
@@ -110,7 +110,7 @@ async function main() {
   }
   // Gets next marker
   console.log("\tContinuation");
-  let marker = response.value.nextMarker;
+  let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
   response = await iterator.next();
@@ -124,8 +124,6 @@ async function main() {
   await containerClient.delete();
   console.log("deleted container");
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

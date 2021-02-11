@@ -10,6 +10,90 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export const accessTier: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "accessTier"
+  ],
+  mapper: {
+    serializedName: "x-ms-access-tier",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const action0: coreHttp.OperationParameter = {
+  parameterPath: "action",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "x-ms-lease-action",
+    defaultValue: 'acquire',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const action1: coreHttp.OperationParameter = {
+  parameterPath: "action",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "x-ms-lease-action",
+    defaultValue: 'release',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const action2: coreHttp.OperationParameter = {
+  parameterPath: "action",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "x-ms-lease-action",
+    defaultValue: 'change',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const action3: coreHttp.OperationParameter = {
+  parameterPath: "action",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "x-ms-lease-action",
+    defaultValue: 'renew',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const action4: coreHttp.OperationParameter = {
+  parameterPath: "action",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "x-ms-lease-action",
+    defaultValue: 'break',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const breakPeriod: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "breakPeriod"
+  ],
+  mapper: {
+    serializedName: "x-ms-lease-break-period",
+    type: {
+      name: "Number"
+    }
+  }
+};
 export const comp0: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
@@ -40,13 +124,37 @@ export const comp10: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'rangelist',
+    defaultValue: 'forceclosehandles',
     type: {
       name: "String"
     }
   }
 };
 export const comp11: coreHttp.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
+    defaultValue: 'range',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const comp12: coreHttp.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
+    defaultValue: 'rangelist',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const comp13: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -64,7 +172,7 @@ export const comp2: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'snapshot',
+    defaultValue: 'lease',
     type: {
       name: "String"
     }
@@ -76,7 +184,7 @@ export const comp3: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'filepermission',
+    defaultValue: 'snapshot',
     type: {
       name: "String"
     }
@@ -88,7 +196,7 @@ export const comp4: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'metadata',
+    defaultValue: 'filepermission',
     type: {
       name: "String"
     }
@@ -100,7 +208,7 @@ export const comp5: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'acl',
+    defaultValue: 'metadata',
     type: {
       name: "String"
     }
@@ -112,7 +220,7 @@ export const comp6: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'stats',
+    defaultValue: 'acl',
     type: {
       name: "String"
     }
@@ -124,7 +232,7 @@ export const comp7: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'listhandles',
+    defaultValue: 'stats',
     type: {
       name: "String"
     }
@@ -136,7 +244,7 @@ export const comp8: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'forceclosehandles',
+    defaultValue: 'undelete',
     type: {
       name: "String"
     }
@@ -148,7 +256,7 @@ export const comp9: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'range',
+    defaultValue: 'listhandles',
     type: {
       name: "String"
     }
@@ -208,6 +316,30 @@ export const copySource: coreHttp.OperationParameter = {
     }
   }
 };
+export const deletedShareName: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "deletedShareName"
+  ],
+  mapper: {
+    serializedName: "x-ms-deleted-share-name",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const deletedShareVersion: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "deletedShareVersion"
+  ],
+  mapper: {
+    serializedName: "x-ms-deleted-share-version",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const deleteSnapshots: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -218,15 +350,53 @@ export const deleteSnapshots: coreHttp.OperationParameter = {
     type: {
       name: "Enum",
       allowedValues: [
-        "include"
+        "include",
+        "include-leased"
       ]
     }
   }
 };
-export const fileAttributes: coreHttp.OperationParameter = {
+export const duration: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "duration"
+  ],
+  mapper: {
+    serializedName: "x-ms-lease-duration",
+    type: {
+      name: "Number"
+    }
+  }
+};
+export const enabledProtocols: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "enabledProtocols"
+  ],
+  mapper: {
+    serializedName: "x-ms-enabled-protocols",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const fileAttributes0: coreHttp.OperationParameter = {
   parameterPath: "fileAttributes",
   mapper: {
     required: true,
+    serializedName: "x-ms-file-attributes",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const fileAttributes1: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "copyFileSmbInfo",
+    "fileAttributes"
+  ],
+  mapper: {
     serializedName: "x-ms-file-attributes",
     type: {
       name: "String"
@@ -343,10 +513,36 @@ export const fileCreatedOn: coreHttp.OperationParameter = {
     }
   }
 };
+export const fileCreationTime: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "copyFileSmbInfo",
+    "fileCreationTime"
+  ],
+  mapper: {
+    serializedName: "x-ms-file-creation-time",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const fileLastWriteOn: coreHttp.OperationParameter = {
   parameterPath: "fileLastWriteOn",
   mapper: {
     required: true,
+    serializedName: "x-ms-file-last-write-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const fileLastWriteTime: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "copyFileSmbInfo",
+    "fileLastWriteTime"
+  ],
+  mapper: {
     serializedName: "x-ms-file-last-write-time",
     type: {
       name: "String"
@@ -362,6 +558,23 @@ export const filePermission: coreHttp.OperationParameter = {
     serializedName: "x-ms-file-permission",
     type: {
       name: "String"
+    }
+  }
+};
+export const filePermissionCopyMode: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "copyFileSmbInfo",
+    "filePermissionCopyMode"
+  ],
+  mapper: {
+    serializedName: "x-ms-file-permission-copy-mode",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "source",
+        "override"
+      ]
     }
   }
 };
@@ -436,6 +649,19 @@ export const handleId: coreHttp.OperationParameter = {
     }
   }
 };
+export const ignoreReadOnly: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "copyFileSmbInfo",
+    "ignoreReadOnly"
+  ],
+  mapper: {
+    serializedName: "x-ms-file-copy-ignore-read-only",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const include: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -450,13 +676,37 @@ export const include: coreHttp.OperationQueryParameter = {
           name: "Enum",
           allowedValues: [
             "snapshots",
-            "metadata"
+            "metadata",
+            "deleted"
           ]
         }
       }
     }
   },
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
+};
+export const leaseId0: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "leaseAccessConditions",
+    "leaseId"
+  ],
+  mapper: {
+    serializedName: "x-ms-lease-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const leaseId1: coreHttp.OperationParameter = {
+  parameterPath: "leaseId",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-lease-id",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const marker: coreHttp.OperationQueryParameter = {
   parameterPath: [
@@ -510,6 +760,30 @@ export const prefix: coreHttp.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "prefix",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const prevsharesnapshot: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "prevsharesnapshot"
+  ],
+  mapper: {
+    serializedName: "prevsharesnapshot",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const proposedLeaseId: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "proposedLeaseId"
+  ],
+  mapper: {
+    serializedName: "x-ms-proposed-lease-id",
     type: {
       name: "String"
     }
@@ -576,6 +850,18 @@ export const recursive: coreHttp.OperationParameter = {
     }
   }
 };
+export const requestId: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "requestId"
+  ],
+  mapper: {
+    serializedName: "x-ms-client-request-id",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const restype0: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
@@ -609,6 +895,36 @@ export const restype2: coreHttp.OperationQueryParameter = {
     defaultValue: 'directory',
     type: {
       name: "String"
+    }
+  }
+};
+export const rootSquash: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "rootSquash"
+  ],
+  mapper: {
+    serializedName: "x-ms-root-squash",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "NoRootSquash",
+        "RootSquash",
+        "AllSquash"
+      ]
+    }
+  }
+};
+export const setArchiveAttribute: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "copyFileSmbInfo",
+    "setArchiveAttribute"
+  ],
+  mapper: {
+    serializedName: "x-ms-file-copy-set-archive",
+    type: {
+      name: "Boolean"
     }
   }
 };

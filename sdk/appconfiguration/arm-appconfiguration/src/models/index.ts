@@ -12,6 +12,154 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * A resource identity that is managed by the user of the service.
+ */
+export interface UserIdentity {
+  /**
+   * The principal ID of the user-assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the user-assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * An identity that can be associated with a resource.
+ */
+export interface ResourceIdentity {
+  /**
+   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
+   * any identities. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned, UserAssigned'
+   */
+  type?: IdentityType;
+  /**
+   * The list of user-assigned identities associated with the resource. The user-assigned identity
+   * dictionary keys will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentity };
+  /**
+   * The principal id of the identity. This property will only be provided for a system-assigned
+   * identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id associated with the resource's identity. This property will only be provided for
+   * a system-assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+}
+
+/**
+ * Settings concerning key vault encryption for a configuration store.
+ */
+export interface KeyVaultProperties {
+  /**
+   * The URI of the key vault key used to encrypt data.
+   */
+  keyIdentifier?: string;
+  /**
+   * The client id of the identity which will be used to access key vault.
+   */
+  identityClientId?: string;
+}
+
+/**
+ * The encryption settings for a configuration store.
+ */
+export interface EncryptionProperties {
+  /**
+   * Key vault properties.
+   */
+  keyVaultProperties?: KeyVaultProperties;
+}
+
+/**
+ * Private endpoint which a connection belongs to.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The resource Id for private endpoint
+   */
+  id?: string;
+}
+
+/**
+ * The state of a private link service connection.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * The private link service connection status. Possible values include: 'Pending', 'Approved',
+   * 'Rejected', 'Disconnected'
+   */
+  status?: ConnectionStatus;
+  /**
+   * The private link service connection description.
+   */
+  description?: string;
+  /**
+   * Any action that is required beyond basic workflow (approve/ reject/ disconnect). Possible
+   * values include: 'None', 'Recreate'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: ActionsRequired;
+}
+
+/**
+ * A reference to a related private endpoint connection.
+ */
+export interface PrivateEndpointConnectionReference {
+  /**
+   * The resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The provisioning status of the private endpoint connection. Possible values include:
+   * 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The resource of private endpoint.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+
+/**
+ * Describes a configuration store SKU.
+ */
+export interface Sku {
+  /**
+   * The SKU name of the configuration store.
+   */
+  name: string;
+}
+
+/**
  * An Azure resource.
  */
 export interface Resource extends BaseResource {
@@ -46,6 +194,10 @@ export interface Resource extends BaseResource {
  */
 export interface ConfigurationStore extends Resource {
   /**
+   * The managed identity information, if configured.
+   */
+  identity?: ResourceIdentity;
+  /**
    * The provisioning state of the configuration store. Possible values include: 'Creating',
    * 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -61,6 +213,24 @@ export interface ConfigurationStore extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpoint?: string;
+  /**
+   * The encryption settings of the configuration store.
+   */
+  encryption?: EncryptionProperties;
+  /**
+   * The list of private endpoint connections that are set up for this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnectionReference[];
+  /**
+   * Control permission for data plane traffic coming from public networks while private endpoint
+   * is enabled. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The sku of the configuration store.
+   */
+  sku: Sku;
 }
 
 /**
@@ -68,9 +238,22 @@ export interface ConfigurationStore extends Resource {
  */
 export interface ConfigurationStoreUpdateParameters {
   /**
-   * The properties for updating a configuration store.
+   * The encryption settings of the configuration store.
    */
-  properties?: any;
+  encryption?: EncryptionProperties;
+  /**
+   * Control permission for data plane traffic coming from public networks while private endpoint
+   * is enabled. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The managed identity information for the configuration store.
+   */
+  identity?: ResourceIdentity;
+  /**
+   * The SKU of the configuration store.
+   */
+  sku?: Sku;
   /**
    * The ARM resource tags.
    */
@@ -272,6 +455,78 @@ export interface ErrorModel {
 }
 
 /**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends BaseResource {
+  /**
+   * The resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The provisioning status of the private endpoint connection. Possible values include:
+   * 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The resource of private endpoint.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+
+/**
+ * A resource that supports private link capabilities.
+ */
+export interface PrivateLinkResource {
+  /**
+   * The resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The list of required DNS zone names of the private link resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredZoneNames?: string[];
+}
+
+/**
  * Optional Parameters.
  */
 export interface ConfigurationStoresListOptionalParams extends msRest.RequestOptionsBase {
@@ -363,12 +618,69 @@ export interface OperationDefinitionListResult extends Array<OperationDefinition
 }
 
 /**
+ * @interface
+ * A list of private endpoint connections
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+  /**
+   * The URI that can be used to request the next set of paged results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of private link resources.
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+  /**
+   * The URI that can be used to request the next set of paged results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
+
+/**
  * Defines values for ProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
  * @readonly
  * @enum {string}
  */
 export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+
+/**
+ * Defines values for ConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for ActionsRequired.
+ * Possible values include: 'None', 'Recreate'
+ * @readonly
+ * @enum {string}
+ */
+export type ActionsRequired = 'None' | 'Recreate';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Contains response data for the list operation.
@@ -687,5 +999,165 @@ export type OperationsListNextResponse = OperationDefinitionListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByConfigurationStore operation.
+ */
+export type PrivateEndpointConnectionsListByConfigurationStoreResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByConfigurationStoreNext operation.
+ */
+export type PrivateEndpointConnectionsListByConfigurationStoreNextResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByConfigurationStore operation.
+ */
+export type PrivateLinkResourcesListByConfigurationStoreResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByConfigurationStoreNext operation.
+ */
+export type PrivateLinkResourcesListByConfigurationStoreNextResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
     };
 };

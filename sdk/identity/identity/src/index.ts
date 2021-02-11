@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
@@ -9,7 +9,15 @@ export { TokenCredentialOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
+export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
+export {
+  VisualStudioCodeCredential,
+  VisualStudioCodeCredentialOptions
+} from "./credentials/visualStudioCodeCredential";
+export { AzureCliCredential } from "./credentials/azureCliCredential";
+
+export { AuthenticationRecord } from "./client/msalClient";
 export {
   InteractiveBrowserCredentialOptions,
   BrowserLoginStyle
@@ -21,7 +29,10 @@ export {
   DeviceCodeInfo
 } from "./credentials/deviceCodeCredential";
 
-export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
+export {
+  DefaultAzureCredential,
+  DefaultAzureCredentialOptions
+} from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export {
@@ -29,11 +40,14 @@ export {
   ErrorResponse,
   AggregateAuthenticationError,
   AuthenticationErrorName,
-  AggregateAuthenticationErrorName
+  AggregateAuthenticationErrorName,
+  CredentialUnavailable
 } from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 export { logger } from "./util/logging";
+
+export { AzureAuthorityHosts } from "./constants";
 
 /**
  * Returns a new instance of the {@link DefaultAzureCredential}.

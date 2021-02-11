@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { digest } from "./digest";
 import stableStringify from "fast-json-stable-stringify";
 

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
 import {
@@ -8,10 +8,10 @@ import {
   HttpOperationResponse,
   HttpHeaders,
   RequestPolicyOptions
-} from "../../lib/coreHttp";
-import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/types";
+} from "../../src/coreHttp";
+import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/api";
 import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
-import { tracingPolicy } from "../../lib/policies/tracingPolicy";
+import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
 class MockSpan extends NoOpSpan {
   private _endCalled = false;
@@ -25,11 +25,11 @@ class MockSpan extends NoOpSpan {
     super();
   }
 
-  didEnd() {
+  didEnd(): boolean {
     return this._endCalled;
   }
 
-  end() {
+  end(): void {
     this._endCalled = true;
   }
 
@@ -40,8 +40,12 @@ class MockSpan extends NoOpSpan {
       spanId: this.spanId,
       traceFlags: this.flags,
       traceState: {
-        set(_key: string, _value: string) {},
-        unset(_key: string) {},
+        set(_key: string, _value: string) {
+          // Nothing to do here.
+        },
+        unset(_key: string) {
+          // Nothing to do here.
+        },
         get(_key: string): string | undefined {
           return;
         },
@@ -60,17 +64,17 @@ class MockTracer extends NoOpTracer {
   constructor(
     private traceId = "",
     private spanId = "",
-    private flags = TraceFlags.UNSAMPLED,
+    private flags = TraceFlags.NONE,
     private state = ""
   ) {
     super();
   }
 
-  getStartedSpans() {
+  getStartedSpans(): MockSpan[] {
     return this.spans;
   }
 
-  startSpanCalled() {
+  startSpanCalled(): boolean {
     return this._startSpanCalled;
   }
 
@@ -114,7 +118,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -141,7 +145,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -168,7 +172,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -195,13 +199,13 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(
       {
-        sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+        sendRequest(requestParam: WebResource): Promise<HttpOperationResponse> {
           return Promise.reject({
-            request: request,
+            request: requestParam,
             status: 404,
             headers: new HttpHeaders()
           });
@@ -233,7 +237,7 @@ describe("tracingPolicy", function() {
     setTracer(new NoOpTracer());
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);

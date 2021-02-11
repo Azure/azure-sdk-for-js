@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 import { CosmosHeaders } from "../index";
 
-interface ErrorBody {
+export interface ErrorBody {
   code: string;
   message: string;
   /**
-   * @ignore
+   * @hidden
    */
   additionalErrorInfo?: PartitionedQueryExecutionInfo;
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export interface PartitionedQueryExecutionInfo {
   partitionedQueryExecutionInfoVersion: number;
@@ -21,9 +21,9 @@ export interface PartitionedQueryExecutionInfo {
 }
 
 /**
- * @ignore
+ * @hidden
  */
-interface QueryRange {
+export interface QueryRange {
   min: string;
   max: string;
   isMinInclusive: boolean;
@@ -31,7 +31,7 @@ interface QueryRange {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export interface QueryInfo {
   top?: any;

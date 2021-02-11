@@ -21,12 +21,13 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
   accounts: operations.Accounts;
   resourceSkus: operations.ResourceSkus;
   operations: operations.Operations;
-  checkSkuAvailability: operations.CheckSkuAvailability;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
 
   /**
    * Initializes a new instance of the CognitiveServicesManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure Subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CognitiveServicesManagementClientOptions) {
@@ -34,7 +35,48 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
     this.accounts = new operations.Accounts(this);
     this.resourceSkus = new operations.ResourceSkus(this);
     this.operations = new operations.Operations(this);
-    this.checkSkuAvailability = new operations.CheckSkuAvailability(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+  }
+
+  /**
+   * Check available SKUs.
+   * @param location Resource location.
+   * @param skus The SKU of the resource.
+   * @param kind The Kind of the resource.
+   * @param type The Type of the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CheckSkuAvailabilityResponse>
+   */
+  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckSkuAvailabilityResponse>;
+  /**
+   * @param location Resource location.
+   * @param skus The SKU of the resource.
+   * @param kind The Kind of the resource.
+   * @param type The Type of the resource.
+   * @param callback The callback
+   */
+  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
+  /**
+   * @param location Resource location.
+   * @param skus The SKU of the resource.
+   * @param kind The Kind of the resource.
+   * @param type The Type of the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
+  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        skus,
+        kind,
+        type,
+        options
+      },
+      checkSkuAvailabilityOperationSpec,
+      callback) as Promise<Models.CheckSkuAvailabilityResponse>;
   }
 
   /**
@@ -72,9 +114,47 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const checkSkuAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/checkSkuAvailability",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      skus: "skus",
+      kind: "kind",
+      type: "type"
+    },
+    mapper: {
+      ...Mappers.CheckSkuAvailabilityParameter,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckSkuAvailabilityResultList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const checkDomainAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.CognitiveServices/checkDomainAvailability",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
   queryParameters: [
     Parameters.apiVersion
   ],
