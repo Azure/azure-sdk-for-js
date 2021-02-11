@@ -271,7 +271,7 @@ describe("ServiceClient", function() {
 
     let rawResponse: FullOperationResponse | undefined;
 
-    const response = await client.sendOperationRequest(
+    const operationResponse = await client.sendOperationRequest(
       { options: { onResponse: (response) => (rawResponse = response) } },
       {
         httpMethod: "GET",
@@ -285,7 +285,7 @@ describe("ServiceClient", function() {
     );
 
     assert(request!);
-    assert.strictEqual(JSON.stringify(response), "{}");
+    assert.strictEqual(JSON.stringify(operationResponse), "{}");
     assert.strictEqual(rawResponse?.status, 200);
     assert.strictEqual(rawResponse?.request, request!);
     assert.strictEqual(rawResponse?.headers.get("X-Extra-Info"), "foo");

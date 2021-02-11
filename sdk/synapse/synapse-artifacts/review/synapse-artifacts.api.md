@@ -180,8 +180,6 @@ export class ArtifactsClient extends ArtifactsClientContext {
     // (undocumented)
     integrationRuntimes: IntegrationRuntimesOperation;
     // (undocumented)
-    library: LibraryOperation;
-    // (undocumented)
     linkedService: LinkedServiceOperation;
     // (undocumented)
     notebook: NotebookOperation;
@@ -4075,17 +4073,6 @@ export interface LibraryListResponse {
     nextLink?: string;
     value: LibraryResource[];
 }
-
-// @public
-export class LibraryOperation {
-    constructor(client: ArtifactsClient);
-    createOrAppend(libraryName: string, content: coreHttp.HttpRequestBody, options?: LibraryCreateOrAppendOptionalParams): Promise<LROPoller<coreHttp.RestResponse>>;
-    delete(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    flush(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse>;
-    getOperationResult(operationId: string, options?: coreHttp.OperationOptions): Promise<LibraryGetOperationResultResponse>;
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource>;
-    }
 
 // @public
 export interface LibraryRequirements {

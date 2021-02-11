@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as assert from "assert";
 import { AvroReadableFromStream } from "../../src";
@@ -6,9 +9,9 @@ import { Readable } from "stream";
 
 describe("AvroReadableFromStream", () => {
   it("read pass end should throw", async () => {
-    let rs = fs.createReadStream("../README.md");
+    const rs = fs.createReadStream("../README.md");
 
-    let rfs = new AvroReadableFromStream(rs);
+    const rfs = new AvroReadableFromStream(rs);
     assert.equal(rfs.position, 0);
 
     await rfs.read(10);
@@ -27,7 +30,7 @@ describe("AvroReadableFromStream", () => {
 
   it("abort read should work", async () => {
     const delayedReadable = new Readable({ read() {} });
-    let rfs = new AvroReadableFromStream(delayedReadable);
+    const rfs = new AvroReadableFromStream(delayedReadable);
 
     let AbortErrorCaught = false;
     try {
@@ -41,8 +44,8 @@ describe("AvroReadableFromStream", () => {
   });
 
   it("abort after read should not throw", async () => {
-    let rs = fs.createReadStream("../README.md");
-    let rfs = new AvroReadableFromStream(rs);
+    const rs = fs.createReadStream("../README.md");
+    const rfs = new AvroReadableFromStream(rs);
 
     const aborter = new AbortController();
     await rfs.read(10, { abortSignal: aborter.signal });

@@ -128,7 +128,7 @@ export interface BaseSearchIndexerSkill {
     description?: string;
     inputs: InputFieldMappingEntry[];
     name?: string;
-    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Custom.WebApiSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Custom.WebApiSkill";
     outputs: OutputFieldMappingEntry[];
 }
 
@@ -216,7 +216,7 @@ export type ConditionalSkill = BaseSearchIndexerSkill & {
 // @public
 export interface CorsOptions {
     allowedOrigins: string[];
-    maxAgeInSeconds?: number | null;
+    maxAgeInSeconds?: number;
 }
 
 // @public
@@ -269,46 +269,8 @@ export interface CustomAnalyzer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
     tokenFilters?: string[];
-    tokenizer: string;
+    tokenizerName: string;
 }
-
-// @public
-export interface CustomEntity {
-    accentSensitive?: boolean | null;
-    aliases?: CustomEntityAlias[] | null;
-    caseSensitive?: boolean | null;
-    defaultAccentSensitive?: boolean | null;
-    defaultCaseSensitive?: boolean | null;
-    defaultFuzzyEditDistance?: number | null;
-    description?: string | null;
-    fuzzyEditDistance?: number | null;
-    id?: string | null;
-    name: string;
-    subtype?: string | null;
-    type?: string | null;
-}
-
-// @public
-export interface CustomEntityAlias {
-    accentSensitive?: boolean | null;
-    caseSensitive?: boolean | null;
-    fuzzyEditDistance?: number | null;
-    text: string;
-}
-
-// @public
-export type CustomEntityLookupSkill = BaseSearchIndexerSkill & {
-    odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
-    defaultLanguageCode?: CustomEntityLookupSkillLanguage | null;
-    entitiesDefinitionUri?: string | null;
-    inlineEntitiesDefinition?: CustomEntity[] | null;
-    globalDefaultCaseSensitive?: boolean | null;
-    globalDefaultAccentSensitive?: boolean | null;
-    globalDefaultFuzzyEditDistance?: number | null;
-};
-
-// @public
-export type CustomEntityLookupSkillLanguage = string;
 
 // @public
 export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
@@ -788,19 +750,6 @@ export const enum KnownBlobIndexerPDFTextRotationAlgorithm {
 // @public
 export enum KnownCharFilterNames {
     HtmlStrip = "html_strip"
-}
-
-// @public
-export const enum KnownCustomEntityLookupSkillLanguage {
-    Da = "da",
-    De = "de",
-    En = "en",
-    Es = "es",
-    Fi = "fi",
-    Fr = "fr",
-    It = "it",
-    Ko = "ko",
-    Pt = "pt"
 }
 
 // @public
@@ -1622,7 +1571,7 @@ export interface SearchIndexerLimits {
 }
 
 // @public
-export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill | CustomEntityLookupSkill;
+export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
 
 // @public
 export interface SearchIndexerSkillset {

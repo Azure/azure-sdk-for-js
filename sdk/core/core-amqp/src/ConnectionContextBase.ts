@@ -168,14 +168,14 @@ export const ConnectionContextBase = {
       cbsSession: new CbsClient(connection, connectionLock),
       config: parameters.config,
       refreshConnection() {
-        const connection = new Connection(connectionOptions);
+        const newConnection = new Connection(connectionOptions);
         const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
         this.wasConnectionCloseCalled = false;
         this.connectionLock = connectionLock;
         this.negotiateClaimLock = `${Constants.negotiateClaim} - ${generate_uuid()}`;
-        this.connection = connection;
-        this.connectionId = connection.id;
-        this.cbsSession = new CbsClient(connection, connectionLock);
+        this.connection = newConnection;
+        this.connectionId = newConnection.id;
+        this.cbsSession = new CbsClient(newConnection, connectionLock);
       }
     };
 

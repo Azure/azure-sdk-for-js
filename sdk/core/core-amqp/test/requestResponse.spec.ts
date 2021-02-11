@@ -22,7 +22,7 @@ import {
 interface Window {}
 declare let self: Window & typeof globalThis;
 
-function getGlobal() {
+function getGlobal(): NodeJS.Global | (Window & typeof globalThis) {
   if (typeof global !== "undefined") {
     return global;
   } else {
@@ -33,7 +33,7 @@ function getGlobal() {
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
   expectedNumberOfItems: number
-) => {
+): void => {
   assert.equal(
     _responsesMap.size,
     expectedNumberOfItems,
@@ -189,7 +189,7 @@ describe("RequestResponseLink", function() {
       });
     } catch (error) {
       assert.equal(
-        request1.message_id == undefined,
+        request1.message_id === undefined,
         false,
         "`message_id` on the request is undefined."
       );
@@ -690,7 +690,9 @@ describe("RequestResponseLink", function() {
         createReceiver: () => {
           return Promise.resolve({
             close: fake(),
-            on: () => {}
+            on: () => {
+              /** Empty function on purpose for the sake of mocking */
+            }
           });
         }
       } as any);
@@ -853,9 +855,15 @@ describe("RequestResponseLink", function() {
     it("deletes the only the single matched id from the map for the success case - (status code > 199 and < 300)", () => {
       assertItemsLengthInResponsesMap(responsesMap, 1);
       responsesMap.set(`${generate_uuid()}`, {
-        resolve: () => {},
-        reject: () => {},
-        cleanupBeforeResolveOrReject: () => {}
+        resolve: () => {
+          /** Empty function on purpose for the sake of mocking */
+        },
+        reject: () => {
+          /** Empty function on purpose for the sake of mocking */
+        },
+        cleanupBeforeResolveOrReject: () => {
+          /** Empty function on purpose for the sake of mocking */
+        }
       });
       // Map has more elements
       assertItemsLengthInResponsesMap(responsesMap, 2);

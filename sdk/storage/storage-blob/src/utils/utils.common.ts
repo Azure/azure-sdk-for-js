@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
@@ -200,8 +200,8 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getAccountNameFromUrl(blobEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(blobEndpoint);
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -740,7 +740,7 @@ export function parseObjectReplicationRecord(
     return undefined;
   }
 
-  let orProperties: ObjectReplicationPolicy[] = [];
+  const orProperties: ObjectReplicationPolicy[] = [];
   for (const key in objectReplicationRecord) {
     const ids = key.split("_");
     const policyPrefix = "or-";

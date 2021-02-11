@@ -70,7 +70,7 @@ export interface UnknownIdentifier {
 /**
  * Tests an Identifier to determine whether it implements CommunicationUserIdentifier.
  *
- * @param identifier The assumed CommunicationUserIdentifier to be tested.
+ * @param identifier - The assumed CommunicationUserIdentifier to be tested.
  */
 export const isCommunicationUserIdentifier = (
   identifier: CommunicationIdentifier
@@ -81,7 +81,7 @@ export const isCommunicationUserIdentifier = (
 /**
  * Tests an Identifier to determine whether it implements PhoneNumberIdentifier.
  *
- * @param identifier The assumed PhoneNumberIdentifier to be tested.
+ * @param identifier - The assumed PhoneNumberIdentifier to be tested.
  */
 export const isPhoneNumberIdentifier = (
   identifier: CommunicationIdentifier
@@ -92,7 +92,7 @@ export const isPhoneNumberIdentifier = (
 /**
  * Tests an Identifier to determine whether it implements MicrosoftTeamsUserIdentifier.
  *
- * @param identifier The assumed available to be tested.
+ * @param identifier - The assumed available to be tested.
  */
 export const isMicrosoftTeamsUserIdentifier = (
   identifier: CommunicationIdentifier
@@ -103,7 +103,7 @@ export const isMicrosoftTeamsUserIdentifier = (
 /**
  * Tests an Identifier to determine whether it implements UnknownIdentifier.
  *
- * @param identifier The assumed UnknownIdentifier to be tested.
+ * @param identifier - The assumed UnknownIdentifier to be tested.
  */
 export const isUnknownIdentifier = (
   identifier: CommunicationIdentifier
@@ -163,7 +163,7 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
 /**
  * Returns the CommunicationIdentifierKind for a given CommunicationIdentifier. Returns undefined if the kind couldn't be inferred.
  *
- * @param identifier The identifier whose kind is to be inferred.
+ * @param identifier - The identifier whose kind is to be inferred.
  */
 export const getIdentifierKind = (
   identifier: CommunicationIdentifier

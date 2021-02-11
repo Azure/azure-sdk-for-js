@@ -34,6 +34,5 @@ export {
   Pipeline as PipelineOperation,
   Notebook as NotebookOperation,
   LinkedService as LinkedServiceOperation,
-  IntegrationRuntimes as IntegrationRuntimesOperation,
-  Library as LibraryOperation
+  IntegrationRuntimes as IntegrationRuntimesOperation
 } from "./operations";

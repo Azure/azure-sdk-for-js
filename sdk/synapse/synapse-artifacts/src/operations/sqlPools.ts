@@ -14,7 +14,7 @@ export class SqlPools {
 
   /**
    * Initialize a new instance of the class SqlPools class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -22,7 +22,7 @@ export class SqlPools {
 
   /**
    * List Sql Pools
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse> {
     const { span, updatedOptions } = createSpan(
@@ -48,8 +48,8 @@ export class SqlPools {
 
   /**
    * Get Sql Pool
-   * @param sqlPoolName The Sql Pool name
-   * @param options The options parameters.
+   * @param sqlPoolName - The Sql Pool name
+   * @param options - The options parameters.
    */
   async get(
     sqlPoolName: string,

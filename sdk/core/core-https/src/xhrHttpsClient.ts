@@ -93,7 +93,7 @@ function handleBlobResponse(
   request: PipelineRequest,
   res: (value: PipelineResponse | PromiseLike<PipelineResponse>) => void,
   rej: (reason?: any) => void
-) {
+): void {
   xhr.addEventListener("readystatechange", () => {
     // Resolve as soon as headers are loaded
     if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {

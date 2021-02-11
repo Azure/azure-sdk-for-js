@@ -18,8 +18,8 @@ export class PhoneNumberRestClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the PhoneNumberRestClientContext class.
-   * @param endpoint The endpoint of the Azure Communication resource.
-   * @param options The parameter options
+   * @param endpoint - The endpoint of the Azure Communication resource.
+   * @param options - The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumberRestClientOptionalParams) {
     if (endpoint === undefined) {

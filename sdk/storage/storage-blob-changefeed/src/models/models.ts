@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CommonOptions } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
 

@@ -13,7 +13,7 @@ import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccountProperties {

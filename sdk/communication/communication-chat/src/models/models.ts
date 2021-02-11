@@ -81,7 +81,7 @@ export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt,
   /**
    * The CommunicationUserIdentifier that identifies this Read receipt sender.
    */
-  readonly sender?: CommunicationUserIdentifier;
+  readonly sender: CommunicationUserIdentifier;
 }
 
 /**
