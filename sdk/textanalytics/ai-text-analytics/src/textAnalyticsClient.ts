@@ -5,7 +5,8 @@ import { createClientPipeline } from "@azure/core-client";
 import {
   PipelineOptions,
   InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
+  HttpsClient
 } from "@azure/core-https";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
@@ -91,6 +92,11 @@ const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
  * Client options used to configure TextAnalytics API requests.
  */
 export interface TextAnalyticsClientOptions extends PipelineOptions {
+  /**
+   * The HttpsClient implementation to use for outgoing HTTP requests.
+   * Defaults to DefaultHttpsClient.
+   */
+  httpsClient?: HttpsClient;
   /**
    * The default country hint to use. Defaults to "us".
    */
@@ -331,7 +337,10 @@ export class TextAnalyticsClient {
     const pipeline = createClientPipeline(internalPipelineOptions);
     pipeline.addPolicy(authPolicy);
 
-    this.client = new GeneratedClient(this.endpointUrl, { pipeline });
+    this.client = new GeneratedClient(this.endpointUrl, {
+      pipeline,
+      httpsClient: options.httpsClient
+    });
   }
 
   /**

@@ -5,6 +5,7 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { HttpsClient } from '@azure/core-https';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -513,6 +514,7 @@ export class TextAnalyticsClient {
 export interface TextAnalyticsClientOptions extends PipelineOptions {
     defaultCountryHint?: string;
     defaultLanguage?: string;
+    httpsClient?: HttpsClient;
 }
 
 // @public
