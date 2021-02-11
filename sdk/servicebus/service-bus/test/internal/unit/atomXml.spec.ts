@@ -370,7 +370,7 @@ describe("ATOM Serializers", () => {
   function checkXmlHasPropertiesInExpectedOrder(
     xml: string,
     expectedOrderedProperties: Array<string>
-  ) {
+  ): void {
     const orderedPropertyIndices: Array<number> = [];
     for (let i = 0; i < expectedOrderedProperties.length; i++) {
       const index = xml.indexOf(`<${expectedOrderedProperties[i]}>`);
@@ -1044,7 +1044,7 @@ describe("ATOM Serializers", () => {
   });
 
   describe(`Parse empty response for list() requests to return as empty array`, function(): void {
-    function assertEmptyArray(result: any) {
+    function assertEmptyArray(result: any): void {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: new WebResource(),

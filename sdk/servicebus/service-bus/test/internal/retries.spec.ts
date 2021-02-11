@@ -6,7 +6,10 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = chai.should();
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "../public/utils/testutils2";
+import {
+  ServiceBusClientForTests,
+  createServiceBusClientForTests
+} from "../public/utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
@@ -53,7 +56,7 @@ describe("Retries - ManagementClient", () => {
     await receiver.close();
   }
 
-  function mockManagementClientToThrowError() {
+  function mockManagementClientToThrowError(): void {
     const fakeFunction = async function() {
       numberOfTimesManagementClientInvoked++;
       throw new MessagingError("Hello there, I'm an error");
@@ -69,7 +72,7 @@ describe("Retries - ManagementClient", () => {
     receiverMgmtClient["_makeManagementRequest"] = fakeFunction;
   }
 
-  async function mockManagementClientAndVerifyRetries(func: Function) {
+  async function mockManagementClientAndVerifyRetries(func: Function): Promise<void> {
     mockManagementClientToThrowError();
     let errorThrown = false;
     try {
@@ -222,8 +225,8 @@ describe("Retries - MessageSender", () => {
     await sender.close();
   }
 
-  function mockInitToThrowError() {
-    const fakeFunction = function() {
+  function mockInitToThrowError(): void {
+    const fakeFunction = function(): Promise<void> {
       numberOfTimesInitInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
@@ -232,7 +235,7 @@ describe("Retries - MessageSender", () => {
     (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
-  async function mockInitAndVerifyRetries(func: Function) {
+  async function mockInitAndVerifyRetries(func: Function): Promise<void> {
     mockInitToThrowError();
     let errorThrown = false;
     try {
@@ -334,7 +337,7 @@ describe("Retries - Receive methods", () => {
     await receiver.close();
   }
 
-  function mockBatchingReceiveToThrowError() {
+  function mockBatchingReceiveToThrowError(): void {
     const fakeFunction = async function() {
       numberOfTimesTried++;
       throw new MessagingError("Hello there, I'm an error");
@@ -359,7 +362,7 @@ describe("Retries - Receive methods", () => {
     }
   }
 
-  async function mockReceiveAndVerifyRetries(func: Function) {
+  async function mockReceiveAndVerifyRetries(func: Function): Promise<void> {
     mockBatchingReceiveToThrowError();
     let errorThrown = false;
     try {

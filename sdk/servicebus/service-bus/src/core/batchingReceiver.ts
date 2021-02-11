@@ -298,7 +298,7 @@ export class BatchingReceiverLite {
    *
    * @param connectionError - An optional error (rhea doesn't always deliver one for certain disconnection events)
    */
-  terminate(connectionError?: Error | AmqpError) {
+  terminate(connectionError?: Error | AmqpError): void {
     if (this._closeHandler) {
       this._closeHandler(connectionError);
       this._closeHandler = undefined;
@@ -324,17 +324,17 @@ export class BatchingReceiverLite {
     // eslint-disable-next-line prefer-const
     let cleanupBeforeResolveOrReject: () => void;
 
-    const reject = (err: Error | AmqpError) => {
+    const reject = (err: Error | AmqpError): void => {
       cleanupBeforeResolveOrReject();
       origReject(err);
     };
 
-    const resolveImmediately = (result: ServiceBusMessageImpl[]) => {
+    const resolveImmediately = (result: ServiceBusMessageImpl[]): void => {
       cleanupBeforeResolveOrReject();
       origResolve(result);
     };
 
-    const resolveAfterPendingMessageCallbacks = (result: ServiceBusMessageImpl[]) => {
+    const resolveAfterPendingMessageCallbacks = (result: ServiceBusMessageImpl[]): void => {
       // NOTE: through rhea-promise, most of our event handlers are made asynchronous by calling setTimeout(emit).
       // However, a small set (*error and drain) execute immediately. This can lead to a situation where the logical
       // ordering of events is correct but the execution order is incorrect because the events are not all getting
