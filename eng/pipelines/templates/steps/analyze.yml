@@ -3,8 +3,6 @@ parameters:
   ServiceDirectory: not-specified
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml
-
   - task: PublishPipelineArtifact@1
     condition: succeededOrFailed()
     displayName: "Publish Report Artifacts"
