@@ -669,4 +669,4 @@ export const getOperationOptionsBase = ({
   abortSignal,
   requestOptions,
   tracingOptions
-}); // TODO: Use this method to lighten the bulkier options bag that is unnecessarily being passed if any
+});

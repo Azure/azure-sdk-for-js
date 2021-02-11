@@ -24,6 +24,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
 import { ServiceBusClientOptions } from "./constructorHelpers";
+import { getOperationOptionsBase } from "./util/utils";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -193,7 +194,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       if (!Array.isArray(messages)) {
         messages = [messages];
       }
-      batch = await this.createMessageBatch({ ...this._clientOptions, ...options });
+      batch = await this.createMessageBatch({
+        ...getOperationOptionsBase(this._clientOptions),
+        ...options
+      });
       for (const message of messages) {
         throwIfNotValidServiceBusMessage(message, invalidTypeErrMsg);
         if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
@@ -214,7 +218,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     );
 
     try {
-      const result = await this._sender.sendBatch(batch, { ...this._clientOptions, ...options });
+      const result = await this._sender.sendBatch(batch, {
+        ...getOperationOptionsBase(this._clientOptions),
+        ...options
+      });
       sendSpan.setStatus({ code: CanonicalCode.OK });
       return result;
     } catch (error) {
@@ -230,7 +237,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
   async createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    return this._sender.createBatch(options);
+    return this._sender.createBatch({
+      ...getOperationOptionsBase(this._clientOptions),
+      ...options
+    });
   }
 
   async scheduleMessages(
@@ -258,6 +268,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       return this._context
         .getManagementClient(this._entityPath)
         .scheduleMessages(scheduledEnqueueTimeUtc, messagesToSchedule, {
+          ...getOperationOptionsBase(this._clientOptions),
           ...options,
           associatedLinkName: this._sender.name,
           requestName: "scheduleMessages",
@@ -294,16 +305,15 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       ? sequenceNumbers
       : [sequenceNumbers];
     const cancelSchedulesMessagesOperationPromise = async () => {
-      return this._context.getManagementClient(this._entityPath).cancelScheduledMessages(
-        sequenceNumbersToCancel,
-
-        {
+      return this._context
+        .getManagementClient(this._entityPath)
+        .cancelScheduledMessages(sequenceNumbersToCancel, {
+          ...getOperationOptionsBase(this._clientOptions),
           ...options,
           associatedLinkName: this._sender.name,
           requestName: "cancelScheduledMessages",
           timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
-        }
-      );
+        });
     };
     const config: RetryConfig<void> = {
       operation: cancelSchedulesMessagesOperationPromise,

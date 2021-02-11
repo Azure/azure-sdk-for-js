@@ -43,6 +43,7 @@ import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
 import { ServiceBusClientOptions } from "../constructorHelpers";
+import { getOperationOptionsBase } from "../util/utils";
 
 /**
  * A receiver that does not handle sessions.
@@ -387,6 +388,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     }
 
     this._createStreamingReceiver({
+      ...getOperationOptionsBase(this._clientOptions),
       ...options,
       receiveMode: this.receiveMode,
       retryOptions: this._clientOptions.retryOptions,
@@ -445,7 +447,11 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     // 2. subscription.stop()
     // 3. receiver.subscribe()
     this._streamingReceiver =
-      this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
+      this._streamingReceiver ??
+      new StreamingReceiver(this._context, this.entityPath, {
+        ...getOperationOptionsBase(this._clientOptions),
+        ...options
+      });
 
     // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
     // this mostly affects us if we're in the middle of init() - the connection (and receiver) are not yet
@@ -455,6 +461,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     await this._streamingReceiver.init({
       connectionId: this._context.connectionId,
       useNewName: false,
+      ...getOperationOptionsBase(this._clientOptions),
       ...options
     });
 
@@ -490,11 +497,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer
         };
-        this._batchingReceiver = this._createBatchingReceiver(
-          this._context,
-          this.entityPath,
-          options
-        );
+        this._batchingReceiver = this._createBatchingReceiver(this._context, this.entityPath, {
+          ...getOperationOptionsBase(this._clientOptions),
+          ...options
+        });
       }
 
       const receivedMessages = await this._batchingReceiver.receive(
@@ -522,7 +528,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   getMessageIterator(
     options?: GetMessageIteratorOptions
   ): AsyncIterableIterator<ServiceBusReceivedMessage> {
-    return getMessageIterator(this, options);
+    return getMessageIterator(this, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...options
+    });
   }
 
   async receiveDeferredMessages(
@@ -548,6 +557,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, undefined, {
+          ...getOperationOptionsBase(this._clientOptions),
           ...options,
           associatedLinkName: this._getAssociatedReceiverName(),
           requestName: "receiveDeferredMessages",
@@ -574,6 +584,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
 
     const managementRequestOptions = {
+      ...getOperationOptionsBase(this._clientOptions),
       ...options,
       associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
@@ -647,7 +658,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return completeMessage(msgImpl, this._context, this.entityPath, options);
+    return completeMessage(msgImpl, this._context, this.entityPath, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...options
+    });
   }
 
   async abandonMessage(
@@ -658,7 +672,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify, options);
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...options
+    });
   }
 
   async deferMessage(
@@ -669,17 +686,24 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify, options);
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...options
+    });
   }
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: any }
+    properties?: DeadLetterOptions & { [key: string]: any },
+    operationOptions?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, properties, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...operationOptions
+    });
   }
 
   async renewMessageLock(
@@ -698,7 +722,11 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     }
     return this._context
       .getManagementClient(this.entityPath)
-      .renewLock(message.lockToken!, { associatedLinkName, ...operationOptions })
+      .renewLock(message.lockToken!, {
+        associatedLinkName,
+        ...getOperationOptionsBase(this._clientOptions),
+        ...operationOptions
+      })
       .then((lockedUntil) => {
         message.lockedUntilUtc = lockedUntil;
         return lockedUntil;
@@ -752,7 +780,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
-    return BatchingReceiver.create(context, entityPath, options);
+    return BatchingReceiver.create(context, entityPath, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...options
+    });
   }
 
   /**

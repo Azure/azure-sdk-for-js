@@ -75,14 +75,14 @@ export function completeMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  options?: OperationOptionsBase
+  operationOptions?: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Completing the message with id '%s'.",
     context.connectionId,
     message.messageId
   );
-  return settleMessage(message, DispositionType.complete, context, entityPath, options);
+  return settleMessage(message, DispositionType.complete, context, entityPath, operationOptions);
 }
 
 /**
@@ -94,7 +94,7 @@ export function abandonMessage(
   context: ConnectionContext,
   entityPath: string,
   propertiesToModify?: { [key: string]: any },
-  options?: OperationOptionsBase
+  operationOptions?: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Abandoning the message with id '%s'.",
@@ -103,7 +103,7 @@ export function abandonMessage(
   );
   return settleMessage(message, DispositionType.abandon, context, entityPath, {
     propertiesToModify,
-    ...options
+    ...operationOptions
   });
 }
 
@@ -116,7 +116,7 @@ export function deferMessage(
   context: ConnectionContext,
   entityPath: string,
   propertiesToModify?: { [key: string]: any },
-  options?: OperationOptionsBase
+  operationOptions?: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deferring the message with id '%s'.",
@@ -125,7 +125,7 @@ export function deferMessage(
   );
   return settleMessage(message, DispositionType.defer, context, entityPath, {
     propertiesToModify,
-    ...options
+    ...operationOptions
   });
 }
 
@@ -137,7 +137,8 @@ export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify?: DeadLetterOptions & { [key: string]: any }
+  propertiesToModify?: Partial<DeadLetterOptions> & { [key: string]: any },
+  operationOptions?: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deadlettering the message with id '%s'.",
@@ -145,7 +146,7 @@ export function deadLetterMessage(
     message.messageId
   );
 
-  const actualPropertiesToModify: Partial<DeadLetterOptions> = {
+  const actualPropertiesToModify = {
     ...propertiesToModify
   };
 
@@ -159,13 +160,10 @@ export function deadLetterMessage(
     deadLetterDescription: propertiesToModify?.deadLetterErrorDescription
   };
 
-  return settleMessage(
-    message,
-    DispositionType.deadletter,
-    context,
-    entityPath,
-    dispositionStatusOptions
-  );
+  return settleMessage(message, DispositionType.deadletter, context, entityPath, {
+    ...dispositionStatusOptions,
+    ...operationOptions
+  });
 }
 
 /**

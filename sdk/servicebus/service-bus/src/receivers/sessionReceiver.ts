@@ -46,6 +46,7 @@ import { AmqpError } from "rhea-promise";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
+import { getOperationOptionsBase } from "../util/utils";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -218,6 +219,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       this._messageSession!.sessionLockedUntilUtc = await this._context
         .getManagementClient(this.entityPath)
         .renewSessionLock(this.sessionId, {
+          ...getOperationOptionsBase(this._clientOptions),
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "renewSessionLock",
@@ -250,6 +252,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       await this._context
         .getManagementClient(this.entityPath)
         .setSessionState(this.sessionId!, state, {
+          ...getOperationOptionsBase(this._clientOptions),
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "setState",
@@ -280,6 +283,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     const getSessionStateOperationPromise = async () => {
       return this._context.getManagementClient(this.entityPath).getSessionState(this.sessionId, {
+        ...getOperationOptionsBase(this._clientOptions),
         ...options,
         associatedLinkName: this._messageSession.name,
         requestName: "getState",
@@ -303,6 +307,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     this._throwIfReceiverOrConnectionClosed();
 
     const managementRequestOptions = {
+      ...getOperationOptionsBase(this._clientOptions),
       ...options,
       associatedLinkName: this._messageSession.name,
       requestName: "peekMessages",
@@ -358,6 +363,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, this.sessionId, {
+          ...getOperationOptionsBase(this._clientOptions),
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "receiveDeferredMessages",
@@ -402,7 +408,10 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
-        options ?? {}
+        {
+          ...getOperationOptionsBase(this._clientOptions),
+          ...options
+        }
       );
 
       return receivedMessages;
@@ -488,7 +497,10 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     }
 
     try {
-      this._messageSession.subscribe(onMessage, onError, options);
+      this._messageSession.subscribe(onMessage, onError, {
+        ...getOperationOptionsBase(this._clientOptions),
+        ...options
+      });
     } catch (err) {
       onError({
         error: err,
@@ -502,44 +514,65 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   getMessageIterator(
     options?: GetMessageIteratorOptions
   ): AsyncIterableIterator<ServiceBusReceivedMessage> {
-    return getMessageIterator(this, options);
+    return getMessageIterator(this, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...options
+    });
   }
 
-  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+  async completeMessage(
+    message: ServiceBusReceivedMessage,
+    operationOptions?: OperationOptionsBase
+  ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return completeMessage(msgImpl, this._context, this.entityPath);
+    return completeMessage(msgImpl, this._context, this.entityPath, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...operationOptions
+    });
   }
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: any },
+    operationOptions?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...operationOptions
+    });
   }
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: any },
+    operationOptions?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...operationOptions
+    });
   }
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: any }
+    properties?: DeadLetterOptions & { [key: string]: any },
+    operationOptions?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, properties, {
+      ...getOperationOptionsBase(this._clientOptions),
+      ...operationOptions
+    });
   }
 
   async renewMessageLock(): Promise<Date> {
