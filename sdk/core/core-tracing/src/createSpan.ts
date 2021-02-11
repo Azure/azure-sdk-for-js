@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
- Span,
- SpanOptions,
- SpanKind,
- Context,
- context as otContext,
- setSpan
+  Span,
+  SpanOptions,
+  SpanKind,
+  Context,
+  context as otContext,
+  setSpan
 } from "@opentelemetry/api";
 import { OperationTracingOptions } from "./interfaces";
 import { getTracer } from "./tracerProxy";
@@ -17,10 +17,10 @@ import { getTracer } from "./tracerProxy";
  * @hidden
  */
 export interface HasTracingOptions {
- tracingOptions?: {
-  spanOptions?: SpanOptions;
-  context?: Context;
- };
+  tracingOptions?: {
+    spanOptions?: SpanOptions;
+    context?: Context;
+  };
 }
 
 /**
@@ -28,19 +28,19 @@ export interface HasTracingOptions {
  * @hidden
  */
 export interface CreateSpanFunctionArgs {
- /**
-  * Package name prefix
-  */
- packagePrefix: string;
- /**
-  * Service namespace
-  */
- namespace: string;
- /**
-  * The type of the Span that will be created.
-  * Default: SpanKind.INTERNAL
-  */
- spanKind?: SpanKind;
+  /**
+   * Package name prefix
+   */
+  packagePrefix: string;
+  /**
+   * Service namespace
+   */
+  namespace: string;
+  /**
+   * The type of the Span that will be created.
+   * Default: SpanKind.INTERNAL
+   */
+  spanKind?: SpanKind;
 }
 
 /**
@@ -50,54 +50,54 @@ export interface CreateSpanFunctionArgs {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction({ packagePrefix, namespace }: CreateSpanFunctionArgs) {
- return function <
-  T extends {
-   tracingOptions?: OperationTracingOptions;
-  }
- >(
-  operationName: string,
-  operationOptions: T,
-  context: Context = otContext.active()
- ): { span: Span; updatedOptions: T } {
-  const tracer = getTracer();
-
-  const tracingOptions = operationOptions.tracingOptions || {};
-
-  const spanOptions: SpanOptions = {
-   ...tracingOptions.spanOptions,
-   kind: tracingOptions?.spanOptions?.kind ?? SpanKind.INTERNAL
-  };
-
-  const span = tracer.startSpan(`${packagePrefix}.${operationName}`, spanOptions, context);
-  const newContext = setSpan(context, span);
-
-  span.setAttribute("az.namespace", namespace);
-
-  let newSpanOptions = tracingOptions.spanOptions || {};
-  if (span.isRecording()) {
-   newSpanOptions = {
-    ...tracingOptions.spanOptions,
-    attributes: {
-     ...spanOptions.attributes,
-     "az.namespace": namespace
+  return function<
+    T extends {
+      tracingOptions?: OperationTracingOptions;
     }
-   };
-  }
+  >(
+    operationName: string,
+    operationOptions: T,
+    context: Context = otContext.active()
+  ): { span: Span; updatedOptions: T } {
+    const tracer = getTracer();
 
-  const newTracingOptions: OperationTracingOptions = {
-   ...tracingOptions,
-   spanOptions: newSpanOptions,
-   context: newContext
-  };
+    const tracingOptions = operationOptions.tracingOptions || {};
 
-  const newOperationOptions: T = {
-   ...operationOptions,
-   tracingOptions: newTracingOptions
-  };
+    const spanOptions: SpanOptions = {
+      ...tracingOptions.spanOptions,
+      kind: tracingOptions?.spanOptions?.kind ?? SpanKind.INTERNAL
+    };
 
-  return {
-   span,
-   updatedOptions: newOperationOptions
+    const span = tracer.startSpan(`${packagePrefix}.${operationName}`, spanOptions, context);
+    const newContext = setSpan(context, span);
+
+    span.setAttribute("az.namespace", namespace);
+
+    let newSpanOptions = tracingOptions.spanOptions || {};
+    if (span.isRecording()) {
+      newSpanOptions = {
+        ...tracingOptions.spanOptions,
+        attributes: {
+          ...spanOptions.attributes,
+          "az.namespace": namespace
+        }
+      };
+    }
+
+    const newTracingOptions: OperationTracingOptions = {
+      ...tracingOptions,
+      spanOptions: newSpanOptions,
+      context: newContext
+    };
+
+    const newOperationOptions: T = {
+      ...operationOptions,
+      tracingOptions: newTracingOptions
+    };
+
+    return {
+      span,
+      updatedOptions: newOperationOptions
+    };
   };
- };
 }
