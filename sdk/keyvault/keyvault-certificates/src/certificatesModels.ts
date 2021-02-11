@@ -262,6 +262,9 @@ export interface CertificatePolicyProperties {
   certificateTransparency?: boolean;
   /**
    * The media type (MIME type).
+   *
+   * Set to `application/x-pkcs12` when the certificate contains your PKCS#12/PFX bytes,
+   * or to `application/x-pem-file` when the certificate contains your ASCII PEM-encoded bytes.
    */
   contentType?: CertificateContentType;
   /**
