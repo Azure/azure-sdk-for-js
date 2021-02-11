@@ -9,7 +9,7 @@ import { parseConnectionString } from "@azure/core-amqp";
 export interface EventHubConnectionStringProperties {
   /**
    * The fully qualified Event Hub namespace extracted from the "Endpoint" in the
-   * connection string. This is likely to be similar to "\{yournamespace\}.servicebus.windows.net".
+   * connection string. This is likely to be similar to `{yournamespace}.servicebus.windows.net`.
    * This is typically used to construct an EventHubProducerClient or an EventHubConsumerClient.
    */
   fullyQualifiedNamespace: string;
