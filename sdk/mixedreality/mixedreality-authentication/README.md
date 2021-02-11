@@ -60,7 +60,7 @@ Use the [Azure Portal][azure_portal] to browse to your Mixed Reality service res
 Once you have an account key, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```js
-import { AzureKeyCredential } from "@azure/core-auth";
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 const { MixedRealityStsClient } = require("@azure/mixedreality-authentication");
 
@@ -112,15 +112,14 @@ Tokens obtained from the Mixed Reality STS have a lifetime of **24 hours**.
 ### Return Value
 
 The return value for a successful call to `getToken` is an `GetTokenResponse`, which is an `AccessToken` from
-[@azure/core-http](https://www.npmjs.com/package/@azure/core-http) that also contains HTTP request and response
-details in the `_response` field.
+[@azure/core-http](https://www.npmjs.com/package/@azure/core-http).
 
 ## Examples
 
 ### Retrieve an access token
 
 ```js
-import { AzureKeyCredential } from "@azure/core-auth";
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 const { MixedRealityStsClient } = require("@azure/mixedreality-authentication");
 
@@ -162,12 +161,14 @@ documentation for the client library you're using to determine if and how this m
 
 ### Enable logs
 
-You can set the following environment variable to see debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and
+responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at
+runtime by calling `setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure MixedRealityStsClient client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps

@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates something
+ * This sample demonstrates how to retrieve an access token from the Mixed
+ * Reality security token service (STS).
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");

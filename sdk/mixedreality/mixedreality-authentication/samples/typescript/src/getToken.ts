@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to retrieve a token used to access a Mixed Reality service.
+ * This sample demonstrates how to retrieve an access token from the Mixed
+ * Reality security token service (STS).
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
