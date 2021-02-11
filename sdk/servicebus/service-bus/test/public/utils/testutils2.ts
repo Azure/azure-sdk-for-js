@@ -7,7 +7,8 @@ import {
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
-  ServiceBusClientOptions
+  ServiceBusClientOptions,
+  ServiceBusSender
 } from "../../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -123,7 +124,7 @@ async function createTestEntities(
   return relatedEntities;
 }
 
-export async function drainAllMessages(receiver: ServiceBusReceiver) {
+export async function drainAllMessages(receiver: ServiceBusReceiver): Promise<void> {
   while (true) {
     const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
@@ -347,7 +348,7 @@ export class ServiceBusTestHelpers {
   async acceptNextSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     options?: ServiceBusSessionReceiverOptions
-  ) {
+  ): Promise<ServiceBusSessionReceiver> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"
@@ -444,7 +445,9 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  async createSender(entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">) {
+  async createSender(
+    entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">
+  ): Promise<ServiceBusSender> {
     return this.addToCleanup(
       entityNames.queue
         ? this._serviceBusClient.createSender(entityNames.queue)

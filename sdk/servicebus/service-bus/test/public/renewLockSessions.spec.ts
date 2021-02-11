@@ -124,7 +124,7 @@ describe("Session Lock Renewal", () => {
   // const maxAutoRenewLockDurationInMs = 300*1000;
   let uncaughtErrorFromHandlers: Error | undefined;
 
-  async function processError(args: ProcessErrorArgs) {
+  async function processError(args: ProcessErrorArgs): Promise<void> {
     uncaughtErrorFromHandlers = args.error;
   }
 
@@ -227,7 +227,7 @@ describe("Session Lock Renewal", () => {
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await sender.sendMessages(testMessage);
 
-    async function processMessage(brokeredMessage: ServiceBusReceivedMessage) {
+    async function processMessage(brokeredMessage: ServiceBusReceivedMessage): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 

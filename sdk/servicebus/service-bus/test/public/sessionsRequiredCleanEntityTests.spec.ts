@@ -62,7 +62,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await afterEachTest();
     });
 
-    async function eachTest(useSessionId: boolean) {
+    async function eachTest(useSessionId: boolean): Promise<void> {
       await beforeEachNoSessionTest();
       await peekSession(useSessionId);
     }

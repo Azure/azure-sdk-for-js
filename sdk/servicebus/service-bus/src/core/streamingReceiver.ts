@@ -372,7 +372,7 @@ export class StreamingReceiver extends MessageReceiver {
       OperationOptionsBase,
       "abortSignal"
     >
-  ) {
+  ): Promise<void> {
     let numRetryCycles = 0;
 
     while (true) {

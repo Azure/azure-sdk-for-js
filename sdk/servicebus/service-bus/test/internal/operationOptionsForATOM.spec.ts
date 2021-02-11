@@ -31,7 +31,7 @@ describe("Operation Options", () => {
   // This describe block ensures that abort signal works as expected and
   // the OperationOptions are plugged in for all the methods
   describe("Abort Signal", () => {
-    async function verifyAbortError(func: Function) {
+    async function verifyAbortError(func: Function): Promise<void> {
       try {
         await func();
         assert.fail();

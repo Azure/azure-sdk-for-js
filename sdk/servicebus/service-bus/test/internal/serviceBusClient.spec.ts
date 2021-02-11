@@ -316,7 +316,7 @@ describe("ServiceBusClient live tests", () => {
     /**
      * Utility to create EnvironmentCredential using `@azure/identity`
      */
-    function getDefaultTokenCredential() {
+    function getDefaultTokenCredential(): EnvironmentCredential {
       should.exist(
         env[EnvVarNames.AZURE_CLIENT_ID],
         "define AZURE_CLIENT_ID in your environment before running integration tests."

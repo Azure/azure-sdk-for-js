@@ -226,6 +226,7 @@ export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessa
  *       propertyName: "property value"
  *    }
  * }
+ * ```
  */
 export interface EventData {
   /**
