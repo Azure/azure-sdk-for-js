@@ -47,7 +47,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     filter: SqlRuleFilter | CorrelationRuleFilter,
     numberOfMessagesToBeFiltered: number,
     toCheck: (msg: ServiceBusReceivedMessage) => void
-  ) {
+  ): Promise<void> {
     await serviceBusAtomManagementClient.createRule(
       topicName,
       subscriptionName,
@@ -103,7 +103,10 @@ describe("getSubscriptionRuntimeProperties", () => {
     await serviceBusAtomManagementClient.deleteTopic(topicName);
   });
 
-  async function receiveMessagesAndAbandon(topicName: string, subscriptionName: string) {
+  async function receiveMessagesAndAbandon(
+    topicName: string,
+    subscriptionName: string
+  ): Promise<void> {
     const receiver = serviceBusClient.createReceiver(topicName, subscriptionName);
     const receivedMessages = await receiver.receiveMessages(10);
     receivedMessages.forEach(async (msg) => {

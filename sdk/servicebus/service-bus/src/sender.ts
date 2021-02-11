@@ -139,7 +139,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   private _sender: MessageSender;
   public entityPath: string;
 
-  private get logPrefix() {
+  private get logPrefix(): string {
     return `[${this._context.connectionId}|sender:${this.entityPath}]`;
   }
 
@@ -249,7 +249,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       );
     }
 
-    const scheduleMessageOperationPromise = async () => {
+    const scheduleMessageOperationPromise = async (): Promise<Long[]> => {
       return this._context
         .getManagementClient(this._entityPath)
         .scheduleMessages(scheduledEnqueueTimeUtc, messagesToSchedule, {
@@ -288,7 +288,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     const sequenceNumbersToCancel = Array.isArray(sequenceNumbers)
       ? sequenceNumbers
       : [sequenceNumbers];
-    const cancelSchedulesMessagesOperationPromise = async () => {
+    const cancelSchedulesMessagesOperationPromise = async (): Promise<void> => {
       return this._context.getManagementClient(this._entityPath).cancelScheduledMessages(
         sequenceNumbersToCancel,
 

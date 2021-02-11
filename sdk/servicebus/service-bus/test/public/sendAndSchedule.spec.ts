@@ -318,7 +318,7 @@ describe("Sender Tests", () => {
     compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
     compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
 
-    function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long) {
+    function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long): void {
       should.equal(
         sequenceNumber1.compare(sequenceNumber2) != 0,
         true,

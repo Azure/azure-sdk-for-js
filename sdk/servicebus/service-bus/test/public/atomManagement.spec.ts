@@ -116,7 +116,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
     await serviceBusAtomManagementClient.deleteTopic(managementTopic1);
   });
 
-  function verifyEntities(methodName: string, receivedNames: string[]) {
+  function verifyEntities(methodName: string, receivedNames: string[]): void {
     let createdNames: string[];
     if (methodName.includes("Queue")) {
       createdNames = queueNames;
