@@ -50,12 +50,11 @@ export interface CreateSpanFunctionArgs {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction({ packagePrefix, namespace }: CreateSpanFunctionArgs) {
- return function <T extends {
-  tracingOptions?: {
-   spanOptions?: SpanOptions;
-   context?: Context;
+ return function <
+  T extends {
+   tracingOptions?: OperationTracingOptions;
   }
- }>(
+ >(
   operationName: string,
   operationOptions: T,
   context: Context = otContext.active()

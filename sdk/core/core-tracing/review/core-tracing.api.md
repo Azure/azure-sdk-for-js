@@ -28,10 +28,7 @@ export interface Context {
 
 // @public
 export function createSpanFunction({ packagePrefix, namespace }: CreateSpanFunctionArgs): <T extends {
-    tracingOptions?: {
-        spanOptions?: OTSpanOptions | undefined;
-        context?: Context_2 | undefined;
-    } | undefined;
+    tracingOptions?: OperationTracingOptions | undefined;
 }>(operationName: string, operationOptions: T, context?: Context_2) => {
     span: Span;
     updatedOptions: T;
@@ -138,6 +135,8 @@ export interface SpanGraphNode {
 // @public
 export interface SpanOptions {
     attributes?: Attributes;
+    // Warning: (ae-forgotten-export) The symbol "SpanKind" needs to be exported by the entry point index.d.ts
+    kind?: SpanKind_2;
 }
 
 // @public

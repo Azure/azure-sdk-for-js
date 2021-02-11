@@ -2,5 +2,5 @@
 // exported.
 
 export const openTelemetryNamedExports = {
-  "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags", "getSpan", "StatusCode", "setSpan"]
+  "@opentelemetry/api": ["SpanKind", "TraceFlags", "getSpan", "StatusCode", "setSpan"]
 };
