@@ -1,7 +1,7 @@
 "use strict";
 
 const tracer = require("./tracer")("example-https-client");
-const api = require('@opentelemetry/api');
+const api = require("@opentelemetry/api");
 // eslint-disable-next-line import/order
 const http = require("http");
 
