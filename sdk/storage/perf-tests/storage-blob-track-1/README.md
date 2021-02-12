@@ -1,6 +1,6 @@
 ### Guide
 
-1. Build the storage-blob perf tests package `rush build -t perf-test-storage-blob-track-1`.
+1. Build the storage-blob perf tests package `rush build -t test-utils-perfstress`.
 2. Create a storage account and populate the .env file with `STORAGE_CONNECTION_STRING` variables.
 3. Run the tests as follows
 
