@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSpanFunction as coreTracingCreateSpanFunction } from "@azure/core-tracing";
+import { createSpanFunctionForOperationOptions as coreTracingCreateSpanFunction } from "@azure/core-tracing";
 
 /**
  * Creates a function called createSpan to create spans using the global tracer.
