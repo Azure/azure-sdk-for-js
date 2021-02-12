@@ -2,7 +2,7 @@
 
 > see [https://aka.ms/autorest](https://aka.ms/autorest)
 
-Run `rushx generate:client` or `update.ps1` to generate code.
+Run `rushx generate:client` to generate code.
 
 ## Configuration
 
