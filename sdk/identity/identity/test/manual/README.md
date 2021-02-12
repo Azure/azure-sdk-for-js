@@ -26,6 +26,7 @@ You will need to configure an AAD App Registration as follows:
 - Click on the app that you want to use to authenticate.
 - Go to the Authentication tab of your AAD application.
 - Click on `+ Add a platform`, select `Single-page application`, enter `http://localhost:8080` as the redirect URI, then make sure to include implicit grant for "Access tokens" and "ID tokens".
+- Go to the `API permissions` tab of your AAD application. Click on `Add a permission`, then go to `APIs my organization uses` and search for `Microsoft.ServiceBus`, then add this permission.
 - Keep in mind that if you belong to an organization, other restrictions based on the organization configurations might prevent you from authenticating. If These steps don't end up being effective, try again on a personal account.
 
 Grant access to this AAD application to your Service Bus by:
