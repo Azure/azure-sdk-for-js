@@ -7,15 +7,15 @@ import * as dotenv from "dotenv";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "./testUtils";
 
-import { EventGridPublisherClient } from "../../src/index";
+import { EventGridPublisherClient, InputSchema } from "../../src/index";
 import { KeyCredential } from "@azure/core-auth";
 
 if (isNode) {
   dotenv.config();
 }
 
-export interface RecordedClient {
-  client: EventGridPublisherClient;
+export interface RecordedClient<T extends InputSchema> {
+  client: EventGridPublisherClient<T>;
   recorder: Recorder;
 }
 
@@ -53,15 +53,16 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedClient(
+export function createRecordedClient<T extends InputSchema>(
   context: Context,
   endpoint: string,
+  eventSchema: T,
   credential: KeyCredential
-): RecordedClient {
+): RecordedClient<T> {
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new EventGridPublisherClient(endpoint, credential),
+    client: new EventGridPublisherClient(endpoint, eventSchema, credential),
     recorder
   };
 }

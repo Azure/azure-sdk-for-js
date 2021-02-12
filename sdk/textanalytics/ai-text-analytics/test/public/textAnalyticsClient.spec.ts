@@ -891,12 +891,14 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const action = entitiesResult[0];
-            for (const result of action) {
-              if (!result.error) {
-                assert.ok(result.id);
-                assert.ok(result.entities);
-              } else {
-                assert.fail("did not expect document errors but got one.");
+            if (!action.error) {
+              for (const result of action.results) {
+                if (!result.error) {
+                  assert.ok(result.id);
+                  assert.ok(result.entities);
+                } else {
+                  assert.fail("did not expect document errors but got one.");
+                }
               }
             }
           } else {
@@ -925,13 +927,15 @@ describe("[AAD] TextAnalyticsClient", function() {
           const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const action = keyPhrasesResult[0];
-            assert.equal(action.length, 2);
-            for (const result of action) {
-              if (!result.error) {
-                assert.include(result.keyPhrases, "Paul Allen");
-                assert.include(result.keyPhrases, "Bill Gates");
-                assert.include(result.keyPhrases, "Microsoft");
-                assert.ok(result.id);
+            if (!action.error) {
+              assert.equal(action.results.length, 2);
+              for (const result of action.results) {
+                if (!result.error) {
+                  assert.include(result.keyPhrases, "Paul Allen");
+                  assert.include(result.keyPhrases, "Bill Gates");
+                  assert.include(result.keyPhrases, "Microsoft");
+                  assert.ok(result.id);
+                }
               }
             }
           } else {
@@ -973,15 +977,17 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const action = entitiesResult[0];
-            assert.equal(action.length, 3);
-            for (const doc of action) {
-              if (!doc.error) {
-                assert.equal(doc.entities.length, 4);
-                for (const entity of doc.entities) {
-                  assert.isDefined(entity.text);
-                  assert.isDefined(entity.category);
-                  assert.isDefined(entity.offset);
-                  assert.isDefined(entity.confidenceScore);
+            if (!action.error) {
+              assert.equal(action.results.length, 3);
+              for (const doc of action.results) {
+                if (!doc.error) {
+                  assert.equal(doc.entities.length, 4);
+                  for (const entity of doc.entities) {
+                    assert.isDefined(entity.text);
+                    assert.isDefined(entity.category);
+                    assert.isDefined(entity.offset);
+                    assert.isDefined(entity.confidenceScore);
+                  }
                 }
               }
             }
@@ -1016,29 +1022,32 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizePiiEntitiesResults;
           if (entitiesResult.length === 1) {
             const action = entitiesResult[0];
-            assert.equal(action.length, 3);
-            const doc1 = action[0];
-            const doc2 = action[1];
-            const doc3 = action[2];
-            if (!doc1.error) {
-              assert.equal(doc1.entities[0].text, "859-98-0987");
-              assert.equal(doc1.entities[0].category, "U.S. Social Security Number (SSN)");
-            }
-            if (!doc2.error) {
-              assert.equal(doc2.entities[0].text, "111000025");
-              // assert.equal(doc2.entities[0].category, "ABA Routing Number")  # Service is currently returning PhoneNumber here
-            }
-            if (!doc3.error) {
-              assert.equal(doc3.entities[0].text, "998.214.865-68");
-              assert.equal(doc3.entities[0].category, "Brazil CPF Number");
-            }
-            for (const doc of action) {
-              if (!doc.error) {
-                for (const entity of doc.entities) {
-                  assert.isDefined(entity.text);
-                  assert.isDefined(entity.category);
-                  assert.isDefined(entity.offset);
-                  assert.isDefined(entity.confidenceScore);
+            if (!action.error) {
+              const actionResults = action.results;
+              assert.equal(actionResults.length, 3);
+              const doc1 = actionResults[0];
+              const doc2 = actionResults[1];
+              const doc3 = actionResults[2];
+              if (!doc1.error) {
+                assert.equal(doc1.entities[0].text, "859-98-0987");
+                assert.equal(doc1.entities[0].category, "U.S. Social Security Number (SSN)");
+              }
+              if (!doc2.error) {
+                assert.equal(doc2.entities[0].text, "111000025");
+                // assert.equal(doc2.entities[0].category, "ABA Routing Number")  # Service is currently returning PhoneNumber here
+              }
+              if (!doc3.error) {
+                assert.equal(doc3.entities[0].text, "998.214.865-68");
+                assert.equal(doc3.entities[0].category, "Brazil CPF Number");
+              }
+              for (const doc of actionResults) {
+                if (!doc.error) {
+                  for (const entity of doc.entities) {
+                    assert.isDefined(entity.text);
+                    assert.isDefined(entity.category);
+                    assert.isDefined(entity.offset);
+                    assert.isDefined(entity.confidenceScore);
+                  }
                 }
               }
             }
@@ -1101,10 +1110,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 3);
-            assert.isDefined(entitiesDocs[0].error);
-            assert.isDefined(entitiesDocs[1].error);
-            assert.isUndefined(entitiesDocs[2].error);
+            if (!entitiesDocs.error) {
+              const entitiesDocsResults = entitiesDocs.results;
+              assert.equal(entitiesDocsResults.length, 3);
+              assert.isDefined(entitiesDocsResults[0].error);
+              assert.isDefined(entitiesDocsResults[1].error);
+              assert.isUndefined(entitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
           }
@@ -1112,10 +1124,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 3);
-            assert.isDefined(piiEntitiesDocs[0].error);
-            assert.isDefined(piiEntitiesDocs[1].error);
-            assert.isUndefined(piiEntitiesDocs[2].error);
+            if (!piiEntitiesDocs.error) {
+              const piiEntitiesDocsResults = piiEntitiesDocs.results;
+              assert.equal(piiEntitiesDocsResults.length, 3);
+              assert.isDefined(piiEntitiesDocsResults[0].error);
+              assert.isDefined(piiEntitiesDocsResults[1].error);
+              assert.isUndefined(piiEntitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
@@ -1123,10 +1138,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 3);
-            assert.isDefined(keyPhrasesDocs[0].error);
-            assert.isDefined(keyPhrasesDocs[1].error);
-            assert.isUndefined(keyPhrasesDocs[2].error);
+            if (!keyPhrasesDocs.error) {
+              const keyPhrasesDocsResults = keyPhrasesDocs.results;
+              assert.equal(keyPhrasesDocsResults.length, 3);
+              assert.isDefined(keyPhrasesDocsResults[0].error);
+              assert.isDefined(keyPhrasesDocsResults[1].error);
+              assert.isUndefined(keyPhrasesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
           }
@@ -1167,10 +1185,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 3);
-            assert.isDefined(entitiesDocs[0].error);
-            assert.isDefined(entitiesDocs[1].error);
-            assert.isDefined(entitiesDocs[2].error);
+            if (!entitiesDocs.error) {
+              const entitiesDocsResults = entitiesDocs.results;
+              assert.equal(entitiesDocsResults.length, 3);
+              assert.isDefined(entitiesDocsResults[0].error);
+              assert.isDefined(entitiesDocsResults[1].error);
+              assert.isDefined(entitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
           }
@@ -1178,10 +1199,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 3);
-            assert.isDefined(piiEntitiesDocs[0].error);
-            assert.isDefined(piiEntitiesDocs[1].error);
-            assert.isDefined(piiEntitiesDocs[2].error);
+            if (!piiEntitiesDocs.error) {
+              const piiEntitiesDocsResults = piiEntitiesDocs.results;
+              assert.equal(piiEntitiesDocsResults.length, 3);
+              assert.isDefined(piiEntitiesDocsResults[0].error);
+              assert.isDefined(piiEntitiesDocsResults[1].error);
+              assert.isDefined(piiEntitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
@@ -1189,10 +1213,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult && keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 3);
-            assert.isDefined(keyPhrasesDocs[0].error);
-            assert.isDefined(keyPhrasesDocs[1].error);
-            assert.isDefined(keyPhrasesDocs[2].error);
+            if (!keyPhrasesDocs.error) {
+              const keyPhrasesDocsResults = keyPhrasesDocs.results;
+              assert.equal(keyPhrasesDocsResults.length, 3);
+              assert.isDefined(keyPhrasesDocsResults[0].error);
+              assert.isDefined(keyPhrasesDocsResults[1].error);
+              assert.isDefined(keyPhrasesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
           }
@@ -1224,10 +1251,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 5);
-            let i = 1;
-            for (const doc of entitiesDocs) {
-              assert.equal(parseInt(doc.id), i++);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 5);
+              let i = 1;
+              for (const doc of entitiesDocs.results) {
+                assert.equal(parseInt(doc.id), i++);
+              }
             }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
@@ -1236,10 +1265,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 5);
-            let i = 1;
-            for (const doc of piiEntitiesDocs) {
-              assert.equal(parseInt(doc.id), i++);
+            if (!piiEntitiesDocs.error) {
+              assert.equal(piiEntitiesDocs.results.length, 5);
+              let i = 1;
+              for (const doc of piiEntitiesDocs.results) {
+                assert.equal(parseInt(doc.id), i++);
+              }
             }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
@@ -1248,10 +1279,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 5);
-            let i = 1;
-            for (const doc of keyPhrasesDocs) {
-              assert.equal(parseInt(doc.id), i++);
+            if (!keyPhrasesDocs.error) {
+              assert.equal(keyPhrasesDocs.results.length, 5);
+              let i = 1;
+              for (const doc of keyPhrasesDocs.results) {
+                assert.equal(parseInt(doc.id), i++);
+              }
             }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
@@ -1285,10 +1318,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 5);
-            let i = 0;
-            for (const doc of entitiesDocs) {
-              assert.equal(doc.id, in_order[i++]);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 5);
+              let i = 0;
+              for (const doc of entitiesDocs.results) {
+                assert.equal(doc.id, in_order[i++]);
+              }
             }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
@@ -1297,10 +1332,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 5);
-            let i = 0;
-            for (const doc of piiEntitiesDocs) {
-              assert.equal(doc.id, in_order[i++]);
+            if (!piiEntitiesDocs.error) {
+              assert.equal(piiEntitiesDocs.results.length, 5);
+              let i = 0;
+              for (const doc of piiEntitiesDocs.results) {
+                assert.equal(doc.id, in_order[i++]);
+              }
             }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
@@ -1309,10 +1346,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 5);
-            let i = 0;
-            for (const doc of keyPhrasesDocs) {
-              assert.equal(doc.id, in_order[i++]);
+            if (!keyPhrasesDocs.error) {
+              assert.equal(keyPhrasesDocs.results.length, 5);
+              let i = 0;
+              for (const doc of keyPhrasesDocs.results) {
+                assert.equal(doc.id, in_order[i++]);
+              }
             }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
@@ -1375,9 +1414,11 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1407,9 +1448,11 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1438,9 +1481,11 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1469,9 +1514,11 @@ describe("[AAD] TextAnalyticsClient", function() {
           const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1495,16 +1542,22 @@ describe("[AAD] TextAnalyticsClient", function() {
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
         const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
-        for (const doc of entitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+        if (!entitiesTaskDocs.error) {
+          for (const doc of entitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+          }
         }
         const piiEntitiesTaskDocs = firstResult?.recognizePiiEntitiesResults[0];
-        for (const doc of piiEntitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+        if (!piiEntitiesTaskDocs.error) {
+          for (const doc of piiEntitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+          }
         }
         const keyPhrasesTaskDocs = firstResult?.extractKeyPhrasesResults[0];
-        for (const doc of keyPhrasesTaskDocs) {
-          assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+        if (!keyPhrasesTaskDocs.error) {
+          for (const doc of keyPhrasesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+          }
         }
       });
 
@@ -1531,16 +1584,22 @@ describe("[AAD] TextAnalyticsClient", function() {
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
         const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
-        for (const doc of entitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnknownError");
+        if (!entitiesTaskDocs.error) {
+          for (const doc of entitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnknownError");
+          }
         }
         const piiEntitiesTaskDocs = firstResult?.recognizePiiEntitiesResults[0];
-        for (const doc of piiEntitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnknownError");
+        if (!piiEntitiesTaskDocs.error) {
+          for (const doc of piiEntitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnknownError");
+          }
         }
         const keyPhrasesTaskDocs = firstResult?.extractKeyPhrasesResults[0];
-        for (const doc of keyPhrasesTaskDocs) {
-          assert.equal(doc.error?.code, "UnknownError");
+        if (!keyPhrasesTaskDocs.error) {
+          for (const doc of keyPhrasesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnknownError");
+          }
         }
       });
 
@@ -1566,14 +1625,16 @@ describe("[AAD] TextAnalyticsClient", function() {
         for await (const page of result.byPage({ maxPageSize: pageSize })) {
           const entitiesTaskDocs = page.recognizeEntitiesResults[0];
           ++pageCount;
-          for (const doc of entitiesTaskDocs) {
-            assert.isUndefined(doc.error);
-            ++docCount;
-            if (!doc.error) {
-              if (docCount === totalDocs) {
-                assert.equal(doc.entities.length, 3);
-              } else {
-                assert.equal(doc.entities.length, 0);
+          if (!entitiesTaskDocs.error) {
+            for (const doc of entitiesTaskDocs.results) {
+              assert.isUndefined(doc.error);
+              ++docCount;
+              if (!doc.error) {
+                if (docCount === totalDocs) {
+                  assert.equal(doc.entities.length, 3);
+                } else {
+                  assert.equal(doc.entities.length, 0);
+                }
               }
             }
           }
@@ -1603,11 +1664,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           const piiEntitiesResult = page.recognizePiiEntitiesResults;
           assert.equal(piiEntitiesResult.length, 1);
           for (const piiEntitiesDocs of piiEntitiesResult) {
-            assert.equal(piiEntitiesDocs.length, 3);
-            for (const doc of piiEntitiesDocs) {
-              assert.isUndefined(doc.error);
-              if (!doc.error) {
-                assert.isNotEmpty(doc.redactedText);
+            if (!piiEntitiesDocs.error) {
+              assert.equal(piiEntitiesDocs.results.length, 3);
+              for (const doc of piiEntitiesDocs.results) {
+                assert.isUndefined(doc.error);
+                if (!doc.error) {
+                  assert.isNotEmpty(doc.redactedText);
+                }
               }
             }
           }
@@ -1666,11 +1729,40 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const pollerResult = await poller.pollUntilDone();
         const firstResult = (await pollerResult.next()).value;
-        const result = firstResult.recognizePiiEntitiesResults![0]![0];
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 17); // 25 with UTF16
-          assert.equal(result.entities[0].length, 11);
-          assert.equal(result.entities[0].text.length, result.entities[0].length);
+        const actionResult = firstResult.recognizePiiEntitiesResults[0];
+        if (!actionResult.error) {
+          const docResult = actionResult.results[0];
+          if (!docResult.error) {
+            assert.equal(docResult.entities[0].offset, 17); // 25 with UTF16
+            assert.equal(docResult.entities[0].length, 11);
+            assert.equal(docResult.entities[0].text.length, docResult.entities[0].length);
+          }
+        }
+      });
+
+      it("action failures are returned", async function() {
+        const docs = [{ id: "1", text: "I will go to the park." }];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            recognizePiiEntitiesActions: [
+              { modelVersion: "bad" },
+              { modelVersion: "latest" },
+              { modelVersion: "bad", stringIndexType: "TextElements_v8" }
+            ]
+          },
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        for await (const page of result) {
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
+          assert.equal(piiEntitiesResult.length, 3);
+          assert.isDefined(piiEntitiesResult[0].error);
+          assert.isUndefined(piiEntitiesResult[1].error);
+          assert.isDefined(piiEntitiesResult[2].error);
         }
       });
     });

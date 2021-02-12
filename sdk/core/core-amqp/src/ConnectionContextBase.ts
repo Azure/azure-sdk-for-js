@@ -15,36 +15,36 @@ import { isNode } from "./util/utils";
  */
 export interface ConnectionContextBase {
   /**
-   * @property {ConnectionConfig} config The EventHub connection config that is created after
+   * The EventHub connection config that is created after
    * parsing the connection string.
    */
   readonly config: ConnectionConfig;
   /**
-   * @property {string} connectionLock The unique lock name per connection that is used to
+   * The unique lock name per connection that is used to
    * acquire the lock for establishing an amqp connection per client if one does not exist.
    */
   connectionLock: string;
   /**
-   * @property {string} negotiateClaimLock The unique lock name per connection that is used to
+   * The unique lock name per connection that is used to
    * acquire the lock for negotiating cbs claim by an entity on that connection.
    */
   negotiateClaimLock: string;
   /**
-   * @property {Connection} connection The underlying AMQP connection.
+   * The underlying AMQP connection.
    */
   connection: Connection;
   /**
-   * @property {string} connectionId The amqp connection id that uniquely identifies the
+   * The amqp connection id that uniquely identifies the
    * connection within a process.
    */
   connectionId: string;
   /**
-   * @property {boolean} wasConnectionCloseCalled Indicates whether the close() method was
+   * Indicates whether the close() method was
    * called on the connection object.
    */
   wasConnectionCloseCalled: boolean;
   /**
-   * @property {CbsClient} cbsSession A reference to the cbs session ($cbs endpoint) on the
+   * A reference to the cbs session ($cbs endpoint) on the
    * underlying AMQP connection for the EventHub Client.
    */
   cbsSession: CbsClient;
@@ -59,16 +59,16 @@ export interface ConnectionContextBase {
  */
 export interface ConnectionProperties {
   /**
-   * @property {string} product The name of the product that will be populated as the AMQP
+   * The name of the product that will be populated as the AMQP
    * connection property. Example: "MSJSClient".
    */
   product: string;
   /**
-   * @property {string} version The version of the package/sdk that is making the AMQP connection.
+   * The version of the package/sdk that is making the AMQP connection.
    */
   version: string;
   /**
-   * @property {string} userAgent The userAgent that needs to be set as the AMQP connection
+   * The userAgent that needs to be set as the AMQP connection
    * property. Example: `"/js-service-bus"` or `"/js-event-hubs,/js-event-processor-host=1.0.0"`.
    */
   userAgent: string;
@@ -79,22 +79,22 @@ export interface ConnectionProperties {
  */
 export interface CreateConnectionContextBaseParameters {
   /**
-   * @property {ConnectionConfig} config The connection config that is created by parsing the
+   * The connection config that is created by parsing the
    * connection string.
    */
   config: ConnectionConfig;
   /**
-   * @property {ConnectionProperties} connectionProperties Properties to be provided while creating
+   * Properties to be provided while creating
    * the AMQP connection.
    */
   connectionProperties: ConnectionProperties;
   /**
-   * @property {boolean} [isEntityPathRequired] Determines whether entity path should be a part of
+   * Determines whether entity path should be a part of
    * the connection config. If `true` it must be present, `false` otherwise. Default value false.
    */
   isEntityPathRequired?: boolean;
   /**
-   * @property {number} [operationTimeoutInMs] - The duration in which the promise should
+   * The duration in which the promise should
    * complete (resolve/reject). If it is not completed, then the Promise will be rejected after
    * timeout occurs. Default: `60000 milliseconds`.
    */
@@ -104,7 +104,7 @@ export interface CreateConnectionContextBaseParameters {
 export const ConnectionContextBase = {
   /**
    * Creates the base connection context.
-   * @param {CreateConnectionContextBaseParameters} parameters Parameters to be provided to create
+   * @param parameters - Parameters to be provided to create
    * the base connection context.
    */
   create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase {
@@ -168,14 +168,14 @@ export const ConnectionContextBase = {
       cbsSession: new CbsClient(connection, connectionLock),
       config: parameters.config,
       refreshConnection() {
-        const connection = new Connection(connectionOptions);
+        const newConnection = new Connection(connectionOptions);
         const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
         this.wasConnectionCloseCalled = false;
         this.connectionLock = connectionLock;
         this.negotiateClaimLock = `${Constants.negotiateClaim} - ${generate_uuid()}`;
-        this.connection = connection;
-        this.connectionId = connection.id;
-        this.cbsSession = new CbsClient(connection, connectionLock);
+        this.connection = newConnection;
+        this.connectionId = newConnection.id;
+        this.cbsSession = new CbsClient(newConnection, connectionLock);
       }
     };
 

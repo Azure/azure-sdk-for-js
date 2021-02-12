@@ -124,7 +124,7 @@ function domToObject(node: Node, options: Required<XmlOptions>): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(content: any, opts: XmlOptions = {}): string {
+export function stringifyXML(content: unknown, opts: XmlOptions = {}): string {
   const updatedOptions: Required<XmlOptions> = {
     rootName: opts.rootName ?? "root",
     includeRoot: opts.includeRoot ?? false,

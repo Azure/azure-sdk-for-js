@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import {
   TokenCredential,
   isTokenCredential,
@@ -24,11 +24,17 @@ import {
   UserDelegationKeyModel,
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
-  ServiceFilterBlobsHeaders
+  ServiceFilterBlobsHeaders,
+  ContainerRenameResponse,
+  LeaseAccessConditions
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
+import {
+  ContainerClient,
+  ContainerCreateOptions,
+  ContainerDeleteMethodOptions
+} from "./ContainerClient";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -433,6 +439,31 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link BlobServiceClient.renameContainer} operation.
+ *
+ * @export
+ * @interface ServiceRenameContainerOptions
+ */
+export interface ServiceRenameContainerOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceRenameContainerOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Condition to meet for the source container.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ServiceRenameContainerOptions
+   */
+  sourceCondition?: LeaseAccessConditions;
+}
+
+/**
  * Options to configure {@link BlobServiceClient.generateAccountSasUrl} operation.
  *
  * @export
@@ -703,6 +734,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param {string} deletedContainerName Name of the previously deleted container.
    * @param {string} deletedContainerVersion Version of the previously deleted container, used to uniquely identify the deleted container.
+   * @param {ServiceUndeleteContainerOptions} [options] Options to configure Container Restore operation.
    * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
    * @memberof BlobServiceClient
    */
@@ -731,6 +763,48 @@ export class BlobServiceClient extends StorageClient {
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
       return { containerClient, containerUndeleteResponse };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Rename an existing Blob Container.
+   *
+   * @param {string} sourceContainerName The name of the source container.
+   * @param {string} destinationContainerName The new name of the container.
+   * @param {ServiceRenameContainerOptions} [options] Options to configure Container Rename operation.
+   * @memberof BlobServiceClient
+   */
+  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
+  private async renameContainer(
+    sourceContainerName: string,
+    destinationContainerName: string,
+    options: ServiceRenameContainerOptions = {}
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerRenameResponse: ContainerRenameResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-renameContainer",
+      options.tracingOptions
+    );
+    try {
+      const containerClient = this.getContainerClient(destinationContainerName);
+      // Hack to access a protected member.
+      const containerContext = new Container(containerClient["storageClientContext"]);
+      const containerRenameResponse = await containerContext.rename(sourceContainerName, {
+        ...options,
+        sourceLeaseId: options.sourceCondition?.leaseId,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+      return { containerClient, containerRenameResponse };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

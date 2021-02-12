@@ -7,18 +7,30 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
+  OperationQueryParameter
 } from "@azure/core-http";
 import {
   SendReadReceiptRequest as SendReadReceiptRequestMapper,
   SendChatMessageRequest as SendChatMessageRequestMapper,
   UpdateChatMessageRequest as UpdateChatMessageRequestMapper,
-  AddChatThreadMembersRequest as AddChatThreadMembersRequestMapper,
-  CreateChatThreadRequest as CreateChatThreadRequestMapper,
-  UpdateChatThreadRequest as UpdateChatThreadRequestMapper
+  AddChatParticipantsRequest as AddChatParticipantsRequestMapper,
+  UpdateChatThreadRequest as UpdateChatThreadRequestMapper,
+  CreateChatThreadRequest as CreateChatThreadRequestMapper
 } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -43,10 +55,30 @@ export const chatThreadId: OperationURLParameter = {
   }
 };
 
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
+  mapper: {
+    serializedName: "maxPageSize",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-09-21-preview2",
+    defaultValue: "2020-11-01-preview3",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -67,24 +99,14 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const body: OperationParameter = {
-  parameterPath: "body",
+export const sendReadReceiptRequest: OperationParameter = {
+  parameterPath: "sendReadReceiptRequest",
   mapper: SendReadReceiptRequestMapper
 };
 
-export const body1: OperationParameter = {
-  parameterPath: "body",
+export const sendChatMessageRequest: OperationParameter = {
+  parameterPath: "sendChatMessageRequest",
   mapper: SendChatMessageRequestMapper
-};
-
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
-  mapper: {
-    serializedName: "maxPageSize",
-    type: {
-      name: "Number"
-    }
-  }
 };
 
 export const startTime: OperationQueryParameter = {
@@ -108,20 +130,27 @@ export const chatMessageId: OperationURLParameter = {
   }
 };
 
-export const body2: OperationParameter = {
-  parameterPath: "body",
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const updateChatMessageRequest: OperationParameter = {
+  parameterPath: "updateChatMessageRequest",
   mapper: UpdateChatMessageRequestMapper
 };
 
-export const body3: OperationParameter = {
-  parameterPath: "body",
-  mapper: AddChatThreadMembersRequestMapper
-};
-
-export const chatMemberId: OperationURLParameter = {
-  parameterPath: "chatMemberId",
+export const chatParticipantId: OperationURLParameter = {
+  parameterPath: "chatParticipantId",
   mapper: {
-    serializedName: "chatMemberId",
+    serializedName: "chatParticipantId",
     required: true,
     type: {
       name: "String"
@@ -129,13 +158,13 @@ export const chatMemberId: OperationURLParameter = {
   }
 };
 
-export const body4: OperationParameter = {
-  parameterPath: "body",
-  mapper: CreateChatThreadRequestMapper
+export const addChatParticipantsRequest: OperationParameter = {
+  parameterPath: "addChatParticipantsRequest",
+  mapper: AddChatParticipantsRequestMapper
 };
 
-export const body5: OperationParameter = {
-  parameterPath: "body",
+export const updateChatThreadRequest: OperationParameter = {
+  parameterPath: "updateChatThreadRequest",
   mapper: UpdateChatThreadRequestMapper
 };
 
@@ -149,4 +178,19 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const createChatThreadRequest: OperationParameter = {
+  parameterPath: "createChatThreadRequest",
+  mapper: CreateChatThreadRequestMapper
+};
+
+export const repeatabilityRequestID: OperationParameter = {
+  parameterPath: ["options", "repeatabilityRequestID"],
+  mapper: {
+    serializedName: "repeatability-Request-ID",
+    type: {
+      name: "String"
+    }
+  }
 };

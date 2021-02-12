@@ -52,7 +52,7 @@ export const managementClientLogger = createServiceBusLogger("service-bus:manage
  * @param error - Error containing a stack trace.
  * @internal
  */
-export function logErrorStackTrace(_logger: AzureLogger, error: any) {
+export function logErrorStackTrace(_logger: AzureLogger, error: any): void {
   if (error && error.stack) {
     _logger.verbose(error.stack);
   }

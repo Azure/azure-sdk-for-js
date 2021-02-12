@@ -17,7 +17,6 @@ import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 
 /**
- * @hidden
  * @internal
  */
 export class PartitionPump {
@@ -61,8 +60,8 @@ export class PartitionPump {
 
   /**
    * Creates a new `EventHubReceiver` and replaces any existing receiver.
-   * @param partitionId The partition the receiver should read messages from.
-   * @param lastSeenSequenceNumber The sequence number to begin receiving messages from (exclusive).
+   * @param partitionId - The partition the receiver should read messages from.
+   * @param lastSeenSequenceNumber - The sequence number to begin receiving messages from (exclusive).
    * If `-1`, then the PartitionPump's startPosition will be used instead.
    */
   private _setOrReplaceReceiver(
@@ -248,7 +247,6 @@ export function createProcessingSpan(
 }
 
 /**
- * @hidden
  * @internal
  */
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {

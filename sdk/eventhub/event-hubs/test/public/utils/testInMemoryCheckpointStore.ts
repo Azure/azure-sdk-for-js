@@ -13,9 +13,7 @@ import { generate_uuid } from "rhea-promise";
  * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  * Please note - this is only meant for use within the test and not in production code
- * @class
  * @internal
- * @ignore
  */
 export class TestInMemoryCheckpointStore implements CheckpointStore {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
@@ -25,11 +23,11 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
    * Get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
-   * @return Partition ownership details of all the partitions that have/had an owner..
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @returns Partition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
     _fullyQualifiedNamespace: string,
@@ -49,8 +47,8 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
    * Claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
-   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
-   * @return A list partitions this instance successfully claimed ownership.
+   * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
+   * @returns A list partitions this instance successfully claimed ownership.
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     const claimedOwnerships = [];
@@ -78,7 +76,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
   /**
    * Updates the checkpoint in the data store for a partition.
    *
-   * @param checkpoint The checkpoint.
+   * @param checkpoint - The checkpoint.
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     checkpoint = { ...checkpoint };

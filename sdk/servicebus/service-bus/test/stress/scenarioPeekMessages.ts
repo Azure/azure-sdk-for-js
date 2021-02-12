@@ -1,4 +1,4 @@
-import { ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusReceivedMessage, ServiceBusReceiver } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -56,6 +56,7 @@ export async function scenarioPeekMessages() {
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init(undefined, undefined, testOptions);
+  
   const sender = sbClient.createSender(stressBase.queueName);
   let receiver: ServiceBusReceiver;
 
@@ -66,7 +67,7 @@ export async function scenarioPeekMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
       elapsedTime < testDurationForSendInMs &&
-      stressBase.messagesSent.length < totalNumberOfMessagesToSend
+      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages([sender], numberOfMessagesPerSend);
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
@@ -78,7 +79,7 @@ export async function scenarioPeekMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     let fromSequenceNumber = undefined;
     while (elapsedTime < testDurationInMs) {
-      const peekedMessages = await stressBase.peekMessages(
+      const peekedMessages: ServiceBusReceivedMessage[] = await stressBase.peekMessages(
         receiver,
         peekMaxMessageCount,
         fromSequenceNumber

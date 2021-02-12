@@ -5,7 +5,7 @@ import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAcc
  * Creates a pipeline policy to authenticate request based
  * on the credential passed in
  *
- * @param {KeyCredential | TokenCredential} credential The key credential
+ * @param credential - The key credential
  */
 export const createCommunicationAuthPolicy = (
   credential: KeyCredential | TokenCredential

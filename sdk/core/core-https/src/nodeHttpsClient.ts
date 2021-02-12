@@ -39,6 +39,8 @@ function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
 class ReportTransform extends Transform {
   private loadedBytes = 0;
   private progressCallback: (progress: TransferProgressEvent) => void;
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
   _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
@@ -65,7 +67,7 @@ export class NodeHttpsClient implements HttpsClient {
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
-   * @param request The request to be made.
+   * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const abortController = new AbortController();
@@ -127,7 +129,7 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          let responseStream = getResponseStream(res, headers, shouldDecompress);
+          responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {
@@ -249,15 +251,10 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
   return headers;
 }
 
-function getResponseStream(
+function getDecodedResponseStream(
   stream: IncomingMessage,
-  headers: HttpHeaders,
-  skipDecompressResponse = false
+  headers: HttpHeaders
 ): NodeJS.ReadableStream {
-  if (skipDecompressResponse) {
-    return stream;
-  }
-
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
     const unzip = zlib.createGunzip();

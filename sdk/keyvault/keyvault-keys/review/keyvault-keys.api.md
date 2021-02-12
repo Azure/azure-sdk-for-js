@@ -50,7 +50,6 @@ export interface CreateOctKeyOptions extends CreateKeyOptions {
 // @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     hsm?: boolean;
-    keySize?: number;
     publicExponent?: number;
 }
 

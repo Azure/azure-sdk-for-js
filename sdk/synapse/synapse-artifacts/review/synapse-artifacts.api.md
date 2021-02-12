@@ -180,8 +180,6 @@ export class ArtifactsClient extends ArtifactsClientContext {
     // (undocumented)
     integrationRuntimes: IntegrationRuntimesOperation;
     // (undocumented)
-    library: LibraryOperation;
-    // (undocumented)
     linkedService: LinkedServiceOperation;
     // (undocumented)
     notebook: NotebookOperation;
@@ -3033,7 +3031,7 @@ export type JsonWriteSettings = FormatWriteSettings & {
 };
 
 // @public
-export const enum KnownAvroCompressionCodec {
+export enum KnownAvroCompressionCodec {
     // (undocumented)
     Bzip2 = "bzip2",
     // (undocumented)
@@ -3047,7 +3045,7 @@ export const enum KnownAvroCompressionCodec {
 }
 
 // @public
-export const enum KnownAzureFunctionActivityMethod {
+export enum KnownAzureFunctionActivityMethod {
     // (undocumented)
     Delete = "DELETE",
     // (undocumented)
@@ -3065,7 +3063,7 @@ export const enum KnownAzureFunctionActivityMethod {
 }
 
 // @public
-export const enum KnownAzureSearchIndexWriteBehaviorType {
+export enum KnownAzureSearchIndexWriteBehaviorType {
     // (undocumented)
     Merge = "Merge",
     // (undocumented)
@@ -3073,13 +3071,13 @@ export const enum KnownAzureSearchIndexWriteBehaviorType {
 }
 
 // @public
-export const enum KnownBigDataPoolReferenceType {
+export enum KnownBigDataPoolReferenceType {
     // (undocumented)
     BigDataPoolReference = "BigDataPoolReference"
 }
 
 // @public
-export const enum KnownBlobEventType {
+export enum KnownBlobEventType {
     // (undocumented)
     MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
     // (undocumented)
@@ -3087,7 +3085,7 @@ export const enum KnownBlobEventType {
 }
 
 // @public
-export const enum KnownCassandraSourceReadConsistencyLevels {
+export enum KnownCassandraSourceReadConsistencyLevels {
     // (undocumented)
     ALL = "ALL",
     // (undocumented)
@@ -3111,7 +3109,7 @@ export const enum KnownCassandraSourceReadConsistencyLevels {
 }
 
 // @public
-export const enum KnownCellOutputType {
+export enum KnownCellOutputType {
     // (undocumented)
     DisplayData = "display_data",
     // (undocumented)
@@ -3123,7 +3121,7 @@ export const enum KnownCellOutputType {
 }
 
 // @public
-export const enum KnownCopyBehaviorType {
+export enum KnownCopyBehaviorType {
     // (undocumented)
     FlattenHierarchy = "FlattenHierarchy",
     // (undocumented)
@@ -3133,7 +3131,7 @@ export const enum KnownCopyBehaviorType {
 }
 
 // @public
-export const enum KnownDataFlowComputeType {
+export enum KnownDataFlowComputeType {
     // (undocumented)
     ComputeOptimized = "ComputeOptimized",
     // (undocumented)
@@ -3143,13 +3141,13 @@ export const enum KnownDataFlowComputeType {
 }
 
 // @public
-export const enum KnownDataFlowReferenceType {
+export enum KnownDataFlowReferenceType {
     // (undocumented)
     DataFlowReference = "DataFlowReference"
 }
 
 // @public
-export const enum KnownDatasetCompressionLevel {
+export enum KnownDatasetCompressionLevel {
     // (undocumented)
     Fastest = "Fastest",
     // (undocumented)
@@ -3157,19 +3155,19 @@ export const enum KnownDatasetCompressionLevel {
 }
 
 // @public
-export const enum KnownDatasetReferenceType {
+export enum KnownDatasetReferenceType {
     // (undocumented)
     DatasetReference = "DatasetReference"
 }
 
 // @public
-export const enum KnownDb2AuthenticationType {
+export enum KnownDb2AuthenticationType {
     // (undocumented)
     Basic = "Basic"
 }
 
 // @public
-export const enum KnownDelimitedTextCompressionCodec {
+export enum KnownDelimitedTextCompressionCodec {
     // (undocumented)
     Bzip2 = "bzip2",
     // (undocumented)
@@ -3185,7 +3183,7 @@ export const enum KnownDelimitedTextCompressionCodec {
 }
 
 // @public
-export const enum KnownDependencyCondition {
+export enum KnownDependencyCondition {
     // (undocumented)
     Completed = "Completed",
     // (undocumented)
@@ -3197,7 +3195,7 @@ export const enum KnownDependencyCondition {
 }
 
 // @public
-export const enum KnownDynamicsAuthenticationType {
+export enum KnownDynamicsAuthenticationType {
     // (undocumented)
     AADServicePrincipal = "AADServicePrincipal",
     // (undocumented)
@@ -3207,7 +3205,7 @@ export const enum KnownDynamicsAuthenticationType {
 }
 
 // @public
-export const enum KnownDynamicsDeploymentType {
+export enum KnownDynamicsDeploymentType {
     // (undocumented)
     Online = "Online",
     // (undocumented)
@@ -3215,7 +3213,7 @@ export const enum KnownDynamicsDeploymentType {
 }
 
 // @public
-export const enum KnownDynamicsServicePrincipalCredentialType {
+export enum KnownDynamicsServicePrincipalCredentialType {
     // (undocumented)
     ServicePrincipalCert = "ServicePrincipalCert",
     // (undocumented)
@@ -3223,13 +3221,13 @@ export const enum KnownDynamicsServicePrincipalCredentialType {
 }
 
 // @public
-export const enum KnownDynamicsSinkWriteBehavior {
+export enum KnownDynamicsSinkWriteBehavior {
     // (undocumented)
     Upsert = "Upsert"
 }
 
 // @public
-export const enum KnownEventSubscriptionStatus {
+export enum KnownEventSubscriptionStatus {
     // (undocumented)
     Deprovisioning = "Deprovisioning",
     // (undocumented)
@@ -3243,13 +3241,13 @@ export const enum KnownEventSubscriptionStatus {
 }
 
 // @public
-export const enum KnownExpressionType {
+export enum KnownExpressionType {
     // (undocumented)
     Expression = "Expression"
 }
 
 // @public
-export const enum KnownFtpAuthenticationType {
+export enum KnownFtpAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3257,7 +3255,7 @@ export const enum KnownFtpAuthenticationType {
 }
 
 // @public
-export const enum KnownGoogleAdWordsAuthenticationType {
+export enum KnownGoogleAdWordsAuthenticationType {
     // (undocumented)
     ServiceAuthentication = "ServiceAuthentication",
     // (undocumented)
@@ -3265,7 +3263,7 @@ export const enum KnownGoogleAdWordsAuthenticationType {
 }
 
 // @public
-export const enum KnownGoogleBigQueryAuthenticationType {
+export enum KnownGoogleBigQueryAuthenticationType {
     // (undocumented)
     ServiceAuthentication = "ServiceAuthentication",
     // (undocumented)
@@ -3273,7 +3271,7 @@ export const enum KnownGoogleBigQueryAuthenticationType {
 }
 
 // @public
-export const enum KnownHBaseAuthenticationType {
+export enum KnownHBaseAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3281,7 +3279,7 @@ export const enum KnownHBaseAuthenticationType {
 }
 
 // @public
-export const enum KnownHdiNodeTypes {
+export enum KnownHdiNodeTypes {
     // (undocumented)
     Headnode = "Headnode",
     // (undocumented)
@@ -3291,7 +3289,7 @@ export const enum KnownHdiNodeTypes {
 }
 
 // @public
-export const enum KnownHDInsightActivityDebugInfoOption {
+export enum KnownHDInsightActivityDebugInfoOption {
     // (undocumented)
     Always = "Always",
     // (undocumented)
@@ -3301,7 +3299,7 @@ export const enum KnownHDInsightActivityDebugInfoOption {
 }
 
 // @public
-export const enum KnownHiveAuthenticationType {
+export enum KnownHiveAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3313,7 +3311,7 @@ export const enum KnownHiveAuthenticationType {
 }
 
 // @public
-export const enum KnownHiveServerType {
+export enum KnownHiveServerType {
     // (undocumented)
     HiveServer1 = "HiveServer1",
     // (undocumented)
@@ -3323,7 +3321,7 @@ export const enum KnownHiveServerType {
 }
 
 // @public
-export const enum KnownHiveThriftTransportProtocol {
+export enum KnownHiveThriftTransportProtocol {
     // (undocumented)
     Binary = "Binary",
     // (undocumented)
@@ -3333,7 +3331,7 @@ export const enum KnownHiveThriftTransportProtocol {
 }
 
 // @public
-export const enum KnownHttpAuthenticationType {
+export enum KnownHttpAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3347,7 +3345,7 @@ export const enum KnownHttpAuthenticationType {
 }
 
 // @public
-export const enum KnownImpalaAuthenticationType {
+export enum KnownImpalaAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3357,7 +3355,7 @@ export const enum KnownImpalaAuthenticationType {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeEdition {
+export enum KnownIntegrationRuntimeEdition {
     // (undocumented)
     Enterprise = "Enterprise",
     // (undocumented)
@@ -3365,7 +3363,7 @@ export const enum KnownIntegrationRuntimeEdition {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeEntityReferenceType {
+export enum KnownIntegrationRuntimeEntityReferenceType {
     // (undocumented)
     IntegrationRuntimeReference = "IntegrationRuntimeReference",
     // (undocumented)
@@ -3373,7 +3371,7 @@ export const enum KnownIntegrationRuntimeEntityReferenceType {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeLicenseType {
+export enum KnownIntegrationRuntimeLicenseType {
     // (undocumented)
     BasePrice = "BasePrice",
     // (undocumented)
@@ -3381,13 +3379,13 @@ export const enum KnownIntegrationRuntimeLicenseType {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeReferenceType {
+export enum KnownIntegrationRuntimeReferenceType {
     // (undocumented)
     IntegrationRuntimeReference = "IntegrationRuntimeReference"
 }
 
 // @public
-export const enum KnownIntegrationRuntimeSsisCatalogPricingTier {
+export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -3399,7 +3397,7 @@ export const enum KnownIntegrationRuntimeSsisCatalogPricingTier {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeState {
+export enum KnownIntegrationRuntimeState {
     // (undocumented)
     AccessDenied = "AccessDenied",
     // (undocumented)
@@ -3423,7 +3421,7 @@ export const enum KnownIntegrationRuntimeState {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeType {
+export enum KnownIntegrationRuntimeType {
     // (undocumented)
     Managed = "Managed",
     // (undocumented)
@@ -3431,7 +3429,7 @@ export const enum KnownIntegrationRuntimeType {
 }
 
 // @public
-export const enum KnownJsonFormatFilePattern {
+export enum KnownJsonFormatFilePattern {
     // (undocumented)
     ArrayOfObjects = "arrayOfObjects",
     // (undocumented)
@@ -3439,7 +3437,7 @@ export const enum KnownJsonFormatFilePattern {
 }
 
 // @public
-export const enum KnownJsonWriteFilePattern {
+export enum KnownJsonWriteFilePattern {
     // (undocumented)
     ArrayOfObjects = "arrayOfObjects",
     // (undocumented)
@@ -3447,7 +3445,7 @@ export const enum KnownJsonWriteFilePattern {
 }
 
 // @public
-export const enum KnownMongoDbAuthenticationType {
+export enum KnownMongoDbAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3455,7 +3453,7 @@ export const enum KnownMongoDbAuthenticationType {
 }
 
 // @public
-export const enum KnownNetezzaPartitionOption {
+export enum KnownNetezzaPartitionOption {
     // (undocumented)
     DataSlice = "DataSlice",
     // (undocumented)
@@ -3465,7 +3463,7 @@ export const enum KnownNetezzaPartitionOption {
 }
 
 // @public
-export const enum KnownNodeSize {
+export enum KnownNodeSize {
     // (undocumented)
     Large = "Large",
     // (undocumented)
@@ -3483,7 +3481,7 @@ export const enum KnownNodeSize {
 }
 
 // @public
-export const enum KnownNodeSizeFamily {
+export enum KnownNodeSizeFamily {
     // (undocumented)
     MemoryOptimized = "MemoryOptimized",
     // (undocumented)
@@ -3491,13 +3489,13 @@ export const enum KnownNodeSizeFamily {
 }
 
 // @public
-export const enum KnownNotebookReferenceType {
+export enum KnownNotebookReferenceType {
     // (undocumented)
     NotebookReference = "NotebookReference"
 }
 
 // @public
-export const enum KnownODataAadServicePrincipalCredentialType {
+export enum KnownODataAadServicePrincipalCredentialType {
     // (undocumented)
     ServicePrincipalCert = "ServicePrincipalCert",
     // (undocumented)
@@ -3505,7 +3503,7 @@ export const enum KnownODataAadServicePrincipalCredentialType {
 }
 
 // @public
-export const enum KnownODataAuthenticationType {
+export enum KnownODataAuthenticationType {
     // (undocumented)
     AadServicePrincipal = "AadServicePrincipal",
     // (undocumented)
@@ -3519,7 +3517,7 @@ export const enum KnownODataAuthenticationType {
 }
 
 // @public
-export const enum KnownOraclePartitionOption {
+export enum KnownOraclePartitionOption {
     // (undocumented)
     DynamicRange = "DynamicRange",
     // (undocumented)
@@ -3529,7 +3527,7 @@ export const enum KnownOraclePartitionOption {
 }
 
 // @public
-export const enum KnownOrcCompressionCodec {
+export enum KnownOrcCompressionCodec {
     // (undocumented)
     None = "none",
     // (undocumented)
@@ -3539,7 +3537,7 @@ export const enum KnownOrcCompressionCodec {
 }
 
 // @public
-export const enum KnownParameterType {
+export enum KnownParameterType {
     // (undocumented)
     Array = "Array",
     // (undocumented)
@@ -3557,7 +3555,7 @@ export const enum KnownParameterType {
 }
 
 // @public
-export const enum KnownParquetCompressionCodec {
+export enum KnownParquetCompressionCodec {
     // (undocumented)
     Gzip = "gzip",
     // (undocumented)
@@ -3569,7 +3567,7 @@ export const enum KnownParquetCompressionCodec {
 }
 
 // @public
-export const enum KnownPhoenixAuthenticationType {
+export enum KnownPhoenixAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3579,13 +3577,13 @@ export const enum KnownPhoenixAuthenticationType {
 }
 
 // @public
-export const enum KnownPipelineReferenceType {
+export enum KnownPipelineReferenceType {
     // (undocumented)
     PipelineReference = "PipelineReference"
 }
 
 // @public
-export const enum KnownPluginCurrentState {
+export enum KnownPluginCurrentState {
     // (undocumented)
     Cleanup = "Cleanup",
     // (undocumented)
@@ -3603,7 +3601,7 @@ export const enum KnownPluginCurrentState {
 }
 
 // @public
-export const enum KnownPolybaseSettingsRejectType {
+export enum KnownPolybaseSettingsRejectType {
     // (undocumented)
     Percentage = "percentage",
     // (undocumented)
@@ -3611,7 +3609,7 @@ export const enum KnownPolybaseSettingsRejectType {
 }
 
 // @public
-export const enum KnownPrestoAuthenticationType {
+export enum KnownPrestoAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3619,7 +3617,7 @@ export const enum KnownPrestoAuthenticationType {
 }
 
 // @public
-export const enum KnownRecurrenceFrequency {
+export enum KnownRecurrenceFrequency {
     // (undocumented)
     Day = "Day",
     // (undocumented)
@@ -3637,7 +3635,7 @@ export const enum KnownRecurrenceFrequency {
 }
 
 // @public
-export const enum KnownRestServiceAuthenticationType {
+export enum KnownRestServiceAuthenticationType {
     // (undocumented)
     AadServicePrincipal = "AadServicePrincipal",
     // (undocumented)
@@ -3649,7 +3647,7 @@ export const enum KnownRestServiceAuthenticationType {
 }
 
 // @public
-export const enum KnownRunQueryFilterOperand {
+export enum KnownRunQueryFilterOperand {
     // (undocumented)
     ActivityName = "ActivityName",
     // (undocumented)
@@ -3677,7 +3675,7 @@ export const enum KnownRunQueryFilterOperand {
 }
 
 // @public
-export const enum KnownRunQueryFilterOperator {
+export enum KnownRunQueryFilterOperator {
     // (undocumented)
     Equals = "Equals",
     // (undocumented)
@@ -3689,7 +3687,7 @@ export const enum KnownRunQueryFilterOperator {
 }
 
 // @public
-export const enum KnownRunQueryOrder {
+export enum KnownRunQueryOrder {
     // (undocumented)
     ASC = "ASC",
     // (undocumented)
@@ -3697,7 +3695,7 @@ export const enum KnownRunQueryOrder {
 }
 
 // @public
-export const enum KnownRunQueryOrderByField {
+export enum KnownRunQueryOrderByField {
     // (undocumented)
     ActivityName = "ActivityName",
     // (undocumented)
@@ -3719,7 +3717,7 @@ export const enum KnownRunQueryOrderByField {
 }
 
 // @public
-export const enum KnownSalesforceSinkWriteBehavior {
+export enum KnownSalesforceSinkWriteBehavior {
     // (undocumented)
     Insert = "Insert",
     // (undocumented)
@@ -3727,7 +3725,7 @@ export const enum KnownSalesforceSinkWriteBehavior {
 }
 
 // @public
-export const enum KnownSalesforceSourceReadBehavior {
+export enum KnownSalesforceSourceReadBehavior {
     // (undocumented)
     Query = "Query",
     // (undocumented)
@@ -3735,7 +3733,7 @@ export const enum KnownSalesforceSourceReadBehavior {
 }
 
 // @public
-export const enum KnownSapCloudForCustomerSinkWriteBehavior {
+export enum KnownSapCloudForCustomerSinkWriteBehavior {
     // (undocumented)
     Insert = "Insert",
     // (undocumented)
@@ -3743,7 +3741,7 @@ export const enum KnownSapCloudForCustomerSinkWriteBehavior {
 }
 
 // @public
-export const enum KnownSapHanaAuthenticationType {
+export enum KnownSapHanaAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -3751,7 +3749,7 @@ export const enum KnownSapHanaAuthenticationType {
 }
 
 // @public
-export const enum KnownSapHanaPartitionOption {
+export enum KnownSapHanaPartitionOption {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -3761,7 +3759,7 @@ export const enum KnownSapHanaPartitionOption {
 }
 
 // @public
-export const enum KnownSapTablePartitionOption {
+export enum KnownSapTablePartitionOption {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -3777,7 +3775,7 @@ export const enum KnownSapTablePartitionOption {
 }
 
 // @public
-export const enum KnownSchedulerCurrentState {
+export enum KnownSchedulerCurrentState {
     // (undocumented)
     Ended = "Ended",
     // (undocumented)
@@ -3787,7 +3785,7 @@ export const enum KnownSchedulerCurrentState {
 }
 
 // @public
-export const enum KnownServiceNowAuthenticationType {
+export enum KnownServiceNowAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -3795,7 +3793,7 @@ export const enum KnownServiceNowAuthenticationType {
 }
 
 // @public
-export const enum KnownSftpAuthenticationType {
+export enum KnownSftpAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -3803,7 +3801,7 @@ export const enum KnownSftpAuthenticationType {
 }
 
 // @public
-export const enum KnownSparkAuthenticationType {
+export enum KnownSparkAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3815,7 +3813,7 @@ export const enum KnownSparkAuthenticationType {
 }
 
 // @public
-export const enum KnownSparkBatchJobResultType {
+export enum KnownSparkBatchJobResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -3827,7 +3825,7 @@ export const enum KnownSparkBatchJobResultType {
 }
 
 // @public
-export const enum KnownSparkErrorSource {
+export enum KnownSparkErrorSource {
     // (undocumented)
     Dependency = "Dependency",
     // (undocumented)
@@ -3839,13 +3837,13 @@ export const enum KnownSparkErrorSource {
 }
 
 // @public
-export const enum KnownSparkJobReferenceType {
+export enum KnownSparkJobReferenceType {
     // (undocumented)
     SparkJobDefinitionReference = "SparkJobDefinitionReference"
 }
 
 // @public
-export const enum KnownSparkJobType {
+export enum KnownSparkJobType {
     // (undocumented)
     SparkBatch = "SparkBatch",
     // (undocumented)
@@ -3853,7 +3851,7 @@ export const enum KnownSparkJobType {
 }
 
 // @public
-export const enum KnownSparkServerType {
+export enum KnownSparkServerType {
     // (undocumented)
     SharkServer = "SharkServer",
     // (undocumented)
@@ -3863,7 +3861,7 @@ export const enum KnownSparkServerType {
 }
 
 // @public
-export const enum KnownSparkThriftTransportProtocol {
+export enum KnownSparkThriftTransportProtocol {
     // (undocumented)
     Binary = "Binary",
     // (undocumented)
@@ -3873,7 +3871,7 @@ export const enum KnownSparkThriftTransportProtocol {
 }
 
 // @public
-export const enum KnownSqlConnectionType {
+export enum KnownSqlConnectionType {
     // (undocumented)
     SqlOnDemand = "SqlOnDemand",
     // (undocumented)
@@ -3881,25 +3879,25 @@ export const enum KnownSqlConnectionType {
 }
 
 // @public
-export const enum KnownSqlPoolReferenceType {
+export enum KnownSqlPoolReferenceType {
     // (undocumented)
     SqlPoolReference = "SqlPoolReference"
 }
 
 // @public
-export const enum KnownSqlScriptType {
+export enum KnownSqlScriptType {
     // (undocumented)
     SqlQuery = "SqlQuery"
 }
 
 // @public
-export const enum KnownSsisLogLocationType {
+export enum KnownSsisLogLocationType {
     // (undocumented)
     File = "File"
 }
 
 // @public
-export const enum KnownSsisPackageLocationType {
+export enum KnownSsisPackageLocationType {
     // (undocumented)
     File = "File",
     // (undocumented)
@@ -3909,7 +3907,7 @@ export const enum KnownSsisPackageLocationType {
 }
 
 // @public
-export const enum KnownStoredProcedureParameterType {
+export enum KnownStoredProcedureParameterType {
     // (undocumented)
     Boolean = "Boolean",
     // (undocumented)
@@ -3927,7 +3925,7 @@ export const enum KnownStoredProcedureParameterType {
 }
 
 // @public
-export const enum KnownSybaseAuthenticationType {
+export enum KnownSybaseAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -3935,7 +3933,7 @@ export const enum KnownSybaseAuthenticationType {
 }
 
 // @public
-export const enum KnownTeradataAuthenticationType {
+export enum KnownTeradataAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -3943,7 +3941,7 @@ export const enum KnownTeradataAuthenticationType {
 }
 
 // @public
-export const enum KnownTeradataPartitionOption {
+export enum KnownTeradataPartitionOption {
     // (undocumented)
     DynamicRange = "DynamicRange",
     // (undocumented)
@@ -3953,13 +3951,13 @@ export const enum KnownTeradataPartitionOption {
 }
 
 // @public
-export const enum KnownTriggerReferenceType {
+export enum KnownTriggerReferenceType {
     // (undocumented)
     TriggerReference = "TriggerReference"
 }
 
 // @public
-export const enum KnownTriggerRunStatus {
+export enum KnownTriggerRunStatus {
     // (undocumented)
     Failed = "Failed",
     // (undocumented)
@@ -3969,7 +3967,7 @@ export const enum KnownTriggerRunStatus {
 }
 
 // @public
-export const enum KnownTriggerRuntimeState {
+export enum KnownTriggerRuntimeState {
     // (undocumented)
     Disabled = "Disabled",
     // (undocumented)
@@ -3979,7 +3977,7 @@ export const enum KnownTriggerRuntimeState {
 }
 
 // @public
-export const enum KnownTumblingWindowFrequency {
+export enum KnownTumblingWindowFrequency {
     // (undocumented)
     Hour = "Hour",
     // (undocumented)
@@ -3987,13 +3985,13 @@ export const enum KnownTumblingWindowFrequency {
 }
 
 // @public
-export const enum KnownType {
+export enum KnownType {
     // (undocumented)
     LinkedServiceReference = "LinkedServiceReference"
 }
 
 // @public
-export const enum KnownVariableType {
+export enum KnownVariableType {
     // (undocumented)
     Array = "Array",
     // (undocumented)
@@ -4005,7 +4003,7 @@ export const enum KnownVariableType {
 }
 
 // @public
-export const enum KnownWebActivityMethod {
+export enum KnownWebActivityMethod {
     // (undocumented)
     Delete = "DELETE",
     // (undocumented)
@@ -4017,7 +4015,7 @@ export const enum KnownWebActivityMethod {
 }
 
 // @public
-export const enum KnownWebAuthenticationType {
+export enum KnownWebAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -4027,7 +4025,7 @@ export const enum KnownWebAuthenticationType {
 }
 
 // @public
-export const enum KnownWebHookActivityMethod {
+export enum KnownWebHookActivityMethod {
     // (undocumented)
     Post = "POST"
 }
@@ -4075,17 +4073,6 @@ export interface LibraryListResponse {
     nextLink?: string;
     value: LibraryResource[];
 }
-
-// @public
-export class LibraryOperation {
-    constructor(client: ArtifactsClient);
-    createOrAppend(libraryName: string, content: coreHttp.HttpRequestBody, options?: LibraryCreateOrAppendOptionalParams): Promise<LROPoller<coreHttp.RestResponse>>;
-    delete(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    flush(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse>;
-    getOperationResult(operationId: string, options?: coreHttp.OperationOptions): Promise<LibraryGetOperationResultResponse>;
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource>;
-    }
 
 // @public
 export interface LibraryRequirements {

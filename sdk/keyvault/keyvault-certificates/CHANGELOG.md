@@ -1,11 +1,13 @@
 # Release History
 
-## 4.2.0-beta.2 (Unreleased)
+## 4.2.0-beta.3 (Unreleased)
+
+## 4.2.0-beta.2 (2021-02-09)
 
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 - Updated the Key Vault Certificates Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
-- Removed `parseKeyVaultCertificatesIdentifier` from the public API.
+- [Breaking] Removed `parseKeyVaultCertificatesIdentifier` from the public API.
 
 ## 4.2.0-beta.1 (2020-09-11)
 
@@ -17,13 +19,13 @@
 
 ### Changes since 4.0.2
 
-- Added the optional `serviceVersion` property to the `CertificateClient` optional parameters to control the version of the Key Vault service being used by the client. 
-    - It defaults to the latest supported API version, which currently is `7.1`.
-    - Other supported service version at the moment is `7.0`.
+- Added the optional `serviceVersion` property to the `CertificateClient` optional parameters to control the version of the Key Vault service being used by the client.
+  - It defaults to the latest supported API version, which currently is `7.1`.
+  - Other supported service version at the moment is `7.0`.
 - Added `recoverableDays` as an optional property to `CertificateProperties` which denotes the number of days in which the certificate can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
 - Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
-    - `KVPollerLike` is now an alias of `PollerLike`.
-    - `KVPollerLike` is considered deprecated. Use `PollerLike`.
+  - `KVPollerLike` is now an alias of `PollerLike`.
+  - `KVPollerLike` is considered deprecated. Use `PollerLike`.
 - If the policy in the options has contentType `application/x-pem-file` when using the `importCertificate`
   method, we now encode the bytes of the certificate as an ASCII string instead of base64 which is the default
   treatment. This is to fix [bug 7407](https://github.com/Azure/azure-sdk-for-js/issues/7407)

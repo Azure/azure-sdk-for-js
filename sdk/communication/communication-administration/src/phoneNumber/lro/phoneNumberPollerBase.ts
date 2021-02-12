@@ -36,8 +36,8 @@ export class PhoneNumberPollOperationBase<TState, TResult>
   /**
    * Initializes a new instance of the phone number poll operation
    *
-   * @param {TState} state The state of the poll operation
-   * @param {string} cancelMessage A message to dispaly when a poll operation is cancelled.
+   * @param state - The state of the poll operation
+   * @param cancelMessage - A message to dispaly when a poll operation is cancelled.
    */
   constructor(public state: TState, private cancelMessage: string = "Canceling not supported.") {}
 
@@ -73,9 +73,9 @@ export class PhoneNumberReservationPollOperationBase<TState, TResult>
   /**
    * Initializes a new instance of the phone number reservation poll operation
    *
-   * @param {TState} state The state of the poll operation
-   * @param {PhoneNumberAdministration} client A reference to the generated client used to make requests internally.
-   * @param {string} cancelMessage A message to dispaly when a poll operation is cancelled.
+   * @param state - The state of the poll operation
+   * @param client - A reference to the generated client used to make requests internally.
+   * @param cancelMessage - A message to dispaly when a poll operation is cancelled.
    */
   constructor(
     public state: TState,
@@ -86,8 +86,8 @@ export class PhoneNumberReservationPollOperationBase<TState, TResult>
   /**
    * Gets the reservation associated with a given id.
    *
-   * @param {string} reservationId The id of the reservation to fetch.
-   * @param {GetReservationOptions} options Additional request options.
+   * @param reservationId - The id of the reservation to fetch.
+   * @param options - Additional request options.
    */
   public async getReservation(
     reservationId: string,
@@ -117,8 +117,8 @@ export class PhoneNumberReservationPollOperationBase<TState, TResult>
   /**
    * Cancels the reservation associated with a given id.
    *
-   * @param {string} reservationId The id of the reservation to cancel.
-   * @param {CancelReservationOptions} options Additional request options.
+   * @param reservationId - The id of the reservation to cancel.
+   * @param options - Additional request options.
    */
   public async cancelReservation(
     reservationId: string,

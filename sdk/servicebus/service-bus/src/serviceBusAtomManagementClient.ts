@@ -2802,7 +2802,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     }
   }
 
-  private throwIfInvalidContinuationToken(token: string | undefined) {
+  private throwIfInvalidContinuationToken(token: string | undefined): void {
     if (!(token === undefined || (typeof token === "string" && Number(token) >= 0))) {
       throw new Error(`Invalid continuationToken ${token} provided`);
     }

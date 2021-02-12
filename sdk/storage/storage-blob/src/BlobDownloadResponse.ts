@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { HttpResponse, isNode } from "@azure/core-http";
 
 import {
@@ -457,6 +457,17 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    */
   public get versionId(): string | undefined {
     return this.originalResponse.versionId;
+  }
+
+  /**
+   * Indicates whether version of this blob is a current version.
+   *
+   * @readonly
+   * @type {(boolean | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get isCurrentVersion(): boolean | undefined {
+    return this.originalResponse.isCurrentVersion;
   }
 
   /**

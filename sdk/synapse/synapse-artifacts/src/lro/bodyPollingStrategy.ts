@@ -17,7 +17,7 @@ export function createBodyPollingStrategy<TResult extends BaseResult>(
     throw new Error("Expected lroData to be defined for BodyPolling strategy");
   }
 
-  let currentOperation = initialOperation;
+  const currentOperation = initialOperation;
 
   return {
     isTerminal: () => {

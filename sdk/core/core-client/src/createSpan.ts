@@ -10,8 +10,8 @@ type OperationTracingOptions = OperationOptions["tracingOptions"];
 /**
  * Creates a function called createSpan to create spans using the global tracer.
  * @hidden
- * @param spanConfig The name of the operation being performed.
- * @param tracingOptions The options for the underlying http request.
+ * @param spanConfig - The name of the operation being performed.
+ * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
   return function<T extends OperationOptions>(
