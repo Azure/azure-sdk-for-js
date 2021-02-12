@@ -231,7 +231,9 @@ async function sendMessage(
       JSON.stringify(cleanDetails),
       "--- Message End ---",
     ].join("\n");
+    console.log("Attempting to send a message...");
     await sender.sendMessages({ body });
+    console.log("Message sent successfully!");
     await sender.close();
     const receiver = client.createReceiver(queueName);
     const messages = await receiver.receiveMessages(10);
