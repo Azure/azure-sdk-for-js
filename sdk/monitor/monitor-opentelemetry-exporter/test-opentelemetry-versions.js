@@ -1,6 +1,6 @@
 const execa = require("execa");
 
-const versions = ["latest", "canary"];
+const versions = ["latest"];
 
 const packageJson = require("./package.json");
 const packages = [

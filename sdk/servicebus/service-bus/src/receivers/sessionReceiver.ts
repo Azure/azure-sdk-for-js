@@ -89,7 +89,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
    * Gets the state of the Session. For more on session states, see
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns {Promise<any>} The state of that session
+   * @returns The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
@@ -103,7 +103,6 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.
    *
-   * @returns {Promise<void>}
    */
   setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
@@ -204,7 +203,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * will land back in the Queue/Subscription with their delivery count incremented.
    *
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @returns New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while renewing session lock.
    */
@@ -267,7 +266,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * Gets the state of the Session. For more on session states, see
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<any> The state of that session
+   * @returns The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
@@ -461,7 +460,6 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    *
-   * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if the receiver is already in state of receiving messages.
    * @throws `ServiceBusError` if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.

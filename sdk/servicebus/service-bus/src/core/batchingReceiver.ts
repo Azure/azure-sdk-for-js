@@ -31,14 +31,14 @@ export class BatchingReceiver extends MessageReceiver {
   /**
    * Instantiate a new BatchingReceiver.
    *
-   * @param context - The client entity context.
+   * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(context, entityPath, "batching", options);
+  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
+    super(connectionContext, entityPath, "batching", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
-      context,
+      connectionContext,
       entityPath,
       async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
@@ -78,7 +78,6 @@ export class BatchingReceiver extends MessageReceiver {
   /**
    * To be called when connection is disconnected to gracefully close ongoing receive request.
    * @param connectionError - The connection error if any.
-   * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
     await this.closeLink();
@@ -100,7 +99,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param maxTimeAfterFirstMessageInMs - The total amount of time to wait after the first message
    * has been received. Defaults to 1 second.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * @returns {Promise<ServiceBusMessageImpl[]>} A promise that resolves with an array of Message objects.
+   * @returns A promise that resolves with an array of Message objects.
    */
   async receive(
     maxMessageCount: number,
