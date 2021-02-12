@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@azure/identity": "../../azure-identity-1.2.3.tgz",
-    "@azure/service-bus": "^7.0.2",
+    "@azure/service-bus": "^7.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "tslib": "^1.9.3"

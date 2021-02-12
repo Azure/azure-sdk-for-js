@@ -329,7 +329,7 @@ function TestPage() {
     readClientDetails() || {
       tenantId: "",
       clientId: "",
-      queueName: "partitioned-queue",
+      queueName: "queue-identity-test",
       loginStyle: "popup",
       flow: "auth-code",
       numberOfExecutions: 1,
