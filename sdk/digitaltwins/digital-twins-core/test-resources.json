@@ -44,7 +44,7 @@
   "outputs": {
     "AZURE_DIGITALTWINS_URL": {
       "type": "string",
-      "value": "[reference(variables('azureDigitalTwins')).hostName]"
+      "value": "[concat('https://', reference(variables('azureDigitalTwins')).hostName)]"
     }
   }
 }
