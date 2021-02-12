@@ -147,6 +147,7 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
           Service Bus Endpoint:
           <input
             type="text"
+            placeholder="yournamespace.servicebus.windows.net"
             value={clientDetails.serviceBusEndpoint}
             onChange={({ target }) =>
               handleDetailsChange({ ...clientDetails, serviceBusEndpoint: target.value })
