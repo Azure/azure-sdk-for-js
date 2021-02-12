@@ -165,7 +165,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param annotations - The message annotations to set on the batch.
    * @param applicationProperties - The application properties to set on the batch.
    * @param messageProperties - The message properties to set on the batch.
-   * @returns {Buffer}
    */
   private _generateBatch(
     encodedMessages: Buffer[],

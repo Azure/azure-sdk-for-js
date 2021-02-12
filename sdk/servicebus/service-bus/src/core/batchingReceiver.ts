@@ -78,7 +78,6 @@ export class BatchingReceiver extends MessageReceiver {
   /**
    * To be called when connection is disconnected to gracefully close ongoing receive request.
    * @param connectionError - The connection error if any.
-   * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
     await this.closeLink();
@@ -100,7 +99,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param maxTimeAfterFirstMessageInMs - The total amount of time to wait after the first message
    * has been received. Defaults to 1 second.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * @returns {Promise<ServiceBusMessageImpl[]>} A promise that resolves with an array of Message objects.
+   * @returns A promise that resolves with an array of Message objects.
    */
   async receive(
     maxMessageCount: number,

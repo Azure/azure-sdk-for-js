@@ -581,8 +581,6 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @param options - Options to control whether messages should be automatically completed. You can
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
-   *
-   * @returns void
    */
   subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
@@ -742,7 +740,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @param maxMessageCount - The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInMs - The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
+   * @returns A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
