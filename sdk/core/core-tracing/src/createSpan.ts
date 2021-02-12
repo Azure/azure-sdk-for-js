@@ -14,14 +14,14 @@ import { getTracer } from "./tracerProxy";
 
 /**
  * Common configuration for each span created from the returned createSpan function.
- * 
+ *
  * @hidden
  */
 export interface CreateSpanFunctionArgs {
   /**
    * Package name prefix.
-   * 
-   * If undefined, no special formatting is done on Span names created using the 
+   *
+   * If undefined, no special formatting is done on Span names created using the
    * returned createSpan function.
    * Otherwise, will create spans with a name of the format <prefix>.<operationName>
    */
@@ -34,7 +34,7 @@ export interface CreateSpanFunctionArgs {
 
 /**
  * A set of options compatible with OperationOptions in libraries like core-http and core-client.
- * 
+ *
  * @hidden
  */
 export interface OperationOptionsLike {
@@ -44,24 +44,27 @@ export interface OperationOptionsLike {
 /**
  * Creates a function to create spans using the global tracer. This createSpan function
  * properly handles options like OperationOptions which has a `tracingOptions` property.
- * 
- * @param args Arguments providing a package prefix (used when formatting the span name) and namespace 
+ *
+ * @param args Arguments providing a package prefix (used when formatting the span name) and namespace
  * for created Spans
- * 
+ *
  * @hidden
- * 
+ *
  */
 export function createSpanFunctionForOperationOptions(args: CreateSpanFunctionArgs) {
-  return function <
-    OperationOptionsT extends OperationOptionsLike
-  >(
+  return function<OperationOptionsT extends OperationOptionsLike>(
     operationName: string,
     operationOptions: OperationOptionsT,
     context: Context = otContext.active()
   ): { span: Span; updatedOptions: OperationOptionsT & Required<OperationOptionsLike> } {
     const oldTracingOptions = operationOptions.tracingOptions || {};
 
-    var { newSpanOptions, newContext, span } = startSpan(operationName, context, args, oldTracingOptions);
+    var { newSpanOptions, newContext, span } = startSpan(
+      operationName,
+      context,
+      args,
+      oldTracingOptions
+    );
 
     const newTracingOptions: OperationTracingOptions = {
       ...oldTracingOptions,
@@ -81,16 +84,20 @@ export function createSpanFunctionForOperationOptions(args: CreateSpanFunctionAr
   };
 }
 
-
 /**
- * 
- * @param tracer 
- * @param operationName 
- * @param context 
- * @param args 
- * @param tracingOptions 
+ *
+ * @param tracer
+ * @param operationName
+ * @param context
+ * @param args
+ * @param tracingOptions
  */
-function startSpan(operationName: string, context: Context, args: CreateSpanFunctionArgs, tracingOptions: OperationTracingOptions) {
+function startSpan(
+  operationName: string,
+  context: Context,
+  args: CreateSpanFunctionArgs,
+  tracingOptions: OperationTracingOptions
+) {
   const tracer = getTracer();
 
   const spanOptions: SpanOptions = {
@@ -98,7 +105,11 @@ function startSpan(operationName: string, context: Context, args: CreateSpanFunc
     kind: tracingOptions?.spanOptions?.kind ?? SpanKind.INTERNAL
   };
 
-  const span = tracer.startSpan(args.packagePrefix == undefined ? operationName : `${args.packagePrefix}.${operationName}`, spanOptions, context);
+  const span = tracer.startSpan(
+    args.packagePrefix == undefined ? operationName : `${args.packagePrefix}.${operationName}`,
+    spanOptions,
+    context
+  );
   const newContext = setSpan(context, span);
 
   span.setAttribute("az.namespace", args.namespace);
@@ -121,22 +132,25 @@ function startSpan(operationName: string, context: Context, args: CreateSpanFunc
  * Creates a function to create spans using the global tracer. This createSpan function
  * properly handles options like `RequestOptionsBase`, where the tracing options (`context` and `spanOptions`) are
  * directly on the options object itself.
- * 
- * @param args Arguments providing a package prefix (used when formatting the span name) and namespace 
+ *
+ * @param args Arguments providing a package prefix (used when formatting the span name) and namespace
  * for created Spans
  *
  */
 export function createSpanFunctionForRequestOptionsBase(args: CreateSpanFunctionArgs) {
-  return function <
-    RequestOptionsBaseT extends OperationTracingOptions
-  >(
+  return function<RequestOptionsBaseT extends OperationTracingOptions>(
     operationName: string,
     tracingOptions: RequestOptionsBaseT,
     context: Context = otContext.active()
   ): { span: Span; updatedOptions: RequestOptionsBaseT & Required<OperationTracingOptions> } {
     const oldTracingOptions = tracingOptions || {};
 
-    var { newSpanOptions, newContext, span } = startSpan(operationName, context, args, oldTracingOptions);
+    var { newSpanOptions, newContext, span } = startSpan(
+      operationName,
+      context,
+      args,
+      oldTracingOptions
+    );
 
     const newRequestOptions: RequestOptionsBaseT & Required<OperationTracingOptions> = {
       ...oldTracingOptions,

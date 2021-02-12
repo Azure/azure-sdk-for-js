@@ -6,14 +6,23 @@ import { SpanKind, TraceFlags } from "@opentelemetry/api";
 import { OperationOptionsLike } from "../src/createSpan";
 import sinon from "sinon";
 
-import { createSpanFunctionForOperationOptions, createSpanFunctionForRequestOptionsBase } from "../src/createSpan";
+import {
+  createSpanFunctionForOperationOptions,
+  createSpanFunctionForRequestOptionsBase
+} from "../src/createSpan";
 import { setTracer } from "../src/tracerProxy";
 import { TestTracer } from "../src/tracers/test/testTracer";
 import { TestSpan } from "../src/tracers/test/testSpan";
 import { OperationTracingOptions } from "../src";
 
-const createSpanForOperationOptions = createSpanFunctionForOperationOptions({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
-const createSpanForRequestOptionsBase = createSpanFunctionForRequestOptionsBase({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
+const createSpanForOperationOptions = createSpanFunctionForOperationOptions({
+  namespace: "Microsoft.Test",
+  packagePrefix: "Azure.Test"
+});
+const createSpanForRequestOptionsBase = createSpanFunctionForRequestOptionsBase({
+  namespace: "Microsoft.Test",
+  packagePrefix: "Azure.Test"
+});
 
 describe("createSpan", () => {
   describe("createSpanFunctionForOperationOptions", () => {
