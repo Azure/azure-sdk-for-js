@@ -8,87 +8,61 @@
 
 import * as coreHttp from "@azure/core-http";
 
-/**
- * Represents a token response message from the STS service.
- */
+/** Represents a token response message from the STS service. */
 export interface StsTokenResponseMessage {
-  /**
-   * An access token for the account.
-   */
+  /** An access token for the account. */
   accessToken: string;
 }
 
-/**
- * Defines headers for MixedRealityStsRestClient_getToken operation.
- */
+/** Defines headers for MixedRealityStsRestClient_getToken operation. */
 export interface MixedRealityStsRestClientGetTokenHeaders {
-  /**
-   * The service response correlation vector, which will be a new value for every response. Useful when debugging with Microsoft.
-   */
+  /** The service response correlation vector, which will be a new value for every response. Useful when debugging with Microsoft. */
   requestId?: string;
 }
 
-/**
- * Parameter group
- */
+/** Defines headers for MixedRealityStsRestClient_getToken operation. */
+export interface MixedRealityStsRestClientGetTokenExceptionHeaders {
+  /** The service response correlation vector, which will be a new value for every response. Useful when debugging with Microsoft. */
+  requestId?: string;
+  /** Describes the error encountered while trying to authenticate the resource. */
+  wWWAuthenticate?: string;
+}
+
+/** Parameter group */
 export interface TokenRequestOptions {
-  /**
-   * The client request correlation vector, which should be set to a new value for each request. Useful when debugging with Microsoft.
-   */
+  /** The client request correlation vector, which should be set to a new value for each request. Useful when debugging with Microsoft. */
   clientRequestId?: string;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface MixedRealityStsRestClientGetTokenOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Parameter group
-   */
+  /** Parameter group */
   tokenRequestOptions?: TokenRequestOptions;
 }
 
-/**
- * Contains response data for the getToken operation.
- */
+/** Contains response data for the getToken operation. */
 export type MixedRealityStsRestClientGetTokenResponse = MixedRealityStsRestClientGetTokenHeaders &
   StsTokenResponseMessage & {
-    /**
-     * The underlying HTTP response.
-     */
+    /** The underlying HTTP response. */
     _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
+      /** The response body as text (string format) */
       bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
+      /** The response body as parsed JSON or XML */
       parsedBody: StsTokenResponseMessage;
-      /**
-       * The parsed HTTP response headers.
-       */
+      /** The parsed HTTP response headers. */
       parsedHeaders: MixedRealityStsRestClientGetTokenHeaders;
     };
   };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface MixedRealityStsRestClientOptionalParams
   extends coreHttp.ServiceClientOptions {
-  /**
-   * server parameter
-   */
+  /** server parameter */
   $host?: string;
-  /**
-   * Api Version
-   */
+  /** Api Version */
   apiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

@@ -38,3 +38,24 @@ export const MixedRealityStsRestClientGetTokenHeaders: coreHttp.CompositeMapper 
     }
   }
 };
+
+export const MixedRealityStsRestClientGetTokenExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MixedRealityStsRestClientGetTokenExceptionHeaders",
+    modelProperties: {
+      requestId: {
+        serializedName: "ms-cv",
+        type: {
+          name: "String"
+        }
+      },
+      wWWAuthenticate: {
+        serializedName: "www-authenticate",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};

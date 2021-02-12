@@ -12,6 +12,7 @@ import { MixedRealityStsRestClientOptionalParams } from "./models";
 const packageName = "@azure/mixedreality-authentication";
 const packageVersion = "1.0.0";
 
+/** @hidden */
 export class MixedRealityStsRestClientContext extends coreHttp.ServiceClient {
   $host: string;
   apiVersion?: string;

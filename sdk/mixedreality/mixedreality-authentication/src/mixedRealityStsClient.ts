@@ -7,11 +7,11 @@ import {
   TokenCredential,
   InternalPipelineOptions
 } from "@azure/core-http";
-import { MixedRealityStsRestClient } from "./generated/mixedRealityStsRestClient";
 import {
+  MixedRealityStsRestClient,
   MixedRealityStsRestClientGetTokenOptionalParams,
   MixedRealityStsRestClientOptionalParams
-} from "./generated/models";
+} from "./generated";
 import { logger } from "./logger";
 import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
 import { createSpan } from "./tracing";

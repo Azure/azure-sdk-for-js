@@ -7,10 +7,22 @@
  */
 
 import {
-  OperationURLParameter,
   OperationParameter,
+  OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-http";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const $host: OperationURLParameter = {
   parameterPath: "$host",

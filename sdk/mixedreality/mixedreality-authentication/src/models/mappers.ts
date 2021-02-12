@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-http";
-import * as RestModel from "../generated/models";
+import { MixedRealityStsRestClientGetTokenResponse } from "../generated";
 import { retrieveJwtExpirationTimestamp } from "../util/jwt";
 
 /**
@@ -10,7 +10,7 @@ import { retrieveJwtExpirationTimestamp } from "../util/jwt";
  * @internal
  */
 export const mapToAccessToken = (
-  tokenResponse: RestModel.MixedRealityStsRestClientGetTokenResponse
+  tokenResponse: MixedRealityStsRestClientGetTokenResponse
 ): AccessToken => {
   const token: AccessToken = {
     expiresOnTimestamp: 0,

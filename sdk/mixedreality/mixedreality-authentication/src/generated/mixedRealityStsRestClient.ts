@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 import * as Parameters from "./models/parameters";
-import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { MixedRealityStsRestClientContext } from "./mixedRealityStsRestClientContext";
 import {
@@ -17,7 +16,8 @@ import {
   MixedRealityStsRestClientGetTokenResponse
 } from "./models";
 
-class MixedRealityStsRestClient extends MixedRealityStsRestClientContext {
+/** @hidden */
+export class MixedRealityStsRestClient extends MixedRealityStsRestClientContext {
   /**
    * Initializes a new instance of the MixedRealityStsRestClient class.
    * @param options The parameter options
@@ -35,17 +35,17 @@ class MixedRealityStsRestClient extends MixedRealityStsRestClientContext {
     accountId: string,
     options?: MixedRealityStsRestClientGetTokenOptionalParams
   ): Promise<MixedRealityStsRestClientGetTokenResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      accountId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { accountId, options: operationOptions },
+      operationArguments,
       getTokenOperationSpec
     ) as Promise<MixedRealityStsRestClientGetTokenResponse>;
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getTokenOperationSpec: coreHttp.OperationSpec = {
@@ -57,29 +57,23 @@ const getTokenOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.MixedRealityStsRestClientGetTokenHeaders
     },
     400: {
-      headersMapper: Mappers.MixedRealityStsRestClientGetTokenHeaders
+      headersMapper: Mappers.MixedRealityStsRestClientGetTokenExceptionHeaders,
+      isError: true
     },
     401: {
-      headersMapper: Mappers.MixedRealityStsRestClientGetTokenHeaders
+      headersMapper: Mappers.MixedRealityStsRestClientGetTokenExceptionHeaders,
+      isError: true
     },
     429: {
-      headersMapper: Mappers.MixedRealityStsRestClientGetTokenHeaders
+      headersMapper: Mappers.MixedRealityStsRestClientGetTokenExceptionHeaders,
+      isError: true
     },
     default: {
-      headersMapper: Mappers.MixedRealityStsRestClientGetTokenHeaders
+      headersMapper: Mappers.MixedRealityStsRestClientGetTokenExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.accountId],
-  headerParameters: [Parameters.clientRequestId],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId],
   serializer
-};
-
-// Operation Specifications
-
-export {
-  MixedRealityStsRestClient,
-  MixedRealityStsRestClientContext,
-  Models as MixedRealityStsRestModels,
-  Mappers as MixedRealityStsRestMappers
 };
