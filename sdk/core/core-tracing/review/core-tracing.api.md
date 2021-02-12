@@ -27,19 +27,24 @@ export interface Context {
 }
 
 // @public
-export function createSpanFunction({ packagePrefix, namespace }: CreateSpanFunctionArgs): <T extends {
-    tracingOptions?: OperationTracingOptions | undefined;
-}>(operationName: string, operationOptions: T, context?: Context_2) => {
+export interface CreateSpanFunctionArgs {
+    namespace: string;
+    packagePrefix: string | undefined;
+}
+
+// Warning: (ae-forgotten-export) The symbol "OperationOptionsLike" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function createSpanFunctionForOperationOptions(args: CreateSpanFunctionArgs): <OperationOptionsT extends OperationOptionsLike>(operationName: string, operationOptions: OperationOptionsT, context?: Context_2) => {
     span: Span;
-    updatedOptions: T;
+    updatedOptions: OperationOptionsT & Required<OperationOptionsLike>;
 };
 
 // @public
-export interface CreateSpanFunctionArgs {
-    namespace: string;
-    packagePrefix: string;
-    spanKind?: SpanKind;
-}
+export function createSpanFunctionForRequestOptionsBase(args: CreateSpanFunctionArgs): <RequestOptionsBaseT extends OperationTracingOptions>(operationName: string, tracingOptions: RequestOptionsBaseT, context?: Context_2) => {
+    span: Span;
+    updatedOptions: RequestOptionsBaseT & Required<OperationTracingOptions>;
+};
 
 // @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;

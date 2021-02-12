@@ -11,7 +11,7 @@ export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWr
 export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";
 export { TestSpan } from "./tracers/test/testSpan";
 
-export { createSpanFunction, CreateSpanFunctionArgs } from "./createSpan";
+export { createSpanFunctionForRequestOptionsBase, createSpanFunctionForOperationOptions, CreateSpanFunctionArgs } from "./createSpan";
 
 // Shared interfaces
 export { Context, SpanContext, SpanOptions, TraceFlags } from "./interfaces";
