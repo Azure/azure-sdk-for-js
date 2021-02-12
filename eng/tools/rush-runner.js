@@ -93,9 +93,6 @@ const getLeafPackages = (packageGraph, packageNames) => {
   for (let pkgName of packageNames) {
     // if current package is added as dependent by other packages then find leaf packages recursively
     if (packageGraph.has(pkgName)) {
-      // Rush currently has a bug that skips any transitive dependency package in preview version and if it is only a dev dependency
-      // Passing this package explicitly as a work around until rush bug is resolved
-      leafPackages.add(pkgName);
       for (const dependentPackage of getLeafPackages(packageGraph, packageGraph.get(pkgName))) {
         leafPackages.add(dependentPackage);
       }
@@ -182,6 +179,7 @@ if (serviceDirs.length === 0) {
 } else {
   const actionComponents = action.toLowerCase().split(":");
   switch (actionComponents[0]) {
+    case "build":
     case "test":
     case "unit-test":
     case "integration-test":
@@ -191,21 +189,6 @@ if (serviceDirs.length === 0) {
     case "lint":
       for (const packageDir of packageDirs) {
         spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
-      }
-      break;
-
-    case "build":
-      if (actionComponents[1] === "samples") {
-        // For sample builds, we use --from to run sample builds on dependents
-        rushRunAll("--from", packageNames);
-      } else {
-        // For other builds, we use the transitive dependency logic if required, and build dependencies
-        // using --to
-        const requiredPackageNames = buildTransitiveDep
-          ? getPackagesToBuild(packageNames, pkgGraph)
-          : packageNames;
-
-        rushRunAll("--to", requiredPackageNames);
       }
       break;
 
