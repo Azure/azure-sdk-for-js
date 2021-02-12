@@ -144,7 +144,7 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
         </label>
         <br />
         <label>
-          Service Bus Endpoint:
+          Service Bus hostname:
           <input
             type="text"
             placeholder="yournamespace.servicebus.windows.net"
