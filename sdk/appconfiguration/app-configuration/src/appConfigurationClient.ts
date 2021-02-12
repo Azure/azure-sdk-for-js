@@ -530,7 +530,7 @@ export function getGeneratedClientOptions(
 
   const userAgent = getUserAgentPrefix(
     internalAppConfigOptions.userAgentOptions &&
-    internalAppConfigOptions.userAgentOptions.userAgentPrefix
+      internalAppConfigOptions.userAgentOptions.userAgentPrefix
   );
 
   return {
