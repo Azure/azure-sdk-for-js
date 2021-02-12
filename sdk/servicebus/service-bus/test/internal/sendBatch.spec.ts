@@ -401,7 +401,7 @@ describe("Send Batch", () => {
     });
     const maxSizeInBytes = 30000000;
 
-    async function testSendBatch(maxSizeInBytes?: number): Promise<void> {
+    async function testSendBatch(): Promise<void> {
       let errorIsThrown = false;
       try {
         await sender.createMessageBatch({ maxSizeInBytes });
@@ -423,12 +423,12 @@ describe("Send Batch", () => {
 
     it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
-      await testSendBatch(maxSizeInBytes);
+      await testSendBatch();
     });
 
     it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
-      await testSendBatch(maxSizeInBytes);
+      await testSendBatch();
     });
   });
 

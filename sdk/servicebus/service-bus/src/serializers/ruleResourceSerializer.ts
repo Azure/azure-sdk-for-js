@@ -329,19 +329,19 @@ function getKeyValuePairsOrUndefined(
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
       const key = rawProperty.Key;
-      const value = rawProperty.Value["_"];
+      const _value = rawProperty.Value["_"];
       const encodedValueType = rawProperty.Value["$"]["i:type"].toString().substring(5);
       if (
         encodedValueType === TypeMapForResponseDeserialization.int ||
         encodedValueType === TypeMapForResponseDeserialization.double
       ) {
-        properties[key] = Number(value);
+        properties[key] = Number(_value);
       } else if (encodedValueType === TypeMapForResponseDeserialization.string) {
-        properties[key] = value;
+        properties[key] = _value;
       } else if (encodedValueType === TypeMapForResponseDeserialization.boolean) {
-        properties[key] = value === "true" ? true : false;
+        properties[key] = _value === "true" ? true : false;
       } else if (encodedValueType === TypeMapForResponseDeserialization.date) {
-        properties[key] = new Date(value);
+        properties[key] = new Date(_value);
       } else {
         throw new TypeError(
           `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`

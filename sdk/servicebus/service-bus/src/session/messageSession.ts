@@ -352,14 +352,14 @@ export class MessageSession extends LinkEntity<Receiver> {
    * to indicate we want the next unlocked non-empty session.
    */
   constructor(
-    context: ConnectionContext,
+    connectionContext: ConnectionContext,
     entityPath: string,
     private _providedSessionId: string | undefined,
     options?: MessageSessionOptions
   ) {
-    super(entityPath, entityPath, context, "session", logger, {
+    super(entityPath, entityPath, connectionContext, "session", logger, {
       address: entityPath,
-      audience: `${context.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`
     });
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
@@ -378,7 +378,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     this._isReceivingMessagesForSubscriber = false;
     this._batchingReceiverLite = new BatchingReceiverLite(
-      context,
+      connectionContext,
       entityPath,
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;

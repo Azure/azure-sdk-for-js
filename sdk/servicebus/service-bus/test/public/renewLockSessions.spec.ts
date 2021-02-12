@@ -71,7 +71,7 @@ describe("Session Lock Renewal", () => {
     testClientType + ": Batch Receiver: renewLock() resets lock duration each time",
     async function(): Promise<void> {
       await beforeEachTest(0);
-      await testBatchReceiverManualLockRenewalHappyCase(sender, receiver);
+      await testBatchReceiverManualLockRenewalHappyCase();
     }
   );
 
@@ -131,10 +131,7 @@ describe("Session Lock Renewal", () => {
   /**
    * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
    */
-  async function testBatchReceiverManualLockRenewalHappyCase(
-    sender: ServiceBusSender,
-    receiver: ServiceBusSessionReceiver
-  ): Promise<void> {
+  async function testBatchReceiverManualLockRenewalHappyCase(): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await sender.sendMessages(testMessage);

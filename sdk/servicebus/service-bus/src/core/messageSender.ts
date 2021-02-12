@@ -67,10 +67,10 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _onSessionClose: OnAmqpEvent;
   private _retryOptions: RetryOptions;
 
-  constructor(context: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
-    super(entityPath, entityPath, context, "sender", logger, {
+  constructor(connectionContext: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
+    super(entityPath, entityPath, connectionContext, "sender", logger, {
       address: entityPath,
-      audience: `${context.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`
     });
     this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
