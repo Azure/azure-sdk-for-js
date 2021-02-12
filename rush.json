@@ -631,11 +631,6 @@
       "packageName": "@azure/perf-test-storage-blob",
       "projectFolder": "sdk/storage/perf-tests/storage-blob",
       "versionPolicyName": "test"
-    },
-    {
-      "packageName": "@azure/perf-test-storage-blob-track-1",
-      "projectFolder": "sdk/storage/perf-tests/storage-blob-track-1",
-      "versionPolicyName": "test"
     }
   ]
 }

@@ -44,9 +44,8 @@
     // "^12.4.1" is required for eventhubs-checkpointstore-blob to use the latest GA version
     // when there is a new beta version which is being maintained in the repo.
     // Remove "^12.4.1" when the storage-blob releases a stable version.
-    // Allowing "^10.5.0" for the perf testing. Remove this entry if the perf tests for track 1 are ever deleted.
     // Add a new entry in case a new version is being tested through the perf tests (Example: "12.2.0").
-    "@azure/storage-blob": ["^12.4.1", "^10.5.0"],
+    "@azure/storage-blob": ["^12.4.1"],
 
     "@azure/ms-rest-js": ["^2.0.0"],
     /**
