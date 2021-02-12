@@ -279,7 +279,7 @@ export class AppConfigurationClient {
    *
    * Example code:
    * ```ts
-   * const allSettingsWithLabel = client.listConfigurationSettings({ labels: [ "MyLabel" ] });
+   * const allSettingsWithLabel = client.listConfigurationSettings({ labelFilter: "MyLabel" });
    * ```
    * @param options - Optional parameters for the request.
    */
@@ -530,7 +530,7 @@ export function getGeneratedClientOptions(
 
   const userAgent = getUserAgentPrefix(
     internalAppConfigOptions.userAgentOptions &&
-      internalAppConfigOptions.userAgentOptions.userAgentPrefix
+    internalAppConfigOptions.userAgentOptions.userAgentPrefix
   );
 
   return {
