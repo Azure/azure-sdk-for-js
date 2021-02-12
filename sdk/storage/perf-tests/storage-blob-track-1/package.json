@@ -16,7 +16,6 @@
   },
   "private": true,
   "scripts": {
-    "perf-test:node": "ts-node index.spec.ts",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p .",
     "build:samples": "echo skipped",
@@ -30,7 +29,9 @@
     "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json src test --ext .ts -f html -o storage-blob-perf-test-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
+    "perf-test:node": "ts-node index.spec.ts",
     "prebuild": "npm run clean",
+    "setup": "node setup.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "echo skipped",
