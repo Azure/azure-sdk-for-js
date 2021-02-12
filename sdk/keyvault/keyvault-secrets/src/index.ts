@@ -32,10 +32,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import {
-  challengeBasedAuthenticationPolicy,
-  createSpan,
-} from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy, createSpan } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -207,12 +204,7 @@ export class SecretClient {
 
       let response: KeyVaultClientSetSecretResponse;
       try {
-        response = await this.client.setSecret(
-          this.vaultUrl,
-          secretName,
-          value,
-          updatedOptions
-        );
+        response = await this.client.setSecret(this.vaultUrl, secretName, value, updatedOptions);
       } finally {
         span.end();
       }
@@ -391,11 +383,7 @@ export class SecretClient {
     let response: KeyVaultClientGetDeletedSecretResponse;
 
     try {
-      response = await this.client.getDeletedSecret(
-        this.vaultUrl,
-        secretName,
-        updatedOptions
-      );
+      response = await this.client.getDeletedSecret(this.vaultUrl, secretName, updatedOptions);
     } finally {
       span.end();
     }
@@ -426,11 +414,7 @@ export class SecretClient {
     const { span, updatedOptions } = createSpan("purgeDeletedSecret", options);
 
     try {
-      await this.client.purgeDeletedSecret(
-        this.vaultUrl,
-        secretName,
-        updatedOptions
-      );
+      await this.client.purgeDeletedSecret(this.vaultUrl, secretName, updatedOptions);
     } finally {
       span.end();
     }
@@ -507,11 +491,7 @@ export class SecretClient {
     let response: KeyVaultClientBackupSecretResponse;
 
     try {
-      response = await this.client.backupSecret(
-        this.vaultUrl,
-        secretName,
-        updatedOptions
-      );
+      response = await this.client.backupSecret(this.vaultUrl, secretName, updatedOptions);
     } finally {
       span.end();
     }
@@ -542,11 +522,7 @@ export class SecretClient {
     let response: KeyVaultClientRestoreSecretResponse;
 
     try {
-      response = await this.client.restoreSecret(
-        this.vaultUrl,
-        secretBundleBackup,
-        updatedOptions
-      );
+      response = await this.client.restoreSecret(this.vaultUrl, secretBundleBackup, updatedOptions);
     } finally {
       span.end();
     }
