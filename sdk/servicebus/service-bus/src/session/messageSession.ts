@@ -92,13 +92,13 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   receiveMode: ReceiveMode;
   /**
-   * {boolean} autoComplete Indicates whether `Message.complete()` should be called
+   * Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
    * Default: false.
    */
   autoComplete: boolean;
   /**
-   * {number} maxAutoRenewDurationInMs The maximum duration within which the
+   * The maximum duration within which the
    * lock will be renewed automatically. This value should be greater than the longest message
    * lock duration; for example, the `lockDuration` property on the received message.
    *
@@ -106,7 +106,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * {boolean} autoRenewLock Should lock renewal happen automatically.
+   * Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
   /**
