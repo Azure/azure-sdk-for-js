@@ -119,6 +119,9 @@ export class MSALImplicit implements IMSALBrowserFlow {
    * Uses MSAL to trigger a redirect or a popup login.
    */
   public async login(): Promise<AuthenticationRecord | undefined> {
+    if (this.getActiveAccount()) {
+      return this.account;
+    }
     switch (this.loginStyle) {
       case "redirect": {
         this.handleRedirect();
