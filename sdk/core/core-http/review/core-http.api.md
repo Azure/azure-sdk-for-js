@@ -7,7 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Context } from '@azure/core-tracing';
-import { createSpanFunction as createSpanFunction_2 } from '@azure/core-tracing';
+import { createSpanFunctionForOperationOptions } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
@@ -159,7 +159,7 @@ export const Constants: {
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 // @public
-export const createSpanFunction: typeof createSpanFunction_2;
+export const createSpanFunction: typeof createSpanFunctionForOperationOptions;
 
 // Warning: (ae-forgotten-export) The symbol "FetchHttpClient" needs to be exported by the entry point coreHttp.d.ts
 //

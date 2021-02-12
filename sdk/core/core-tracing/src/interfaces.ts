@@ -94,12 +94,6 @@ export interface SpanOptions {
    * Attributes to set on the Span
    */
   attributes?: Attributes;
-
-  /**
-   * The SpanKind of a span
-   * @default {@link SpanKind.INTERNAL}
-   */
-  kind?: SpanKind;
 }
 
 /**

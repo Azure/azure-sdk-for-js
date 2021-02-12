@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSpanFunction as coreTracingCreateSpanFunction } from "@azure/core-tracing";
+import { createSpanFunctionForOperationOptions } from "@azure/core-tracing";
 
 /**
  * Configuration for creating a new Tracing Span
@@ -23,4 +23,4 @@ export interface SpanConfig {
  * @param spanConfig - The name of the operation being performed.
  * @param tracingOptions - The options for the underlying http request.
  */
-export const createSpanFunction = coreTracingCreateSpanFunction;
+export const createSpanFunction = createSpanFunctionForOperationOptions;

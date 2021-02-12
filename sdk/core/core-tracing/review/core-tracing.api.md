@@ -32,8 +32,6 @@ export interface CreateSpanFunctionArgs {
     packagePrefix: string | undefined;
 }
 
-// Warning: (ae-forgotten-export) The symbol "OperationOptionsLike" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function createSpanFunctionForOperationOptions(args: CreateSpanFunctionArgs): <OperationOptionsT extends OperationOptionsLike>(operationName: string, operationOptions: OperationOptionsT, context?: Context_2) => {
     span: Span;
@@ -107,6 +105,12 @@ export class OpenCensusTracerWrapper implements Tracer {
 }
 
 // @public
+export interface OperationOptionsLike {
+    // (undocumented)
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public
 export interface OperationTracingOptions {
     context?: Context;
     spanOptions?: SpanOptions;
@@ -140,8 +144,6 @@ export interface SpanGraphNode {
 // @public
 export interface SpanOptions {
     attributes?: Attributes;
-    // Warning: (ae-forgotten-export) The symbol "SpanKind" needs to be exported by the entry point index.d.ts
-    kind?: SpanKind_2;
 }
 
 // @public

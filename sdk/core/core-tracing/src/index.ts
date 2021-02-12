@@ -14,7 +14,8 @@ export { TestSpan } from "./tracers/test/testSpan";
 export {
   createSpanFunctionForRequestOptionsBase,
   createSpanFunctionForOperationOptions,
-  CreateSpanFunctionArgs
+  CreateSpanFunctionArgs,
+  OperationOptionsLike
 } from "./createSpan";
 
 // Shared interfaces
