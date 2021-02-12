@@ -19,7 +19,8 @@ import {
   AnalyzeHealthcareEntitiesResultArray,
   PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
   PagedAnalyzeHealthcareEntitiesResult,
-  makeHealthcareEntitiesResult
+  makeHealthcareEntitiesResult,
+  makeHealthcareEntitiesErrorResult
 } from "../../analyzeHealthcareEntitiesResult";
 import { PageSettings } from "@azure/core-paging";
 import {
@@ -37,12 +38,18 @@ import { createSpan } from "../../tracing";
 import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
 export { State };
 
+/**
+ * @internal
+ */
 interface AnalyzeHealthcareEntitiesResultWithPagination {
   result: AnalyzeHealthcareEntitiesResultArray;
   top?: number;
   skip?: number;
 }
 
+/**
+ * @internal
+ */
 interface HealthcareJobStatus {
   done: boolean;
   /**
@@ -59,6 +66,9 @@ interface HealthcareJobStatus {
   operationMetdata?: OperationMetadata;
 }
 
+/**
+ * @internal
+ */
 interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
   /**
    * This value indicates which model will be used for scoring. If a model-version is
@@ -76,7 +86,7 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
 }
 
 /**
- * Options for the begin analyze healthcare operation.
+ * Options for the begin analyze healthcare entities operation.
  */
 export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
   /**
@@ -101,6 +111,7 @@ export interface AnalyzeHealthcareOperationState
 
 /**
  * Class that represents a poller that waits for the healthcare results.
+ * @internal
  */
 export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation<
   AnalyzeHealthcareOperationState,
@@ -192,7 +203,8 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         const result = processAndCombineSuccessfulAndErroneousDocuments(
           this.documents,
           response.results,
-          makeHealthcareEntitiesResult
+          makeHealthcareEntitiesResult,
+          makeHealthcareEntitiesErrorResult
         );
         return response.nextLink
           ? { result, ...nextLinkToTopAndSkip(response.nextLink) }

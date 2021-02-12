@@ -16,6 +16,7 @@ const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 /**
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for Text Analytics
+ * @internal
  */
 export function createTextAnalyticsAzureKeyCredentialPolicy(
   credential: KeyCredential
@@ -30,6 +31,7 @@ export function createTextAnalyticsAzureKeyCredentialPolicy(
 /**
  * A concrete implementation of an AzureKeyCredential policy
  * using the appropriate header for TextAnalytics
+ * @internal
  */
 class TextAnalyticsAzureKeyCredentialPolicy extends BaseRequestPolicy {
   private credential: KeyCredential;
