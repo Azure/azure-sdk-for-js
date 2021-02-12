@@ -31,7 +31,7 @@
     "pack": "npm pack 2>&1",
     "perf-test:node": "ts-node index.spec.ts",
     "prebuild": "npm run clean",
-    "setup": "node setup.js",
+    "setup": "node ../../../../common/tools/perf-tests-track-1-setup.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "echo skipped",
