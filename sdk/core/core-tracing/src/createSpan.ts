@@ -52,7 +52,7 @@ export interface OperationOptionsLike {
  *
  */
 export function createSpanFunctionForOperationOptions(args: CreateSpanFunctionArgs) {
-  return function <OperationOptionsT extends OperationOptionsLike>(
+  return function<OperationOptionsT extends OperationOptionsLike>(
     operationName: string,
     operationOptions: OperationOptionsT,
     context: Context = otContext.active()
@@ -138,7 +138,7 @@ function startSpan(
  *
  */
 export function createSpanFunctionForRequestOptionsBase(args: CreateSpanFunctionArgs) {
-  return function <RequestOptionsBaseT extends OperationTracingOptions>(
+  return function<RequestOptionsBaseT extends OperationTracingOptions>(
     operationName: string,
     tracingOptions: RequestOptionsBaseT,
     context: Context = otContext.active()

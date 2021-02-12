@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  RequestOptionsBase
-} from "@azure/core-http";
+import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientRestoreStatusResponse,
@@ -14,12 +10,12 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
   RestoreOperation
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
 import { RestoreResult } from "../../backupClientModels";
+import { createSpan } from "../../../../keyvault-common/src/tracing";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -73,14 +69,12 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     keyName: string,
     options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.selectiveRestore", requestOptions);
+    // TODO: @sadasant, I think this might have been a bug (that is now fixed by this). We were converting OperationOptions to RequestOptionsBase and then passing that into the underlying generated
+    // method but _that_ method appears to take OperationOptions.
+    const { span, updatedOptions } = createSpan("generatedClient.selectiveRestore", options);
+
     try {
-      return await this.client.selectiveKeyRestoreOperation(
-        this.vaultUrl,
-        keyName,
-        setParentSpan(span, requestOptions)
-      );
+      return await this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions);
     } finally {
       span.end();
     }
@@ -93,10 +87,9 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.restoreStatus", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.restoreStatus", options);
     try {
-      return await this.client.restoreStatus(this.vaultUrl, jobId, options);
+      return await this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
     } finally {
       span.end();
     }

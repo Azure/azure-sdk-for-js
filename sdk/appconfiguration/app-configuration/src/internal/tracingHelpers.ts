@@ -3,11 +3,12 @@
 
 import { Span, StatusCode } from "@opentelemetry/api";
 
-import { RestError, createSpanFunction, OperationOptions } from "@azure/core-http";
+import { RestError, OperationOptions } from "@azure/core-http";
+import { createSpanFunctionForOperationOptions } from "@azure/core-tracing";
 import { AppConfigurationClient } from "../appConfigurationClient";
 
 /** @internal */
-export const createSpan = createSpanFunction({
+export const createSpan = createSpanFunctionForOperationOptions({
   namespace: "Microsoft.AppConfiguration",
   packagePrefix: "Azure.Data.AppConfiguration"
 });

@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RequestOptionsBase } from "@azure/core-http";
+import { createSpanFunctionForOperationOptions } from "@azure/core-tracing";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   FullBackupOperation,
@@ -10,12 +11,16 @@ import {
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { BackupResult, BeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
+
+const createSpan = createSpanFunctionForOperationOptions({
+  namespace: "Microsoft.KeyVault",
+  packagePrefix: undefined // keyvault handles prefixing on it's own.
+});
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
@@ -58,9 +63,9 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
   private async fullBackup(
     options: KeyVaultClientFullBackupOptionalParams
   ): Promise<KeyVaultClientFullBackupResponse> {
-    const span = createSpan("generatedClient.fullBackup", options);
+    const { span, updatedOptions } = createSpan("generatedClient.fullBackup", options);
     try {
-      return await this.client.fullBackup(this.vaultUrl, setParentSpan(span, options));
+      return await this.client.fullBackup(this.vaultUrl, updatedOptions);
     } finally {
       span.end();
     }
@@ -73,9 +78,9 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: BeginBackupOptions
   ): Promise<KeyVaultClientFullBackupStatusResponse> {
-    const span = createSpan("generatedClient.fullBackupStatus", options);
+    const { span, updatedOptions } = createSpan("generatedClient.fullBackupStatus", options);
     try {
-      return await this.client.fullBackupStatus(this.vaultUrl, jobId, setParentSpan(span, options));
+      return await this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions);
     } finally {
       span.end();
     }

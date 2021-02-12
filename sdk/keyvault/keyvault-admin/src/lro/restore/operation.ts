@@ -9,13 +9,13 @@ import {
   KeyVaultClientRestoreStatusResponse,
   RestoreOperation
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
 import { RestoreResult } from "../../backupClientModels";
+import { createSpan } from "../../../../keyvault-common/src/tracing";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -65,9 +65,9 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
   private async fullRestore(
     options: KeyVaultClientFullRestoreOperationOptionalParams
   ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-    const span = createSpan("generatedClient.fullRestore", options);
+    const { span, updatedOptions } = createSpan("generatedClient.fullRestore", options);
     try {
-      return await this.client.fullRestoreOperation(this.vaultUrl, setParentSpan(span, options));
+      return await this.client.fullRestoreOperation(this.vaultUrl, updatedOptions);
     } finally {
       span.end();
     }
@@ -80,9 +80,9 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const span = createSpan("generatedClient.restoreStatus", options);
+    const { span, updatedOptions } = createSpan("generatedClient.restoreStatus", options);
     try {
-      return await this.client.restoreStatus(this.vaultUrl, jobId, setParentSpan(span, options));
+      return await this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
     } finally {
       span.end();
     }
