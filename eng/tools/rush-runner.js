@@ -93,6 +93,9 @@ const getLeafPackages = (packageGraph, packageNames) => {
   for (let pkgName of packageNames) {
     // if current package is added as dependent by other packages then find leaf packages recursively
     if (packageGraph.has(pkgName)) {
+      // Rush currently has a bug that skips any transitive dependency package in preview version and if it is only a dev dependency
+      // Passing this package explicitly as a work around until rush bug is resolved
+      leafPackages.add(pkgName);
       for (const dependentPackage of getLeafPackages(packageGraph, packageGraph.get(pkgName))) {
         leafPackages.add(dependentPackage);
       }
