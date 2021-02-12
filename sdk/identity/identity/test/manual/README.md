@@ -32,7 +32,7 @@ You will need to configure an AAD App Registration as follows:
 Grant access to this AAD application to your Service Bus by:
 
 - Creating a Service Bus namespace (if you haven't created one).
-- Either in the "Access policies" section of the creation form, or by going to the Service Bus namespace's "Access policies" page, click con `+ Add Access Policy`, select all permissions, then select your AAD application as the "principal", then click "Add", then click "Save" if applicable.
+- Either in the "Access policies" section of the creation form, or by going to the Service Bus namespace's "Access policies" page, click con `+ Add Access Policy`, select all permissions, then select your AAD application as the "Service Bus Data Owner", then click "Add", then click "Save" if applicable.
 - Then, in your Service Bus namespace, create a queue named `queue-identity-test`.
 
 With the AAD application and the Service Bus namespace configured, make sure `npm start` is running, then go to `http://localhost:8080`, then enter the Tenant ID, the Client ID of the AAD application and the Service Bus Endpoint, then go through the available options to configure the scenario in which you want the authentication to run, then click on the `Send Message` button. Information from the message sent will appear at the bottom.
