@@ -1,5 +1,7 @@
 # Release History
 
+## 1.2.4 (Unreleased)
+
 ## 1.2.4-beta.2 (Unreleased)
 
 - Breaking change: `DefaultAzureCredential` now only uses `InteractiveBrowserCredential` in the browser since it's the only credential intended to be used to authenticate within browsers.
