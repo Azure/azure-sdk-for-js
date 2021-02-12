@@ -6,7 +6,6 @@
 
 import { AccessToken } from '@azure/core-auth';
 import { AzureKeyCredential } from '@azure/core-auth';
-import { AzureLogger } from '@azure/logger';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -18,9 +17,6 @@ export { AzureKeyCredential }
 // @public
 export interface GetTokenOptions extends OperationOptions {
 }
-
-// @public
-export const logger: AzureLogger;
 
 // @public
 export class MixedRealityStsClient {
