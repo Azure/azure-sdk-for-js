@@ -82,7 +82,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
   }
 
   describe("RequestOptions", () => {
-    const sampleRequestOptions = {
+    const sampleOperationOptions = {
       requestOptions: {
         timeout: 199
       }
@@ -103,13 +103,13 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await sender.sendMessages(
               {
                 body: "message"
               },
-              sampleRequestOptions
+              sampleOperationOptions
             );
           }
         );
@@ -126,13 +126,13 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         sender["_context"].cbsSession.init = async () => {};
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await sender.sendMessages(
               {
                 body: "message"
               },
-              sampleRequestOptions
+              sampleOperationOptions
             );
           }
         );
@@ -144,9 +144,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await sender.createMessageBatch(sampleRequestOptions);
+            await sender.createMessageBatch(sampleOperationOptions);
           }
         );
       });
@@ -159,25 +159,23 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await receiver.receiveMessages(1, sampleRequestOptions);
+            await receiver.receiveMessages(1, sampleOperationOptions);
           }
         );
       });
 
-      // TODO: Unable to stop the forever retry even though I tried closing it
-      // it("RequestOptions is plumbed through subscribe", async () => {
-      //   const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
-      //   receiver["_context"].cbsSession.init = async () => {};
-
+      // TODO: subscribe
+      //      - Unable to stop the forever retry even though I tried closing it
+      //      - The next test instead checks for the options at the _createStreamingReceiver level instead
+      // it.only("RequestOptions is plumbed through subscribe", async () => {
+      //   const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
+      //   await recreateQueue(queueName);
+      //   const receiver = sbClient.createReceiver(queueName) as ServiceBusReceiverImpl;
       //   await verifyOperationOptionsAtGetToken(
       //     receiver["_context"],
-      //     {
-      //       requestOptions: {
-      //         timeout: 369
-      //       }
-      //     },
+      //     sampleOperationOptions,
       //     async () => {
       //       receiver.subscribe(
       //         {
@@ -186,19 +184,35 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       //             throw args.error;
       //           }
       //         },
-      //         {
-      //           requestOptions: {
-      //             timeout: 369
-      //           }
-      //         }
+      //         sampleOperationOptions
       //       );
-      //       await delay(1);
+      //       await delay(1000);
       //       await receiver.close();
       //     }
       //   );
+      //   await sbAdminClient.deleteQueue(queueName);
       // });
 
-      // TODO: subscribe
+      it.only("RequestOptions is plumbed through subscribe", async () => {
+        const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
+        await recreateQueue(queueName);
+
+        const receiver = sbClient.createReceiver(queueName) as ServiceBusReceiverImpl;
+
+        await verifyOperationOptionsAtGetToken(
+          receiver["_context"],
+          sampleOperationOptions,
+          async () => {
+            await receiver["_createStreamingReceiver"]({
+              ...sampleOperationOptions,
+              receiveMode: "peekLock",
+              onError: () => {},
+              lockRenewer: undefined
+            });
+          }
+        );
+        await sbAdminClient.deleteQueue(queueName);
+      });
 
       it("RequestOptions is plumbed through getMessageIterator", async () => {
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
@@ -206,9 +220,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            for await (const _ of receiver.getMessageIterator(sampleRequestOptions)) {
+            for await (const _ of receiver.getMessageIterator(sampleOperationOptions)) {
             }
           }
         );
@@ -224,14 +238,14 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await sender.scheduleMessages(
               {
                 body: "message"
               },
               new Date(),
-              sampleRequestOptions
+              sampleOperationOptions
             );
           }
         );
@@ -243,7 +257,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await sender.cancelScheduledMessages(Long.ZERO, {
               requestOptions: {
@@ -260,7 +274,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await receiver.peekMessages(1, {
               requestOptions: {
@@ -277,7 +291,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         receiver["_context"].wasConnectionCloseCalled = false;
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await receiver.completeMessage(
               {
@@ -286,7 +300,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
                 _rawAmqpMessage: { body: "message" },
                 delivery: { link: undefined }
               } as any,
-              sampleRequestOptions
+              sampleOperationOptions
             );
           }
         );
@@ -299,7 +313,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         managementClient["_context"].wasConnectionCloseCalled = false;
         await verifyOperationOptionsAtGetToken(
           managementClient["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await managementClient.updateDispositionStatus(
               generate_uuid(),
@@ -321,7 +335,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await receiver.receiveDeferredMessages(Long.ZERO, {
               requestOptions: {
@@ -338,7 +352,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         receiver.receiveMode = "peekLock";
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
             await receiver.renewMessageLock(
               {
@@ -347,7 +361,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
                 _rawAmqpMessage: { body: "message" },
                 delivery: { link: undefined }
               } as any,
-              sampleRequestOptions
+              sampleOperationOptions
             );
           }
         );
@@ -386,9 +400,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       it("RequestOptions is plumbed through acceptSession", async () => {
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await sbClient.acceptSession("queue", "session-id", sampleRequestOptions);
+            await sbClient.acceptSession("queue", "session-id", sampleOperationOptions);
           }
         );
       });
@@ -396,9 +410,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       it("RequestOptions is plumbed through acceptNextSession", async () => {
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await sbClient.acceptNextSession("queue", sampleRequestOptions);
+            await sbClient.acceptNextSession("queue", sampleOperationOptions);
           }
         );
       });
@@ -407,9 +421,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await receiver.renewSessionLock(sampleRequestOptions);
+            await receiver.renewSessionLock(sampleOperationOptions);
           }
         );
       });
@@ -418,9 +432,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await receiver.setSessionState("set-state", sampleRequestOptions);
+            await receiver.setSessionState("set-state", sampleOperationOptions);
           }
         );
       });
@@ -429,9 +443,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await receiver.getSessionState(sampleRequestOptions);
+            await receiver.getSessionState(sampleOperationOptions);
           }
         );
       });
@@ -440,9 +454,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await receiver.peekMessages(1, sampleRequestOptions);
+            await receiver.peekMessages(1, sampleOperationOptions);
           }
         );
       });
@@ -451,9 +465,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          sampleRequestOptions,
+          sampleOperationOptions,
           async () => {
-            await receiver.receiveDeferredMessages(Long.ZERO, sampleRequestOptions);
+            await receiver.receiveDeferredMessages(Long.ZERO, sampleOperationOptions);
           }
         );
       });
@@ -467,7 +481,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
       beforeEach(async () => {
         if (sbClient) await sbClient.close();
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential, sampleRequestOptions);
+        sbClient = new ServiceBusClient(serviceBusEndpoint, credential, sampleOperationOptions);
       });
 
       afterEach(async () => {
@@ -481,7 +495,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             sender["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await sender.sendMessages({
                 body: "message"
@@ -496,7 +510,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             sender["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await sender.createMessageBatch();
             }
@@ -514,7 +528,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             receiver["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.receiveMessages(1);
             }
@@ -527,7 +541,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             receiver["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               for await (const _ of receiver.getMessageIterator()) {
               }
@@ -542,7 +556,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             sender["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await sender.scheduleMessages(
                 {
@@ -559,7 +573,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             sender["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await sender.cancelScheduledMessages(Long.ZERO);
             }
@@ -571,7 +585,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             receiver["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.peekMessages(1);
             }
@@ -583,7 +597,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           receiver["_context"].wasConnectionCloseCalled = false;
           await verifyOperationOptionsAtGetToken(
             receiver["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.completeMessage({
                 body: "message",
@@ -600,7 +614,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
           await verifyOperationOptionsAtGetToken(
             receiver["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.receiveDeferredMessages(Long.ZERO);
             }
@@ -612,7 +626,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           receiver.receiveMode = "peekLock";
           await verifyOperationOptionsAtGetToken(
             receiver["_context"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.renewMessageLock({
                 body: "message",
@@ -649,7 +663,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         it("RequestOptions is plumbed through acceptSession", async () => {
           await verifyOperationOptionsAtGetToken(
             sbClient["_connectionContext"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await sbClient.acceptSession("queue", "session-id");
             }
@@ -659,7 +673,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         it("RequestOptions is plumbed through acceptNextSession", async () => {
           await verifyOperationOptionsAtGetToken(
             sbClient["_connectionContext"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await sbClient.acceptNextSession("queue");
             }
@@ -670,7 +684,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           const receiver = await sbClient.acceptNextSession(queueName);
           await verifyOperationOptionsAtGetToken(
             sbClient["_connectionContext"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.renewSessionLock();
             }
@@ -681,7 +695,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           const receiver = await sbClient.acceptNextSession(queueName);
           await verifyOperationOptionsAtGetToken(
             sbClient["_connectionContext"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.setSessionState("set-state");
             }
@@ -692,7 +706,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           const receiver = await sbClient.acceptNextSession(queueName);
           await verifyOperationOptionsAtGetToken(
             sbClient["_connectionContext"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.getSessionState();
             }
@@ -703,7 +717,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           const receiver = await sbClient.acceptNextSession(queueName);
           await verifyOperationOptionsAtGetToken(
             sbClient["_connectionContext"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.peekMessages(1);
             }
@@ -714,7 +728,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           const receiver = await sbClient.acceptNextSession(queueName);
           await verifyOperationOptionsAtGetToken(
             sbClient["_connectionContext"],
-            sampleRequestOptions,
+            sampleOperationOptions,
             async () => {
               await receiver.receiveDeferredMessages(Long.ZERO);
             }
