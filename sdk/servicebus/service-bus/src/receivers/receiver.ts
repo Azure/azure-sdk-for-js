@@ -644,7 +644,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         return trace(() => handlers.processMessage(message), span);
       },
       processError,
-      options
+      {
+        ...getOperationOptionsBase(this._clientOptions),
+        ...options
+      }
     );
 
     return {
