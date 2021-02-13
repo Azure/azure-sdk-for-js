@@ -6,7 +6,7 @@ import { EnvironmentCredential, GetTokenOptions } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
-import { generate_uuid } from "rhea-promise";
+import { delay, generate_uuid } from "rhea-promise";
 import {
   OperationOptionsBase,
   ServiceBusAdministrationClient,
@@ -35,7 +35,8 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
   async function verifyOperationOptionsAtGetToken(
     context: ConnectionContext,
     operationOptions: OperationOptionsBase,
-    func: Function
+    func: Function,
+    plugAfterMockingGetToken?: Function
   ) {
     let getTokenIsInvoked = false;
     let verifiedOperationOptions = false;
@@ -60,6 +61,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         "TracingOptions are not set as expected"
       );
       verifiedOperationOptions = true;
+      if (plugAfterMockingGetToken) await plugAfterMockingGetToken();
       return null;
     };
 
@@ -164,54 +166,55 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         );
       });
 
-      // TODO: subscribe
-      //      - Unable to stop the forever retry even though I tried closing it
-      //      - The next test instead checks for the options at the _createStreamingReceiver level instead
-      // it.only("RequestOptions is plumbed through subscribe", async () => {
-      //   const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
-      //   await recreateQueue(queueName);
-      //   const receiver = sbClient.createReceiver(queueName) as ServiceBusReceiverImpl;
-      //   await verifyOperationOptionsAtGetToken(
-      //     receiver["_context"],
-      //     sampleOperationOptions,
-      //     async () => {
-      //       receiver.subscribe(
-      //         {
-      //           processMessage: async () => {},
-      //           processError: async (args: ProcessErrorArgs) => {
-      //             throw args.error;
-      //           }
-      //         },
-      //         sampleOperationOptions
-      //       );
-      //       await delay(1000);
-      //       await receiver.close();
-      //     }
-      //   );
-      //   await sbAdminClient.deleteQueue(queueName);
-      // });
+      it("RequestOptions is plumbed through subscribe", async () => {
+        const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+        receiver["_context"].cbsSession.init = async () => {};
 
-      // it("RequestOptions is plumbed through subscribe", async () => {
-      //   const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
-      //   await recreateQueue(queueName);
+        await verifyOperationOptionsAtGetToken(
+          receiver["_context"],
+          sampleOperationOptions,
+          async () => {
+            receiver.subscribe(
+              {
+                processMessage: async () => {},
+                processError: async () => {}
+              },
+              sampleOperationOptions
+            );
+            await delay(1);
+            await receiver.close();
+          },
+          () => {
+            if (receiver["_streamingReceiver"]) {
+              receiver["_streamingReceiver"]["_initOnce"] = async () => {};
+            }
+          }
+        );
+      });
 
-      //   const receiver = sbClient.createReceiver(queueName) as ServiceBusReceiverImpl;
+      it("RequestOptions is plumbed through _createStreamingReceiver", async () => {
+        const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+        receiver["_context"].cbsSession.init = async () => {};
 
-      //   await verifyOperationOptionsAtGetToken(
-      //     receiver["_context"],
-      //     sampleOperationOptions,
-      //     async () => {
-      //       await receiver["_createStreamingReceiver"]({
-      //         ...sampleOperationOptions,
-      //         receiveMode: "peekLock",
-      //         onError: () => {},
-      //         lockRenewer: undefined
-      //       });
-      //       await receiver.close();
-      //     }
-      //   );
-      //   await sbAdminClient.deleteQueue(queueName);
-      // });
+        await verifyOperationOptionsAtGetToken(
+          receiver["_context"],
+          sampleOperationOptions,
+          async () => {
+            await receiver["_createStreamingReceiver"]({
+              ...sampleOperationOptions,
+              receiveMode: "peekLock",
+              onError: () => {},
+              lockRenewer: undefined
+            });
+            await receiver.close();
+          },
+          () => {
+            if (receiver["_streamingReceiver"]) {
+              receiver["_streamingReceiver"]["_initOnce"] = async () => {};
+            }
+          }
+        );
+      });
 
       it("RequestOptions is plumbed through getMessageIterator", async () => {
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
@@ -465,7 +468,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
       // No similar test for `receiveMessages` or `getMessageIterator` because the init happens only at the acceptSession level
       // No Backup settlement test for sessions because it is not supported
-      // TODO: subscribe
     });
 
     describe("ServiceBusClient", () => {
