@@ -10,8 +10,7 @@ import { generate_uuid } from "rhea-promise";
 import {
   OperationOptionsBase,
   ServiceBusAdministrationClient,
-  ServiceBusClient,
-  TokenCredential
+  ServiceBusClient
 } from "../../../src";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
@@ -29,7 +28,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
 
-  const credential = new EnvironmentCredential();
+  let credential = new EnvironmentCredential();
   const sbAdminClient = new ServiceBusAdministrationClient(serviceBusEndpoint, credential);
   let sbClient: ServiceBusClient;
 
@@ -42,8 +41,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     let verifiedOperationOptions = false;
     let actualOptions: OperationOptionsBase = {};
 
-    const preservedGetTokenMethod = (context.tokenCredential as TokenCredential).getToken;
-    context.tokenCredential.getToken = async (scopes: string, options: GetTokenOptions) => {
+    context.tokenCredential.getToken = async (_scopes: string, options: GetTokenOptions) => {
       getTokenIsInvoked = true;
       actualOptions = getOperationOptionsBase(options);
       should.equal(
@@ -62,7 +60,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         "TracingOptions are not set as expected"
       );
       verifiedOperationOptions = true;
-      return preservedGetTokenMethod(scopes, options);
+      return null;
     };
 
     try {
@@ -77,7 +75,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         Actual   - ${JSON.stringify(actualOptions)}
         Expected - ${JSON.stringify(getOperationOptionsBase(operationOptions))}\n`
       );
-      context.tokenCredential.getToken = preservedGetTokenMethod; // reset
     }
   }
 
@@ -89,6 +86,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     };
 
     beforeEach(() => {
+      credential = new EnvironmentCredential();
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
     });
 
@@ -193,26 +191,27 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       //   await sbAdminClient.deleteQueue(queueName);
       // });
 
-      it.only("RequestOptions is plumbed through subscribe", async () => {
-        const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
-        await recreateQueue(queueName);
+      // it("RequestOptions is plumbed through subscribe", async () => {
+      //   const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
+      //   await recreateQueue(queueName);
 
-        const receiver = sbClient.createReceiver(queueName) as ServiceBusReceiverImpl;
+      //   const receiver = sbClient.createReceiver(queueName) as ServiceBusReceiverImpl;
 
-        await verifyOperationOptionsAtGetToken(
-          receiver["_context"],
-          sampleOperationOptions,
-          async () => {
-            await receiver["_createStreamingReceiver"]({
-              ...sampleOperationOptions,
-              receiveMode: "peekLock",
-              onError: () => {},
-              lockRenewer: undefined
-            });
-          }
-        );
-        await sbAdminClient.deleteQueue(queueName);
-      });
+      //   await verifyOperationOptionsAtGetToken(
+      //     receiver["_context"],
+      //     sampleOperationOptions,
+      //     async () => {
+      //       await receiver["_createStreamingReceiver"]({
+      //         ...sampleOperationOptions,
+      //         receiveMode: "peekLock",
+      //         onError: () => {},
+      //         lockRenewer: undefined
+      //       });
+      //       await receiver.close();
+      //     }
+      //   );
+      //   await sbAdminClient.deleteQueue(queueName);
+      // });
 
       it("RequestOptions is plumbed through getMessageIterator", async () => {
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
@@ -233,7 +232,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
     describe("ManagementClient - Non-session", () => {
       it("RequestOptions is plumbed through scheduleMessages", async () => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
 
         await verifyOperationOptionsAtGetToken(
@@ -252,7 +250,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       it("RequestOptions is plumbed through cancelScheduledMessages", async () => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
 
         await verifyOperationOptionsAtGetToken(
@@ -269,7 +266,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       it("RequestOptions is plumbed through peek", async () => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
 
         await verifyOperationOptionsAtGetToken(
@@ -286,7 +282,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       it("RequestOptions is plumbed through backup settlement", async () => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
         receiver["_context"].wasConnectionCloseCalled = false;
         await verifyOperationOptionsAtGetToken(
@@ -307,7 +302,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       it("RequestOptions is plumbed through updateDispositionStatus", async () => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
         const managementClient = receiver["_context"].getManagementClient("queue");
         managementClient["_context"].wasConnectionCloseCalled = false;
@@ -330,7 +324,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       it("RequestOptions is plumbed through receive-deferred-messages", async () => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
 
         await verifyOperationOptionsAtGetToken(
@@ -347,7 +340,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       it("RequestOptions is plumbed through renew message lock", async () => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
         receiver.receiveMode = "peekLock";
         await verifyOperationOptionsAtGetToken(
@@ -375,7 +367,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         await sbAdminClient.createQueue(queueName, {
           requiresSession: true
         });
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+        sbClient = new ServiceBusClient(serviceBusEndpoint, new EnvironmentCredential());
         const sender = sbClient.createSender(queueName);
         await sender.sendMessages({
           body: "message",
@@ -390,7 +382,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       beforeEach(() => {
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+        sbClient = new ServiceBusClient(serviceBusEndpoint, new EnvironmentCredential());
       });
 
       afterEach(async () => {
@@ -480,8 +472,11 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       // Tests to make sure each operation gets options from SBClient if defined
 
       beforeEach(async () => {
-        if (sbClient) await sbClient.close();
-        sbClient = new ServiceBusClient(serviceBusEndpoint, credential, sampleOperationOptions);
+        sbClient = new ServiceBusClient(
+          serviceBusEndpoint,
+          new EnvironmentCredential(),
+          sampleOperationOptions
+        );
       });
 
       afterEach(async () => {
@@ -646,7 +641,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           await sbAdminClient.createQueue(queueName, {
             requiresSession: true
           });
-          sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+          sbClient = new ServiceBusClient(serviceBusEndpoint, new EnvironmentCredential());
           const sender = sbClient.createSender(queueName);
           await sender.sendMessages({
             body: "message",
@@ -750,7 +745,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     // TODO: Add tests to make sure the tracing works end-to-end for all the methods
     const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
     beforeEach(() => {
-      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+      sbClient = new ServiceBusClient(serviceBusEndpoint, new EnvironmentCredential());
     });
 
     afterEach(async () => {
