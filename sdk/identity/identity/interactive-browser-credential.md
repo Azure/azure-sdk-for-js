@@ -12,5 +12,7 @@ access to XMLHttpRequest at 'https://login.microsoftonline.com/common/v2.0/oauth
 
 Then you need to visit your app registration and update the redirect URI for your app to type `spa` (for "single page application").
 
+You can see a sample project that uses `InteractiveBrowserCredential` with both [Auth Code Flow][AuthCodeFlow] and [Implicit Grant Flow][ImplicitGrantFlow] here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/test/manual).
+
 [AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
 [ImplicitGrantFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
