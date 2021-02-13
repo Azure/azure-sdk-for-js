@@ -2,6 +2,9 @@
 
 ## 1.2.4 (Unreleased)
 
+## 1.2.4-beta.2 (Unreleased)
+
+
 ## 1.2.4-beta.1 (2021-02-12)
 
 - Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
