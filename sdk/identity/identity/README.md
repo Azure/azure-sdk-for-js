@@ -178,33 +178,33 @@ const client = new KeyClient(vaultUrl, credentialChain);
 
 | credential                  | usage                                                                                                           |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `DefaultAzureCredential`    | provides a simplified authentication experience to quickly start developing applications run in the Azure cloud |
-| `ChainedTokenCredential`    | allows users to define custom authentication flows composing multiple credentials                               |
-| `EnvironmentCredential`     | authenticates a service principal or user via credential information specified in environment variables         |
-| `ManagedIdentityCredential` | authenticates the managed identity of an Azure resource                                                         |
+| `DefaultAzureCredential`    | Provides a simplified authentication experience to quickly start developing applications run in the Azure cloud. |
+| `ChainedTokenCredential`    | Allows users to define custom authentication flows composing multiple credentials.                               |
+| `EnvironmentCredential`     | Authenticates a service principal or user via credential information specified in environment variables.         |
+| `ManagedIdentityCredential` | Authenticates the managed identity of an Azure resource.                                                         |
 
 ### Authenticating Service Principals
 
 | credential                    | usage                                                 |
 | ----------------------------- | ----------------------------------------------------- |
-| `ClientSecretCredential`      | authenticates a service principal using a secret      |
-| `ClientCertificateCredential` | authenticates a service principal using a certificate |
+| `ClientSecretCredential`      | Authenticates a service principal using a secret.      |
+| `ClientCertificateCredential` | Authenticates a service principal using a certificate. |
 
 ### Authenticating Users
 
 | credential                     | usage                                                              |
 | ------------------------------ | ------------------------------------------------------------------ |
-| `InteractiveBrowserCredential` | interactively authenticates a user with the default system browser |
-| `DeviceCodeCredential`         | interactively authenticates a user on devices with limited UI      |
-| `UserPasswordCredential`       | authenticates a user with a username and password                  |
-| `AuthorizationCodeCredential`  | authenticate a user with a previously obtained authorization code  |
+| `InteractiveBrowserCredential` | Interactively authenticates a user with the default system browser. Read more about how this happens [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md). |
+| `DeviceCodeCredential`         | Interactively authenticates a user on devices with limited UI.      |
+| `UserPasswordCredential`       | Authenticates a user with a username and password.                  |
+| `AuthorizationCodeCredential`  | Authenticate a user with a previously obtained authorization code.  |
 
 ### Authenticating via Development Tools
 
 | credential                   | usage                                                             |
 | ---------------------------- | ----------------------------------------------------------------- |
-| `AzureCliCredential`         | authenticate in a development environment with the Azure CLI      |
-| `VisualStudioCodeCredential` | authenticate in a development environment with Visual Studio Code |
+| `AzureCliCredential`         | Authenticate in a development environment with the Azure CLI.      |
+| `VisualStudioCodeCredential` | Authenticate in a development environment with Visual Studio Code. |
 
 ## Troubleshooting
 

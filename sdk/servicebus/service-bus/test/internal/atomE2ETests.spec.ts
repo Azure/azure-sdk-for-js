@@ -103,10 +103,7 @@ describe("getSubscriptionRuntimeProperties", () => {
     await serviceBusAtomManagementClient.deleteTopic(topicName);
   });
 
-  async function receiveMessagesAndAbandon(
-    topicName: string,
-    subscriptionName: string
-  ): Promise<void> {
+  async function receiveMessagesAndAbandon(subscriptionName: string): Promise<void> {
     const receiver = serviceBusClient.createReceiver(topicName, subscriptionName);
     const receivedMessages = await receiver.receiveMessages(10);
     receivedMessages.forEach(async (msg) => {
@@ -122,7 +119,7 @@ describe("getSubscriptionRuntimeProperties", () => {
       };
     });
     await serviceBusClient.createSender(topicName).sendMessages(messages);
-    await receiveMessagesAndAbandon(topicName, subscriptionName1);
+    await receiveMessagesAndAbandon(subscriptionName1);
 
     const activeMessageCount = (
       await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
@@ -142,8 +139,8 @@ describe("getSubscriptionRuntimeProperties", () => {
       };
     });
     await serviceBusClient.createSender(topicName).sendMessages(messages);
-    await receiveMessagesAndAbandon(topicName, subscriptionName1);
-    await receiveMessagesAndAbandon(topicName, subscriptionName2);
+    await receiveMessagesAndAbandon(subscriptionName1);
+    await receiveMessagesAndAbandon(subscriptionName2);
 
     for await (const subscription of serviceBusAtomManagementClient.listSubscriptionsRuntimeProperties(
       topicName

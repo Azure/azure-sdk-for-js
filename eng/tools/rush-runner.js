@@ -88,11 +88,13 @@ const getPackageGraph = (baseDir) => {
 
 const getLeafPackages = (packageGraph, packageNames) => {
   // Return a set of packages that are dependent on other packages but not a dependency for any package
-  // Adding these leaf packages with --to <package-name> ensures to build all required packages
   let leafPackages = new Set();
   for (let pkgName of packageNames) {
     // if current package is added as dependent by other packages then find leaf packages recursively
     if (packageGraph.has(pkgName)) {
+      // Rush doesn't build transitive dependency if package version is beta
+      // Passing this package explicitly as a work around we can upgrade rush to latest version 5.38 or higher
+      leafPackages.add(pkgName);
       for (const dependentPackage of getLeafPackages(packageGraph, packageGraph.get(pkgName))) {
         leafPackages.add(dependentPackage);
       }

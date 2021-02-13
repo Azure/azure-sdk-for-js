@@ -89,7 +89,7 @@ export interface ServiceBusReceiver {
    * @param options - A set of options to control the receive operation.
    * - `maxWaitTimeInMs`: The maximum time to wait for the first message before returning an empty array if no messages are available.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
-   * @returns Promise<ServiceBusReceivedMessage[]> A promise that resolves with an array of messages.
+   * @returns A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws `ServiceBusError` if the service returns an error while receiving messages.
@@ -103,9 +103,7 @@ export interface ServiceBusReceiver {
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
    * @param sequenceNumbers - The sequence number or an array of sequence numbers for the messages that need to be received.
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns {Promise<ServiceBusMessage[]>}
-   * - Returns a list of messages identified by the given sequenceNumbers.
-   * - Returns an empty list if no messages are found.
+   * @returns A list of messages identified by the given sequenceNumbers or an empty list if no messages are found.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while receiving deferred messages.
    */
@@ -166,8 +164,6 @@ export interface ServiceBusReceiver {
    * in this mode.
    * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
-   *
-   * @returns Promise<void>.
    */
   completeMessage(
     message: ServiceBusReceivedMessage,
@@ -194,8 +190,6 @@ export interface ServiceBusReceiver {
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify - The properties of the message to modify while abandoning the message.
-   *
-   * @returns Promise<void>.
    */
   abandonMessage(
     message: ServiceBusReceivedMessage,
@@ -223,8 +217,6 @@ export interface ServiceBusReceiver {
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify - The properties of the message to modify while deferring the message
-   *
-   * @returns Promise<void>
    */
   deferMessage(
     message: ServiceBusReceivedMessage,
@@ -253,8 +245,6 @@ export interface ServiceBusReceiver {
    *
    * @param options - The DeadLetter options that can be provided while
    * rejecting the message.
-   *
-   * @returns Promise<void>
    */
   deadLetterMessage(
     message: ServiceBusReceivedMessage,
@@ -268,7 +258,7 @@ export interface ServiceBusReceiver {
    * before its lock expires, then the message lands back in the Queue/Subscription for the next
    * receive operation.
    *
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @returns New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws ServiceBusError if the service returns an error while renewing message lock.
    */
@@ -364,7 +354,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
    * be concurrently processed. You can also provide a timeout in milliseconds to denote the
    * amount of time to wait for a new message before closing the receiver.
    *
-   * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws ServiceBusError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
@@ -492,15 +481,18 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
     const receiveMessages = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
-        const options: ReceiveOptions = {
+        const receiveOptions: ReceiveOptions = {
           maxConcurrentCalls: 0,
           receiveMode: this.receiveMode,
-          lockRenewer: this._lockRenewer
-        };
-        this._batchingReceiver = this._createBatchingReceiver(this._context, this.entityPath, {
+          lockRenewer: this._lockRenewer,
           ...getOperationOptionsBase(this._clientOptions),
           ...options
-        });
+        };
+        this._batchingReceiver = this._createBatchingReceiver(
+          this._context,
+          this.entityPath,
+          receiveOptions
+        );
       }
 
       const receivedMessages = await this._batchingReceiver.receive(
@@ -595,7 +587,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
@@ -604,7 +596,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
             managementRequestOptions
           );
       } else {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peek(maxMessageCount, managementRequestOptions);
       }

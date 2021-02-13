@@ -224,10 +224,10 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
         // In case the namespace has too many entities and the newly created entities were not recovered
         if (marker) {
-          for await (const response of getIter().byPage({
+          for await (const pageResponse of getIter().byPage({
             continuationToken: marker
           })) {
-            for (const entity of response) {
+            for (const entity of pageResponse) {
               receivedEntities.push(
                 methodName.includes("Subscription") ? entity.subscriptionName : entity.name
               );

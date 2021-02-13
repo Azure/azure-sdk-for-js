@@ -37,11 +37,9 @@ const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
 describe("ServiceBusClient live tests", () => {
-  let sbClient: ServiceBusClient;
-
   describe("Create ServiceBusClient", function(): void {
     it("hostname gets populated from the connection string", function(): void {
-      sbClient = new ServiceBusClient(
+      const sbClient = new ServiceBusClient(
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
       );
       sbClient.should.be.an.instanceof(ServiceBusClient);

@@ -44,7 +44,6 @@ export interface ServiceBusSender {
    * @param messages - A single message or an array of messages or a batch of messages created via the createBatch()
    * method to send.
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<void>
    * @throws `ServiceBusError` with the code `MessageSizeExceeded` if the provided messages do not fit in a single `ServiceBusMessageBatch`.
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws `ServiceBusError` if the service returns an error while sending messages to the service.
@@ -60,7 +59,6 @@ export interface ServiceBusSender {
    * @param options - Configures the behavior of the batch.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    *
-   * @returns {Promise<ServiceBusMessageBatch>}
    * @throws `ServiceBusError` if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
@@ -90,7 +88,7 @@ export interface ServiceBusSender {
    * @param messages - Message or an array of messages that need to be scheduled.
    * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled.
+   * @returns The sequence numbers of messages that were scheduled.
    * You will need the sequence number if you intend to cancel the scheduling of the messages.
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
@@ -107,7 +105,6 @@ export interface ServiceBusSender {
    * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumbers - Sequence number or an array of sequence numbers of the messages to be cancelled.
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws `ServiceBusError` if the service returns an error while canceling scheduled messages.
    */
@@ -124,7 +121,6 @@ export interface ServiceBusSender {
    * Once closed, the sender cannot be used for any further operations.
    * Use the `createSender` function on the QueueClient or TopicClient to instantiate a new Sender
    *
-   * @returns {Promise<void>}
    */
   close(): Promise<void>;
 }

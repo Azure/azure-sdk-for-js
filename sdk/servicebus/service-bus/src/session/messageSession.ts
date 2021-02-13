@@ -87,13 +87,13 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   receiveMode: ReceiveMode;
   /**
-   * {boolean} autoComplete Indicates whether `Message.complete()` should be called
+   * Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
    * Default: false.
    */
   autoComplete: boolean;
   /**
-   * {number} maxAutoRenewDurationInMs The maximum duration within which the
+   * The maximum duration within which the
    * lock will be renewed automatically. This value should be greater than the longest message
    * lock duration; for example, the `lockDuration` property on the received message.
    *
@@ -101,7 +101,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * {boolean} autoRenewLock Should lock renewal happen automatically.
+   * Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
   /**
@@ -348,14 +348,14 @@ export class MessageSession extends LinkEntity<Receiver> {
    * to indicate we want the next unlocked non-empty session.
    */
   constructor(
-    context: ConnectionContext,
+    connectionContext: ConnectionContext,
     entityPath: string,
     private _providedSessionId: string | undefined,
     options?: MessageSessionOptions
   ) {
-    super(entityPath, entityPath, context, "session", logger, {
+    super(entityPath, entityPath, connectionContext, "session", logger, {
       address: entityPath,
-      audience: `${context.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`
     });
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
@@ -374,7 +374,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     this._isReceivingMessagesForSubscriber = false;
     this._batchingReceiverLite = new BatchingReceiverLite(
-      context,
+      connectionContext,
       entityPath,
       async (_operationOptions?: OperationOptionsBase): Promise<MinimalReceiver> => {
         return this.link!;
@@ -577,8 +577,6 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @param options - Options to control whether messages should be automatically completed. You can
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
-   *
-   * @returns void
    */
   subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
@@ -738,7 +736,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @param maxMessageCount - The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInMs - The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
+   * @returns A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,

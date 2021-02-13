@@ -43,7 +43,7 @@ export function getUniqueName(name: string): string {
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
  *
  * @param lockToken - The lock token whose bytes need to be reorded.
- * @returns Buffer - Buffer representing reordered bytes.
+ * @returns Buffer representing reordered bytes.
  */
 export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
   if (!lockTokenBytes || !Buffer.isBuffer(lockTokenBytes)) {
@@ -107,7 +107,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
  *   - Thus, we `divide` the value by `10000` to convert it to JS Date ticks.
  *
  * @param buf - Input as a Buffer
- * @returns Date The JS Date object.
+ * @returns The JS Date object.
  */
 export function convertTicksToDate(buf: number[]): Date {
   const epochMicroDiff: number = 621355968000000000;
@@ -544,7 +544,6 @@ export const StandardAbortMessage = "The operation was aborted.";
  * @param abortSignal - The abortSignal associated with containing operation.
  * @param abortErrorMsg - The abort error message associated with containing operation.
  * @param value - The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} - Resolved promise
  *
  * @internal
  */
@@ -633,8 +632,6 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
 /**
  * @internal
  * Returns the formatted prefix by removing the spaces, by appending the libInfo.
- *
- * @returns {string}
  */
 export function formatUserAgentPrefix(prefix?: string): string {
   let userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
@@ -645,7 +642,6 @@ export function formatUserAgentPrefix(prefix?: string): string {
 /**
  * @internal
  * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
- * @returns {HttpResponse}
  */
 export const getHttpResponseOnly = ({
   request,

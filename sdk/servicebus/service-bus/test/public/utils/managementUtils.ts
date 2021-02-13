@@ -178,8 +178,6 @@ export async function recreateSubscription(
 
 /**
  * Utility that verifies the message count of an entity.
- *
- * @returns {Promise<void>}
  */
 export async function verifyMessageCount(
   expectedMessageCount: number,
