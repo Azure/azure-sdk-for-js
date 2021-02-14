@@ -51,7 +51,7 @@ export interface FeedOptions extends SharedOptions {
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */
-    type: string;
+    type: "IfMatch" | "IfNoneMatch";
     /** Conditional HTTP method header value (the _etag field from the last version you read). */
     condition: string;
   };
