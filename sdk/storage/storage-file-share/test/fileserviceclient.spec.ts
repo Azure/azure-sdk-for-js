@@ -1,9 +1,15 @@
 import * as assert from "assert";
 
-import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import {
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  recorderEnvSetup,
+  getSoftDeleteBSU,
+  getGenericBSU
+} from "./utils";
+import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareServiceClient } from "../src";
+import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
 dotenv.config();
 
 describe("FileServiceClient", () => {
@@ -13,8 +19,8 @@ describe("FileServiceClient", () => {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("ListShares with default parameters", async () => {
@@ -160,7 +166,7 @@ describe("FileServiceClient", () => {
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
-    const iter = await serviceClient.listShares({
+    const iter = serviceClient.listShares({
       includeMetadata: true,
       includeSnapshots: true,
       prefix: shareNamePrefix
@@ -323,7 +329,14 @@ describe("FileServiceClient", () => {
       serviceProperties.cors.push(newCORS);
     }
 
-    await serviceClient.setProperties(serviceProperties);
+    // SMB multi-channel is returned by getProperties() even when the feature is not supproted on the account.
+    const newServiceProperties = {
+      cors: serviceProperties.cors,
+      minuteMetrics: serviceProperties.minuteMetrics,
+      hourMetrics: serviceProperties.hourMetrics
+    };
+
+    await serviceClient.setProperties(newServiceProperties);
     await delay(5 * 1000);
 
     const result = await serviceClient.getProperties();
@@ -379,5 +392,162 @@ describe("FileServiceClient", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+  });
+});
+
+describe("FileServiceClient", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(function() {
+    recorder = record(this, recorderEnvSetup);
+
+    try {
+      serviceClient = getSoftDeleteBSU();
+    } catch (error) {
+      this.skip();
+    }
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  it("ListShares with deleted share", async function() {
+    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+    await shareClient.create();
+    await shareClient.delete();
+
+    let found = false;
+    for await (const share of serviceClient.listShares({ includeDeleted: true })) {
+      if (share.name == shareClient.name) {
+        found = true;
+        assert.ok(share.version);
+        assert.ok(share.deleted);
+      }
+    }
+    assert.ok(found);
+  });
+
+  it("Undelete share positive", async function() {
+    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+    await shareClient.create();
+    await shareClient.delete();
+
+    let found = false;
+    let shareDeleted: ShareItem | undefined;
+    for await (const share of serviceClient.listShares({ includeDeleted: true })) {
+      if (share.name == shareClient.name) {
+        found = true;
+        assert.ok(share.version);
+        assert.ok(share.deleted);
+        assert.ok(share.properties.deletedTime);
+        assert.ok(share.properties.remainingRetentionDays);
+
+        shareDeleted = share;
+      }
+    }
+    assert.ok(found);
+    assert.ok(shareDeleted);
+
+    // Await share to be deleted.
+    await delay(30 * 1000);
+
+    const restoredShareClient = await serviceClient.undeleteShare(
+      shareDeleted!.name,
+      shareDeleted!.version!
+    );
+    await restoredShareClient.getProperties();
+
+    await restoredShareClient.delete();
+  });
+
+  it("Undelete share negative", async function() {
+    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+    const invalidVersion = "01D60F8BB59A4652";
+
+    try {
+      await serviceClient.undeleteShare(shareClient.name, invalidVersion);
+      assert.fail("Expecting an error in undelete share with invalid version.");
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+});
+
+describe("FileServiceClient Premium", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(function() {
+    recorder = record(this, recorderEnvSetup);
+    try {
+      serviceClient = getGenericBSU("PREMIUM_FILE_");
+    } catch (error) {
+      console.log(error);
+      this.skip();
+    }
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  it("SMB Multichannel", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as it needs be enabled on the account.
+      this.skip();
+    }
+    await serviceClient.setProperties({
+      protocol: { smb: { multichannel: { enabled: true } } }
+    });
+    const propertiesSet = await serviceClient.getProperties();
+    assert.ok(propertiesSet.protocol?.smb?.multichannel);
+  });
+
+  it("Share Enable Protocol & Share Squash Root", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as this feature is not available in our test account's region yet.
+      this.skip();
+    }
+
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    // create share
+    let rootSquash: ShareRootSquash = "RootSquash";
+    await shareClient.create({
+      protocols: {
+        smbEnabled: true,
+        nfsEnabled: true
+      },
+      rootSquash
+    });
+
+    // get properties
+    const expectedProtocols = { nfsEnabled: true };
+    const getRes = await shareClient.getProperties();
+    assert.deepStrictEqual(getRes.protocols, expectedProtocols);
+    assert.deepStrictEqual(getRes.rootSquash, rootSquash);
+
+    // set properties
+    rootSquash = "AllSquash";
+    await shareClient.setProperties({ rootSquash });
+
+    // list share
+    const shareName1 = recorder.getUniqueName("share1");
+    const protocols = { smbEnabled: true };
+    await serviceClient.createShare(shareName1, {
+      protocols
+    });
+
+    for await (const share of serviceClient.listShares()) {
+      if (share.name === shareName) {
+        assert.deepStrictEqual(share.properties.protocols, expectedProtocols);
+        assert.deepStrictEqual(share.properties.rootSquash, rootSquash);
+      } else if (share.name === shareName1) {
+        assert.deepStrictEqual(share.properties.protocols, protocols);
+      }
+    }
   });
 });

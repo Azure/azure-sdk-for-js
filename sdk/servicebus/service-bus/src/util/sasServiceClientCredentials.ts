@@ -4,13 +4,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, SharedKeyCredential } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
+import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 import { HttpHeaders, ServiceClientCredentials, WebResource } from "@azure/core-http";
 import { generateKey } from "./crypto";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * @class SasServiceClientCredentials
  * @implements {ServiceClientCredentials}
  */

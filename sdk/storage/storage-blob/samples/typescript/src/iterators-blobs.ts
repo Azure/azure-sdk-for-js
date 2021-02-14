@@ -42,7 +42,7 @@ export async function main() {
   // 1. List blobs
   console.log("Listing all blobs using iter");
   let i = 1;
-  let iter = await containerClient.listBlobsFlat();
+  let iter = containerClient.listBlobsFlat();
   for await (const blob of iter) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }

@@ -10,6 +10,12 @@ import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-contr
 import { delay } from "rhea-promise";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import {
+  extractSpanContextFromServiceBusMessage,
+  TRACEPARENT_PROPERTY
+} from "../../src/diagnostics/instrumentServiceBusMessage";
+import { ServiceBusReceivedMessage } from "../../src";
+import { TraceFlags } from "@opentelemetry/api";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -315,6 +321,69 @@ describe("utils", () => {
       assert.isTrue(abortSignal.ourListenersWereRemoved());
       // sanity check - let's make sure we're not accidentally triggering their abort handler!
       assert.isFalse(callbackWasCalled);
+    });
+  });
+
+  describe("extractSpanContextFromServiceBusMessage", function() {
+    it("should extract a SpanContext from a properly instrumented ServiceBusMessage", function() {
+      const traceId = "11111111111111111111111111111111";
+      const spanId = "2222222222222222";
+      const flags = "00";
+      const receivedMessage: ServiceBusReceivedMessage = {
+        body: "This is a test.",
+        enqueuedTimeUtc: new Date(),
+        applicationProperties: {
+          [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
+        },
+        _rawAmqpMessage: { body: "This is a test." }
+      };
+
+      const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
+
+      assert.exists(spanContext, "Extracted spanContext should be defined.");
+      assert.equal(spanContext!.traceId, traceId, "Extracted traceId does not match expectation.");
+      assert.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
+      assert.equal(
+        spanContext!.traceFlags,
+        TraceFlags.NONE,
+        "Extracted traceFlags do not match expectations."
+      );
+    });
+
+    it("should return undefined when ServiceBusMessage is not properly instrumented", function() {
+      const traceId = "11111111111111111111111111111111";
+      const spanId = "2222222222222222";
+      const flags = "00";
+      const receivedMessage: ServiceBusReceivedMessage = {
+        body: "This is a test.",
+        enqueuedTimeUtc: new Date(),
+        applicationProperties: {
+          [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
+        },
+        _rawAmqpMessage: { body: "This is a test." }
+      };
+
+      const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
+
+      assert.notExists(
+        spanContext,
+        "Invalid diagnosticId version should return undefined spanContext."
+      );
+    });
+
+    it("should return undefined when ServiceBusMessage is not instrumented", function() {
+      const receivedMessage: ServiceBusReceivedMessage = {
+        body: "This is a test.",
+        enqueuedTimeUtc: new Date(),
+        _rawAmqpMessage: { body: "This is a test." }
+      };
+
+      const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
+
+      assert.notExists(
+        spanContext,
+        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`
+      );
     });
   });
 });

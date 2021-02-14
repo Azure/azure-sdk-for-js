@@ -1,10 +1,38 @@
 # Release History
 
+## 5.1.0-beta.3 (2020-11-23)
+
+- We are now targeting the service's v3.1-preview.3 API as the default instead of v3.1-preview.2.
+- We introduced the `beginAnalyze` API which supports long-running batch process of Named Entity Recognition, Personally identifiable Information, and Key Phrase Extraction.
+- We now have added support for the recognition of healthcare entities with the introduction of the `beginAnalyzeHealthcare` API. Since the Health API is currently only available in a gated preview, you need to have your subscription on the service's allow list. Note that since this is a gated preview, AAD is not supported. For more information, see [the Text Analytics for Health documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview).
+
+## 5.1.0-beta.2 (2020-10-06)
+
+- [Breaking] The `length` property is removed from `SentenceSentiment`, `Entity`, `Match`, `PiiEntity`, and `CategorizedEntity` because the length information can be accessed from the text property itself using the string's length property.
+
+## 5.1.0-beta.1 (2020-09-17)
+
+- We are now targeting the service's v3.1-preview.2 API as the default instead of v3.0.
+- We now have added support for opinion mining feature of Sentiment Analysis. To get this support, pass `includeOpinionMining` as True when calling the `analyzeSentiment` endpoint.
+- We have added the `recognizePiiEntities` API which returns entities containing personal information for a batch of documents and also returns the redacted text.
+- The `length` and `offset` properties are added to the `SentenceSentiment`, `Entity`, `Match`, `PiiEntity` and `CategorizedEntity` interfaces to represent the length of the sentence's text and its offset from the start of the document. The unit of distance used is UTF-16 code points.
+- The `text` property of the `SentenceSentiment` interface is no longer marked as optional because the service has always returned it. This interface is used exclusively as an output type so this change does not break existing code.
+- `bingEntitySearchApiId` property is now returned for entities returned by `recognizeLinkedEntities` API and is added to the `LinkedEntity` interface. This property is to be used in conjunction with the Bing Entity Search API to fetch additional relevant information about the returned entity.
+
+## 5.0.1 (2020-08-18)
+
+- Handles REST exceptions with code InvalidDocumentBatch in a way that maintains backward compatibility.
+
+## 5.0.0 (2020-07-27)
+
+- Updated the package version to be 5.0.0 instead of 1.0.0 in order to reduce confusion with older versions of the Azure Text Analytics SDKs.
+
 ## 1.0.0 (2020-06-09)
 
 - This release marks the general availability of the `@azure/ai-text-analytics` package.
 
 ## 1.0.0-preview.5 (2020-05-26)
+
 - [Breaking] Renamed all result array types that extend JavaScript's base `Array` class to end with the word `Array` instead of `Collection` (e.g. `AnalyzeSentimentResultCollection` is now `AnalyzeSentimentResultArray`)
 - [Breaking] Renamed `score` to `confidenceScore` in the `Match`, `Entity`, and `DetectedLanguage` types.
 - [Breaking] Removed the `graphemeOffset` and `graphemeLength` properties of the `Match`, `Entity`, and `SentenceSentiment` types.
@@ -14,14 +42,15 @@
 - Added `warnings` property to every document response object containing a list of `TextAnalyticsWarning` objects relevant to the corresponding document.
 - Migrated to using the Text Analytics v3.0 (General Availability) service endpoint.
 
-
 ## 1.0.0-preview.4 (2020-04-07)
+
 - Renamed the first parameter of all operation methods from `inputs` to `documents`
 - [Breaking] Removed PII entity detection methods from `TextAnalyticsClient` as well as all associated samples and documentation
 - [Breaking] Replaced `TextAnalyticsApiKeyCredential` with `AzureKeyCredential` (re-exported through this package from `@azure/core-auth`).
 - `TextAnalyticsClient` methods now throw an error when the `documents` parameter is not an array or empty before sending a request to the Text Analytics service.
 
 ## 1.0.0-preview.3 (2020-03-10)
+
 - [Breaking] Renamed `id` to `dataSourceEntityId` in the `LinkedEntity` type.
 - Added special handling for the string `"none"` as the `countryHint` parameter of the `TextAnalyticsClient.detectLanguage`. `"none"` is now treated the same as the empty string, and indicates that the default language detection model should be used.
 - [Breaking] Renamed `offset` to `graphemeOffset` and `length` to `graphemeLength` in fields of response objects as appropriate in order to make it clear that the offsets and lengths are in units of Unicode graphemes.

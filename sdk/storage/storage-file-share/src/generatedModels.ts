@@ -33,9 +33,8 @@ export {
   FileUploadRangeResponse,
   HandleItem,
   ListSharesIncludeType,
-  Range as RangeModel,
+  FileRange as RangeModel,
   ServiceGetPropertiesResponse,
-  ServiceListSharesSegmentResponse,
   ServiceSetPropertiesResponse,
   ShareCreatePermissionResponse,
   ShareCreateResponse,
@@ -43,12 +42,12 @@ export {
   ShareDeleteResponse,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
-  ShareGetPropertiesResponse,
+  ShareGetPropertiesResponse as ShareGetPropertiesResponseModel,
   ShareGetStatisticsResponse as ShareGetStatisticsResponseModel,
-  ShareItem,
+  ShareItemInternal,
   ShareSetAccessPolicyResponse,
   ShareSetMetadataResponse,
-  ShareSetQuotaResponse,
+  ShareSetPropertiesResponse,
   SignedIdentifier as SignedIdentifierModel,
   SourceModifiedAccessConditions,
   FileForceCloseHandlesHeaders,
@@ -78,7 +77,7 @@ export {
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
   ServiceGetPropertiesHeaders,
-  ListSharesResponse,
+  ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,
@@ -91,14 +90,34 @@ export {
   ShareGetPropertiesHeaders,
   ShareStats,
   ShareGetStatisticsHeaders,
-  ShareProperties,
+  SharePropertiesInternal,
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
-  ShareSetQuotaHeaders,
+  ShareSetPropertiesHeaders,
   AccessPolicy,
   LeaseAccessConditions,
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  CopyFileSmbInfo
+  CopyFileSmbInfo,
+  ShareProtocolSettings,
+  ShareSmbSettings,
+  SmbMultichannel,
+  FileGetRangeListResponse as FileGetRangeListDiffResponse,
+  ShareFileRangeList,
+  ClearRange,
+  ShareAccessTier,
+  ShareRootSquash
 } from "./generated/src/models";
+
+import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";
+
+/**
+ * Contains response data for the setQuota operation.
+ */
+export type ShareSetQuotaResponse = ShareSetPropertiesResponse;
+
+/**
+ * Defines headers for setQuota operation.
+ */
+export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;

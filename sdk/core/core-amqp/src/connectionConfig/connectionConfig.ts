@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusConnectionStringModel, parseConnectionString } from "../util/utils";
+import { parseConnectionString } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
 
 /**
@@ -83,7 +83,12 @@ export const ConnectionConfig = {
   create(connectionString: string, path?: string): ConnectionConfig {
     connectionString = String(connectionString);
 
-    const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
+    const parsedCS = parseConnectionString<{
+      Endpoint: string;
+      SharedAccessKeyName: string;
+      SharedAccessKey: string;
+      EntityPath?: string;
+    }>(connectionString);
     if (!parsedCS.Endpoint) {
       throw new TypeError("Missing Endpoint in Connection String.");
     }
@@ -129,16 +134,28 @@ export const ConnectionConfig = {
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");
     }
-    config.entityPath = String(config.entityPath);
-
-    if (!config.sharedAccessKeyName) {
-      throw new TypeError("Missing 'sharedAccessKeyName' in configuration");
+    if (config.entityPath != undefined) {
+       config.entityPath = String(config.entityPath);
     }
-    config.sharedAccessKeyName = String(config.sharedAccessKeyName);
 
-    if (!config.sharedAccessKey) {
-      throw new TypeError("Missing 'sharedAccessKey' in configuration");
+    if (!isSharedAccessSignature(config.connectionString)) {
+      if (!config.sharedAccessKeyName) {
+        throw new TypeError("Missing 'sharedAccessKeyName' in configuration");
+      }
+      config.sharedAccessKeyName = String(config.sharedAccessKeyName);
+
+      if (!config.sharedAccessKey) {
+        throw new TypeError("Missing 'sharedAccessKey' in configuration");
+      }
+      config.sharedAccessKey = String(config.sharedAccessKey);
     }
-    config.sharedAccessKey = String(config.sharedAccessKey);
   }
 };
+
+/**
+ * @internal
+ * @hidden
+ */
+export function isSharedAccessSignature(connectionString: string): boolean {
+  return connectionString.match(/;{0,1}SharedAccessSignature=SharedAccessSignature /) != null;
+}

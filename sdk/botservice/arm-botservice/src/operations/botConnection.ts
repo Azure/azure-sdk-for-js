@@ -54,7 +54,7 @@ export class BotConnection {
    * Get a Connection Setting registration for a Bot Service
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionListWithSecretsResponse>
    */
@@ -62,14 +62,14 @@ export class BotConnection {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param callback The callback
    */
   listWithSecrets(resourceGroupName: string, resourceName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -90,7 +90,7 @@ export class BotConnection {
    * Register a new Auth Connection for a Bot Service
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param parameters The parameters to provide for creating the Connection Setting.
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionCreateResponse>
@@ -99,7 +99,7 @@ export class BotConnection {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param parameters The parameters to provide for creating the Connection Setting.
    * @param callback The callback
    */
@@ -107,7 +107,7 @@ export class BotConnection {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param parameters The parameters to provide for creating the Connection Setting.
    * @param options The optional parameters
    * @param callback The callback
@@ -130,7 +130,7 @@ export class BotConnection {
    * Updates a Connection Setting registration for a Bot Service
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param parameters The parameters to provide for updating the Connection Setting.
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionUpdateResponse>
@@ -139,7 +139,7 @@ export class BotConnection {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param parameters The parameters to provide for updating the Connection Setting.
    * @param callback The callback
    */
@@ -147,7 +147,7 @@ export class BotConnection {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param parameters The parameters to provide for updating the Connection Setting.
    * @param options The optional parameters
    * @param callback The callback
@@ -170,7 +170,7 @@ export class BotConnection {
    * Get a Connection Setting registration for a Bot Service
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionGetResponse>
    */
@@ -178,14 +178,14 @@ export class BotConnection {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -206,7 +206,7 @@ export class BotConnection {
    * Deletes a Connection Setting registration for a Bot Service
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -214,14 +214,14 @@ export class BotConnection {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, connectionName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param connectionName The name of the Bot Service Connection Setting resource
+   * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param options The optional parameters
    * @param callback The callback
    */

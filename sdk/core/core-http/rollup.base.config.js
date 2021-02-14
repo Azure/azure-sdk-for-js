@@ -14,11 +14,11 @@ const input = "./es/src/coreHttp.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["http", "https", "util", "os", "stream", "crypto"];
+  const externalNodeBuiltins = ["http", "https", "util", "os", "stream", "crypto", "url"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
-    output: { file: "./dist/coreHttp.node.js", format: "cjs", sourcemap: true },
+    output: { file: "./dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
@@ -60,7 +60,7 @@ export function browserConfig(test = false, production = false) {
     input: input,
     external: [],
     output: {
-      file: "./dist/coreHttp.browser.js",
+      file: "./dist/index.browser.js",
       format: "umd",
       name: "Azure.Core.HTTP",
       sourcemap: true
@@ -114,7 +114,7 @@ export function browserConfig(test = false, production = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "./dist/coreHttp.browser.min.js";
+    baseConfig.output.file = "./dist/index.browser.min.js";
     baseConfig.plugins.push(terser());
   }
 

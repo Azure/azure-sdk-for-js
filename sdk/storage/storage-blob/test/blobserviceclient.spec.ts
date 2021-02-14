@@ -5,11 +5,14 @@ import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
   getBSU,
+  getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
-  recorderEnvSetup
+  recorderEnvSetup,
+  sleep
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { Tags } from "../src/models";
 dotenv.config();
 
 describe("BlobServiceClient", () => {
@@ -20,7 +23,7 @@ describe("BlobServiceClient", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("ListContainers with default parameters", async () => {
@@ -168,7 +171,7 @@ describe("BlobServiceClient", () => {
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
-    const iterator = await blobServiceClient.listContainers({
+    const iterator = blobServiceClient.listContainers({
       includeMetadata: true,
       prefix: containerNamePrefix
     });
@@ -401,6 +404,7 @@ describe("BlobServiceClient", () => {
     const accountInfo = await blobServiceClient.getAccountInfo();
     assert.ok(accountInfo.accountKind);
     assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
   it("createContainer and deleteContainer", async () => {
@@ -465,5 +469,177 @@ describe("BlobServiceClient", () => {
     assert.notDeepStrictEqual(response.signedService, undefined);
     assert.notDeepStrictEqual(response.signedObjectId, undefined);
     assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+  });
+
+  it("Find blob by tags should work", async function() {
+    const blobServiceClient = getBSU();
+
+    const containerName = recorder.getUniqueName("container1");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const key1 = recorder.getUniqueName("key");
+    const key2 = recorder.getUniqueName("key2");
+
+    const blobName1 = recorder.getUniqueName("blobname1");
+    const appendBlobClient1 = containerClient.getAppendBlobClient(blobName1);
+    const tags1: Tags = {};
+    tags1[key1] = recorder.getUniqueName("val1");
+    tags1[key2] = "default";
+    await appendBlobClient1.create({ tags: tags1 });
+
+    const blobName2 = recorder.getUniqueName("blobname2");
+    const appendBlobClient2 = containerClient.getAppendBlobClient(blobName2);
+    const tags2: Tags = {};
+    tags2[key1] = recorder.getUniqueName("val2");
+    tags2[key2] = "default";
+    await appendBlobClient2.create({ tags: tags2 });
+
+    const blobName3 = recorder.getUniqueName("blobname3");
+    const appendBlobClient3 = containerClient.getAppendBlobClient(blobName3);
+    const tags3: Tags = {};
+    tags3[key1] = recorder.getUniqueName("val3");
+    tags3[key2] = "default";
+    await appendBlobClient3.create({ tags: tags3 });
+
+    // Wait for indexing tags
+    await sleep(2);
+
+    const expectedTags1: Tags = {};
+    expectedTags1[key1] = tags1[key1];
+    for await (const blob of blobServiceClient.findBlobsByTags(`${key1}='${tags1[key1]}'`)) {
+      assert.deepStrictEqual(blob.containerName, containerName);
+      assert.deepStrictEqual(blob.name, blobName1);
+      assert.deepStrictEqual(blob.tags, expectedTags1);
+      assert.deepStrictEqual(blob.tagValue, tags1[key1]);
+    }
+
+    const expectedTags2: Tags = {};
+    expectedTags2[key1] = tags2[key1];
+    const blobs = [];
+    for await (const blob of blobServiceClient.findBlobsByTags(`${key1}='${tags2[key1]}'`)) {
+      blobs.push(blob);
+    }
+    assert.deepStrictEqual(blobs.length, 1);
+    assert.deepStrictEqual(blobs[0].containerName, containerName);
+    assert.deepStrictEqual(blobs[0].name, blobName2);
+    assert.deepStrictEqual(blobs[0].tags, expectedTags2);
+    assert.deepStrictEqual(blobs[0].tagValue, tags2[key1]);
+
+    const blobsWithTag2 = [];
+    for await (const segment of blobServiceClient.findBlobsByTags(`${key2}='default'`).byPage({
+      maxPageSize: 1
+    })) {
+      assert.ok(segment.blobs.length <= 1);
+      for (const blob of segment.blobs) {
+        blobsWithTag2.push(blob);
+      }
+    }
+    assert.deepStrictEqual(blobsWithTag2.length, 3);
+
+    for await (const blob of blobServiceClient.findBlobsByTags(
+      `@container='${containerName}' AND ${key1}='${tags1[key1]}' AND ${key2}='default'`
+    )) {
+      assert.deepStrictEqual(blob.containerName, containerName);
+      assert.deepStrictEqual(blob.name, blobName1);
+      assert.deepStrictEqual(blob.tags, tags1);
+      assert.deepStrictEqual(blob.tagValue, "");
+    }
+
+    await containerClient.delete();
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new BlobServiceClient(`https://customdomain.com`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+  });
+
+  it("setProperties for static website", async () => {
+    const errorDocument404Path = "error/404.html";
+    const defaultIndexDocumentPath = "index.html";
+
+    const blobServiceClient = getBSU();
+    await blobServiceClient.setProperties({
+      staticWebsite: {
+        enabled: true,
+        errorDocument404Path,
+        defaultIndexDocumentPath
+      }
+    });
+
+    const staticWebsite = (await blobServiceClient.getProperties()).staticWebsite;
+    assert.ok(staticWebsite?.enabled);
+    assert.equal(staticWebsite?.errorDocument404Path, errorDocument404Path);
+    assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
+  });
+
+  it("restore container", async function() {
+    let blobServiceClient: BlobServiceClient;
+    try {
+      blobServiceClient = getGenericBSU("SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+
+    await containerClient.create();
+    await containerClient.delete();
+
+    await delay(30 * 1000);
+
+    for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
+      if (containerItem.deleted && containerItem.name === containerName) {
+        // check list container response
+        assert.ok(containerItem.version);
+        assert.ok(containerItem.properties.deletedOn);
+        assert.ok(containerItem.properties.remainingRetentionDays);
+
+        const restoreRes = await blobServiceClient.undeleteContainer(
+          containerName,
+          containerItem.version!
+        );
+        assert.equal(restoreRes.containerClient.containerName, containerName);
+        break;
+      }
+    }
+  });
+
+  it("restore container to a new name", async function() {
+    let blobServiceClient: BlobServiceClient;
+    try {
+      blobServiceClient = getGenericBSU("SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+
+    await containerClient.create();
+    await containerClient.delete();
+    await delay(30 * 1000);
+
+    for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
+      if (containerItem.deleted && containerItem.name === containerName) {
+        // check list container response
+        assert.ok(containerItem.version);
+        assert.ok(containerItem.properties.deletedOn);
+        assert.ok(containerItem.properties.remainingRetentionDays);
+
+        const newContainerName = recorder.getUniqueName("newcontainer");
+        const restoreRes2 = await blobServiceClient.undeleteContainer(
+          containerName,
+          containerItem.version!,
+          {
+            destinationContainerName: newContainerName
+          }
+        );
+        assert.equal(restoreRes2.containerClient.containerName, newContainerName);
+
+        break;
+      }
+    }
   });
 });

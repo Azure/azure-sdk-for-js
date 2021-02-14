@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { isBrowser } from "./utils";
+
 // Converting content corresponding to all the console statements
 // into (JSON.stringify)-ed content in record mode for browser tests.
 //
@@ -24,12 +26,21 @@
 // - Example - console.warn("hello"); -> console.log({ warn: "hello" });
 // - Example - console.log("hello"); -> console.log({ log: "hello" });
 
+export let consoleLog: (msg: any, ...args: any[]) => void;
+
+if (isBrowser()) {
+  consoleLog = window.console.log;
+}
+
+export function setConsoleLogForTesting(func: (msg: any, ...args: any[]) => void) {
+  consoleLog = func;
+}
+
 /**
  * Converts content corresponding to all the console statements into (JSON.stringify)-ed content in record mode for browser tests.
  * This allows filtering certain console.logs to generate the recordings for browser tests.
  */
 export function customConsoleLog() {
-  const consoleLog = window.console.log;
   for (const method in window.console) {
     if (
       window.console.hasOwnProperty(method) &&

@@ -21,12 +21,20 @@ import {
   ServiceListContainersSegmentResponse,
   ContainerItem,
   ListContainersIncludeType,
-  UserDelegationKeyModel
+  UserDelegationKeyModel,
+  ContainerUndeleteResponse,
+  FilterBlobSegmentModel,
+  ServiceFilterBlobsHeaders
 } from "./generatedModels";
-import { Service } from "./generated/src/operations";
+import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
-import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  appendToURLQuery,
+  extractConnectionStringParts,
+  toTags
+} from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
@@ -35,6 +43,12 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
+import { Tags } from "./models";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { SasIPRange } from "./sas/SasIPRange";
+import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
+import { AccountSASServices } from "./sas/AccountSASServices";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -155,7 +169,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    * specify that the container's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListContainersIncludeType;
+  include?: ListContainersIncludeType | ListContainersIncludeType[];
 }
 
 /**
@@ -183,7 +197,134 @@ export interface ServiceListContainersOptions extends CommonOptions {
    *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
+
+  /**
+   * Specifies whether soft deleted containers should be included in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListContainersOptions
+   */
+  includeDeleted?: boolean;
 }
+
+/**
+ * Options to configure the {@link BlobServiceClient.findBlobsByTagsSegment} operation.
+ *
+ * @interface ServiceFindBlobsByTagsSegmentOptions
+ */
+interface ServiceFindBlobsByTagsSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceFindBlobsByTagsSegmentOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies the maximum number of blobs
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   * @type {number}
+   * @memberof ServiceFindBlobsByTagsSegmentOptions
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link BlobServiceClient.findBlobsByTags} operation.
+ *
+ * @export
+ * @interface ServiceFindBlobByTagsOptions
+ */
+export interface ServiceFindBlobByTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceListContainersOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Blob info from a {@link BlobServiceClient.findBlobsByTags}
+ */
+export interface FilterBlobItem {
+  /**
+   * Blob Name.
+   *
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  name: string;
+
+  /**
+   * Container Name.
+   *
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  containerName: string;
+
+  /**
+   * Blob Tags.
+   *
+   * @type {Tags}
+   * @memberof FilterBlobItem
+   */
+  tags?: Tags;
+
+  /**
+   * Tag value.
+   *
+   * @deprecated The service no longer returns this value. Use {@link tags} to fetch all matching Blob Tags.
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  tagValue: string;
+}
+
+/**
+ * Segment response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export interface FilterBlobSegment {
+  serviceEndpoint: string;
+  where: string;
+  blobs: FilterBlobItem[];
+  continuationToken?: string;
+}
+
+/**
+ * The response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment &
+  ServiceFilterBlobsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceFilterBlobsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FilterBlobSegmentModel;
+    };
+  };
 
 /**
  * A user delegation key.
@@ -265,6 +406,71 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
       parsedBody: UserDelegationKeyModel;
     };
   };
+
+/**
+ * Options to configure {@link BlobServiceClient.undeleteContainer} operation.
+ *
+ * @export
+ * @interface ServiceUndeleteContainerOptions
+ */
+export interface ServiceUndeleteContainerOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceUndeleteContainerOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the new name of the restored container.
+   * Will use its original name if this is not specified.
+   *
+   * @type {string}
+   * @memberof ServiceUndeleteContainerOptions
+   */
+  destinationContainerName?: string;
+}
+
+/**
+ * Options to configure {@link BlobServiceClient.generateAccountSasUrl} operation.
+ *
+ * @export
+ * @interface ServiceGenerateAccountSasUrlOptions
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols allowed.
+   *
+   * @type {SASProtocol}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  startsOn?: Date;
+  /**
+   * Optional. IP range allowed.
+   *
+   * @type {SasIPRange}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+}
 
 /**
  * A BlobServiceClient represents a Client to the Azure Storage Blob service allowing you
@@ -492,6 +698,51 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
+   * Restore a previously deleted Blob container.
+   * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
+   *
+   * @param {string} deletedContainerName Name of the previously deleted container.
+   * @param {string} deletedContainerVersion Version of the previously deleted container, used to uniquely identify the deleted container.
+   * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
+   * @memberof BlobServiceClient
+   */
+  public async undeleteContainer(
+    deletedContainerName: string,
+    deletedContainerVersion: string,
+    options: ServiceUndeleteContainerOptions = {}
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerUndeleteResponse: ContainerUndeleteResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-undeleteContainer",
+      options.tracingOptions
+    );
+    try {
+      const containerClient = this.getContainerClient(
+        options.destinationContainerName || deletedContainerName
+      );
+      // Hack to access a protected member.
+      const containerContext = new Container(containerClient["storageClientContext"]);
+      const containerUndeleteResponse = await containerContext.restore({
+        deletedContainerName,
+        deletedContainerVersion,
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return { containerClient, containerUndeleteResponse };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Gets the properties of a storage account’s Blob service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
@@ -630,9 +881,9 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param {string} [marker] A string value that identifies the portion of
    *                        the list of containers to be returned with the next listing operation. The
-   *                        operation returns the NextMarker value within the response body if the
+   *                        operation returns the continuationToken value within the response body if the
    *                        listing operation did not return all containers remaining to be listed
-   *                        with the current page. The NextMarker value can be used as the value for
+   *                        with the current page. The continuationToken value can be used as the value for
    *                        the marker parameter in a subsequent call to request the next page of list
    *                        items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options] Options to the Service List Container Segment operation.
@@ -647,11 +898,13 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-listContainersSegment",
       options.tracingOptions
     );
+
     try {
       return await this.serviceContext.listContainersSegment({
         abortSignal: options.abortSignal,
         marker,
         ...options,
+        include: typeof options.include === "string" ? [options.include] : options.include,
         spanOptions
       });
     } catch (e) {
@@ -666,14 +919,254 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
+   * The Filter Blobs operation enables callers to list blobs across all containers whose tags
+   * match a given search expression. Filter blobs searches across all containers within a
+   * storage account but can be scoped within the expression to a single container.
+   *
+   * @private
+   * @param {string} tagFilterSqlExpression The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                        The given expression must evaluate to true for a blob to be returned in the results.
+   *                                        The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                        however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the continuationToken value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The continuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ServiceFindBlobsByTagsSegmentOptions} [options={}] Options to find blobs by tags.
+   * @returns {Promise<ServiceFindBlobsByTagsSegmentResponse>}
+   * @memberof BlobServiceClient
+   */
+  private async findBlobsByTagsSegment(
+    tagFilterSqlExpression: string,
+    marker?: string,
+    options: ServiceFindBlobsByTagsSegmentOptions = {}
+  ): Promise<ServiceFindBlobsByTagsSegmentResponse> {
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-findBlobsByTagsSegment",
+      options.tracingOptions
+    );
+
+    try {
+      const response = await this.serviceContext.filterBlobs({
+        abortSignal: options.abortSignal,
+        where: tagFilterSqlExpression,
+        marker,
+        maxPageSize: options.maxPageSize,
+        spanOptions
+      });
+
+      const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
+        ...response,
+        _response: response._response, // _response is made non-enumerable
+        blobs: response.blobs.map((blob) => {
+          let tagValue = "";
+          if (blob.tags?.blobTagSet.length === 1) {
+            tagValue = blob.tags.blobTagSet[0].value;
+          }
+          return { ...blob, tags: toTags(blob.tags), tagValue };
+        })
+      };
+      return wrappedResponse;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ServiceFindBlobsByTagsSegmentResponse.
+   *
+   * @private
+   * @param {string} tagFilterSqlExpression  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the continuationToken value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The continuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ServiceFindBlobsByTagsSegmentOptions} [options={}] Options to find blobs by tags.
+   * @returns {AsyncIterableIterator<ServiceFindBlobsByTagsSegmentResponse>}
+   * @memberof BlobServiceClient
+   */
+  private async *findBlobsByTagsSegments(
+    tagFilterSqlExpression: string,
+    marker?: string,
+    options: ServiceFindBlobsByTagsSegmentOptions = {}
+  ): AsyncIterableIterator<ServiceFindBlobsByTagsSegmentResponse> {
+    let response;
+    if (!!marker || marker === undefined) {
+      do {
+        response = await this.findBlobsByTagsSegment(tagFilterSqlExpression, marker, options);
+        response.blobs = response.blobs || [];
+        marker = response.continuationToken;
+        yield response;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for blobs.
+   *
+   * @private
+   * @param {string} tagFilterSqlExpression  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param {ServiceFindBlobsByTagsSegmentOptions} [options={}] Options to findBlobsByTagsItems.
+   * @returns {AsyncIterableIterator<FilterBlobItem>}
+   * @memberof BlobServiceClient
+   */
+  private async *findBlobsByTagsItems(
+    tagFilterSqlExpression: string,
+    options: ServiceFindBlobsByTagsSegmentOptions = {}
+  ): AsyncIterableIterator<FilterBlobItem> {
+    let marker: string | undefined;
+    for await (const segment of this.findBlobsByTagsSegments(
+      tagFilterSqlExpression,
+      marker,
+      options
+    )) {
+      yield* segment.blobs;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to find all blobs with specified tag
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the blobs in pages.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * let i = 1;
+   * for await (const blob of blobServiceClient.findBlobsByTags("tagkey='tagvalue'")) {
+   *   console.log(`Blob ${i++}: ${container.name}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * const iter = blobServiceClient.findBlobsByTags("tagkey='tagvalue'");
+   * let blobItem = await iter.next();
+   * while (!blobItem.done) {
+   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *   blobItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of blobServiceClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 20 })) {
+   *   if (response.blobs) {
+   *     for (const blob of response.blobs) {
+   *       console.log(`Blob ${i++}: ${blob.name}`);
+   *     }
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = blobServiceClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 blob names
+   * if (response.blobs) {
+   *   for (const blob of response.blobs) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = blobServiceClient
+   *   .findBlobsByTags("tagkey='tagvalue'")
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints blob names
+   * if (response.blobs) {
+   *   for (const blob of response.blobs) {
+   *      console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   * }
+   * ```
+   *
+   * @param {string} tagFilterSqlExpression  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param {ServiceFindBlobByTagsOptions} [options={}] Options to find blobs by tags.
+   * @returns {PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>}
+   * @memberof BlobServiceClient
+   */
+  public findBlobsByTags(
+    tagFilterSqlExpression: string,
+    options: ServiceFindBlobByTagsOptions = {}
+  ): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse> {
+    // AsyncIterableIterator to iterate over blobs
+    const listSegmentOptions: ServiceFindBlobsByTagsSegmentOptions = {
+      ...options
+    };
+
+    const iter = this.findBlobsByTagsItems(tagFilterSqlExpression, listSegmentOptions);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.findBlobsByTagsSegments(tagFilterSqlExpression, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...listSegmentOptions
+        });
+      }
+    };
+  }
+
+  /**
    * Returns an AsyncIterableIterator for ServiceListContainersSegmentResponses
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
    *                        the list of containers to be returned with the next listing operation. The
-   *                        operation returns the NextMarker value within the response body if the
+   *                        operation returns the continuationToken value within the response body if the
    *                        listing operation did not return all containers remaining to be listed
-   *                        with the current page. The NextMarker value can be used as the value for
+   *                        with the current page. The continuationToken value can be used as the value for
    *                        the marker parameter in a subsequent call to request the next page of list
    *                        items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
@@ -794,10 +1287,19 @@ export class BlobServiceClient extends StorageClient {
     if (options.prefix === "") {
       options.prefix = undefined;
     }
+
+    const include: ListContainersIncludeType[] = [];
+    if (options.includeDeleted) {
+      include.push("deleted");
+    }
+    if (options.includeMetadata) {
+      include.push("metadata");
+    }
+
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
-      ...(options.includeMetadata ? { include: "metadata" } : {})
+      ...(include.length > 0 ? { include } : {})
     };
 
     const iter = this.listItems(listSegmentOptions);
@@ -902,5 +1404,51 @@ export class BlobServiceClient extends StorageClient {
    */
   public getBlobBatchClient(): BlobBatchClient {
     return new BlobBatchClient(this.url, this.pipeline);
+  }
+
+  /**
+   * Only available for BlobServiceClient constructed with a shared key credential.
+   *
+   * Generates a Blob account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
+   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
+   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
+   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
+   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof BlobServiceClient
+   */
+  public generateAccountSasUrl(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {}
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("b").toString(),
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }

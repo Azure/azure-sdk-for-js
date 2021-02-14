@@ -50,21 +50,21 @@ export const clusterName: msRest.OperationURLParameter = {
     }
   }
 };
-export const dataConnectionName: msRest.OperationURLParameter = {
-  parameterPath: "dataConnectionName",
-  mapper: {
-    required: true,
-    serializedName: "dataConnectionName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const databaseName: msRest.OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
     required: true,
     serializedName: "databaseName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "dataConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "dataConnectionName",
     type: {
       name: "String"
     }

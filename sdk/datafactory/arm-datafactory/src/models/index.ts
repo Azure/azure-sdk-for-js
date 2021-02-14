@@ -211,6 +211,21 @@ export interface FactoryRepoConfiguration {
 }
 
 /**
+ * Definition of a single parameter for an entity.
+ */
+export interface GlobalParameterSpecification {
+  /**
+   * Global Parameter type. Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool',
+   * 'Array'
+   */
+  type: GlobalParameterType;
+  /**
+   * Value of parameter.
+   */
+  value: any;
+}
+
+/**
  * Factory resource type.
  */
 export interface Factory extends Resource {
@@ -237,6 +252,15 @@ export interface Factory extends Resource {
    * Git repo information of the factory.
    */
   repoConfiguration?: FactoryRepoConfigurationUnion;
+  /**
+   * List of parameters for factory.
+   */
+  globalParameters?: { [propertyName: string]: GlobalParameterSpecification };
+  /**
+   * Whether or not public network access is allowed for the data factory. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -436,7 +460,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | AzureMariaDBLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceServiceCloudLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | MicrosoftAccessLinkedService | InformixLinkedService | OdbcLinkedService | AzureMLServiceLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | GoogleCloudStorageLinkedService | AzureFileStorageLinkedService | FileServerLinkedService | HDInsightLinkedService | CommonDataServiceForAppsLinkedService | DynamicsCrmLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlMILinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | SharePointOnlineListLinkedService | SnowflakeLinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksDeltaLakeLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | AzureMariaDBLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceServiceCloudLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbAtlasLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | MicrosoftAccessLinkedService | InformixLinkedService | OdbcLinkedService | AzureMLServiceLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | GoogleCloudStorageLinkedService | AzureFileStorageLinkedService | FileServerLinkedService | HDInsightLinkedService | CommonDataServiceForAppsLinkedService | DynamicsCrmLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlMILinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * The Azure Data Factory nested object which contains the information and credential which can be
@@ -492,7 +516,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | AzureMariaDBTableDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SapBwCubeDataset | SybaseTableDataset | SalesforceServiceCloudObjectDataset | SalesforceObjectDataset | MicrosoftAccessTableDataset | PostgreSqlTableDataset | MySqlTableDataset | OdbcTableDataset | InformixTableDataset | RelationalTableDataset | Db2TableDataset | AmazonRedshiftTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | CommonDataServiceForAppsEntityDataset | DynamicsCrmEntityDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CosmosDbSqlApiCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlMITableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | BinaryDataset | OrcDataset | JsonDataset | DelimitedTextDataset | ParquetDataset | AvroDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | AzureDatabricksDeltaLakeDataset | SharePointOnlineListResourceDataset | SnowflakeDataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | AzureMariaDBTableDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SapBwCubeDataset | SybaseTableDataset | SalesforceServiceCloudObjectDataset | SalesforceObjectDataset | MicrosoftAccessTableDataset | PostgreSqlTableDataset | MySqlTableDataset | OdbcTableDataset | InformixTableDataset | RelationalTableDataset | Db2TableDataset | AmazonRedshiftTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbAtlasCollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | CommonDataServiceForAppsEntityDataset | DynamicsCrmEntityDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CosmosDbSqlApiCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlMITableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | BinaryDataset | OrcDataset | XmlDataset | JsonDataset | DelimitedTextDataset | ParquetDataset | ExcelDataset | AvroDataset | AmazonS3Dataset;
 
 /**
  * The Azure Data Factory nested object which identifies data within different data stores, such as
@@ -1565,6 +1589,16 @@ export interface ExposureControlRequest {
 }
 
 /**
+ * A list of exposure control features.
+ */
+export interface ExposureControlBatchRequest {
+  /**
+   * List of exposure control features.
+   */
+  exposureControlRequests: ExposureControlRequest[];
+}
+
+/**
  * The exposure control response.
  */
 export interface ExposureControlResponse {
@@ -1578,6 +1612,16 @@ export interface ExposureControlResponse {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly value?: string;
+}
+
+/**
+ * A list of exposure control feature values.
+ */
+export interface ExposureControlBatchResponse {
+  /**
+   * List of exposure control feature values.
+   */
+  exposureControlResponses: ExposureControlResponse[];
 }
 
 /**
@@ -1693,9 +1737,9 @@ export interface DataFlowStagingInfo {
    */
   linkedService?: LinkedServiceReference;
   /**
-   * Folder path for staging blob.
+   * Folder path for staging blob. Type: string (or Expression with resultType string)
    */
-  folderPath?: string;
+  folderPath?: any;
 }
 
 /**
@@ -1914,6 +1958,103 @@ export interface DataFlowReference {
 }
 
 /**
+ * The connection state of a managed private endpoint
+ */
+export interface ConnectionStateProperties {
+  /**
+   * The actions required on the managed private endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+  /**
+   * The managed private endpoint description
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * The approval status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * Properties of a managed private endpoint
+ */
+export interface ManagedPrivateEndpoint {
+  /**
+   * The managed private endpoint connection state
+   */
+  connectionState?: ConnectionStateProperties;
+  /**
+   * Fully qualified domain names
+   */
+  fqdns?: string[];
+  /**
+   * The groupId to which the managed private endpoint is created
+   */
+  groupId?: string;
+  /**
+   * Denotes whether the managed private endpoint is reserved
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isReserved?: boolean;
+  /**
+   * The ARM resource ID of the resource to which the managed private endpoint is created
+   */
+  privateLinkResourceId?: string;
+  /**
+   * The managed private endpoint provisioning state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed private endpoint resource type.
+ */
+export interface ManagedPrivateEndpointResource extends SubResource {
+  /**
+   * Managed private endpoint properties.
+   */
+  properties: ManagedPrivateEndpoint;
+}
+
+/**
+ * A managed Virtual Network associated with the Azure Data Factory
+ */
+export interface ManagedVirtualNetwork {
+  /**
+   * Managed Virtual Network ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vNetId?: string;
+  /**
+   * Managed Virtual Network alias.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alias?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed Virtual Network resource type.
+ */
+export interface ManagedVirtualNetworkResource extends SubResource {
+  /**
+   * Managed Virtual Network properties.
+   */
+  properties: ManagedVirtualNetwork;
+}
+
+/**
  * A data flow transformation.
  */
 export interface Transformation {
@@ -1935,6 +2076,14 @@ export interface DataFlowSink extends Transformation {
    * Dataset reference.
    */
   dataset?: DatasetReference;
+  /**
+   * Linked service reference.
+   */
+  linkedService?: LinkedServiceReference;
+  /**
+   * Schema linked service reference.
+   */
+  schemaLinkedService?: LinkedServiceReference;
 }
 
 /**
@@ -1945,6 +2094,14 @@ export interface DataFlowSource extends Transformation {
    * Dataset reference.
    */
   dataset?: DatasetReference;
+  /**
+   * Linked service reference.
+   */
+  linkedService?: LinkedServiceReference;
+  /**
+   * Schema linked service reference.
+   */
+  schemaLinkedService?: LinkedServiceReference;
 }
 
 /**
@@ -1984,6 +2141,98 @@ export interface MappingDataFlow {
    * DataFlow script.
    */
   script?: string;
+}
+
+/**
+ * SharePoint Online List linked service.
+ */
+export interface SharePointOnlineListLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SharePointOnlineList";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * The URL of the SharePoint Online site. For example,
+   * https://contoso.sharepoint.com/sites/siteName. Type: string (or Expression with resultType
+   * string).
+   */
+  siteUrl: any;
+  /**
+   * The tenant ID under which your application resides. You can find it from Azure portal Active
+   * Directory overview page. Type: string (or Expression with resultType string).
+   */
+  tenantId: any;
+  /**
+   * The application (client) ID of your application registered in Azure Active Directory. Make
+   * sure to grant SharePoint site permission to this application. Type: string (or Expression with
+   * resultType string).
+   */
+  servicePrincipalId: any;
+  /**
+   * The client secret of your application registered in Azure Active Directory. Type: string (or
+   * Expression with resultType string).
+   */
+  servicePrincipalKey: SecretBaseUnion;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * Snowflake linked service.
+ */
+export interface SnowflakeLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Snowflake";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * The connection string of snowflake. Type: string, SecureString.
+   */
+  connectionString: any;
+  /**
+   * The Azure key vault secret reference of password in connection string.
+   */
+  password?: AzureKeyVaultSecretReference;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
 }
 
 /**
@@ -2437,6 +2686,53 @@ export interface ResponsysLinkedService {
 }
 
 /**
+ * Azure Databricks Delta Lake linked service.
+ */
+export interface AzureDatabricksDeltaLakeLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureDatabricksDeltaLake";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * <REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or
+   * Expression with resultType string).
+   */
+  domain: any;
+  /**
+   * Access token for databricks REST API. Refer to
+   * https://docs.azuredatabricks.net/api/latest/authentication.html. Type: string, SecureString or
+   * AzureKeyVaultSecretReference.
+   */
+  accessToken?: SecretBaseUnion;
+  /**
+   * The id of an existing interactive cluster that will be used for all runs of this job. Type:
+   * string (or Expression with resultType string).
+   */
+  clusterId?: any;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
  * Azure Databricks linked service.
  */
 export interface AzureDatabricksLinkedService {
@@ -2515,6 +2811,11 @@ export interface AzureDatabricksLinkedService {
    * configurations.
    */
   newClusterCustomTags?: { [propertyName: string]: any };
+  /**
+   * Specify a location to deliver Spark driver, worker, and event logs. Type: string (or
+   * Expression with resultType string).
+   */
+  newClusterLogDestination?: any;
   /**
    * The driver node type for the new job cluster. This property is ignored in instance pool
    * configurations. Type: string (or Expression with resultType string).
@@ -2826,10 +3127,15 @@ export interface SalesforceMarketingCloudLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Salesforce Marketing Cloud. It is mutually exclusive with any
+   * other properties in the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The client ID associated with the Salesforce Marketing Cloud application. Type: string (or
    * Expression with resultType string).
    */
-  clientId: any;
+  clientId?: any;
   /**
    * The client secret associated with the Salesforce Marketing Cloud application. Type: string (or
    * Expression with resultType string).
@@ -2961,9 +3267,14 @@ export interface ZohoLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Zoho. It is mutually exclusive with any other properties in the
+   * linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the Zoho server. (i.e. crm.zoho.com/crm/private)
    */
-  endpoint: any;
+  endpoint?: any;
   /**
    * The access token for Zoho authentication.
    */
@@ -3015,9 +3326,14 @@ export interface XeroLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Xero. It is mutually exclusive with any other properties in the
+   * linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the Xero server. (i.e. api.xero.com)
    */
-  host: any;
+  host?: any;
   /**
    * The consumer key associated with the Xero application.
    */
@@ -3075,13 +3391,18 @@ export interface SquareLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Square. It is mutually exclusive with any other properties in
+   * the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The URL of the Square instance. (i.e. mystore.mysquare.com)
    */
-  host: any;
+  host?: any;
   /**
    * The client ID associated with your Square application.
    */
-  clientId: any;
+  clientId?: any;
   /**
    * The client secret associated with your Square application.
    */
@@ -3089,7 +3410,7 @@ export interface SquareLinkedService {
   /**
    * The redirect URL assigned in the Square application dashboard. (i.e. http://localhost:2500)
    */
-  redirectUri: any;
+  redirectUri?: any;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -3354,29 +3675,34 @@ export interface QuickBooksLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to QuickBooks. It is mutually exclusive with any other properties
+   * in the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the QuickBooks server. (i.e. quickbooks.api.intuit.com)
    */
-  endpoint: any;
+  endpoint?: any;
   /**
    * The company ID of the QuickBooks company to authorize.
    */
-  companyId: any;
+  companyId?: any;
   /**
    * The consumer key for OAuth 1.0 authentication.
    */
-  consumerKey: any;
+  consumerKey?: any;
   /**
    * The consumer secret for OAuth 1.0 authentication.
    */
-  consumerSecret: SecretBaseUnion;
+  consumerSecret?: SecretBaseUnion;
   /**
    * The access token for OAuth 1.0 authentication.
    */
-  accessToken: SecretBaseUnion;
+  accessToken?: SecretBaseUnion;
   /**
    * The access token secret for OAuth 1.0 authentication.
    */
-  accessTokenSecret: SecretBaseUnion;
+  accessTokenSecret?: SecretBaseUnion;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -4663,7 +4989,7 @@ export interface SapHanaLinkedService {
   /**
    * Host name of the SAP HANA server. Type: string (or Expression with resultType string).
    */
-  server: any;
+  server?: any;
   /**
    * The authentication type to be used to connect to the SAP HANA server. Possible values include:
    * 'Basic', 'Windows'
@@ -5179,6 +5505,12 @@ export interface RestServiceLinkedService {
    */
   tenant?: any;
   /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
    * The resource you are requesting authorization to use.
    */
   aadResourceId?: any;
@@ -5217,23 +5549,28 @@ export interface SapOpenHubLinkedService {
    * Host name of the SAP BW instance where the open hub destination is located. Type: string (or
    * Expression with resultType string).
    */
-  server: any;
+  server?: any;
   /**
    * System number of the BW system where the open hub destination is located. (Usually a two-digit
    * decimal number represented as a string.) Type: string (or Expression with resultType string).
    */
-  systemNumber: any;
+  systemNumber?: any;
   /**
    * Client ID of the client on the BW system where the open hub destination is located. (Usually a
    * three-digit decimal number represented as a string) Type: string (or Expression with
    * resultType string).
    */
-  clientId: any;
+  clientId?: any;
   /**
    * Language of the BW system where the open hub destination is located. The default value is EN.
    * Type: string (or Expression with resultType string).
    */
   language?: any;
+  /**
+   * SystemID of the SAP system where the table is located. Type: string (or Expression with
+   * resultType string).
+   */
+  systemId?: any;
   /**
    * Username to access the SAP BW server where the open hub destination is located. Type: string
    * (or Expression with resultType string).
@@ -5243,6 +5580,19 @@ export interface SapOpenHubLinkedService {
    * Password to access the SAP BW server where the open hub destination is located.
    */
   password?: SecretBaseUnion;
+  /**
+   * The hostname of the SAP Message Server. Type: string (or Expression with resultType string).
+   */
+  messageServer?: any;
+  /**
+   * The service name or port number of the Message Server. Type: string (or Expression with
+   * resultType string).
+   */
+  messageServerService?: any;
+  /**
+   * The Logon Group for the SAP System. Type: string (or Expression with resultType string).
+   */
+  logonGroup?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -5556,6 +5906,12 @@ export interface AzureBlobFSLinkedService {
    */
   tenant?: any;
   /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -5604,6 +5960,12 @@ export interface AzureDataLakeStoreLinkedService {
    * Expression with resultType string).
    */
   tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * Data Lake Store account name. Type: string (or Expression with resultType string).
    */
@@ -5693,6 +6055,42 @@ export interface MongoDbV2LinkedService {
   /**
    * The name of the MongoDB database that you want to access. Type: string (or Expression with
    * resultType string).
+   */
+  database: any;
+}
+
+/**
+ * Linked service for MongoDB Atlas data source.
+ */
+export interface MongoDbAtlasLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MongoDbAtlas";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * The MongoDB Atlas connection string. Type: string, SecureString or
+   * AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
+   */
+  connectionString: any;
+  /**
+   * The name of the MongoDB Atlas database that you want to access. Type: string (or Expression
+   * with resultType string).
    */
   database: any;
 }
@@ -5988,6 +6386,12 @@ export interface ODataLinkedService {
    * string (or Expression with resultType string).
    */
   servicePrincipalId?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * Specify the resource you are requesting authorization to use Directory. Type: string (or
    * Expression with resultType string).
@@ -6759,7 +7163,7 @@ export interface AzureFileStorageLinkedService {
   /**
    * Host name of the server. Type: string (or Expression with resultType string).
    */
-  host: any;
+  host?: any;
   /**
    * User ID to logon the server. Type: string (or Expression with resultType string).
    */
@@ -6768,6 +7172,33 @@ export interface AzureFileStorageLinkedService {
    * Password to logon the server.
    */
   password?: SecretBaseUnion;
+  /**
+   * The connection string. It is mutually exclusive with sasUri property. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
+   */
+  connectionString?: any;
+  /**
+   * The Azure key vault secret reference of accountKey in connection string.
+   */
+  accountKey?: AzureKeyVaultSecretReference;
+  /**
+   * SAS URI of the Azure File resource. It is mutually exclusive with connectionString property.
+   * Type: string, SecureString or AzureKeyVaultSecretReference.
+   */
+  sasUri?: any;
+  /**
+   * The Azure key vault secret reference of sasToken in sas uri.
+   */
+  sasToken?: AzureKeyVaultSecretReference;
+  /**
+   * The azure file share name. It is required when auth with accountKey/sasToken. Type: string (or
+   * Expression with resultType string).
+   */
+  fileShare?: any;
+  /**
+   * The azure file share snapshot version. Type: string (or Expression with resultType string).
+   */
+  snapshot?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -7334,6 +7765,12 @@ export interface AzureSqlMILinkedService {
    */
   tenant?: any;
   /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -7386,6 +7823,12 @@ export interface AzureSqlDatabaseLinkedService {
    * Expression with resultType string).
    */
   tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -7484,6 +7927,12 @@ export interface AzureSqlDWLinkedService {
    * Expression with resultType string).
    */
   tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -7602,6 +8051,12 @@ export interface AzureBlobStorageLinkedService {
    */
   tenant?: any;
   /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -7655,6 +8110,147 @@ export interface AzureStorageLinkedService {
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: string;
+}
+
+/**
+ * Azure Databricks Delta Lake dataset.
+ */
+export interface AzureDatabricksDeltaLakeDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureDatabricksDeltaLakeDataset";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The name of delta table. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The database name of delta table. Type: string (or Expression with resultType string).
+   */
+  database?: any;
+}
+
+/**
+ * The sharepoint online list resource dataset.
+ */
+export interface SharePointOnlineListResourceDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SharePointOnlineListResource";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The name of the SharePoint Online list. Type: string (or Expression with resultType string).
+   */
+  listName?: any;
+}
+
+/**
+ * The snowflake dataset.
+ */
+export interface SnowflakeDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SnowflakeTable";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The schema name of the Snowflake database. Type: string (or Expression with resultType
+   * string).
+   */
+  snowflakeDatasetSchema?: any;
+  /**
+   * The table name of the Snowflake database. Type: string (or Expression with resultType string).
+   */
+  table?: any;
 }
 
 /**
@@ -9292,7 +9888,7 @@ export interface AmazonMWSObjectDataset {
 /**
  * Contains the possible cases for DatasetCompression.
  */
-export type DatasetCompressionUnion = DatasetCompression | DatasetZipDeflateCompression | DatasetDeflateCompression | DatasetGZipCompression | DatasetBZip2Compression;
+export type DatasetCompressionUnion = DatasetCompression | DatasetTarGZipCompression | DatasetTarCompression | DatasetZipDeflateCompression | DatasetDeflateCompression | DatasetGZipCompression | DatasetBZip2Compression;
 
 /**
  * The compression method used on a dataset.
@@ -9306,6 +9902,30 @@ export interface DatasetCompression {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * The TarGZip compression method used on a dataset.
+ */
+export interface DatasetTarGZipCompression {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TarGZip";
+  /**
+   * The TarGZip compression level.
+   */
+  level?: any;
+}
+
+/**
+ * The Tar archive method used on a dataset.
+ */
+export interface DatasetTarCompression {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Tar";
 }
 
 /**
@@ -10903,6 +11523,51 @@ export interface MongoDbV2CollectionDataset {
 }
 
 /**
+ * The MongoDB Atlas database dataset.
+ */
+export interface MongoDbAtlasCollectionDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MongoDbAtlasCollection";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The collection name of the MongoDB Atlas database. Type: string (or Expression with resultType
+   * string).
+   */
+  collection: any;
+}
+
+/**
  * The MongoDB database dataset.
  */
 export interface MongoDbCollectionDataset {
@@ -12115,9 +12780,69 @@ export interface OrcDataset {
    */
   location: DatasetLocationUnion;
   /**
-   * Possible values include: 'none', 'zlib', 'snappy'
+   * Possible values include: 'none', 'zlib', 'snappy', 'lzo'
    */
   orcCompressionCodec?: OrcCompressionCodec;
+}
+
+/**
+ * Xml dataset.
+ */
+export interface XmlDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Xml";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The location of the json data storage.
+   */
+  location: DatasetLocationUnion;
+  /**
+   * The code page name of the preferred encoding. If not specified, the default value is UTF-8,
+   * unless BOM denotes another Unicode encoding. Refer to the name column of the table in the
+   * following link to set supported values:
+   * https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with
+   * resultType string).
+   */
+  encodingName?: any;
+  /**
+   * The null value string. Type: string (or Expression with resultType string).
+   */
+  nullValue?: any;
+  /**
+   * The data compression method used for the json dataset.
+   */
+  compression?: DatasetCompressionUnion;
 }
 
 /**
@@ -12301,6 +13026,72 @@ export interface ParquetDataset {
    */
   location: DatasetLocationUnion;
   compressionCodec?: any;
+}
+
+/**
+ * Excel dataset.
+ */
+export interface ExcelDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Excel";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The location of the excel storage.
+   */
+  location: DatasetLocationUnion;
+  /**
+   * The sheet of excel file. Type: string (or Expression with resultType string).
+   */
+  sheetName: any;
+  /**
+   * The partial data of one sheet. Type: string (or Expression with resultType string).
+   */
+  range?: any;
+  /**
+   * When used as input, treat the first row of data as headers. When used as output,write the
+   * headers into the output as the first row of data. The default value is false. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  firstRowAsHeader?: any;
+  /**
+   * The data compression method used for the json dataset.
+   */
+  compression?: DatasetCompressionUnion;
+  /**
+   * The null value string. Type: string (or Expression with resultType string).
+   */
+  nullValue?: any;
 }
 
 /**
@@ -13502,6 +14293,846 @@ export interface AzureMLBatchExecutionActivity {
 }
 
 /**
+ * Contains the possible cases for CompressionReadSettings.
+ */
+export type CompressionReadSettingsUnion = CompressionReadSettings | TarGZipReadSettings | TarReadSettings | ZipDeflateReadSettings;
+
+/**
+ * Compression read settings.
+ */
+export interface CompressionReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "CompressionReadSettings";
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * The TarGZip compression read settings.
+ */
+export interface TarGZipReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TarGZipReadSettings";
+  /**
+   * Preserve the compression file name as folder path. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  preserveCompressionFileNameAsFolder?: any;
+}
+
+/**
+ * The Tar compression read settings.
+ */
+export interface TarReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TarReadSettings";
+  /**
+   * Preserve the compression file name as folder path. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  preserveCompressionFileNameAsFolder?: any;
+}
+
+/**
+ * The ZipDeflate compression read settings.
+ */
+export interface ZipDeflateReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ZipDeflateReadSettings";
+  /**
+   * Preserve the zip file name as folder path. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  preserveZipFileNameAsFolder?: any;
+}
+
+/**
+ * Contains the possible cases for FormatReadSettings.
+ */
+export type FormatReadSettingsUnion = FormatReadSettings | BinaryReadSettings | XmlReadSettings | JsonReadSettings | DelimitedTextReadSettings;
+
+/**
+ * Format read settings.
+ */
+export interface FormatReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "FormatReadSettings";
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Binary read settings.
+ */
+export interface BinaryReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "BinaryReadSettings";
+  /**
+   * Compression settings.
+   */
+  compressionProperties?: CompressionReadSettingsUnion;
+}
+
+/**
+ * Xml read settings.
+ */
+export interface XmlReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "XmlReadSettings";
+  /**
+   * Compression settings.
+   */
+  compressionProperties?: CompressionReadSettingsUnion;
+  /**
+   * Indicates what validation method is used when reading the xml files. Allowed values: 'none',
+   * 'xsd', or 'dtd'. Type: string (or Expression with resultType string).
+   */
+  validationMode?: any;
+  /**
+   * Indicates whether type detection is enabled when reading the xml files. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  detectDataType?: any;
+  /**
+   * Indicates whether namespace is enabled when reading the xml files. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  namespaces?: any;
+  /**
+   * Namespace uri to prefix mappings to override the prefixes in column names when namespace is
+   * enabled, if no prefix is defined for a namespace uri, the prefix of xml element/attribute name
+   * in the xml data file will be used. Example: "{"http://www.example.com/xml":"prefix"}" Type:
+   * object (or Expression with resultType object).
+   */
+  namespacePrefixes?: any;
+}
+
+/**
+ * Json read settings.
+ */
+export interface JsonReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "JsonReadSettings";
+  /**
+   * Compression settings.
+   */
+  compressionProperties?: CompressionReadSettingsUnion;
+}
+
+/**
+ * Delimited text read settings.
+ */
+export interface DelimitedTextReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DelimitedTextReadSettings";
+  /**
+   * Indicates the number of non-empty rows to skip when reading data from input files. Type:
+   * integer (or Expression with resultType integer).
+   */
+  skipLineCount?: any;
+  /**
+   * Compression settings.
+   */
+  compressionProperties?: CompressionReadSettingsUnion;
+}
+
+/**
+ * Distcp settings.
+ */
+export interface DistcpSettings {
+  /**
+   * Specifies the Yarn ResourceManager endpoint. Type: string (or Expression with resultType
+   * string).
+   */
+  resourceManagerEndpoint: any;
+  /**
+   * Specifies an existing folder path which will be used to store temp Distcp command script. The
+   * script file is generated by ADF and will be removed after Copy job finished. Type: string (or
+   * Expression with resultType string).
+   */
+  tempScriptPath: any;
+  /**
+   * Specifies the Distcp options. Type: string (or Expression with resultType string).
+   */
+  distcpOptions?: any;
+}
+
+/**
+ * Contains the possible cases for StoreReadSettings.
+ */
+export type StoreReadSettingsUnion = StoreReadSettings | HdfsReadSettings | HttpReadSettings | SftpReadSettings | FtpReadSettings | GoogleCloudStorageReadSettings | AzureFileStorageReadSettings | FileServerReadSettings | AmazonS3ReadSettings | AzureDataLakeStoreReadSettings | AzureBlobFSReadSettings | AzureBlobStorageReadSettings;
+
+/**
+ * Connector read setting.
+ */
+export interface StoreReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "StoreReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * HDFS read settings.
+ */
+export interface HdfsReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "HdfsReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * HDFS wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * HDFS wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+  /**
+   * Specifies Distcp-related settings.
+   */
+  distcpSettings?: DistcpSettings;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+}
+
+/**
+ * Sftp read settings.
+ */
+export interface HttpReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "HttpReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
+   * with resultType string).
+   */
+  requestMethod?: any;
+  /**
+   * The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression
+   * with resultType string).
+   */
+  requestBody?: any;
+  /**
+   * The additional HTTP headers in the request to the RESTful API. Type: string (or Expression
+   * with resultType string).
+   */
+  additionalHeaders?: any;
+  /**
+   * Specifies the timeout for a HTTP client to get HTTP response from HTTP server.
+   */
+  requestTimeout?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+}
+
+/**
+ * Sftp read settings.
+ */
+export interface SftpReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SftpReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Sftp wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Sftp wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Ftp read settings.
+ */
+export interface FtpReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "FtpReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Ftp wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Ftp wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Specify whether to use binary transfer mode for FTP stores.
+   */
+  useBinaryTransfer?: boolean;
+}
+
+/**
+ * Google Cloud Storage read settings.
+ */
+export interface GoogleCloudStorageReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "GoogleCloudStorageReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Google Cloud Storage wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Google Cloud Storage wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The prefix filter for the Google Cloud Storage object name. Type: string (or Expression with
+   * resultType string).
+   */
+  prefix?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure File Storage read settings.
+ */
+export interface AzureFileStorageReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureFileStorageReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Azure File Storage wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Azure File Storage wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The prefix filter for the Azure File name starting from root path. Type: string (or Expression
+   * with resultType string).
+   */
+  prefix?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * File server read settings.
+ */
+export interface FileServerReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "FileServerReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * FileServer wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * FileServer wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+  /**
+   * Specify a filter to be used to select a subset of files in the folderPath rather than all
+   * files. Type: string (or Expression with resultType string).
+   */
+  fileFilter?: any;
+}
+
+/**
+ * Azure data lake store read settings.
+ */
+export interface AmazonS3ReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AmazonS3ReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * AmazonS3 wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * AmazonS3 wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The prefix filter for the S3 object name. Type: string (or Expression with resultType string).
+   */
+  prefix?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure data lake store read settings.
+ */
+export interface AzureDataLakeStoreReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureDataLakeStoreReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * ADLS wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * ADLS wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Lists files after the value (exclusive) based on file/folder names’ lexicographical order.
+   * Applies under the folderPath in data set, and filter files/sub-folders under the folderPath.
+   * Type: string (or Expression with resultType string).
+   */
+  listAfter?: any;
+  /**
+   * Lists files before the value (inclusive) based on file/folder names’ lexicographical order.
+   * Applies under the folderPath in data set, and filter files/sub-folders under the folderPath.
+   * Type: string (or Expression with resultType string).
+   */
+  listBefore?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure blobFS read settings.
+ */
+export interface AzureBlobFSReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureBlobFSReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Azure blobFS wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Azure blobFS wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure blob read settings.
+ */
+export interface AzureBlobStorageReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureBlobStorageReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Azure blob wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Azure blob wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The prefix filter for the Azure Blob name. Type: string (or Expression with resultType
+   * string).
+   */
+  prefix?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
  * Activity to get metadata of dataset
  */
 export interface GetMetadataActivity {
@@ -13541,6 +15172,14 @@ export interface GetMetadataActivity {
    * Fields of metadata to get from dataset.
    */
   fieldList?: any[];
+  /**
+   * GetMetadata activity store settings.
+   */
+  storeSettings?: StoreReadSettingsUnion;
+  /**
+   * GetMetadata activity format settings.
+   */
+  formatSettings?: FormatReadSettingsUnion;
 }
 
 /**
@@ -13641,7 +15280,7 @@ export interface WebActivity {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | WebSource | OracleSource | AzureDataExplorerSource | HdfsSource | FileSystemSource | RestSource | SalesforceServiceCloudSource | ODataSource | MicrosoftAccessSource | RelationalSource | CommonDataServiceForAppsSource | DynamicsCrmSource | DynamicsSource | CosmosDbSqlApiSource | DocumentDbCollectionSource | BlobSource | TabularSourceUnion | BinarySource | OrcSource | JsonSource | DelimitedTextSource | ParquetSource | AvroSource;
+export type CopySourceUnion = CopySource | SharePointOnlineListSource | AzureDatabricksDeltaLakeSource | SnowflakeSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbAtlasSource | MongoDbSource | WebSource | OracleSource | AzureDataExplorerSource | HdfsSource | FileSystemSource | RestSource | SalesforceServiceCloudSource | ODataSource | MicrosoftAccessSource | RelationalSource | CommonDataServiceForAppsSource | DynamicsCrmSource | DynamicsSource | CosmosDbSqlApiSource | DocumentDbCollectionSource | BlobSource | TabularSourceUnion | BinarySource | OrcSource | XmlSource | JsonSource | DelimitedTextSource | ParquetSource | ExcelSource | AvroSource;
 
 /**
  * A copy activity source.
@@ -13669,6 +15308,166 @@ export interface CopySource {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * A copy activity source for sharePoint online list source.
+ */
+export interface SharePointOnlineListSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SharePointOnlineListSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The OData query to filter the data in SharePoint Online list. For example, "$top=1". Type:
+   * string (or Expression with resultType string).
+   */
+  query?: any;
+  /**
+   * The wait time to get a response from SharePoint Online. Default value is 5 minutes (00:05:00).
+   * Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
+}
+
+/**
+ * Contains the possible cases for ExportSettings.
+ */
+export type ExportSettingsUnion = ExportSettings | SnowflakeExportCopyCommand | AzureDatabricksDeltaLakeExportCommand;
+
+/**
+ * Export command settings.
+ */
+export interface ExportSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ExportSettings";
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Snowflake export command settings.
+ */
+export interface SnowflakeExportCopyCommand {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SnowflakeExportCopyCommand";
+  /**
+   * Additional copy options directly passed to snowflake Copy Command. Type: key value pairs
+   * (value should be string type) (or Expression with resultType object). Example:
+   * "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" }
+   */
+  additionalCopyOptions?: { [propertyName: string]: any };
+  /**
+   * Additional format options directly passed to snowflake Copy Command. Type: key value pairs
+   * (value should be string type) (or Expression with resultType object). Example:
+   * "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" }
+   */
+  additionalFormatOptions?: { [propertyName: string]: any };
+}
+
+/**
+ * Azure Databricks Delta Lake export command settings.
+ */
+export interface AzureDatabricksDeltaLakeExportCommand {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureDatabricksDeltaLakeExportCommand";
+  /**
+   * Specify the date format for the csv in Azure Databricks Delta Lake Copy. Type: string (or
+   * Expression with resultType string).
+   */
+  dateFormat?: any;
+  /**
+   * Specify the timestamp format for the csv in Azure Databricks Delta Lake Copy. Type: string (or
+   * Expression with resultType string).
+   */
+  timestampFormat?: any;
+}
+
+/**
+ * A copy activity Azure Databricks Delta Lake source.
+ */
+export interface AzureDatabricksDeltaLakeSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureDatabricksDeltaLakeSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Azure Databricks Delta Lake Sql query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+  /**
+   * Azure Databricks Delta Lake export settings.
+   */
+  exportSettings?: AzureDatabricksDeltaLakeExportCommand;
+}
+
+/**
+ * A copy activity snowflake source.
+ */
+export interface SnowflakeSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SnowflakeSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Snowflake Sql query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+  /**
+   * Snowflake export settings.
+   */
+  exportSettings?: SnowflakeExportCopyCommand;
 }
 
 /**
@@ -13971,6 +15770,57 @@ export interface MongoDbV2Source {
 }
 
 /**
+ * A copy activity source for a MongoDB Atlas database.
+ */
+export interface MongoDbAtlasSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MongoDbAtlasSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Specifies selection filter using query operators. To return all documents in a collection,
+   * omit this parameter or pass an empty document ({}). Type: string (or Expression with
+   * resultType string).
+   */
+  filter?: any;
+  /**
+   * Cursor methods for Mongodb query
+   */
+  cursorMethods?: MongoDbCursorMethodsProperties;
+  /**
+   * Specifies the number of documents to return in each batch of the response from MongoDB Atlas
+   * instance. In most cases, modifying the batch size will not affect the user or the application.
+   * This property's main purpose is to avoid hit the limitation of response size. Type: integer
+   * (or Expression with resultType integer).
+   */
+  batchSize?: any;
+  /**
+   * Query timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  queryTimeout?: any;
+  /**
+   * Specifies the additional columns to be added to source data. Type: array of objects (or
+   * Expression with resultType array of objects).
+   */
+  additionalColumns?: AdditionalColumns[];
+}
+
+/**
  * A copy activity source for a MongoDB database.
  */
 export interface MongoDbSource {
@@ -14147,27 +15997,6 @@ export interface AzureDataExplorerSource {
    * Expression with resultType array of objects).
    */
   additionalColumns?: AdditionalColumns[];
-}
-
-/**
- * Distcp settings.
- */
-export interface DistcpSettings {
-  /**
-   * Specifies the Yarn ResourceManager endpoint. Type: string (or Expression with resultType
-   * string).
-   */
-  resourceManagerEndpoint: any;
-  /**
-   * Specifies an existing folder path which will be used to store temp Distcp command script. The
-   * script file is generated by ADF and will be removed after Copy job finished. Type: string (or
-   * Expression with resultType string).
-   */
-  tempScriptPath: any;
-  /**
-   * Specifies the Distcp options. Type: string (or Expression with resultType string).
-   */
-  distcpOptions?: any;
 }
 
 /**
@@ -14360,6 +16189,12 @@ export interface ODataSource {
    * OData query. For example, "$top=1". Type: string (or Expression with resultType string).
    */
   query?: any;
+  /**
+   * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
+   * timeout to read response data. Default value: 00:05:00. Type: string (or Expression with
+   * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
   /**
    * Specifies the additional columns to be added to source data. Type: array of objects (or
    * Expression with resultType array of objects).
@@ -14569,6 +16404,11 @@ export interface CosmosDbSqlApiSource {
    * Preferred regions. Type: array of strings (or Expression with resultType array of strings).
    */
   preferredRegions?: any;
+  /**
+   * Whether detect primitive values as datetime values. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  detectDatetime?: any;
   /**
    * Specifies the additional columns to be added to source data. Type: array of objects (or
    * Expression with resultType array of objects).
@@ -14870,6 +16710,12 @@ export interface DynamicsAXSource {
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
+  /**
+   * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
+   * timeout to read response data. Default value: 00:05:00. Type: string (or Expression with
+   * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
 }
 
 /**
@@ -16235,6 +18081,32 @@ export interface AzureMySqlSource {
 }
 
 /**
+ * The settings that will be leveraged for Sql source partitioning.
+ */
+export interface SqlPartitionSettings {
+  /**
+   * The name of the column in integer or datetime type that will be used for proceeding
+   * partitioning. If not specified, the primary key of the table is auto-detected and used as the
+   * partition column. Type: string (or Expression with resultType string).
+   */
+  partitionColumnName?: any;
+  /**
+   * The maximum value of the partition column for partition range splitting. This value is used to
+   * decide the partition stride, not for filtering the rows in table. All rows in the table or
+   * query result will be partitioned and copied. Type: string (or Expression with resultType
+   * string).
+   */
+  partitionUpperBound?: any;
+  /**
+   * The minimum value of the partition column for partition range splitting. This value is used to
+   * decide the partition stride, not for filtering the rows in table. All rows in the table or
+   * query result will be partitioned and copied. Type: string (or Expression with resultType
+   * string).
+   */
+  partitionLowerBound?: any;
+}
+
+/**
  * A copy activity SQL Data Warehouse source.
  */
 export interface SqlDWSource {
@@ -16281,6 +18153,15 @@ export interface SqlDWSource {
    * StoredProcedureParameter.
    */
   storedProcedureParameters?: any;
+  /**
+   * The partition mechanism that will be used for Sql read in parallel. Possible values include:
+   * 'None', 'PhysicalPartitionsOfTable', 'DynamicRange'
+   */
+  partitionOption?: SqlPartitionOption;
+  /**
+   * The settings that will be leveraged for Sql source partitioning.
+   */
+  partitionSettings?: SqlPartitionSettings;
 }
 
 /**
@@ -16348,6 +18229,15 @@ export interface SqlMISource {
    * Which additional types to produce.
    */
   produceAdditionalTypes?: any;
+  /**
+   * The partition mechanism that will be used for Sql read in parallel. Possible values include:
+   * 'None', 'PhysicalPartitionsOfTable', 'DynamicRange'
+   */
+  partitionOption?: SqlPartitionOption;
+  /**
+   * The settings that will be leveraged for Sql source partitioning.
+   */
+  partitionSettings?: SqlPartitionSettings;
 }
 
 /**
@@ -16400,6 +18290,15 @@ export interface AzureSqlSource {
    * Which additional types to produce.
    */
   produceAdditionalTypes?: any;
+  /**
+   * The partition mechanism that will be used for Sql read in parallel. Possible values include:
+   * 'None', 'PhysicalPartitionsOfTable', 'DynamicRange'
+   */
+  partitionOption?: SqlPartitionOption;
+  /**
+   * The settings that will be leveraged for Sql source partitioning.
+   */
+  partitionSettings?: SqlPartitionSettings;
 }
 
 /**
@@ -16452,6 +18351,15 @@ export interface SqlServerSource {
    * Which additional types to produce.
    */
   produceAdditionalTypes?: any;
+  /**
+   * The partition mechanism that will be used for Sql read in parallel. Possible values include:
+   * 'None', 'PhysicalPartitionsOfTable', 'DynamicRange'
+   */
+  partitionOption?: SqlPartitionOption;
+  /**
+   * The settings that will be leveraged for Sql source partitioning.
+   */
+  partitionSettings?: SqlPartitionSettings;
 }
 
 /**
@@ -16506,6 +18414,15 @@ export interface SqlSource {
    * ReadCommitted. Type: string (or Expression with resultType string).
    */
   isolationLevel?: any;
+  /**
+   * The partition mechanism that will be used for Sql read in parallel. Possible values include:
+   * 'None', 'PhysicalPartitionsOfTable', 'DynamicRange'
+   */
+  partitionOption?: SqlPartitionOption;
+  /**
+   * The settings that will be leveraged for Sql source partitioning.
+   */
+  partitionSettings?: SqlPartitionSettings;
 }
 
 /**
@@ -16596,6 +18513,11 @@ export interface SapTableSource {
    */
   customRfcReadTableFunctionModule?: any;
   /**
+   * The single character that will be used as delimiter passed to SAP RFC as well as splitting the
+   * output data retrieved. Type: string (or Expression with resultType string).
+   */
+  sapDataColumnDelimiter?: any;
+  /**
    * The partition mechanism that will be used for SAP table read in parallel. Possible values
    * include: 'None', 'PartitionOnInt', 'PartitionOnCalendarYear', 'PartitionOnCalendarMonth',
    * 'PartitionOnCalendarDate', 'PartitionOnTime'
@@ -16650,6 +18572,16 @@ export interface SapOpenHubSource {
    * with resultType integer ).
    */
   baseRequestId?: any;
+  /**
+   * Specifies the custom RFC function module that will be used to read data from SAP Table. Type:
+   * string (or Expression with resultType string).
+   */
+  customRfcReadTableFunctionModule?: any;
+  /**
+   * The single character that will be used as delimiter passed to SAP RFC as well as splitting the
+   * output data retrieved. Type: string (or Expression with resultType string).
+   */
+  sapDataColumnDelimiter?: any;
 }
 
 /**
@@ -16752,6 +18684,12 @@ export interface SapEccSource {
    * string).
    */
   query?: any;
+  /**
+   * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
+   * timeout to read response data. Default value: 00:05:00. Type: string (or Expression with
+   * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
 }
 
 /**
@@ -16791,6 +18729,12 @@ export interface SapCloudForCustomerSource {
    * resultType string).
    */
   query?: any;
+  /**
+   * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
+   * timeout to read response data. Default value: 00:05:00. Type: string (or Expression with
+   * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
 }
 
 /**
@@ -17146,520 +19090,6 @@ export interface AzureTableSource {
 }
 
 /**
- * Contains the possible cases for StoreReadSettings.
- */
-export type StoreReadSettingsUnion = StoreReadSettings | HdfsReadSettings | HttpReadSettings | SftpReadSettings | FtpReadSettings | GoogleCloudStorageReadSettings | AzureFileStorageReadSettings | FileServerReadSettings | AmazonS3ReadSettings | AzureDataLakeStoreReadSettings | AzureBlobFSReadSettings | AzureBlobStorageReadSettings;
-
-/**
- * Connector read setting.
- */
-export interface StoreReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "StoreReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * HDFS read settings.
- */
-export interface HdfsReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "HdfsReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * HDFS wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * HDFS wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-  /**
-   * Specifies Distcp-related settings.
-   */
-  distcpSettings?: DistcpSettings;
-}
-
-/**
- * Sftp read settings.
- */
-export interface HttpReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "HttpReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
-   * with resultType string).
-   */
-  requestMethod?: any;
-  /**
-   * The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression
-   * with resultType string).
-   */
-  requestBody?: any;
-  /**
-   * The additional HTTP headers in the request to the RESTful API. Type: string (or Expression
-   * with resultType string).
-   */
-  additionalHeaders?: any;
-  /**
-   * Specifies the timeout for a HTTP client to get HTTP response from HTTP server.
-   */
-  requestTimeout?: any;
-}
-
-/**
- * Sftp read settings.
- */
-export interface SftpReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "SftpReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * Sftp wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * Sftp wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
- * Ftp read settings.
- */
-export interface FtpReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "FtpReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * Ftp wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * Ftp wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Specify whether to use binary transfer mode for FTP stores.
-   */
-  useBinaryTransfer?: boolean;
-}
-
-/**
- * Google Cloud Storage read settings.
- */
-export interface GoogleCloudStorageReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "GoogleCloudStorageReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * Google Cloud Storage wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * Google Cloud Storage wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * The prefix filter for the Google Cloud Storage object name. Type: string (or Expression with
-   * resultType string).
-   */
-  prefix?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
- * Azure File Storage read settings.
- */
-export interface AzureFileStorageReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "AzureFileStorageReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * Azure File Storage wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * Azure File Storage wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
- * File server read settings.
- */
-export interface FileServerReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "FileServerReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * FileServer wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * FileServer wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
- * Azure data lake store read settings.
- */
-export interface AmazonS3ReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "AmazonS3ReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * AmazonS3 wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * AmazonS3 wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * The prefix filter for the S3 object name. Type: string (or Expression with resultType string).
-   */
-  prefix?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
- * Azure data lake store read settings.
- */
-export interface AzureDataLakeStoreReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "AzureDataLakeStoreReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * ADLS wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * ADLS wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
- * Azure blobFS read settings.
- */
-export interface AzureBlobFSReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "AzureBlobFSReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * Azure blobFS wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * Azure blobFS wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
- * Azure blob read settings.
- */
-export interface AzureBlobStorageReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "AzureBlobStorageReadSettings";
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
-  /**
-   * Azure blob wildcardFolderPath. Type: string (or Expression with resultType string).
-   */
-  wildcardFolderPath?: any;
-  /**
-   * Azure blob wildcardFileName. Type: string (or Expression with resultType string).
-   */
-  wildcardFileName?: any;
-  /**
-   * The prefix filter for the Azure Blob name. Type: string (or Expression with resultType
-   * string).
-   */
-  prefix?: any;
-  /**
-   * Point to a text file that lists each file (relative path to the path configured in the
-   * dataset) that you want to copy. Type: string (or Expression with resultType string).
-   */
-  fileListPath?: any;
-  /**
-   * Indicates whether to enable partition discovery.
-   */
-  enablePartitionDiscovery?: boolean;
-  /**
-   * The start of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeStart?: any;
-  /**
-   * The end of file's modified datetime. Type: string (or Expression with resultType string).
-   */
-  modifiedDatetimeEnd?: any;
-}
-
-/**
  * A copy activity Binary source.
  */
 export interface BinarySource {
@@ -17685,6 +19115,10 @@ export interface BinarySource {
    * Binary store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
+  /**
+   * Binary format settings.
+   */
+  formatSettings?: BinaryReadSettings;
 }
 
 /**
@@ -17721,6 +19155,43 @@ export interface OrcSource {
 }
 
 /**
+ * A copy activity Xml source.
+ */
+export interface XmlSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "XmlSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Xml store settings.
+   */
+  storeSettings?: StoreReadSettingsUnion;
+  /**
+   * Xml format settings.
+   */
+  formatSettings?: XmlReadSettings;
+  /**
+   * Specifies the additional columns to be added to source data. Type: array of objects (or
+   * Expression with resultType array of objects).
+   */
+  additionalColumns?: AdditionalColumns[];
+}
+
+/**
  * A copy activity Json source.
  */
 export interface JsonSource {
@@ -17747,44 +19218,14 @@ export interface JsonSource {
    */
   storeSettings?: StoreReadSettingsUnion;
   /**
+   * Json format settings.
+   */
+  formatSettings?: JsonReadSettings;
+  /**
    * Specifies the additional columns to be added to source data. Type: array of objects (or
    * Expression with resultType array of objects).
    */
   additionalColumns?: AdditionalColumns[];
-}
-
-/**
- * Contains the possible cases for FormatReadSettings.
- */
-export type FormatReadSettingsUnion = FormatReadSettings | DelimitedTextReadSettings;
-
-/**
- * Format read settings.
- */
-export interface FormatReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "FormatReadSettings";
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * Delimited text read settings.
- */
-export interface DelimitedTextReadSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "DelimitedTextReadSettings";
-  /**
-   * Indicates the number of non-empty rows to skip when reading data from input files. Type:
-   * integer (or Expression with resultType integer).
-   */
-  skipLineCount?: any;
 }
 
 /**
@@ -17848,6 +19289,39 @@ export interface ParquetSource {
   maxConcurrentConnections?: any;
   /**
    * Parquet store settings.
+   */
+  storeSettings?: StoreReadSettingsUnion;
+  /**
+   * Specifies the additional columns to be added to source data. Type: array of objects (or
+   * Expression with resultType array of objects).
+   */
+  additionalColumns?: AdditionalColumns[];
+}
+
+/**
+ * A copy activity excel source.
+ */
+export interface ExcelSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ExcelSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Excel store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
   /**
@@ -17995,6 +19469,16 @@ export interface LogStorageSettings {
    */
   path?: any;
   /**
+   * Gets or sets the log level, support: Info, Warning. Type: string (or Expression with
+   * resultType string).
+   */
+  logLevel?: any;
+  /**
+   * Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  enableReliableLogging?: any;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
@@ -18054,6 +19538,10 @@ export interface DeleteActivity {
    * Delete activity dataset reference.
    */
   dataset: DatasetReference;
+  /**
+   * Delete activity store settings.
+   */
+  storeSettings?: StoreReadSettingsUnion;
 }
 
 /**
@@ -18286,7 +19774,8 @@ export interface SSISPackageLocation {
    */
   packagePath?: any;
   /**
-   * The type of SSIS package location. Possible values include: 'SSISDB', 'File', 'InlinePackage'
+   * The type of SSIS package location. Possible values include: 'SSISDB', 'File', 'InlinePackage',
+   * 'PackageStore'
    */
   type?: SsisPackageLocationType;
   /**
@@ -18302,6 +19791,10 @@ export interface SSISPackageLocation {
    * string).
    */
   configurationPath?: any;
+  /**
+   * The configuration file access credential.
+   */
+  configurationAccessCredential?: SSISAccessCredential;
   /**
    * The package name.
    */
@@ -18813,7 +20306,7 @@ export interface StagingSettings {
 /**
  * Contains the possible cases for CopySink.
  */
-export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceServiceCloudSink | SalesforceSink | AzureDataExplorerSink | CommonDataServiceForAppsSink | DynamicsCrmSink | DynamicsSink | MicrosoftAccessSink | InformixSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SqlDWSink | SqlMISink | AzureSqlSink | SqlServerSink | SqlSink | CosmosDbSqlApiSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | BinarySink | ParquetSink | AvroSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | AzureMySqlSink | AzurePostgreSqlSink | OrcSink | JsonSink | DelimitedTextSink;
+export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceServiceCloudSink | SalesforceSink | AzureDataExplorerSink | CommonDataServiceForAppsSink | DynamicsCrmSink | DynamicsSink | MicrosoftAccessSink | InformixSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SnowflakeSink | SqlDWSink | SqlMISink | AzureSqlSink | SqlServerSink | SqlSink | CosmosDbSqlApiSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | BinarySink | ParquetSink | AvroSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | AzureDatabricksDeltaLakeSink | AzureMySqlSink | AzurePostgreSqlSink | RestSink | OrcSink | JsonSink | DelimitedTextSink;
 
 /**
  * A copy activity sink.
@@ -19439,6 +20932,108 @@ export interface OracleSink {
 }
 
 /**
+ * Contains the possible cases for ImportSettings.
+ */
+export type ImportSettingsUnion = ImportSettings | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand;
+
+/**
+ * Import command settings.
+ */
+export interface ImportSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ImportSettings";
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Azure Databricks Delta Lake import command settings.
+ */
+export interface AzureDatabricksDeltaLakeImportCommand {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureDatabricksDeltaLakeImportCommand";
+  /**
+   * Specify the date format for csv in Azure Databricks Delta Lake Copy. Type: string (or
+   * Expression with resultType string).
+   */
+  dateFormat?: any;
+  /**
+   * Specify the timestamp format for csv in Azure Databricks Delta Lake Copy. Type: string (or
+   * Expression with resultType string).
+   */
+  timestampFormat?: any;
+}
+
+/**
+ * Snowflake import command settings.
+ */
+export interface SnowflakeImportCopyCommand {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SnowflakeImportCopyCommand";
+  /**
+   * Additional copy options directly passed to snowflake Copy Command. Type: key value pairs
+   * (value should be string type) (or Expression with resultType object). Example:
+   * "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" }
+   */
+  additionalCopyOptions?: { [propertyName: string]: any };
+  /**
+   * Additional format options directly passed to snowflake Copy Command. Type: key value pairs
+   * (value should be string type) (or Expression with resultType object). Example:
+   * "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES": "'FALSE'" }
+   */
+  additionalFormatOptions?: { [propertyName: string]: any };
+}
+
+/**
+ * A copy activity snowflake sink.
+ */
+export interface SnowflakeSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SnowflakeSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * SQL pre-copy script. Type: string (or Expression with resultType string).
+   */
+  preCopyScript?: any;
+  /**
+   * Snowflake import settings.
+   */
+  importSettings?: SnowflakeImportCopyCommand;
+}
+
+/**
  * Default value.
  */
 export interface DWCopyCommandDefaultValue {
@@ -19966,7 +21561,7 @@ export interface BlobSink {
 /**
  * Contains the possible cases for StoreWriteSettings.
  */
-export type StoreWriteSettingsUnion = StoreWriteSettings | FileServerWriteSettings | AzureDataLakeStoreWriteSettings | AzureBlobFSWriteSettings | AzureBlobStorageWriteSettings | SftpWriteSettings;
+export type StoreWriteSettingsUnion = StoreWriteSettings | AzureFileStorageWriteSettings | FileServerWriteSettings | AzureDataLakeStoreWriteSettings | AzureBlobFSWriteSettings | AzureBlobStorageWriteSettings | SftpWriteSettings;
 
 /**
  * Connector write settings.
@@ -19989,6 +21584,25 @@ export interface StoreWriteSettings {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * Azure File Storage write settings.
+ */
+export interface AzureFileStorageWriteSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureFileStorageWriteSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The type of copy behavior for copy sink.
+   */
+  copyBehavior?: any;
 }
 
 /**
@@ -20150,46 +21764,9 @@ export interface BinarySink {
 }
 
 /**
- * A copy activity Parquet sink.
- */
-export interface ParquetSink {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "ParquetSink";
-  /**
-   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
-   */
-  writeBatchSize?: any;
-  /**
-   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  writeBatchTimeout?: any;
-  /**
-   * Sink retry count. Type: integer (or Expression with resultType integer).
-   */
-  sinkRetryCount?: any;
-  /**
-   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sinkRetryWait?: any;
-  /**
-   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
-   * with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * Parquet store settings.
-   */
-  storeSettings?: StoreWriteSettingsUnion;
-}
-
-/**
  * Contains the possible cases for FormatWriteSettings.
  */
-export type FormatWriteSettingsUnion = FormatWriteSettings | JsonWriteSettings | DelimitedTextWriteSettings | AvroWriteSettings;
+export type FormatWriteSettingsUnion = FormatWriteSettings | JsonWriteSettings | DelimitedTextWriteSettings | OrcWriteSettings | AvroWriteSettings | ParquetWriteSettings;
 
 /**
  * Format write settings.
@@ -20239,6 +21816,38 @@ export interface DelimitedTextWriteSettings {
    * string).
    */
   fileExtension: any;
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
+}
+
+/**
+ * Orc write settings.
+ */
+export interface OrcWriteSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "OrcWriteSettings";
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
 }
 
 /**
@@ -20257,6 +21866,79 @@ export interface AvroWriteSettings {
    * Record namespace in the write result.
    */
   recordNamespace?: string;
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
+}
+
+/**
+ * Parquet write settings.
+ */
+export interface ParquetWriteSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ParquetWriteSettings";
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
+}
+
+/**
+ * A copy activity Parquet sink.
+ */
+export interface ParquetSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ParquetSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Parquet store settings.
+   */
+  storeSettings?: StoreWriteSettingsUnion;
+  /**
+   * Parquet format settings.
+   */
+  formatSettings?: ParquetWriteSettings;
 }
 
 /**
@@ -20418,6 +22100,53 @@ export interface SapCloudForCustomerSink {
    * 'Update'
    */
   writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
+  /**
+   * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
+   * timeout to read response data. Default value: 00:05:00. Type: string (or Expression with
+   * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
+}
+
+/**
+ * A copy activity Azure Databricks Delta Lake sink.
+ */
+export interface AzureDatabricksDeltaLakeSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureDatabricksDeltaLakeSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * SQL pre-copy script. Type: string (or Expression with resultType string).
+   */
+  preCopyScript?: any;
+  /**
+   * Azure Databricks Delta Lake import settings.
+   */
+  importSettings?: AzureDatabricksDeltaLakeImportCommand;
 }
 
 /**
@@ -20497,6 +22226,64 @@ export interface AzurePostgreSqlSink {
 }
 
 /**
+ * A copy activity Rest service Sink.
+ */
+export interface RestSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "RestSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression
+   * with resultType string).
+   */
+  requestMethod?: any;
+  /**
+   * The additional HTTP headers in the request to the RESTful API. Type: string (or Expression
+   * with resultType string).
+   */
+  additionalHeaders?: any;
+  /**
+   * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
+   * timeout to read response data. Default value: 00:01:40. Type: string (or Expression with
+   * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
+  /**
+   * The time to await before sending next request, in milliseconds
+   */
+  requestInterval?: any;
+  /**
+   * Http Compression Type to Send data in compressed format with Optimal Compression Level,
+   * Default is None. And The Only Supported option is Gzip.
+   */
+  httpCompressionType?: any;
+}
+
+/**
  * A copy activity ORC sink.
  */
 export interface OrcSink {
@@ -20531,6 +22318,10 @@ export interface OrcSink {
    * ORC store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
+  /**
+   * ORC format settings.
+   */
+  formatSettings?: OrcWriteSettings;
 }
 
 /**
@@ -20800,8 +22591,8 @@ export interface WebHookActivity {
    */
   authentication?: WebActivityAuthentication;
   /**
-   * When set to true, statusCode, output and error in callback request body will be consumed by
-   * activity. The activity can be marked as failed by setting statusCode >= 400 in callback
+   * When set to true, statusCode, output and error in callback request body will be consumed by
+   * activity. The activity can be marked as failed by setting statusCode >= 400 in callback
    * request. Default is false. Type: boolean (or Expression with resultType boolean).
    */
   reportStatusOnCallBack?: any;
@@ -21032,7 +22823,7 @@ export interface WaitActivity {
   /**
    * Duration in seconds.
    */
-  waitTimeInSeconds: number;
+  waitTimeInSeconds: any;
 }
 
 /**
@@ -21649,9 +23440,38 @@ export interface SelfHostedIntegrationRuntime {
 }
 
 /**
+ * The entity reference.
+ */
+export interface EntityReference {
+  /**
+   * The type of this referenced entity. Possible values include: 'IntegrationRuntimeReference',
+   * 'LinkedServiceReference'
+   */
+  type?: IntegrationRuntimeEntityReferenceType;
+  /**
+   * The name of this referenced entity.
+   */
+  referenceName?: string;
+}
+
+/**
+ * Package store for the SSIS integration runtime.
+ */
+export interface PackageStore {
+  /**
+   * The name of the package store
+   */
+  name: string;
+  /**
+   * The package store linked service reference.
+   */
+  packageStoreLinkedService: EntityReference;
+}
+
+/**
  * Contains the possible cases for CustomSetupBase.
  */
-export type CustomSetupBaseUnion = CustomSetupBase | ComponentSetup | EnvironmentVariableSetup | CmdkeySetup;
+export type CustomSetupBaseUnion = CustomSetupBase | AzPowerShellSetup | ComponentSetup | EnvironmentVariableSetup | CmdkeySetup;
 
 /**
  * The base definition of the custom setup.
@@ -21661,6 +23481,20 @@ export interface CustomSetupBase {
    * Polymorphic Discriminator
    */
   type: "CustomSetupBase";
+}
+
+/**
+ * The express custom setup of installing Azure PowerShell.
+ */
+export interface AzPowerShellSetup {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzPowerShellSetup";
+  /**
+   * The required version of Azure PowerShell to install.
+   */
+  version: string;
 }
 
 /**
@@ -21719,21 +23553,6 @@ export interface CmdkeySetup {
    * The password of data source access.
    */
   password: SecretBaseUnion;
-}
-
-/**
- * The entity reference.
- */
-export interface EntityReference {
-  /**
-   * The type of this referenced entity. Possible values include: 'IntegrationRuntimeReference',
-   * 'LinkedServiceReference'
-   */
-  type?: IntegrationRuntimeEntityReferenceType;
-  /**
-   * The name of this referenced entity.
-   */
-  referenceName?: string;
 }
 
 /**
@@ -21826,6 +23645,10 @@ export interface IntegrationRuntimeSsisProperties {
    * Custom setup without script properties for a SSIS integration runtime.
    */
   expressCustomSetupProperties?: CustomSetupBaseUnion[];
+  /**
+   * Package stores for the SSIS Integration Runtime.
+   */
+  packageStores?: PackageStore[];
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -22365,6 +24188,140 @@ export interface IntegrationRuntimeConnectionInfo {
 }
 
 /**
+ * Columns that define the structure of the dataset.
+ */
+export interface DatasetDataElement {
+  /**
+   * Name of the column. Type: string (or Expression with resultType string).
+   */
+  name?: any;
+  /**
+   * Type of the column. Type: string (or Expression with resultType string).
+   */
+  type?: any;
+}
+
+/**
+ * Columns that define the physical type schema of the dataset.
+ */
+export interface DatasetSchemaDataElement {
+  /**
+   * Name of the schema column. Type: string (or Expression with resultType string).
+   */
+  name?: any;
+  /**
+   * Type of the schema column. Type: string (or Expression with resultType string).
+   */
+  type?: any;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Contains the possible cases for CopyTranslator.
+ */
+export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
+
+/**
+ * A copy activity translator.
+ */
+export interface CopyTranslator {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "CopyTranslator";
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Type conversion settings
+ */
+export interface TypeConversionSettings {
+  /**
+   * Whether to allow data truncation when converting the data. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  allowDataTruncation?: any;
+  /**
+   * Whether to treat boolean values as numbers. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  treatBooleanAsNumber?: any;
+  /**
+   * The format for DateTime values. Type: string (or Expression with resultType string).
+   */
+  dateTimeFormat?: any;
+  /**
+   * The format for DateTimeOffset values. Type: string (or Expression with resultType string).
+   */
+  dateTimeOffsetFormat?: any;
+  /**
+   * The format for TimeSpan values. Type: string (or Expression with resultType string).
+   */
+  timeSpanFormat?: any;
+  /**
+   * The culture used to convert data from/to string. Type: string (or Expression with resultType
+   * string).
+   */
+  culture?: any;
+}
+
+/**
+ * A copy activity tabular translator.
+ */
+export interface TabularTranslator {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TabularTranslator";
+  /**
+   * Column mappings. Example: "UserId: MyUserId, Group: MyGroup, Name: MyName" Type: string (or
+   * Expression with resultType string). This property will be retired. Please use mappings
+   * property.
+   */
+  columnMappings?: any;
+  /**
+   * The schema mapping to map between tabular data and hierarchical data. Example: {"Column1":
+   * "$.Column1", "Column2": "$.Column2.Property1", "Column3": "$.Column2.Property2"}. Type: object
+   * (or Expression with resultType object). This property will be retired. Please use mappings
+   * property.
+   */
+  schemaMapping?: any;
+  /**
+   * The JSON Path of the Nested Array that is going to do cross-apply. Type: object (or Expression
+   * with resultType object).
+   */
+  collectionReference?: any;
+  /**
+   * Whether to map complex (array and object) values to simple strings in json format. Type:
+   * boolean (or Expression with resultType boolean).
+   */
+  mapComplexValuesToString?: any;
+  /**
+   * Column mappings with logical types. Tabular->tabular example:
+   * [{"source":{"name":"CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"name":"CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].
+   * Hierarchical->tabular example:
+   * [{"source":{"path":"$.CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"path":"$.CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].
+   * Type: object (or Expression with resultType object).
+   */
+  mappings?: any;
+  /**
+   * Whether to enable the advanced type conversion feature in the Copy activity. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  typeConversion?: any;
+  /**
+   * Type conversion settings
+   */
+  typeConversionSettings?: TypeConversionSettings;
+}
+
+/**
  * Optional Parameters.
  */
 export interface FactoriesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
@@ -22570,6 +24527,50 @@ export interface DataFlowsGetOptionalParams extends msRest.RequestOptionsBase {
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed Virtual Network entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedVirtualNetworksGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed Virtual Network entity. Should only be specified for get. If the ETag
+   * matches the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed private endpoint entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedPrivateEndpointsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the managed private endpoint entity. Should only be specified for get. If the ETag
+   * matches the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
  * An interface representing DataFactoryManagementClientOptions.
  */
 export interface DataFactoryManagementClientOptions extends AzureServiceClientOptions {
@@ -22703,6 +24704,46 @@ export interface QueryDataFlowDebugSessionsResponse extends Array<DataFlowDebugS
    */
   nextLink?: string;
 }
+
+/**
+ * @interface
+ * A list of managed Virtual Network resources.
+ * @extends Array<ManagedVirtualNetworkResource>
+ */
+export interface ManagedVirtualNetworkListResponse extends Array<ManagedVirtualNetworkResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of managed private endpoint resources.
+ * @extends Array<ManagedPrivateEndpointResource>
+ */
+export interface ManagedPrivateEndpointListResponse extends Array<ManagedPrivateEndpointResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Defines values for GlobalParameterType.
+ * Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool', 'Array'
+ * @readonly
+ * @enum {string}
+ */
+export type GlobalParameterType = 'Object' | 'String' | 'Int' | 'Float' | 'Bool' | 'Array';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for IntegrationRuntimeState.
@@ -23026,11 +25067,11 @@ export type DynamicsAuthenticationType = 'Office365' | 'Ifd' | 'AADServicePrinci
 
 /**
  * Defines values for OrcCompressionCodec.
- * Possible values include: 'none', 'zlib', 'snappy'
+ * Possible values include: 'none', 'zlib', 'snappy', 'lzo'
  * @readonly
  * @enum {string}
  */
-export type OrcCompressionCodec = 'none' | 'zlib' | 'snappy';
+export type OrcCompressionCodec = 'none' | 'zlib' | 'snappy' | 'lzo';
 
 /**
  * Defines values for AvroCompressionCodec.
@@ -23148,6 +25189,14 @@ export type CassandraSourceReadConsistencyLevels = 'ALL' | 'EACH_QUORUM' | 'QUOR
 export type TeradataPartitionOption = 'None' | 'Hash' | 'DynamicRange';
 
 /**
+ * Defines values for SqlPartitionOption.
+ * Possible values include: 'None', 'PhysicalPartitionsOfTable', 'DynamicRange'
+ * @readonly
+ * @enum {string}
+ */
+export type SqlPartitionOption = 'None' | 'PhysicalPartitionsOfTable' | 'DynamicRange';
+
+/**
  * Defines values for StoredProcedureParameterType.
  * Possible values include: 'String', 'Int', 'Int64', 'Decimal', 'Guid', 'Boolean', 'Date'
  * @readonly
@@ -23174,11 +25223,11 @@ export type SapHanaPartitionOption = 'None' | 'PhysicalPartitionsOfTable' | 'Sap
 
 /**
  * Defines values for SsisPackageLocationType.
- * Possible values include: 'SSISDB', 'File', 'InlinePackage'
+ * Possible values include: 'SSISDB', 'File', 'InlinePackage', 'PackageStore'
  * @readonly
  * @enum {string}
  */
-export type SsisPackageLocationType = 'SSISDB' | 'File' | 'InlinePackage';
+export type SsisPackageLocationType = 'SSISDB' | 'File' | 'InlinePackage' | 'PackageStore';
 
 /**
  * Defines values for HDInsightActivityDebugInfoOption.
@@ -23195,6 +25244,14 @@ export type HDInsightActivityDebugInfoOption = 'None' | 'Always' | 'Failure';
  * @enum {string}
  */
 export type SalesforceSinkWriteBehavior = 'Insert' | 'Upsert';
+
+/**
+ * Defines values for DynamicsSinkWriteBehavior.
+ * Possible values include: 'Upsert'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicsSinkWriteBehavior = 'Upsert';
 
 /**
  * Defines values for AzureSearchIndexWriteBehaviorType.
@@ -23324,6 +25381,14 @@ export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environ
  * @enum {string}
  */
 export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
+
+/**
+ * Defines values for CopyBehaviorType.
+ * Possible values include: 'PreserveHierarchy', 'FlattenHierarchy', 'MergeFiles'
+ * @readonly
+ * @enum {string}
+ */
+export type CopyBehaviorType = 'PreserveHierarchy' | 'FlattenHierarchy' | 'MergeFiles';
 
 /**
  * Contains response data for the list operation.
@@ -23602,6 +25667,26 @@ export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlRes
        * The response body as parsed JSON or XML
        */
       parsedBody: ExposureControlResponse;
+    };
+};
+
+/**
+ * Contains response data for the queryFeatureValuesByFactory operation.
+ */
+export type ExposureControlQueryFeatureValuesByFactoryResponse = ExposureControlBatchResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlBatchResponse;
     };
 };
 
@@ -24712,5 +26797,165 @@ export type DataFlowDebugSessionQueryByFactoryNextResponse = QueryDataFlowDebugS
        * The response body as parsed JSON or XML
        */
       parsedBody: QueryDataFlowDebugSessionsResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactory operation.
+ */
+export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedVirtualNetworksCreateOrUpdateResponse = ManagedVirtualNetworkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedVirtualNetworksGetResponse = ManagedVirtualNetworkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByFactoryNext operation.
+ */
+export type ManagedVirtualNetworksListByFactoryNextResponse = ManagedVirtualNetworkListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactory operation.
+ */
+export type ManagedPrivateEndpointsListByFactoryResponse = ManagedPrivateEndpointListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpointResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpointResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
+};
+
+/**
+ * Contains response data for the listByFactoryNext operation.
+ */
+export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
     };
 };

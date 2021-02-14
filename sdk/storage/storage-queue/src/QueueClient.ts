@@ -38,13 +38,19 @@ import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
   extractConnectionStringParts,
+  isIpEndpointStyle,
   truncatedISO8061Date,
-  getStorageClientContext
+  getStorageClientContext,
+  appendToURLQuery
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { Metadata } from "./models";
+import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
+import { SasIPRange } from "./SasIPRange";
+import { QueueSASPermissions } from "./QueueSASPermissions";
+import { SASProtocol } from "./SASQueryParameters";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -69,6 +75,23 @@ export interface QueueCreateOptions extends CommonOptions {
    * @memberof QueueCreateOptions
    */
   metadata?: Metadata;
+}
+
+/**
+ * Options to configure {@link QueueClient.exists} operation
+ *
+ * @export
+ * @interface QueueExistsOptions
+ */
+export interface QueueExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof QueueExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -412,6 +435,106 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link QueueClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface QueueCreateIfNotExistsResponse
+ */
+export interface QueueCreateIfNotExistsResponse extends QueueCreateResponse {
+  /**
+   * Indicate whether the queue is successfully created. Is false when the queue is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof QueueCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link QueueClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface QueueDeleteIfExistsResponse
+ */
+export interface QueueDeleteIfExistsResponse extends QueueDeleteResponse {
+  /**
+   * Indicate whether the queue is successfully deleted. Is false if the queue does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof QueueDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Options to configure {@link QueueClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface QueueGenerateSasUrlOptions
+ */
+export interface QueueGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof QueueGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof QueueGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof QueueGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof QueueGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional only when identifier is provided.
+   * Please refer to {@link QueueSASPermissions} for help constructing the permissions string.
+   *
+   * @type {QueueSASPermissions}
+   * @memberof QueueGenerateSasUrlOptions
+   */
+  permissions?: QueueSASPermissions;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof QueueGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the queue this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof QueueGenerateSasUrlOptions
+   */
+  identifier?: string;
+}
+
+/**
  * A QueueClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
  *
  * @export
@@ -609,6 +732,107 @@ export class QueueClient extends StorageClient {
   }
 
   /**
+   * Creates a new queue under the specified account if it doesn't already exist.
+   * If the queue already exists, it is not changed.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   *
+   * @param {QueueCreateOptions} [options]
+   * @returns {Promise<QueueCreateIfNotExistsResponse>}
+   * @memberof QueueClient
+   */
+  public async createIfNotExists(
+    options: QueueCreateOptions = {}
+  ): Promise<QueueCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "QueueClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      const response = await this.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+
+      // When a queue with the specified name already exists, the Queue service checks the metadata associated with the existing queue.
+      // If the existing metadata is identical to the metadata specified on the Create Queue request, status code 204 (No Content) is returned.
+      // If the existing metadata does not match, the operation fails and status code 409 (Conflict) is returned.
+      if (response._response.status == 204) {
+        return {
+          succeeded: false,
+          ...response
+        };
+      }
+      return {
+        succeeded: true,
+        ...response
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "QueueAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating a queue only if it does not already exist."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes the specified queue permanently if it exists.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   *
+   * @param {QueueDeleteOptions} [options]
+   * @returns {Promise<QueueDeleteIfExistsResponse>}
+   * @memberof QueueClient
+   */
+  public async deleteIfExists(
+    options: QueueDeleteOptions = {}
+  ): Promise<QueueDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-deleteIfExists", options.tracingOptions);
+    try {
+      const res = await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "QueueNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a queue only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
@@ -633,6 +857,43 @@ export class QueueClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the specified queue exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing queue might be deleted by other clients or
+   * applications. Vice versa new queues might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {QueueExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof QueueClient
+   */
+  public async exists(options: QueueExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("QueueClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking queue existence"
+        });
+        return false;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -1070,7 +1331,7 @@ export class QueueClient extends StorageClient {
    *
    * @param {string} messageId Id of the message
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
-   * @param {string} message Message to update.
+   * @param {string} message Message to update. If this parameter is undefined, then the content of the message won't be updated.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
@@ -1083,23 +1344,22 @@ export class QueueClient extends StorageClient {
   public async updateMessage(
     messageId: string,
     popReceipt: string,
-    message: string,
+    message?: string,
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
   ): Promise<QueueUpdateMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
+    let queueMessage = undefined;
+    if (message !== undefined) {
+      queueMessage = { messageText: message };
+    }
+
     try {
-      return await this.getMessageIdContext(messageId).update(
-        {
-          messageText: message
-        },
-        popReceipt,
-        visibilityTimeout || 0,
-        {
-          abortSignal: options.abortSignal,
-          spanOptions
-        }
-      );
+      return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
+        abortSignal: options.abortSignal,
+        spanOptions,
+        queueMessage
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1126,11 +1386,15 @@ export class QueueClient extends StorageClient {
         // "https://myaccount.queue.core.windows.net/queuename".
         // .getPath() -> /queuename
         queueName = parsedUrl.getPath()!.split("/")[1];
-      } else {
+      } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/queuename
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/queuename
         // .getPath() -> /devstoreaccount1/queuename
         queueName = parsedUrl.getPath()!.split("/")[2];
+      } else {
+        // "https://customdomain.com/queuename".
+        // .getPath() -> /queuename
+        queueName = parsedUrl.getPath()!.split("/")[1];
       }
 
       if (!queueName) {
@@ -1141,5 +1405,35 @@ export class QueueClient extends StorageClient {
     } catch (error) {
       throw new Error("Unable to extract queueName with provided information.");
     }
+  }
+
+  /**
+   * Only available for QueueClient constructed with a shared key credential.
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {QueueGenerateSasUrlOptions} options Optional parameters.
+   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof QueueClient
+   */
+  public generateSasUrl(options: QueueGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    const sas = generateQueueSASQueryParameters(
+      {
+        queueName: this.name,
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }

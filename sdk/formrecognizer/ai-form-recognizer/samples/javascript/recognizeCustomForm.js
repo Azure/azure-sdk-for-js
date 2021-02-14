@@ -5,14 +5,29 @@
  * This sample demonstrates how to analyze a form from a document with an unlabeled
  * custom model. The form must be of the same type as the forms the custom model
  * was trained on. To learn how to train your own models, see the samples in
- * trainUnlabeledModel.js or trainLabeledModel.js
+ * trainUnlabeledModel.ts or trainLabeledModel.ts
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+
 const fs = require("fs");
+const path = require("path");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
+
+/**
+ * Make a string representing a bounding box.
+ */
+function boundingBoxToString(box) {
+  let out = "[";
+  for (const { x, y } of box) {
+    out += `(${x}, ${y}),`;
+  }
+  // Remove the last comma and add the closing bracket
+  return out.slice(0, -1) + "]";
+}
 
 async function main() {
   // You will need to set these environment variables or edit the following values
@@ -20,41 +35,48 @@ async function main() {
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const modelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const path = "./assets/Invoice_6.pdf";
+  const fileName = path.join(__dirname, "./assets/Form_1.jpg");
 
-  const readStream = fs.createReadStream(path);
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Expecting file ${fileName} exists`);
+  }
+
+  const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
+    contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const forms = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
   console.log("Forms:");
   for (const form of forms || []) {
-    console.log(`${form.formType}, page range: ${form.pageRange}`);
-    console.log("Pages:");
+    console.log(`- ${form.formType}, page range: ${form.pageRange}`);
+    console.log("  Pages:");
     for (const page of form.pages || []) {
-      console.log(`Page number: ${page.pageNumber}`);
-      console.log("Tables");
+      console.log(`  - Page number: ${page.pageNumber}`);
+      console.log("    Tables:");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
-          }
+        console.log(`    - (${table.rowCount} x ${table.columnCount}`);
+        for (const cell of table.cells) {
+          console.log(`      cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
+      }
+      console.log("    Selection Marks:");
+      for (const mark of page.selectionMarks || []) {
+        const box = boundingBoxToString(mark.boundingBox);
+        console.log(`    - ${mark.state} @(${box}) (${mark.confidence} confidence)`);
       }
     }
 
-    console.log("Fields:");
-    for (const fieldName in form.fields) {
+    console.log("  Fields:");
+    for (const [fieldName, field] of Object.entries(form.fields)) {
       // each field is of type FormField
-      const field = form.fields[fieldName];
       console.log(
-        `Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
+        `  - Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence}`
       );
     }
   }

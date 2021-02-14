@@ -32,6 +32,10 @@ ruleTester.run("ts-naming-options", rule, {
       code:
         "class ExampleClient { createExample(options: CreateExampleOptions) {}; upsertExample(options: UpsertExampleOptions) {}; };"
     },
+    // class constructor
+    {
+      code: "class ExampleClient { constructor(options: ExampleClientOptions) {}; };"
+    },
     // not a client
     {
       code: "class Example { createExample(options: Options) {}; };"
@@ -43,6 +47,14 @@ ruleTester.run("ts-naming-options", rule, {
       errors: [
         {
           message: "options parameter type is not prefixed with the method name"
+        }
+      ]
+    },
+    {
+      code: "class ExampleClient { constructor(options: Options) {}; };",
+      errors: [
+        {
+          message: "options parameter type is not prefixed with the class name"
         }
       ]
     }

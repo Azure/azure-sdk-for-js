@@ -17,7 +17,7 @@ export interface SuggestResult {
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly text: string;
+  readonly _text: string;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -112,6 +112,22 @@ export interface SearchRequest {
    */
   queryType?: QueryType;
   /**
+   * A value that specifies whether we want to calculate scoring statistics (such as document
+   * frequency) globally for more consistent scoring, or locally, for lower latency. The default is
+   * 'local'. Use 'global' to aggregate scoring statistics globally before scoring. Using global
+   * scoring statistics can increase latency of search queries. Possible values include: 'Local',
+   * 'Global'
+   */
+  scoringStatistics?: ScoringStatistics;
+  /**
+   * A value to be used to create a sticky session, which can help getting more consistent results.
+   * As long as the same sessionId is used, a best-effort attempt will be made to target the same
+   * replica set. Be wary that reusing the same sessionID values repeatedly can interfere with the
+   * load balancing of the requests across replicas and adversely affect the performance of the
+   * search service. The value used as sessionId cannot start with a '_' character.
+   */
+  sessionId?: string;
+  /**
    * The list of parameter values to be used in scoring functions (for example,
    * referencePointParameter) using the format name-values. For example, if the scoring profile
    * defines a function with a parameter called 'mylocation' the parameter string would be
@@ -166,13 +182,13 @@ export interface SearchResult {
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly score: number;
+  readonly _score: number;
   /**
    * Text fragments from the document that indicate the matching search terms, organized by each
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly highlights?: { [propertyName: string]: string[] };
+  readonly _highlights?: { [propertyName: string]: string[] };
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -554,6 +570,20 @@ export interface SearchOptions {
    */
   searchMode?: SearchMode;
   /**
+   * A value that specifies whether we want to calculate scoring statistics (such as document
+   * frequency) globally for more consistent scoring, or locally, for lower latency. Possible
+   * values include: 'Local', 'Global'
+   */
+  scoringStatistics?: ScoringStatistics;
+  /**
+   * A value to be used to create a sticky session, which can help to get more consistent results.
+   * As long as the same sessionId is used, a best-effort attempt will be made to target the same
+   * replica set. Be wary that reusing the same sessionID values repeatedly can interfere with the
+   * load balancing of the requests across replicas and adversely affect the performance of the
+   * search service. The value used as sessionId cannot start with a '_' character.
+   */
+  sessionId?: string;
+  /**
    * The list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema
    * are included.
    */
@@ -734,6 +764,14 @@ export interface DocumentsAutocompleteGetOptionalParams extends coreHttp.Request
  * @enum {string}
  */
 export type QueryType = 'simple' | 'full';
+
+/**
+ * Defines values for ScoringStatistics.
+ * Possible values include: 'Local', 'Global'
+ * @readonly
+ * @enum {string}
+ */
+export type ScoringStatistics = 'local' | 'global';
 
 /**
  * Defines values for SearchMode.

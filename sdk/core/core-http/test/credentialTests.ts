@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+/* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
 import * as msRest from "../src/coreHttp";
@@ -13,29 +14,25 @@ const dummyPassword = "IL0veDummies";
 describe("Basic Authentication credentials", () => {
   const encodedCredentials = base64.encodeString(dummyUsername + ":" + dummyPassword);
   describe("usage", () => {
-    it("should base64 encode the username and password and set auth header with baisc scheme in request", (done) => {
+    it("should base64 encode the username and password and set auth header with basic scheme in request", async () => {
       const creds = new BasicAuthenticationCredentials(dummyUsername, dummyPassword);
       const request = new msRest.WebResource();
-      creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        signedRequest.headers.get("authorization")!.should.exist;
-        signedRequest.headers
-          .get("authorization")!
-          .should.match(new RegExp("^Basic\\s+" + encodedCredentials + "$"));
-        done();
-      });
+      const signedRequest = await creds.signRequest(request);
+      signedRequest.headers.get("authorization")!.should.exist;
+      signedRequest.headers
+        .get("authorization")!
+        .should.match(new RegExp("^Basic\\s+" + encodedCredentials + "$"));
     });
 
-    it("should base64 encode the username and password and set auth header with custom scheme in request", (done) => {
+    it("should base64 encode the username and password and set auth header with custom scheme in request", async () => {
       const creds = new BasicAuthenticationCredentials(dummyUsername, dummyPassword, fakeScheme);
       const request = new msRest.WebResource();
 
-      creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        signedRequest.headers.get("authorization")!.should.exist;
-        signedRequest.headers
-          .get("authorization")!
-          .should.match(new RegExp("^" + fakeScheme + "\\s+" + encodedCredentials + "$"));
-        done();
-      });
+      const signedRequest = await creds.signRequest(request);
+      signedRequest.headers.get("authorization")!.should.exist;
+      signedRequest.headers
+        .get("authorization")!
+        .should.match(new RegExp("^" + fakeScheme + "\\s+" + encodedCredentials + "$"));
     });
   });
 

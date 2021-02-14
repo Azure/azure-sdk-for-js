@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { Mapper } from "./serializer";
@@ -51,7 +51,7 @@ export interface OperationQueryParameter extends OperationParameter {
 
 /**
  * Get the path to this parameter's value as a dotted string (a.b.c).
- * @param parameter The parameter to get the path string for.
+ * @param parameter - The parameter to get the path string for.
  * @returns The path to this parameter's value as a dotted string.
  */
 export function getPathStringFromParameter(parameter: OperationParameter): string {

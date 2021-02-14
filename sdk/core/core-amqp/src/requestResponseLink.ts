@@ -4,8 +4,7 @@
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import {
-  AmqpError,
-  Message as AmqpMessage,
+  Message as RheaMessage,
   Connection,
   EventContext,
   Receiver,
@@ -14,7 +13,8 @@ import {
   ReqResLink,
   Sender,
   SenderOptions,
-  Session
+  Session,
+  generate_uuid
 } from "rhea-promise";
 import { ConditionStatusMapper, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
@@ -39,6 +39,19 @@ export interface SendRequestOptions {
 }
 
 /**
+ * @internal
+ * @hidden
+ */
+export interface DeferredPromiseWithCallback {
+  resolve: (value?: any) => void;
+  reject: (reason?: any) => void;
+  /**
+   * To be called before resolving or rejecting the deferred promise
+   */
+  cleanupBeforeResolveOrReject: () => void;
+}
+
+/**
  * Describes an amqp request(sender)-response(receiver) link that is created over an amqp session.
  * @class RequestResponseLink
  */
@@ -53,7 +66,20 @@ export class RequestResponseLink implements ReqResLink {
     this.session = session;
     this.sender = sender;
     this.receiver = receiver;
+    this.receiver.on(ReceiverEvents.message, (context) => {
+      onMessageReceived(context, this.connection.id, this._responsesMap);
+    });
   }
+
+  /**
+   * @property {Map<string, Promise<any>>} _responsesMap Maintains a map of responses that
+   * are being actively returned. It acts as a store for correlating the responses received for
+   * the send requests.
+   */
+  private _responsesMap: Map<string, DeferredPromiseWithCallback> = new Map<
+    string,
+    DeferredPromiseWithCallback
+  >();
 
   /**
    * Provides the underlying amqp connection object.
@@ -75,25 +101,24 @@ export class RequestResponseLink implements ReqResLink {
    * Sends the given request message and returns the received response. If the operation is not
    * completed in the provided timeout in milliseconds `default: 60000`, then `OperationTimeoutError` is thrown.
    *
-   * @param {Message} request The AMQP (request) message.
+   * @param {RheaMessage} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest(request: AmqpMessage, options: SendRequestOptions = {}): Promise<AmqpMessage> {
+  sendRequest(request: RheaMessage, options: SendRequestOptions = {}): Promise<RheaMessage> {
     const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
-    return new Promise<AmqpMessage>((resolve: any, reject: any) => {
-      let waitTimer: any = null;
-      let timeOver: boolean = false;
-      type NormalizedInfo = {
-        statusCode: number;
-        statusDescription: string;
-        errorCondition: string;
-      };
+    // If message_id is not already set on the request, set it to a unique value
+    // This helps in determining the right response for current request among multiple incoming messages
+    if (!request.message_id) {
+      request.message_id = generate_uuid();
+    }
 
+    return new Promise<RheaMessage>((resolve: any, reject: any) => {
       const rejectOnAbort = (): void => {
+        this._responsesMap.delete(request.message_id as string);
         const address = this.receiver.address || "address";
         const requestName = options.requestName;
         const desc: string =
@@ -109,12 +134,8 @@ export class RequestResponseLink implements ReqResLink {
       };
 
       const onAbort = (): void => {
-        // remove the event listener as this will be registered next time someone makes a request.
-        this.receiver.removeListener(ReceiverEvents.message, messageCallback);
         // safe to clear the timeout if it hasn't already occurred.
-        if (!timeOver) {
-          clearTimeout(waitTimer);
-        }
+        clearTimeout(timer);
         aborter!.removeEventListener("abort", onAbort);
 
         rejectOnAbort();
@@ -129,76 +150,8 @@ export class RequestResponseLink implements ReqResLink {
         aborter.addEventListener("abort", onAbort);
       }
 
-      // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
-      const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
-        if (!props) props = {};
-        return {
-          statusCode: (props[Constants.statusCode] || props.statusCode) as number,
-          statusDescription: (props[Constants.statusDescription] ||
-            props.statusDescription) as string,
-          errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
-        };
-      };
-
-      const messageCallback = (context: EventContext): void => {
-        if (aborter) {
-          aborter.removeEventListener("abort", onAbort);
-        }
-        const info = getCodeDescriptionAndError(context.message!.application_properties);
-        const responseCorrelationId = context.message!.correlation_id;
-        logger.verbose(
-          "[%s] %s response: ",
-          this.connection.id,
-          request.to || "$management",
-          context.message
-        );
-        if (
-          request.message_id !== responseCorrelationId &&
-          request.correlation_id !== responseCorrelationId
-        ) {
-          // do not remove message listener.
-          // parallel requests listen on the same receiver, so continue waiting until response that matches
-          // request via correlationId is found.
-          logger.verbose(
-            "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
-              "Hence dropping this response and waiting for the next one.",
-            this.connection.id,
-            request.message_id,
-            responseCorrelationId
-          );
-          return;
-        }
-
-        // remove the event listeners as they will be registered next time when someone makes a request.
-        this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-        if (!timeOver) {
-          clearTimeout(waitTimer);
-        }
-        if (info.statusCode > 199 && info.statusCode < 300) {
-          logger.verbose(
-            "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
-            this.connection.id,
-            request.message_id,
-            responseCorrelationId
-          );
-          return resolve(context.message);
-        } else {
-          const condition =
-            info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
-          const e: AmqpError = {
-            condition: condition,
-            description: info.statusDescription
-          };
-          const error = translate(e);
-          logger.warning(error);
-          logErrorStackTrace(error);
-          return reject(error);
-        }
-      };
-
-      const actionAfterTimeout = (): void => {
-        timeOver = true;
-        this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+      const timer = setTimeout(() => {
+        this._responsesMap.delete(request.message_id as string);
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
         }
@@ -211,10 +164,16 @@ export class RequestResponseLink implements ReqResLink {
           message: desc
         };
         return reject(translate(e));
-      };
+      }, timeoutInMs);
 
-      waitTimer = setTimeout(actionAfterTimeout, timeoutInMs);
-      this.receiver.on(ReceiverEvents.message, messageCallback);
+      this._responsesMap.set(request.message_id as string, {
+        resolve: resolve,
+        reject: reject,
+        cleanupBeforeResolveOrReject: () => {
+          if (aborter) aborter.removeEventListener("abort", onAbort);
+          clearTimeout(timer);
+        }
+      });
 
       logger.verbose(
         "[%s] %s request sent: %O",
@@ -231,8 +190,8 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
-    await this.sender.close();
-    await this.receiver.close();
+    await this.sender.close({ closeSession: false });
+    await this.receiver.close({ closeSession: false });
     await this.session.close();
   }
 
@@ -268,4 +227,108 @@ export class RequestResponseLink implements ReqResLink {
     );
     return new RequestResponseLink(session, sender, receiver);
   }
+}
+/**
+ * @internal
+ * @hidden
+ *
+ * Type used in getCodeDescriptionAndError to get the normalized info from the responses emitted by EventHubs and ServiceBus.
+ */
+type NormalizedInfo = {
+  statusCode: number;
+  statusDescription: string;
+  errorCondition: string;
+};
+
+/**
+ * @internal
+ * @hidden
+ *
+ * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
+ *
+ * @param {*} props
+ * @returns {NormalizedInfo}
+ */
+export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
+  if (!props) props = {};
+  return {
+    statusCode: (props[Constants.statusCode] || props.statusCode) as number,
+    statusDescription: (props[Constants.statusDescription] || props.statusDescription) as string,
+    errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
+  };
+};
+
+/**
+ * This is used as the onMessage handler for the "message" event on the receiver.
+ *
+ * (This is inspired from the message settlement sequence in service-bus SDK which
+ * relies on a single listener for settled event for all the messages.)
+ * The sequence is as follows:
+ * 1. User calls `await RequestResponseLink.sendRequest()`
+ * 2. This creates a `Promise` that gets stored in the _responsesMap
+ * 3. When the service acknowledges the response, this method gets called for that request.
+ * 4. We resolve() the promise from the _responsesMap with the message.
+ * 5. User's code after the sendRequest continues.
+ *
+ * @internal
+ * @hidden
+ */
+export function onMessageReceived(
+  context: Pick<EventContext, "message">,
+  connectionId: string,
+  responsesMap: Map<string, DeferredPromiseWithCallback>
+): void {
+  const message = context.message;
+  if (!message) {
+    logger.verbose(
+      `[${connectionId}] "message" property on the EventContext is "undefined" which is unexpected, ` +
+        `returning from the "onMessageReceived" handler without resolving or rejecting the promise ` +
+        `upon encountering the message event.`
+    );
+    return;
+  }
+
+  const responseCorrelationId = message.correlation_id;
+  if (!responsesMap.has(responseCorrelationId as string)) {
+    logger.verbose(
+      `[${connectionId}] correlationId "${responseCorrelationId}" property on the response does not match with ` +
+        `any of the "request-id"s in the map, returning from the "onMessageReceived" handler without resolving ` +
+        `or rejecting the promise upon encountering the message event.`
+    );
+    return;
+  }
+
+  const promise = responsesMap.get(responseCorrelationId as string) as DeferredPromiseWithCallback;
+  promise.cleanupBeforeResolveOrReject();
+
+  const deleteResult = responsesMap.delete(responseCorrelationId as string);
+  logger.verbose(
+    `[${connectionId}] Successfully deleted the response with id ${responseCorrelationId} from the map. ` +
+      `Delete result - ${deleteResult}`
+  );
+
+  const info = getCodeDescriptionAndError(message.application_properties);
+  let error;
+  if (!info.statusCode) {
+    error = new Error(
+      `[${connectionId}] No statusCode in the "application_properties" in the returned response with correlation-id: ${responseCorrelationId}`
+    );
+  }
+  if (info.statusCode > 199 && info.statusCode < 300) {
+    logger.verbose(
+      `[${connectionId}] Resolving the response with correlation-id: ${responseCorrelationId}`
+    );
+    return promise.resolve(message);
+  }
+  if (!error) {
+    const condition =
+      info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
+    error = translate({
+      condition: condition,
+      description: info.statusDescription
+    });
+    logger.warning(`${error?.name}: ${error?.message}`);
+  }
+  logErrorStackTrace(error);
+  return promise.reject(error);
 }

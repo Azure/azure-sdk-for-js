@@ -32,16 +32,31 @@
       "metadata": {
         "description": "The application client secret used to run tests."
       }
+    },
+    "enableVersioning": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "storageEndpointSuffix": {
+      "type": "string",
+      "defaultValue": "core.windows.net",
+      "metadata": {
+        "description": "Storage endpoint suffix. The default value uses Azure Public Cloud (core.windows.net)"
+      }
     }
   },
   "variables": {
     "storageApiVersion": "2019-04-01",
     "location": "[resourceGroup().location]",
     "accountName": "[parameters('baseName')]",
-    "datalakeAccountName": "[concat('d', parameters('baseName'))]",
+    "datalakeAccountName": "[concat('dl', parameters('baseName'))]",
+    "fullAccountName": "[concat('f', parameters('baseName'))]",
+    "premiumFileAccountName": "[concat('pf', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
-    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
-    "endpointSuffix": "core.windows.net",
+    "datalakeAccountNameTidy": "[toLower(trim(variables('datalakeAccountName')))]",
+    "fullAccountNameTidy": "[toLower(trim(variables('fullAccountName')))]",
+    "premiumFileAccountNameTidy": "[toLower(trim(variables('premiumFileAccountName')))]",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.', parameters('storageEndpointSuffix'))]",
     "accountSasProperties": {
       "signedServices": "bfqt",
       "signedPermission": "rwdlacup",
@@ -50,18 +65,44 @@
       "signedExpiry": "2022-01-01T23:59:00Z"
     },
     "authorizationApiVersion": "2018-01-01-preview",
-    "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]"
+    "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
+    "blobDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]",
+    "encryption": {
+      "services": {
+        "file": {
+          "enabled": true
+        },
+        "blob": {
+          "enabled": true
+        }
+      },
+      "keySource": "Microsoft.Storage"
+    },
+    "networkAcls": {
+      "bypass": "AzureServices",
+      "virtualNetworkRules": [],
+      "ipRules": [],
+      "defaultAction": "Allow"
+    }
   },
   "resources": [
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('blobDataContributorRoleId', variables('accountName')))]",
-      "dependsOn": [
-        "[variables('accountName')]"
-      ],
+      "dependsOn": ["[variables('accountName')]"],
       "properties": {
         "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('blobDataOwnerRoleId', variables('accountName')))]",
+      "dependsOn": ["[variables('accountName')]"],
+      "properties": {
+        "roleDefinitionId": "[variables('blobDataOwnerRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
       }
     },
@@ -76,26 +117,9 @@
       },
       "kind": "StorageV2",
       "properties": {
-        "networkAcls": {
-          "bypass": "AzureServices",
-          "virtualNetworkRules": [
-          ],
-          "ipRules": [
-          ],
-          "defaultAction": "Allow"
-        },
+        "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
-        "encryption": {
-          "services": {
-            "file": {
-              "enabled": true
-            },
-            "blob": {
-              "enabled": true
-            }
-          },
-          "keySource": "Microsoft.Storage"
-        },
+        "encryption": "[variables('encryption')]",
         "accessTier": "Hot"
       },
       "resources": [
@@ -103,16 +127,13 @@
           "name": "default",
           "type": "blobServices",
           "apiVersion": "[variables('storageApiVersion')]",
-          "dependsOn": [
-            "[variables('accountName')]"
-          ],
+          "dependsOn": ["[variables('accountName')]"],
           "properties": {
+            "isVersioningEnabled": "[parameters('enableVersioning')]",
             "cors": {
               "corsRules": [
                 {
-                  "allowedOrigins": [
-                    "*"
-                  ],
+                  "allowedOrigins": ["*"],
                   "allowedMethods": [
                     "DELETE",
                     "GET",
@@ -124,57 +145,40 @@
                     "PATCH"
                   ],
                   "maxAgeInSeconds": 86400,
-                  "exposedHeaders": [
-                    "*"
-                  ],
-                  "allowedHeaders": [
-                    "*"
-                  ]
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
                 }
               ]
+            },
+            "lastAccessTimeTrackingPolicy": {
+              "enable": true,
+              "name": "AccessTimeTracking",
+              "trackingGranularityInDays": 1,
+              "blobType": ["blockBlob"]
             }
           },
-          "resources": [
-          ]
+          "resources": []
         },
         {
           "name": "default",
           "type": "fileServices",
           "apiVersion": "[variables('storageApiVersion')]",
-          "dependsOn": [
-            "[variables('accountName')]"
-          ],
+          "dependsOn": ["[variables('accountName')]"],
           "properties": {
             "cors": {
               "corsRules": [
                 {
-                  "allowedOrigins": [
-                    "*"
-                  ],
-                  "allowedMethods": [
-                    "DELETE",
-                    "GET",
-                    "HEAD",
-                    "MERGE",
-                    "POST",
-                    "OPTIONS",
-                    "PUT"
-                  ],
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
                   "maxAgeInSeconds": 86400,
-                  "exposedHeaders": [
-                    "*"
-                  ],
-                  "allowedHeaders": [
-                    "*"
-                  ]
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
                 }
               ]
             }
           },
-          "resources": [
-          ]
+          "resources": []
         }
-
       ]
     },
     {
@@ -189,64 +193,141 @@
       "kind": "StorageV2",
       "properties": {
         "isHnsEnabled": true,
-        "cors": {
-          "corsRules": [
-            {
-              "allowedOrigins": [
-                "*"
-              ],
-              "allowedMethods": [
-                "DELETE",
-                "GET",
-                "HEAD",
-                "MERGE",
-                "POST",
-                "OPTIONS",
-                "PUT",
-                "PATCH"
-              ],
-              "maxAgeInSeconds": 86400,
-              "exposedHeaders": [
-                "*"
-              ],
-              "allowedHeaders": [
-                "*"
-              ]
-            }
-          ]
-        },
-        "networkAcls": {
-          "bypass": "AzureServices",
-          "virtualNetworkRules": [
-          ],
-          "ipRules": [
-          ],
-          "defaultAction": "Allow"
-        },
+        "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
-        "encryption": {
-          "services": {
-            "file": {
-              "enabled": true
-            },
-            "blob": {
-              "enabled": true
-            }
-          },
-          "keySource": "Microsoft.Storage"
-        },
+        "encryption": "[variables('encryption')]",
         "accessTier": "Hot"
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('fullAccountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "networkAcls": "[variables('networkAcls')]",
+        "supportsHttpsTrafficOnly": true,
+        "encryption": "[variables('encryption')]",
+        "accessTier": "Hot"
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "blobServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "properties": {
+            "restorePolicy": {
+              "enabled": true,
+              "days": 6
+            },
+            "deleteRetentionPolicy": {
+              "enabled": true,
+              "days": 7
+            },
+            "containerDeleteRetentionPolicy": {
+              "enabled": true,
+              "days": 7
+            },
+            "changeFeed": {
+              "enabled": true
+            },
+            "isVersioningEnabled": true,
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
+          },
+          "dependsOn": ["[variables('fullAccountName')]"]
+        },
+        {
+          "name": "default",
+          "type": "fileservices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "properties": {
+            "shareDeleteRetentionPolicy": {
+              "enabled": true,
+              "days": 7
+            },
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
+          },
+          "dependsOn": ["[variables('fullAccountName')]"]
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('premiumFileAccountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Premium_LRS",
+        "tier": "Premium"
+      },
+      "kind": "FileStorage",
+      "properties": {
+        "networkAcls": "[variables('networkAcls')]",
+        "supportsHttpsTrafficOnly": true,
+        "encryption": "[variables('encryption')]",
+        "accessTier": "Hot"
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "fileservices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
+          },
+          "dependsOn": ["[variables('premiumFileAccountName')]"]
+        }
+      ]
     }
   ],
   "outputs": {
     "ACCOUNT_NAME": {
       "type": "string",
       "value": "[variables('accountName')]"
-    },
-    "STORAGE_DATALAKE_ACCOUNT_NAME": {
-      "type": "string",
-      "value": "[variables('datalakeAccountName')]"
     },
     "ACCOUNT_KEY": {
       "type": "string",
@@ -258,7 +339,7 @@
     },
     "STORAGE_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     },
     "AZURE_TENANT_ID": {
       "type": "string",
@@ -271,6 +352,66 @@
     "AZURE_CLIENT_SECRET": {
       "type": "string",
       "value": "[parameters('testApplicationSecret')]"
+    },
+    "DFS_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('dataLakeAccountName')]"
+    },
+    "DFS_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('dataLakeAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "DFS_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('datalakeAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "FULL_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('fullAccountName')]"
+    },
+    "FULL_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "FULL_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('fullAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "FULL_STORAGE_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('fullAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+    },
+    "SOFT_DELETE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('fullAccountName')]"
+    },
+    "SOFT_DELETE_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "SOFT_DELETE_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('fullAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "SOFT_DELETE_STORAGE_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('fullAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+    },
+    "PREMIUM_FILE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('fullAccountName')]"
+    },
+    "PREMIUM_FILE_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "PREMIUM_FILE_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('fullAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "PREMIUM_FILE_STORAGE_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('fullAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('fullAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     }
   }
 }

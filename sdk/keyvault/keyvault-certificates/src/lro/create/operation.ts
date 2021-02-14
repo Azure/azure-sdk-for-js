@@ -2,31 +2,48 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { RequestOptionsBase } from "@azure/core-http";
+import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
   CertificatePolicy,
-  CertificateClientInterface
+  GetCertificateOptions,
+  GetPlainCertificateOperationOptions,
+  CancelCertificateOperationOptions
 } from "../../certificatesModels";
-import { CertificateOperation } from "../../core/models";
+import {
+  CertificateOperation,
+  CreateCertificateResponse,
+  GetCertificateOperationResponse,
+  GetCertificateResponse,
+  UpdateCertificateOperationResponse
+} from "../../generated/models";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
+import { KeyVaultClient } from "../../generated/keyVaultClient";
+import {
+  getCertificateOperationFromCoreOperation,
+  getCertificateWithPolicyFromCertificateBundle,
+  toCoreAttributes,
+  toCorePolicy
+} from "../../transformations";
+import { createSpan } from "../../../../keyvault-common";
+import { setParentSpan } from "../../../../keyvault-common";
 
 /**
  * The public representation of the CreateCertificatePoller operation state.
  */
-export type CreateCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
+export type CreateCertificateState = KeyVaultCertificatePollOperationState<
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * An interface representing the state of a create certificate's poll operation
- * @internal
  */
 export interface CreateCertificatePollOperationState
-  extends PollOperationState<KeyVaultCertificateWithPolicy> {
-  /**
-   * The name of the certificate.
-   */
-  certificateName: string;
+  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The policy of the certificate.
    */
@@ -36,14 +53,6 @@ export interface CreateCertificatePollOperationState
    */
   createCertificateOptions: CreateCertificateOptions;
   /**
-   * Options for the core-http requests.
-   */
-  requestOptions?: RequestOptionsBase;
-  /**
-   * An interface representing a CertificateClient. For internal use.
-   */
-  client: CertificateClientInterface;
-  /**
    * The operation of the certificate
    */
   certificateOperation?: CertificateOperation;
@@ -51,115 +60,202 @@ export interface CreateCertificatePollOperationState
 
 /**
  * An interface representing a create certificate's poll operation
- * @internal
  */
-export type CreateCertificatePollOperation = PollOperation<
+export class CreateCertificatePollOperation extends KeyVaultCertificatePollOperation<
   CreateCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
->;
-
-/**
- * @summary Reaches to the service and updates the create certificate's poll operation.
- * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
- * @internal
- */
-async function update(
-  this: CreateCertificatePollOperation,
-  options: {
-    abortSignal?: AbortSignalLike;
-    fireProgress?: (state: CreateCertificatePollOperationState) => void;
-  } = {}
-): Promise<CreateCertificatePollOperation> {
-  const state = this.state;
-  const { certificateName, certificatePolicy, createCertificateOptions, client } = state;
-
-  const requestOptions = state.requestOptions || {};
-  if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
-    createCertificateOptions.abortSignal = options.abortSignal;
+> {
+  constructor(
+    public state: CreateCertificatePollOperationState,
+    private vaultUrl: string,
+    private client: KeyVaultClient,
+    private requestOptions: RequestOptionsBase = {}
+  ) {
+    super(state);
   }
 
-  if (!state.isStarted) {
-    state.isStarted = true;
-    state.result = await client.createCertificate(
-      certificateName,
-      certificatePolicy!,
-      createCertificateOptions
-    );
-    state.certificateOperation = await client.getPlainCertificateOperation(
-      certificateName,
-      requestOptions
-    );
-  } else if (!state.isCompleted) {
-    state.certificateOperation = await client.getPlainCertificateOperation(
-      certificateName,
-      requestOptions
-    );
-  }
+  /**
+   * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
+   */
+  private async createCertificate(
+    certificateName: string,
+    certificatePolicy: CertificatePolicy,
+    options: CreateCertificateOptions = {}
+  ): Promise<KeyVaultCertificateWithPolicy> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("generatedClient.createCertificate", requestOptions);
 
-  if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
-    state.isCompleted = true;
-    state.result = await client.getCertificate(certificateName, requestOptions);
-    if (state.certificateOperation.error) {
-      state.error = new Error(state.certificateOperation.error.message);
+    const id = options.id;
+    const certificateAttributes = toCoreAttributes(options);
+    const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
+
+    const updatedOptions = {
+      ...setParentSpan(span, requestOptions),
+      certificatePolicy: corePolicy,
+      certificateAttributes
+    };
+
+    let result: CreateCertificateResponse;
+
+    try {
+      result = await this.client.createCertificate(this.vaultUrl, certificateName, updatedOptions);
+    } finally {
+      span.end();
     }
+
+    return getCertificateWithPolicyFromCertificateBundle(result);
   }
 
-  return makeCreateCertificatePollOperation(state);
-}
+  /**
+   * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
+   */
+  private async getCertificate(
+    certificateName: string,
+    options: GetCertificateOptions = {}
+  ): Promise<KeyVaultCertificateWithPolicy> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("generatedClient.getCertificate", requestOptions);
 
-/**
- * @summary Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
- * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
- * @internal
- */
-async function cancel(
-  this: CreateCertificatePollOperation,
-  options: { abortSignal?: AbortSignal } = {}
-): Promise<CreateCertificatePollOperation> {
-  const state = this.state;
-  const { client, certificateName } = state;
+    let result: GetCertificateResponse;
 
-  const requestOptions = state.requestOptions || {};
-  if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
+    try {
+      result = await this.client.getCertificate(
+        this.vaultUrl,
+        certificateName,
+        "",
+        setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return getCertificateWithPolicyFromCertificateBundle(result);
   }
 
-  state.certificateOperation = await client.cancelCertificateOperation(
-    certificateName,
-    requestOptions
-  );
+  /**
+   * Gets the certificate operation.
+   */
+  private async getPlainCertificateOperation(
+    certificateName: string,
+    options?: GetPlainCertificateOperationOptions
+  ): Promise<CertificateOperation> {
+    const span = createSpan("generatedClient.getPlainCertificateOperation", options);
 
-  return makeCreateCertificatePollOperation({
-    ...this.state,
-    isCancelled: true
-  });
-}
+    let result: GetCertificateOperationResponse;
 
-/**
- * @summary Serializes the create certificate's poll operation
- * @internal
- */
-function toString(this: CreateCertificatePollOperation): string {
-  return JSON.stringify({
-    state: this.state
-  });
-}
+    try {
+      result = await this.client.getCertificateOperation(
+        this.vaultUrl,
+        certificateName,
+        setParentSpan(span, options)
+      );
+    } finally {
+      span.end();
+    }
 
-/**
- * @summary Builds a create certificate's poll operation
- * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
- * @internal
- */
-export function makeCreateCertificatePollOperation(
-  state: CreateCertificatePollOperationState
-): CreateCertificatePollOperation {
-  return {
-    state: {
-      ...state
-    },
-    update,
-    cancel,
-    toString
-  };
+    return getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
+  }
+
+  /**
+   * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
+   */
+  private async cancelCertificateOperation(
+    certificateName: string,
+    options: CancelCertificateOperationOptions = {}
+  ): Promise<CertificateOperation> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("generatedClient.cancelCertificateOperation", requestOptions);
+
+    let result: UpdateCertificateOperationResponse;
+    try {
+      result = await this.client.updateCertificateOperation(
+        this.vaultUrl,
+        certificateName,
+        true,
+        setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
+  }
+
+  /**
+   * Reaches to the service and updates the create certificate's poll operation.
+   */
+  async update(
+    this: CreateCertificatePollOperation,
+    options: {
+      abortSignal?: AbortSignalLike;
+      fireProgress?: (state: CreateCertificatePollOperationState) => void;
+    } = {}
+  ): Promise<CreateCertificatePollOperation> {
+    const state = this.state;
+    const { certificateName, certificatePolicy, createCertificateOptions } = state;
+
+    if (options.abortSignal) {
+      this.requestOptions.abortSignal = options.abortSignal;
+      createCertificateOptions.abortSignal = options.abortSignal;
+    }
+
+    if (!state.isStarted) {
+      state.isStarted = true;
+      state.result = await this.createCertificate(
+        certificateName,
+        certificatePolicy!,
+        createCertificateOptions
+      );
+      this.state.certificateOperation = await this.getPlainCertificateOperation(
+        certificateName,
+        this.requestOptions
+      );
+    } else if (!state.isCompleted) {
+      this.state.certificateOperation = await this.getPlainCertificateOperation(
+        certificateName,
+        this.requestOptions
+      );
+    }
+
+    if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
+      state.isCompleted = true;
+      state.result = await this.getCertificate(certificateName, this.requestOptions);
+      if (state.certificateOperation.error) {
+        state.error = new Error(state.certificateOperation.error.message);
+      }
+    }
+
+    return this;
+  }
+
+  /**
+   * Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
+   */
+  async cancel(
+    this: CreateCertificatePollOperation,
+    options: { abortSignal?: AbortSignal } = {}
+  ): Promise<CreateCertificatePollOperation> {
+    const state = this.state;
+    const { certificateName } = state;
+
+    if (options.abortSignal) {
+      this.requestOptions.abortSignal = options.abortSignal;
+    }
+
+    state.certificateOperation = await this.cancelCertificateOperation(
+      certificateName,
+      this.requestOptions
+    );
+
+    this.state.isCancelled = true;
+    return this;
+  }
 }

@@ -30,15 +30,15 @@ npm install @azure/ms-rest-azure-js
 
 ##### Sample code
 
-```typescript
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
-import { LUISAuthoringClient } from "@azure/cognitiveservices-luis-authoring";
+```javascript
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
+const { LUISAuthoringClient } = require("@azure/cognitiveservices-luis-authoring");
 
 let authoringKey = process.env["luis-authoring-key"];
 const creds = new CognitiveServicesCredentials(authoringKey);
 
 // check the following link to find your region
-// https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
+// https://docs.microsoft.com/azure/cognitive-services/luis/luis-reference-regions
 const region = "<your-region>";
 const client = new LUISAuthoringClient(
   creds,

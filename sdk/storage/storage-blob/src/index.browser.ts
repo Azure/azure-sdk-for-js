@@ -11,9 +11,17 @@ export * from "./BatchResponse";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export { SasIPRange } from "./SasIPRange";
+export { SasIPRange } from "./sas/SasIPRange";
 export { Range } from "./Range";
-export { BlockBlobTier, PremiumPageBlobTier } from "./models";
+export {
+  BlockBlobTier,
+  PremiumPageBlobTier,
+  Tags,
+  TagConditions,
+  ContainerRequestConditions,
+  ModificationConditions,
+  MatchConditions
+} from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";

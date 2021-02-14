@@ -2,79 +2,17 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./core/models";
+import {
+  ApiVersion72Preview as ApiVersion,
+  DeletionRecoveryLevel,
+  JsonWebKeyType as KeyType,
+  KnownJsonWebKeyType as KnownKeyTypes,
+  JsonWebKeyOperation as KeyOperation,
+  KnownJsonWebKeyOperation as KnownKeyOperations
+} from "./generated/models";
+import { KeyCurveName } from "./cryptographyClientModels";
 
-/**
- * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
- * @readonly
- * @enum {string}
- */
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
-
-/**
- * Defines values for KeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- * @enum {string}
- */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
-
-/**
- * Defines values for KeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey', 'import'
- * @readonly
- * @enum {string}
- */
-export type KeyOperation =
-  | "encrypt"
-  | "decrypt"
-  | "sign"
-  | "verify"
-  | "wrapKey"
-  | "unwrapKey"
-  | "import";
-
-/**
- * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
- * @readonly
- * @enum {string}
- */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
-
-/**
- * @internal
- * @ignore
- * An interface representing the KeyClient. For internal use.
- */
-export interface KeyClientInterface {
-  /**
-   * Recovers the deleted key in the specified vault. This operation can only be performed on a
-   * soft-delete enabled vault.
-   */
-  recoverDeletedKey(name: string, options?: RecoverDeletedKeyOptions): Promise<KeyVaultKey>;
-  /**
-   * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
-   * This operation requires the keys/get permission.
-   */
-  getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-  /**
-   * The delete operation applies to any key stored in Azure Key Vault. Individual versions
-   * of a key can not be deleted, only all versions of a given key at once.
-   */
-  deleteKey(name: string, options?: DeleteKeyOptions): Promise<DeletedKey>;
-  /**
-   * The getDeletedKey method returns the specified deleted key along with its properties.
-   * This operation requires the keys/get permission.
-   */
-  getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
-}
-
-/**
- * The latest supported KeyVault service API version
- */
-export const LATEST_API_VERSION = "7.1-preview";
+export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -83,7 +21,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  apiVersion?: "7.0" | "7.1-preview";
+  serviceVersion?: ApiVersion;
 }
 
 /**
@@ -102,7 +40,7 @@ export interface JsonWebKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   kty?: KeyType;
   /**
@@ -139,7 +77,7 @@ export interface JsonWebKey {
    */
   p?: Uint8Array;
   /**
-   * RSA secret prime, with p < q.
+   * RSA secret prime, with `p < q`.
    */
   q?: Uint8Array;
   /**
@@ -166,7 +104,7 @@ export interface JsonWebKey {
 }
 
 /**
- * An interface representing a KeyVault Key, with its name, value and {@link KeyProperties}.
+ * An interface representing a Key Vault Key, with its name, value and {@link KeyProperties}.
  */
 export interface KeyVaultKey {
   /**
@@ -184,7 +122,7 @@ export interface KeyVaultKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**
@@ -258,14 +196,14 @@ export interface KeyProperties {
   readonly recoveryLevel?: DeletionRecoveryLevel;
   /**
    * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
 }
 
 /**
- * An interface representing a deleted KeyVault Key.
+ * An interface representing a deleted Key Vault Key.
  */
 export interface DeletedKey {
   /**
@@ -283,7 +221,7 @@ export interface DeletedKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
    */
   keyType?: KeyType;
   /**
@@ -501,14 +439,14 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}

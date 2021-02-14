@@ -22,10 +22,12 @@ export {
   ResourceIdentity,
   ServerConfigurationsManagementSettings,
   SqlConnectivityUpdateSettings,
+  SQLStorageSettings,
   SqlStorageUpdateSettings,
   SqlVirtualMachine,
   SqlVirtualMachineGroup,
   SqlWorkloadTypeUpdateSettings,
+  StorageConfigurationSettings,
   TrackedResource,
   WsfcDomainCredentials,
   WsfcDomainProfile

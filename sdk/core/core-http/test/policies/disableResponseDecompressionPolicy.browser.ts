@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import "chai/register-should";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
 import { HttpHeaders } from "../../src/httpHeaders";
-import { disableResponseDecompressionPolicy, DisableResponseDecompressionPolicy } from "../../src/policies/disableResponseDecompressionPolicy";
-import { HttpClient, ServiceClient, Serializer } from '../../src/coreHttp';
+import {
+  disableResponseDecompressionPolicy,
+  DisableResponseDecompressionPolicy
+} from "../../src/policies/disableResponseDecompressionPolicy";
+import { HttpClient, ServiceClient, Serializer } from "../../src/coreHttp";
 
 describe("DisableResponseDecompressionPolicy (browser)", function() {
   const emptyRequestPolicy = {
@@ -22,7 +25,7 @@ describe("DisableResponseDecompressionPolicy (browser)", function() {
 
   describe("for browser", () => {
     it("should throw an Error while constructing object", () => {
-      const construct = () =>
+      const construct = (): DisableResponseDecompressionPolicy =>
         new DisableResponseDecompressionPolicy(emptyRequestPolicy, emptyPolicyOptions);
       construct.should.throw();
     });
@@ -69,10 +72,12 @@ describe("DisableResponseDecompressionPolicy (browser)", function() {
             }
           }
         );
-        throw new Error("Error should have been thrown already.")
+        throw new Error("Error should have been thrown already.");
       } catch (err) {
         err.should.be.an("Error");
-        (err as Error).message.should.equal("DisableResponseDecompressionPolicy is not supported in browser environment")
+        (err as Error).message.should.equal(
+          "DisableResponseDecompressionPolicy is not supported in browser environment"
+        );
       }
     });
   });

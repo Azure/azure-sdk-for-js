@@ -12,13 +12,8 @@ import {
   testHasChanged,
   stripNewLines
 } from "./utils";
-import {
-  NiseRecorder,
-  NockRecorder,
-  BaseRecorder,
-  setEnvironmentOnLoad,
-  setEnvironmentVariables
-} from "./baseRecorder";
+import { setEnvironmentVariables } from "./baseRecorder";
+import { createRecorder } from "./createRecorder";
 import MD5 from "md5";
 
 /**
@@ -30,7 +25,7 @@ export interface Recorder {
    * `stop()` method is supposed to be called at the end of the test, stops and saves the recording in the "record" mode.
    * Has no effect in the playback/live test modes.
    */
-  stop(): void;
+  stop(): Promise<void>;
   /**
    * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
@@ -109,7 +104,6 @@ export function record(
   testContext: TestContextInterface | Mocha.Context,
   recorderEnvironmentSetup: RecorderEnvironmentSetup
 ): Recorder {
-  let recorder: BaseRecorder;
   let testHierarchy: string;
   let testTitle: string;
 
@@ -138,13 +132,7 @@ export function record(
     testContext.skip();
   }
 
-  setEnvironmentOnLoad();
-
-  if (isBrowser()) {
-    recorder = new NiseRecorder(currentHash, testHierarchy, testTitle);
-  } else {
-    recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
-  }
+  const recorder = createRecorder(currentHash, testHierarchy, testTitle);
 
   if (isRecordMode()) {
     // If TEST_MODE=record, invokes the recorder, hits the live-service,
@@ -160,10 +148,10 @@ export function record(
   // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
-    stop: function() {
+    stop: async function() {
       // We check wether we're on record or playback inside of the recorder's stop method.
       if (recorder) {
-        recorder.stop();
+        await recorder.stop();
       }
     },
     /**

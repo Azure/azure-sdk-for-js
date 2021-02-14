@@ -65,7 +65,7 @@ async function main() {
 
   // 3. Generator syntax .next()
   i = 1;
-  iter = await dirClient.listHandles();
+  iter = dirClient.listHandles();
   let handleItem = await iter.next();
   while (!handleItem.done) {
     console.log(

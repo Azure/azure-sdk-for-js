@@ -1,0 +1,41 @@
+{
+  "name": "azure-communication-sms-samples-ts",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Communication Service SMS client library samples for TypeScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/",
+    "start": "node dist/sendSms.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Communication",
+    "SMS",
+    "Node.js",
+    "TypeScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-sms",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/communication-sms": "latest",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.6.4"
+  }
+}

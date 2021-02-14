@@ -10,6 +10,6 @@
 
 export * from "./bots";
 export * from "./channels";
+export * from "./directLine";
 export * from "./operations";
 export * from "./botConnection";
-export * from "./enterpriseChannels";

@@ -5,42 +5,82 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
-import { Message as AmqpMessage } from 'rhea-promise';
-import { MessageHeader as AmqpMessageHeader } from 'rhea-promise';
-import { MessageProperties as AmqpMessageProperties } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
-import { Dictionary } from 'rhea-promise';
-import { isAmqpError } from 'rhea-promise';
-import { isTokenCredential } from '@azure/core-auth';
+import { Message } from 'rhea-promise';
+import { MessageHeader } from 'rhea-promise';
+import { MessageProperties } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
-import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 
-export { AccessToken }
-
-export { AmqpMessage }
-
-export { AmqpMessageHeader }
-
-export { AmqpMessageProperties }
-
-export { AsyncLock }
+// @public
+export interface AmqpAnnotatedMessage {
+    applicationProperties?: {
+        [key: string]: any;
+    };
+    body: any;
+    deliveryAnnotations?: {
+        [key: string]: any;
+    };
+    footer?: {
+        [key: string]: any;
+    };
+    header?: AmqpMessageHeader;
+    messageAnnotations?: {
+        [key: string]: any;
+    };
+    properties?: AmqpMessageProperties;
+}
 
 // @public
-export interface AsyncLockOptions {
-    domainReentrant?: boolean;
-    maxPending?: number;
-    Promise?: any;
-    timeout?: number;
+export const AmqpAnnotatedMessage: {
+    fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
+};
+
+// @public
+export interface AmqpMessageHeader {
+    deliveryCount?: number;
+    durable?: boolean;
+    firstAcquirer?: boolean;
+    priority?: number;
+    timeToLive?: number;
 }
+
+// @public
+export const AmqpMessageHeader: {
+    toRheaMessageHeader(props: AmqpMessageHeader): MessageHeader;
+    fromRheaMessageHeader(props: MessageHeader): AmqpMessageHeader;
+};
+
+// @public
+export interface AmqpMessageProperties {
+    absoluteExpiryTime?: number;
+    contentEncoding?: string;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
+    creationTime?: number;
+    groupId?: string;
+    groupSequence?: number;
+    messageId?: string | number | Buffer;
+    replyTo?: string;
+    replyToGroupId?: string;
+    subject?: string;
+    to?: string;
+}
+
+// @public
+export const AmqpMessageProperties: {
+    toRheaMessageProperties(props: AmqpMessageProperties): MessageProperties;
+    fromRheaMessageProperties(props: MessageProperties): AmqpMessageProperties;
+};
+
+export { AsyncLock }
 
 // @public
 export class CbsClient {
@@ -51,7 +91,7 @@ export class CbsClient {
     readonly connectionLock: string;
     readonly endpoint: string;
     init(): Promise<void>;
-    negotiateClaim(audience: string, tokenObject: AccessToken, tokenType: TokenType): Promise<CbsResponse>;
+    negotiateClaim(audience: string, token: string, tokenType: TokenType): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
 }
@@ -61,9 +101,9 @@ export interface CbsResponse {
     // (undocumented)
     correlationId: string;
     // (undocumented)
-    satusDescription: string;
-    // (undocumented)
     statusCode: string;
+    // (undocumented)
+    statusDescription: string;
 }
 
 // @public
@@ -118,50 +158,6 @@ export enum ConditionErrorNameMapper {
 }
 
 // @public
-export enum ConditionStatusMapper {
-    // (undocumented)
-    "amqp:link:message-size-exceeded" = 403,
-    // (undocumented)
-    "amqp:link:stolen" = 410,
-    // (undocumented)
-    "amqp:not-allowed" = 400,
-    // (undocumented)
-    "amqp:not-found" = 404,
-    // (undocumented)
-    "amqp:not-implemented" = 501,
-    // (undocumented)
-    "amqp:resource-limit-exceeded" = 403,
-    // (undocumented)
-    "amqp:unauthorized-access" = 401,
-    // (undocumented)
-    "com.microsoft:argument-error" = 400,
-    // (undocumented)
-    "com.microsoft:argument-out-of-range" = 400,
-    // (undocumented)
-    "com.microsoft:entity-already-exists" = 409,
-    // (undocumented)
-    "com.microsoft:entity-disabled" = 400,
-    // (undocumented)
-    "com.microsoft:message-lock-lost" = 410,
-    // (undocumented)
-    "com.microsoft:no-matching-subscription" = 500,
-    // (undocumented)
-    "com.microsoft:partition-not-owned" = 410,
-    // (undocumented)
-    "com.microsoft:publisher-revoked" = 401,
-    // (undocumented)
-    "com.microsoft:server-busy" = 503,
-    // (undocumented)
-    "com.microsoft:session-cannot-be-locked" = 410,
-    // (undocumented)
-    "com.microsoft:session-lock-lost" = 410,
-    // (undocumented)
-    "com.microsoft:store-lock-lost" = 410,
-    // (undocumented)
-    "com.microsoft:timeout" = 408
-}
-
-// @public
 export interface ConnectionConfig {
     connectionString: string;
     endpoint: string;
@@ -192,10 +188,8 @@ export interface ConnectionContextBase {
     connection: Connection;
     connectionId: string;
     connectionLock: string;
-    dataTransformer: DataTransformer;
     negotiateClaimLock: string;
     refreshConnection: () => void;
-    readonly tokenCredential: SharedKeyCredential | TokenCredential;
     wasConnectionCloseCalled: boolean;
 }
 
@@ -334,31 +328,15 @@ export const Constants: {
 export interface CreateConnectionContextBaseParameters {
     config: ConnectionConfig;
     connectionProperties: ConnectionProperties;
-    dataTransformer?: DataTransformer;
     isEntityPathRequired?: boolean;
     operationTimeoutInMs?: number;
-    tokenCredential?: SharedKeyCredential | TokenCredential;
-}
-
-// @public
-export interface DataTransformer {
-    decode: (body: any) => any;
-    encode: (body: any) => any;
-}
-
-// @public
-export class DefaultDataTransformer implements DataTransformer {
-    decode(body: any): any;
-    encode(body: any): any;
 }
 
 // @public
 export const defaultLock: AsyncLock;
 
 // @public
-export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T>;
-
-export { Dictionary }
+export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public
 export enum ErrorNameConditionMapper {
@@ -410,134 +388,13 @@ export enum ErrorNameConditionMapper {
 }
 
 // @public
-export interface EventHubConnectionConfig extends ConnectionConfig {
-    entityPath: string;
-    getManagementAddress(): string;
-    getManagementAudience(): string;
-    getReceiverAddress(partitionId: string | number, consumergroup?: string): string;
-    getReceiverAudience(partitionId: string | number, consumergroup?: string): string;
-    getSenderAddress(partitionId?: string | number): string;
-    getSenderAudience(partitionId?: string | number): string;
-}
-
-// @public
-export const EventHubConnectionConfig: {
-    create(connectionString: string, path?: string | undefined): EventHubConnectionConfig;
-    createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig;
-    validate(config: EventHubConnectionConfig): void;
-};
-
-// @public
-export interface EventHubConnectionStringModel {
-    // (undocumented)
-    [x: string]: any;
-    // (undocumented)
-    Endpoint: string;
-    // (undocumented)
-    EntityPath?: string;
-    // (undocumented)
-    SharedAccessKey: string;
-    // (undocumented)
-    SharedAccessKeyName: string;
-}
-
-// @public (undocumented)
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart?: any): Promise<any>;
-
-// @public
-export type Func<T, V> = (a: T) => V;
-
-// @public
-export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock;
-
-// @public (undocumented)
-export interface IotHubConnectionConfig {
-    connectionString: string;
-    deviceId?: string;
-    entityPath: string;
-    host: string;
-    hostName: string;
-    sharedAccessKey: string;
-    sharedAccessKeyName: string;
-}
-
-// @public
-export const IotHubConnectionConfig: {
-    create(connectionString: string, path?: string | undefined): IotHubConnectionConfig;
-    validate(config: IotHubConnectionConfig): void;
-    convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): EventHubConnectionConfig;
-};
-
-// @public
-export interface IotHubConnectionStringModel {
-    // (undocumented)
-    DeviceId?: string;
-    // (undocumented)
-    HostName: string;
-    // (undocumented)
-    SharedAccessKey: string;
-    // (undocumented)
-    SharedAccessKeyName: string;
-}
-
-// @public
-export class IotSharedKeyCredential extends SharedKeyCredential {
-    getToken(audience: string): AccessToken;
-}
-
-export { isAmqpError }
-
-// @public
-export function isIotHubConnectionString(connectionString: string): boolean;
-
-// @public
-export const isNode: boolean;
+export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
 export function isSystemError(err: any): err is NetworkSystemError;
 
-export { isTokenCredential }
-
 // @public
 export const logger: import("@azure/logger").AzureLogger;
-
-// @public
-export interface MessageHeader {
-    deliveryCount?: number;
-    durable?: boolean;
-    firstAcquirer?: boolean;
-    priority?: number;
-    ttl?: number;
-}
-
-// @public
-export const MessageHeader: {
-    toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
-    fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
-};
-
-// @public
-export interface MessageProperties {
-    absoluteExpiryTime?: number;
-    contentEncoding?: string;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    creationTime?: number;
-    groupId?: string;
-    groupSequence?: number;
-    messageId?: string | number | Buffer;
-    replyTo?: string;
-    replyToGroupId?: string;
-    subject?: string;
-    to?: string;
-    userId?: string;
-}
-
-// @public
-export const MessageProperties: {
-    toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
-    fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
-};
 
 // @public
 export class MessagingError extends Error {
@@ -583,9 +440,6 @@ export type ParsedOutput<T> = {
 };
 
 // @public
-export function randomNumberFromInterval(min: number, max: number): number;
-
-// @public
 export class RequestResponseLink implements ReqResLink {
     constructor(session: Session, sender: Sender, receiver: Receiver);
     close(): Promise<void>;
@@ -597,7 +451,7 @@ export class RequestResponseLink implements ReqResLink {
     remove(): void;
     // (undocumented)
     sender: Sender;
-    sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage>;
+    sendRequest(request: Message, options?: SendRequestOptions): Promise<Message>;
     // (undocumented)
     session: Session;
 }
@@ -663,44 +517,6 @@ export interface SendRequestOptions {
 }
 
 // @public
-export interface ServiceBusConnectionStringModel {
-    // (undocumented)
-    [x: string]: any;
-    // (undocumented)
-    Endpoint: string;
-    // (undocumented)
-    EntityPath?: string;
-    // (undocumented)
-    SharedAccessKey: string;
-    // (undocumented)
-    SharedAccessKeyName: string;
-}
-
-// @public
-export class SharedKeyCredential {
-    constructor(keyName: string, key: string);
-    protected _createToken(expiry: number, audience: string, hashInput?: string | Buffer): AccessToken;
-    static fromConnectionString(connectionString: string): SharedKeyCredential;
-    getToken(audience: string): AccessToken;
-    key: string;
-    keyName: string;
-}
-
-// @public
-export interface StorageConnectionStringModel {
-    // (undocumented)
-    [x: string]: any;
-    // (undocumented)
-    AccountKey: string;
-    // (undocumented)
-    AccountName: string;
-    // (undocumented)
-    DefaultEndpointsProtocol: string;
-    // (undocumented)
-    EndpointSuffix: string;
-}
-
-// @public
 export enum SystemErrorConditionMapper {
     // (undocumented)
     EBUSY = "com.microsoft:server-busy",
@@ -723,22 +539,6 @@ export enum SystemErrorConditionMapper {
     // (undocumented)
     ETIMEDOUT = "com.microsoft:timeout"
 }
-
-// @public
-export class Timeout {
-    // (undocumented)
-    clear(): void;
-    // (undocumented)
-    set<T>(t: number, value?: T): Promise<T>;
-    // (undocumented)
-    static set<T>(t: number, value?: T): Promise<T>;
-    // (undocumented)
-    wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T>;
-    // (undocumented)
-    static wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T>;
-}
-
-export { TokenCredential }
 
 // @public
 export enum TokenType {

@@ -23,7 +23,7 @@ describe("Aborter", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("should not abort after calling abort()", async () => {

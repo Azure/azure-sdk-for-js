@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import replace from "@rollup/plugin-replace";
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import shim from "rollup-plugin-shim";
@@ -33,7 +34,7 @@ export function nodeConfig(test = false) {
     "util"
   ];
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/storage-file-datalake/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
     output: {
       file: "dist/index.js",
@@ -50,6 +51,7 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs({
         namedExports: {
           events: ["EventEmitter"],
@@ -78,9 +80,9 @@ export function nodeConfig(test = false) {
   if (test) {
     // entry point is every test file
     baseConfig.input = [
-      "dist-esm/test/*.spec.js",
-      "dist-esm/test/node/*.spec.js",
-      "dist-esm/src/index.js"
+      "dist-esm/storage-file-datalake/test/*.spec.js",
+      "dist-esm/storage-file-datalake/test/node/*.spec.js",
+      "dist-esm/storage-file-datalake/src/index.js"
     ];
     baseConfig.plugins.unshift(multiEntry());
 
@@ -105,7 +107,7 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/src/index.browser.js",
+    input: "dist-esm/storage-file-datalake/src/index.browser.js",
     output: {
       file: "dist-browser/azure-storage-file-datalake.js",
       banner: banner,
@@ -170,7 +172,10 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/storage-file-datalake/test/*.spec.js",
+      "dist-esm/storage-file-datalake/test/browser/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external

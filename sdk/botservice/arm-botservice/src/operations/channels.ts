@@ -30,9 +30,10 @@ export class Channels {
    * Creates a Channel registration for a Bot Service
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param parameters The parameters to provide for the created bot.
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsCreateResponse>
@@ -41,9 +42,10 @@ export class Channels {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param parameters The parameters to provide for the created bot.
    * @param callback The callback
    */
@@ -51,9 +53,10 @@ export class Channels {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param parameters The parameters to provide for the created bot.
    * @param options The optional parameters
    * @param callback The callback
@@ -76,9 +79,10 @@ export class Channels {
    * Updates a Channel registration for a Bot Service
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsUpdateResponse>
    */
@@ -86,18 +90,20 @@ export class Channels {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param callback The callback
    */
   update(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, callback: msRest.ServiceCallback<Models.BotChannel>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -190,9 +196,10 @@ export class Channels {
    * Lists a Channel registration for a Bot Service including secrets
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsListWithKeysResponse>
    */
@@ -200,18 +207,20 @@ export class Channels {
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param callback The callback
    */
   listWithKeys(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, callback: msRest.ServiceCallback<Models.BotChannel>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
-   * @param channelName The name of the Channel resource. Possible values include: 'FacebookChannel',
-   * 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel', 'MsTeamsChannel',
-   * 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel'
+   * @param channelName The name of the Channel resource. Possible values include: 'AlexaChannel',
+   * 'FacebookChannel', 'EmailChannel', 'KikChannel', 'TelegramChannel', 'SlackChannel',
+   * 'MsTeamsChannel', 'SkypeChannel', 'WebChatChannel', 'DirectLineChannel', 'SmsChannel',
+   * 'LineChannel', 'DirectLineSpeechChannel'
    * @param options The optional parameters
    * @param callback The callback
    */

@@ -21,7 +21,7 @@ import { AzureBlobLease } from "./azureBlobLease";
 import { EPHActionStrings } from "./util/utils";
 
 /**
- * @ignore
+ * @hidden
  */
 export class PartitionPump {
   private _context: HostContextWithCheckpointLeaseManager;

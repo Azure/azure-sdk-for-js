@@ -7,7 +7,8 @@
  */
 
 export {
-  CloudError,
+  ErrorProperties,
+  ErrorResponse,
   GetCallbackUrlParameters,
   WorkflowTriggerCallbackUrl,
   WorkflowTriggerListCallbackUrlQueries

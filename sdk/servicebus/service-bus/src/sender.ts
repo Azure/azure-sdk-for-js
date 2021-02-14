@@ -2,80 +2,55 @@
 // Licensed under the MIT license.
 
 import Long from "long";
-import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ServiceBusMessage } from "./serviceBusMessage";
+import { ConnectionContext } from "./connectionContext";
 import {
   getSenderClosedErrorMsg,
   throwErrorIfConnectionClosed,
+  throwIfNotValidServiceBusMessage,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray
+  throwTypeErrorIfParameterNotLong
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions, SenderOpenOptions } from "./models";
+import { CreateMessageBatchOptions } from "./models";
+import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import {
-  MessagingError,
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry
-} from "@azure/core-amqp";
-import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+  createSendSpan,
+  getParentSpan,
+  OperationOptionsBase
+} from "./modelsToBeSharedWithEventHubs";
+import { CanonicalCode } from "@opentelemetry/api";
+import { senderLogger as logger } from "./log";
+import { ServiceBusError } from "./serviceBusError";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
  * and cancel such scheduled messages.
- * Use the `createSender` function on the ServiceBusClient instantiate a Sender.
+ * Use the `createSender` function on the ServiceBusClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  */
-export interface Sender {
+export interface ServiceBusSender {
   /**
-   * Sends the given message after creating an AMQP Sender link if it doesnt already exists.
-   *
-   * To send a message to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
-   * and/or `partitionKey` properties respectively on the message.
-   *
-   * @param message - Message to send.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<void>
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while sending messages to the service.
-   */
-  send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
-  /**
-   * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
-   * Sender link if it doesn't already exist.
+   * Sends the given messages after creating an AMQP Sender link if it doesn't already exist.
    *
    * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
    * and/or `partitionKey` properties respectively on the messages.
-   * - When doing so, all messages in the batch should have the same `sessionId` (if using
+   * - All messages passed to the same sendMessages() call should have the same `sessionId` (if using
    *  sessions) and the same `partitionKey` (if using partitions).
    *
-   * @param messages - An array of ServiceBusMessage objects to be sent in a Batch message.
+   * @param messages - A single message or an array of messages or a batch of messages created via the createBatch()
+   * method to send.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @return Promise<void>
+   * @throws `ServiceBusError` with the code `MessageSizeExceeded` if the provided messages do not fit in a single `ServiceBusMessageBatch`.
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while sending messages to the service.
+   * @throws `ServiceBusError` if the service returns an error while sending messages to the service.
    */
-  send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
-  /**
-   * Sends a batch of messages to the associated service-bus entity after creating an AMQP
-   * Sender link if it doesn't already exist.
-   *
-   * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
-   * and/or `partitionKey` properties respectively on the messages.
-   * - When doing so, all messages in the batch should have the same `sessionId` (if using
-   *  sessions) and the same `partitionKey` (if using partitions).
-   *
-   * @param {ServiceBusMessageBatch} messageBatch A batch of messages that you can create using the {@link createBatch} method.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns {Promise<void>}
-   * @throws MessagingError if an error is encountered while sending a message.
-   * @throws Error if the underlying connection or sender has been closed.
-   */
-  send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+  sendMessages(
+    messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
+    options?: OperationOptionsBase
+  ): Promise<void>;
 
   /**
    * Creates an instance of `ServiceBusMessageBatch` to which one can add messages until the maximum supported size is reached.
@@ -83,85 +58,62 @@ export interface Sender {
    * @param options  Configures the behavior of the batch.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    *
-   * @param {CreateBatchOptions} [options]
+   * @param {CreateMessageBatchOptions} [options]
    * @returns {Promise<ServiceBusMessageBatch>}
-   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws `ServiceBusError` if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+  createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
+
+  // TODO: Commented out to come up with an alternative name
+  // /**
+  //  * Opens the AMQP link to Azure Service Bus from the sender.
+  //  *
+  //  * It is not necessary to call this method in order to use the sender. It is
+  //  * recommended to call this before your first sendMessages() call if you
+  //  * want to front load the work of setting up the AMQP link to the service.
+  //  *
+  //  * @param options - Options to configure tracing and the abortSignal.
+  //  */
+  // open(options?: OperationOptionsBase): Promise<void>;
 
   /**
-   * Opens the AMQP link to Azure Service Bus from the sender.
-   *
-   * It is not necessary to call this method in order to use the sender. It is
-   * recommended to call this before your first send() or sendBatch() call if you
-   * want to front load the work of setting up the AMQP link to the service.
-   *
-   * @param options - Options bag to pass an abort signal.
-   */
-  open(options?: SenderOpenOptions): Promise<void>;
-
-  /**
-   * @property Returns `true` if either the sender or the client that created it has been closed
+   * @property Returns `true` if either the sender or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;
-  /**
-   * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
-   *
-   * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
-   * @param message - The message that needs to be scheduled.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<Long> - The sequence number of the message that was scheduled.
-   * You will need the sequence number if you intend to cancel the scheduling of the message.
-   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
-   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while scheduling a message.
-   */
-  scheduleMessage(
-    scheduledEnqueueTimeUtc: Date,
-    message: ServiceBusMessage,
-    options?: OperationOptions
-  ): Promise<Long>;
 
   /**
    * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
    *
+   * @param messages - Message or an array of messages that need to be scheduled.
    * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
-   * @param messages - Array of Messages that need to be scheduled.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled.
    * You will need the sequence number if you intend to cancel the scheduling of the messages.
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while scheduling messages.
+   * @throws `ServiceBusError` if the service returns an error while scheduling messages.
    */
   scheduleMessages(
+    messages: ServiceBusMessage | ServiceBusMessage[],
     scheduledEnqueueTimeUtc: Date,
-    messages: ServiceBusMessage[],
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<Long[]>;
 
   /**
-   * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
-   * @param sequenceNumber - The sequence number of the message to be cancelled.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<void>
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while canceling a scheduled message.
-   */
-  cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
-  /**
    * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
-   * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
+   * @param sequenceNumbers - Sequence number or an array of sequence numbers of the messages to be cancelled.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while canceling scheduled messages.
+   * @throws `ServiceBusError` if the service returns an error while canceling scheduled messages.
    */
-  cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
+  cancelScheduledMessages(
+    sequenceNumbers: Long | Long[],
+    options?: OperationOptionsBase
+  ): Promise<void>;
   /**
    * Path of the entity for which the sender has been created.
    */
@@ -178,15 +130,11 @@ export interface Sender {
 
 /**
  * @internal
- * @ignore
- * @class SenderImpl
- * @implements {Sender}
+ * @hidden
+ * @class ServiceBusSenderImpl
+ * @implements {ServiceBusSender}
  */
-export class SenderImpl implements Sender {
-  /**
-   * @property Describes the amqp connection context for the Client.
-   */
-  private _context: ClientEntityContext;
+export class ServiceBusSenderImpl implements ServiceBusSender {
   private _retryOptions: RetryOptions;
   /**
    * @property Denotes if close() was called on this sender
@@ -195,147 +143,129 @@ export class SenderImpl implements Sender {
   private _sender: MessageSender;
   public entityPath: string;
 
+  private get logPrefix() {
+    return `[${this._context.connectionId}|sender:${this.entityPath}]`;
+  }
+
   /**
    * @internal
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext, retryOptions: RetryOptions = {}) {
-    throwErrorIfConnectionClosed(context.namespace);
-    this._context = context;
-    this.entityPath = context.entityPath;
-    this._sender = MessageSender.create(this._context, retryOptions);
+  constructor(
+    private _context: ConnectionContext,
+    private _entityPath: string,
+    retryOptions: RetryOptions = {}
+  ) {
+    throwErrorIfConnectionClosed(_context);
+    this.entityPath = _entityPath;
+    this._sender = MessageSender.create(this._context, _entityPath, retryOptions);
     this._retryOptions = retryOptions;
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
-      const errorMessage = getSenderClosedErrorMsg(this._context.entityPath);
+      const errorMessage = getSenderClosedErrorMsg(this._entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      logger.logError(error, `[${this._context.connectionId}] is closed`);
       throw error;
     }
   }
 
   public get isClosed(): boolean {
-    return this._isClosed || this._context.isClosed;
+    return this._isClosed || this._context.wasConnectionCloseCalled;
   }
 
-  async send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
-  async send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
-  async send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
-  async send(
-    messageOrMessagesOrBatch: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
-    options?: OperationOptions
+  async sendMessages(
+    messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
+    options?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
+    const invalidTypeErrMsg =
+      "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
-    if (Array.isArray(messageOrMessagesOrBatch)) {
-      const batch = await this.createBatch(options);
-
-      for (const message of messageOrMessagesOrBatch) {
-        if (!batch.tryAdd(message)) {
+    let batch: ServiceBusMessageBatch;
+    if (isServiceBusMessageBatch(messages)) {
+      batch = messages;
+    } else {
+      if (!Array.isArray(messages)) {
+        messages = [messages];
+      }
+      batch = await this.createMessageBatch(options);
+      for (const message of messages) {
+        throwIfNotValidServiceBusMessage(message, invalidTypeErrMsg);
+        if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
           // this is too big - throw an error
-          const error = new MessagingError(
-            "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control."
+          throw new ServiceBusError(
+            "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
+            "MessageSizeExceeded"
           );
-          error.code = "MessageTooLargeError";
-          throw error;
         }
       }
+    }
 
-      return this._sender.sendBatch(batch, options);
-    } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
-      return this._sender.sendBatch(messageOrMessagesOrBatch, options);
-    } else if (isServiceBusMessage(messageOrMessagesOrBatch)) {
-      return this._sender.send(messageOrMessagesOrBatch, options);
-    } else {
-      throw new TypeError(
-        "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
-      );
+    const sendSpan = createSendSpan(
+      getParentSpan(options?.tracingOptions),
+      batch._messageSpanContexts,
+      this.entityPath,
+      this._context.config.host
+    );
+
+    try {
+      const result = await this._sender.sendBatch(batch, options);
+      sendSpan.setStatus({ code: CanonicalCode.OK });
+      return result;
+    } catch (error) {
+      sendSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      sendSpan.end();
     }
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
     return this._sender.createBatch(options);
   }
 
-  /**
-   * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
-   *
-   * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
-   * @param message - The message that needs to be scheduled.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<Long> - The sequence number of the message that was scheduled.
-   * You will need the sequence number if you intend to cancel the scheduling of the message.
-   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
-   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while scheduling a message.
-   */
-  async scheduleMessage(
-    scheduledEnqueueTimeUtc: Date,
-    message: ServiceBusMessage,
-    options: OperationOptions = {}
-  ): Promise<Long> {
-    this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
-      "scheduledEnqueueTimeUtc",
-      scheduledEnqueueTimeUtc
-    );
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
-
-    const scheduleMessageOperationPromise = async () => {
-      const result = await this._context.managementClient!.scheduleMessages(
-        scheduledEnqueueTimeUtc,
-        [message],
-        {
-          ...options,
-          requestName: "scheduleMessage",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
-      return result[0];
-    };
-
-    const config: RetryConfig<Long> = {
-      operation: scheduleMessageOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
-    };
-    return retry<Long>(config);
-  }
-
   async scheduleMessages(
+    messages: ServiceBusMessage | ServiceBusMessage[],
     scheduledEnqueueTimeUtc: Date,
-    messages: ServiceBusMessage[],
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "scheduledEnqueueTimeUtc",
       scheduledEnqueueTimeUtc
     );
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
-    if (!Array.isArray(messages)) {
-      messages = [messages];
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
+    const messagesToSchedule = Array.isArray(messages) ? messages : [messages];
+
+    for (const message of messagesToSchedule) {
+      throwIfNotValidServiceBusMessage(
+        message,
+        "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage."
+      );
     }
 
     const scheduleMessageOperationPromise = async () => {
-      return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages, {
-        ...options,
-        requestName: "scheduleMessages",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
+      return this._context
+        .getManagementClient(this._entityPath)
+        .scheduleMessages(scheduledEnqueueTimeUtc, messagesToSchedule, {
+          ...options,
+          associatedLinkName: this._sender.name,
+          requestName: "scheduleMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        });
     };
     const config: RetryConfig<Long[]> = {
       operation: scheduleMessageOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -343,32 +273,40 @@ export class SenderImpl implements Sender {
     return retry<Long[]>(config);
   }
 
-  async cancelScheduledMessage(
-    sequenceNumber: Long,
-    options: OperationOptions = {}
+  async cancelScheduledMessages(
+    sequenceNumbers: Long | Long[],
+    options: OperationOptionsBase = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
-      "sequenceNumber",
-      sequenceNumber
+      this._context.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
     );
     throwTypeErrorIfParameterNotLong(
-      this._context.namespace.connectionId,
-      "sequenceNumber",
-      sequenceNumber
+      this._context.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
     );
 
+    const sequenceNumbersToCancel = Array.isArray(sequenceNumbers)
+      ? sequenceNumbers
+      : [sequenceNumbers];
     const cancelSchedulesMessagesOperationPromise = async () => {
-      return this._context.managementClient!.cancelScheduledMessages([sequenceNumber], {
-        ...options,
-        requestName: "cancelScheduledMessage",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
+      return this._context.getManagementClient(this._entityPath).cancelScheduledMessages(
+        sequenceNumbersToCancel,
+
+        {
+          ...options,
+          associatedLinkName: this._sender.name,
+          requestName: "cancelScheduledMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
+      );
     };
     const config: RetryConfig<void> = {
       operation: cancelSchedulesMessagesOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -376,73 +314,27 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
-  async cancelScheduledMessages(
-    sequenceNumbers: Long[],
-    options: OperationOptions = {}
-  ): Promise<void> {
-    this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
-      "sequenceNumbers",
-      sequenceNumbers
-    );
-    if (!Array.isArray(sequenceNumbers)) {
-      sequenceNumbers = [sequenceNumbers];
-    }
-    throwTypeErrorIfParameterNotLongArray(
-      this._context.namespace.connectionId,
-      "sequenceNumbers",
-      sequenceNumbers
-    );
+  // async open(options?: OperationOptionsBase): Promise<void> {
+  //   this._throwIfSenderOrConnectionClosed();
 
-    const cancelSchedulesMessagesOperationPromise = async () => {
-      return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers, {
-        ...options,
-        requestName: "cancelScheduledMessages",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
-    };
-    const config: RetryConfig<void> = {
-      operation: cancelSchedulesMessagesOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
-    };
-    return retry<void>(config);
-  }
+  //   const config: RetryConfig<void> = {
+  //     // TODO: Pass tracing options too
+  //     operation: () => this._sender.open(undefined, options?.abortSignal),
+  //     connectionId: this._context.connectionId,
+  //     operationType: RetryOperationType.senderLink,
+  //     retryOptions: this._retryOptions,
+  //     abortSignal: options?.abortSignal
+  //   };
 
-  async open(options?: SenderOpenOptions): Promise<void> {
-    this._throwIfSenderOrConnectionClosed();
-
-    const config: RetryConfig<void> = {
-      operation: () => this._sender.open(undefined, options?.abortSignal),
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.senderLink,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
-    };
-
-    return retry<void>(config);
-  }
+  //   return retry<void>(config);
+  // }
 
   async close(): Promise<void> {
     try {
       this._isClosed = true;
-      if (
-        this._context.namespace.connection &&
-        this._context.namespace.connection.isOpen() &&
-        this._context.sender
-      ) {
-        await this._context.sender.close();
-      }
+      await this._sender.close();
     } catch (err) {
-      log.error(
-        "[%s] An error occurred while closing the Sender for %s: %O",
-        this._context.namespace.connectionId,
-        this._context.entityPath,
-        err
-      );
+      logger.logError(err, `${this.logPrefix} An error occurred while closing the Sender`);
       throw err;
     }
   }
@@ -450,7 +342,7 @@ export class SenderImpl implements Sender {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function isServiceBusMessageBatch(
   messageBatchOrAnything: any
@@ -462,7 +354,7 @@ export function isServiceBusMessageBatch(
   const possibleBatch = messageBatchOrAnything as ServiceBusMessageBatch;
 
   return (
-    typeof possibleBatch.tryAdd === "function" &&
+    typeof possibleBatch.tryAddMessage === "function" &&
     typeof possibleBatch.maxSizeInBytes === "number" &&
     typeof possibleBatch.sizeInBytes === "number"
   );

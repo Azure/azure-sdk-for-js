@@ -2,9 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
-
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
   sending it back to the main queue.
 
@@ -18,7 +15,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const sbClient = new ServiceBusClient(connectionString);
@@ -32,10 +29,10 @@ async function main() {
 }
 
 async function processDeadletterMessageQueue() {
-  // If connecting to a subscription's dead letter queue you can use the createDeadLetterReceiver(topic, subscription) overload
-  const receiver = sbClient.createDeadLetterReceiver(queueName, "peekLock");
+  // If connecting to a subscription's dead letter queue you can use the createReceiver(topicName, subscriptionName) overload
+  const receiver = sbClient.createReceiver(queueName, { subQueueType: "deadLetter" });
 
-  const messages = await receiver.receiveBatch(1);
+  const messages = await receiver.receiveMessages(1);
 
   if (messages.length > 0) {
     console.log(">>>>> Received the message from DLQ - ", messages[0].body);
@@ -44,7 +41,7 @@ async function processDeadletterMessageQueue() {
     await fixAndResendMessage(messages[0]);
 
     // Mark message as complete/processed.
-    await messages[0].complete();
+    await receiver.completeMessage(messages[0]);
   } else {
     console.log(">>>> Error: No messages were received from the DLQ.");
   }
@@ -62,10 +59,11 @@ async function fixAndResendMessage(oldMessage) {
 
   console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
-  await sender.send(repairedMessage);
+  await sender.sendMessages(repairedMessage);
   await sender.close();
 }
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

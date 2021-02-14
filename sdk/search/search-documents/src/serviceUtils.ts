@@ -10,6 +10,7 @@ import {
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
   RegexFlags,
+  SearchIndexer as GeneratedSearchIndexer,
   SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
   SearchIndexerSkillUnion,
   LexicalTokenizerUnion,
@@ -42,12 +43,18 @@ import {
   TokenFilter,
   LexicalTokenizer,
   SynonymMap,
+  SearchIndexer,
   SearchIndexerDataSourceConnection,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
   SimilarityAlgorithm,
   SearchResourceEncryptionKey
 } from "./serviceModels";
+import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
+import {
+  SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
+  SearchResult as GeneratedSearchResult
+} from "./generated/data/models";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -112,7 +119,6 @@ export function convertAnalyzersToGenerated(
   const result: LexicalAnalyzerUnion[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -122,6 +128,13 @@ export function convertAnalyzersToGenerated(
           ...analyzer,
           flags: analyzer.flags ? analyzer.flags.join("|") : undefined
         });
+        break;
+      case "#Microsoft.Azure.Search.CustomAnalyzer":
+        result.push({
+          ...analyzer,
+          tokenizer: analyzer.tokenizerName
+        });
+        break;
     }
   }
   return result;
@@ -137,7 +150,6 @@ export function convertAnalyzersToPublic(
   const result: LexicalAnalyzer[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -147,6 +159,13 @@ export function convertAnalyzersToPublic(
           ...analyzer,
           flags: analyzer.flags ? (analyzer.flags.split("|") as RegexFlags[]) : undefined
         });
+        break;
+      case "#Microsoft.Azure.Search.CustomAnalyzer":
+        result.push({
+          ...analyzer,
+          tokenizerName: analyzer.tokenizer
+        });
+        break;
     }
   }
   return result;
@@ -266,7 +285,7 @@ export function convertSimilarityToPublic(
     return similarity;
   }
 
-  if (similarity.odatatype == "#Microsoft.Azure.Search.ClassicSimilarity") {
+  if (similarity.odatatype === "#Microsoft.Azure.Search.ClassicSimilarity") {
     return similarity as ClassicSimilarity;
   } else {
     return similarity as BM25Similarity;
@@ -353,6 +372,50 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   };
 }
 
+export function generatedSearchResultToPublicSearchResult<T>(
+  results: GeneratedSearchResult[]
+): SearchResult<T>[] {
+  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
+    const { _score, _highlights, ...restProps } = result;
+    const doc: { [key: string]: any } = {
+      ...restProps
+    };
+    const obj = {
+      score: _score,
+      highlights: _highlights,
+      document: doc
+    };
+    return obj as SearchResult<T>;
+  });
+  return returnValues;
+}
+
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
+  searchDocumentsResult: GeneratedSuggestDocumentsResult
+): SuggestDocumentsResult<T> {
+  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
+    const { _text, ...restProps } = element;
+
+    const doc: { [key: string]: any } = {
+      ...restProps
+    };
+
+    const obj = {
+      text: _text,
+      document: doc
+    };
+
+    return obj as SuggestResult<T>;
+  });
+
+  const result: SuggestDocumentsResult<T> = {
+    results: results,
+    coverage: searchDocumentsResult.coverage
+  };
+
+  return result;
+}
+
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
   return {
     name: index.name,
@@ -381,7 +444,8 @@ export function generatedSkillsetToPublicSkillset(
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
       generatedSkillset.cognitiveServicesAccount
     ),
-    etag: generatedSkillset.etag
+    etag: generatedSkillset.etag,
+    encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey)
   };
 }
 
@@ -395,7 +459,8 @@ export function publicSkillsetToGeneratedSkillset(
     skills: skillset.skills,
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
       skillset.cognitiveServicesAccount
-    )
+    ),
+    encryptionKey: convertEncryptionKeyToGenerated(skillset.encryptionKey)
   };
 }
 
@@ -427,6 +492,42 @@ export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): G
   return result;
 }
 
+export function publicSearchIndexerToGeneratedSearchIndexer(
+  indexer: SearchIndexer
+): GeneratedSearchIndexer {
+  return {
+    ...indexer,
+    encryptionKey: convertEncryptionKeyToGenerated(indexer.encryptionKey)
+  };
+}
+
+export function generatedSearchIndexerToPublicSearchIndexer(
+  indexer: GeneratedSearchIndexer
+): SearchIndexer {
+  return {
+    ...indexer,
+    encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey)
+  };
+}
+
+export function publicDataSourceToGeneratedDataSource(
+  dataSource: SearchIndexerDataSourceConnection
+): GeneratedSearchIndexerDataSourceConnection {
+  return {
+    name: dataSource.name,
+    description: dataSource.description,
+    type: dataSource.type,
+    credentials: {
+      connectionString: dataSource.connectionString
+    },
+    container: dataSource.container,
+    etag: dataSource.etag,
+    dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
+    dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
+    encryptionKey: convertEncryptionKeyToGenerated(dataSource.encryptionKey)
+  };
+}
+
 export function generatedDataSourceToPublicDataSource(
   dataSource: GeneratedSearchIndexerDataSourceConnection
 ): SearchIndexerDataSourceConnection {
@@ -442,7 +543,8 @@ export function generatedDataSourceToPublicDataSource(
     ),
     dataDeletionDetectionPolicy: convertDataDeletionDetectionPolicyToPublic(
       dataSource.dataDeletionDetectionPolicy
-    )
+    ),
+    encryptionKey: convertEncryptionKeyToPublic(dataSource.encryptionKey)
   };
 }
 
@@ -471,4 +573,15 @@ export function convertDataDeletionDetectionPolicyToPublic(
   }
 
   return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
+}
+
+export function getRandomIntegerInclusive(min: number, max: number): number {
+  // Make sure inputs are integers.
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  // Pick a random offset from zero to the size of the range.
+  // Since Math.random() can never return 1, we have to make the range one larger
+  // in order to be inclusive of the maximum value after we take the floor.
+  const offset = Math.floor(Math.random() * (max - min + 1));
+  return offset + min;
 }

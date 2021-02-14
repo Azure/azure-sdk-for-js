@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-visualsearch";
-const packageVersion = "3.0.0";
+const packageVersion = "3.0.1";
 
 export class VisualSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;

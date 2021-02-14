@@ -20,7 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const accountName: msRest.OperationURLParameter = {
+export const accountName0: msRest.OperationURLParameter = {
   parameterPath: "accountName",
   mapper: {
     required: true,
@@ -28,7 +28,22 @@ export const accountName: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 24,
       MinLength: 3,
-      Pattern: /^[-\w\._]+$/
+      Pattern: /^[a-z0-9]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const accountName1: msRest.OperationURLParameter = {
+  parameterPath: "accountName",
+  mapper: {
+    required: true,
+    serializedName: "accountName",
+    constraints: {
+      MaxLength: 24,
+      MinLength: 3,
+      Pattern: /^[a-zA-Z0-9]+$/
     },
     type: {
       name: "String"
@@ -45,11 +60,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const applicationId: msRest.OperationURLParameter = {
-  parameterPath: "applicationId",
+export const applicationName: msRest.OperationURLParameter = {
+  parameterPath: "applicationName",
   mapper: {
     required: true,
-    serializedName: "applicationId",
+    serializedName: "applicationName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-]+$/
+    },
     type: {
       name: "String"
     }
@@ -154,6 +174,36 @@ export const poolName: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    constraints: {
+      MaxLength: 101,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-]+\.?[a-fA-F0-9-]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateLinkResourceName: msRest.OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    required: true,
+    serializedName: "privateLinkResourceName",
+    constraints: {
+      MaxLength: 101,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-]+\.?[a-fA-F0-9-]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -186,11 +236,16 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const version: msRest.OperationURLParameter = {
-  parameterPath: "version",
+export const versionName: msRest.OperationURLParameter = {
+  parameterPath: "versionName",
   mapper: {
     required: true,
-    serializedName: "version",
+    serializedName: "versionName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-][a-zA-Z0-9_.-]*$/
+    },
     type: {
       name: "String"
     }

@@ -6,7 +6,7 @@ You can use existing Azure resources for the live tests, or generate new ones by
 
 The Azure resource that is used by the tests in this project is:
 
-- Two general purpose, v2 [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) account properly configured to test the Azure Storage Blob, Azure Storage Queue, Azure File Data Lake and Azure File Share services.
+- Two general purpose, v2 [Azure Storage](https://docs.microsoft.com/azure/storage/common/storage-account-overview) account properly configured to test the Azure Storage Blob, Azure Storage Queue, Azure File Data Lake and Azure File Share services.
 
 To run the live tests, you will also need to set the below environment variables:
 

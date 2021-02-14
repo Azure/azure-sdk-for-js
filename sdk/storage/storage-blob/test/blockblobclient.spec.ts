@@ -37,7 +37,7 @@ describe("BlockBlobClient", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -394,11 +394,48 @@ describe("BlockBlobClient", () => {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (
+        err instanceof Error &&
+        err.message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        )
+      ) {
         exceptionCaught = true;
       }
     }
 
     assert.ok(exceptionCaught);
+  });
+
+  it("syncUploadFromURL with public source should work", async () => {
+    const metadata = {
+      key1: "val1",
+      key2: "val2"
+    };
+
+    await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      conditions: {
+        ifNoneMatch: "*"
+      },
+      metadata
+    });
+
+    const getRes = await blockBlobClient.getProperties();
+    assert.deepStrictEqual(getRes.metadata, metadata);
+
+    try {
+      await blockBlobClient.syncUploadFromURL(
+        "https://azure.github.io/azure-sdk-for-js/index.html",
+        {
+          conditions: {
+            ifNoneMatch: "*"
+          },
+          metadata
+        }
+      );
+      assert.fail();
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "BlobAlreadyExists");
+    }
   });
 });

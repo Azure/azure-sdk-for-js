@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
 
@@ -7,7 +9,7 @@ import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
 import { Constants } from "../src/util/constants";
 import { WebResource } from "../src/webResource";
-import { userAgentPolicy } from "../src/policies/userAgentPolicy";
+import { userAgentPolicy as createUserAgentPolicy } from "../src/policies/userAgentPolicy";
 
 const userAgentHeaderKey = Constants.HeaderConstants.USER_AGENT;
 
@@ -19,7 +21,7 @@ const emptyRequestPolicy: RequestPolicy = {
 };
 
 const getPlainUserAgentPolicy = (headerValue?: string): RequestPolicy => {
-  const factory = userAgentPolicy({ value: headerValue });
+  const factory = createUserAgentPolicy({ value: headerValue });
   return factory.create(emptyRequestPolicy, new RequestPolicyOptions());
 };
 
@@ -47,7 +49,7 @@ describe("MsRestUserAgentPolicy (node)", () => {
 
     it("should not set the user agent header if custom user agent is empty", async () => {
       const customUserAgent = "";
-      const factory = userAgentPolicy({ value: customUserAgent });
+      const factory = createUserAgentPolicy({ value: customUserAgent });
       const nodeUserAgentPolicy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
       const resource = new WebResource();
       await nodeUserAgentPolicy.sendRequest(resource);
@@ -59,7 +61,7 @@ describe("MsRestUserAgentPolicy (node)", () => {
 
     it("should use injected user agent string if provided", async () => {
       const customUserAgent = "my custom user agent";
-      const factory = userAgentPolicy({ value: customUserAgent });
+      const factory = createUserAgentPolicy({ value: customUserAgent });
       const nodeUserAgentPolicy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
       const resource = new WebResource();
       await nodeUserAgentPolicy.sendRequest(resource);
@@ -77,14 +79,14 @@ describe("MsRestUserAgentPolicy (node)", () => {
 
     it("should contain runtime information", async () => {
       const userAgent = await getUserAgent();
-      userAgent.should.match(/core-http\/[\d\w\.-]+ .+/);
+      userAgent.should.match(/core-http\/[\d\w.-]+ .+/);
     });
 
     it("should have operating system information at the third place", async () => {
       const userAgent = await getUserAgent();
       const userAgentParts = userAgent.split(" ");
       const osInfo = userAgentParts[2];
-      osInfo.should.match(/OS\/\([\w\d\.\-]+\)/);
+      osInfo.should.match(/OS\/\([\w\d.-]+\)/);
     });
 
     it("should have Node information at the second place", async () => {

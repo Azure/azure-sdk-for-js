@@ -4,11 +4,11 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import json from "@rollup/plugin-json";
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -33,7 +33,7 @@ export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
   const additionalExternals = ["keytar"];
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/keyvault-secrets/src/index.js",
     external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: {
       file: "dist/index.js",
@@ -51,17 +51,15 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs()
     ]
   };
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/**/*.spec.js"];
-    baseConfig.plugins.unshift(
-      multiEntry({ exports: false }),
-      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
-    );
+    baseConfig.input = ["dist-esm/**/*.spec.js"];
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
@@ -83,15 +81,14 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/keyvault-secrets/src/index.js",
     output: {
       file: "dist-browser/azure-keyvault-secrets.js",
       banner: banner,
       format: "umd",
       name: "azurekeyvaultsecrets",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP",
-        "@azure/core-arm": "Azure.Core.ARM"
+        "@azure/core-http": "Azure.Core.HTTP"
       },
       sourcemap: true
     },
@@ -127,11 +124,8 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/**/*.spec.js"];
-    baseConfig.plugins.unshift(
-      multiEntry({ exports: false }),
-      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
-    );
+    baseConfig.input = ["dist-esm/**/*.spec.js"];
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
     baseConfig.external = ["fs-extra", "path"];

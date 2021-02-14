@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * The default client ID for authentication
  * @internal
- * @ignore
+ * @hidden
  */
 // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
 // Developer Sign On application is available
@@ -14,16 +14,28 @@ export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
 /**
  * The default tenant for authentication
  * @internal
- * @ignore
+ * @hidden
  */
 export const DefaultTenantId = "common";
 
 /**
- * A list of known authority hosts
+ * A list of known Azure authority hosts
  */
-export enum KnownAuthorityHosts {
+export enum AzureAuthorityHosts {
+  /**
+   * China-based Azure Authority Host
+   */
   AzureChina = "https://login.chinacloudapi.cn",
+  /**
+   * Germany-based Azure Authority Host
+   */
   AzureGermany = "https://login.microsoftonline.de",
+  /**
+   * US Government Azure Authority Host
+   */
   AzureGovernment = "https://login.microsoftonline.us",
-  AzurePublicCloud = "https://login.microsoftonline.com"  
+  /**
+   * Public Cloud Azure Authority Host
+   */
+  AzurePublicCloud = "https://login.microsoftonline.com"
 }

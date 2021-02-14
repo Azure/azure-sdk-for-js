@@ -37,7 +37,7 @@ describe("Utility Helpers Node.js only", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {

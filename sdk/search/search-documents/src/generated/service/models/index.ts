@@ -1562,6 +1562,50 @@ export interface SoftDeleteColumnDeletionDetectionPolicy {
 }
 
 /**
+ * Credentials of a registered application created for your search service, used for authenticated
+ * access to the encryption keys stored in Azure Key Vault.
+ */
+export interface AzureActiveDirectoryApplicationCredentials {
+  /**
+   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
+   * that is to be used when encrypting your data at rest. The Application ID should not be
+   * confused with the Object ID for your AAD Application.
+   */
+  applicationId: string;
+  /**
+   * The authentication key of the specified AAD application.
+   */
+  applicationSecret?: string;
+}
+
+/**
+ * A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be
+ * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
+ * maps.
+ */
+export interface SearchResourceEncryptionKey {
+  /**
+   * The name of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyName: string;
+  /**
+   * The version of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyVersion: string;
+  /**
+   * The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be
+   * used to encrypt your data at rest. An example URI might be
+   * https://my-keyvault-name.vault.azure.net.
+   */
+  vaultUri: string;
+  /**
+   * Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not
+   * required if using managed identity instead.
+   */
+  accessCredentials?: AzureActiveDirectoryApplicationCredentials;
+}
+
+/**
  * Represents a datasource definition, which can be used to configure an indexer.
  */
 export interface SearchIndexerDataSource {
@@ -1598,6 +1642,18 @@ export interface SearchIndexerDataSource {
    * The ETag of the data source.
    */
   etag?: string;
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your datasource definition when you want
+   * full assurance that no one, not even Microsoft, can decrypt your data source definition in
+   * Azure Cognitive Search. Once you have encrypted your data source definition, it will always
+   * remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null.
+   * You can change this property as needed if you want to rotate your encryption key; Your
+   * datasource definition will be unaffected. Encryption with customer-managed keys is not
+   * available for free search services, and is only available for paid services created on or
+   * after January 1, 2019.
+   */
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /**
@@ -1627,6 +1683,102 @@ export interface IndexingSchedule {
 }
 
 /**
+ * A dictionary of indexer-specific configuration properties. Each name is the name of a specific
+ * property. Each value must be of a primitive type.
+ */
+export interface IndexingParametersConfiguration {
+  /**
+   * Possible values include: 'Default', 'Text', 'DelimitedText', 'Json', 'JsonArray', 'JsonLines'.
+   * Default value: 'default'.
+   */
+  parsingMode?: BlobIndexerParsingMode;
+  /**
+   * Comma-delimited list of filename extensions to ignore when processing from Azure blob storage.
+   * For example, you could exclude ".png, .mp4" to skip over those files during indexing. Default
+   * value: ''.
+   */
+  excludedFileNameExtensions?: string;
+  /**
+   * Comma-delimited list of filename extensions to select when processing from Azure blob storage.
+   * For example, you could focus indexing on specific application files ".docx, .pptx, .msg" to
+   * specifically include those file types. Default value: ''.
+   */
+  indexedFileNameExtensions?: string;
+  /**
+   * For Azure blobs, set to false if you want to continue indexing when an unsupported content
+   * type is encountered, and you don't know all the content types (file extensions) in advance.
+   * Default value: false.
+   */
+  failOnUnsupportedContentType?: boolean;
+  /**
+   * For Azure blobs, set to false if you want to continue indexing if a document fails indexing.
+   * Default value: false.
+   */
+  failOnUnprocessableDocument?: boolean;
+  /**
+   * For Azure blobs, set this property to true to still index storage metadata for blob content
+   * that is too large to process. Oversized blobs are treated as errors by default. For limits on
+   * blob size, see https://docs.microsoft.com/azure/search/search-limits-quotas-capacity. Default
+   * value: false.
+   */
+  indexStorageMetadataOnlyForOversizedDocuments?: boolean;
+  /**
+   * For CSV blobs, specifies a comma-delimited list of column headers, useful for mapping source
+   * fields to destination fields in an index.
+   */
+  delimitedTextHeaders?: string;
+  /**
+   * For CSV blobs, specifies the end-of-line single-character delimiter for CSV files where each
+   * line starts a new document (for example, "|").
+   */
+  delimitedTextDelimiter?: string;
+  /**
+   * For CSV blobs, indicates that the first (non-blank) line of each blob contains headers.
+   * Default value: true.
+   */
+  firstLineContainsHeaders?: boolean;
+  /**
+   * For JSON arrays, given a structured or semi-structured document, you can specify a path to the
+   * array using this property.
+   */
+  documentRoot?: string;
+  /**
+   * Possible values include: 'StorageMetadata', 'AllMetadata', 'ContentAndMetadata'. Default
+   * value: 'contentAndMetadata'.
+   */
+  dataToExtract?: BlobIndexerDataToExtract;
+  /**
+   * Possible values include: 'None', 'GenerateNormalizedImages', 'GenerateNormalizedImagePerPage'.
+   * Default value: 'none'.
+   */
+  imageAction?: BlobIndexerImageAction;
+  /**
+   * If true, will create a path //document//file_data that is an object representing the original
+   * file data downloaded from your blob data source.  This allows you to pass the original file
+   * data to a custom skill for processing within the enrichment pipeline, or to the Document
+   * Extraction skill. Default value: false.
+   */
+  allowSkillsetToReadFileData?: boolean;
+  /**
+   * Possible values include: 'None', 'DetectAngles'. Default value: 'none'.
+   */
+  pdfTextRotationAlgorithm?: BlobIndexerPDFTextRotationAlgorithm;
+  /**
+   * Possible values include: 'standard', 'private'. Default value: 'standard'.
+   */
+  executionEnvironment?: IndexerExecutionEnvironment;
+  /**
+   * Increases the timeout beyond the 5-minute default for Azure SQL database data sources,
+   * specified in the format "hh:mm:ss". Default value: '00:05:00'.
+   */
+  queryTimeout?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
  * Represents parameters for indexer execution.
  */
 export interface IndexingParameters {
@@ -1645,11 +1797,7 @@ export interface IndexingParameters {
    * considered successful. -1 means no limit. Default is 0. Default value: 0.
    */
   maxFailedItemsPerBatch?: number;
-  /**
-   * A dictionary of indexer-specific configuration properties. Each name is the name of a specific
-   * property. Each value must be of a primitive type.
-   */
-  configuration?: { [propertyName: string]: any };
+  configuration?: IndexingParametersConfiguration;
 }
 
 /**
@@ -1734,6 +1882,18 @@ export interface SearchIndexer {
    * The ETag of the indexer.
    */
   etag?: string;
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your indexer definition (as well as
+   * indexer execution status) when you want full assurance that no one, not even Microsoft, can
+   * decrypt them in Azure Cognitive Search. Once you have encrypted your indexer definition, it
+   * will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property
+   * to null. You can change this property as needed if you want to rotate your encryption key;
+   * Your indexer definition (and indexer execution status) will be unaffected. Encryption with
+   * customer-managed keys is not available for free search services, and is only available for
+   * paid services created on or after January 1, 2019.
+   */
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /**
@@ -2349,50 +2509,6 @@ export interface Suggester {
 }
 
 /**
- * Credentials of a registered application created for your search service, used for authenticated
- * access to the encryption keys stored in Azure Key Vault.
- */
-export interface AzureActiveDirectoryApplicationCredentials {
-  /**
-   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
-   * that is to be used when encrypting your data at rest. The Application ID should not be
-   * confused with the Object ID for your AAD Application.
-   */
-  applicationId: string;
-  /**
-   * The authentication key of the specified AAD application.
-   */
-  applicationSecret?: string;
-}
-
-/**
- * A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be
- * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
- * maps.
- */
-export interface SearchResourceEncryptionKey {
-  /**
-   * The name of your Azure Key Vault key to be used to encrypt your data at rest.
-   */
-  keyName: string;
-  /**
-   * The version of your Azure Key Vault key to be used to encrypt your data at rest.
-   */
-  keyVersion: string;
-  /**
-   * The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be
-   * used to encrypt your data at rest. An example URI might be
-   * https://my-keyvault-name.vault.azure.net.
-   */
-  vaultUri: string;
-  /**
-   * Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not
-   * required if using managed identity instead.
-   */
-  accessCredentials?: AzureActiveDirectoryApplicationCredentials;
-}
-
-/**
  * Represents a search index definition, which describes the fields and search behavior of an
  * index.
  */
@@ -2610,6 +2726,17 @@ export interface SearchIndexerSkillset {
    * The ETag of the skillset.
    */
   etag?: string;
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your skillset definition when you want
+   * full assurance that no one, not even Microsoft, can decrypt your skillset definition in Azure
+   * Cognitive Search. Once you have encrypted your skillset definition, it will always remain
+   * encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can
+   * change this property as needed if you want to rotate your encryption key; Your skillset
+   * definition will be unaffected. Encryption with customer-managed keys is not available for free
+   * search services, and is only available for paid services created on or after January 1, 2019.
+   */
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /**
@@ -3304,10 +3431,6 @@ export interface ServiceCounters {
    * Total number of synonym maps.
    */
   synonymMapCounter: ResourceCounter;
-  /**
-   * Total number of skillsets.
-   */
-  skillsetCounter: ResourceCounter;
 }
 
 /**
@@ -3774,6 +3897,46 @@ export type StopwordsList = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bu
  * @enum {string}
  */
 export type SearchIndexerDataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
+
+/**
+ * Defines values for BlobIndexerParsingMode.
+ * Possible values include: 'Default', 'Text', 'DelimitedText', 'Json', 'JsonArray', 'JsonLines'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerParsingMode = 'default' | 'text' | 'delimitedText' | 'json' | 'jsonArray' | 'jsonLines';
+
+/**
+ * Defines values for BlobIndexerDataToExtract.
+ * Possible values include: 'StorageMetadata', 'AllMetadata', 'ContentAndMetadata'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerDataToExtract = 'storageMetadata' | 'allMetadata' | 'contentAndMetadata';
+
+/**
+ * Defines values for BlobIndexerImageAction.
+ * Possible values include: 'None', 'GenerateNormalizedImages', 'GenerateNormalizedImagePerPage'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerImageAction = 'none' | 'generateNormalizedImages' | 'generateNormalizedImagePerPage';
+
+/**
+ * Defines values for BlobIndexerPDFTextRotationAlgorithm.
+ * Possible values include: 'None', 'DetectAngles'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobIndexerPDFTextRotationAlgorithm = 'none' | 'detectAngles';
+
+/**
+ * Defines values for IndexerExecutionEnvironment.
+ * Possible values include: 'standard', 'private'
+ * @readonly
+ * @enum {string}
+ */
+export type IndexerExecutionEnvironment = 'standard' | 'private';
 
 /**
  * Defines values for IndexerExecutionStatus.

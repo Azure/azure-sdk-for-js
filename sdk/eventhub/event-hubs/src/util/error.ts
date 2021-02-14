@@ -6,7 +6,7 @@ import { ConnectionContext } from "../connectionContext";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and throws Error if the current AMQP connection is closed.
  * @param context The ConnectionContext associated with the current AMQP connection.
  */
@@ -14,7 +14,7 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
   if (context && context.wasConnectionCloseCalled) {
     const errorMessage = "The underlying AMQP connection is closed.";
     const error = new Error(errorMessage);
-    logger.warning(`[${context.connectionId}] %O`, error);
+    logger.warning(`[${context.connectionId}] ${error.name}: ${error.message}`);
     logErrorStackTrace(error);
     throw error;
   }
@@ -22,7 +22,7 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and Throws TypeError if given parameter is undefined or null
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param methodName Name of the method that was passed the parameter
@@ -39,7 +39,7 @@ export function throwTypeErrorIfParameterMissing(
     const error = new TypeError(
       `${methodName} called without required argument "${parameterName}"`
     );
-    logger.warning(`[${connectionId}] %O`, error);
+    logger.warning(`[${connectionId}] ${error.name}: ${error.message}`);
     logErrorStackTrace(error);
     throw error;
   }

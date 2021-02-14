@@ -19,7 +19,7 @@ describe("ShareClient Node.js only", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setAccessPolicy", async () => {
@@ -60,6 +60,20 @@ describe("ShareClient Node.js only", () => {
   it("getAccessPolicy", (done) => {
     // create() with default parameters has been tested in setAccessPolicy
     done();
+  });
+
+  it("setAccessPolicy and getAccessPolicy with empty SignedIdentifier", async () => {
+    const identifiers: any = [
+      {
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await shareClient.setAccessPolicy(identifiers);
+    const getAccessPolicyResponse = await shareClient.getAccessPolicy();
+
+    assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
+    assert.deepStrictEqual(getAccessPolicyResponse.signedIdentifiers[0].accessPolicy, undefined);
   });
 
   it("can be created with a url and a credential", async () => {

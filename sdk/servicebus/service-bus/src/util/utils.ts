@@ -2,38 +2,32 @@
 // Licensed under the MIT license.
 
 import Long from "long";
-import * as log from "../log";
+import { logger, receiverLogger, messageLogger } from "../log";
 import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { HttpOperationResponse, HttpResponse, isNode } from "@azure/core-http";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 interface Navigator {
   hardwareConcurrency: number;
 }
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 declare const navigator: Navigator;
 
 /**
  * @internal
- * @ignore
- * A constant that indicates whether the environment is node.js or browser based.
- */
-export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
-
-/**
- * @internal
- * @ignore
+ * @hidden
  * Provides a uniue name by appending a string guid to the given string in the following format:
  * `{name}-{uuid}`.
  * @param name The nme of the entity
@@ -44,7 +38,7 @@ export function getUniqueName(name: string): string {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * If you try to turn a Guid into a Buffer in .NET, the bytes of the first three groups get
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
@@ -83,7 +77,7 @@ export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Provides the time in milliseconds after which the lock renewal should occur.
  * @param lockedUntilUtc - The time until which the message is locked.
  */
@@ -91,21 +85,21 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   const now = Date.now();
   const lockedUntil = lockedUntilUtc.getTime();
   const remainingTime = lockedUntil - now;
-  log.utils("Locked until utc  : %d", lockedUntil);
-  log.utils("Current time is   : %d", now);
-  log.utils("Remaining time is : %d", remainingTime);
+  receiverLogger.verbose("Locked until utc  : %d", lockedUntil);
+  receiverLogger.verbose("Current time is   : %d", now);
+  receiverLogger.verbose("Remaining time is : %d", remainingTime);
   if (remainingTime < 1000) {
     return 0;
   }
   const buffer = Math.min(remainingTime / 2, 10000); // 10 seconds
   const renewAfter = remainingTime - buffer;
-  log.utils("Renew after       : %d", renewAfter);
+  receiverLogger.verbose("Renew after       : %d", renewAfter);
   return renewAfter;
 }
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Converts the .net ticks to a JS Date object.
  *
  * - The epoch for the DateTimeOffset type is `0000-01-01`, while the epoch for JS Dates is
@@ -126,13 +120,13 @@ export function convertTicksToDate(buf: number[]): Date {
     .div(10000)
     .toNumber();
   const result = new Date(timeInMS);
-  log.utils("The converted date is: %s", result.toString());
+  logger.verbose("The converted date is: %s", result.toString());
   return result;
 }
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Returns the number of logical processors in the system.
  */
 export function getProcessorCount(): number {
@@ -146,13 +140,13 @@ export function getProcessorCount(): number {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Converts any given input to a Buffer.
  * @param input The input that needs to be converted to a Buffer.
  */
 export function toBuffer(input: any): Buffer {
   let result: any;
-  log.utils(
+  messageLogger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
     input
   );
@@ -171,17 +165,17 @@ export function toBuffer(input: any): Buffer {
         `An error occurred while executing JSON.stringify() on the given input ` +
         input +
         `${err instanceof Error ? err.stack : JSON.stringify(err)}`;
-      log.error("[utils.toBuffer] " + msg);
+      messageLogger.warning("[utils.toBuffer] " + msg);
       throw err instanceof Error ? err : new Error(msg);
     }
   }
-  log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
+  messageLogger.verbose("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve `string` value from given string,
  * or throws error if undefined.
  * @param value
@@ -198,7 +192,7 @@ export function getString(value: any, nameOfProperty: string): string {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
  * @param value
@@ -212,7 +206,7 @@ export function getStringOrUndefined(value: any): string | undefined {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve `integer` value from given string,
  * or throws error if undefined.
  * @param value
@@ -229,7 +223,7 @@ export function getInteger(value: any, nameOfProperty: string): number {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
  * @param value
@@ -244,7 +238,17 @@ export function getIntegerOrUndefined(value: any): number | undefined {
 
 /**
  * @internal
- * @ignore
+ * @hidden
+ * Helper utility to convert ISO-8601 time into Date type.
+ * @param value
+ */
+export function getDate(value: string, nameOfProperty: string): Date {
+  return new Date(getString(value, nameOfProperty));
+}
+
+/**
+ * @internal
+ * @hidden
  * Helper utility to retrieve `boolean` value from given string,
  * or throws error if undefined.
  * @param value
@@ -261,7 +265,7 @@ export function getBoolean(value: any, nameOfProperty: string): boolean {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
  * @param value
@@ -280,24 +284,42 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 
 /**
  * @internal
- * @ignore
+ * @hidden
+ * Helps in differentiating JSON like objects from other kinds of objects.
+ */
+const EMPTY_JSON_OBJECT_CONSTRUCTOR = {}.constructor;
+
+/**
+ * @internal
+ * @hidden
  * Returns `true` if given input is a JSON like object.
  * @param value
  */
 export function isJSONLikeObject(value: any): boolean {
-  return typeof value === "object" && !(value instanceof Number) && !(value instanceof String);
+  // `value.constructor === {}.constructor` differentiates among the "object"s,
+  //    would filter the JSON objects and won't match any array or other kinds of objects
+
+  // -------------------------------------------------------------------------------
+  // Few examples       | typeof obj ==="object" |  obj.constructor==={}.constructor
+  // -------------------------------------------------------------------------------
+  // {abc:1}            | true                   | true
+  // ["a","b"]          | true                   | false
+  // [{"a":1},{"b":2}]  | true                   | false
+  // new Date()         | true                   | false
+  // 123                | false                  | false
+  // -------------------------------------------------------------------------------
+  return typeof value === "object" && value.constructor === EMPTY_JSON_OBJECT_CONSTRUCTOR;
 }
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve message count details from given input,
- * or undefined if not passed in.
  * @param value
  */
-export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
+export function getMessageCountDetails(value: any): MessageCountDetails {
   if (value == undefined) {
-    return undefined;
+    value = {};
   }
   return {
     activeMessageCount: parseInt(value["d2p1:ActiveMessageCount"]) || 0,
@@ -310,6 +332,8 @@ export function getCountDetailsOrUndefined(value: any): MessageCountDetails | un
 
 /**
  * Represents type of message count details in ATOM based management operations.
+ * @internal
+ * @hidden
  */
 export type MessageCountDetails = {
   activeMessageCount: number;
@@ -322,18 +346,32 @@ export type MessageCountDetails = {
 /**
  * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
-export type AuthorizationRule = {
+export interface AuthorizationRule {
+  /**
+   * The claim type.
+   */
   claimType: string;
-  claimValue: string;
-  rights: { accessRights?: string[] };
+  /**
+   * The list of rights("Manage" | "Send" | "Listen").
+   */
+  accessRights?: ("Manage" | "Send" | "Listen")[];
+  /**
+   * The authorization rule key name.
+   */
   keyName: string;
+  /**
+   * The primary key for the authorization rule.
+   */
   primaryKey?: string;
+  /**
+   * The secondary key for the authorization rule.
+   */
   secondaryKey?: string;
-};
+}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
  * @param value
@@ -363,7 +401,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input.
  * @param value
  */
@@ -375,27 +413,21 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
 
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
-    claimValue: value["ClaimValue"],
-    rights: {
-      accessRights: accessRights
-    },
+    accessRights,
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
     secondaryKey: value["SecondaryKey"]
   };
 
-  if (
-    authorizationRule.rights.accessRights &&
-    !Array.isArray(authorizationRule.rights.accessRights)
-  ) {
-    authorizationRule.rights.accessRights = [authorizationRule.rights.accessRights];
+  if (authorizationRule.accessRights && !Array.isArray(authorizationRule.accessRights)) {
+    authorizationRule.accessRights = [authorizationRule.accessRights];
   }
   return authorizationRule;
 }
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
  * or undefined if not passed in.
  * @param value
@@ -424,7 +456,7 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input.
  * @param authorizationRule parsed Authorization Rule instance
  */
@@ -441,9 +473,10 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
   const rawAuthorizationRule: any = {
     ClaimType: authorizationRule.claimType,
-    ClaimValue: authorizationRule.claimValue,
+    // ClaimValue is not settable by the users, but service expects the value for PUT requests
+    ClaimValue: "None",
     Rights: {
-      AccessRights: authorizationRule.rights.accessRights
+      AccessRights: authorizationRule.accessRights
     },
     KeyName: authorizationRule.keyName,
     PrimaryKey: authorizationRule.primaryKey,
@@ -458,7 +491,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to check if given string is an absolute URL
  * @param url
  */
@@ -482,8 +515,18 @@ export type EntityStatus =
   | "Unknown";
 
 /**
+ * Possible values for `availabilityStatus` of the Service Bus messaging entities.
+ */
+export type EntityAvailabilityStatus =
+  | "Available"
+  | "Limited"
+  | "Renaming"
+  | "Restoring"
+  | "Unknown";
+
+/**
  * @internal
- * @ignore
+ * @hidden
  */
 export const StandardAbortMessage = "The operation was aborted.";
 
@@ -498,7 +541,7 @@ export const StandardAbortMessage = "The operation was aborted.";
  * @returns {Promise<T>} - Resolved promise
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   actionFn: () => Promise<T>;
@@ -552,7 +595,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
  * the abortSignal was not defined.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
@@ -575,3 +618,41 @@ export function checkAndRegisterWithAbortSignal(
 
   return () => abortSignal.removeEventListener("abort", onAbort);
 }
+
+/**
+ * @internal
+ * @hidden
+ * @property {string} libInfo The user agent prefix string for the ServiceBus client.
+ * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
+ */
+export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`;
+
+/**
+ * @internal
+ * @hidden
+ * Returns the formatted prefix by removing the spaces, by appending the libInfo.
+ *
+ * @param {string} [prefix]
+ * @returns {string}
+ */
+export function formatUserAgentPrefix(prefix?: string): string {
+  let userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
+  userAgentPrefix = userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
+  return `${userAgentPrefix}${libInfo}`;
+}
+
+/**
+ * @internal
+ * @hidden
+ * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
+ * @returns {HttpResponse}
+ */
+export const getHttpResponseOnly = ({
+  request,
+  status,
+  headers
+}: HttpOperationResponse): HttpResponse => ({
+  request,
+  status,
+  headers
+});

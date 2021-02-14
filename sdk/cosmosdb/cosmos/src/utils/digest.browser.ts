@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { encodeUTF8 } from "./encode";
 import { globalCrypto } from "./globalCrypto";
 

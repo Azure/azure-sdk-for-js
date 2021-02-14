@@ -2,11 +2,11 @@
   "name": "@azure/arm-privatedns",
   "author": "Microsoft Corporation",
   "description": "PrivateDnsManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.3.2",
-    "@azure/ms-rest-js": "^1.6.0",
-    "tslib": "^1.9.3"
+    "@azure/ms-rest-azure-js": "^2.0.1",
+    "@azure/ms-rest-js": "^2.0.4",
+    "tslib": "^1.10.0"
   },
   "keywords": [
     "node",
@@ -20,19 +20,19 @@
   "module": "./esm/privateDnsManagementClient.js",
   "types": "./esm/privateDnsManagementClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.1.1",
-    "rollup": "^0.66.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
+    "typescript": "^3.5.3",
+    "rollup": "^1.18.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/privatedns/arm-privatedns",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/privatedns/arm-privatedns",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
     "dist/**/*.js",

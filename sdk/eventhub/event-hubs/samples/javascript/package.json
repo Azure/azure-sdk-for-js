@@ -25,8 +25,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-amqp": "next",
-    "@azure/event-hubs": "next",
+    "@azure/core-amqp": "latest",
+    "@azure/event-hubs": "latest",
     "@types/dotenv": "^8.2.0",
     "@types/ws": "^6.0.4",
     "dotenv": "^8.2.0",

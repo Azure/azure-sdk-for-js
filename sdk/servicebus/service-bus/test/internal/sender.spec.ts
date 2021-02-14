@@ -3,64 +3,118 @@
 
 import chai from "chai";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusMessage } from "../../src";
-import { isServiceBusMessageBatch, SenderImpl } from "../../src/sender";
-import { DefaultDataTransformer } from "@azure/core-amqp";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
+import { createConnectionContextForTests } from "./unittestUtils";
+import { PartitionKeySessionIdMismatchError } from "../../src/util/errors";
+
 const assert = chai.assert;
 
-describe("sender unit tests", () => {
+describe("Sender helper unit tests", () => {
   it("isServiceBusMessageBatch", () => {
     assert.isTrue(
-      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ClientEntityContext, 100))
+      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ConnectionContext, 100))
     );
 
     assert.isFalse(isServiceBusMessageBatch(undefined));
     assert.isFalse(isServiceBusMessageBatch((4 as any) as ServiceBusMessage));
     assert.isFalse(isServiceBusMessageBatch(({} as any) as ServiceBusMessage));
   });
+});
 
-  ["hello", {}, null, undefined].forEach((invalidValue) => {
-    it(`don't allow Sender.send(${invalidValue})`, async () => {
-      const sender = new SenderImpl(createClientEntityContextForTests());
+describe("sender unit tests", () => {
+  const fakeContext = createConnectionContextForTests();
+  const sender = new ServiceBusSenderImpl(fakeContext, "fakeEntityPath");
+  sender["_sender"].createBatch = async () => {
+    return new ServiceBusMessageBatchImpl(fakeContext, 100);
+  };
+
+  const partitionKeySessionIdMismatchMsg = {
+    body: "boooo",
+    sessionId: "my-sessionId",
+    partitionKey: "my-partitionKey"
+  };
+  const badMessages = [
+    "hello",
+    {},
+    123,
+    null,
+    undefined,
+    ["hello"],
+    partitionKeySessionIdMismatchMsg
+  ];
+
+  badMessages.forEach((invalidValue) => {
+    it(`don't allow Sender.sendMessages(${invalidValue})`, async () => {
+      let expectedErrorMsg =
+        "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
+      if (invalidValue === null || invalidValue === undefined) {
+        expectedErrorMsg = `Missing parameter "messages"`;
+      }
+      if (invalidValue === partitionKeySessionIdMismatchMsg) {
+        expectedErrorMsg = PartitionKeySessionIdMismatchError;
+      }
 
       try {
-        await sender.send(
+        await sender.sendMessages(
           // @ts-expect-error
           invalidValue
         );
+        assert.fail("You should not be seeing this.");
       } catch (err) {
         assert.equal(err.name, "TypeError");
-        assert.equal(
-          err.message,
-          "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
+        assert.equal(err.message, expectedErrorMsg);
+      }
+    });
+  });
+
+  badMessages.forEach((invalidValue) => {
+    it(`don't allow tryAdd(${invalidValue})`, async () => {
+      const batch = await sender.createMessageBatch();
+      let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
+      if (invalidValue === null || invalidValue === undefined) {
+        expectedErrorMsg = `Missing parameter "message"`;
+      }
+      if (invalidValue === partitionKeySessionIdMismatchMsg) {
+        expectedErrorMsg = PartitionKeySessionIdMismatchError;
+      }
+
+      try {
+        batch.tryAddMessage(
+          // @ts-expect-error
+          invalidValue
         );
+        assert.fail("You should not be seeing this.");
+      } catch (err) {
+        assert.equal(err.name, "TypeError");
+        assert.equal(err.message, expectedErrorMsg);
+      }
+    });
+  });
+
+  badMessages.forEach((invalidValue) => {
+    it(`don't allow Sender.scheduleMessages(${invalidValue})`, async () => {
+      let expectedErrorMsg =
+        "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
+      if (invalidValue === null || invalidValue === undefined) {
+        expectedErrorMsg = `Missing parameter "messages"`;
+      }
+      if (invalidValue === partitionKeySessionIdMismatchMsg) {
+        expectedErrorMsg = PartitionKeySessionIdMismatchError;
+      }
+
+      try {
+        await sender.scheduleMessages(
+          // @ts-expect-error
+          invalidValue,
+          new Date()
+        );
+        assert.fail("You should not be seeing this.");
+      } catch (err) {
+        assert.equal(err.name, "TypeError");
+        assert.equal(err.message, expectedErrorMsg);
       }
     });
   });
 });
-
-function createClientEntityContextForTests(): ClientEntityContext & { initWasCalled: boolean } {
-  let initWasCalled = false;
-
-  const fakeClientEntityContext = {
-    entityPath: "queue",
-    sender: {
-      credit: 999
-    },
-    namespace: {
-      config: { endpoint: "my.service.bus" },
-      connectionId: "connection-id",
-      dataTransformer: new DefaultDataTransformer(),
-      cbsSession: {
-        cbsLock: "cbs-lock",
-        async init() {
-          initWasCalled = true;
-        }
-      }
-    },
-    initWasCalled
-  };
-
-  return (fakeClientEntityContext as any) as ReturnType<typeof createClientEntityContextForTests>;
-}

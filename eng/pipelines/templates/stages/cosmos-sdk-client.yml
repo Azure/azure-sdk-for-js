@@ -1,19 +1,31 @@
 parameters:
-  Artifacts: []
-  ServiceDirectory: not-specified
-  RunUnitTests: false
+- name: Artifacts
+  type: object
+  default: []
+- name: ServiceDirectory
+  type: string
+  default: not-specified
+- name: RunUnitTests
+  type: boolean
+  default: false
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
 
 stages:
   - stage: Build
     jobs:
       - template: ../jobs/archetype-sdk-client.yml
         parameters:
+          Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
 
       - template: ../jobs/archetype-sdk-integration.yml
         parameters:
-          PackagePath: "sdk/cosmosdb/cosmos/"
           PackageName: "@azure/cosmos"
           TestBrowser: false
           TestSamples: false
@@ -30,9 +42,11 @@ stages:
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
-    - template: pipelines/stages/archetype-js-release.yml@azure-sdk-build-tools
+    - template: archetype-js-release.yml
       parameters:
         DependsOn: Build
         ServiceDirectory: ${{parameters.ServiceDirectory}}
         Artifacts: ${{parameters.Artifacts}}
         ArtifactName: packages
+        TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+        TargetDocRepoName: ${{ parameters.TargetDocRepoName }}

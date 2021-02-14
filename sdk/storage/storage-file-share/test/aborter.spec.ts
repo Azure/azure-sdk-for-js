@@ -21,8 +21,8 @@ describe("Aborter", () => {
     shareClient = serviceClient.getShareClient(shareName);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("Should abort after aborter timeout", async () => {

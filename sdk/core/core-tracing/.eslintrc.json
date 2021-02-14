@@ -3,5 +3,5 @@
   "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
   "rules": {
     "@azure/azure-sdk/ts-no-const-enums": "off"
-  }  
+  }
 }

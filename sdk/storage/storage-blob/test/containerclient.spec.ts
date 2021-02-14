@@ -36,7 +36,7 @@ describe("ContainerClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -63,6 +63,34 @@ describe("ContainerClient", () => {
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
     assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await containerClient.createIfNotExists();
+    assert.equal(res.succeeded, false);
+    assert.equal(res.errorCode, "ContainerAlreadyExists");
+
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    const res2 = await containerClient2.createIfNotExists();
+    assert.equal(res2.succeeded, true);
+    assert.ok(res2.etag);
+
+    await containerClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    await containerClient2.create();
+    const res = await containerClient2.deleteIfExists();
+    assert.ok(res.succeeded);
+
+    const containerName3 = recorder.getUniqueName("container3");
+    const containerClient3 = blobServiceClient.getContainerClient(containerName3);
+    const res2 = await containerClient3.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "ContainerNotFound");
   });
 
   it("create with default parameters", (done) => {
@@ -289,7 +317,7 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const iterator = await containerClient.listBlobsFlat({
+    const iterator = containerClient.listBlobsFlat({
       includeCopy: true,
       includeDeleted: true,
       includeMetadata: true,
@@ -597,6 +625,22 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsByHierarchy with empty delimiter should throw error", async () => {
+    try {
+      await containerClient
+        .listBlobsByHierarchy("", { prefix: "" })
+        .byPage()
+        .next();
+      assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
+    } catch (error) {
+      assert.equal(
+        "delimiter should contain one or more characters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
   it("uploadBlockBlob and deleteBlob", async () => {
     const body: string = recorder.getUniqueName("randomstring");
     const options = {
@@ -798,5 +842,15 @@ describe("ContainerClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ContainerClient(`https://customdomain.com/${containerName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(
+      newClient.containerName,
+      containerName,
+      "Container name is not the same as the one provided."
+    );
   });
 });

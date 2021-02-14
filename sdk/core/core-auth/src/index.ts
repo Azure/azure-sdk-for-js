@@ -9,3 +9,5 @@ export {
   AccessToken,
   isTokenCredential
 } from "./tokenCredential";
+
+export { SpanContext, SpanOptions } from "./tracing";

@@ -9,5 +9,15 @@ export interface OfferDefinition {
   content?: {
     offerThroughput: number;
     offerIsRUPerMinuteThroughputEnabled: boolean;
+    offerMinimumThroughputParameters?: {
+      maxThroughputEverProvisioned: number;
+      maxConsumedStorageEverInKB: number;
+    };
+    offerAutopilotSettings?: {
+      tier: number;
+      maximumTierThroughput: number;
+      autoUpgrade: boolean;
+      maxThroughput: number;
+    };
   };
 }

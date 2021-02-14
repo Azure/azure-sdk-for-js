@@ -5,6 +5,9 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { Debugger } from '@azure/logger';
+import { SpanOptions } from '@azure/core-tracing';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddPipelineOptions {
@@ -15,10 +18,25 @@ export interface AddPipelineOptions {
 }
 
 // @public
+export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
+
+// @public
+export interface BearerTokenAuthenticationPolicyOptions {
+    credential: TokenCredential;
+    scopes: string | string[];
+}
+
+// @public
 export function createEmptyPipeline(): Pipeline;
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeaders): HttpHeaders;
+
+// @public
+export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline;
 
 // @public
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
@@ -29,12 +47,40 @@ export class DefaultHttpsClient implements HttpsClient {
 }
 
 // @public
+export function disableResponseDecompressionPolicy(): PipelinePolicy;
+
+// @public
+export const disableResponseDecompressionPolicyName = "disableResponseDecompressionPolicy";
+
+// @public
+export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface ExponentialRetryPolicyOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
+}
+
+// @public
+export const expontentialRetryPolicyName = "exponentialRetryPolicy";
+
+// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };
 
 // @public
+export function formDataPolicy(): PipelinePolicy;
+
+// @public
+export const formDataPolicyName = "formDataPolicy";
+
+// @public
 export type FormDataValue = string | Blob;
+
+// @public
+export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
 // @public
 export interface HttpHeaders extends Iterable<[string, string]> {
@@ -55,6 +101,43 @@ export interface HttpsClient {
 }
 
 // @public
+export interface InternalPipelineOptions extends PipelineOptions {
+    decompressResponse?: boolean;
+    loggingOptions?: LogPolicyOptions;
+    sendStreamingJson?: boolean;
+}
+
+// @public
+export function keepAlivePolicy(options?: KeepAlivePolicyOptions): PipelinePolicy;
+
+// @public
+export const keepAlivePolicyName = "keepAlivePolicy";
+
+// @public
+export interface KeepAlivePolicyOptions {
+    enable?: boolean;
+}
+
+// @public
+export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
+
+// @public
+export const logPolicyName = "logPolicy";
+
+// @public
+export interface LogPolicyOptions {
+    additionalAllowedHeaderNames?: string[];
+    additionalAllowedQueryParameters?: string[];
+    logger?: Debugger;
+}
+
+// @public
+export function ndJsonPolicy(): PipelinePolicy;
+
+// @public
+export const ndJsonPolicyName = "ndJsonPolicy";
+
+// @public
 export interface Pipeline {
     addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
     clone(): Pipeline;
@@ -67,7 +150,17 @@ export interface Pipeline {
 }
 
 // @public
-export type PipelinePhase = "Serialize" | "Retry";
+export interface PipelineOptions {
+    httpsClient?: HttpsClient;
+    keepAliveOptions?: KeepAlivePolicyOptions;
+    proxyOptions?: ProxySettings;
+    redirectOptions?: PipelineRedirectOptions;
+    retryOptions?: ExponentialRetryPolicyOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
+}
+
+// @public
+export type PipelinePhase = "Deserialize" | "Serialize" | "Retry";
 
 // @public
 export interface PipelinePolicy {
@@ -76,9 +169,16 @@ export interface PipelinePolicy {
 }
 
 // @public
-export interface PipelineRequest {
+export interface PipelineRedirectOptions extends RedirectPolicyOptions {
+    disable?: boolean;
+}
+
+// @public
+export interface PipelineRequest<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
+    clone(): PipelineRequest;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;
@@ -86,7 +186,9 @@ export interface PipelineRequest {
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
+    requestId: string;
     skipDecompressResponse?: boolean;
+    spanOptions?: SpanOptions;
     streamResponseBody?: boolean;
     timeout: number;
     url: string;
@@ -94,8 +196,9 @@ export interface PipelineRequest {
 }
 
 // @public
-export interface PipelineRequestOptions {
+export interface PipelineRequestOptions<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers?: HttpHeaders;
@@ -104,7 +207,9 @@ export interface PipelineRequestOptions {
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
+    requestId?: string;
     skipDecompressResponse?: boolean;
+    spanOptions?: SpanOptions;
     streamResponseBody?: boolean;
     timeout?: number;
     url: string;
@@ -122,6 +227,12 @@ export interface PipelineResponse {
 }
 
 // @public
+export function proxyPolicy(proxySettings?: ProxySettings | undefined): PipelinePolicy;
+
+// @public
+export const proxyPolicyName = "proxyPolicy";
+
+// @public
 export interface ProxySettings {
     host: string;
     password?: string;
@@ -133,6 +244,17 @@ export interface ProxySettings {
 export type RawHttpHeaders = {
     [headerName: string]: string;
 };
+
+// @public
+export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
+
+// @public
+export const redirectPolicyName = "redirectPolicy";
+
+// @public
+export interface RedirectPolicyOptions {
+    maxRetries?: number;
+}
 
 // @public
 export type RequestBodyType = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
@@ -161,9 +283,56 @@ export interface RestErrorOptions {
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public
+export function setClientRequestIdPolicy(requestIdHeaderName?: string): PipelinePolicy;
+
+// @public
+export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
+
+// @public
+export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
+
+// @public
+export interface SystemErrorRetryPolicyOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
+}
+
+// @public
+export function throttlingRetryPolicy(): PipelinePolicy;
+
+// @public
+export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+// @public
+export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;
+
+// @public
+export const tracingPolicyName = "tracingPolicy";
+
+// @public
+export interface TracingPolicyOptions {
+    userAgentPrefix?: string;
+}
+
+// @public
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
+
+// @public
+export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;
+
+// @public
+export const userAgentPolicyName = "userAgentPolicy";
+
+// @public
+export interface UserAgentPolicyOptions {
+    userAgentPrefix?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

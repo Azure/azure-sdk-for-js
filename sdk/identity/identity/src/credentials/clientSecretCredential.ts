@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
@@ -7,6 +7,10 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+
+const logger = credentialLogger("ClientSecretCredential");
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
@@ -27,10 +31,10 @@ export class ClientSecretCredential implements TokenCredential {
    * needed to authenticate against Azure Active Directory with a client
    * secret.
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param clientSecret A client secret that was generated for the App Registration.
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param clientSecret - A client secret that was generated for the App Registration.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string,
@@ -50,8 +54,8 @@ export class ClientSecretCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
@@ -60,8 +64,9 @@ export class ClientSecretCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("ClientSecretCredential-getToken", options);
     try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
       const webResource = this.identityClient.createWebResource({
-        url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
         method: "POST",
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
@@ -81,6 +86,7 @@ export class ClientSecretCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -91,6 +97,7 @@ export class ClientSecretCredential implements TokenCredential {
         code,
         message: err.message
       });
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

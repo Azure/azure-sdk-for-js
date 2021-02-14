@@ -1,45 +1,94 @@
 parameters:
-  PackageName: ""
-  PreIntegrationSteps: ""
-  PostIntegrationSteps: ""
-  ResourceServiceDirectory: ""
-  EnvVars: {}
-  MaxParallel: 0
-  TimeoutInMinutes: 60
-  PublishCodeCoverage: false
-  TestBrowser: true
-  TestSamples: true
-  TestMinMax: false
-  TestSame: false
-  Matrix:
-    Linux Node 8:
-      OSVmImage: "ubuntu-18.04"
+- name: PackageName
+  type: string
+  default: ""
+- name: PreIntegrationSteps
+  type: string
+  default: ""
+- name: PostIntegrationSteps
+  type: string
+  default: ""
+- name: ResourceServiceDirectory
+  type: string
+  default: ""
+- name: EnvVars
+  type: object
+  default: {}
+- name: MaxParallel
+  type: number
+  default: 0
+- name: TimeoutInMinutes
+  type: number
+  default: 0
+- name: PublishCodeCoverage
+  type: boolean
+  default: false
+- name: SubscriptionConfiguration
+  type: string
+  default: $(sub-config-azure-cloud-test-resources)
+- name: ResourceGroupLocation
+  type: string
+  default: ""
+- name: ResourceGroupLocationCanary
+  type: string
+  default: "centraluseuap"
+- name: ArmTemplateParameters
+  type: string
+  default: "@{}"
+- name: TestBrowser
+  type: boolean
+  default: true
+- name: TestSamples
+  type: boolean
+  default: true
+- name: TestMinMax
+  type: boolean
+  default: false
+- name: TestSame
+  type: boolean
+  default: false
+- name: TestCanary
+  type: boolean
+  default: false
+- name: Matrix
+  type: object
+  default:
+    Windows Node 8:
+      OSVmImage: "windows-2019"
       TestType: "node"
       NodeTestVersion: "8.x"
       PublishCodeCoverage: true
-    Windows Node 10:
-      OSVmImage: "windows-2019"
+    Linux Node 10:
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       NodeTestVersion: "10.x"
-    MacOS Node 12:
-      OSVmImage: "macOS-10.15"
+    Linux Node 12:
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       NodeTestVersion: "12.x"
+    MacOS Node 14:
+      OSVmImage: "macOS-10.15"
+      TestType: "node"
+      NodeTestVersion: "14.x"
 
 jobs:
   - job: "IntegrationTest"
 
     variables:
       - template: ../variables/globals.yml
+      - name: SubscriptionConfiguration
+        value: ${{ parameters.SubscriptionConfiguration }}
+      - name: ResourceGroupLocation
+        value: ${{ parameters.ResourceGroupLocation }}
+      - name: ArmTemplateParameters
+        value: ${{ parameters.ArmTemplateParameters }}
+
 
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
       matrix:
         ${{ each matrixEntry in parameters.Matrix }}:
-          ${{ matrixEntry.key }}:
-            # If no CloudType, use "AzureCloud"
-            ${{ if eq(matrixEntry.value.CloudType, '') }}:
-              SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ${{ matrixEntry.key }}:         
             # TestResultsFiles
             ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
               TestResultsFiles: "**/test-results.browser.xml"
@@ -56,8 +105,7 @@ jobs:
           Windows Browser:
             OSVmImage: "windows-2019"
             TestType: "browser"
-            NodeTestVersion: "12.x"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+            NodeTestVersion: "$(NodeVersion)"
             TestResultsFiles: "**/test-results.browser.xml"
 
         # Add matrix entry for sample testing
@@ -65,8 +113,7 @@ jobs:
           Samples Linux Node 10:
             OSVmImage: "ubuntu-18.04"
             TestType: "sample"
-            NodeTestVersion: "10.x"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+            NodeTestVersion: "10.x"            
         
         # Add matrix entry for min-max testing
         ${{ if eq(parameters.TestMinMax, 'true') }}:
@@ -74,16 +121,14 @@ jobs:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
             DependencyVersion: max
-            NodeTestVersion: "12.x"
-            TestResultsFiles: "**/test-results.xml"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"            
           MinVersion_Node:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
             DependencyVersion: min
-            NodeTestVersion: "12.x"
-            TestResultsFiles: "**/test-results.xml"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)      
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"                  
 
         # Add matrix entry for same dep testing
         ${{ if eq(parameters.TestSame, 'true') }}:
@@ -91,9 +136,18 @@ jobs:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
             DependencyVersion: same
-            NodeTestVersion: "12.x"
+            NodeTestVersion: "$(NodeVersion)"
+            TestResultsFiles: "**/test-results.xml"   
+
+        # Add matrix entry for canary testing
+        ${{ if eq(parameters.TestCanary, 'true') }}:
+          CanaryTest_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            NodeTestVersion: "$(NodeVersion)"
             TestResultsFiles: "**/test-results.xml"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+            ResourceGroupLocation: ${{ parameters.ResourceGroupLocationCanary }}
     pool:
       vmImage: "$(OSVmImage)"
 
@@ -107,6 +161,8 @@ jobs:
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
             SubscriptionConfiguration: $(SubscriptionConfiguration)
+            Location: $(ResourceGroupLocation)
+            ArmTemplateParameters: $(ArmTemplateParameters)
 
       - script: |
           node common/scripts/install-run-rush.js install

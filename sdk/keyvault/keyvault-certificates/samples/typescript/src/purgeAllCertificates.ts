@@ -18,15 +18,14 @@ export async function main(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
 
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new CertificateClient(url, credential);
 
   for await (const properties of client.listPropertiesOfCertificates()) {
     try {
       const poller = await client.beginDeleteCertificate(properties.name!);
       await poller.pollUntilDone();
-    } catch(e) {
+    } catch (e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
   }
@@ -34,7 +33,7 @@ export async function main(): Promise<void> {
     try {
       // This will take a while.
       await client.purgeDeletedCertificate(deletedCertificate.name!);
-    } catch(e) {
+    } catch (e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
   }

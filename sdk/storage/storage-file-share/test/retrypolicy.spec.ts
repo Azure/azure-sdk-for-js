@@ -25,7 +25,7 @@ describe("RetryPolicy", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {

@@ -1,6 +1,73 @@
 # Release History
 
+## 1.2.1 (2021-01-07)
+
+- Upgrading to Axios 0.21.1 due to a severe vulnerability in Axios. Link to the documented vulnerability: [link](https://npmjs.com/advisories/1594). Fixes issue [13088](https://github.com/Azure/azure-sdk-for-js/issues/13088).
+
+## 1.2.0 (2020-11-11)
+
+### Changes since 1.1.\*
+
+- With 1.2, we've added support for Azure Arc to our Managed Identity credential.
+- We've also added an Interactive Browser credential for Node, which spawns the user's browser and connects via
+  a browser-based auth code flow. This is powered by the Microsoft Authentication Library (MSAL)
+- We've moved `DeviceCodeCredential` to also use the Microsoft Authentication Library (MSAL)
+- Identity now supports Subject Name/Issuer (SNI) as part of authentication for ClientCertificateCredential.
+- Added Active Directory Federation Services authority host support to the node credentials.
+- `ManagedIdentityCredential` has been aligned with other languages, and now treats expected errors properly.
+- Added support for multiple clouds on `VisualStudioCodeCredential`.
+
+### Changes since the latest 1.2-beta
+
+- `ManagedIdentityCredential` now only checks for available MSIs once per class instance.
+- `ManagedIdentityCredential` now supports Azure Arc environments.
+- `ManagedIdentityCredential` now supports Azure Service Fabric environments.
+- Added authority host for multiple clouds on `VisualStudioCodeCredential`, and specified `AzureCloud` as the default cloud name.
+- `DeviceCodeCredential` now has both of its constructor parameters, `tenantId` and `clientId`, as optional parameters. The default value of `tenantId` is "organizations", and the Azure CLI's client ID is the default value of `clientId`.
+- We've removed the persistent cache support from the previous beta.
+
+## 1.2.0-beta.2 (2020-10-06)
+
+- `DeviceCodeCredential` now by default shows the Device Code message on the console. This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.
+- Added support for multiple clouds on `VisualStudioCodeCredential`. Fixes customer issue [11452](https://github.com/Azure/azure-sdk-for-js/issues/11452).
+- `ManagedIdentityCredential` has been aligned with other languages, now treating expected errors properly. This fixes customer issue [11451](https://github.com/Azure/azure-sdk-for-js/issues/11451).
+- `InteractiveBrowserCredential` authentication now uses the silent flow if the user provides a cache and authentication record for lookup.
+- Added Active Directory Federation Services authority host support to the node credentials.
+- Reverted a change in 1.2.0-beta.1 which moved `@rollup/plugin-json` from `devDependencies` to `dependencies`. `@rollup/plugin-json` was placed as a dependency due to an oversight, and it is not a necessary dependency for `@azure/identity`.
+
+## 1.2.0-beta.1 (2020-09-08)
+
+- A new `InteractiveBrowserCredential` for node which will spawn a web server, start a web browser, and allow the user to interactively authenticate with the browser.
+- With 1.2.0-beta.1, Identity will now use [MSAL](https://www.npmjs.com/package/@azure/msal-node) to perform authentication. With this beta, DeviceCodeCredential and a new InteractiveBrowserCredential for node are powered by MSAL.
+- Identity now supports Subject Name/Issuer (SNI) as part of authentication for ClientCertificateCredential
+- Upgraded App Services MSI API version
+
+## 1.1.0 (2020-08-11)
+
+### Changes since 1.0.\*
+
+- With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCliCredential`.
+  - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available after logging in through the Azure Account extension in Visual Studio Code.
+  - `AzureCliCredential` allows developers to log into Azure using the login credentials after an "az login" call.
+- Both `VisualStudioCodeCredential` and `AzureCliCredential` may be used directly or indirectly as part of `DefaultAzureCredential`.
+- Added the ability to configure the Managed Identity with a user-assigned client ID via a new option available in the `DefaultAzureCredential` constructor options: `managedIdentityClientId`.
+- Made a list of known authorities is now available via a new top-level constant: `AzureAuthorityHosts`.
+- Introduced the `CredentialUnavailable` error, which allows developers to differentiate between a credential not being available and an error happening during authentication.
+
+### Changes since the latest 1.1-preview
+
+- Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
+- Tenant information is now loaded from the Visual Studio Code settings file when the `VisualStudioCodeCredential` is used.
+- Added `managedIdentityClientId` to optionally pass in a user-assigned client ID for the `ManagedIdentityCredential`.
+
+## 1.1.0-preview.5 (2020-07-22)
+
+- Make the keytar dependency optional, allowing for building and running on platforms not supported by keytar [PR #10142](https://github.com/Azure/azure-sdk-for-js/pull/10142)
+- DefaultAzureCredential and VSCodeCredential can now take a tenant id as part of the options object
+- KnownAuthorityHosts has been renamed to AzureAuthorityHosts
+
 ## 1.1.0-preview.4 (2020-06-09)
+
 - Switch to using CredentialUnavailable to differentiate from expected and unexpected errors during DefaultAzureCredential startup. [PR #8172](https://github.com/Azure/azure-sdk-for-js/pull/8127)
 - Make all developer credentials public as well as the list used by DefaultAzureCredential [PR #9274](https://github.com/Azure/azure-sdk-for-js/pull/9274)
 
@@ -52,7 +119,7 @@
 
 ## 1.0.0-preview.4 (2019-10-07)
 
-- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
+- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
 - Fixed an issue preventing the `ManagedIdentityCredential` from working inside of Azure Function Apps ([PR #5144](https://github.com/Azure/azure-sdk-for-js/pull/5144))
 - Added tracing to `IdentityClient` and credential implementations ([PR #5283](https://github.com/Azure/azure-sdk-for-js/pull/5283))
 - Improved the exception message for `AggregateAuthenticationError` so that errors thrown from `DefaultAzureCredential` are now more actionable ([PR #5409](https://github.com/Azure/azure-sdk-for-js/pull/5409))

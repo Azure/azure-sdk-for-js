@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+function formatNullAndUndefined(input: unknown): string | unknown {
+  if (input === null || input === undefined) {
+    return "null";
+  }
+
+  return input;
+}
+
 function escapeQuotesIfString(input: unknown, previous: string): string | unknown {
   let result = input;
 
@@ -11,6 +19,7 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
       result = `'${result}'`;
     }
   }
+
   return result;
 }
 
@@ -23,15 +32,19 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
  * const filter = odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`;
  * ```
  * For more information on supported syntax see: https://docs.microsoft.com/en-us/azure/search/search-query-odata-filter
- * @param strings
- * @param values
+ * @param strings - Array of strings for the expression
+ * @param values - Array of values for the expression
  */
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string {
   const results = [];
   for (let i = 0; i < strings.length; i++) {
     results.push(strings[i]);
     if (i < values.length) {
-      results.push(escapeQuotesIfString(values[i], strings[i]));
+      if (values[i] === null || values[i] === undefined) {
+        results.push(formatNullAndUndefined(values[i]));
+      } else {
+        results.push(escapeQuotesIfString(values[i], strings[i]));
+      }
     }
   }
   return results.join("");

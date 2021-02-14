@@ -52,7 +52,7 @@ describe("Long Running Operations - custom client", function() {
     const result = await poller.pollUntilDone();
 
     // Checking the serialized version of the operation
-    let serializedOperation: { state: TestOperationState } = JSON.parse(poller.toString());
+    const serializedOperation: { state: TestOperationState } = JSON.parse(poller.toString());
     assert.ok(serializedOperation.state.isStarted);
 
     assert.ok(poller.initialResponse!.parsedBody.started);
@@ -66,7 +66,7 @@ describe("Long Running Operations - custom client", function() {
       // NOTE: Don't set any responses so that poller.poll throws an error
       const client = new TestClient(new TestTokenCredential("my-test-token"));
       let foundUnhandled = false;
-      const checker = () => {
+      const checker = (): void => {
         foundUnhandled = true;
       };
 

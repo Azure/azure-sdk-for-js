@@ -49,7 +49,7 @@ export async function main() {
         }
       },
       processError: async (err, context) => {
-        console.log(`Error : ${err}`);
+        console.log(`Error on partition "${context.partitionId}": ${err}`);
       }
     },
     { startPosition: earliestEventPosition }

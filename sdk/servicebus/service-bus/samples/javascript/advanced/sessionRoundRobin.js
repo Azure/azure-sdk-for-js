@@ -8,17 +8,17 @@
   Run the sendMessages sample with different session ids before running this sample.
 */
 
-const { ServiceBusClient, delay } = require("@azure/service-bus");
+const { ServiceBusClient, delay, isServiceBusError } = require("@azure/service-bus");
 const dotenv = require("dotenv");
 const { AbortController } = require("@azure/abort-controller");
 
 dotenv.config();
 
 const serviceBusConnectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+  process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
-// NOTE: this sample uses a queue but would also work a session enabled subscription.
-const queueName = process.env.QUEUE_NAME || "<queue name>";
+// NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
+const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
@@ -34,14 +34,14 @@ async function sessionAccepted(sessionId) {
   console.log(`[${sessionId}] will start processing...`);
 }
 
-// Called by the SessionReceiver when a message is received.
-// This is passed as part of the handlers when calling `SessionReceiver.subscribe()`.
+// Called by the ServiceBusSessionReceiver when a message is received.
+// This is passed as part of the handlers when calling `ServiceBusSessionReceiver.subscribe()`.
 async function processMessage(msg) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
-// Called by the SessionReceiver when an error occurs.
-// This will be called in the handlers we pass in `SessionReceiver.subscribe()`
+// Called by the ServiceBusSessionReceiver when an error occurs.
+// This will be called in the handlers we pass in `ServiceBusSessionReceiver.subscribe()`
 // and by the sample when we encounter an error opening a session.
 async function processError(err, sessionId) {
   if (sessionId) {
@@ -77,11 +77,14 @@ async function receiveFromNextSession(serviceBusClient) {
   let sessionReceiver;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, "peekLock", {
-      autoRenewLockDurationInMs: sessionIdleTimeoutMs
+    sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
+      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
-    if (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError") {
+    if (
+      isServiceBusError(err) &&
+      (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
+    ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
       await processError(err, undefined);
@@ -103,8 +106,8 @@ async function receiveFromNextSession(serviceBusClient) {
           refreshTimer();
           await processMessage(msg);
         },
-        async processError(err) {
-          rejectSessionWithError(err);
+        async processError(args) {
+          rejectSessionWithError(args.error);
         }
       },
       {

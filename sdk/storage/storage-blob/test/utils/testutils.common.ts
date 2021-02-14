@@ -8,6 +8,7 @@ export const testPollerProperties = {
 
 const mockAccountName = "fakestorageaccount";
 const mockMDAccountName = "md-fakestorageaccount";
+const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -21,10 +22,23 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
+    AZURE_CLIENT_ID: `${mockAccountKey}`,
+    AZURE_TENANT_ID: `${mockAccountKey}`,
+    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     MD_ACCOUNT_KEY: `${mockAccountKey}`,
     MD_ACCOUNT_SAS: `${mockAccountKey}`,
-    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    ENCRYPTION_SCOPE_1: "antjoscope1",
+    ENCRYPTION_SCOPE_2: "antjoscope2",
+    ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
+    ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
+    ORS_DEST_ACCOUNT_SAS: `${mockAccountKey}`,
+    ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
+    SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
+    SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
   },
   customizationsOnRecordings: [
     // Used in record mode
@@ -133,4 +147,32 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   }
 
   return true;
+}
+
+/**
+ * Sleep for seconds.
+ *
+ * @export
+ * @param {number} seconds
+ * @returns {Promise<void>}
+ */
+export function sleep(seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+}
+
+/**
+ * Generate a Uint8Array with specified byteLength and randome content.
+ *
+ * @export
+ * @param {number} byteLength
+ * @returns {Uint8Array}
+ */
+export function genearteRandomUint8Array(byteLength: number): Uint8Array {
+  const uint8Arr = new Uint8Array(byteLength);
+  for (let j = 0; j < byteLength; j++) {
+    uint8Arr[j] = Math.floor(Math.random() * 256);
+  }
+  return uint8Arr;
 }

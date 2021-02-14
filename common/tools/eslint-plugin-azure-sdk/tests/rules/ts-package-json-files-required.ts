@@ -309,20 +309,20 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist-esm/src is not included in files"
+          message: "src is included in files and dist-esm/src is not included in files"
         }
       ],
-      output: '{"files": ["dist", "src", "dist-esm/src"]}'
+      output: '{"files": ["dist", "dist-esm/src"]}'
     },
     {
       code: '{"files": ["src", "dist-esm/src"]}',
       filename: "package.json",
       errors: [
         {
-          message: "dist is not included in files"
+          message: "src is included in files and dist is not included in files"
         }
       ],
-      output: '{"files": ["src", "dist-esm/src", "dist"]}'
+      output: '{"files": ["dist-esm/src", "dist"]}'
     },
     {
       code: '{"files": ["dist"]}',
@@ -349,13 +349,10 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist is not included in files"
-        },
-        {
-          message: "dist-esm/src is not included in files"
+          message: "dist,dist-esm/src are not included in files"
         }
       ],
-      output: '{"files": ["dist"]}'
+      output: '{"files": ["dist", "dist-esm/src"]}'
     },
     {
       // example file with src not in files
@@ -363,10 +360,7 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist is not included in files"
-        },
-        {
-          message: "dist-esm/src is not included in files"
+          message: "dist,dist-esm/src are not included in files"
         }
       ]
     }

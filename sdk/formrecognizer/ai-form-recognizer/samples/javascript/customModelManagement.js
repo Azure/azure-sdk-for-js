@@ -2,19 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates different ways to iterate through the list of models in
+ * This sample demonstrates how to manage the custom models in
  * a cognitive service account.
  */
 
 const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   // First, we see how many custom models we have, and what our limit is
@@ -23,40 +25,32 @@ async function main() {
     `Our account has ${accountProperties.customModelCount} custom models, and we can have at most ${accountProperties.customModelLimit} custom models`
   );
 
-  // Next, we get a paged async iterator of all of our custom models
-  const result = client.listCustomModels();
+  // We get a paged async iterator of all of our custom models and request the
+  // first page using the `next()` method.
+  const firstPage = await client
+    .listCustomModels()
+    .byPage()
+    .next();
 
-  // We could print out information about first ten models
-  // and save the first model id for later use
-  let i = 0;
-  let firstModel;
-  for await (const model of result) {
-    console.log(`model ${i++}:`);
-    console.log(model);
-    if (i === 1) {
-      firstModel = model;
-    }
-    if (i > 10) {
-      break;
-    }
-  }
-
-  if (!firstModel) {
-    // See trainModels.ts and trainModelWithLabels.ts for creating and training models.
+  // If we didn't get any items, then there is nothing to do! See trainModels.ts
+  // and trainModelWithLabels.ts for creating and training models.
+  if (firstPage.done || !firstPage.value.modelList) {
     throw new Error(
       "There are no custom models in this account. Please ensure to create and train models first."
     );
   }
 
+  const firstModel = firstPage.value.modelList[0];
+
   // Now we'll get the first custom model in the paged list
   const model = await client.getCustomModel(firstModel.modelId);
+  console.log("--- First Custom Model ---");
   console.log(`Model Id: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
-  console.log("Documents used in training: [");
+  console.log("Documents used in training:");
   for (const doc of model.trainingDocuments || []) {
-    console.log(`  ${doc.documentName}`);
+    console.log(`- ${doc.name}`);
   }
-  console.log("]");
 
   // Finally, we can delete this model if we want (for example, if its status is 'invalid')
   //   await client.deleteModel(firstModel.modelId);

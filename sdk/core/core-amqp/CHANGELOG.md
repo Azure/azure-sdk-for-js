@@ -1,11 +1,95 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 2.0.2 (Unreleased)
+
+
+## 2.0.1 (2021-01-07)
+
+- Fixes the bug reported in issue [12610](https://github.com/Azure/azure-sdk-for-js/issues/12610).
+  Previously, `retry` would still sleep one more time after all retry attempts were exhausted before returning.
+  Now, `retry` will return immediately after all retry attempts are completed as necessary.
+
+## 2.0.0 (2020-11-12)
+
+- This release marks the general availability of the `@azure/core-amqp` version 2 package.
+
+### Breaking changes
+
+- Continuing our work to clean the public API surface that we started in 2.0.0-beta.1 we no longer export
+
+  - `DataTransformer` and `DefaultDataTransformer`.
+    `dataTransformer` has been removed from `ConnectionContextBase` and `ConnectionContextBaseParameters`.
+    This allows us to consider other forms of implementing serializers in the future.
+  - `ConditionStatusMapper` and `MessagingErrorCodes` as these are only used internally by this package.
+
+- Previously, `ConnectionConfig.validate()` overridden entityPath if `undefined` with `String(undefined) = "undefined"`. This has been updated to retain `undefined` in the validation.
+  [PR 12321](https://github.com/Azure/azure-sdk-for-js/pull/12321)
+
+## 2.0.0-beta.1 (2020-11-03)
+
+- `AmqpAnnotatedMessage` interface that closely represents the AMQP annotated message from the [AMQP spec](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format) has been added. New `AmqpMessageHeaders` and `AmqpMessageProperties` interfaces(properties with camelCasing) have been added in the place of re-exports from "rhea" library(properties with snake_casing).
+  [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
+
+### Breaking changes
+
+- `satusDescription` in `CbsResponse` which is the output for `CbsClient.negotiateClaim()` is renamed to `statusDescription` to fix the spelling error.
+- The `CbsClient.negotiateClaim()` method now takes the token string directly instead of the `AccessToken` object.
+
+We are cleaning the public API surface by
+
+- removing exports that are either not used by either `@azure/event-hubs` and `@azure/service-bus` packages (which are the two main consumers of this package)
+  - AsyncLockOptions
+  - executePromisesSequentially
+  - Func
+  - getNewAsyncLock
+  - isNode
+  - randomNumberFromInterval
+  - Timeout
+- moving the clases/methods/interfaces that are very specific to Event Hubs/Service Bus to their corresponding packages.
+  - SharedKeyCredential
+  - EventHubConnectionConfig
+- avoid re-exporting things from `rhea-promise` and `@azure/core-auth`
+  - Dictionary
+  - isAmqpError
+  - Message
+  - TokenCredential
+  - isTokenCredential
+  - AccessToken
+- removing all IotHub related artifacts. These existed to support the IotHub support we had in Event Hubs v2 which has since been removed in Event Hubs v5 for a better separation of concerns
+  - IotHubConnectionConfig
+  - IotHubConnectionStringModel
+  - IotSharedKeyCredential
+  - isIotHubConnectionString
+- removing all Event Hubs, Storage and Service Bus interfaces meant to be used with the `parseConnectionString()` method
+  - ServiceBusConnectionStringModel
+  - StorageConnectionStringModel
+  - EventHubsConnectionStringModel
+
+## 1.1.7 (2020-10-28)
+
+- Internal improvement - Previously, each `RequestResponseLink.sendRequest` call adds an "onMessage" listener to the `ReceiverEvents.message` event and keeps discarding the responses that did not match the request-id and returns the response if matched. Adding many listeners would also result in a warning such as `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 message listeners added to [Receiver]. Use emittr.setMaxListeners() to increase limit`.
+  This has been improved to reuse a single listener for all the requests by maintaining a map of deferred promises that would be resolved(or rejected) upon receiving a message event.
+  [PR 11749](https://github.com/Azure/azure-sdk-for-js/pull/11749)
+
+## 1.1.6 (2020-09-08)
+
+- Support using the SharedAccessSignature from the connection string.
+  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+
+## 1.1.5 (2020-08-04)
+
+- Fixes issue [9615](https://github.com/Azure/azure-sdk-for-js/issues/9615)
+  where closing the `RequestResponseLink` session before closing the receiver
+  could cause the service to report a missing session channel.
+
+## 1.1.4 (2020-06-30)
 
 - Fixes issue [9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
   where operations that used the `RequestResponseLink` and encountered an error
   would fail to cleanup their internal timer.
   This caused exiting the process to be delayed until the timer reached its timeout.
+- If none is present, add a unique id to `message_id` on the request to be sent when using the `RequestResponseLink`. This helps in determining the right response for the request when multiple send requests are made in parallel.
+  [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 
 ## 1.1.3 (2020-06-02)
 
@@ -78,7 +162,7 @@ Updates types for better compatibility with TypeScript 3.6.x. (PR #4928)
 
 This library is based off of the [@azure/amqp-common](https://www.npmjs.com/package/@azure/amqp-common)
 library. Both are meant to contain common functionality required by Azure Javascript libraries that
-use the [AMQP protocol](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide)
+use the [AMQP protocol](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide)
 like the ones for Azure Service Bus and Azure Event Hubs.
 
 Key differences between this library and the older @azure/amqp-common are:

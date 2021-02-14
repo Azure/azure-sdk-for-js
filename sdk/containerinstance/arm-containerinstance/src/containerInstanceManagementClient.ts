@@ -19,9 +19,8 @@ class ContainerInstanceManagementClient extends ContainerInstanceManagementClien
   // Operation groups
   containerGroups: operations.ContainerGroups;
   operations: operations.Operations;
-  containerGroupUsage: operations.ContainerGroupUsage;
-  container: operations.ContainerOperations;
-  serviceAssociationLink: operations.ServiceAssociationLink;
+  location: operations.Location;
+  containers: operations.Containers;
 
   /**
    * Initializes a new instance of the ContainerInstanceManagementClient class.
@@ -34,9 +33,8 @@ class ContainerInstanceManagementClient extends ContainerInstanceManagementClien
     super(credentials, subscriptionId, options);
     this.containerGroups = new operations.ContainerGroups(this);
     this.operations = new operations.Operations(this);
-    this.containerGroupUsage = new operations.ContainerGroupUsage(this);
-    this.container = new operations.ContainerOperations(this);
-    this.serviceAssociationLink = new operations.ServiceAssociationLink(this);
+    this.location = new operations.Location(this);
+    this.containers = new operations.Containers(this);
   }
 }
 

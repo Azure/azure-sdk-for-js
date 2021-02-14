@@ -1,5 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/* eslint-disable no-invalid-this */
 
 import { log } from "./log";
 
@@ -77,6 +79,18 @@ if (debugEnvVariable) {
   enable(debugEnvVariable);
 }
 
+const debugObj: Debug = Object.assign(
+  (namespace: string): Debugger => {
+    return createDebugger(namespace);
+  },
+  {
+    enable,
+    enabled,
+    disable,
+    log
+  }
+);
+
 function enable(namespaces: string): void {
   enabledString = namespaces;
   enabledNamespaces = [];
@@ -105,8 +119,8 @@ function enabled(namespace: string): boolean {
       return false;
     }
   }
-  for (const enabled of enabledNamespaces) {
-    if (enabled.test(namespace)) {
+  for (const enabledNamespace of enabledNamespaces) {
+    if (enabledNamespace.test(namespace)) {
       return true;
     }
   }
@@ -120,7 +134,15 @@ function disable(): string {
 }
 
 function createDebugger(namespace: string): Debugger {
-  function debug(...args: any[]) {
+  const newDebugger: Debugger = Object.assign(debug, {
+    enabled: enabled(namespace),
+    destroy,
+    log: debugObj.log,
+    namespace,
+    extend
+  });
+
+  function debug(...args: any[]): void {
     if (!newDebugger.enabled) {
       return;
     }
@@ -129,14 +151,6 @@ function createDebugger(namespace: string): Debugger {
     }
     newDebugger.log(...args);
   }
-
-  const newDebugger: Debugger = Object.assign(debug, {
-    enabled: enabled(namespace),
-    destroy,
-    log: debugObj.log,
-    namespace,
-    extend
-  });
 
   debuggers.push(newDebugger);
 
@@ -157,17 +171,5 @@ function extend(this: Debugger, namespace: string): Debugger {
   newDebugger.log = this.log;
   return newDebugger;
 }
-
-const debugObj: Debug = Object.assign(
-  (namespace: string): Debugger => {
-    return createDebugger(namespace);
-  },
-  {
-    enable,
-    enabled,
-    disable,
-    log
-  }
-);
 
 export default debugObj;

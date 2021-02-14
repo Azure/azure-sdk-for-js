@@ -365,6 +365,23 @@ export const scoringProfile: coreHttp.OperationQueryParameter = {
     }
   }
 };
+export const scoringStatistics: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "searchOptions",
+    "scoringStatistics"
+  ],
+  mapper: {
+    serializedName: "scoringStatistics",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "local",
+        "global"
+      ]
+    }
+  }
+};
 export const searchFields0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -516,6 +533,19 @@ export const selectedFields: coreHttp.OperationQueryParameter = {
     }
   },
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
+};
+export const sessionId: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "searchOptions",
+    "sessionId"
+  ],
+  mapper: {
+    serializedName: "sessionId",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const skip: coreHttp.OperationQueryParameter = {
   parameterPath: [

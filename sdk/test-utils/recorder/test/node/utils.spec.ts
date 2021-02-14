@@ -1,12 +1,14 @@
 import {
   generateTestRecordingFilePath,
-  nodeRequireRecordingIfExists,
   isBrowser,
-  findRecordingsFolderPath,
-  testHasChanged
+  testHasChanged,
+  isContentTypeInNockFixture,
+  decodeHexEncodingIfExistsInNockFixture
 } from "../../src/utils";
-import chai from "chai";
-const { expect } = chai;
+
+import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
+
+import chai, { expect } from "chai";
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
@@ -47,7 +49,6 @@ describe("NodeJS utils", () => {
     it("should throw if the file at a given recording path doesn't exist", function() {
       if (isBrowser()) {
         this.skip();
-        return 
       }
 
       // Require shouldn't be mocked in this test since we should be preventing require from being reached.
@@ -215,6 +216,182 @@ describe("NodeJS utils", () => {
 
       mockFs.restore();
       mockRequire.stopAll();
+    });
+  });
+
+  describe("decodeHexEncodingIfExistsInNockFixture", () => {
+    [
+      {
+        name: `Hex encoding decodes for "avro/binary" content type`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, Buffer.from("4f626a0131c2", "hex"), [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
+      },
+      {
+        name: `Hex encoding is not decoded for "something/else" content type`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'something/else',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'something/else',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
+      },
+      {
+        name: `Hex encoding decodes for "avro/binary" content type even for partial success(status code 206)`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\">")
+  .query(true)
+  .reply(206, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\">")
+  .query(true)
+  .reply(206, Buffer.from("4f626a0131c2", "hex"), [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
+      },
+      {
+        name: `Hex encoding is not decoded for non-successful status codes`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(400, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(400, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
+      }
+    ].forEach((test) => {
+      it(test.name, () => {
+        chai.assert.equal(
+          decodeHexEncodingIfExistsInNockFixture(test.input),
+          test.output,
+          `Unexpected output`
+        );
+      });
+    });
+  });
+
+  describe("isContentTypeInNockFixture", () => {
+    [
+      {
+        name: `"avro/binary" matches`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        expectedContentTypes: ["avro/binary"],
+        output: true
+      },
+      {
+        name: `"avro/binary" matches with an array of expected content types`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+          .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+          .query(true)
+          .reply(200, "4f626a0131c2", [
+          'Transfer-Encoding',
+          'chunked',
+          'Content-Type',
+          'avro/binary',
+          'Last-Modified',
+          'Thu, 20 Aug 2020 09:22:11 GMT',
+        ]);`,
+        expectedContentTypes: ["avro/binary", "application/xml"],
+        output: true
+      },
+      {
+        name: `"text/plain" should not match with an array of different content types`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+          .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+          .query(true)
+          .reply(200, "4f626a0131c2", [
+          'Transfer-Encoding',
+          'chunked',
+          'Content-Type',
+          'text/plain',
+          'Last-Modified',
+          'Thu, 20 Aug 2020 09:22:11 GMT',
+        ]);`,
+        expectedContentTypes: ["avro/binary", "application/xml"],
+        output: false
+      }
+    ].forEach((test) => {
+      it(test.name, () => {
+        chai.assert.equal(
+          isContentTypeInNockFixture(test.input, test.expectedContentTypes),
+          test.output,
+          `Unexpected result - content types ${test.expectedContentTypes} ${
+            test.output ? "do not match" : "matched"
+          }`
+        );
+      });
     });
   });
 });

@@ -4,7 +4,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](http://azure.github.io/guidelines/).
+If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](https://azure.github.io/guidelines/).
 
 The Azure Storage development team uses Visual Studio Code. However, any preferred IDE or other toolset should be usable.
 
@@ -40,7 +40,7 @@ Example - `export TEST_MODE=record` or `set TEST_MODE=record`
   | ACCOUNT_NAME              | Name of your storage account.                                                                                                                                                                                                                                                                                                                                                                                                                 | Required                                                                         |
   | ACCOUNT_KEY               | Can be obtained from the Azure portal. Go to the `Access Keys` tab under the `Settings` section of your storage account in the portal and note down the key.                                                                                                                                                                                                                                                                                  | Required                                                                         |
   | ACCOUNT_SAS               | Can be obtained from the Azure portal. Go to the `Shared access signature` tab under the `Settings` section of your storage account in the portal. Generate SAS by enabling permissions, setting exiry dates, etc. You can also generate SAS from tools like Azure Storage Explorer. <br>A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like this - `set "ACCOUNT_SAS=<YOUR_SAS>"` | Required to run the browser tests                                                |
-  | ACCOUNT_TOKEN             | Preferred way is to get a Token through Azure CLI.<br> - `az login`<br> - `az account get-access-token --resource "https://storage.azure.com"`<br>For more info - refer [Azure CLI - get-access-token](https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest#az-account-get-access-token)                                                                                                                                  | Not required (Some of the tests will be skipped if this variable is not defined) |
+  | ACCOUNT_TOKEN             | Preferred way is to get a Token through Azure CLI.<br> - `az login`<br> - `az account get-access-token --resource "https://storage.azure.com"`<br>For more info - refer [Azure CLI - get-access-token](https://docs.microsoft.com/cli/azure/account?view=azure-cli-latest#az-account-get-access-token)                                                                                                                                  | Not required (Some of the tests will be skipped if this variable is not defined) |
   | STORAGE_CONNECTION_STRING | Can be obtained from the Azure portal. Go to the `Access Keys` tab under the `Settings` section of your storage account in the portal and note down the connection string.                                                                                                                                                                                                                                                                    | Required                                                                         |
   | ENCRYPTION_SCOPE_1        | An encryption scope created under your storage account. The two encryption scopes need to be different. Can be created using the SRP API.                                                                                                                                                                                                                                                                                                                                                     | Not required (Some of the tests will be skipped if this variable is not defined) |
   | ENCRYPTION_SCOPE_2        | Another encryption scope created under your storage account. The two encryption scopes need to be different. Can be created using the SRP API.                                                                                                                                                                                                                                                                                                                                                | Not required (Some of the tests will be skipped if this variable is not defined) |
@@ -57,7 +57,7 @@ The environment variable **TEST_MODE** controls how the tests are running.
 - Else If TEST_MODE = "playback" (or if the TEST_MODE is not set or set to an invalid value),
   - Existing recordings are played back as responses to the HTTP requests in the tests
 
-Please refer to the [guidelines on Record and Playback](./../test-utils/recorder/GUIDELINES.md) for more details.
+Please refer to the [guidelines on Record and Playback](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md) for more details.
 
 ### Emulator Tests
 
@@ -156,7 +156,7 @@ npm run test
 
 `npm run test` would run the the tests in both node and the browser.
 
-**Link** - [Guidelines for record and playback - `@azure/test-utils-recorder`](./../test-utils/recorder/GUIDELINES.md)
+**Link** - [Guidelines for record and playback - `@azure/test-utils-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md)
 
 ## Pull Requests
 

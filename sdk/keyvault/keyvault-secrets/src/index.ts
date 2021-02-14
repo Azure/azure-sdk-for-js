@@ -1,40 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
+/// <reference lib="esnext.asynciterable" />
 
 import {
   TokenCredential,
   isTokenCredential,
   signingPolicy,
-  RequestOptionsBase,
   operationOptionsToRequestOptionsBase,
   PipelineOptions,
   createPipelineFromOptions
 } from "@azure/core-http";
 
-import { getTracer } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  SecretBundle,
-  DeletedSecretBundle,
   DeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams,
   SetSecretResponse,
-  DeleteSecretResponse,
   UpdateSecretResponse,
   GetSecretResponse,
   GetDeletedSecretResponse,
   BackupSecretResponse,
   RestoreSecretResponse
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./constants";
+import {
+  challengeBasedAuthenticationPolicy,
+  createSpan,
+  setParentSpan
+} from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -42,8 +41,6 @@ import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
 import {
   KeyVaultSecret,
   DeletedSecret,
-  DeleteSecretOptions,
-  SecretClientInterface,
   SecretPollerOptions,
   BeginDeleteSecretOptions,
   BeginRecoverDeletedSecretOptions,
@@ -54,7 +51,6 @@ import {
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
   RestoreSecretBackupOptions,
-  RecoverDeletedSecretOptions,
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
   ListDeletedSecretsOptions,
@@ -62,7 +58,8 @@ import {
   SecretClientOptions,
   LATEST_API_VERSION
 } from "./secretsModels";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+import { parseKeyVaultSecretId, KeyVaultSecretId } from "./identifier";
+import { getSecretFromSecretBundle } from "./transformations";
 
 export {
   SecretClientOptions,
@@ -79,9 +76,11 @@ export {
   ListDeletedSecretsOptions,
   PagedAsyncIterableIterator,
   PageSettings,
+  KeyVaultSecretId,
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
+  parseKeyVaultSecretId,
   SecretProperties,
   SecretPollerOptions,
   BeginDeleteSecretOptions,
@@ -106,22 +105,10 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
-
-  /**
-   * @internal
-   * @ignore
-   * A self reference that bypasses private methods, for the pollers.
-   */
-  private readonly pollerClient: SecretClientInterface = {
-    recoverDeletedSecret: this.recoverDeletedSecret.bind(this),
-    getSecret: this.getSecret.bind(this),
-    deleteSecret: this.deleteSecret.bind(this),
-    getDeletedSecret: this.getDeletedSecret.bind(this)
-  };
 
   /**
    * Creates an instance of SecretClient.
@@ -136,11 +123,10 @@ export class SecretClient {
    *
    * let client = new SecretClient(vaultUrl, credentials);
    * ```
-   * @param {string} vaultUrl the base URL to the vault.
-   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param {PipelineOptions} [pipelineOptions] Optional. Pipeline options used to configure Key Vault API requests.
-   *                                                         Omit this parameter to use the default pipeline configuration.
-   * @memberof SecretClient
+   * @param vaultUrl - The base URL to the vault.
+   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests.
+   *                          Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
@@ -154,7 +140,6 @@ export class SecretClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -167,25 +152,19 @@ export class SecretClient {
 
     const internalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      credential,
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }
 
@@ -199,10 +178,10 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * await client.setSecret("MySecretName", "ABC123");
    * ```
-   * @summary Adds a secret in a specified key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {string} value The value of the secret.
-   * @param {SetSecretOptions} [options] The optional parameters.
+   * Adds a secret in a specified key vault.
+   * @param secretName - The name of the secret.
+   * @param value - The value of the secret.
+   * @param options - The optional parameters.
    */
   public async setSecret(
     secretName: string,
@@ -222,7 +201,7 @@ export class SecretClient {
         }
       };
 
-      const span = this.createSpan("setSecret", unflattenedOptions);
+      const span = createSpan("setSecret", unflattenedOptions);
 
       let response: SetSecretResponse;
       try {
@@ -230,13 +209,13 @@ export class SecretClient {
           this.vaultUrl,
           secretName,
           value,
-          this.setParentSpan(span, unflattenedOptions)
+          setParentSpan(span, unflattenedOptions)
         );
       } finally {
         span.end();
       }
 
-      return this.getSecretFromSecretBundle(response);
+      return getSecretFromSecretBundle(response);
     } else {
       const response = await this.client.setSecret(
         this.vaultUrl,
@@ -244,7 +223,7 @@ export class SecretClient {
         value,
         requestOptions
       );
-      return this.getSecretFromSecretBundle(response);
+      return getSecretFromSecretBundle(response);
     }
   }
 
@@ -271,9 +250,9 @@ export class SecretClient {
    * const deletedSecret = await deletePoller.pollUntilDone();
    * console.log(deletedSecret);
    * ```
-   * @summary Deletes a secret from a specified key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {BeginDeleteSecretOptions} [options] The optional parameters.
+   * Deletes a secret from a specified key vault.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async beginDeleteSecret(
     name: string,
@@ -282,7 +261,8 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteSecretPoller({
       name,
-      client: this.pollerClient,
+      client: this.client,
+      vaultUrl: this.vaultUrl,
       ...options,
       requestOptions
     });
@@ -303,10 +283,10 @@ export class SecretClient {
    * let secret = await client.getSecret(secretName);
    * await client.updateSecretProperties(secretName, secret.properties.version, { enabled: false });
    * ```
-   * @summary Updates the attributes associated with a specified secret in a given key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {string} secretVersion The version of the secret.
-   * @param {UpdateSecretPropertiesOptions} [options] The optional parameters.
+   * Updates the attributes associated with a specified secret in a given key vault.
+   * @param secretName - The name of the secret.
+   * @param secretVersion - The version of the secret.
+   * @param options - The optional parameters.
    */
   public async updateSecretProperties(
     secretName: string,
@@ -326,7 +306,7 @@ export class SecretClient {
         }
       };
 
-      const span = this.createSpan("updateSecretProperties", unflattenedOptions);
+      const span = createSpan("updateSecretProperties", unflattenedOptions);
 
       let response: UpdateSecretResponse;
 
@@ -335,13 +315,13 @@ export class SecretClient {
           this.vaultUrl,
           secretName,
           secretVersion,
-          this.setParentSpan(span, unflattenedOptions)
+          setParentSpan(span, unflattenedOptions)
         );
       } finally {
         span.end();
       }
 
-      return this.getSecretFromSecretBundle(response).properties;
+      return getSecretFromSecretBundle(response).properties;
     } else {
       const response = await this.client.updateSecret(
         this.vaultUrl,
@@ -349,7 +329,7 @@ export class SecretClient {
         secretVersion,
         requestOptions
       );
-      return this.getSecretFromSecretBundle(response).properties;
+      return getSecretFromSecretBundle(response).properties;
     }
   }
 
@@ -362,16 +342,16 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * let secret = await client.getSecret("MySecretName");
    * ```
-   * @summary Get a specified secret from a given key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {GetSecretOptions} [options] The optional parameters.
+   * Get a specified secret from a given key vault.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async getSecret(
     secretName: string,
     options: GetSecretOptions = {}
   ): Promise<KeyVaultSecret> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("getSecret", requestOptions);
+    const span = createSpan("getSecret", requestOptions);
 
     let response: GetSecretResponse;
     try {
@@ -379,13 +359,13 @@ export class SecretClient {
         this.vaultUrl,
         secretName,
         options && options.version ? options.version : "",
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
     }
 
-    return this.getSecretFromSecretBundle(response);
+    return getSecretFromSecretBundle(response);
   }
 
   /**
@@ -397,16 +377,16 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * await client.getDeletedSecret("MyDeletedSecret");
    * ```
-   * @summary Gets the specified deleted secret.
-   * @param {string} secretName The name of the secret.
-   * @param {GetDeletedSecretOptions} [options] The optional parameters.
+   * Gets the specified deleted secret.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async getDeletedSecret(
     secretName: string,
     options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("getDeletedSecret", requestOptions);
+    const span = createSpan("getDeletedSecret", requestOptions);
 
     let response: GetDeletedSecretResponse;
 
@@ -414,13 +394,13 @@ export class SecretClient {
       response = await this.client.getDeletedSecret(
         this.vaultUrl,
         secretName,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
     }
 
-    return this.getSecretFromSecretBundle(response);
+    return getSecretFromSecretBundle(response);
   }
 
   /**
@@ -435,22 +415,22 @@ export class SecretClient {
    * await deletePoller.pollUntilDone();
    * await client.purgeDeletedSecret("MySecretName");
    * ```
-   * @summary Permanently deletes the specified secret.
-   * @param {string} secretName The name of the secret.
-   * @param {PurgeDeletedSecretOptions} [options] The optional parameters.
+   * Permanently deletes the specified secret.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async purgeDeletedSecret(
     secretName: string,
     options: PurgeDeletedSecretOptions = {}
   ): Promise<void> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("purgeDeletedSecret", requestOptions);
+    const span = createSpan("purgeDeletedSecret", requestOptions);
 
     try {
       await this.client.purgeDeletedSecret(
         this.vaultUrl,
         secretName,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -483,9 +463,9 @@ export class SecretClient {
    * const deletedSecret = await recoverPoller.pollUntilDone();
    * console.log(deletedSecret);
    * ```
-   * @summary Recovers the deleted secret to the latest version.
-   * @param {string} secretName The name of the deleted secret.
-   * @param {BeginRecoverDeletedSecretOptions} [options] The optional parameters.
+   * Recovers the deleted secret to the latest version.
+   * @param secretName - The name of the deleted secret.
+   * @param options - The optional parameters.
    */
   public async beginRecoverDeletedSecret(
     name: string,
@@ -495,7 +475,8 @@ export class SecretClient {
 
     const poller = new RecoverDeletedSecretPoller({
       name,
-      client: this.pollerClient,
+      client: this.client,
+      vaultUrl: this.vaultUrl,
       ...options,
       requestOptions
     });
@@ -514,16 +495,16 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * let backupResult = await client.backupSecret("MySecretName");
    * ```
-   * @summary Backs up the specified secret.
-   * @param {string} secretName The name of the secret.
-   * @param {BackupSecretOptions} [options] The optional parameters.
+   * Backs up the specified secret.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async backupSecret(
     secretName: string,
     options: BackupSecretOptions = {}
   ): Promise<Uint8Array | undefined> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("backupSecret", requestOptions);
+    const span = createSpan("backupSecret", requestOptions);
 
     let response: BackupSecretResponse;
 
@@ -531,7 +512,7 @@ export class SecretClient {
       response = await this.client.backupSecret(
         this.vaultUrl,
         secretName,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -550,16 +531,16 @@ export class SecretClient {
    * // ...
    * await client.restoreSecretBackup(mySecretBundle);
    * ```
-   * @summary Restores a backed up secret to a vault.
-   * @param {Uint8Array} secretBundleBackup The backup blob associated with a secret bundle.
-   * @param {RestoreSecretResponse} [options] The optional parameters.
+   * Restores a backed up secret to a vault.
+   * @param secretBundleBackup - The backup blob associated with a secret bundle.
+   * @param options - The optional parameters.
    */
   public async restoreSecretBackup(
     secretBundleBackup: Uint8Array,
     options: RestoreSecretBackupOptions = {}
   ): Promise<SecretProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("restoreSecretBackup", requestOptions);
+    const span = createSpan("restoreSecretBackup", requestOptions);
 
     let response: RestoreSecretResponse;
 
@@ -567,82 +548,22 @@ export class SecretClient {
       response = await this.client.restoreSecret(
         this.vaultUrl,
         secretBundleBackup,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
     }
 
-    return this.getSecretFromSecretBundle(response).properties;
+    return getSecretFromSecretBundle(response).properties;
   }
 
   /**
    * @internal
-   * @ignore
-   * Sends a delete request for the given KeyVault Secret's name to the KeyVault service.
-   * Since the KeyVault Secret won't be immediately deleted, we have {@link beginDeleteSecret}.
-   * @param {string} name The name of the KeyVault Secret.
-   * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async deleteSecret(
-    secretName: string,
-    options: DeleteSecretOptions = {}
-  ): Promise<DeletedSecret> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("deleteSecret", requestOptions);
-
-    let response: DeleteSecretResponse;
-    try {
-      response = await this.client.deleteSecret(
-        this.vaultUrl,
-        secretName,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getSecretFromSecretBundle(response);
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Sends a request to recover a deleted KeyVault Secret based on the given name.
-   * Since the KeyVault Secret won't be immediately recover the deleted secret, we have {@link beginRecoverDeletedSecret}.
-   * @param {string} name The name of the KeyVault Secret.
-   * @param {RecoverDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async recoverDeletedSecret(
-    secretName: string,
-    options: RecoverDeletedSecretOptions = {}
-  ): Promise<SecretProperties> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("recoverDeletedSecret", requestOptions);
-
-    let properties: SecretProperties;
-
-    try {
-      const response = await this.client.recoverDeletedSecret(
-        this.vaultUrl,
-        secretName,
-        this.setParentSpan(span, requestOptions)
-      );
-      properties = this.getSecretFromSecretBundle(response).properties;
-    } finally {
-      span.end();
-    }
-
-    return properties;
-  }
-
-  /**
-   * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecretVersions}.
-   * @param {string} name The name of the KeyVault Secret.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPropertiesOfSecretVersionsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param name - The name of the KeyVault Secret.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretVersionsPage(
     secretName: string,
@@ -662,7 +583,7 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+          (bundle) => getSecretFromSecretBundle(bundle).properties
         );
       }
     }
@@ -675,7 +596,7 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+          (bundle) => getSecretFromSecretBundle(bundle).properties
         );
       } else {
         break;
@@ -685,10 +606,10 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecretVersions}.
-   * @param {string} name The name of the KeyVault Secret.
-   * @param {ListPropertiesOfSecretVersionsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param name - The name of the KeyVault Secret.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretVersionsAll(
     secretName: string,
@@ -715,18 +636,18 @@ export class SecretClient {
    *   console.log("secret version: ", secret);
    * }
    * ```
-   * @param {string} secretName Name of the secret to fetch versions for.
-   * @param {ListPropertiesOfSecretVersionsOptions} [options] The optional parameters.
+   * @param secretName - Name of the secret to fetch versions for.
+   * @param options - The optional parameters.
    */
   public listPropertiesOfSecretVersions(
     secretName: string,
     options: ListPropertiesOfSecretVersionsOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("listPropertiesOfSecretVersions", requestOptions);
+    const span = createSpan("listPropertiesOfSecretVersions", requestOptions);
     const updatedOptions: ListPropertiesOfSecretVersionsOptions = {
       ...requestOptions,
-      ...this.setParentSpan(span, requestOptions)
+      ...setParentSpan(span, requestOptions)
     };
 
     const iter = this.listPropertiesOfSecretVersionsAll(secretName, updatedOptions);
@@ -746,10 +667,10 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecrets}.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPropertiesOfSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretsPage(
     continuationState: PageSettings,
@@ -764,7 +685,7 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+          (bundle) => getSecretFromSecretBundle(bundle).properties
         );
       }
     }
@@ -776,7 +697,7 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+          (bundle) => getSecretFromSecretBundle(bundle).properties
         );
       } else {
         break;
@@ -786,9 +707,9 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecrets}.
-   * @param {ListPropertiesOfSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretsAll(
     options: ListPropertiesOfSecretsOptions = {}
@@ -814,17 +735,17 @@ export class SecretClient {
    *   console.log("secret: ", secret);
    * }
    * ```
-   * @summary List all secrets in the vault.
-   * @param {ListPropertiesOfSecretsOptions} [options] The optional parameters.
+   * List all secrets in the vault.
+   * @param options - The optional parameters.
    */
   public listPropertiesOfSecrets(
     options: ListPropertiesOfSecretsOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("listPropertiesOfSecrets", requestOptions);
+    const span = createSpan("listPropertiesOfSecrets", requestOptions);
     const updatedOptions: ListPropertiesOfSecretsOptions = {
       ...requestOptions,
-      ...this.setParentSpan(span, requestOptions)
+      ...setParentSpan(span, requestOptions)
     };
 
     const iter = this.listPropertiesOfSecretsAll(updatedOptions);
@@ -844,10 +765,10 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listDeletedSecrets}.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListDeletedSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listDeletedSecretsPage(
     continuationState: PageSettings,
@@ -864,7 +785,7 @@ export class SecretClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle) => this.getSecretFromSecretBundle(bundle));
+        yield currentSetResponse.value.map((bundle) => getSecretFromSecretBundle(bundle));
       }
     }
     while (continuationState.continuationToken) {
@@ -874,7 +795,7 @@ export class SecretClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle) => this.getSecretFromSecretBundle(bundle));
+        yield currentSetResponse.value.map((bundle) => getSecretFromSecretBundle(bundle));
       } else {
         break;
       }
@@ -883,9 +804,9 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listDeletedSecrets}.
-   * @param {ListDeletedSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listDeletedSecretsAll(
     options: ListDeletedSecretsOptions = {}
@@ -910,17 +831,17 @@ export class SecretClient {
    *   console.log("deleted secret: ", deletedSecret);
    * }
    * ```
-   * @summary List all secrets in the vault.
-   * @param {ListDeletedSecretsOptions} [options] The optional parameters.
+   * List all secrets in the vault.
+   * @param options - The optional parameters.
    */
   public listDeletedSecrets(
     options: ListDeletedSecretsOptions = {}
   ): PagedAsyncIterableIterator<DeletedSecret> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("listDeletedSecrets", requestOptions);
+    const span = createSpan("listDeletedSecrets", requestOptions);
     const updatedOptions: ListDeletedSecretsOptions = {
       ...requestOptions,
-      ...this.setParentSpan(span, requestOptions)
+      ...setParentSpan(span, requestOptions)
     };
 
     const iter = this.listDeletedSecretsAll(updatedOptions);
@@ -935,98 +856,5 @@ export class SecretClient {
       },
       byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, updatedOptions)
     };
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Shapes the exposed {@link KeyVaultSecret} based on either a received secret bundle or deleted secret bundle.
-   */
-  private getSecretFromSecretBundle(bundle: SecretBundle | DeletedSecretBundle): KeyVaultSecret {
-    const secretBundle = bundle as SecretBundle;
-    const deletedSecretBundle = bundle as DeletedSecretBundle;
-    const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
-
-    const attributes = secretBundle.attributes;
-    delete secretBundle.attributes;
-
-    const resultObject: KeyVaultSecret & DeletedSecret = {
-      value: secretBundle.value,
-      name: parsedId.name,
-      properties: {
-        expiresOn: (attributes as any).expires,
-        createdOn: (attributes as any).created,
-        updatedOn: (attributes as any).updated,
-        ...secretBundle,
-        ...parsedId,
-        ...attributes
-      }
-    };
-
-    if (deletedSecretBundle.deletedDate) {
-      resultObject.properties.deletedOn = deletedSecretBundle.deletedDate;
-      delete (resultObject.properties as any).deletedDate;
-    }
-
-    if (attributes) {
-      if ((attributes as any).vaultUrl) {
-        delete (resultObject.properties as any).vaultUrl;
-      }
-
-      if (attributes.expires) {
-        delete (resultObject.properties as any).expires;
-      }
-
-      if (attributes.created) {
-        delete (resultObject.properties as any).created;
-      }
-
-      if (attributes.updated) {
-        delete (resultObject.properties as any).updated;
-      }
-    }
-
-    return resultObject;
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Creates a span using the tracer that was set by the user
-   * @param {string} methodName The name of the method creating the span.
-   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
-   */
-  private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
-    span.setAttribute("az.namespace", "Microsoft.KeyVault");
-    return span;
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Returns updated HTTP options with the given span as the parent of future spans,
-   * if applicable.
-   * @param {Span} span The span for the current operation.
-   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
-   */
-  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecording()) {
-      const spanOptions = options.spanOptions || {};
-      return {
-        ...options,
-        spanOptions: {
-          ...spanOptions,
-          parent: span.context(),
-          attributes: {
-            ...spanOptions.attributes,
-            "az.namespace": "Microsoft.KeyVault"
-          }
-        }
-      };
-    } else {
-      return options;
-    }
   }
 }

@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="esnext.asynciterable" />
+
+import "@azure/core-asynciterator-polyfill";
+
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
@@ -10,9 +14,24 @@ export {
   RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
+  RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
-  TextAnalyticsOperationOptions
+  PiiEntityDomainType,
+  JobManifestTasks,
+  EntitiesTask,
+  PiiTask,
+  KeyPhrasesTask,
+  BeginAnalyzeOptions,
+  AnalyzePollerLike,
+  BeginAnalyzeHealthcareOptions,
+  HealthPollerLike,
+  BeginAnalyzeOperationState,
+  HealthcareJobOptions,
+  PollingOptions,
+  AnalyzeJobOptions,
+  BeginAnalyzeHealthcareOperationState
 } from "./textAnalyticsClient";
+export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
@@ -25,11 +44,22 @@ export {
   RecognizeCategorizedEntitiesErrorResult,
   RecognizeCategorizedEntitiesSuccessResult
 } from "./recognizeCategorizedEntitiesResult";
+export {
+  PiiEntity,
+  RecognizePiiEntitiesResult,
+  RecognizePiiEntitiesErrorResult,
+  RecognizePiiEntitiesSuccessResult
+} from "./recognizePiiEntitiesResult";
+export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
 export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
-  AnalyzeSentimentSuccessResult
+  AnalyzeSentimentSuccessResult,
+  SentenceSentiment,
+  MinedOpinion,
+  AspectSentiment,
+  OpinionSentiment
 } from "./analyzeSentimentResult";
 export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 export {
@@ -44,6 +74,19 @@ export {
   RecognizeLinkedEntitiesSuccessResult
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+export {
+  PaginatedHealthcareEntities,
+  PagedAsyncIterableHealthEntities,
+  HealthcareEntitiesArray,
+  HealthcareResult,
+  HealthcareSuccessResult,
+  HealthcareErrorResult
+} from "./healthResult";
+export {
+  PaginatedAnalyzeResults,
+  PagedAsyncIterableAnalyzeResults,
+  AnalyzeResult
+} from "./analyzeResult";
 export {
   TextAnalyticsResult,
   ErrorCode,
@@ -61,7 +104,6 @@ export {
   DetectLanguageInput,
   TextDocumentBatchStatistics,
   Entity,
-  SentenceSentiment,
   DocumentSentimentLabel,
   SentenceSentimentLabel,
   ErrorCodeValue,
@@ -69,5 +111,12 @@ export {
   WarningCode,
   LinkedEntity,
   Match,
-  TextAnalyticsWarning
+  SentenceOpinion,
+  AspectConfidenceScoreLabel,
+  TokenSentimentValue,
+  TextAnalyticsWarning,
+  PiiTaskParametersDomain,
+  HealthcareEntity,
+  HealthcareRelation,
+  HealthcareEntityLink
 } from "./generated/models";

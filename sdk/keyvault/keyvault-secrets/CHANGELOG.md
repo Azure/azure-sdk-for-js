@@ -1,8 +1,33 @@
 # Release History
 
-## 4.1.0-preview.2 (Unreleased)
+## 4.2.0-beta.2 (Unreleased)
 
-- Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- Updated the Key Vault Secrets Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
+- Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
+
+## 4.2.0-beta.1 (2020-09-11)
+
+- Added `parseKeyVaultSecretsIdentifier` and `ParsedKeyVaultSecretsIdentifier` to help with parsing the unique identifiers of Key Vault Secrets.
+
+## 4.1.0 (2020-08-12)
+
+4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
+
+### Changes since 4.0.4
+
+- Added the optional `serviceVersion` property to the `SecretClient` optional parameters to control the version of the Key Vault service being used by the client.
+    - It defaults to the latest supported API version, which currently is `7.1`.
+    - Other supported service version at the moment is `7.0`.
+- Added `recoverableDays` as an optional property to `SecretProperties` which denotes the number of days in which the secret can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
+
+### Changes since 4.1.0-preview.1
+
+- Renamed the `apiVersion` property to the `SecretClient` constructor as `serviceVersion`.
+- Moved from service version `7.1-preview` to `7.1`.
+
+## 4.0.4 (2020-06-01)
+
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 
 ## 4.0.3 (2020-05-13)

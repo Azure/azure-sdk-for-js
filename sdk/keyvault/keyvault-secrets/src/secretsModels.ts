@@ -2,41 +2,12 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./core/models";
-
-/**
- * @internal
- * @ignore
- * An interface representing the SecretClient. For internal use.
- */
-export interface SecretClientInterface {
-  /**
-   * Recovers the deleted secret in the specified vault.
-   */
-  recoverDeletedSecret(
-    secretName: string,
-    options?: RecoverDeletedSecretOptions
-  ): Promise<SecretProperties>;
-  /**
-   * The getSecret method is applicable to any secret stored in Azure Key Vault. This operation requires
-   * the secrets/get permission.
-   */
-  getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-  /**
-   * Deletes a secret stored in Azure Key Vault.
-   */
-  deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-  /**
-   * The getDeletedSecret method returns the specified deleted secret along with its properties.
-   * This operation requires the secrets/get permission.
-   */
-  getDeletedSecret(secretName: string, options?: DeleteSecretOptions): Promise<DeletedSecret>;
-}
+import { DeletionRecoveryLevel } from "./generated/models";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.1-preview";
+export const LATEST_API_VERSION = "7.1";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -45,7 +16,7 @@ export interface SecretClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  apiVersion?: "7.0" | "7.1-preview";
+  serviceVersion?: "7.0" | "7.1";
 }
 
 /**
@@ -148,7 +119,7 @@ export interface SecretProperties {
   readonly recoveryLevel?: DeletionRecoveryLevel;
   /**
    * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
@@ -303,14 +274,14 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options for {@link recoverDeletedSecret}.
  */
 export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options for {@link deleteSecret}.
  */
 export interface DeleteSecretOptions extends coreHttp.OperationOptions {}

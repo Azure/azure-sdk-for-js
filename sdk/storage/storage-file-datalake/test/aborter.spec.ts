@@ -21,8 +21,8 @@ describe("Aborter", () => {
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("Should abort after aborter timeout", async () => {

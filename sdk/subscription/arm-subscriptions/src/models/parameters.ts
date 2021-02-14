@@ -20,19 +20,17 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const aliasName: msRest.OperationURLParameter = {
+  parameterPath: "aliasName",
   mapper: {
     required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2019-03-01-preview',
+    serializedName: "aliasName",
     type: {
       name: "String"
     }
   }
 };
-export const apiVersion1: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -44,55 +42,13 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion2: msRest.OperationQueryParameter = {
+export const apiVersion1: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-11-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-03-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const billingAccountName: msRest.OperationURLParameter = {
-  parameterPath: "billingAccountName",
-  mapper: {
-    required: true,
-    serializedName: "billingAccountName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const enrollmentAccountName: msRest.OperationURLParameter = {
-  parameterPath: "enrollmentAccountName",
-  mapper: {
-    required: true,
-    serializedName: "enrollmentAccountName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const invoiceSectionName: msRest.OperationURLParameter = {
-  parameterPath: "invoiceSectionName",
-  mapper: {
-    required: true,
-    serializedName: "invoiceSectionName",
+    defaultValue: '2020-09-01',
     type: {
       name: "String"
     }
@@ -108,16 +64,6 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-export const operationId: msRest.OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    required: true,
-    serializedName: "operationId",
-    type: {
-      name: "String"
-    }
-  }
 };
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",

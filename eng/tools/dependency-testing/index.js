@@ -191,25 +191,17 @@ async function insertMochaReporter(targetPackagePath, repoRoot, testFolder) {
 async function insertTsConfigJson(targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   var tsConfigJson = await packageUtils.readFileJson("./templates/tsconfig.json");
-  var tsConfigTestsJson = await packageUtils.readFileJson("./templates/tsconfig.tests.json");
-
-  const originalTsConfigPath = path.join(targetPackagePath, "tsconfig.json");
-  var originalTsConfig = await packageUtils.readFileJson(originalTsConfigPath);
-  tsConfigTestsJson.extends = originalTsConfig.extends;
-  tsConfigTestsJson.compilerOptions = originalTsConfig.compilerOptions;
 
   const tsConfigPath = path.join(testPath, "tsconfig.json");
-  const tsConfigTestsPath = path.join(targetPackagePath, "tsconfig.tests.json");
-  console.log(tsConfigTestsJson);
   await packageUtils.writePackageJson(tsConfigPath, tsConfigJson);
-  await packageUtils.writePackageJson(tsConfigTestsPath, tsConfigTestsJson);
 }
 
 async function readAndReplaceSourceReferences(filePath, packageName) {
   var fileContent = await packageUtils.readFile(filePath);
   console.log("Reading filePath = " + filePath);
+  testAssetsContent = fileContent.replace('path.resolve(path.join(process.cwd(), "test-assets"','path.resolve(path.join(process.cwd(),"..","..", "test-assets"');
   // Regex for internal references = /* ["']+[../]*src[/a-z]+["'] */
-  var internalrefs = fileContent.match(/[\"\']+[..//]*src[//a-zA-Z]+[\"\']+/g);
+  var internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//a-zA-Z]+[\"\']+/g);
   var writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
@@ -219,7 +211,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   else {
     var replaceText = "\"" + packageName + "\"";
     //Regex for public api references to be replaced by package name
-    writeContent = fileContent.replace(/[\"\']+[..//]*src[\"\']+/g, replaceText);
+    writeContent = testAssetsContent.replace(/[\"\']+[..//]*src[\"\']+/g, replaceText);
   }
   await packageUtils.writeFile(filePath, writeContent);
 }
@@ -304,7 +296,7 @@ async function updateCommonVersions(repoRoot, allowedVersionList) {
     if (allowedVersionList[package] && !allowedAlternativeVersions[package]) {
       allowedAlternativeVersions[package] = [allowedVersionList[package]];
     }
-    else if (allowedVersionList[package] && allowedAlternativeVersions[package].includes(allowedVersionList[package])) {
+    else if (allowedVersionList[package] && !allowedAlternativeVersions[package].includes(allowedVersionList[package])) {
       allowedAlternativeVersions[package].push(allowedVersionList[package]);
     }
   }
@@ -332,7 +324,10 @@ async function main(argv) {
   const testFolder = argv["test-folder"];
   const dryRun = argv["dry-run"];
 
-  const packageName = artifactName.replace("azure-", "@azure/");
+  let packageName = artifactName;
+  if (!artifactName.startsWith("@")) {
+    packageName = artifactName.replace(/"?([a-z]*)"?-/i, "@$1/");
+  }
   const targetPackage = await getPackageFromRush(repoRoot, packageName);
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
 

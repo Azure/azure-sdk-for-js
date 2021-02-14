@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
+import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -8,17 +8,20 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
+  recorderEnvSetup,
+  getGenericBSU
 } from "./utils";
-import { record, delay } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode, Recorder } from "@azure/test-utils-recorder";
 import {
   BlobClient,
   BlockBlobClient,
   ContainerClient,
   BlockBlobTier,
-  BlobServiceClient
+  BlobServiceClient,
+  RehydratePriority
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
+import { base64encode } from "../src/utils/utils.common";
 dotenv.config();
 
 describe("BlobClient", () => {
@@ -30,7 +33,7 @@ describe("BlobClient", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -47,8 +50,129 @@ describe("BlobClient", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
+  });
+
+  it("Set and get blob tags should work with lease condition", async function() {
+    const guid = "ca761232ed4211cebacd00aa0057b223";
+    const leaseClient = blockBlobClient.getBlobLeaseClient(guid);
+    await leaseClient.acquireLease(-1);
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags, { conditions: { leaseId: leaseClient.leaseId } });
+    const response = await blockBlobClient.getTags({
+      conditions: { leaseId: leaseClient.leaseId }
+    });
+    assert.deepStrictEqual(response.tags, tags);
+
+    const tags1 = {
+      tag1: "val"
+    };
+    try {
+      await blockBlobClient.setTags(tags1);
+      assert.fail(
+        "Should have failed when setting tags without the right lease condition of a leased blob"
+      );
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "LeaseIdMissing", err.msg);
+    }
+
+    try {
+      const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
+      await blockBlobClient.getTags({ conditions: { leaseId: newGuid } });
+      assert.fail(
+        "Should have failed when setting tags without the right lease condition of a leased blob"
+      );
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "LeaseIdMismatchWithBlobOperation");
+    }
+
+    await leaseClient.releaseLease();
+  });
+
+  it("Set blob tags should work", async function() {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags);
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+
+    const properties = await blockBlobClient.getProperties();
+    assert.deepStrictEqual(properties.tagCount, 2);
+
+    const download = await blockBlobClient.download();
+    assert.deepStrictEqual(download.tagCount, 2);
+
+    const listblob = containerClient.listBlobsFlat({ includeTags: true });
+
+    const iter = listblob.byPage();
+    const segment = await iter.next();
+
+    // TODO: Make blob tag type consistency cross all request or response
+    assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
+  });
+
+  it("Get blob tags should work with a snapshot", async function() {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags);
+
+    const snapshotResponse = await blockBlobClient.createSnapshot();
+    const blockBlobClientSnapshot = blockBlobClient.withSnapshot(snapshotResponse.snapshot!);
+
+    const response = await blockBlobClientSnapshot.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create block blob should work with tags", async function() {
+    await blockBlobClient.delete();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.upload("hello", 5, { tags });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create append blob should work with tags", async function() {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const appendBlobName = recorder.getUniqueName("apendBlob");
+    const appendBlobClient = containerClient.getAppendBlobClient(appendBlobName);
+    await appendBlobClient.create({ tags });
+
+    const response = await appendBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create page blob should work with tags", async function() {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const pageBlobName = recorder.getUniqueName("pageBlobName");
+    const blobClient2 = containerClient.getBlobClient(pageBlobName);
+    const pageBlobClient = blobClient2.getPageBlobClient();
+    await pageBlobClient.create(512, { tags });
+
+    const response = await pageBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("download with with default parameters", async () => {
@@ -173,6 +297,18 @@ describe("BlobClient", () => {
     await blobClient.delete();
   });
 
+  it("deleteIfExists", async () => {
+    const res = await blobClient.deleteIfExists();
+    assert.ok(res.succeeded);
+
+    const blobName2 = recorder.getUniqueName("blob2");
+    const blobClient2 = containerClient.getBlobClient(blobName2);
+    // delete a non-existent blob
+    const res2 = await blobClient2.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobNotFound");
+  });
+
   // The following code illustrates deleting a snapshot after creating one
   it("delete snapshot", async () => {
     const result = await blobClient.createSnapshot();
@@ -182,6 +318,10 @@ describe("BlobClient", () => {
     await blobSnapshotClient.getProperties();
 
     await blobSnapshotClient.delete();
+    const res = await blobSnapshotClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "BlobNotFound");
+
     await blobClient.delete();
 
     const result2 = (
@@ -223,6 +363,8 @@ describe("BlobClient", () => {
     result3.segment.blobItems![0].properties.accessTier = result3.segment.blobItems![1].properties.accessTier = undefined;
     // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.accessTierInferred = result3.segment.blobItems![1].properties.accessTierInferred = undefined;
+    // tslint:disable-next-line:max-line-length
+    result3.segment.blobItems![0].properties.lastAccessedOn = result3.segment.blobItems![1].properties.lastAccessedOn = undefined;
 
     assert.deepStrictEqual(
       result3.segment.blobItems![0].properties,
@@ -252,7 +394,8 @@ describe("BlobClient", () => {
 
     const iter = containerClient
       .listBlobsFlat({
-        includeDeleted: true
+        includeDeleted: true,
+        includeVersions: true
       })
       .byPage({ maxPageSize: 1 });
 
@@ -276,7 +419,7 @@ describe("BlobClient", () => {
 
     assert.ok(
       result.segment.blobItems,
-      "Expect non empty result from list blobs({ includeDeleted: true }) with page size of 1."
+      "Expect non empty result from list blobs({ includeDeleted: true, includeVersions: true }) with page size of 1."
     );
 
     assert.equal(
@@ -290,13 +433,12 @@ describe("BlobClient", () => {
       "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1."
     );
 
-    assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
-
     await blobClient.undelete();
 
     const iter2 = containerClient
       .listBlobsFlat({
-        includeDeleted: true
+        includeDeleted: true,
+        includeVersions: true
       })
       .byPage();
 
@@ -332,31 +474,55 @@ describe("BlobClient", () => {
     delay(1 * 1000);
 
     try {
-      await newBlobClient.beginCopyFromURL(result.copyId!);
+      await newBlobClient.abortCopyFromURL(result.copyId!);
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
+      assert.ok((err.details.errorCode = "NoPendingCopyOperation"));
     }
   });
 
   it("setAccessTier set default to cool", async () => {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
-    assert.equal(properties.accessTier!.toLowerCase(), "cool");
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
   });
 
   it("setAccessTier set archive to hot", async () => {
     await blockBlobClient.setAccessTier("Archive");
     let properties = await blockBlobClient.getProperties();
-    assert.equal(properties.accessTier!.toLowerCase(), "archive");
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Archive");
 
     await blockBlobClient.setAccessTier("Hot");
     properties = await blockBlobClient.getProperties();
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
+  });
+
+  it("setAccessTier with snapshot", async () => {
+    const resp = await blockBlobClient.createSnapshot();
+    const blockBlobClientWithSnapshot = blockBlobClient.withSnapshot(resp.snapshot!);
+
+    await blockBlobClientWithSnapshot.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithSnapshot.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
+  });
+
+  it("setAccessTier with versioning", async () => {
+    const resp = await blockBlobClient.setMetadata({ a: "a" });
+    const blockBlobClientWithVersion = blockBlobClient.withVersion(resp.versionId!);
+
+    await blockBlobClientWithVersion.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithVersion.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
   });
 
   it("can be created with a sas connection string", async () => {
@@ -629,6 +795,459 @@ describe("BlobClient", () => {
     }
     assert.ok(exceptionCaught);
   });
+
+  it("exists with condition", async () => {
+    const leaseResp = await blobClient.getBlobLeaseClient().acquireLease(30);
+    assert.ok(leaseResp.leaseId);
+
+    assert.ok(await blobClient.exists({ conditions: { leaseId: leaseResp.leaseId! } }));
+
+    let exceptionCaught = false;
+    try {
+      let guid = "ca761232ed4211cebacd00aa0057b223";
+      if (guid === leaseResp.leaseId) {
+        guid = "ca761232ed4211cebacd00aa0057b224";
+      }
+
+      await blobClient.exists({ conditions: { leaseId: guid } });
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  async function checkRehydratePriority(rehydratePriority: RehydratePriority) {
+    await blobClient.setAccessTier("Archive");
+    await blobClient.setAccessTier("Hot", { rehydratePriority });
+
+    const res = await blobClient.getProperties();
+    assert.equal(res.rehydratePriority, rehydratePriority);
+
+    for await (const item of containerClient.listBlobsFlat()) {
+      if (item.name === blobName) {
+        assert.equal(item.properties.rehydratePriority, rehydratePriority);
+      }
+    }
+
+    for await (const item of containerClient.listBlobsByHierarchy("/")) {
+      if (item.kind === "blob" && item.name === blobName) {
+        assert.equal(item.properties.rehydratePriority, rehydratePriority);
+      }
+    }
+  }
+
+  it("getProperties and listBlob RehydratePriority = High", async () => {
+    await checkRehydratePriority("High");
+  });
+
+  it("getProperties and listBlob RehydratePriority = Standard", async () => {
+    await checkRehydratePriority("Standard");
+  });
+
+  it("lastAccessed returned", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as it's not working in live tests pipeline.
+      this.skip();
+    }
+    const downloadRes = await blockBlobClient.download();
+    assert.ok(downloadRes.lastAccessed);
+
+    const getPropertiesRes = await blockBlobClient.getProperties();
+    assert.ok(getPropertiesRes.lastAccessed);
+
+    for await (const blobItem of containerClient.listBlobsFlat({ prefix: blobName })) {
+      if (blobItem.name === blobName) {
+        assert.ok(blobItem.properties.lastAccessedOn);
+        break;
+      }
+    }
+  });
+
+  describe("conditional tags", () => {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const tagConditionMet = { tagConditions: "tag1 = 'val1'" };
+    const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
+
+    beforeEach(async function() {
+      await blobClient.setTags(tags);
+    });
+
+    async function throwExpectedError(promise: Promise<any>, errorCode: string): Promise<boolean> {
+      let expectedExceptionCaught = false;
+      try {
+        await promise;
+      } catch (e) {
+        assert.equal(e.details?.errorCode, errorCode);
+        expectedExceptionCaught = true;
+      }
+      return expectedExceptionCaught;
+    }
+
+    it("getTags", async () => {
+      await blobClient.getTags({ conditions: tagConditionMet });
+      assert.ok(
+        await throwExpectedError(
+          blobClient.getTags({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+    });
+
+    it("setTags", async () => {
+      const tags2 = {
+        tag1: "val"
+      };
+      await blobClient.setTags(tags2, { conditions: tagConditionMet });
+
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setTags(tags, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+    });
+
+    it("lease blob", async () => {
+      const guid = "ca761232ed4211cebacd00aa0057b223";
+      const duration = 15;
+      const leaseClient = blobClient.getBlobLeaseClient(guid);
+      await leaseClient.acquireLease(duration, { conditions: tagConditionMet });
+
+      const result = await blobClient.getProperties();
+      assert.equal(result.leaseDuration, "fixed");
+      assert.equal(result.leaseState, "leased");
+      assert.equal(result.leaseStatus, "locked");
+
+      const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
+      assert.ok(
+        await throwExpectedError(
+          leaseClient.changeLease(newGuid, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+    });
+
+    it("lease container should throw for unsupported conditions options", async () => {
+      const guid = "ca761232ed4211cebacd00aa0057b223";
+      const duration = 15;
+      const leaseClient = containerClient.getBlobLeaseClient(guid);
+
+      let exceptionCaught = false;
+      try {
+        await leaseClient.acquireLease(duration, { conditions: tagConditionMet });
+      } catch (err) {
+        assert.ok(err instanceof RangeError);
+        exceptionCaught = true;
+      }
+      assert.ok(exceptionCaught);
+    });
+
+    it("async copy's destination blob", async () => {
+      const newBlobClient = containerClient.getBlockBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const tags2 = {
+        tag: "val"
+      };
+      await newBlobClient.upload(content, content.length, { tags: tags2 });
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.beginCopyFromURL(blobClient.url, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+
+      await newBlobClient.beginCopyFromURL(blobClient.url, {
+        conditions: { tagConditions: "tag = 'val'" }
+      });
+    });
+
+    it("async copy's source blob", async () => {
+      const newBlobClient = containerClient.getBlockBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.beginCopyFromURL(blobClient.url, { sourceConditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+
+      await newBlobClient.beginCopyFromURL(blobClient.url, {
+        sourceConditions: tagConditionMet
+      });
+    });
+
+    it("sync copy's destination blob", async () => {
+      const newBlobClient = containerClient.getBlockBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const tags2 = {
+        tag: "val"
+      };
+      await newBlobClient.upload(content, content.length, { tags: tags2 });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+
+      await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+        conditions: { tagConditions: "tag = 'val'" }
+      });
+    });
+
+    it("download", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.download(undefined, undefined, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.download(undefined, undefined, { conditions: tagConditionMet });
+    });
+
+    it("getProperties", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.getProperties({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.getProperties({ conditions: tagConditionMet });
+    });
+
+    it("delete", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.delete({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.delete({ conditions: tagConditionMet });
+    });
+
+    it("setHTTPHeaders", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setHTTPHeaders({}, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.setHTTPHeaders({}, { conditions: tagConditionMet });
+    });
+
+    it("setMetadata", async () => {
+      const metadata = {
+        a: "a",
+        b: "b"
+      };
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setMetadata(metadata, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.setMetadata(metadata, { conditions: tagConditionMet });
+    });
+
+    it("createSnapshot", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.createSnapshot({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.createSnapshot({ conditions: tagConditionMet });
+    });
+
+    it("setAccessTier", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setAccessTier("Hot", { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.setAccessTier("Hot", { conditions: tagConditionMet });
+    });
+
+    it("AppendBlobClient.create", async () => {
+      const newBlobClient = containerClient.getAppendBlobClient(
+        recorder.getUniqueName("appendBlob")
+      );
+      await newBlobClient.create({ tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.create({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.create({ conditions: tagConditionMet });
+    });
+
+    it("AppendBlobClient.appendBlock", async () => {
+      const newBlobClient = containerClient.getAppendBlobClient(
+        recorder.getUniqueName("appendBlob")
+      );
+      await newBlobClient.create({ tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.appendBlock(content, content.length, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.appendBlock(content, content.length, { conditions: tagConditionMet });
+    });
+
+    it("BlockBlobClient.upload", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blockBlobClient.upload(content, content.length, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blockBlobClient.upload(content, content.length, { conditions: tagConditionMet });
+    });
+
+    it("BlockBlobClient.commitBlockList", async () => {
+      const body = "HelloWorld";
+      await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
+      await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
+
+      assert.ok(
+        await throwExpectedError(
+          blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+      await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
+        conditions: tagConditionMet
+      });
+    });
+
+    it("BlockBlobClient.getBlockList", async () => {
+      const body = "HelloWorld";
+      await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
+      await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
+      await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], { tags });
+
+      assert.ok(
+        await throwExpectedError(
+          blockBlobClient.getBlockList("all", { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blockBlobClient.getBlockList("all", { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.create", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.create(512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.create(512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.uploadPages", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.uploadPages("a".repeat(512), 0, 512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.uploadPages("a".repeat(512), 0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.clearPages", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.clearPages(0, 512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.clearPages(0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.getPageRanges", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.getPageRanges(0, 512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.getPageRanges(0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.getPageRangesDiff", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      const snapshotResult = await newBlobClient.createSnapshot();
+      assert.ok(snapshotResult.snapshot);
+      await newBlobClient.uploadPages("a".repeat(512), 0, 512);
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+        conditions: tagConditionMet
+      });
+    });
+
+    it("PageBlobClient.resize", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.resize(1024, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.resize(1024, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.updateSequenceNumber", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.updateSequenceNumber("increment", undefined, {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.updateSequenceNumber("increment", undefined, {
+        conditions: tagConditionMet
+      });
+    });
+  });
 });
 
 describe("BlobClient - Verify Name Properties", () => {
@@ -669,5 +1288,146 @@ describe("BlobClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new BlobClient(`https://customdomain.com/${containerName}/${blobName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(
+      newClient.containerName,
+      containerName,
+      "Container name is not the same as the one provided."
+    );
+    assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
+  });
+});
+
+describe("BlobClient - Object Replication", () => {
+  const srcContainerName = "orssrc";
+  const destContainerName = "orsdst";
+  const blobName = "orsBlob";
+
+  let srcBlobServiceClient: BlobServiceClient;
+  let destBlobServiceClient: BlobServiceClient;
+  let srcContainerClient: ContainerClient;
+  let destContainerClient: ContainerClient;
+  let srcBlobClient: BlobClient;
+  let destBlobClient: BlobClient;
+  let recorder: Recorder;
+
+  const expectedObjectReplicateSourceProperties = [
+    {
+      policyId: "003ca702-58ab-4405-8f52-cb92316babde",
+      rules: [
+        {
+          ruleId: "9a53f315-d56b-44f6-a3e8-1d62c1b7089b",
+          replicationStatus: "complete"
+        }
+      ]
+    },
+    {
+      policyId: "d685bc41-c8ab-4ea5-889c-2503f02954d8",
+      rules: [
+        {
+          ruleId: "671e9447-be18-4632-9eea-a1a29cdae759",
+          replicationStatus: "complete"
+        }
+      ]
+    }
+  ];
+
+  before(async function() {
+    if (isLiveMode()) {
+      this.skip();
+    }
+  });
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    srcBlobServiceClient = getGenericBSU("");
+    destBlobServiceClient = getGenericBSU("ORS_DEST_");
+    srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
+    destContainerClient = destBlobServiceClient.getContainerClient(destContainerName);
+    srcBlobClient = srcContainerClient.getBlobClient(blobName);
+    destBlobClient = destContainerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  it("source blob get properties", async () => {
+    const getRes = await srcBlobClient.getProperties();
+    assert.deepStrictEqual(
+      getRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
+    assert.equal(getRes.objectReplicationDestinationPolicyId, undefined);
+  });
+
+  it("destination blob get properties", async () => {
+    const getRes = await destBlobClient.getProperties();
+    assert.equal(getRes.objectReplicationSourceProperties, undefined);
+    assert.equal(
+      getRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+  });
+
+  it("listBlob", async () => {
+    for await (const blobItem of srcContainerClient.listBlobsFlat()) {
+      if (blobItem.name === blobName) {
+        assert.deepStrictEqual(
+          blobItem.objectReplicationSourceProperties,
+          expectedObjectReplicateSourceProperties
+        );
+      }
+    }
+
+    for await (const blobItem of destContainerClient.listBlobsFlat()) {
+      if (blobItem.name === blobName) {
+        assert.equal(blobItem.objectReplicationSourceProperties, undefined);
+      }
+    }
+  });
+
+  it("download blob", async () => {
+    const srcRes = await srcBlobClient.download();
+    assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
+    assert.deepStrictEqual(
+      srcRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
+
+    const destRes = await destBlobClient.download();
+    assert.equal(
+      destRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+    assert.equal(destRes.objectReplicationSourceProperties, undefined);
+  });
+
+  it("download to file", async function() {
+    if (!isNode) {
+      this.skip();
+    }
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const srcDownloadedFilePath = recorder.getUniqueName("srcdownloadedfile");
+    const srcRes = await srcBlobClient.downloadToFile(srcDownloadedFilePath);
+    assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
+    assert.deepStrictEqual(
+      srcRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
+    fs.unlinkSync(srcDownloadedFilePath);
+
+    const dstDownloadedFilePath = recorder.getUniqueName("dstdownloadedfile");
+    const destRes = await destBlobClient.downloadToFile(dstDownloadedFilePath);
+    assert.equal(
+      destRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+    assert.equal(destRes.objectReplicationSourceProperties, undefined);
+    fs.unlinkSync(dstDownloadedFilePath);
   });
 });

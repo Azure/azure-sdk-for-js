@@ -1,22 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
-import { AbortController, AbortSignal, AbortError } from "../src/aborter";
+import { AbortController, AbortSignal, AbortError } from "../src";
 
 describe("AbortController", () => {
-  function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<number> {
+  function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<void> {
     const s = Date.now();
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
       // check status every 10 ms.
       const handle = setInterval(() => {
         // check if we're aborted.
         if (aborter.aborted) {
           clearInterval(handle);
-          return rej(new AbortError());
+          return reject(new AbortError());
         }
 
         // if we're completed, resolve.
         if (Date.now() - s > runningTimeinMs) {
           clearInterval(handle);
-          return res();
+          return resolve();
         }
 
         // else, continue trying.
@@ -34,7 +37,7 @@ describe("AbortController", () => {
     const response = doAsyncOperation(aborter);
     controller.abort();
     try {
-      let rs = await response;
+      const rs = await response;
       console.log("got result", rs);
       assert.fail();
     } catch (err) {
@@ -48,7 +51,7 @@ describe("AbortController", () => {
     const response = doAsyncOperation(aborter, 500);
     setTimeout(() => controller.abort(), 50);
     try {
-      let r = await response;
+      const r = await response;
       console.log("got, r", r);
       assert.fail();
     } catch (err) {
@@ -83,7 +86,7 @@ describe("AbortController", () => {
   it("should invoke abort listener callbacks when aborting", async () => {
     const controller = new AbortController();
     const aborter = controller.signal;
-    let s: string[] = [];
+    const s: string[] = [];
     try {
       aborter.addEventListener("abort", () => {
         s.push("aborted");

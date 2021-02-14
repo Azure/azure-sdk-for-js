@@ -1,26 +1,33 @@
 import * as assert from "assert";
-
-import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
+import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
+import { join } from "path";
+
+import { AbortController } from "@azure/abort-controller";
+import { isNode, TokenCredential } from "@azure/core-http";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
+
 import {
   BlobClient,
-  newPipeline,
-  StorageSharedKeyCredential,
-  ContainerClient,
-  BlockBlobClient,
-  generateBlobSASQueryParameters,
   BlobSASPermissions,
-  BlobServiceClient
+  BlobServiceClient,
+  BlockBlobClient,
+  ContainerClient,
+  generateBlobSASQueryParameters,
+  newPipeline,
+  StorageSharedKeyCredential
 } from "../../src";
 import {
   bodyToString,
+  createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
   recorderEnvSetup
 } from "../utils";
-import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "@azure/test-utils-recorder";
+import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
+import { streamToBuffer3 } from "../../src/utils/utils.node";
+
 dotenv.config();
 
 describe("BlobClient Node.js only", () => {
@@ -30,8 +37,10 @@ describe("BlobClient Node.js only", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
+  const tempFolderPath = "temp";
+  const timeoutForLargeFile = 20 * 60 * 1000;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
@@ -48,7 +57,13 @@ describe("BlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
+  });
+
+  before(async function() {
+    if (!existsSync(tempFolderPath)) {
+      mkdirSync(tempFolderPath);
+    }
   });
 
   it("download with with default parameters", async () => {
@@ -191,7 +206,7 @@ describe("BlobClient Node.js only", () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const factories = (containerClient as any).pipeline.factories;
@@ -209,6 +224,7 @@ describe("BlobClient Node.js only", () => {
 
     const copyURL = blobClient.url + "?" + sas;
     const result = await newBlobClient.syncCopyFromURL(copyURL);
+    assert.ok(result.versionId);
 
     const properties1 = await blobClient.getProperties();
     const properties2 = await newBlobClient.getProperties();
@@ -228,7 +244,7 @@ describe("BlobClient Node.js only", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
+      assert.ok(err.code === "InvalidHeaderValue");
     }
   });
 
@@ -338,5 +354,333 @@ describe("BlobClient Node.js only", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("query should work", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage");
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it("query should work with conditional tags", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length, { tags: { tag: "val" } });
+
+    let exceptionCaught = false;
+    try {
+      await blockBlobClient.query("select * from BlobStorage", {
+        conditions: { tagConditions: "tag = 'val1'" }
+      });
+    } catch (e) {
+      assert.equal(e.details?.errorCode, "ConditionNotMet");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      conditions: { tagConditions: "tag = 'val'" }
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it("query should work with access conditions", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    const uploadResponse = await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      conditions: {
+        ifModifiedSince: new Date("2010/01/01"),
+        ifUnmodifiedSince: new Date("2100/01/01"),
+        ifMatch: uploadResponse.etag,
+        ifNoneMatch: "invalidetag"
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it("query should not work with access conditions ifModifiedSince", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    try {
+      await blockBlobClient.query("select * from BlobStorage", {
+        conditions: {
+          ifModifiedSince: new Date("2100/01/01")
+        }
+      });
+    } catch (err) {
+      assert.deepStrictEqual(err.statusCode, 304);
+      return;
+    }
+    assert.fail();
+  });
+
+  it("query should not work with access conditions leaseId", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    try {
+      await blockBlobClient.query("select * from BlobStorage", {
+        conditions: {
+          leaseId: "invalid"
+        }
+      });
+    } catch (err) {
+      assert.deepStrictEqual(err.statusCode, 400);
+      return;
+    }
+    assert.fail();
+  });
+
+  it("query should work with snapshot", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+    const snapshotResponse = await blockBlobClient.createSnapshot();
+    const blockBlobSnapshotClient = blockBlobClient.withSnapshot(snapshotResponse.snapshot!);
+
+    const response = await blockBlobSnapshotClient.query("select * from BlobStorage");
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it("query should work with where conditionals", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _2 from BlobStorage where _1 > 100");
+    assert.deepStrictEqual(await bodyToString(response), "250\n");
+  });
+
+  it("query should work with empty results", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _2 from BlobStorage where _1 > 200");
+
+    assert.deepStrictEqual(await bodyToString(response), "");
+  });
+
+  it("query should work with blob properties", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage");
+    assert.deepStrictEqual(response.contentType, "avro/binary");
+    assert.deepStrictEqual(typeof response.etag, "string");
+    assert.deepStrictEqual(response.blobType, "BlockBlob");
+    assert.deepStrictEqual(response.leaseState, "available");
+    assert.deepStrictEqual(response.leaseStatus, "unlocked");
+    assert.deepStrictEqual(response.acceptRanges, "bytes");
+    assert.deepStrictEqual(typeof response.clientRequestId, "string");
+    assert.deepStrictEqual(typeof response.requestId, "string");
+    assert.deepStrictEqual(typeof response.version, "string");
+    assert.deepStrictEqual(typeof response.date, "object");
+  });
+
+  it("query should work with large file", async function() {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
+    const tempFileLarge = await createRandomLocalFile(
+      tempFolderPath,
+      1024 * 1024,
+      Buffer.from(csvContentUnit)
+    );
+    await blockBlobClient.uploadFile(tempFileLarge);
+
+    const response = await blockBlobClient.query("select * from BlobStorage");
+
+    const downloadedFile = join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
+
+    const downloadedData = await readFileSync(downloadedFile);
+    const uploadedData = await readFileSync(tempFileLarge);
+
+    unlinkSync(downloadedFile);
+    unlinkSync(tempFileLarge);
+
+    assert.ok(downloadedData.equals(uploadedData));
+  }).timeout(timeoutForLargeFile);
+
+  it("query should work with aborter", async function() {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
+    const tempFileLarge = await createRandomLocalFile(
+      tempFolderPath,
+      1024 * 256 * 2,
+      Buffer.from(csvContentUnit)
+    );
+    await blockBlobClient.uploadFile(tempFileLarge);
+
+    const aborter = new AbortController();
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      abortSignal: aborter.signal,
+      onProgress: () => {
+        // Abort parse when first progress event trigger (by default 4MB)
+        aborter.abort();
+      }
+    });
+
+    const downloadedFile = join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+
+    try {
+      await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
+    } catch (error) {
+      assert.deepStrictEqual(error.name, "AbortError");
+      unlinkSync(downloadedFile);
+      unlinkSync(tempFileLarge);
+      return;
+    }
+
+    unlinkSync(downloadedFile);
+    unlinkSync(tempFileLarge);
+    assert.fail();
+  });
+
+  it("query should work with progress event", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    await new Promise<void>((resolve, reject) => {
+      blockBlobClient
+        .query("select * from BlobStorage", {
+          onProgress: (progress) => {
+            assert.deepStrictEqual(progress.loadedBytes, csvContent.length);
+            resolve();
+          }
+        })
+        .then((response) => {
+          return bodyToString(response);
+        })
+        .then((_data) => {})
+        .catch(reject);
+    });
+  });
+
+  it("query should work with fatal error event", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      inputTextConfiguration: {
+        kind: "json",
+        recordSeparator: "\n"
+      },
+      onError: (err) => {
+        assert.deepStrictEqual(err.isFatal, true);
+        assert.deepStrictEqual(err.name, "ParseError");
+        assert.deepStrictEqual(err.position, 0);
+        assert.ok(
+          err.description.startsWith(
+            "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['."
+          )
+        );
+        return;
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), "\n");
+  });
+
+  it("query should work with non fatal error event", async function() {
+    const csvContent = "100,hello,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _2 from BlobStorage where _2 > 100", {
+      onError: (err) => {
+        assert.deepStrictEqual(err.isFatal, false);
+        assert.deepStrictEqual(err.name, "InvalidTypeConversion");
+        assert.deepStrictEqual(err.position, 0);
+        assert.deepStrictEqual(err.description, "Invalid type conversion.");
+        return;
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), "250\n");
+  });
+
+  it("query should work with CSV input and output configurations", async function() {
+    const csvContent = "100.200.300.400!150.250.350.450!180.280.380.480!";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _1 from BlobStorage", {
+      inputTextConfiguration: {
+        kind: "csv",
+        recordSeparator: "!",
+        columnSeparator: ".",
+        // escapeCharacter: "\\", // What does this do?
+        // fieldQuote: '"', // What does this do?
+        hasHeaders: true
+      },
+      outputTextConfiguration: {
+        kind: "csv",
+        recordSeparator: "!",
+        columnSeparator: ".",
+        // escapeCharacter: "\\",
+        // fieldQuote: '"',
+        hasHeaders: false
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), "150!180!");
+  });
+
+  it("query should work with JSON input and output configurations", async function() {
+    const recordSeparator = "\n";
+    const jsonContent =
+      [
+        JSON.stringify({ _1: "100", _2: "200", _3: "300", _4: "400" }),
+        JSON.stringify({ _1: "150", _2: "250", _3: "350", _4: "450" }),
+        JSON.stringify({ _1: "180", _2: "280", _3: "380", _4: "480" })
+      ].join(recordSeparator) + recordSeparator;
+    await blockBlobClient.upload(jsonContent, jsonContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      inputTextConfiguration: {
+        kind: "json",
+        recordSeparator
+      },
+      outputTextConfiguration: {
+        kind: "json",
+        recordSeparator
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), jsonContent);
+  });
+
+  it("query should work with arrow output configurations", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      outputTextConfiguration: {
+        kind: "arrow",
+        schema: [
+          {
+            type: "decimal",
+            name: "name",
+            precision: 4,
+            scale: 2
+          }
+        ]
+      }
+    });
+    assert.equal(
+      (await streamToBuffer3(response.readableStreamBody!)).toString("hex"),
+      "ffffffff800000001000000000000a000c000600050008000a000000000103000c000000080008000000040008000000040000000100000014000000100014000800060007000c000000100010000000000001072400000014000000040000000000000008000c0004000800080000000400000002000000040000006e616d650000000000000000ffffffff700000001000000000000a000e000600050008000a000000000303001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000"
+    );
+  });
+
+  it("query should work with arrow output configurations for timestamp[ms]", async function() {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    await blockBlobClient.query("select * from BlobStorage", {
+      outputTextConfiguration: {
+        kind: "arrow",
+        schema: [
+          {
+            type: "timestamp[ms]"
+          }
+        ]
+      }
+    });
   });
 });

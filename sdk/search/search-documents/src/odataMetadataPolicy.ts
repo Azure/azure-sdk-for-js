@@ -18,7 +18,7 @@ export type MetadataLevel = "none" | "minimal";
 /**
  * A policy factory for setting the Accept header to ignore odata metadata
  * @internal
- * @ignore
+ * @hidden
  */
 export function odataMetadataPolicy(metadataLevel: MetadataLevel): RequestPolicyFactory {
   return {

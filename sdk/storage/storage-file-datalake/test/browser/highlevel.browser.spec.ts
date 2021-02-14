@@ -1,4 +1,4 @@
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
@@ -25,7 +25,7 @@ describe("Highlevel browser only", () => {
   const tempFileLargeLength: number = 257 * MB - 1;
   let tempFileSmall: File;
   const tempFileSmallLength: number = 1 * MB - 1;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -40,7 +40,7 @@ describe("Highlevel browser only", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await fileSystemClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -48,7 +48,7 @@ describe("Highlevel browser only", () => {
     recorder = record(this, recorderEnvSetup);
     tempFileLarge = getBrowserFile(recorder.getUniqueName("browserfilesmall"), tempFileLargeLength);
     tempFileSmall = getBrowserFile(recorder.getUniqueName("browserfilelarge"), tempFileSmallLength);
-    recorder.stop();
+    await recorder.stop();
   });
 
   after(async () => {});
@@ -148,5 +148,33 @@ describe("Highlevel browser only", () => {
     await fileClient.upload(tempFileEmpty);
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "");
+  });
+
+  it("upload should work with Blob, ArrayBuffer and ArrayBufferView", async () => {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    const blob = new Blob([arrayBuf]);
+    await fileClient.upload(blob);
+    const downloadedBlob = await (await fileClient.read()).contentAsBlob;
+    assert.deepStrictEqual(downloadedBlob, blob);
+
+    await fileClient.upload(arrayBuf);
+    const downloadedBlob1 = await (await fileClient.read()).contentAsBlob;
+    assert.deepStrictEqual(downloadedBlob1, blob);
+
+    const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
+    await fileClient.upload(uint8ArrayPartial);
+    const downloadedBlob2 = await (await fileClient.read()).contentAsBlob!;
+    assert.deepStrictEqual(downloadedBlob2, new Blob([uint8ArrayPartial]));
+
+    const uint16Array = new Uint16Array(arrayBuf, 4, 2);
+    await fileClient.upload(uint16Array);
+    const downloadedBlob3 = await (await fileClient.read()).contentAsBlob!;
+    assert.deepStrictEqual(downloadedBlob3, new Blob([uint16Array]));
   });
 });

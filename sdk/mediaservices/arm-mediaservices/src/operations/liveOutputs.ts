@@ -28,11 +28,11 @@ export class LiveOutputs {
   }
 
   /**
-   * Lists the Live Outputs in the Live Event.
+   * Lists the live outputs of a live event.
    * @summary List Live Outputs
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveOutputsListResponse>
    */
@@ -40,14 +40,14 @@ export class LiveOutputs {
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, liveEventName: string, callback: msRest.ServiceCallback<Models.LiveOutputListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
+   * @param liveEventName The name of the live event, maximum length is 32.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -65,12 +65,12 @@ export class LiveOutputs {
   }
 
   /**
-   * Gets a Live Output.
+   * Gets a live output.
    * @summary Get Live Output
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param liveOutputName The name of the Live Output.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveOutputsGetResponse>
    */
@@ -78,16 +78,16 @@ export class LiveOutputs {
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param liveOutputName The name of the Live Output.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, callback: msRest.ServiceCallback<Models.LiveOutput>): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param liveOutputName The name of the Live Output.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -106,12 +106,12 @@ export class LiveOutputs {
   }
 
   /**
-   * Creates a Live Output.
+   * Creates a new live output.
    * @summary Create Live Output
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param liveOutputName The name of the Live Output.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
    * @param parameters Live Output properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveOutputsCreateResponse>
@@ -122,12 +122,13 @@ export class LiveOutputs {
   }
 
   /**
-   * Deletes a Live Output.
+   * Deletes a live output. Deleting a live output does not delete the asset the live output is
+   * writing to.
    * @summary Delete Live Output
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param liveOutputName The name of the Live Output.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -137,12 +138,12 @@ export class LiveOutputs {
   }
 
   /**
-   * Creates a Live Output.
+   * Creates a new live output.
    * @summary Create Live Output
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param liveOutputName The name of the Live Output.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
    * @param parameters Live Output properties needed for creation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -162,12 +163,13 @@ export class LiveOutputs {
   }
 
   /**
-   * Deletes a Live Output.
+   * Deletes a live output. Deleting a live output does not delete the asset the live output is
+   * writing to.
    * @summary Delete Live Output
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
-   * @param liveEventName The name of the Live Event.
-   * @param liveOutputName The name of the Live Output.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -185,7 +187,7 @@ export class LiveOutputs {
   }
 
   /**
-   * Lists the Live Outputs in the Live Event.
+   * Lists the live outputs of a live event.
    * @summary List Live Outputs
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -297,7 +299,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.LiveOutput
     },
-    202: {
+    201: {
       bodyMapper: Mappers.LiveOutput
     },
     default: {

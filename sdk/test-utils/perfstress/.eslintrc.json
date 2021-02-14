@@ -1,7 +1,9 @@
 {
   "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.old.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "rules": {
+    "@azure/azure-sdk/ts-package-json-name": "off",
+    "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
+    "@azure/azure-sdk/ts-package-json-types": "off"
   }
 }

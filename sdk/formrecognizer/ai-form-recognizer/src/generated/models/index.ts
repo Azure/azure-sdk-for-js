@@ -24,6 +24,10 @@ export interface TrainRequest {
    * Use label file for training a model.
    */
   useLabelFile?: boolean;
+  /**
+   * Optional user defined model name (max length: 1024).
+   */
+  modelName?: string;
 }
 
 /**
@@ -37,7 +41,7 @@ export interface TrainSourceFilter {
   /**
    * A flag to indicate if sub folders within the set of prefix folders will also need to be included when searching for content to be preprocessed.
    */
-  includeSubFolders?: boolean;
+  includeSubfolders?: boolean;
 }
 
 export interface ErrorResponse {
@@ -62,9 +66,13 @@ export interface Model {
    */
   keys?: KeysResult;
   /**
-   * Custom model training result.
+   * Training result for custom model.
    */
   trainResult?: TrainResult;
+  /**
+   * Training result for composed model.
+   */
+  composedTrainResults?: TrainResult[];
 }
 
 /**
@@ -82,11 +90,29 @@ export interface ModelInfo {
   /**
    * Date and time (UTC) when the model was created.
    */
-  requestedOn: Date;
+  trainingStartedOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  completedOn: Date;
+  trainingCompletedOn: Date;
+  /**
+   * Optional user defined model name (max length: 1024).
+   */
+  modelName?: string;
+  /**
+   * Optional model attributes.
+   */
+  attributes?: Attributes;
+}
+
+/**
+ * Optional model attributes.
+ */
+export interface Attributes {
+  /**
+   * Is this model composed? (default: false).
+   */
+  isComposed?: boolean;
 }
 
 /**
@@ -116,6 +142,10 @@ export interface TrainResult {
    */
   averageModelAccuracy?: number;
   /**
+   * Model identifier.
+   */
+  modelId?: string;
+  /**
    * Errors returned during the training operation.
    */
   errors?: ErrorInformation[];
@@ -128,7 +158,7 @@ export interface TrainingDocumentInfo {
   /**
    * Training document name.
    */
-  documentName: string;
+  name: string;
   /**
    * Total number of pages trained.
    */
@@ -247,6 +277,10 @@ export interface ReadResult {
    * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in certain cases proximity is treated with higher priority. As the sorting order depends on the detected text, it may change across images and OCR version updates. Thus, business logic should be built upon the actual line location instead of order.
    */
   lines?: TextLine[];
+  /**
+   * List of selection marks extracted from the page.
+   */
+  selectionMarks?: SelectionMark[];
 }
 
 /**
@@ -269,6 +303,10 @@ export interface TextLine {
    * List of words in the text line.
    */
   words: TextWord[];
+  /**
+   * Text appearance properties.
+   */
+  appearance?: Appearance;
 }
 
 /**
@@ -287,6 +325,48 @@ export interface TextWord {
    * Confidence value.
    */
   confidence?: number;
+}
+
+/**
+ * An object representing the appearance of the text line.
+ */
+export interface Appearance {
+  /**
+   * An object representing the style of the text line.
+   */
+  style: Style;
+}
+
+/**
+ * An object representing the style of the text line.
+ */
+export interface Style {
+  /**
+   * The text line style name, including handwriting and other.
+   */
+  name: TextStyle;
+  /**
+   * The confidence of text line style.
+   */
+  confidence: number;
+}
+
+/**
+ * Information about the extracted selection mark.
+ */
+export interface SelectionMark {
+  /**
+   * Bounding box of the selection mark.
+   */
+  boundingBox: number[];
+  /**
+   * Confidence value.
+   */
+  confidence: number;
+  /**
+   * State of the selection mark.
+   */
+  state: SelectionMarkState;
 }
 
 /**
@@ -338,6 +418,10 @@ export interface KeyValuePair {
  */
 export interface KeyValueElement {
   /**
+   * Semantic data type of the key value element.
+   */
+  type?: KeyValueType;
+  /**
    * The text content of the key or value.
    */
   text: string;
@@ -367,6 +451,10 @@ export interface DataTable {
    * List of cells contained in the table.
    */
   cells: DataTableCell[];
+  /**
+   * Bounding box of the table.
+   */
+  boundingBox: number[];
 }
 
 /**
@@ -424,9 +512,17 @@ export interface DocumentResult {
    */
   docType: string;
   /**
+   * Model identifier.
+   */
+  modelId?: string;
+  /**
    * First and last page number where the document is found.
    */
   pageRange: number[];
+  /**
+   * Predicted document type confidence.
+   */
+  docTypeConfidence?: number;
   /**
    * Dictionary of named field values.
    */
@@ -451,6 +547,7 @@ export interface FieldValue {
   valueDate?: Date;
   /**
    * Time value.
+   * This value should be an ISO-8601 formatted string representing time. E.g. "HH:MM:SS" or "HH:MM:SS.mm".
    */
   valueTime?: string;
   /**
@@ -473,6 +570,10 @@ export interface FieldValue {
    * Dictionary of named field values.
    */
   valueObject?: { [propertyName: string]: FieldValue };
+  /**
+   * Selection mark value.
+   */
+  valueSelectionMark?: FieldValueSelectionMark;
   /**
    * Text content of the extracted field.
    */
@@ -568,6 +669,20 @@ export interface CopyResult {
 }
 
 /**
+ * Request contract for compose operation.
+ */
+export interface ComposeRequest {
+  /**
+   * List of model ids to compose.
+   */
+  modelIds: string[];
+  /**
+   * Optional user defined model name (max length: 1024).
+   */
+  modelName?: string;
+}
+
+/**
  * Response to the list custom models operation.
  */
 export interface Models {
@@ -607,6 +722,9 @@ export interface ModelsSummary {
  * Defines headers for GeneratedClient_trainCustomModelAsync operation.
  */
 export interface GeneratedClientTrainCustomModelAsyncHeaders {
+  /**
+   * Location and ID of the model being trained. The status of model training is specified in the status property at the model location.
+   */
   location?: string;
 }
 
@@ -614,6 +732,9 @@ export interface GeneratedClientTrainCustomModelAsyncHeaders {
  * Defines headers for GeneratedClient_analyzeWithCustomModel operation.
  */
 export interface GeneratedClientAnalyzeWithCustomModelHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
   operationLocation?: string;
 }
 
@@ -621,6 +742,9 @@ export interface GeneratedClientAnalyzeWithCustomModelHeaders {
  * Defines headers for GeneratedClient_copyCustomModel operation.
  */
 export interface GeneratedClientCopyCustomModelHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the copy operation.
+   */
   operationLocation?: string;
 }
 
@@ -628,13 +752,49 @@ export interface GeneratedClientCopyCustomModelHeaders {
  * Defines headers for GeneratedClient_generateModelCopyAuthorization operation.
  */
 export interface GeneratedClientGenerateModelCopyAuthorizationHeaders {
+  /**
+   * Location and ID of the model being copied. The status of model copy is specified in the status property at the model location.
+   */
   location?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_composeCustomModelsAsync operation.
+ */
+export interface GeneratedClientComposeCustomModelsAsyncHeaders {
+  /**
+   * Location and ID of the composed model. The status of composed model is specified in the status property at the model location.
+   */
+  location?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_analyzeBusinessCardAsync operation.
+ */
+export interface GeneratedClientAnalyzeBusinessCardAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
+  operationLocation?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_analyzeInvoiceAsync operation.
+ */
+export interface GeneratedClientAnalyzeInvoiceAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
+  operationLocation?: string;
 }
 
 /**
  * Defines headers for GeneratedClient_analyzeReceiptAsync operation.
  */
 export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
   operationLocation?: string;
 }
 
@@ -642,13 +802,45 @@ export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
  * Defines headers for GeneratedClient_analyzeLayoutAsync operation.
  */
 export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
+   */
   operationLocation?: string;
 }
 
 /**
  * Defines values for Language.
  */
-export type Language = "en" | "es";
+export type Language =
+  | "en"
+  | "es"
+  | "de"
+  | "fr"
+  | "it"
+  | "nl"
+  | "pt"
+  | "zh-Hans"
+  | string;
+/**
+ * Defines values for TextStyle.
+ */
+export type TextStyle = "other" | "handwriting" | string;
+/**
+ * Defines values for SelectionMarkState.
+ */
+export type SelectionMarkState = "selected" | "unselected" | string;
+/**
+ * Defines values for KeyValueType.
+ */
+export type KeyValueType = "string" | "selectionMark" | string;
+/**
+ * Defines values for FieldValueSelectionMark.
+ */
+export type FieldValueSelectionMark = "selected" | "unselected" | string;
+/**
+ * Defines values for Locale.
+ */
+export type Locale = "en-AU" | "en-CA" | "en-GB" | "en-IN" | "en-US" | string;
 /**
  * Defines values for ModelStatus.
  */
@@ -662,6 +854,7 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
  */
 export type ContentType =
   | "application/pdf"
+  | "image/bmp"
   | "image/jpeg"
   | "image/png"
   | "image/tiff";
@@ -684,7 +877,8 @@ export type FieldValueType =
   | "number"
   | "integer"
   | "array"
-  | "object";
+  | "object"
+  | "selectionMark";
 
 /**
  * Contains response data for the trainCustomModelAsync operation.
@@ -854,6 +1048,159 @@ export type GeneratedClientGenerateModelCopyAuthorizationResponse = GeneratedCli
   };
 
 /**
+ * Contains response data for the composeCustomModelsAsync operation.
+ */
+export type GeneratedClientComposeCustomModelsAsyncResponse = GeneratedClientComposeCustomModelsAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientComposeCustomModelsAsyncHeaders;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeBusinessCardAsync$binaryOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeBusinessCardAsync$jsonOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * .json, .pdf, .jpg, .png or .tiff type file stream.
+   */
+  fileStream?: SourcePath;
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
+}
+
+/**
+ * Contains response data for the analyzeBusinessCardAsync operation.
+ */
+export type GeneratedClientAnalyzeBusinessCardAsyncResponse = GeneratedClientAnalyzeBusinessCardAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientAnalyzeBusinessCardAsyncHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getAnalyzeBusinessCardResult operation.
+ */
+export type GeneratedClientGetAnalyzeBusinessCardResultResponse = AnalyzeOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResult;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * .json, .pdf, .jpg, .png or .tiff type file stream.
+   */
+  fileStream?: SourcePath;
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
+}
+
+/**
+ * Contains response data for the analyzeInvoiceAsync operation.
+ */
+export type GeneratedClientAnalyzeInvoiceAsyncResponse = GeneratedClientAnalyzeInvoiceAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientAnalyzeInvoiceAsyncHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getAnalyzeInvoiceResult operation.
+ */
+export type GeneratedClientGetAnalyzeInvoiceResultResponse = AnalyzeOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResult;
+  };
+};
+
+/**
  * Optional parameters.
  */
 export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
@@ -862,6 +1209,10 @@ export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
    * Include text lines and element references in the result.
    */
   includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
 }
 
 /**
@@ -877,6 +1228,10 @@ export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
    * Include text lines and element references in the result.
    */
   includeTextDetails?: boolean;
+  /**
+   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
+   */
+  locale?: Locale;
 }
 
 /**
@@ -918,7 +1273,16 @@ export type GeneratedClientGetAnalyzeReceiptResultResponse = AnalyzeOperationRes
  * Optional parameters.
  */
 export interface GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
-  extends coreHttp.OperationOptions {}
+  extends coreHttp.OperationOptions {
+  /**
+   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language.
+   */
+  language?: Language;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space.
+   */
+  pages?: string[];
+}
 
 /**
  * Optional parameters.
@@ -929,6 +1293,14 @@ export interface GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams
    * .json, .pdf, .jpg, .png or .tiff type file stream.
    */
   fileStream?: SourcePath;
+  /**
+   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language.
+   */
+  language?: Language;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space.
+   */
+  pages?: string[];
 }
 
 /**

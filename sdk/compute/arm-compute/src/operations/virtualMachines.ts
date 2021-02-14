@@ -395,6 +395,38 @@ export class VirtualMachines {
   }
 
   /**
+   * The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualMachinesRetrieveBootDiagnosticsDataResponse>
+   */
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams): Promise<Models.VirtualMachinesRetrieveBootDiagnosticsDataResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param callback The callback
+   */
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmName: string, callback: msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmName: string, options: Models.VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams, callback: msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>): void;
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams | msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>, callback?: msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>): Promise<Models.VirtualMachinesRetrieveBootDiagnosticsDataResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmName,
+        options
+      },
+      retrieveBootDiagnosticsDataOperationSpec,
+      callback) as Promise<Models.VirtualMachinesRetrieveBootDiagnosticsDataResponse>;
+  }
+
+  /**
    * The operation to perform maintenance on a virtual machine.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
@@ -404,6 +436,50 @@ export class VirtualMachines {
   performMaintenance(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginPerformMaintenance(resourceGroupName,vmName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * The operation to simulate the eviction of spot virtual machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  simulateEviction(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param callback The callback
+   */
+  simulateEviction(resourceGroupName: string, vmName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  simulateEviction(resourceGroupName: string, vmName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  simulateEviction(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmName,
+        options
+      },
+      simulateEvictionOperationSpec,
+      callback);
+  }
+
+  /**
+   * Assess patches on the VM.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualMachinesAssessPatchesResponse>
+   */
+  assessPatches(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesAssessPatchesResponse> {
+    return this.beginAssessPatches(resourceGroupName,vmName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachinesAssessPatchesResponse>;
   }
 
   /**
@@ -661,6 +737,24 @@ export class VirtualMachines {
         options
       },
       beginPerformMaintenanceOperationSpec,
+      options);
+  }
+
+  /**
+   * Assess patches on the VM.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginAssessPatches(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        vmName,
+        options
+      },
+      beginAssessPatchesOperationSpec,
       options);
   }
 
@@ -937,6 +1031,55 @@ const listAvailableSizesOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VirtualMachineSizeListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const retrieveBootDiagnosticsDataOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/retrieveBootDiagnosticsData",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.sasUriExpirationTimeInMinutes,
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RetrieveBootDiagnosticsDataResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const simulateEvictionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/simulateEviction",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1288,6 +1431,32 @@ const beginPerformMaintenanceOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginAssessPatchesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineAssessPatchesResult
+    },
     202: {},
     default: {
       bodyMapper: Mappers.CloudError

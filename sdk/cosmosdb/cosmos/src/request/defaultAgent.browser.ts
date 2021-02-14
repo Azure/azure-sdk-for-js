@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import { Agent } from "http";
 /**
- * @ignore
+ * @hidden
  */
 export let defaultHttpAgent: Agent;
 /**
- * @ignore
+ * @hidden
  */
 export let defaultHttpsAgent: Agent;

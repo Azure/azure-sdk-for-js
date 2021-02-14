@@ -3,10 +3,7 @@
 
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
-import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
-import { TokenCredential } from "@azure/core-auth";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
-import { SharedKeyCredential } from "./auth/sas";
 
 import { Constants } from "./util/constants";
 import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
@@ -33,11 +30,6 @@ export interface ConnectionContextBase {
    */
   negotiateClaimLock: string;
   /**
-   * @property {SharedKeyCredential | TokenCredential} tokenCredential The credential to be used for getting tokens
-   * for authentication for the EventHub client.
-   */
-  readonly tokenCredential: SharedKeyCredential | TokenCredential;
-  /**
    * @property {Connection} connection The underlying AMQP connection.
    */
   connection: Connection;
@@ -51,12 +43,6 @@ export interface ConnectionContextBase {
    * called on the connection object.
    */
   wasConnectionCloseCalled: boolean;
-  /**
-   * @property {DataTransformer} dataTransformer A DataTransformer object that has methods named
-   * - encode Responsible for encoding the AMQP message before sending it on the wire.
-   * - decode Responsible for decoding the received AMQP message before passing it to the customer.
-   */
-  dataTransformer: DataTransformer;
   /**
    * @property {CbsClient} cbsSession A reference to the cbs session ($cbs endpoint) on the
    * underlying AMQP connection for the EventHub Client.
@@ -102,16 +88,6 @@ export interface CreateConnectionContextBaseParameters {
    * the AMQP connection.
    */
   connectionProperties: ConnectionProperties;
-  /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
-   * Default value: SharedKeyCredentials.
-   */
-  tokenCredential?: SharedKeyCredential | TokenCredential;
-  /**
-   * @property {DataTransformer} [dataTransformer] The datatransformer to be used for encoding and
-   * decoding messages. Default value: DefaultDataTransformer
-   */
-  dataTransformer?: DataTransformer;
   /**
    * @property {boolean} [isEntityPathRequired] Determines whether entity path should be a part of
    * the connection config. If `true` it must be present, `false` otherwise. Default value false.
@@ -190,13 +166,6 @@ export const ConnectionContextBase = {
       connectionId: connection.id,
       cbsSession: new CbsClient(connection, connectionLock),
       config: parameters.config,
-      tokenCredential:
-        parameters.tokenCredential ||
-        new SharedKeyCredential(
-          parameters.config.sharedAccessKeyName,
-          parameters.config.sharedAccessKey
-        ),
-      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer(),
       refreshConnection() {
         const connection = new Connection(connectionOptions);
         const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;

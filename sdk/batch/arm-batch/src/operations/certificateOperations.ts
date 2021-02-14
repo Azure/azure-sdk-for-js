@@ -308,7 +308,7 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -336,7 +336,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -360,7 +360,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.CertificateUpdateHeaders
     }
   },
   serializer
@@ -371,7 +372,7 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -387,7 +388,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.CertificateGetHeaders
     }
   },
   serializer
@@ -398,7 +400,7 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -414,7 +416,8 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateCancelDeletionHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.CertificateCancelDeletionHeaders
     }
   },
   serializer
@@ -425,7 +428,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -450,7 +453,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.CertificateCreateHeaders
     }
   },
   serializer
@@ -461,7 +465,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -482,7 +486,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.CertificateDeleteHeaders
     }
   },
   serializer

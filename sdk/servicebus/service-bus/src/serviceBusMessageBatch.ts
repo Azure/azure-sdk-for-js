@@ -1,25 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessage, toAmqpMessage } from "./serviceBusMessage";
-import { throwTypeErrorIfParameterMissing } from "./util/errors";
-import { ClientEntityContext } from "./clientEntityContext";
+import {
+  ServiceBusMessage,
+  toRheaMessage,
+  getMessagePropertyTypeMismatchError
+} from "./serviceBusMessage";
+import { throwIfNotValidServiceBusMessage, throwTypeErrorIfParameterMissing } from "./util/errors";
+import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
   messageProperties as RheaMessagePropertiesList,
-  message as RheaMessageUtil
+  message as RheaMessageUtil,
+  Message as RheaMessage
 } from "rhea-promise";
-import { AmqpMessage } from "@azure/core-amqp";
+import { SpanContext } from "@opentelemetry/api";
+import {
+  instrumentServiceBusMessage,
+  TRACEPARENT_PROPERTY
+} from "./diagnostics/instrumentServiceBusMessage";
+import { createMessageSpan } from "./diagnostics/messageSpan";
+import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
+ * @internal
+ * @hidden
  * The amount of bytes to reserve as overhead for a small message.
  */
 const smallMessageOverhead = 5;
 /**
+ * @internal
+ * @hidden
  * The amount of bytes to reserve as overhead for a large message.
  */
 const largeMessageOverhead = 8;
 /**
+ * @internal
+ * @hidden
  * The maximum number of bytes that a message may be to be considered small.
  */
 const smallMessageMaxBytes = 255;
@@ -44,8 +62,8 @@ export interface ServiceBusMessageBatch {
   readonly count: number;
 
   /**
-   * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
-   * if the message being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
+   * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
+   * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
    * @readonly.
    */
@@ -59,7 +77,7 @@ export interface ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAdd(message: ServiceBusMessage): boolean;
+  tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -68,9 +86,17 @@ export interface ServiceBusMessageBatch {
    *
    * @readonly
    * @internal
-   * @ignore
+   * @hidden
    */
   _generateMessage(): Buffer;
+
+  /**
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
+   * @internal
+   * @hidden
+   */
+  readonly _messageSpanContexts: SpanContext[];
 }
 
 /**
@@ -78,17 +104,9 @@ export interface ServiceBusMessageBatch {
  *
  * @class
  * @internal
- * @ignore
+ * @hidden
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
-  /**
-   * @property Describes the amqp connection context for the Client.
-   */
-  private _context: ClientEntityContext;
-  /**
-   * @property The maximum size allowed for the batch.
-   */
-  private _maxSizeInBytes: number;
   /**
    * @property Current size of the batch in bytes.
    */
@@ -98,15 +116,17 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   private _encodedMessages: Buffer[] = [];
   /**
+   * List of 'message' span contexts.
+   */
+  private _spanContexts: SpanContext[] = [];
+  /**
    * ServiceBusMessageBatch should not be constructed using `new ServiceBusMessageBatch()`
    * Use the `createBatch()` method on your `Sender` instead.
    * @constructor
    * @internal
-   * @ignore
+   * @hidden
    */
-  constructor(context: ClientEntityContext, maxSizeInBytes: number) {
-    this._context = context;
-    this._maxSizeInBytes = maxSizeInBytes;
+  constructor(private _context: ConnectionContext, private _maxSizeInBytes: number) {
     this._sizeInBytes = 0;
     this._batchMessageProperties = {};
   }
@@ -137,6 +157,15 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
+   * Gets the "message" span contexts that were created when adding messages to the batch.
+   * @internal
+   * @hidden
+   */
+  get _messageSpanContexts(): SpanContext[] {
+    return this._spanContexts;
+  }
+
+  /**
    * Generates an AMQP message that contains the provided encoded messages and annotations.
    *
    * @private
@@ -153,7 +182,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     applicationProperties?: { [key: string]: any },
     messageProperties?: { [key: string]: string }
   ): Buffer {
-    const batchEnvelope: AmqpMessage = {
+    const batchEnvelope: RheaMessage = {
       body: RheaMessageUtil.data_sections(encodedMessages),
       message_annotations: annotations,
       application_properties: applicationProperties
@@ -214,13 +243,38 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAdd(message: ServiceBusMessage): boolean {
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "tryAdd", "message");
+  public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
+    throwIfNotValidServiceBusMessage(
+      message,
+      "Provided value for 'message' must be of type ServiceBusMessage."
+    );
+
+    // check if the event has already been instrumented
+    const previouslyInstrumented = Boolean(
+      message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]
+    );
+    let spanContext: SpanContext | undefined;
+    if (!previouslyInstrumented) {
+      const messageSpan = createMessageSpan(options?.parentSpan, this._context.config);
+      message = instrumentServiceBusMessage(message, messageSpan);
+      spanContext = messageSpan.context();
+      messageSpan.end();
+    }
 
     // Convert ServiceBusMessage to AmqpMessage.
-    const amqpMessage = toAmqpMessage(message);
-    amqpMessage.body = this._context.namespace.dataTransformer.encode(message.body);
-    const encodedMessage = RheaMessageUtil.encode(amqpMessage);
+    const amqpMessage = toRheaMessage(message);
+    amqpMessage.body = defaultDataTransformer.encode(message.body);
+
+    let encodedMessage: Buffer;
+    try {
+      encodedMessage = RheaMessageUtil.encode(amqpMessage);
+    } catch (error) {
+      if (error instanceof TypeError || error.name === "TypeError") {
+        throw getMessagePropertyTypeMismatchError(message) || error;
+      }
+      throw error;
+    }
 
     let currentSize = this._sizeInBytes;
 
@@ -262,6 +316,9 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // The message will fit in the batch, so it is now safe to store it.
     this._encodedMessages.push(encodedMessage);
+    if (spanContext) {
+      this._spanContexts.push(spanContext);
+    }
 
     this._sizeInBytes = currentSize;
     return true;

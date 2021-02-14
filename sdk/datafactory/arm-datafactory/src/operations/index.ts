@@ -23,3 +23,5 @@ export * from "./triggers";
 export * from "./triggerRuns";
 export * from "./dataFlows";
 export * from "./dataFlowDebugSession";
+export * from "./managedVirtualNetworks";
+export * from "./managedPrivateEndpoints";

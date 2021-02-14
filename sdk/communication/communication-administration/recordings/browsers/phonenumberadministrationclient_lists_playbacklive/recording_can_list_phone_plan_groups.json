@@ -1,0 +1,24 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups",
+      "query": {
+        "locale": "en-US",
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phonePlanGroups\":[{\"phonePlanGroupId\":\"sanitized\",\"phoneNumberType\":\"Geographic\",\"localizedName\":\"Azure- User - Geographic\",\"localizedDescription\":\"These are numbers used by Azure resources.\"},{\"phonePlanGroupId\":\"sanitized\",\"phoneNumberType\":\"Geographic\",\"localizedName\":\"Azure - Geographic\",\"localizedDescription\":\"These are numbers used by Azure resources.\"},{\"phonePlanGroupId\":\"sanitized\",\"phoneNumberType\":\"TollFree\",\"localizedName\":\"Azure - Toll Free\",\"localizedDescription\":\"These are toll free numbers used by Azure resources.\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "a6e19106ef129ebc3647fcb2d7881134"
+}

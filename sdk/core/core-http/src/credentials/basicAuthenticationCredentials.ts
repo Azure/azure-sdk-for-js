@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { HttpHeaders } from "../httpHeaders";
 import * as base64 from "../util/base64";
@@ -17,10 +17,9 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
   /**
    * Creates a new BasicAuthenticationCredentials object.
    *
-   * @constructor
-   * @param {string} userName User name.
-   * @param {string} password Password.
-   * @param {string} [authorizationScheme] The authorization scheme.
+   * @param userName - User name.
+   * @param password - Password.
+   * @param authorizationScheme - The authorization scheme.
    */
   constructor(
     userName: string,
@@ -41,10 +40,10 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
   /**
    * Signs a request with the Authentication header.
    *
-   * @param {WebResourceLike} webResource The WebResourceLike to be signed.
-   * @returns {Promise<WebResourceLike>} The signed request object.
+   * @param webResource - The WebResourceLike to be signed.
+   * @returns The signed request object.
    */
-  signRequest(webResource: WebResourceLike) {
+  signRequest(webResource: WebResourceLike): Promise<WebResourceLike> {
     const credentials = `${this.userName}:${this.password}`;
     const encodedCredentials = `${this.authorizationScheme} ${base64.encodeString(credentials)}`;
     if (!webResource.headers) webResource.headers = new HttpHeaders();

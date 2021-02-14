@@ -19,9 +19,9 @@ class AzureBotService extends AzureBotServiceContext {
   // Operation groups
   bots: operations.Bots;
   channels: operations.Channels;
+  directLine: operations.DirectLine;
   operations: operations.Operations;
   botConnection: operations.BotConnection;
-  enterpriseChannels: operations.EnterpriseChannels;
 
   /**
    * Initializes a new instance of the AzureBotService class.
@@ -33,9 +33,9 @@ class AzureBotService extends AzureBotServiceContext {
     super(credentials, subscriptionId, options);
     this.bots = new operations.Bots(this);
     this.channels = new operations.Channels(this);
+    this.directLine = new operations.DirectLine(this);
     this.operations = new operations.Operations(this);
     this.botConnection = new operations.BotConnection(this);
-    this.enterpriseChannels = new operations.EnterpriseChannels(this);
   }
 }
 

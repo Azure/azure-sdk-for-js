@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { parseXML, stringifyXML } from "../src/util/xml";
 import { assert } from "chai";
@@ -11,8 +11,8 @@ describe("XML serializer", function() {
       const error: Error = await msAssert.throwsAsync(parseXML(undefined as any));
       assert.ok(
         error.message.indexOf("Document is empty") !== -1 || // Chrome
-        (error.message.startsWith("XML Parsing Error: syntax error") &&
-          error.message.indexOf("undefined") !== -1), // Firefox
+          (error.message.startsWith("XML Parsing Error: syntax error") &&
+            error.message.indexOf("undefined") !== -1), // Firefox
         `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`
       );
     });
@@ -22,8 +22,8 @@ describe("XML serializer", function() {
       const error: Error = await msAssert.throwsAsync(parseXML(null as any));
       assert.ok(
         error.message.indexOf("Document is empty") !== -1 || // Chrome
-        (error.message.startsWith("XML Parsing Error: syntax error") &&
-          error.message.indexOf("null") !== -1), // Firefox
+          (error.message.startsWith("XML Parsing Error: syntax error") &&
+            error.message.indexOf("null") !== -1), // Firefox
         `error.message ("${error.message}") should have contained "Document is empty" or "null"`
       );
     });
@@ -113,6 +113,15 @@ describe("XML serializer", function() {
           },
           _: "yum"
         }
+      });
+    });
+
+    it("with underscore element", async function() {
+      const str = "<Metadata><h>v</h><_>underscore</_></Metadata>";
+      const parsed = await parseXML(str, { xmlCharKey: "#" });
+      assert.deepStrictEqual(parsed, {
+        h: "v",
+        _: "underscore"
       });
     });
   });

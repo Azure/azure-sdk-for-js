@@ -1,0 +1,122 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { assert } from "chai";
+import { CloudEventDistributedTracingEnricherPolicy } from "../src/cloudEventDistrubtedTracingEnricherPolicy";
+import {
+  RequestPolicy,
+  WebResource,
+  WebResourceLike,
+  HttpOperationResponse
+} from "@azure/core-http";
+
+const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";
+
+describe("CloudEventDistributedTracingEnricherPolicy", function() {
+  const emptyRequestPolicy: RequestPolicy = {
+    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
+      return Promise.resolve({ request: request, status: 200, headers: request.headers });
+    }
+  };
+
+  const TraceParentHeaderValue = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01";
+  const TraceStateHeaderValue =
+    "rojo=00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01,congo=lZWRzIHRoNhcm5hbCBwbGVhc3VyZS4";
+
+  it("copies traceparent and tracestate as expected", async () => {
+    const policy = new CloudEventDistributedTracingEnricherPolicy(emptyRequestPolicy);
+
+    const request = new WebResource();
+    request.headers.set("content-type", CloudEventBatchContentType);
+    request.headers.set("traceparent", TraceParentHeaderValue);
+    request.headers.set("tracestate", TraceStateHeaderValue);
+    request.body = JSON.stringify([{}, {}]);
+
+    const resp = await policy.sendRequest(request);
+    const parsedBody = JSON.parse(resp.request.body);
+
+    assert.equal(parsedBody[0].traceparent, TraceParentHeaderValue);
+    assert.equal(parsedBody[0].tracestate, TraceStateHeaderValue);
+    assert.equal(parsedBody[1].traceparent, TraceParentHeaderValue);
+    assert.equal(parsedBody[1].tracestate, TraceStateHeaderValue);
+  });
+
+  it("does nothing when no distributed tracing headers exists", async () => {
+    const policy = new CloudEventDistributedTracingEnricherPolicy(emptyRequestPolicy);
+
+    const request = new WebResource();
+    request.headers.set("content-type", CloudEventBatchContentType);
+    request.body = JSON.stringify([{}, {}]);
+
+    const resp = await policy.sendRequest(request);
+    const parsedBody = JSON.parse(resp.request.body);
+
+    assert.isUndefined(parsedBody[0].traceparent);
+    assert.isUndefined(parsedBody[0].tracestate);
+    assert.isUndefined(parsedBody[1].traceparent);
+    assert.isUndefined(parsedBody[1].tracestate);
+  });
+
+  it("does not overwrite an existing traceparent or tracestate", async () => {
+    const policy = new CloudEventDistributedTracingEnricherPolicy(emptyRequestPolicy);
+
+    const traceparent = "00-0af7651916cd43dd8448eb211c80319c-b9c7c989f97918e1-01";
+    const tracestate =
+      "rojo=00-0af7651916cd43dd8448eb211c80319c-b9c7c989f97918e1-01,congo=lZWRzIHRoNhcm5hbCBwbGVhc3VyZS4";
+
+    const request = new WebResource();
+    request.headers.set("content-type", CloudEventBatchContentType);
+    request.headers.set("traceparent", TraceParentHeaderValue);
+    request.headers.set("tracestate", TraceStateHeaderValue);
+    request.body = JSON.stringify([
+      {
+        traceparent,
+        tracestate
+      },
+      {}
+    ]);
+
+    const resp = await policy.sendRequest(request);
+    const parsedBody = JSON.parse(resp.request.body);
+
+    // The first event already had some tracing information, and it shouldn't be overwritten
+    assert.equal(parsedBody[0].traceparent, traceparent);
+    assert.equal(parsedBody[0].tracestate, tracestate);
+
+    // The second event did not have tracing information, so it should be set to the values
+    // from the request.
+    assert.equal(parsedBody[1].traceparent, TraceParentHeaderValue);
+    assert.equal(parsedBody[1].tracestate, TraceStateHeaderValue);
+  });
+
+  it("only enriches requests with the cloud event content type", async () => {
+    const policy = new CloudEventDistributedTracingEnricherPolicy(emptyRequestPolicy);
+
+    const request = new WebResource();
+    request.headers.set("content-type", "application/json");
+    request.headers.set("traceparent", TraceParentHeaderValue);
+    request.headers.set("tracestate", TraceStateHeaderValue);
+    request.body = JSON.stringify([{}, {}]);
+
+    const resp = await policy.sendRequest(request);
+
+    assert.isUndefined(resp.request.body[0].traceparent);
+    assert.isUndefined(resp.request.body[0].tracestate);
+    assert.isUndefined(resp.request.body[1].traceparent);
+    assert.isUndefined(resp.request.body[1].tracestate);
+  });
+
+  it("does not fail when there are no events", async () => {
+    const policy = new CloudEventDistributedTracingEnricherPolicy(emptyRequestPolicy);
+
+    const request = new WebResource();
+    request.headers.set("content-type", CloudEventBatchContentType);
+    request.headers.set("traceparent", TraceParentHeaderValue);
+    request.headers.set("tracestate", TraceStateHeaderValue);
+    request.body = JSON.stringify([]);
+
+    const resp = await policy.sendRequest(request);
+
+    assert.equal(resp.request.body, JSON.stringify([]));
+  });
+});

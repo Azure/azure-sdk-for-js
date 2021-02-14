@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { AbortController, AbortError } from "@azure/abort-controller";
 import FormData from "form-data";
@@ -17,11 +17,23 @@ interface FetchError extends Error {
   type?: string;
 }
 
-export type CommonRequestInfo = Request | string;
+export type CommonRequestInfo = string; // We only ever call fetch() on string urls.
+
+export type CommonRequestInit = Omit<RequestInit, "body" | "headers" | "signal"> & {
+  body?: any;
+  headers?: any;
+  signal?: any;
+};
+
+export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
+  body: any;
+  trailer: any;
+  formData: any;
+};
 
 export class ReportTransform extends Transform {
   private loadedBytes: number = 0;
-  _transform(chunk: string | Buffer, _encoding: string, callback: Function) {
+  _transform(chunk: string | Buffer, _encoding: string, callback: (arg: any) => void): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
     this.progressCallback!({ loadedBytes: this.loadedBytes });
@@ -65,12 +77,16 @@ export abstract class FetchHttpClient implements HttpClient {
     if (httpRequest.formData) {
       const formData: any = httpRequest.formData;
       const requestForm = new FormData();
-      const appendFormValue = (key: string, value: any) => {
+      const appendFormValue = (key: string, value: any): void => {
         // value function probably returns a stream so we can provide a fresh stream on each retry
         if (typeof value === "function") {
           value = value();
         }
-        if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
+        if (
+          value &&
+          Object.prototype.hasOwnProperty.call(value, "value") &&
+          Object.prototype.hasOwnProperty.call(value, "options")
+        ) {
           requestForm.append(key, value.value, value.options);
         } else {
           requestForm.append(key, value);
@@ -129,11 +145,12 @@ export abstract class FetchHttpClient implements HttpClient {
       headers: httpRequest.headers.rawHeaders(),
       method: httpRequest.method,
       signal: abortController.signal,
+      redirect: "manual",
       ...platformSpecificRequestInit
     };
 
     try {
-      const response: Response = await this.fetch(httpRequest.url, requestInit);
+      const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
       const headers = parseHeaders(response.headers);
       const operationResponse: HttpOperationResponse = {
@@ -188,9 +205,9 @@ export abstract class FetchHttpClient implements HttpClient {
     }
   }
 
-  abstract async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-  abstract async processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-  abstract async fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response>;
+  abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
+  abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+  abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
 }
 
 function isReadableStream(body: any): body is Readable {

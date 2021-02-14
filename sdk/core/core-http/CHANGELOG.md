@@ -1,7 +1,61 @@
 # Release History
 
-## 1.1.4 (Unreleased)
-- Fix issue with flattened model serialization, where constant properties are being dropped [PR#8658](https://github.com/Azure/azure-sdk-for-js/pull/8658)
+## 1.2.3 (Unreleased)
+
+
+## 1.2.2 (2021-01-07)
+
+- Cache the default `HttpClient` used when one isn't passed in to `ServiceClient`. This means that for most packages we will only create a single `HttpClient`, which will improve platform resource usage by reducing overhead. [PR 12966](https://github.com/Azure/azure-sdk-for-js/pull/12966)
+
+## 1.2.1 (2020-12-09)
+
+- Support custom auth scopes. Scope is a mechanism in OAuth 2.0 to limit an application's access to a user's account [PR 12752](https://github.com/Azure/azure-sdk-for-js/pull/12752)
+- Add helper function `createSpan` to help in the creation of tracing spans in Track2 libraries [PR 12525](https://github.com/Azure/azure-sdk-for-js/pull/12525)
+
+## 1.2.0 (2020-11-05)
+
+- Explicitly set `manual` redirect handling for node fetch. And fixing redirectPipeline [PR 11863](https://github.com/Azure/azure-sdk-for-js/pull/11863)
+- Add support for multiple error response codes. [PR 11841](https://github.com/Azure/azure-sdk-for-js/)
+- Allow customizing serializer behavior via optional `SerialzierOptions` parameters. Particularly allow using a different `XML_CHARKEY` than the default `_` when parsing XML [PR 12065](https://github.com/Azure/azure-sdk-for-js/pull/12065)
+- Unexpected status code is now handled as an error if a mapper is not provided for it [PR 12153](https://github.com/Azure/azure-sdk-for-js/pull/12153)
+- Empty collection is now serialized correctly for `multi` format query parameters [PR 12090](https://github.com/Azure/azure-sdk-for-js/pull/12090)
+- De-serialize error from parsed object before trying to use its `code` and `message` properties [PR 12150](https://github.com/Azure/azure-sdk-for-js/pull/12150)
+- Fix an error thrown on older versions of Safari [PR 11759](https://github.com/Azure/azure-sdk-for-js/pull/11759)
+
+## 1.1.9 (2020-09-30)
+
+- Add support for XML namespaces in deserialization [PR 11201](https://github.com/Azure/azure-sdk-for-js/pull/11201)
+
+- Add support for NDJSON format [PR 11325](https://github.com/Azure/azure-sdk-for-js/pull/11325)
+
+- Add support for `NO_PROXY` and `ALL_PROXY` environment variables [PR 7069](https://github.com/Azure/azure-sdk-for-js/pull/7069)
+
+- Serializer now resolves `additionalProperties` correctly from referenced mapper [PR 11473](https://github.com/Azure/azure-sdk-for-js/pull/11473)
+
+- Empty wrapped XML element lists are no properly de-serialized. This fixes [issue 11071](https://github.com/Azure/azure-sdk-for-js/issues/11071)
+
+## 1.1.8 (2020-09-08)
+
+- `URLQuery` parsing now accepts `=` in query parameter values and no longer drops such query parameter name/value pairs. This fixes [issue 11014](https://github.com/Azure/azure-sdk-for-js/issues/11014)
+
+## 1.1.7 (2020-09-02)
+
+- `BearerTokenAuthenticationPolicy` now starts trying to refresh the token 30 seconds before the token expires. It will only try to refresh said token on each request when refreshing is not in progress. In the mean time, requests will use the existing token. This fixes [issue 10084](https://github.com/Azure/azure-sdk-for-js/issues/10084).
+- Un-export the `{...}Policy` classes that were meant to be internal to `@azure/core-http`. [PR 10738](https://github.com/Azure/azure-sdk-for-js/pull/10738)
+
+## 1.1.6 (2020-08-04)
+
+- Update dependencies `@azure/core-tracing` to version 1.0.0-preview.9 and `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
+
+## 1.1.5 (2020-08-04)
+
+- The global `fetch()` is no longer overridden by node-fetch. This fixed an issue impacting Electron render process. [PR #9880](https://github.com/Azure/azure-sdk-for-js/pull/9880)
+
+## 1.1.4 (2020-07-02)
+
+- Fix issue with flattened model serialization, where constant properties are being dropped [PR #8658](https://github.com/Azure/azure-sdk-for-js/pull/8658)
+- Switch to use `x-ms-useragent` header key for passing user agent info in browsers [PR #9490](https://github.com/Azure/azure-sdk-for-js/pull/9490)
+- Refactor `ExponentialRetryPolicy` and `SystemErrorRetryPolicy` to share common code [PR #9667](https://github.com/Azure/azure-sdk-for-js/pull/9490)
 
 ## 1.1.3 (2020-06-03)
 

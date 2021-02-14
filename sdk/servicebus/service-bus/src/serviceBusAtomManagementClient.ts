@@ -1,23 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, parseConnectionString, TokenCredential } from "@azure/core-amqp";
+import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
   HttpOperationResponse,
-  proxyPolicy,
-  ProxySettings,
+  OperationOptions,
   RequestPolicyFactory,
   RestError,
   ServiceClient,
-  ServiceClientOptions,
   signingPolicy,
   stripRequest,
   stripResponse,
   URLBuilder,
   WebResource,
-  bearerTokenAuthenticationPolicy
+  PipelineOptions,
+  HttpResponse
 } from "@azure/core-http";
-import * as log from "./log";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { CorrelationRuleFilter } from "./core/managementClient";
+import { administrationLogger as logger } from "./log";
 import {
   buildNamespace,
   NamespaceProperties,
@@ -26,49 +30,53 @@ import {
 import {
   buildQueue,
   buildQueueOptions,
-  buildQueueRuntimeInfo,
+  buildQueueRuntimeProperties,
+  CreateQueueOptions,
   InternalQueueOptions,
-  QueueDescription,
+  QueueProperties,
   QueueResourceSerializer,
-  QueueRuntimeInfo
+  QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
-  RuleDescription,
-  RuleResourceSerializer
+  CreateRuleOptions,
+  isSqlRuleAction,
+  RuleProperties,
+  RuleResourceSerializer,
+  SqlRuleAction,
+  SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 import {
   buildSubscription,
   buildSubscriptionOptions,
-  buildSubscriptionRuntimeInfo,
+  buildSubscriptionRuntimeProperties,
+  CreateSubscriptionOptions,
   InternalSubscriptionOptions,
-  SubscriptionDescription,
+  SubscriptionProperties,
   SubscriptionResourceSerializer,
-  SubscriptionRuntimeInfo
+  SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
 import {
   buildTopic,
   buildTopicOptions,
-  buildTopicRuntimeInfo,
+  buildTopicRuntimeProperties,
+  CreateTopicOptions,
   InternalTopicOptions,
-  TopicDescription,
+  TopicProperties,
   TopicResourceSerializer,
-  TopicRuntimeInfo
+  TopicRuntimeProperties
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
+import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { Constants as AMQPConstants } from "@azure/core-amqp";
-/**
- * Options to use with ServiceBusManagementClient creation
- */
-export interface ServiceBusManagementClientOptions {
-  /**
-   * Proxy related settings
-   */
-  proxySettings?: ProxySettings;
-}
+import { createSpan, getCanonicalCode } from "./util/tracing";
+import {
+  formatUserAgentPrefix,
+  getHttpResponseOnly,
+  isAbsoluteUrl,
+  isJSONLikeObject
+} from "./util/utils";
 
 /**
  * Request options for list<entity-type>() operations
@@ -77,271 +85,36 @@ export interface ListRequestOptions {
   /**
    * Count of entities to fetch.
    */
-  top?: number;
+  maxCount?: number;
 
   /**
    * Count of entities to skip from being fetched.
    */
   skip?: number;
 }
+
 /**
- * Represents properties of the namespace.
+ * Represents the returned response of the operation along with the raw response.
  */
-export interface NamespaceResponse extends NamespaceProperties {
+export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
    */
-  _response: HttpOperationResponse;
-}
-/**
- * Represents properties of the namespace.
- */
-export type GetNamespaceResponse = NamespaceResponse;
+  _response: HttpResponse;
+};
 
 /**
- * Represents result of create, get, update and delete operations on queue.
+ * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
-export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on queue.
- */
-export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on queue.
- */
-export interface QueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Create Queue response
- */
-export type CreateQueueResponse = QueueResponse;
-
-/**
- * Get Queue response
- */
-export type GetQueueResponse = QueueResponse;
-
-/**
- * Update Queue response
- */
-export type UpdateQueueResponse = QueueResponse;
-
-/**
- * Delete Queue response
- */
-export interface DeleteQueueResponse {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of list operation on queues.
- */
-export interface GetQueuesResponse extends Array<QueueDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface TopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Create Topic response
- */
-export type CreateTopicResponse = TopicResponse;
-
-/**
- * Get Topic response
- */
-export type GetTopicResponse = TopicResponse;
-/**
- * Update Topic response
- */
-export type UpdateTopicResponse = TopicResponse;
-
-/**
- * Delete Topic response
- */
-export interface DeleteTopicResponse {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of list operation on topics.
- */
-export interface GetTopicsResponse extends Array<TopicDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on subscription.
- */
-export interface SubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Create Subscription response
- */
-export type CreateSubscriptionResponse = SubscriptionResponse;
-
-/**
- * Get Subscription response
- */
-export type GetSubscriptionResponse = SubscriptionResponse;
-
-/**
- * Update Subscription response
- */
-export type UpdateSubscriptionResponse = SubscriptionResponse;
-
-/**
- * Delete Subscription response
- */
-export interface DeleteSubscriptionResponse {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of list operation on subscriptions.
- */
-export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on rule.
- */
-export interface RuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Create Rule response
- */
-export type CreateRuleResponse = RuleResponse;
-/**
- * Get Rule response
- */
-export type GetRuleResponse = RuleResponse;
-
-/**
- * Update Rule response
- */
-export type UpdateRuleResponse = RuleResponse;
-
-/**
- * Delete Rule response
- */
-export interface DeleteRuleResponse {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of list operation on rules.
- */
-export interface GetRulesResponse extends Array<RuleDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
+  Pick<PageSettings, "continuationToken">;
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
  */
-export class ServiceBusManagementClient extends ServiceClient {
+export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Reference to the endpoint as extracted from input connection string.
    */
@@ -367,11 +140,11 @@ export class ServiceBusManagementClient extends ServiceClient {
   private credentials: SasServiceClientCredentials | TokenCredential;
 
   /**
-   * Initializes a new instance of the ServiceBusManagementClient class.
+   * Initializes a new instance of the ServiceBusAdministrationClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
-   * @param options ServiceBusManagementClientOptions
+   * @param options PipelineOptions
    */
-  constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+  constructor(connectionString: string, options?: PipelineOptions);
   /**
    *
    * @param fullyQualifiedNamespace The fully qualified namespace of your Service Bus instance which is
@@ -380,30 +153,27 @@ export class ServiceBusManagementClient extends ServiceClient {
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
-   * @param options ServiceBusManagementClientOptions
+   * @param options PipelineOptions
    */
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential,
-    options?: ServiceBusManagementClientOptions
+    options?: PipelineOptions
   );
-
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
-    options3?: ServiceBusManagementClientOptions
+    credentialOrOptions2?: TokenCredential | PipelineOptions,
+    options3?: PipelineOptions
   ) {
-    const requestPolicyFactories: RequestPolicyFactory[] = [];
-    let options: ServiceBusManagementClientOptions;
+    let options: PipelineOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
+    let authPolicy: RequestPolicyFactory;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
       credentials = credentialOrOptions2;
-      requestPolicyFactories.push(
-        bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
-      );
+      authPolicy = bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -420,15 +190,18 @@ export class ServiceBusManagementClient extends ServiceClient {
         connectionStringObj.SharedAccessKeyName,
         connectionStringObj.SharedAccessKey
       );
-      requestPolicyFactories.push(signingPolicy(credentials));
+      authPolicy = signingPolicy(credentials);
     }
-    if (options && options.proxySettings) {
-      requestPolicyFactories.push(proxyPolicy(options.proxySettings));
-    }
-    const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories
-    };
-
+    const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
+    const serviceClientOptions = createPipelineFromOptions(
+      {
+        ...options,
+        userAgentOptions: {
+          userAgentPrefix
+        }
+      },
+      authPolicy
+    );
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
@@ -445,21 +218,41 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns an object representing the metadata related to a service bus namespace.
    * @param queueName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    */
-  async getNamespaceProperties(): Promise<GetNamespaceResponse> {
-    log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
-    const response: HttpOperationResponse = await this.getResource(
-      "$namespaceinfo",
-      this.namespaceResourceSerializer
+  async getNamespaceProperties(
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<NamespaceProperties>> {
+    logger.verbose(`Performing management operation - getNamespaceProperties()`);
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getNamespaceProperties",
+      operationOptions
     );
+    try {
+      const response: HttpOperationResponse = await this.getResource(
+        "$namespaceinfo",
+        this.namespaceResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildNamespaceResponse(response);
+      return this.buildNamespacePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Creates a queue with given name, configured using the given options
    * @param queueName
+   * @param options Options to configure the Queue being created(For example, you can configure a queue to support partitions or sessions)
+   *  and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -469,51 +262,46 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async createQueue(queueName: string): Promise<CreateQueueResponse>;
-  /**
-   * Creates a queue configured using the given options
-   * @param queue Options to configure the Queue being created.
-   * For example, you can configure a queue to support partitions or sessions.
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
-  async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
-    let queue: QueueDescription;
-    if (typeof queueNameOrOptions === "string") {
-      queue = { name: queueNameOrOptions };
-    } else {
-      queue = queueNameOrOptions;
-    }
-    log.httpAtomXml(
-      `Performing management operation - createQueue() for "${queue.name}" with options: ${queue}`
+  async createQueue(
+    queueName: string,
+    options?: CreateQueueOptions
+  ): Promise<WithResponse<QueueProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-createQueue",
+      options
     );
-    const response: HttpOperationResponse = await this.putResource(
-      queue.name,
-      buildQueueOptions(queue),
-      this.queueResourceSerializer,
-      false
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - createQueue() for "${queueName}" with options: %j`,
+        options
+      );
+      const response: HttpOperationResponse = await this.putResource(
+        queueName,
+        buildQueueOptions(options || {}),
+        this.queueResourceSerializer,
+        false,
+        updatedOperationOptions
+      );
 
-    return this.buildQueueResponse(response);
+      return this.buildQueueResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns an object representing the Queue and its properties.
-   * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeInfo` API.
+   * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeProperties` API.
    * @param queueName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -522,22 +310,40 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getQueue(queueName: string): Promise<GetQueueResponse> {
-    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      queueName,
-      this.queueResourceSerializer
+  async getQueue(
+    queueName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<QueueProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getQueue",
+      operationOptions
     );
+    try {
+      logger.verbose(`Performing management operation - getQueue() for "${queueName}"`);
+      const response: HttpOperationResponse = await this.getResource(
+        queueName,
+        this.queueResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildQueueResponse(response);
+      return this.buildQueueResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns an object representing the Queue runtime info like message count details.
    * @param queueName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -546,23 +352,42 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      queueName,
-      this.queueResourceSerializer
+  async getQueueRuntimeProperties(
+    queueName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<QueueRuntimeProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getQueueRuntimeProperties",
+      operationOptions
     );
+    try {
+      logger.verbose(
+        `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
+      );
+      const response: HttpOperationResponse = await this.getResource(
+        queueName,
+        this.queueResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildQueueRuntimeInfoResponse(response);
+      return this.buildQueueRuntimePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns a list of objects, each representing a Queue along with its properties.
-   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
-   * @param listRequestOptions
+   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeProperties` API instead.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -570,25 +395,106 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${listRequestOptions}`
+  private async getQueues(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<QueueProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getQueues",
+      options
     );
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Queues",
-      listRequestOptions,
-      this.queueResourceSerializer
-    );
+    try {
+      logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Queues",
+        updatedOperationOptions,
+        this.queueResourceSerializer
+      );
 
-    return this.buildListQueuesResponse(response);
+      return this.buildListQueuesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listQueuesPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<QueueProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.getQueues({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listQueuesAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<QueueProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listQueuesPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the queues.
+   *
+   * .byPage() returns an async iterable iterator to list the queues in pages.
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     QueueProperties,
+   *     EntitiesResponse<QueueProperties>,
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusAdministrationClient
+   */
+  public listQueues(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
+    logger.verbose(`Performing management operation - listQueues() with options: %j`, options);
+    const iter = this.listQueuesAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listQueuesPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
    * Returns a list of objects, each representing a Queue's runtime info like message count details.
-   * @param listRequestOptions
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -596,28 +502,120 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getQueuesRuntimeInfo(
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetQueuesRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${listRequestOptions}`
+  private async getQueuesRuntimeProperties(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getQueuesRuntimeProperties",
+      options
     );
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Queues",
-      listRequestOptions,
-      this.queueResourceSerializer
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
+        options
+      );
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Queues",
+        updatedOperationOptions,
+        this.queueResourceSerializer
+      );
 
-    return this.buildListQueuesRuntimeInfoResponse(response);
+      return this.buildListQueuesRuntimePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listQueuesRuntimePropertiesPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<QueueRuntimeProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.getQueuesRuntimeProperties({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listQueuesRuntimePropertiesAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<QueueRuntimeProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listQueuesRuntimePropertiesPage(marker, options)) {
+      yield* segment;
+    }
   }
 
   /**
-   * Updates properties on the Queue by the given name based on the given options
-   * @param queue Options to configure the Queue being updated.
-   * For example, you can configure a queue to support partitions or sessions.
+   * Returns an async iterable iterator to list runtime info of the queues.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of the queues in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     QueueRuntimeProperties,
+   *     EntitiesResponse<QueueRuntimeProperties>,
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusAdministrationClient
+   */
+  public listQueuesRuntimeProperties(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
+    logger.verbose(
+      `Performing management operation - listQueuesRuntimeProperties() with options: %j`,
+      options
+    );
+    const iter = this.listQueuesRuntimePropertiesAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listQueuesRuntimePropertiesPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
+  }
+
+  /**
+   * Updates the queue based on the queue properties provided.
+   * All queue properties must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use the output from `getQueue()`, update the desired properties in it, and then pass the modified object to `updateQueue()`.
+   *
+   * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
+   *
+   * @param queue Object representing the properties of the queue and the raw response.
+   * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -626,41 +624,56 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
+  async updateQueue(
+    queue: WithResponse<QueueProperties>,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<QueueProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-updateQueue",
+      operationOptions
     );
-
-    if (!isJSONLikeObject(queue) || queue == null) {
-      throw new TypeError(
-        `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+    try {
+      logger.verbose(
+        `Performing management operation - updateQueue() for "${queue.name}" with options: %j`,
+        queue
       );
+
+      if (!isJSONLikeObject(queue) || queue == null) {
+        throw new TypeError(
+          `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!queue.name) {
+        throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
+      }
+
+      const response: HttpOperationResponse = await this.putResource(
+        queue.name,
+        buildQueueOptions(queue),
+        this.queueResourceSerializer,
+        true,
+        updatedOperationOptions
+      );
+
+      return this.buildQueueResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (!queue.name) {
-      throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
-    }
-
-    const finalQueueOptions: QueueDescription = { name: queue.name };
-    const getQueueResult = await this.getQueue(queue.name);
-    Object.assign(finalQueueOptions, getQueueResult, queue);
-
-    const response: HttpOperationResponse = await this.putResource(
-      queue.name,
-      buildQueueOptions(finalQueueOptions),
-      this.queueResourceSerializer,
-      true
-    );
-
-    return this.buildQueueResponse(response);
   }
 
   /**
    * Deletes a queue.
    * @param queueName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -669,39 +682,73 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async deleteQueue(queueName: string): Promise<DeleteQueueResponse> {
-    log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.deleteResource(
-      queueName,
-      this.queueResourceSerializer
+  async deleteQueue(
+    queueName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<{}>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-deleteQueue",
+      operationOptions
     );
+    try {
+      logger.verbose(`Performing management operation - deleteQueue() for "${queueName}"`);
+      const response: HttpOperationResponse = await this.deleteResource(
+        queueName,
+        this.queueResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Checks whether a given queue exists or not.
    * @param queueName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
-  async queueExists(queueName: string): Promise<boolean> {
-    log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
+  async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-queueExists",
+      operationOptions
+    );
     try {
-      await this.getQueue(queueName);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
+      logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
+      try {
+        await this.getQueue(queueName, updatedOperationOptions);
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
       }
-      throw error;
+      return true;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return true;
   }
 
   /**
    * Creates a topic with given name, configured using the given options
    * @param topicName
+   * @param options Options to configure the Topic being created(For example, you can configure a topic to support partitions)
+   * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -711,51 +758,46 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async createTopic(topicName: string): Promise<CreateTopicResponse>;
-  /**
-   * Creates a topic with given name, configured using the given options
-   * @param topic Options to configure the Topic being created.
-   * For example, you can configure a topic to support partitions or sessions.
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
-  async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
-    let topic: TopicDescription;
-    if (typeof topicNameOrOptions === "string") {
-      topic = { name: topicNameOrOptions };
-    } else {
-      topic = topicNameOrOptions;
-    }
-    log.httpAtomXml(
-      `Performing management operation - createTopic() for "${topic.name}" with options: ${topic}`
+  async createTopic(
+    topicName: string,
+    options?: CreateTopicOptions
+  ): Promise<WithResponse<TopicProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-createTopic",
+      options
     );
-    const response: HttpOperationResponse = await this.putResource(
-      topic.name,
-      buildTopicOptions(topic),
-      this.topicResourceSerializer,
-      false
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - createTopic() for "${topicName}" with options: %j`,
+        options
+      );
+      const response: HttpOperationResponse = await this.putResource(
+        topicName,
+        buildTopicOptions(options || {}),
+        this.topicResourceSerializer,
+        false,
+        updatedOperationOptions
+      );
 
-    return this.buildTopicResponse(response);
+      return this.buildTopicResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns an object representing the Topic and its properties.
-   * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeInfo` API.
+   * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeProperties` API.
    * @param topicName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -764,22 +806,40 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getTopic(topicName: string): Promise<GetTopicResponse> {
-    log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      topicName,
-      this.topicResourceSerializer
+  async getTopic(
+    topicName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<TopicProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getTopic",
+      operationOptions
     );
+    try {
+      logger.verbose(`Performing management operation - getTopic() for "${topicName}"`);
+      const response: HttpOperationResponse = await this.getResource(
+        topicName,
+        this.topicResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildTopicResponse(response);
+      return this.buildTopicResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns an object representing the Topic runtime info like subscription count.
    * @param topicName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -788,23 +848,42 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      topicName,
-      this.topicResourceSerializer
+  async getTopicRuntimeProperties(
+    topicName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<TopicRuntimeProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getTopicRuntimeProperties",
+      operationOptions
     );
+    try {
+      logger.verbose(
+        `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
+      );
+      const response: HttpOperationResponse = await this.getResource(
+        topicName,
+        this.topicResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildTopicRuntimeInfoResponse(response);
+      return this.buildTopicRuntimePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns a list of objects, each representing a Topic along with its properties.
-   * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeInfo` API instead.
-   * @param listRequestOptions
+   * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeProperties` API instead.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -812,25 +891,107 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${listRequestOptions}`
+  private async getTopics(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<TopicProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getTopics",
+      options
     );
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Topics",
-      listRequestOptions,
-      this.topicResourceSerializer
-    );
+    try {
+      logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Topics",
+        updatedOperationOptions,
+        this.topicResourceSerializer
+      );
 
-    return this.buildListTopicsResponse(response);
+      return this.buildListTopicsResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listTopicsPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<TopicProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.getTopics({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listTopicsAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<TopicProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listTopicsPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the topics.
+   *
+   * .byPage() returns an async iterable iterator to list the topics in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     TopicProperties,
+   *     EntitiesResponse<TopicProperties>,
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusAdministrationClient
+   */
+  public listTopics(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
+    logger.verbose(`Performing management operation - listTopics() with options: %j`, options);
+    const iter = this.listTopicsAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listTopicsPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
    * Returns a list of objects, each representing a Topic's runtime info like subscription count.
-   * @param listRequestOptions
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -838,28 +999,121 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getTopicsRuntimeInfo(
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetTopicsRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${listRequestOptions}`
+  private async getTopicsRuntimeProperties(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getTopicsRuntimeProperties",
+      options
     );
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Topics",
-      listRequestOptions,
-      this.topicResourceSerializer
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
+        options
+      );
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Topics",
+        updatedOperationOptions,
+        this.topicResourceSerializer
+      );
 
-    return this.buildListTopicsRuntimeInfoResponse(response);
+      return this.buildListTopicsRuntimePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listTopicsRuntimePropertiesPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<TopicRuntimeProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.getTopicsRuntimeProperties({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listTopicsRuntimePropertiesAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<TopicRuntimeProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listTopicsRuntimePropertiesPage(marker, options)) {
+      yield* segment;
+    }
   }
 
   /**
-   * Updates properties on the Topic by the given name based on the given options
-   * @param topic Options to configure the Topic being updated.
-   * For example, you can configure a topic to support partitions or sessions.
+   * Returns an async iterable iterator to list runtime info of the topics.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of the topics in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     TopicRuntimeProperties,
+   *     EntitiesResponse<TopicRuntimeProperties>,
+
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusAdministrationClient
+   */
+  public listTopicsRuntimeProperties(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
+    logger.verbose(
+      `Performing management operation - listTopicsRuntimeProperties() with options: %j`,
+      options
+    );
+    const iter = this.listTopicsRuntimePropertiesAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listTopicsRuntimePropertiesPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
+  }
+
+  /**
+   * Updates the topic based on the topic properties provided.
+   * All topic properties must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use the output from `getTopic()`, update the desired properties in it, and then pass the modified object to `updateTopic()`.
+   *
+   * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
+   *
+   * @param topic Object representing the properties of the topic and the raw response.
+   * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -868,41 +1122,56 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
+  async updateTopic(
+    topic: WithResponse<TopicProperties>,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<TopicProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-updateTopic",
+      operationOptions
     );
-
-    if (!isJSONLikeObject(topic) || topic == null) {
-      throw new TypeError(
-        `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+    try {
+      logger.verbose(
+        `Performing management operation - updateTopic() for "${topic.name}" with options: %j`,
+        topic
       );
+
+      if (!isJSONLikeObject(topic) || topic == null) {
+        throw new TypeError(
+          `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!topic.name) {
+        throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
+      }
+
+      const response: HttpOperationResponse = await this.putResource(
+        topic.name,
+        buildTopicOptions(topic),
+        this.topicResourceSerializer,
+        true,
+        updatedOperationOptions
+      );
+
+      return this.buildTopicResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (!topic.name) {
-      throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
-    }
-
-    const finalTopicOptions: TopicDescription = { name: topic.name };
-    const getTopicResult = await this.getTopic(topic.name);
-    Object.assign(finalTopicOptions, getTopicResult, topic);
-
-    const response: HttpOperationResponse = await this.putResource(
-      topic.name,
-      buildTopicOptions(finalTopicOptions),
-      this.topicResourceSerializer,
-      true
-    );
-
-    return this.buildTopicResponse(response);
   }
 
   /**
    * Deletes a topic.
    * @param topicName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -911,40 +1180,74 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async deleteTopic(topicName: string): Promise<DeleteTopicResponse> {
-    log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.deleteResource(
-      topicName,
-      this.topicResourceSerializer
+  async deleteTopic(
+    topicName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<{}>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-deleteTopic",
+      operationOptions
     );
+    try {
+      logger.verbose(`Performing management operation - deleteTopic() for "${topicName}"`);
+      const response: HttpOperationResponse = await this.deleteResource(
+        topicName,
+        this.topicResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Checks whether a given topic exists or not.
    * @param topicName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
-  async topicExists(topicName: string): Promise<boolean> {
-    log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
+  async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-topicExists",
+      operationOptions
+    );
     try {
-      await this.getTopic(topicName);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
+      logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
+      try {
+        await this.getTopic(topicName, updatedOperationOptions);
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
       }
-      throw error;
+      return true;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return true;
   }
 
   /**
    * Creates a subscription with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
+   * @param options Options to configure the Subscription being created(For example, you can configure a Subscription to support partitions or sessions)
+   * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -954,71 +1257,49 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async createSubscription(
     topicName: string,
-    subscriptionName: string
-  ): Promise<CreateSubscriptionResponse>;
+    subscriptionName: string,
+    options?: CreateSubscriptionOptions
+  ): Promise<WithResponse<SubscriptionProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-createSubscription",
+      options
+    );
+    try {
+      logger.verbose(
+        `Performing management operation - createSubscription() for "${subscriptionName}" with options: %j`,
+        options
+      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        buildSubscriptionOptions(options || {}),
+        this.subscriptionResourceSerializer,
+        false,
+        updatedOperationOptions
+      );
 
-  /**
-   * Creates a subscription with given name, configured using the given options
-   * @param subscription Options to configure the Subscription being created.
-   * For example, you can configure a Subscription to support partitions or sessions.
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async createSubscription(
-    subscription: SubscriptionDescription
-  ): Promise<CreateSubscriptionResponse>;
-  async createSubscription(
-    topicNameOrSubscriptionOptions: string | SubscriptionDescription,
-    subscriptionName?: string
-  ): Promise<CreateSubscriptionResponse> {
-    let subscription: SubscriptionDescription;
-    if (typeof topicNameOrSubscriptionOptions === "string") {
-      if (!subscriptionName) {
-        throw new Error("Subscription name is not provided");
-      }
-      subscription = {
-        topicName: topicNameOrSubscriptionOptions,
-        subscriptionName: subscriptionName
-      };
-    } else {
-      subscription = topicNameOrSubscriptionOptions;
+      return this.buildSubscriptionResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    log.httpAtomXml(
-      `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
-    );
-    const fullPath = this.getSubscriptionPath(
-      subscription.topicName,
-      subscription.subscriptionName
-    );
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      buildSubscriptionOptions(subscription),
-      this.subscriptionResourceSerializer,
-      false
-    );
-
-    return this.buildSubscriptionResponse(response);
   }
 
   /**
    * Returns an object representing the Subscription and its properties.
-   * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeInfo` API.
+   * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeProperties` API.
    * @param topicName
    * @param subscriptionName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1027,29 +1308,45 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getSubscription(
     topicName: string,
-    subscriptionName: string
-  ): Promise<GetSubscriptionResponse> {
-    log.httpAtomXml(
-      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    subscriptionName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<SubscriptionProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getSubscription",
+      operationOptions
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.getResource(
-      fullPath,
-      this.subscriptionResourceSerializer
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - getSubscription() for "${subscriptionName}"`
+      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+      const response: HttpOperationResponse = await this.getResource(
+        fullPath,
+        this.subscriptionResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildSubscriptionRuntimeInfoResponse(response);
+      return this.buildSubscriptionResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns an object representing the Subscription runtime info like message count details.
    * @param topicName
    * @param subscriptionName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1058,30 +1355,45 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getSubscriptionRuntimeInfo(
+  async getSubscriptionRuntimeProperties(
     topicName: string,
-    subscriptionName: string
-  ): Promise<GetSubscriptionRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    subscriptionName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<SubscriptionRuntimeProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getSubscriptionRuntimeProperties",
+      operationOptions
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.getResource(
-      fullPath,
-      this.subscriptionResourceSerializer
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
+      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+      const response: HttpOperationResponse = await this.getResource(
+        fullPath,
+        this.subscriptionResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildSubscriptionRuntimeInfoResponse(response);
+      return this.buildSubscriptionRuntimePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns a list of objects, each representing a Subscription along with its properties.
-   * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeInfo` API instead.
+   * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeProperties` API instead.
    * @param topicName
-   * @param listRequestOptions
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1089,29 +1401,121 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getSubscriptions(
+  private async getSubscriptions(
     topicName: string,
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetSubscriptionsResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<SubscriptionProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getSubscriptions",
+      options
     );
-    const response: HttpOperationResponse = await this.listResources(
-      topicName + "/Subscriptions/",
-      listRequestOptions,
-      this.subscriptionResourceSerializer
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - getSubscriptions() with options: %j`,
+        options
+      );
+      const response: HttpOperationResponse = await this.listResources(
+        topicName + "/Subscriptions/",
+        updatedOperationOptions,
+        this.subscriptionResourceSerializer
+      );
 
-    return this.buildListSubscriptionsResponse(response);
+      return this.buildListSubscriptionsResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listSubscriptionsPage(
+    topicName: string,
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<SubscriptionProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.getSubscriptions(topicName, {
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listSubscriptionsAll(
+    topicName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<SubscriptionProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listSubscriptionsPage(topicName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   *
+   * Returns an async iterable iterator to list all the subscriptions
+   * under the specified topic.
+   *
+   * .byPage() returns an async iterable iterator to list the subscriptions in pages.
+   *
+   * @memberof ServiceBusAdministrationClient
+   * @param {string} topicName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     SubscriptionProperties,
+   *     EntitiesResponse<SubscriptionProperties>
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusAdministrationClient
+   */
+  public listSubscriptions(
+    topicName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
+    logger.verbose(
+      `Performing management operation - listSubscriptions() with options: %j`,
+      options
+    );
+    const iter = this.listSubscriptionsAll(topicName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listSubscriptionsPage(topicName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
    * Returns a list of objects, each representing a Subscription's runtime info like message count details.
    * @param topicName
-   * @param listRequestOptions
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1119,29 +1523,131 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getSubscriptionsRuntimeInfo(
+  private async getSubscriptionsRuntimeProperties(
     topicName: string,
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetSubscriptionsRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getSubscriptionsRuntimeProperties",
+      options
     );
-    const response: HttpOperationResponse = await this.listResources(
-      topicName + "/Subscriptions/",
-      listRequestOptions,
-      this.subscriptionResourceSerializer
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
+        options
+      );
+      const response: HttpOperationResponse = await this.listResources(
+        topicName + "/Subscriptions/",
+        updatedOperationOptions,
+        this.subscriptionResourceSerializer
+      );
 
-    return this.buildListSubscriptionsRuntimeInfoResponse(response);
+      return this.buildListSubscriptionsRuntimePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listSubscriptionsRuntimePropertiesPage(
+    topicName: string,
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<SubscriptionRuntimeProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.getSubscriptionsRuntimeProperties(topicName, {
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listSubscriptionsRuntimePropertiesAll(
+    topicName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<SubscriptionRuntimeProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listSubscriptionsRuntimePropertiesPage(
+      topicName,
+      marker,
+      options
+    )) {
+      yield* segment;
+    }
   }
 
   /**
-   * Updates properties on the Subscription by the given name based on the given options
-   * @param subscription Options to configure the Subscription being updated.
-   * For example, you can configure a Subscription to support partitions or sessions.
+   * Returns an async iterable iterator to list runtime info of the subscriptions
+   * under the specified topic.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of subscriptions in pages.
+   *
+   * @param {string} topicName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     SubscriptionRuntimeProperties,
+   *     EntitiesResponse<SubscriptionRuntimeProperties>,
+
+   *   >}  An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusAdministrationClient
+   */
+  public listSubscriptionsRuntimeProperties(
+    topicName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<
+    SubscriptionRuntimeProperties,
+    EntitiesResponse<SubscriptionRuntimeProperties>
+  > {
+    logger.verbose(
+      `Performing management operation - listSubscriptionsRuntimeProperties() with options: %j`,
+      options
+    );
+    const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listSubscriptionsRuntimePropertiesPage(topicName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
+  }
+
+  /**
+   * Updates the subscription based on the subscription properties provided.
+   * All subscription properties must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
+   *
+   * @param subscription Object representing the properties of the subscription and the raw response.
+   * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1150,57 +1656,64 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateSubscription(
-    subscription: SubscriptionDescription
-  ): Promise<UpdateSubscriptionResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+    subscription: WithResponse<SubscriptionProperties>,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<SubscriptionProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-updateSubscription",
+      operationOptions
     );
-
-    if (!isJSONLikeObject(subscription) || subscription == null) {
-      throw new TypeError(
-        `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+    try {
+      logger.verbose(
+        `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: %j`,
+        subscription
       );
-    }
 
-    if (!subscription.topicName || !subscription.subscriptionName) {
-      throw new TypeError(
-        `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
+      if (!isJSONLikeObject(subscription) || subscription == null) {
+        throw new TypeError(
+          `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!subscription.topicName || !subscription.subscriptionName) {
+        throw new TypeError(
+          `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
+        );
+      }
+
+      const fullPath = this.getSubscriptionPath(
+        subscription.topicName,
+        subscription.subscriptionName
       );
+
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        buildSubscriptionOptions(subscription),
+        this.subscriptionResourceSerializer,
+        true,
+        updatedOperationOptions
+      );
+
+      return this.buildSubscriptionResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    const fullPath = this.getSubscriptionPath(
-      subscription.topicName,
-      subscription.subscriptionName
-    );
-
-    const finalSubscriptionOptions: SubscriptionDescription = {
-      topicName: subscription.topicName,
-      subscriptionName: subscription.subscriptionName
-    };
-    const getSubscriptionResult = await this.getSubscription(
-      subscription.topicName,
-      subscription.subscriptionName
-    );
-    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscription);
-
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      buildSubscriptionOptions(finalSubscriptionOptions),
-      this.subscriptionResourceSerializer,
-      true
-    );
-
-    return this.buildSubscriptionResponse(response);
   }
 
   /**
    * Deletes a subscription.
    * @param topicName
    * @param subscriptionName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1209,51 +1722,86 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async deleteSubscription(
     topicName: string,
-    subscriptionName: string
-  ): Promise<DeleteSubscriptionResponse> {
-    log.httpAtomXml(
-      `Performing management operation - deleteSubscription() for "${subscriptionName}"`
+    subscriptionName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<{}>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-deleteSubscription",
+      operationOptions
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.deleteResource(
-      fullPath,
-      this.subscriptionResourceSerializer
-    );
+    try {
+      logger.verbose(
+        `Performing management operation - deleteSubscription() for "${subscriptionName}"`
+      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+      const response: HttpOperationResponse = await this.deleteResource(
+        fullPath,
+        this.subscriptionResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Checks whether a given subscription exists in the topic or not.
    * @param topicName
    * @param subscriptionName
-   *
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
-  async subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean> {
-    log.httpAtomXml(
-      `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
+  async subscriptionExists(
+    topicName: string,
+    subscriptionName: string,
+    operationOptions?: OperationOptions
+  ): Promise<boolean> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-subscriptionExists",
+      operationOptions
     );
     try {
-      await this.getSubscription(topicName, subscriptionName);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
+      logger.verbose(
+        `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
+      );
+      try {
+        await this.getSubscription(topicName, subscriptionName, updatedOperationOptions);
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
       }
-      throw error;
+      return true;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return true;
   }
 
   /**
    * Creates a rule with given name, configured using the given options.
    * @param topicName
    * @param subscriptionName
-   * @param rule
+   * @param ruleName
+   * @param ruleFilter Defines the filter expression that the rule evaluates.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1263,32 +1811,98 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
+  createRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<RuleProperties>>;
+  /**
+   * Creates a rule with given name, configured using the given options.
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param ruleFilter Defines the filter expression that the rule evaluates.
+   * @param ruleAction The SQL like expression that can be executed on the message should the associated filter apply.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
+   */
+  createRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    ruleAction: SqlRuleAction,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<RuleProperties>>;
   async createRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleDescription
-  ): Promise<CreateRuleResponse> {
-    log.httpAtomXml(
-      `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    ruleActionOrOperationOptions?: SqlRuleAction | OperationOptions,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<RuleProperties>> {
+    let ruleAction: SqlRuleAction | undefined = undefined;
+    let operOptions: OperationOptions | undefined;
+    if (ruleActionOrOperationOptions) {
+      if (isSqlRuleAction(ruleActionOrOperationOptions)) {
+        // Overload#2 - where the sqlExpression in the ruleAction is defined
+        ruleAction = ruleActionOrOperationOptions;
+        operOptions = operationOptions;
+      } else {
+        // Overload#1
+        // Overload#2 - where the sqlExpression in the ruleAction is undefined
+        operOptions = { ...ruleActionOrOperationOptions, ...operationOptions };
+      }
+    }
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-createRule",
+      operOptions
     );
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      rule,
-      this.ruleResourceSerializer,
-      false
-    );
-    return this.buildRuleResponse(response);
+    try {
+      logger.verbose(
+        `Performing management operation - createRule() for "${ruleName}" with filter: "%j"`,
+        ruleFilter
+      );
+      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        { name: ruleName, filter: ruleFilter, action: ruleAction },
+        this.ruleResourceSerializer,
+        false,
+        updatedOperationOptions
+      );
+      return this.buildRuleResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Returns an object representing the Rule with the given name along with all its properties.
    * @param topicName
-   * @param subscriptioName
+   * @param subscriptionName
    * @param ruleName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1297,29 +1911,44 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getRule(
     topicName: string,
-    subscriptioName: string,
-    ruleName: string
-  ): Promise<GetRuleResponse> {
-    log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
-    const fullPath = this.getRulePath(topicName, subscriptioName, ruleName);
-    const response: HttpOperationResponse = await this.getResource(
-      fullPath,
-      this.ruleResourceSerializer
+    subscriptionName: string,
+    ruleName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<RuleProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getRule",
+      operationOptions
     );
+    try {
+      logger.verbose(`Performing management operation - getRule() for "${ruleName}"`);
+      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+      const response: HttpOperationResponse = await this.getResource(
+        fullPath,
+        this.ruleResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return this.buildRuleResponse(response);
+      return this.buildRuleResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Lists existing rules.
    * @param topicName
    * @param subscriptionName
-   * @param listRequestOptions
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1327,34 +1956,122 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
-  async getRules(
+  private async getRules(
     topicName: string,
     subscriptionName: string,
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetRulesResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listRules() with options: ${listRequestOptions}`
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<RuleProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getRules",
+      options
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
-    const response: HttpOperationResponse = await this.listResources(
-      fullPath,
-      listRequestOptions,
-      this.ruleResourceSerializer
-    );
+    try {
+      logger.verbose(`Performing management operation - getRules() with options: %j`, options);
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
+      const response: HttpOperationResponse = await this.listResources(
+        fullPath,
+        updatedOperationOptions,
+        this.ruleResourceSerializer
+      );
 
-    return this.buildListRulesResponse(response);
+      return this.buildListRulesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listRulesPage(
+    topicName: string,
+    subscriptionName: string,
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<RuleProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.getRules(topicName, subscriptionName, {
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listRulesAll(
+    topicName: string,
+    subscriptionName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<RuleProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listRulesPage(topicName, subscriptionName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the rules
+   * under the specified subscription.
+   *
+   * .byPage() returns an async iterable iterator to list the rules in pages.
+   *
+   * @param {string} topicName
+   * @param {string} subscriptionName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusAdministrationClient
+   */
+  public listRules(
+    topicName: string,
+    subscriptionName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
+    logger.verbose(`Performing management operation - listRules() with options: %j`, options);
+    const iter = this.listRulesAll(topicName, subscriptionName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listRulesPage(topicName, subscriptionName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
    * Updates properties on the Rule by the given name based on the given options.
+   * All rule properties must be set even if one of them is being updated.
+   * Therefore, the suggested flow is to use the output from `getRule()`, update the desired properties in it, and then pass the modified object to `updateRule()`.
+   *
    * @param topicName
    * @param subscriptionName
-   * @param ruleName
-   * @param ruleOptions Options to configure the Rule being updated.
+   * @param rule Options to configure the Rule being updated and the raw response.
    * For example, you can configure the filter to apply on associated Topic/Subscription.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1363,37 +2080,53 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleDescription
-  ): Promise<UpdateRuleResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
+    rule: WithResponse<RuleProperties>,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<RuleProperties>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-updateRule",
+      operationOptions
     );
-
-    if (!isJSONLikeObject(rule) || rule === null) {
-      throw new TypeError(
-        `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+    try {
+      logger.verbose(
+        `Performing management operation - updateRule() for "${rule.name}" with options: %j`,
+        rule
       );
+
+      if (!isJSONLikeObject(rule) || rule === null) {
+        throw new TypeError(
+          `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!rule.name) {
+        throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
+      }
+
+      const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        rule,
+        this.ruleResourceSerializer,
+        true,
+        updatedOperationOptions
+      );
+
+      return this.buildRuleResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (!rule.name) {
-      throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
-    }
-
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      rule,
-      this.ruleResourceSerializer,
-      true
-    );
-
-    return this.buildRuleResponse(response);
   }
 
   /**
@@ -1401,6 +2134,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param ruleName
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1409,22 +2143,77 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async deleteRule(
     topicName: string,
     subscriptionName: string,
-    ruleName: string
-  ): Promise<DeleteRuleResponse> {
-    log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-    const response: HttpOperationResponse = await this.deleteResource(
-      fullPath,
-      this.ruleResourceSerializer
+    ruleName: string,
+    operationOptions?: OperationOptions
+  ): Promise<WithResponse<{}>> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-deleteRule",
+      operationOptions
     );
+    try {
+      logger.verbose(`Performing management operation - deleteRule() for "${ruleName}"`);
+      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+      const response: HttpOperationResponse = await this.deleteResource(
+        fullPath,
+        this.ruleResourceSerializer,
+        updatedOperationOptions
+      );
 
-    return { _response: response };
+      return { _response: getHttpResponseOnly(response) };
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Checks whether a given rule exists or not.
+   *
+   * @param {string} topicName
+   * @param {string} subscriptionName
+   * @param {string} ruleName
+   * @param {OperationOptions} [operationOptions]
+   */
+  async ruleExists(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    operationOptions?: OperationOptions
+  ): Promise<boolean> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-ruleExists",
+      operationOptions
+    );
+    try {
+      logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
+      try {
+        await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
+      }
+      return true;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1440,49 +2229,64 @@ export class ServiceBusManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalTopicOptions
       | InternalSubscriptionOptions
-      | RuleDescription,
+      | CreateRuleOptions,
     serializer: AtomXmlSerializer,
-    isUpdate: boolean = false
+    isUpdate: boolean = false,
+    operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
-    webResource.body = entityFields;
-    if (isUpdate) {
-      webResource.headers.set("If-Match", "*");
-    }
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-putResource",
+      operationOptions
+    );
+    try {
+      const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
+      webResource.body = entityFields;
+      if (isUpdate) {
+        webResource.headers.set("If-Match", "*");
+      }
 
-    const queueOrSubscriptionFields = entityFields as
-      | InternalQueueOptions
-      | InternalSubscriptionOptions;
-    if (
-      queueOrSubscriptionFields.ForwardTo ||
-      queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-    ) {
-      const token =
-        this.credentials instanceof SasServiceClientCredentials
-          ? this.credentials.getToken(this.endpoint).token
-          : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
+      const queueOrSubscriptionFields = entityFields as
+        | InternalQueueOptions
+        | InternalSubscriptionOptions;
+      if (
+        queueOrSubscriptionFields.ForwardTo ||
+        queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+      ) {
+        const token =
+          this.credentials instanceof SasServiceClientCredentials
+            ? this.credentials.getToken(this.endpoint).token
+            : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
-      if (queueOrSubscriptionFields.ForwardTo) {
-        webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
-        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
-          queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
-            queueOrSubscriptionFields.ForwardTo
-          );
+        if (queueOrSubscriptionFields.ForwardTo) {
+          webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
+          if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
+            queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
+              queueOrSubscriptionFields.ForwardTo
+            );
+          }
+        }
+        if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
+          webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+          if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
+              queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+            );
+          }
         }
       }
-      if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
-        webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
-        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
-          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
-            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-          );
-        }
-      }
+
+      webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
+
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
-
-    return executeAtomXmlOperation(this, webResource, serializer);
   }
 
   /**
@@ -1492,51 +2296,85 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async getResource(
     name: string,
-    serializer: AtomXmlSerializer
+    serializer: AtomXmlSerializer,
+    operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-getResource",
+      operationOptions
+    );
+    try {
+      const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-    const response = await executeAtomXmlOperation(this, webResource, serializer);
-    if (
-      response.parsedBody == undefined ||
-      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
-    ) {
-      const err = new RestError(
-        `The messaging entity "${name}" being requested cannot be found.`,
-        "MessageEntityNotFoundError",
-        404,
-        stripRequest(webResource),
-        stripResponse(response)
+      const response = await executeAtomXmlOperation(
+        this,
+        webResource,
+        serializer,
+        updatedOperationOptions
       );
-      throw err;
+      if (
+        response.parsedBody == undefined ||
+        (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+      ) {
+        const err = new RestError(
+          `The messaging entity "${name}" being requested cannot be found.`,
+          "MessageEntityNotFoundError",
+          response.status,
+          stripRequest(webResource),
+          stripResponse(response)
+        );
+        throw err;
+      }
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return response;
   }
 
   /**
    * Lists existing resources
    * @param name
-   * @param listRequestOptions
+   * @param options
    * @param serializer
    */
   private async listResources(
     name: string,
-    listRequestOptions: ListRequestOptions | undefined,
+    options: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    const queryParams: { [key: string]: string } = {};
-    if (listRequestOptions) {
-      if (listRequestOptions.skip) {
-        queryParams["$skip"] = listRequestOptions.skip.toString();
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-listResources",
+      options
+    );
+    try {
+      const queryParams: { [key: string]: string } = {};
+      if (options) {
+        if (options.skip) {
+          queryParams["$skip"] = options.skip.toString();
+        }
+        if (options.maxCount) {
+          queryParams["$top"] = options.maxCount.toString();
+        }
       }
-      if (listRequestOptions.top) {
-        queryParams["$top"] = listRequestOptions.top.toString();
-      }
+
+      const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
+
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
-
-    return executeAtomXmlOperation(this, webResource, serializer);
   }
 
   /**
@@ -1545,11 +2383,26 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async deleteResource(
     name: string,
-    serializer: AtomXmlSerializer
+    serializer: AtomXmlSerializer,
+    operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusAdministrationClient-deleteResource",
+      operationOptions
+    );
+    try {
+      const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
 
-    return executeAtomXmlOperation(this, webResource, serializer);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private getUrl(path: string, queryParams?: { [key: string]: string }): string {
@@ -1575,15 +2428,33 @@ export class ServiceBusManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
-  private buildNamespaceResponse(response: HttpOperationResponse): NamespaceResponse {
+  private getMarkerFromNextLinkUrl(url: string): string | undefined {
+    if (!url) {
+      return undefined;
+    }
+    try {
+      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+    } catch (error) {
+      throw new Error(
+        `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
+          error
+      );
+    }
+  }
+
+  private buildNamespacePropertiesResponse(
+    response: HttpOperationResponse
+  ): WithResponse<NamespaceProperties> {
     try {
       const namespace = buildNamespace(response.parsedBody);
-      const namespaceResponse: NamespaceResponse = Object.assign(namespace || {}, {
-        _response: response
-      });
+      const namespaceResponse: WithResponse<NamespaceProperties> = Object.defineProperty(
+        namespace || {},
+        "_response",
+        { value: getHttpResponseOnly(response) }
+      );
       return namespaceResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1594,9 +2465,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesResponse(response: HttpOperationResponse): GetQueuesResponse {
+  private buildListQueuesResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<QueueProperties> {
     try {
-      const queues: QueueDescription[] = [];
+      const queues: QueueProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1607,12 +2481,17 @@ export class ServiceBusManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: GetQueuesResponse = Object.assign(queues, {
-        _response: response
-      });
+      const listQueuesResponse: EntitiesResponse<QueueProperties> = Object.defineProperty(
+        queues,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
+      listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1623,27 +2502,33 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesRuntimeInfoResponse(
+  private buildListQueuesRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): GetQueuesRuntimeInfoResponse {
+  ): EntitiesResponse<QueueRuntimeProperties> {
     try {
-      const queues: QueueRuntimeInfo[] = [];
+      const queues: QueueRuntimeProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
       const rawQueueArray: any = response.parsedBody;
       for (let i = 0; i < rawQueueArray.length; i++) {
-        const queue = buildQueueRuntimeInfo(rawQueueArray[i]);
+        const queue = buildQueueRuntimeProperties(rawQueueArray[i]);
         if (queue) {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: GetQueuesRuntimeInfoResponse = Object.assign(queues, {
-        _response: response
-      });
+      const listQueuesResponse: EntitiesResponse<QueueRuntimeProperties> = Object.defineProperty(
+        queues,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
+      listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1654,15 +2539,19 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
+  private buildQueueResponse(response: HttpOperationResponse): WithResponse<QueueProperties> {
     try {
       const queue = buildQueue(response.parsedBody);
-      const queueResponse: QueueResponse = Object.assign(queue || {}, {
-        _response: response
-      });
+      const queueResponse: WithResponse<QueueProperties> = Object.defineProperty(
+        queue || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return queueResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1673,17 +2562,21 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildQueueRuntimeInfoResponse(
+  private buildQueueRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): GetQueueRuntimeInfoResponse {
+  ): WithResponse<QueueRuntimeProperties> {
     try {
-      const queue = buildQueueRuntimeInfo(response.parsedBody);
-      const queueResponse: GetQueueRuntimeInfoResponse = Object.assign(queue || {}, {
-        _response: response
-      });
+      const queue = buildQueueRuntimeProperties(response.parsedBody);
+      const queueResponse: WithResponse<QueueRuntimeProperties> = Object.defineProperty(
+        queue || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return queueResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1694,9 +2587,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListTopicsResponse(response: HttpOperationResponse): GetTopicsResponse {
+  private buildListTopicsResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<TopicProperties> {
     try {
-      const topics: TopicDescription[] = [];
+      const topics: TopicProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1707,12 +2603,17 @@ export class ServiceBusManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: GetTopicsResponse = Object.assign(topics, {
-        _response: response
-      });
+      const listTopicsResponse: EntitiesResponse<TopicProperties> = Object.defineProperty(
+        topics,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
+      listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1723,27 +2624,33 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListTopicsRuntimeInfoResponse(
+  private buildListTopicsRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): GetTopicsRuntimeInfoResponse {
+  ): EntitiesResponse<TopicRuntimeProperties> {
     try {
-      const topics: TopicRuntimeInfo[] = [];
+      const topics: TopicRuntimeProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
       const rawTopicArray: any = response.parsedBody;
       for (let i = 0; i < rawTopicArray.length; i++) {
-        const topic = buildTopicRuntimeInfo(rawTopicArray[i]);
+        const topic = buildTopicRuntimeProperties(rawTopicArray[i]);
         if (topic) {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: GetTopicsRuntimeInfoResponse = Object.assign(topics, {
-        _response: response
-      });
+      const listTopicsResponse: EntitiesResponse<TopicRuntimeProperties> = Object.defineProperty(
+        topics,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
+      listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1753,15 +2660,19 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
   }
-  private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
+  private buildTopicResponse(response: HttpOperationResponse): WithResponse<TopicProperties> {
     try {
       const topic = buildTopic(response.parsedBody);
-      const topicResponse: TopicResponse = Object.assign(topic || {}, {
-        _response: response
-      });
+      const topicResponse: WithResponse<TopicProperties> = Object.defineProperty(
+        topic || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return topicResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1772,17 +2683,21 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildTopicRuntimeInfoResponse(
+  private buildTopicRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): GetTopicRuntimeInfoResponse {
+  ): WithResponse<TopicRuntimeProperties> {
     try {
-      const topic = buildTopicRuntimeInfo(response.parsedBody);
-      const topicResponse: GetTopicRuntimeInfoResponse = Object.assign(topic || {}, {
-        _response: response
-      });
+      const topic = buildTopicRuntimeProperties(response.parsedBody);
+      const topicResponse: WithResponse<TopicRuntimeProperties> = Object.defineProperty(
+        topic || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return topicResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1795,9 +2710,10 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
-  ): GetSubscriptionsResponse {
+  ): EntitiesResponse<SubscriptionProperties> {
     try {
-      const subscriptions: SubscriptionDescription[] = [];
+      const subscriptions: SubscriptionProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1808,12 +2724,17 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: GetSubscriptionsResponse = Object.assign(subscriptions, {
-        _response: response
-      });
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.defineProperty(
+        subscriptions,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
+      listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1824,30 +2745,33 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListSubscriptionsRuntimeInfoResponse(
+  private buildListSubscriptionsRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): GetSubscriptionsRuntimeInfoResponse {
+  ): EntitiesResponse<SubscriptionRuntimeProperties> {
     try {
-      const subscriptions: SubscriptionRuntimeInfo[] = [];
+      const subscriptions: SubscriptionRuntimeProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
       const rawSubscriptionArray: any = response.parsedBody;
       for (let i = 0; i < rawSubscriptionArray.length; i++) {
-        const subscription = buildSubscriptionRuntimeInfo(rawSubscriptionArray[i]);
+        const subscription = buildSubscriptionRuntimeProperties(rawSubscriptionArray[i]);
         if (subscription) {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: GetSubscriptionsRuntimeInfoResponse = Object.assign(
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
         subscriptions,
+        "_response",
         {
-          _response: response
+          value: getHttpResponseOnly(response)
         }
       );
+      listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1858,39 +2782,21 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildSubscriptionResponse(response: HttpOperationResponse): SubscriptionResponse {
+  private buildSubscriptionResponse(
+    response: HttpOperationResponse
+  ): WithResponse<SubscriptionProperties> {
     try {
       const subscription = buildSubscription(response.parsedBody);
-      const subscriptionResponse: SubscriptionResponse = Object.assign(subscription || {}, {
-        _response: response
-      });
-      return subscriptionResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
-  private buildSubscriptionRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): GetSubscriptionRuntimeInfoResponse {
-    try {
-      const subscription = buildSubscriptionRuntimeInfo(response.parsedBody);
-      const subscriptionResponse: GetSubscriptionRuntimeInfoResponse = Object.assign(
+      const subscriptionResponse: WithResponse<SubscriptionProperties> = Object.defineProperty(
         subscription || {},
+        "_response",
         {
-          _response: response
+          value: getHttpResponseOnly(response)
         }
       );
       return subscriptionResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1901,9 +2807,37 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListRulesResponse(response: HttpOperationResponse): GetRulesResponse {
+  private buildSubscriptionRuntimePropertiesResponse(
+    response: HttpOperationResponse
+  ): WithResponse<SubscriptionRuntimeProperties> {
     try {
-      const rules: RuleDescription[] = [];
+      const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
+      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
+        subscription || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
+      return subscriptionResponse;
+    } catch (err) {
+      logger.logError(err, "Failure parsing response from service");
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListRulesResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<RuleProperties> {
+    try {
+      const rules: RuleProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1914,12 +2848,17 @@ export class ServiceBusManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: GetRulesResponse = Object.assign(rules, {
-        _response: response
-      });
+      const listRulesResponse: EntitiesResponse<RuleProperties> = Object.defineProperty(
+        rules,
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
+      listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of rules using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1930,13 +2869,19 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildRuleResponse(response: HttpOperationResponse): RuleResponse {
+  private buildRuleResponse(response: HttpOperationResponse): WithResponse<RuleProperties> {
     try {
       const rule = buildRule(response.parsedBody);
-      const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
+      const ruleResponse: WithResponse<RuleProperties> = Object.defineProperty(
+        rule || {},
+        "_response",
+        {
+          value: getHttpResponseOnly(response)
+        }
+      );
       return ruleResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a rule object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -1944,6 +2889,12 @@ export class ServiceBusManagementClient extends ServiceClient {
         stripRequest(response.request),
         stripResponse(response)
       );
+    }
+  }
+
+  private throwIfInvalidContinuationToken(token: string | undefined) {
+    if (!(token === undefined || (typeof token === "string" && Number(token) >= 0))) {
+      throw new Error(`Invalid continuationToken ${token} provided`);
     }
   }
 }

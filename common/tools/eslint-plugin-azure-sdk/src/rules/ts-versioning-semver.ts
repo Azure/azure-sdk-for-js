@@ -42,29 +42,66 @@ export = {
             const version = nodeValue.value as string;
 
             // check for violations specific to semver
-            if (!/^((0|[1-9](\d*))\.){2}(0|[1-9](\d*))(-|$)/.test(version)) {
+            const versionMatch = version.match(
+              /^(0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(.+)|$)/
+            );
+            if (versionMatch === null) {
               context.report({
                 node: nodeValue,
                 message: "version is not in semver"
               });
               return;
             }
-            // check that if preview is in proper syntax if provided
-            if (
-              !/^((0|[1-9](\d*))\.){2}(0|[1-9](\d*))(-preview\.(0|([1-9](\d*))))?$/.test(version)
-            ) {
-              context.report({
-                node: nodeValue,
-                message: "preview format is not x.y.z-preview.i"
-              });
-            }
 
-            // check if major version is 0
-            if (/^0\./.test(version)) {
+            const majorVersionNumber = versionMatch[1];
+            if (majorVersionNumber === "0") {
               context.report({
                 node: nodeValue,
                 message: "major version should not be set to 0"
               });
+            }
+
+            // check that if alpha or beta is in proper syntax if provided
+            const secondPart = versionMatch[2];
+            if (secondPart === undefined) {
+              return;
+            }
+            const ver = secondPart.match(/^(alpha|beta)(.*)/);
+            if (ver === null) {
+              context.report({
+                node: nodeValue,
+                message: `unrecognized version syntax: ${secondPart}`
+              });
+              return;
+            }
+
+            const verKeyword = ver[1];
+            const verNumber = ver[2];
+            switch (verKeyword) {
+              case "beta":
+                if (!/^\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
+                  context.report({
+                    node: nodeValue,
+                    message: `${verKeyword} format is not x.y.z-${verKeyword}.i`
+                  });
+                  return;
+                }
+                break;
+              case "alpha":
+                if (!/^\.[2-9]\d\d\d[0-1]\d[0-3]\d\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
+                  context.report({
+                    node: nodeValue,
+                    message: `${verKeyword} format is not x.y.z-${verKeyword}.<date>.i`
+                  });
+                  return;
+                }
+                break;
+              default:
+                context.report({
+                  node: nodeValue,
+                  message: "impossible"
+                });
+                return;
             }
           }
         } as Rule.RuleListener)

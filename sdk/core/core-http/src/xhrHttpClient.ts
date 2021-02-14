@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
 import { HttpClient } from "./httpClient";
-import { HttpHeaders } from "./httpHeaders";
+import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { WebResourceLike, TransferProgressEvent } from "./webResource";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
@@ -25,7 +25,7 @@ export class XhrHttpClient implements HttpClient {
         return Promise.reject(new AbortError("The operation was aborted."));
       }
 
-      const listener = () => {
+      const listener = (): void => {
         xhr.abort();
       };
       abortSignal.addEventListener("abort", listener);
@@ -42,8 +42,12 @@ export class XhrHttpClient implements HttpClient {
     if (request.formData) {
       const formData = request.formData;
       const requestForm = new FormData();
-      const appendFormValue = (key: string, value: any) => {
-        if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
+      const appendFormValue = (key: string, value: any): void => {
+        if (
+          value &&
+          Object.prototype.hasOwnProperty.call(value, "value") &&
+          Object.prototype.hasOwnProperty.call(value, "options")
+        ) {
           requestForm.append(key, value.value, value.options);
         } else {
           requestForm.append(key, value);
@@ -85,6 +89,7 @@ export class XhrHttpClient implements HttpClient {
         xhr.addEventListener("readystatechange", () => {
           // Resolve as soon as headers are loaded
           if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             const blobBody = new Promise<Blob>((resolve, reject) => {
               xhr.addEventListener("load", () => {
                 resolve(xhr.response);
@@ -120,7 +125,7 @@ export class XhrHttpClient implements HttpClient {
 function addProgressListener(
   xhr: XMLHttpRequestEventTarget,
   listener?: (progress: TransferProgressEvent) => void
-) {
+): void {
   if (listener) {
     xhr.addEventListener("progress", (rawEvent) =>
       listener({
@@ -131,7 +136,7 @@ function addProgressListener(
 }
 
 // exported locally for testing
-export function parseHeaders(xhr: XMLHttpRequest) {
+export function parseHeaders(xhr: XMLHttpRequest): HttpHeadersLike {
   const responseHeaders = new HttpHeaders();
   const headerLines = xhr
     .getAllResponseHeaders()
@@ -150,7 +155,7 @@ function rejectOnTerminalEvent(
   request: WebResourceLike,
   xhr: XMLHttpRequest,
   reject: (err: any) => void
-) {
+): void {
   xhr.addEventListener("error", () =>
     reject(
       new RestError(

@@ -22,7 +22,7 @@ const examplePackageGood = `{
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
-    "Azure",
+    "azure",
     "cloud"
   ],
   "bugs": {
@@ -248,7 +248,7 @@ ruleTester.run("ts-package-json-keywords", rule, {
   valid: [
     {
       // only the fields we care about
-      code: '{"keywords": ["Azure", "cloud"]}',
+      code: '{"keywords": ["azure", "cloud"]}',
       filename: "package.json"
     },
     {
@@ -264,7 +264,7 @@ ruleTester.run("ts-package-json-keywords", rule, {
   ],
   invalid: [
     {
-      code: '{"notKeywords": ["Azure", "cloud"]}',
+      code: '{"notKeywords": ["azure", "cloud"]}',
       filename: "package.json",
       errors: [
         {
@@ -274,7 +274,7 @@ ruleTester.run("ts-package-json-keywords", rule, {
     },
     {
       // keywords is in a nested object
-      code: '{"outer": {"keywords": ["Azure", "cloud"]}}',
+      code: '{"outer": {"keywords": ["azure", "cloud"]}}',
       filename: "package.json",
       errors: [
         {
@@ -288,43 +288,43 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain Azure"
+          message: "keywords does not contain azure"
         },
         {
           message: "keywords does not contain cloud"
         }
       ],
-      output: '{"keywords": ["Azure"]}'
+      output: '{"keywords": ["azure"]}'
     },
     {
-      // Azure missing
+      // azure missing
       code: '{"keywords": ["cloud"]}',
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain Azure"
+          message: "keywords does not contain azure"
         }
       ],
-      output: '{"keywords": ["cloud", "Azure"]}'
+      output: '{"keywords": ["cloud", "azure"]}'
     },
     {
       // cloud missing
-      code: '{"keywords": ["Azure"]}',
+      code: '{"keywords": ["azure"]}',
       filename: "package.json",
       errors: [
         {
           message: "keywords does not contain cloud"
         }
       ],
-      output: '{"keywords": ["Azure", "cloud"]}'
+      output: '{"keywords": ["azure", "cloud"]}'
     },
     {
-      // example file with keywords not containing Azure or cloud
+      // example file with keywords not containing azure or cloud
       code: examplePackageBad,
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain Azure"
+          message: "keywords does not contain azure"
         },
         {
           message: "keywords does not contain cloud"

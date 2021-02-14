@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
@@ -59,6 +58,10 @@ import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { ndJsonPolicy } from "./policies/ndJsonPolicy";
+import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
+import { URL } from "./url";
+import { getCachedDefaultHttpClient } from "./httpClientCache";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -135,7 +138,7 @@ export interface ServiceClientOptions {
   deserializationContentTypes?: DeserializationContentTypes;
   /**
    * The header name to use for the telemetry header while sending the request. If this is not
-   * specified, then "User-Agent" will be used when running on Node.js and "x-ms-command-name" will
+   * specified, then "User-Agent" will be used when running on Node.js and "x-ms-useragent" will
    * be used when running in a browser.
    */
   userAgentHeaderName?: string | ((defaultUserAgentHeaderName: string) => string);
@@ -148,11 +151,14 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
+  /**
+   * If specified, will be used to build the BearerTokenAuthenticationPolicy.
+   */
+  credentialScopes?: string | string[];
 }
 
 /**
- * @class
- * Initializes a new instance of the ServiceClient.
+ * ServiceClient sends service requests and receives responses.
  */
 export class ServiceClient {
   /**
@@ -178,12 +184,12 @@ export class ServiceClient {
 
   /**
    * The ServiceClient constructor
-   * @constructor
-   * @param credentials The credentials used for authentication with the service.
-   * @param options The service client options that govern the behavior of the client.
+   * @param credentials - The credentials used for authentication with the service.
+   * @param options - The service client options that govern the behavior of the client.
    */
   constructor(
     credentials?: TokenCredential | ServiceClientCredentials,
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ServiceClientOptions
   ) {
     if (!options) {
@@ -191,7 +197,7 @@ export class ServiceClient {
     }
 
     this._withCredentials = options.withCredentials || false;
-    this._httpClient = options.httpClient || new DefaultHttpClient();
+    this._httpClient = options.httpClient || getCachedDefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     let requestPolicyFactories: RequestPolicyFactory[];
@@ -212,17 +218,30 @@ export class ServiceClient {
         // build the correct scope name.
         const wrappedPolicyFactory: () => RequestPolicyFactory = () => {
           let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
-          let serviceClient = this;
+          // eslint-disable-next-line @typescript-eslint/no-this-alias
+          const serviceClient = this;
+          const serviceClientOptions = options;
           return {
-            create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
-              if (bearerTokenPolicyFactory === undefined) {
-                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
-                  credentials,
-                  `${serviceClient.baseUri || ""}/.default`
+            create(nextPolicy: RequestPolicy, createOptions: RequestPolicyOptions): RequestPolicy {
+              const credentialScopes = getCredentialScopes(
+                serviceClientOptions,
+                serviceClient.baseUri
+              );
+
+              if (!credentialScopes) {
+                throw new Error(
+                  `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
                 );
               }
 
-              return bearerTokenPolicyFactory.create(nextPolicy, options);
+              if (bearerTokenPolicyFactory === undefined || bearerTokenPolicyFactory === null) {
+                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
+                  credentials,
+                  credentialScopes
+                );
+              }
+
+              return bearerTokenPolicyFactory.create(nextPolicy, createOptions);
             }
           };
         };
@@ -231,7 +250,7 @@ export class ServiceClient {
       } else if (credentials && typeof credentials.signRequest === "function") {
         logger.info("ServiceClient: creating signing policy from provided credentials");
         authPolicyFactory = signingPolicy(credentials);
-      } else if (credentials !== undefined) {
+      } else if (credentials !== undefined && credentials !== null) {
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
@@ -286,9 +305,9 @@ export class ServiceClient {
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
-   * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
-   * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
-   * @param {ServiceCallback} callback The callback to call when the response is received.
+   * @param operationArguments - The arguments that the HTTP request's templated values will be populated from.
+   * @param operationSpec - The OperationSpec to use to populate the httpRequest.
+   * @param callback - The callback to call when the response is received.
    */
   async sendOperationRequest(
     operationArguments: OperationArguments,
@@ -300,6 +319,7 @@ export class ServiceClient {
       operationArguments.options = undefined;
     }
 
+    const serializerOptions = operationArguments.options?.serializerOptions;
     const httpRequest: WebResourceLike = new WebResource();
 
     let result: Promise<RestResponse>;
@@ -329,7 +349,8 @@ export class ServiceClient {
           urlParameterValue = operationSpec.serializer.serialize(
             urlParameter.mapper,
             urlParameterValue,
-            getPathStringFromParameter(urlParameter)
+            getPathStringFromParameter(urlParameter),
+            serializerOptions
           );
           if (!urlParameter.skipEncoding) {
             urlParameterValue = encodeURIComponent(urlParameterValue);
@@ -348,20 +369,26 @@ export class ServiceClient {
             queryParameter,
             operationSpec.serializer
           );
-          if (queryParameterValue != undefined) {
+          if (queryParameterValue !== undefined && queryParameterValue !== null) {
             queryParameterValue = operationSpec.serializer.serialize(
               queryParameter.mapper,
               queryParameterValue,
-              getPathStringFromParameter(queryParameter)
+              getPathStringFromParameter(queryParameter),
+              serializerOptions
             );
-            if (queryParameter.collectionFormat != undefined) {
+            if (
+              queryParameter.collectionFormat !== undefined &&
+              queryParameter.collectionFormat !== null
+            ) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
                 if (queryParameterValue.length === 0) {
-                  queryParameterValue = "";
+                  // The collection is empty, no need to try serializing the current queryParam
+                  continue;
                 } else {
                   for (const index in queryParameterValue) {
                     const item = queryParameterValue[index];
-                    queryParameterValue[index] = item == undefined ? "" : item.toString();
+                    queryParameterValue[index] =
+                      item === undefined || item === null ? "" : item.toString();
                   }
                 }
               } else if (
@@ -386,7 +413,8 @@ export class ServiceClient {
               }
             }
             if (
-              queryParameter.collectionFormat != undefined &&
+              queryParameter.collectionFormat !== undefined &&
+              queryParameter.collectionFormat !== null &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Multi &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Ssv &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Tsv
@@ -415,11 +443,12 @@ export class ServiceClient {
             headerParameter,
             operationSpec.serializer
           );
-          if (headerValue != undefined) {
+          if (headerValue !== undefined && headerValue !== null) {
             headerValue = operationSpec.serializer.serialize(
               headerParameter.mapper,
               headerValue,
-              getPathStringFromParameter(headerParameter)
+              getPathStringFromParameter(headerParameter),
+              serializerOptions
             );
             const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
               .headerCollectionPrefix;
@@ -466,7 +495,7 @@ export class ServiceClient {
           httpRequest.spanOptions = options.spanOptions;
         }
 
-        if (options.shouldDeserialize !== undefined) {
+        if (options.shouldDeserialize !== undefined && options.shouldDeserialize !== null) {
           httpRequest.shouldDeserialize = options.shouldDeserialize;
         }
       }
@@ -475,7 +504,7 @@ export class ServiceClient {
 
       serializeRequestBody(this, httpRequest, operationArguments, operationSpec);
 
-      if (httpRequest.streamResponseBody == undefined) {
+      if (httpRequest.streamResponseBody === undefined || httpRequest.streamResponseBody === null) {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
@@ -507,7 +536,6 @@ export class ServiceClient {
     const cb = callback;
     if (cb) {
       result
-        // tslint:disable-next-line:no-null-keyword
         .then((res) => cb(null, res._response.parsedBody, res._response.request, res._response))
         .catch((err) => cb(err));
     }
@@ -522,6 +550,14 @@ export function serializeRequestBody(
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
 ): void {
+  const serializerOptions = operationArguments.options?.serializerOptions ?? {};
+  const updatedOptions: Required<SerializerOptions> = {
+    rootName: serializerOptions.rootName ?? "",
+    includeRoot: serializerOptions.includeRoot ?? false,
+    xmlCharKey: serializerOptions.xmlCharKey ?? XML_CHARKEY
+  };
+
+  const xmlCharKey = serializerOptions.xmlCharKey;
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     httpRequest.body = getOperationArgumentValueFromParameter(
       serviceClient,
@@ -531,34 +567,56 @@ export function serializeRequestBody(
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
-    const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
+    const {
+      required,
+      xmlName,
+      xmlElementName,
+      serializedName,
+      xmlNamespace,
+      xmlNamespacePrefix
+    } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
-      if (httpRequest.body != undefined || required) {
+      if ((httpRequest.body !== undefined && httpRequest.body !== null) || required) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );
         httpRequest.body = operationSpec.serializer.serialize(
           bodyMapper,
           httpRequest.body,
-          requestBodyParameterPathString
+          requestBodyParameterPathString,
+          updatedOptions
         );
 
         const isStream = typeName === MapperType.Stream;
 
         if (operationSpec.isXML) {
+          const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
+          const value = getXmlValueWithNamespace(
+            xmlNamespace,
+            xmlnsKey,
+            typeName,
+            httpRequest.body,
+            updatedOptions
+          );
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
               utils.prepareXMLRootList(
-                httpRequest.body,
-                xmlElementName || xmlName || serializedName!
+                value,
+                xmlElementName || xmlName || serializedName!,
+                xmlnsKey,
+                xmlNamespace
               ),
-              { rootName: xmlName || serializedName }
+              {
+                rootName: xmlName || serializedName,
+                xmlCharKey
+              }
             );
           } else if (!isStream) {
-            httpRequest.body = stringifyXML(httpRequest.body, {
-              rootName: xmlName || serializedName
+            httpRequest.body = stringifyXML(value, {
+              rootName: xmlName || serializedName,
+              xmlCharKey
             });
           }
         } else if (
@@ -590,17 +648,40 @@ export function serializeRequestBody(
         formDataParameter,
         operationSpec.serializer
       );
-      if (formDataParameterValue != undefined) {
+      if (formDataParameterValue !== undefined && formDataParameterValue !== null) {
         const formDataParameterPropertyName: string =
           formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
         httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
           formDataParameter.mapper,
           formDataParameterValue,
-          getPathStringFromParameter(formDataParameter)
+          getPathStringFromParameter(formDataParameter),
+          updatedOptions
         );
       }
     }
   }
+}
+
+/**
+ * Adds an xml namespace to the xml serialized object if needed, otherwise it just returns the value itself
+ */
+function getXmlValueWithNamespace(
+  xmlNamespace: string | undefined,
+  xmlnsKey: string,
+  typeName: string,
+  serializedValue: any,
+  options: Required<SerializerOptions>
+): any {
+  // Composite and Sequence schemas already got their root namespace set during serialization
+  // We just need to add xmlns to the other schema types
+  if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
+    const result: any = {};
+    result[options.xmlCharKey] = serializedValue;
+    result[XML_ATTRKEY] = { [xmlnsKey]: xmlNamespace };
+    return result;
+  }
+
+  return serializedValue;
 }
 
 function getValueOrFunctionResult(
@@ -668,7 +749,11 @@ export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
 ): ServiceClientOptions {
-  let requestPolicyFactories: RequestPolicyFactory[] = [];
+  const requestPolicyFactories: RequestPolicyFactory[] = [];
+
+  if (pipelineOptions.sendStreamingJson) {
+    requestPolicyFactories.push(ndJsonPolicy());
+  }
 
   let userAgentValue = undefined;
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {
@@ -794,6 +879,7 @@ export function getOperationArgumentValueFromParameterPath(
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
   }
+  const serializerOptions = operationArguments.options?.serializerOptions;
   if (Array.isArray(parameterPath)) {
     if (parameterPath.length > 0) {
       if (parameterMapper.isConstant) {
@@ -821,7 +907,7 @@ export function getOperationArgumentValueFromParameterPath(
         parameterPath,
         parameterMapper
       );
-      serializer.serialize(parameterMapper, value, parameterPathString);
+      serializer.serialize(parameterMapper, value, parameterPathString, serializerOptions);
     }
   } else {
     if (parameterMapper.required) {
@@ -845,8 +931,8 @@ export function getOperationArgumentValueFromParameterPath(
         propertyPath,
         propertyMapper
       );
-      serializer.serialize(propertyMapper, propertyValue, propertyPathString);
-      if (propertyValue !== undefined) {
+      serializer.serialize(propertyMapper, propertyValue, propertyPathString, serializerOptions);
+      if (propertyValue !== undefined && propertyValue !== null) {
         if (!value) {
           value = {};
         }
@@ -871,7 +957,7 @@ function getPropertyFromParameterPath(
   for (; i < parameterPath.length; ++i) {
     const parameterPathPart: string = parameterPath[i];
     // Make sure to check inherited properties too, so don't use hasOwnProperty().
-    if (parent != undefined && parameterPathPart in parent) {
+    if (parent !== undefined && parent !== null && parameterPathPart in parent) {
       parent = parent[parameterPathPart];
     } else {
       break;
@@ -891,10 +977,15 @@ export function flattenResponse(
   const parsedHeaders = _response.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
-  const addOperationResponse = (obj: {}) =>
-    Object.defineProperty(obj, "_response", {
+  const addOperationResponse = (
+    obj: Record<string, unknown>
+  ): {
+    _response: HttpOperationResponse;
+  } => {
+    return Object.defineProperty(obj, "_response", {
       value: _response
     });
+  };
 
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
@@ -953,4 +1044,21 @@ export function flattenResponse(
     ...parsedHeaders,
     ..._response.parsedBody
   });
+}
+
+function getCredentialScopes(
+  options?: ServiceClientOptions,
+  baseUri?: string
+): string | string[] | undefined {
+  if (options?.credentialScopes) {
+    const scopes = options.credentialScopes;
+    return Array.isArray(scopes)
+      ? scopes.map((scope) => new URL(scope).toString())
+      : new URL(scopes).toString();
+  }
+
+  if (baseUri) {
+    return `${baseUri}/.default`;
+  }
+  return undefined;
 }

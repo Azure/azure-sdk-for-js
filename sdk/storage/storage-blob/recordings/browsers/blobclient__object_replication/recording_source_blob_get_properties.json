@@ -1,0 +1,41 @@
+{
+ "recordings": [
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.blob.core.windows.net/orssrc/orsBlob",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "accept-ranges": "bytes",
+    "content-length": "11",
+    "content-md5": "XrY7u+Ae7tCTyyK7j1rNww==",
+    "content-type": "application/octet-stream",
+    "date": "Fri, 17 Jul 2020 05:44:05 GMT",
+    "etag": "\"0x8D8231E6F08A0F8\"",
+    "last-modified": "Wed, 08 Jul 2020 09:08:09 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-access-tier": "Hot",
+    "x-ms-access-tier-inferred": "true",
+    "x-ms-blob-type": "BlockBlob",
+    "x-ms-client-request-id": "5f64aeee-2779-4c86-b9d6-8badd960ae36",
+    "x-ms-creation-time": "Wed, 08 Jul 2020 09:08:09 GMT",
+    "x-ms-is-current-version": "true",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "x-ms-or-003ca702-58ab-4405-8f52-cb92316babde_9a53f315-d56b-44f6-a3e8-1d62c1b7089b": "complete",
+    "x-ms-or-d685bc41-c8ab-4ea5-889c-2503f02954d8_671e9447-be18-4632-9eea-a1a29cdae759": "complete",
+    "x-ms-request-id": "790a442a-f01e-0025-1ffd-5b8cd5000000",
+    "x-ms-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-07-08T09:08:09.1762696Z"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "fee75568013c1984bb8b7345d6b88258"
+}

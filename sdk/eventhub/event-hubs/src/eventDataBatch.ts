@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, toAmqpMessage } from "./eventData";
+import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { AmqpMessage } from "@azure/core-amqp";
-import { MessageAnnotations, message } from "rhea-promise";
+import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -27,7 +27,7 @@ const smallMessageMaxBytes = 255;
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
  * @param eventDataBatch The instance of `EventDataBatch` to verify.
  * @internal
- * @ignore
+ * @hidden
  */
 export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDataBatch {
   return (
@@ -63,7 +63,7 @@ export interface EventDataBatch {
    * set the partitionKey.
    * @readonly
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly partitionKey?: string;
 
@@ -72,7 +72,7 @@ export interface EventDataBatch {
    * the `EventHubProducerClient` to set the partitionId.
    * @readonly
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly partitionId?: string;
 
@@ -113,7 +113,7 @@ export interface EventDataBatch {
    * This is not meant for the user to use directly.
    *
    * @internal
-   * @ignore
+   * @hidden
    */
   _generateMessage(): Buffer;
 
@@ -121,7 +121,7 @@ export interface EventDataBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -131,7 +131,7 @@ export interface EventDataBatch {
  *
  * @class
  * @internal
- * @ignore
+ * @hidden
  */
 export class EventDataBatchImpl implements EventDataBatch {
   /**
@@ -139,9 +139,14 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _context: ConnectionContext;
   /**
+   * @property The Id of the partition to which the batch is expected to be sent to.
+   * Specifying this will throw an error if the batch was created using a `paritionKey`.
+   */
+  private _partitionId?: string;
+  /**
    * @property A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   * Specifying this will throw an error if the batch was created using a `paritionId`.
    */
   private _partitionKey?: string;
   /**
@@ -177,17 +182,18 @@ export class EventDataBatchImpl implements EventDataBatch {
    * Use the `createBatch()` method on your `EventHubProducer` instead.
    * @constructor
    * @internal
-   * @ignore
+   * @hidden
    */
   constructor(
     context: ConnectionContext,
     maxSizeInBytes: number,
     partitionKey?: string,
-    private _partitionId?: string
+    partitionId?: string
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
-    this._partitionKey = partitionKey;
+    this._partitionKey = partitionKey != undefined ? String(partitionKey) : partitionKey;
+    this._partitionId = partitionId != undefined ? String(partitionId) : partitionId;
     this._sizeInBytes = 0;
     this._count = 0;
   }
@@ -238,7 +244,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
-   * @ignore
+   * @hidden
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
@@ -250,7 +256,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * @param annotations The message annotations to set on the batch.
    */
   private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
-    const batchEnvelope: AmqpMessage = {
+    const batchEnvelope: RheaMessage = {
       body: message.data_sections(encodedEvents)
     };
     if (annotations) {
@@ -290,15 +296,15 @@ export class EventDataBatchImpl implements EventDataBatch {
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options.parentSpan);
+      const messageSpan = createMessageSpan(options.parentSpan, this._context.config);
       eventData = instrumentEventData(eventData, messageSpan);
       spanContext = messageSpan.context();
       messageSpan.end();
     }
 
-    // Convert EventData to AmqpMessage.
-    const amqpMessage = toAmqpMessage(eventData, this._partitionKey);
-    amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
+    // Convert EventData to RheaMessage.
+    const amqpMessage = toRheaMessage(eventData, this._partitionKey);
+    amqpMessage.body = defaultDataTransformer.encode(eventData.body);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

@@ -28,20 +28,20 @@ export class ComponentCurrentBillingFeatures {
 
   /**
    * Returns current billing features for an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentCurrentBillingFeaturesGetResponse>
    */
   get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentCurrentBillingFeaturesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class ComponentCurrentBillingFeatures {
 
   /**
    * Update current billing features for an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param billingFeaturesProperties Properties that need to be specified to update billing features
    * for an Application Insights component.
@@ -69,7 +69,7 @@ export class ComponentCurrentBillingFeatures {
    */
   update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, options?: msRest.RequestOptionsBase): Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param billingFeaturesProperties Properties that need to be specified to update billing features
    * for an Application Insights component.
@@ -77,7 +77,7 @@ export class ComponentCurrentBillingFeatures {
    */
   update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param billingFeaturesProperties Properties that need to be specified to update billing features
    * for an Application Insights component.
@@ -109,7 +109,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -134,7 +134,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

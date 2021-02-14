@@ -51,7 +51,7 @@ describe("DirectoryClient", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -150,6 +150,44 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await dirClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceAlreadyExists");
+
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res2 = await dirClient2.createIfNotExists();
+    assert.ok(res2.succeeded);
+
+    await dirClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res = await dirClient2.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await dirClient2.create();
+    const res2 = await dirClient2.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("deleteIfExists when parent not exists ", async () => {
+    const subDirName = recorder.getUniqueName("subdir");
+    const dirClient2 = dirClient.getDirectoryClient(subDirName);
+    const dirClient3 = dirClient2.getDirectoryClient(subDirName);
+    const res = await dirClient3.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ParentNotFound");
+  });
+
+  it("exists", async () => {
+    assert.ok(await dirClient.exists());
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    assert.ok(!(await dirClient2.exists()));
   });
 
   it("setProperties with default parameters", async () => {
@@ -449,7 +487,7 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const iter = await rootDirClient.listFilesAndDirectories({ prefix });
+    const iter = rootDirClient.listFilesAndDirectories({ prefix });
     let entity = (await iter.next()).value;
     assert.ok(entity.name.startsWith(prefix));
     if (entity.kind == "file") {
@@ -882,5 +920,24 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirPath}/${baseName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ShareDirectoryClient(
+      `https://customdomain.com/${shareName}/${dirPath}/${baseName}`
+    );
+
+    assert.equal(newClient.accountName, "", "Account name is not the same as the one provided.");
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirPath + "/" + baseName,
+      "DirPath is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.name,
+      baseName,
+      "DirectoryClient name is not the same as the baseName of the provided directory URI"
+    );
   });
 });

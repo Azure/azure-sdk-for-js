@@ -7,7 +7,14 @@
  */
 
 export {
+  Actions,
+  AqiSettings,
+  AutoQuotaIncreaseDetail,
   BaseResource,
+  CurrentQuotaLimit,
+  CurrentQuotaLimitBase,
+  EmailAction,
+  EmailActions,
   ErrorModel,
   ExtendedErrorInfo,
   ExtendedStatusInfo,
@@ -19,6 +26,11 @@ export {
   Properties,
   PurchaseRequest,
   PurchaseRequestPropertiesReservedResourceProperties,
+  QuotaProperties,
+  QuotaRequestDetails,
+  QuotaRequestOneResourceSubmitResponse,
+  QuotaRequestProperties,
+  QuotaRequestSubmitResponse,
   RenewPropertiesResponse,
   RenewPropertiesResponseBillingCurrencyTotal,
   RenewPropertiesResponsePricingCurrencyTotal,
@@ -29,8 +41,11 @@ export {
   ReservationProperties,
   ReservationResponse,
   ReservationSplitProperties,
+  ResourceName,
   ScopeProperties,
   SkuName,
   SplitRequest,
-  SubscriptionScopeProperties
+  SubRequest,
+  SubscriptionScopeProperties,
+  SupportRequestAction
 } from "../models/mappers";

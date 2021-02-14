@@ -92,10 +92,33 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
+export interface ClearRange {
+    // (undocumented)
+    end: number;
+    // (undocumented)
+    start: number;
+}
+
+// @public
 export interface CloseHandlesInfo {
     // (undocumented)
     closedHandlesCount: number;
     closeFailureCount?: number;
+}
+
+// @public
+export interface CommonGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
 }
 
 // @public
@@ -142,7 +165,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
-export type DeleteSnapshotsOptionType = 'include';
+export type DeleteSnapshotsOptionType = 'include' | 'include-leased';
 
 export { deserializationPolicy }
 
@@ -174,6 +197,11 @@ export interface DirectoryCreateHeaders {
 }
 
 // @public
+export interface DirectoryCreateIfNotExistsResponse extends DirectoryCreateResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
     metadata?: Metadata;
@@ -196,6 +224,11 @@ export interface DirectoryDeleteHeaders {
 }
 
 // @public
+export interface DirectoryDeleteIfExistsResponse extends DirectoryDeleteResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface DirectoryDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -206,6 +239,11 @@ export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
         parsedHeaders: DirectoryDeleteHeaders;
     };
 };
+
+// @public
+export interface DirectoryExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public
 export interface DirectoryForceCloseHandlesHeaders {
@@ -490,6 +528,11 @@ export interface FileDeleteHeaders {
 }
 
 // @public
+export interface FileDeleteIfExistsResponse extends FileDeleteResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface FileDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -581,6 +624,11 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
 }
 
 // @public
+export interface FileExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface FileForceCloseHandlesHeaders {
     date?: Date;
     // (undocumented)
@@ -603,6 +651,11 @@ export type FileForceCloseHandlesResponse = CloseHandlesInfo & FileCloseHandlesH
         parsedHeaders: FileForceCloseHandlesHeaders;
     };
 };
+
+// @public
+export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: FileSASPermissions;
+}
 
 // @public
 export interface FileGetPropertiesHeaders {
@@ -654,6 +707,15 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: FileGetPropertiesHeaders;
+    };
+};
+
+// @public
+export type FileGetRangeListDiffResponse = ShareFileRangeList & FileGetRangeListHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileGetRangeListHeaders;
+        bodyAsText: string;
+        parsedBody: ShareFileRangeList;
     };
 };
 
@@ -798,7 +860,7 @@ export interface FileSASSignatureValues {
     filePath?: string;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: FileSASPermissions;
+    permissions?: FileSASPermissions | ShareSASPermissions;
     protocol?: SASProtocol;
     shareName: string;
     startsOn?: Date;
@@ -810,6 +872,7 @@ export interface FileServiceProperties {
     cors?: CorsRule[];
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
+    protocol?: ShareProtocolSettings;
 }
 
 // @public
@@ -1046,6 +1109,7 @@ export interface LeaseOperationResponseHeaders {
     etag?: string;
     lastModified?: Date;
     leaseId?: string;
+    leaseTimeInSeconds?: number;
     requestId?: string;
     version?: string;
 }
@@ -1087,7 +1151,7 @@ export interface ListHandlesResponse {
 }
 
 // @public
-export type ListSharesIncludeType = 'snapshots' | 'metadata';
+export type ListSharesIncludeType = 'snapshots' | 'metadata' | 'deleted';
 
 // @public
 export interface ListSharesResponse {
@@ -1103,6 +1167,22 @@ export interface ListSharesResponse {
     serviceEndpoint: string;
     // (undocumented)
     shareItems?: ShareItem[];
+}
+
+// @public
+export interface ListSharesResponseModel {
+    // (undocumented)
+    continuationToken: string;
+    // (undocumented)
+    marker?: string;
+    // (undocumented)
+    maxResults?: number;
+    // (undocumented)
+    prefix?: string;
+    // (undocumented)
+    serviceEndpoint: string;
+    // (undocumented)
+    shareItems?: ShareItemInternal[];
 }
 
 // @public
@@ -1124,7 +1204,7 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export class Pipeline {
@@ -1200,6 +1280,14 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesHeaders {
     // (undocumented)
     errorCode?: string;
@@ -1224,6 +1312,7 @@ export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPro
 // @public
 export interface ServiceListSharesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     prefix?: string;
@@ -1239,10 +1328,10 @@ export interface ServiceListSharesSegmentHeaders {
 
 // @public
 export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
-    _response: coreHttp.HttpResponse & {
+    _response: HttpResponse & {
         parsedHeaders: ServiceListSharesSegmentHeaders;
         bodyAsText: string;
-        parsedBody: ListSharesResponse;
+        parsedBody: ListSharesResponseModel;
     };
 };
 
@@ -1266,9 +1355,17 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
     };
 };
 
+// @public
+export interface ServiceUndeleteShareOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
 // @public (undocumented)
 export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
+
+// @public
+export type ShareAccessTier = 'TransactionOptimized' | 'Hot' | 'Cool';
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
@@ -1286,11 +1383,15 @@ export class ShareClient extends StorageClient {
         fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
+    createIfNotExists(options?: ShareCreateOptions): Promise<ShareCreateIfNotExistsResponse>;
     createPermission(filePermission: string, options?: ShareCreatePermissionOptions): Promise<ShareCreatePermissionResponse>;
     createSnapshot(options?: ShareCreateSnapshotOptions): Promise<ShareCreateSnapshotResponse>;
     delete(options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
     deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deleteIfExists(options?: ShareDeleteMethodOptions): Promise<ShareDeleteIfExistsResponse>;
+    exists(options?: ShareExistsOptions): Promise<boolean>;
+    generateSasUrl(options: ShareGenerateSasUrlOptions): string;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
@@ -1300,6 +1401,8 @@ export class ShareClient extends StorageClient {
     get rootDirectoryClient(): ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
+    setProperties(options?: ShareSetPropertiesOptions): Promise<ShareSetPropertiesResponse>;
+    // @deprecated
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
     withSnapshot(snapshot: string): ShareClient;
 }
@@ -1316,12 +1419,20 @@ export interface ShareCreateHeaders {
 }
 
 // @public
+export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    accessTier?: ShareAccessTier;
     metadata?: {
         [propertyName: string]: string;
     };
+    protocols?: ShareProtocols;
     quota?: number;
+    rootSquash?: ShareRootSquash;
 }
 
 // @public
@@ -1390,9 +1501,15 @@ export interface ShareDeleteHeaders {
 }
 
 // @public
+export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface ShareDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     deleteSnapshots?: DeleteSnapshotsOptionType;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1411,13 +1528,16 @@ export class ShareDirectoryClient extends StorageClient {
         fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
+    createIfNotExists(options?: DirectoryCreateOptions): Promise<DirectoryCreateIfNotExistsResponse>;
     createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
         directoryClient: ShareDirectoryClient;
         directoryCreateResponse: DirectoryCreateResponse;
     }>;
     delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deleteIfExists(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteIfExistsResponse>;
     deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
+    exists(options?: DirectoryExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
     getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
@@ -1437,6 +1557,12 @@ export class ShareDirectoryClient extends StorageClient {
     }
 
 // @public
+export interface ShareExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
 export class ShareFileClient extends StorageClient {
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
@@ -1444,14 +1570,18 @@ export class ShareFileClient extends StorageClient {
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
+    exists(options?: FileExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
+    generateSasUrl(options: FileGenerateSasUrlOptions): string;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
     get name(): string;
@@ -1469,6 +1599,20 @@ export class ShareFileClient extends StorageClient {
     uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
+    withShareSnapshot(shareSnapshot: string): ShareFileClient;
+}
+
+// @public
+export interface ShareFileRangeList {
+    // (undocumented)
+    clearRanges?: ClearRange[];
+    // (undocumented)
+    ranges?: RangeModel[];
+}
+
+// @public
+export interface ShareGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: ShareSASPermissions;
 }
 
 // @public
@@ -1485,6 +1629,7 @@ export interface ShareGetAccessPolicyHeaders {
 // @public
 export interface ShareGetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public (undocumented)
@@ -1523,11 +1668,18 @@ export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHea
 
 // @public
 export interface ShareGetPropertiesHeaders {
+    accessTier?: string;
+    accessTierChangeTime?: Date;
+    accessTierTransitionState?: string;
     date?: Date;
+    enabledProtocols?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -1538,16 +1690,23 @@ export interface ShareGetPropertiesHeaders {
     provisionedIops?: number;
     quota?: number;
     requestId?: string;
+    rootSquash?: ShareRootSquash;
     version?: string;
 }
 
 // @public
 export interface ShareGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
-export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
+export type ShareGetPropertiesResponse = ShareGetPropertiesResponseModel & {
+    protocols?: ShareProtocols;
+};
+
+// @public
+export type ShareGetPropertiesResponseModel = ShareGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPropertiesHeaders;
     };
@@ -1567,6 +1726,7 @@ export interface ShareGetStatisticsHeaders {
 // @public
 export interface ShareGetStatisticsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1586,6 +1746,8 @@ export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHea
 // @public
 export interface ShareItem {
     // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1595,6 +1757,26 @@ export interface ShareItem {
     properties: ShareProperties;
     // (undocumented)
     snapshot?: string;
+    // (undocumented)
+    version?: string;
+}
+
+// @public
+export interface ShareItemInternal {
+    // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    properties: SharePropertiesInternal;
+    // (undocumented)
+    snapshot?: string;
+    // (undocumented)
+    version?: string;
 }
 
 // @public
@@ -1605,6 +1787,7 @@ export class ShareLeaseClient {
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get leaseId(): string;
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    renewLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get url(): string;
     }
 
@@ -1614,11 +1797,29 @@ export interface SharePermission {
 }
 
 // @public
-export interface ShareProperties {
+export type ShareProperties = SharePropertiesInternal & {
+    protocols?: ShareProtocols;
+};
+
+// @public
+export interface SharePropertiesInternal {
+    // (undocumented)
+    accessTier?: string;
+    // (undocumented)
+    accessTierChangeTime?: Date;
+    // (undocumented)
+    accessTierTransitionState?: string;
+    // (undocumented)
+    deletedTime?: Date;
+    // (undocumented)
+    enabledProtocols?: string;
     // (undocumented)
     etag: string;
     // (undocumented)
     lastModified: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     nextAllowedQuotaDowngradeTime?: Date;
     // (undocumented)
@@ -1629,7 +1830,24 @@ export interface ShareProperties {
     provisionedIops?: number;
     // (undocumented)
     quota: number;
+    // (undocumented)
+    remainingRetentionDays?: number;
+    rootSquash?: ShareRootSquash;
 }
+
+// @public
+export interface ShareProtocols {
+    nfsEnabled?: boolean;
+    smbEnabled?: boolean;
+}
+
+// @public
+export interface ShareProtocolSettings {
+    smb?: ShareSmbSettings;
+}
+
+// @public
+export type ShareRootSquash = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
 
 // @public
 export class ShareSASPermissions {
@@ -1652,10 +1870,12 @@ export class ShareServiceClient extends StorageClient {
     }>;
     deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): ShareServiceClient;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
     setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
+    undeleteShare(deletedShareName: string, deletedShareVersion: string, options?: ServiceUndeleteShareOptions): Promise<ShareClient>;
 }
 
 // @public
@@ -1672,6 +1892,7 @@ export interface ShareSetAccessPolicyHeaders {
 // @public
 export interface ShareSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1695,6 +1916,7 @@ export interface ShareSetMetadataHeaders {
 // @public
 export interface ShareSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1705,7 +1927,7 @@ export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
 };
 
 // @public
-export interface ShareSetQuotaHeaders {
+export interface ShareSetPropertiesHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
@@ -1716,16 +1938,37 @@ export interface ShareSetQuotaHeaders {
 }
 
 // @public
-export interface ShareSetQuotaOptions extends CommonOptions {
+export interface ShareSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    accessTier?: ShareAccessTier;
+    leaseAccessConditions?: LeaseAccessConditions;
+    quotaInGB?: number;
+    rootSquash?: ShareRootSquash;
 }
 
 // @public
-export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
+export type ShareSetPropertiesResponse = ShareSetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareSetQuotaHeaders;
+        parsedHeaders: ShareSetPropertiesHeaders;
     };
 };
+
+// @public
+export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;
+
+// @public
+export interface ShareSetQuotaOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
+export type ShareSetQuotaResponse = ShareSetPropertiesResponse;
+
+// @public
+export interface ShareSmbSettings {
+    multichannel?: SmbMultichannel;
+}
 
 // @public
 export interface ShareStats {
@@ -1746,6 +1989,11 @@ export interface SignedIdentifier {
 export interface SignedIdentifierModel {
     accessPolicy?: AccessPolicy;
     id: string;
+}
+
+// @public
+export interface SmbMultichannel {
+    enabled?: boolean;
 }
 
 // @public

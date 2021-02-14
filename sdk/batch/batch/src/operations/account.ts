@@ -27,31 +27,32 @@ export class Account {
   }
 
   /**
-   * @summary Lists all node agent SKUs supported by the Azure Batch service.
+   * @summary Lists all Virtual Machine Images supported by the Azure Batch service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AccountListNodeAgentSkusResponse>
+   * @returns Promise<Models.AccountListSupportedImagesResponse>
    */
-  listNodeAgentSkus(options?: Models.AccountListNodeAgentSkusOptionalParams): Promise<Models.AccountListNodeAgentSkusResponse>;
+  listSupportedImages(options?: Models.AccountListSupportedImagesOptionalParams): Promise<Models.AccountListSupportedImagesResponse>;
   /**
    * @param callback The callback
    */
-  listNodeAgentSkus(callback: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): void;
+  listSupportedImages(callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNodeAgentSkus(options: Models.AccountListNodeAgentSkusOptionalParams, callback: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): void;
-  listNodeAgentSkus(options?: Models.AccountListNodeAgentSkusOptionalParams | msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>, callback?: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): Promise<Models.AccountListNodeAgentSkusResponse> {
+  listSupportedImages(options: Models.AccountListSupportedImagesOptionalParams, callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
+  listSupportedImages(options?: Models.AccountListSupportedImagesOptionalParams | msRest.ServiceCallback<Models.AccountListSupportedImagesResult>, callback?: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): Promise<Models.AccountListSupportedImagesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listNodeAgentSkusOperationSpec,
-      callback) as Promise<Models.AccountListNodeAgentSkusResponse>;
+      listSupportedImagesOperationSpec,
+      callback) as Promise<Models.AccountListSupportedImagesResponse>;
   }
 
   /**
-   * Gets the number of nodes in each state, grouped by pool.
+   * Gets the number of Compute Nodes in each state, grouped by Pool. Note that the numbers returned
+   * may not always be up to date. If you need exact node counts, use a list query.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountListPoolNodeCountsResponse>
    */
@@ -75,35 +76,36 @@ export class Account {
   }
 
   /**
-   * @summary Lists all node agent SKUs supported by the Azure Batch service.
+   * @summary Lists all Virtual Machine Images supported by the Azure Batch service.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AccountListNodeAgentSkusResponse>
+   * @returns Promise<Models.AccountListSupportedImagesResponse>
    */
-  listNodeAgentSkusNext(nextPageLink: string, options?: Models.AccountListNodeAgentSkusNextOptionalParams): Promise<Models.AccountListNodeAgentSkusResponse>;
+  listSupportedImagesNext(nextPageLink: string, options?: Models.AccountListSupportedImagesNextOptionalParams): Promise<Models.AccountListSupportedImagesResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNodeAgentSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): void;
+  listSupportedImagesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNodeAgentSkusNext(nextPageLink: string, options: Models.AccountListNodeAgentSkusNextOptionalParams, callback: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): void;
-  listNodeAgentSkusNext(nextPageLink: string, options?: Models.AccountListNodeAgentSkusNextOptionalParams | msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>, callback?: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): Promise<Models.AccountListNodeAgentSkusResponse> {
+  listSupportedImagesNext(nextPageLink: string, options: Models.AccountListSupportedImagesNextOptionalParams, callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
+  listSupportedImagesNext(nextPageLink: string, options?: Models.AccountListSupportedImagesNextOptionalParams | msRest.ServiceCallback<Models.AccountListSupportedImagesResult>, callback?: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): Promise<Models.AccountListSupportedImagesResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listNodeAgentSkusNextOperationSpec,
-      callback) as Promise<Models.AccountListNodeAgentSkusResponse>;
+      listSupportedImagesNextOperationSpec,
+      callback) as Promise<Models.AccountListSupportedImagesResponse>;
   }
 
   /**
-   * Gets the number of nodes in each state, grouped by pool.
+   * Gets the number of Compute Nodes in each state, grouped by Pool. Note that the numbers returned
+   * may not always be up to date. If you need exact node counts, use a list query.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountListPoolNodeCountsResponse>
@@ -133,9 +135,9 @@ export class Account {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listNodeAgentSkusOperationSpec: msRest.OperationSpec = {
+const listSupportedImagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "nodeagentskus",
+  path: "supportedimages",
   urlParameters: [
     Parameters.batchUrl
   ],
@@ -153,11 +155,12 @@ const listNodeAgentSkusOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListNodeAgentSkusResult,
-      headersMapper: Mappers.AccountListNodeAgentSkusHeaders
+      bodyMapper: Mappers.AccountListSupportedImagesResult,
+      headersMapper: Mappers.AccountListSupportedImagesHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.AccountListSupportedImagesHeaders
     }
   },
   serializer
@@ -187,13 +190,14 @@ const listPoolNodeCountsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AccountListPoolNodeCountsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.AccountListPoolNodeCountsHeaders
     }
   },
   serializer
 };
 
-const listNodeAgentSkusNextOperationSpec: msRest.OperationSpec = {
+const listSupportedImagesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",
@@ -208,11 +212,12 @@ const listNodeAgentSkusNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListNodeAgentSkusResult,
-      headersMapper: Mappers.AccountListNodeAgentSkusHeaders
+      bodyMapper: Mappers.AccountListSupportedImagesResult,
+      headersMapper: Mappers.AccountListSupportedImagesHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.AccountListSupportedImagesHeaders
     }
   },
   serializer
@@ -237,7 +242,8 @@ const listPoolNodeCountsNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AccountListPoolNodeCountsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.AccountListPoolNodeCountsHeaders
     }
   },
   serializer

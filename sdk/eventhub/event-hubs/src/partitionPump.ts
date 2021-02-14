@@ -4,10 +4,9 @@
 import { logErrorStackTrace, logger } from "./log";
 import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
-import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
-import { EventHubConsumer } from "./receiver";
+import { EventHubReceiver } from "./eventHubReceiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationOptions, getParentSpan } from "./util/operationOptions";
@@ -15,27 +14,25 @@ import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
+import { ConnectionContext } from "./connectionContext";
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export class PartitionPump {
-  private _eventHubClient: EventHubClient;
   private _partitionProcessor: PartitionProcessor;
   private _processorOptions: CommonEventProcessorOptions;
-  private _receiver: EventHubConsumer | undefined;
+  private _receiver: EventHubReceiver | undefined;
   private _isReceiving: boolean = false;
   private _isStopped: boolean = false;
   private _abortController: AbortController;
-
   constructor(
-    eventHubClient: EventHubClient,
+    private _context: ConnectionContext,
     partitionProcessor: PartitionProcessor,
     private readonly _startPosition: EventPosition,
     options: CommonEventProcessorOptions
   ) {
-    this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;
     this._processorOptions = options;
     this._abortController = new AbortController();
@@ -62,20 +59,56 @@ export class PartitionPump {
     );
   }
 
-  private async _receiveEvents(partitionId: string): Promise<void> {
-    this._receiver = this._eventHubClient.createConsumer(
+  /**
+   * Creates a new `EventHubReceiver` and replaces any existing receiver.
+   * @param partitionId The partition the receiver should read messages from.
+   * @param lastSeenSequenceNumber The sequence number to begin receiving messages from (exclusive).
+   * If `-1`, then the PartitionPump's startPosition will be used instead.
+   */
+  private _setOrReplaceReceiver(
+    partitionId: string,
+    lastSeenSequenceNumber: number
+  ): EventHubReceiver {
+    // Determine what the new EventPosition should be.
+    // If this PartitionPump has received events, we'll start from the last
+    // seen sequenceNumber (exclusive).
+    // Otherwise, use the `_startPosition`.
+    const currentEventPosition: EventPosition =
+      lastSeenSequenceNumber >= 0
+        ? {
+            sequenceNumber: lastSeenSequenceNumber,
+            isInclusive: false
+          }
+        : this._startPosition;
+
+    // Set or replace the PartitionPump's receiver.
+    this._receiver = new EventHubReceiver(
+      this._context,
       this._partitionProcessor.consumerGroup,
       partitionId,
-      this._startPosition,
+      currentEventPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
-        trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties
+        trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
+        retryOptions: this._processorOptions.retryOptions
       }
     );
 
+    return this._receiver;
+  }
+
+  private async _receiveEvents(partitionId: string): Promise<void> {
+    let lastSeenSequenceNumber = -1;
+    let receiver = this._setOrReplaceReceiver(partitionId, lastSeenSequenceNumber);
+
     while (this._isReceiving) {
       try {
-        const receivedEvents = await this._receiver.receiveBatch(
+        // Check if the receiver was closed so we can recreate it.
+        if (receiver.isClosed) {
+          receiver = this._setOrReplaceReceiver(partitionId, lastSeenSequenceNumber);
+        }
+
+        const receivedEvents = await receiver.receiveBatch(
           this._processorOptions.maxBatchSize,
           this._processorOptions.maxWaitTimeInSeconds,
           this._abortController.signal
@@ -83,18 +116,26 @@ export class PartitionPump {
 
         if (
           this._processorOptions.trackLastEnqueuedEventProperties &&
-          this._receiver.lastEnqueuedEventProperties
+          receiver.lastEnqueuedEventProperties
         ) {
-          this._partitionProcessor.lastEnqueuedEventProperties = this._receiver.lastEnqueuedEventProperties;
+          this._partitionProcessor.lastEnqueuedEventProperties =
+            receiver.lastEnqueuedEventProperties;
         }
         // avoid calling user's processEvents handler if the pump was stopped while receiving events
         if (!this._isReceiving) {
           return;
         }
 
+        if (receivedEvents.length) {
+          lastSeenSequenceNumber = receivedEvents[receivedEvents.length - 1].sequenceNumber;
+        }
+
         const span = createProcessingSpan(
           receivedEvents,
-          this._eventHubClient,
+          {
+            eventHubName: this._context.config.entityPath,
+            host: this._context.config.host
+          },
           this._processorOptions
         );
 
@@ -148,13 +189,17 @@ export class PartitionPump {
     this._isStopped = true;
     this._isReceiving = false;
     try {
+      // Trigger the cancellation before closing the receiver,
+      // otherwise the receiver will remove the listener on the abortSignal
+      // before it has a chance to be emitted.
+      this._abortController.abort();
+
       if (this._receiver) {
         await this._receiver.close();
       }
-      this._abortController.abort();
       await this._partitionProcessor.close(reason);
     } catch (err) {
-      logger.warning("An error occurred while closing the receiver.", err);
+      logger.warning(`An error occurred while closing the receiver: ${err?.name}: ${err?.message}`);
       logErrorStackTrace(err);
       this._partitionProcessor.processError(err);
       throw err;
@@ -164,11 +209,11 @@ export class PartitionPump {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: { eventHubName: string; endpoint: string },
+  eventHubProperties: { eventHubName: string; host: string },
   options?: OperationOptions
 ): Span {
   const links: Link[] = [];
@@ -197,14 +242,14 @@ export function createProcessingSpan(
   span.setAttributes({
     "az.namespace": "Microsoft.EventHub",
     "message_bus.destination": eventHubProperties.eventHubName,
-    "peer.address": eventHubProperties.endpoint
+    "peer.address": eventHubProperties.host
   });
 
   return span;
 }
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {

@@ -316,7 +316,7 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface PeekedMessageItem {
@@ -357,8 +357,12 @@ export class QueueClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     clearMessages(options?: QueueClearMessagesOptions): Promise<QueueClearMessagesResponse>;
     create(options?: QueueCreateOptions): Promise<QueueCreateResponse>;
+    createIfNotExists(options?: QueueCreateOptions): Promise<QueueCreateIfNotExistsResponse>;
     delete(options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
+    deleteIfExists(options?: QueueDeleteOptions): Promise<QueueDeleteIfExistsResponse>;
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
+    exists(options?: QueueExistsOptions): Promise<boolean>;
+    generateSasUrl(options: QueueGenerateSasUrlOptions): string;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
     get name(): string;
@@ -367,7 +371,7 @@ export class QueueClient extends StorageClient {
     sendMessage(messageText: string, options?: QueueSendMessageOptions): Promise<QueueSendMessageResponse>;
     setAccessPolicy(queueAcl?: SignedIdentifier[], options?: QueueSetAccessPolicyOptions): Promise<QueueSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: QueueSetMetadataOptions): Promise<QueueSetMetadataResponse>;
-    updateMessage(messageId: string, popReceipt: string, message: string, visibilityTimeout?: number, options?: QueueUpdateMessageOptions): Promise<QueueUpdateMessageResponse>;
+    updateMessage(messageId: string, popReceipt: string, message?: string, visibilityTimeout?: number, options?: QueueUpdateMessageOptions): Promise<QueueUpdateMessageResponse>;
 }
 
 // @public
@@ -378,6 +382,11 @@ export interface QueueCreateHeaders {
     errorCode?: string;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface QueueCreateIfNotExistsResponse extends QueueCreateResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -404,6 +413,11 @@ export interface QueueDeleteHeaders {
 }
 
 // @public
+export interface QueueDeleteIfExistsResponse extends QueueDeleteResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface QueueDeleteMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -422,6 +436,22 @@ export type QueueDeleteResponse = QueueDeleteHeaders & {
         parsedHeaders: QueueDeleteHeaders;
     };
 };
+
+// @public
+export interface QueueExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface QueueGenerateSasUrlOptions {
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: QueueSASPermissions;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
 
 // @public
 export interface QueueGetAccessPolicyHeaders {
@@ -563,6 +593,7 @@ export class QueueServiceClient extends StorageClient {
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
@@ -679,6 +710,14 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
 }
 
 // @public

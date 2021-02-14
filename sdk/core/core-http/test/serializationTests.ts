@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import { assert } from "chai";
 import "chai/register-should";
@@ -1597,6 +1599,46 @@ describe("msrest", function() {
         const result: any = serializer.deserialize(fish, "", "mockFishProperty");
 
         assert.deepEqual(result, {});
+      });
+
+      it("should be deserialized properly when item list wrapper is an empty string", function() {
+        const blobServiceProperties: msRest.CompositeMapper = {
+          xmlName: "StorageServiceProperties",
+          serializedName: "BlobServiceProperties",
+          type: {
+            name: "Composite",
+            className: "BlobServiceProperties",
+            modelProperties: {
+              cors: {
+                xmlIsWrapped: true,
+                xmlName: "Cors",
+                xmlElementName: "CorsRule",
+                serializedName: "Cors",
+                type: {
+                  name: "Sequence",
+                  element: {
+                    type: {
+                      name: "Composite",
+                      className: "CorsRule"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const mappers = {
+          BlobServiceProperties: blobServiceProperties
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+        const result: any = serializer.deserialize(
+          blobServiceProperties,
+          { Cors: "" },
+          "mockedBlobServiceProperties"
+        );
+
+        assert.deepEqual(result, { cors: [] });
       });
     });
 

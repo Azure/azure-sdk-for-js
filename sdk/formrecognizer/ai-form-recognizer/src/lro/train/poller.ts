@@ -7,9 +7,9 @@ import { TrainingFileFilter, GetModelOptions } from "../../formTrainingClient";
 
 import {
   ModelStatus,
-  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse,
+  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
 } from "../../generated/models";
-import { CustomFormModel, FormModelResponse } from '../../models';
+import { CustomFormModel, FormModelResponse } from "../../models";
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**
@@ -19,7 +19,7 @@ export { ModelStatus, TrainCustomModelAsyncResponse };
 export type TrainPollerClient = {
   getCustomModel: (modelId: string, options: GetModelOptions) => Promise<FormModelResponse>;
   trainCustomModelInternal: (
-    source: string,
+    source: string | string[],
     useLabelFile?: boolean,
     options?: TrainingFileFilter
   ) => Promise<TrainCustomModelAsyncResponse>;
@@ -33,13 +33,9 @@ export type TrainPollerClient = {
  */
 export interface BeginTrainingPollState extends PollOperationState<CustomFormModel> {
   /**
-   * The instance of {@link TrainPollerClient} that is used when calling {@link FormTrainingClient.beginTraining}.
-   */
-  readonly client: TrainPollerClient;
-  /**
    * The accessible url to an Azure Blob Storage container holding the training documents.
    */
-  source: string;
+  trainingInputs: string | string[];
   /**
    * The id of the custom form model being created from the training operation.
    */
@@ -55,14 +51,14 @@ export interface BeginTrainingPollState extends PollOperationState<CustomFormMod
 }
 
 export interface BeginTrainingPollerOperation
-extends PollOperation<BeginTrainingPollState, CustomFormModel> {}
+  extends PollOperation<BeginTrainingPollState, CustomFormModel> {}
 
 /**
  * @internal
  */
 export interface BeginTrainingPollerOptions {
   client: TrainPollerClient;
-  source: string;
+  trainingInputs: string | string[];
   updateIntervalInMs?: number;
   onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
@@ -72,16 +68,13 @@ export interface BeginTrainingPollerOptions {
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginTrainingPoller extends Poller<
-  BeginTrainingPollState,
-  CustomFormModel
-> {
+export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFormModel> {
   public updateIntervalInMs: number;
 
   constructor(options: BeginTrainingPollerOptions) {
     const {
       client,
-      source,
+      trainingInputs,
       updateIntervalInMs = 5000,
       onProgress,
       resumeFrom,
@@ -94,10 +87,9 @@ export class BeginTrainingPoller extends Poller<
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeBeginTrainingPollOperation({
+    const operation = makeBeginTrainingPollOperation(client, {
       ...state,
-      client,
-      source,
+      trainingInputs,
       status: "creating",
       trainModelOptions
     });
@@ -118,9 +110,11 @@ export class BeginTrainingPoller extends Poller<
 
 /**
  * Creates a poll operation given the provided state.
- * @ignore
+ * @internal
+ * @hidden
  */
 function makeBeginTrainingPollOperation(
+  client: TrainPollerClient,
   state: BeginTrainingPollState
 ): BeginTrainingPollerOperation {
   return {
@@ -131,13 +125,13 @@ function makeBeginTrainingPollOperation(
     },
 
     async update(options = {}): Promise<BeginTrainingPollerOperation> {
-      const state = this.state;
-      const { client, source, trainModelOptions } = state;
+      const pollerState = this.state;
+      const { trainingInputs, trainModelOptions } = state;
 
-      if (!state.isStarted) {
-        state.isStarted = true;
+      if (!pollerState.isStarted) {
+        pollerState.isStarted = true;
         const result = await client.trainCustomModelInternal(
-          source,
+          trainingInputs,
           false,
           trainModelOptions || {}
         );
@@ -145,28 +139,38 @@ function makeBeginTrainingPollOperation(
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
         const lastSlashIndex = result.location.lastIndexOf("/");
-        state.modelId = result.location.substring(lastSlashIndex + 1);
+        pollerState.modelId = result.location.substring(lastSlashIndex + 1);
       }
 
-      const model = await client.getCustomModel(state.modelId!, {
+      const model = await client.getCustomModel(pollerState.modelId!, {
         abortSignal: trainModelOptions?.abortSignal
       });
 
-      state.status = model.status;
+      pollerState.status = model.status;
 
-      if (!state.isCompleted) {
+      if (!pollerState.isCompleted) {
         if (typeof options.fireProgress === "function") {
-          options.fireProgress(state);
+          options.fireProgress(pollerState);
         }
 
         if (model.status === "ready") {
-          state.result = model;
-          state.isCompleted = true;
+          pollerState.result = model;
+          pollerState.isCompleted = true;
         } else if (model.status === "invalid") {
-          const errors = model.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
-          const additionalInfo = model.trainingDocuments?.map((d) =>
-            `  document: ${d.documentName}, status: ${d.status}, errors: ${d.errors?.map((e) => `code ${e.code}, message: '${e.message}'`).join("\n")}`).join("\n")
-          const message = `Model training failed. Invalid model was created with id '${state.modelId}'.
+          const errors = model.errors
+            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
+            .join("\n");
+          const additionalInfo = model.trainingDocuments
+            ?.map(
+              (d) =>
+                `  document: ${d.name}, status: ${d.status}, errors: ${d.errors
+                  ?.map((e) => `code ${e.code}, message: '${e.message}'`)
+                  .join("\n")}`
+            )
+            .join("\n");
+          const message = `Model training failed. Invalid model was created with id '${
+            pollerState.modelId
+          }'.
 Error(s):
 ${errors || ""}
 Additional information:
@@ -176,7 +180,7 @@ ${additionalInfo || ""}
         }
       }
 
-      return makeBeginTrainingPollOperation(state);
+      return makeBeginTrainingPollOperation(client, pollerState);
     },
 
     toString() {

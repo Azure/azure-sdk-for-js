@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ReceiveMode } from "./serviceBusMessage";
-import {
-  ConnectionConfig,
-  RetryOptions,
-  SharedKeyCredential,
-  TokenCredential,
-  WebSocketOptions
-} from "@azure/core-amqp";
+import { ConnectionConfig, RetryOptions, WebSocketOptions } from "@azure/core-amqp";
+import { TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
+import { UserAgentOptions } from "@azure/core-http";
+import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -24,17 +20,24 @@ export interface ServiceBusClientOptions {
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;
+  /**
+   * Options for adding user agent details to outgoing requests.
+   */
+  userAgentOptions?: UserAgentOptions;
 }
 
 /**
- * @param connectionString
- * @param options
  * @internal
- * @ignore
+ * @hidden
+ *
+ * @param {string} connectionString
+ * @param {(SharedKeyCredential | TokenCredential)} credential
+ * @param {ServiceBusClientOptions} options
  */
-export function createConnectionContextForConnectionString(
+export function createConnectionContext(
   connectionString: string,
-  options: ServiceBusClientOptions = {}
+  credential: SharedKeyCredential | TokenCredential,
+  options: ServiceBusClientOptions
 ): ConnectionContext {
   const config = ConnectionConfig.create(connectionString);
 
@@ -42,24 +45,21 @@ export function createConnectionContextForConnectionString(
   config.webSocketEndpointPath = "$servicebus/websocket";
   config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
-  const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
-  validate(config);
   return ConnectionContext.create(config, credential, options);
 }
 
 /**
+ * @param connectionString
+ * @param options
  * @internal
- * @ignore
- *
- * @param {ConnectionConfig} config
+ * @hidden
  */
-function validate(config: ConnectionConfig) {
-  // TODO: workaround - core-amqp's validate string-izes "undefined"
-  // the timing of this particular call happens in a spot where we might not have an
-  // entity path so it's perfectly legitimate for it to be empty.
-  config.entityPath = config.entityPath ?? "";
-
-  ConnectionConfig.validate(config);
+export function createConnectionContextForConnectionString(
+  connectionString: string,
+  options: ServiceBusClientOptions = {}
+): ConnectionContext {
+  const credential = SharedKeyCredential.fromConnectionString(connectionString);
+  return createConnectionContext(connectionString, credential, options);
 }
 
 /**
@@ -68,7 +68,7 @@ function validate(config: ConnectionConfig) {
  * @param host
  * @param options
  * @internal
- * @ignore
+ * @hidden
  */
 export function createConnectionContextForTokenCredential(
   credential: TokenCredential,
@@ -84,15 +84,14 @@ export function createConnectionContextForTokenCredential(
     host += "/";
   }
   const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
-  const config = ConnectionConfig.create(connectionString);
-  return ConnectionContext.create(config, credential, options);
+  return createConnectionContext(connectionString, credential, options);
 }
 
 /**
  * Parses a connection string and extracts the EntityPath named entity out.
  * @param connectionString An entity specific Service Bus connection string.
  * @internal
- * @ignore
+ * @hidden
  */
 export function getEntityNameFromConnectionString(connectionString: string): string {
   const entityPathMatch = connectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
@@ -101,23 +100,5 @@ export function getEntityNameFromConnectionString(connectionString: string): str
     return entityPathMatch[1];
   } else {
     throw new Error("No entity name present in the connection string");
-  }
-}
-
-/**
- * Temporary bit of conversion code until we can eliminate external usage of this
- * enum.
- * @param receiveMode
- * @internal
- * @ignore
- */
-export function convertToInternalReceiveMode(
-  receiveMode: "peekLock" | "receiveAndDelete"
-): ReceiveMode {
-  switch (receiveMode) {
-    case "peekLock":
-      return ReceiveMode.peekLock;
-    case "receiveAndDelete":
-      return ReceiveMode.receiveAndDelete;
   }
 }

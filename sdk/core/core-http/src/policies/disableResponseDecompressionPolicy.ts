@@ -1,15 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from './requestPolicy';
-import { WebResource } from '../webResource';
-import { HttpOperationResponse } from '../httpOperationResponse';
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyOptions,
+  RequestPolicyFactory
+} from "./requestPolicy";
+import { WebResource } from "../webResource";
+import { HttpOperationResponse } from "../httpOperationResponse";
 
 /**
  * Returns a request policy factory that can be used to create an instance of
  * {@link DisableResponseDecompressionPolicy}.
  */
-export function disableResponseDecompressionPolicy() {
+export function disableResponseDecompressionPolicy(): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new DisableResponseDecompressionPolicy(nextPolicy, options);
@@ -25,21 +30,20 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of DisableResponseDecompressionPolicy.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param nextPolicy -
+   * @param options -
    */
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ) {
+  // The parent constructor is protected.
+  /* eslint-disable-next-line @typescript-eslint/no-useless-constructor */
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
 
   /**
    * Sends out request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
+   * @param request -
+   * @returns
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     request.decompressResponse = false;

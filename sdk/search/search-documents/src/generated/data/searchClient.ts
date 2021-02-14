@@ -23,11 +23,10 @@ class SearchClient extends SearchClientContext {
    * @param apiVersion Client Api Version.
    * @param endpoint The endpoint URL of the search service.
    * @param indexName The name of the index.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
-    super(credentials, apiVersion, endpoint, indexName, options);
+  constructor(apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
+    super(apiVersion, endpoint, indexName, options);
     this.documents = new operations.Documents(this);
   }
 }

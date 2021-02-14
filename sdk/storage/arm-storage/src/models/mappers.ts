@@ -547,6 +547,12 @@ export const Encryption: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      requireInfrastructureEncryption: {
+        serializedName: "requireInfrastructureEncryption",
+        type: {
+          name: "Boolean"
+        }
+      },
       keyVaultProperties: {
         serializedName: "keyvaultproperties",
         type: {
@@ -949,6 +955,18 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RoutingPreference"
+        }
+      },
+      allowBlobPublicAccess: {
+        serializedName: "properties.allowBlobPublicAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      minimumTlsVersion: {
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1581,6 +1599,18 @@ export const StorageAccount: msRest.CompositeMapper = {
           name: "Composite",
           className: "BlobRestoreStatus"
         }
+      },
+      allowBlobPublicAccess: {
+        serializedName: "properties.allowBlobPublicAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      minimumTlsVersion: {
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1747,6 +1777,18 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RoutingPreference"
+        }
+      },
+      allowBlobPublicAccess: {
+        serializedName: "properties.allowBlobPublicAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      minimumTlsVersion: {
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
         }
       },
       kind: {
@@ -2368,69 +2410,6 @@ export const ManagementPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateLinkResource: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResource",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      groupId: {
-        readOnly: true,
-        serializedName: "properties.groupId",
-        type: {
-          name: "String"
-        }
-      },
-      requiredMembers: {
-        readOnly: true,
-        serializedName: "properties.requiredMembers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      requiredZoneNames: {
-        serializedName: "properties.requiredZoneNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResourceListResult",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResourceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateLinkResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const EncryptionScopeKeyVaultProperties: msRest.CompositeMapper = {
   serializedName: "EncryptionScopeKeyVaultProperties",
   type: {
@@ -2657,6 +2636,69 @@ export const AzureEntityResource: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      groupId: {
+        readOnly: true,
+        serializedName: "properties.groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        readOnly: true,
+        serializedName: "properties.requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        serializedName: "properties.requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourceListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const UpdateHistoryProperty: msRest.CompositeMapper = {
   serializedName: "UpdateHistoryProperty",
   type: {
@@ -2839,6 +2881,34 @@ export const BlobContainer: msRest.CompositeMapper = {
     className: "BlobContainer",
     modelProperties: {
       ...AzureEntityResource.type.modelProperties,
+      version: {
+        readOnly: true,
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      },
+      deleted: {
+        readOnly: true,
+        serializedName: "properties.deleted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deletedTime: {
+        readOnly: true,
+        serializedName: "properties.deletedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      remainingRetentionDays: {
+        readOnly: true,
+        serializedName: "properties.remainingRetentionDays",
+        type: {
+          name: "Number"
+        }
+      },
       defaultEncryptionScope: {
         serializedName: "properties.defaultEncryptionScope",
         type: {
@@ -3001,6 +3071,34 @@ export const ListContainerItem: msRest.CompositeMapper = {
     className: "ListContainerItem",
     modelProperties: {
       ...AzureEntityResource.type.modelProperties,
+      version: {
+        readOnly: true,
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      },
+      deleted: {
+        readOnly: true,
+        serializedName: "properties.deleted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deletedTime: {
+        readOnly: true,
+        serializedName: "properties.deletedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      remainingRetentionDays: {
+        readOnly: true,
+        serializedName: "properties.remainingRetentionDays",
+        type: {
+          name: "Number"
+        }
+      },
       defaultEncryptionScope: {
         serializedName: "properties.defaultEncryptionScope",
         type: {
@@ -3252,6 +3350,13 @@ export const RestorePolicyProperties: msRest.CompositeMapper = {
       lastEnabledTime: {
         readOnly: true,
         serializedName: "lastEnabledTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      minRestoreTime: {
+        readOnly: true,
+        serializedName: "minRestoreTime",
         type: {
           name: "DateTime"
         }
@@ -3687,6 +3792,157 @@ export const FileShareItem: msRest.CompositeMapper = {
   }
 };
 
+export const QueueServiceProperties: msRest.CompositeMapper = {
+  serializedName: "QueueServiceProperties",
+  type: {
+    name: "Composite",
+    className: "QueueServiceProperties",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Composite",
+          className: "CorsRules"
+        }
+      }
+    }
+  }
+};
+
+export const ListQueueServices: msRest.CompositeMapper = {
+  serializedName: "ListQueueServices",
+  type: {
+    name: "Composite",
+    className: "ListQueueServices",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QueueServiceProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const StorageQueue: msRest.CompositeMapper = {
+  serializedName: "StorageQueue",
+  type: {
+    name: "Composite",
+    className: "StorageQueue",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      approximateMessageCount: {
+        readOnly: true,
+        serializedName: "properties.approximateMessageCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ListQueue: msRest.CompositeMapper = {
+  serializedName: "ListQueue",
+  type: {
+    name: "Composite",
+    className: "ListQueue",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TableServiceProperties: msRest.CompositeMapper = {
+  serializedName: "TableServiceProperties",
+  type: {
+    name: "Composite",
+    className: "TableServiceProperties",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Composite",
+          className: "CorsRules"
+        }
+      }
+    }
+  }
+};
+
+export const ListTableServices: msRest.CompositeMapper = {
+  serializedName: "ListTableServices",
+  type: {
+    name: "Composite",
+    className: "ListTableServices",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TableServiceProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Table: msRest.CompositeMapper = {
+  serializedName: "Table",
+  type: {
+    name: "Composite",
+    className: "Table",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tableName: {
+        readOnly: true,
+        serializedName: "properties.tableName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BlobContainersCreateOrUpdateImmutabilityPolicyHeaders: msRest.CompositeMapper = {
   serializedName: "blobcontainers-createorupdateimmutabilitypolicy-headers",
   type: {
@@ -4006,6 +4262,66 @@ export const FileShareItems: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "FileShareItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ListQueueResource: msRest.CompositeMapper = {
+  serializedName: "ListQueueResource",
+  type: {
+    name: "Composite",
+    className: "ListQueueResource",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ListQueue"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ListTableResource: msRest.CompositeMapper = {
+  serializedName: "ListTableResource",
+  type: {
+    name: "Composite",
+    className: "ListTableResource",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Table"
             }
           }
         }

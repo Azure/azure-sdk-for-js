@@ -24,7 +24,7 @@ describe("QueueClient messageId methods", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("update and delete empty message with default parameters", async () => {
@@ -205,5 +205,14 @@ describe("QueueClient messageId methods", () => {
       extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url + "/" + queueName
     );
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+  });
+
+  it("update visibility timeout only preserve content", async () => {
+    const message = "foo";
+    const enqueueRes = await queueClient.sendMessage(message, { visibilityTimeout: 10 });
+    await queueClient.updateMessage(enqueueRes.messageId, enqueueRes.popReceipt);
+    const receiveMessage = (await queueClient.receiveMessages()).receivedMessageItems[0];
+    assert.equal(enqueueRes.messageId, receiveMessage.messageId);
+    assert.equal(message, receiveMessage.messageText);
   });
 });

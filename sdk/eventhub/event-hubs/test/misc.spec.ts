@@ -76,12 +76,12 @@ describe("Misc tests", function(): void {
     const msgBody = Buffer.from(msgString);
     const obj: EventData = { body: msgBody };
     debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
-   debug("Sending one message with %d bytes.", bodysize);
+    debug("Sending one message with %d bytes.", bodysize);
     await producerClient.sendBatch([obj], { partitionId });
     debug("Successfully sent the large message.");
 
     let subscription: Subscription | undefined;
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       subscription = consumerClient.subscribe(
         partitionId,
         {
@@ -127,7 +127,7 @@ describe("Misc tests", function(): void {
     debug("Successfully sent the large message.");
 
     let subscription: Subscription | undefined;
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       subscription = consumerClient.subscribe(
         partitionId,
         {
@@ -171,7 +171,7 @@ describe("Misc tests", function(): void {
     debug("Successfully sent the large message.");
 
     let subscription: Subscription | undefined;
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       subscription = consumerClient.subscribe(
         partitionId,
         {
@@ -204,7 +204,7 @@ describe("Misc tests", function(): void {
     debug("Successfully sent the large message.");
 
     let subscription: Subscription | undefined;
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       subscription = consumerClient.subscribe(
         partitionId,
         {
@@ -244,7 +244,7 @@ describe("Misc tests", function(): void {
 
     let subscription: Subscription | undefined;
     const receivedMsgs: ReceivedEventData[] = [];
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       subscription = consumerClient.subscribe(
         partitionId,
         {
@@ -304,7 +304,7 @@ describe("Misc tests", function(): void {
 
     let subscription: Subscription | undefined;
     const receivedMsgs: ReceivedEventData[] = [];
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       subscription = consumerClient.subscribe(
         partitionId,
         {

@@ -33,7 +33,7 @@ describe("DirectoryClient Node.js only", () => {
   afterEach(async function() {
     await dirClient.delete();
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {

@@ -257,6 +257,43 @@ export class VirtualMachineScaleSetVMs {
   }
 
   /**
+   * The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale
+   * set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>
+   */
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams): Promise<Models.VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param callback The callback
+   */
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, callback: msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options: Models.VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams, callback: msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>): void;
+  retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams | msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>, callback?: msRest.ServiceCallback<Models.RetrieveBootDiagnosticsDataResult>): Promise<Models.VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmScaleSetName,
+        instanceId,
+        options
+      },
+      retrieveBootDiagnosticsDataOperationSpec,
+      callback) as Promise<Models.VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
+  }
+
+  /**
    * Performs maintenance on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -267,6 +304,42 @@ export class VirtualMachineScaleSetVMs {
   performMaintenance(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginPerformMaintenance(resourceGroupName,vmScaleSetName,instanceId,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * The operation to simulate the eviction of spot virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param callback The callback
+   */
+  simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmScaleSetName,
+        instanceId,
+        options
+      },
+      simulateEvictionOperationSpec,
+      callback);
   }
 
   /**
@@ -619,6 +692,57 @@ const listOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const retrieveBootDiagnosticsDataOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/retrieveBootDiagnosticsData",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.sasUriExpirationTimeInMinutes,
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RetrieveBootDiagnosticsDataResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const simulateEvictionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/simulateEviction",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

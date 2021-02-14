@@ -8,6 +8,8 @@ import EventEmitter from "events";
 import print from "./print";
 export { print };
 
+export { AzureKeyCredential, KeyCredential } from "@azure/core-auth";
+
 // this is a utility function from a library that should be external
 // for both node and web
 import { isNode } from "@azure/core-http";

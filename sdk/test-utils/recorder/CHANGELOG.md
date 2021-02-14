@@ -1,3 +1,27 @@
+# Release History
+
+## 1.0.0 (Unreleased)
+
+## 2020-12-02
+
+- Refactored the code to enable `"browser"` module replacement when used with bundlers. Previously, even browser bundled copies of the recorder would carry dependencies on several Node packages, which would lead to unresolved dependency warnings in Rollup regarding node builtins. With this change, the recorder's browser mappings will avoid this issue.
+- Initialized `dotenv` by default in the NockRecorder, since its use is ubiquitous. Clients using the recorder in Node no longer have to import and run `dotenv`, though packages that do import `dotenv` may continue to do so as always.
+
+## 2020-08-27
+
+- [Bug Fix] When the responses have binary content, "nock" library saves the fixture by converting them into hex values. [#10048](https://github.com/Azure/azure-sdk-for-js/pull/10048) fixed the issue if the status code in the response is 200. Now, allowing the rest of the "successful" status codes(200-299).
+  [#10892](https://github.com/Azure/azure-sdk-for-js/pull/10892)
+
+## 2020-08-21
+
+- [Bug Fix] When the responses have binary content, "nock" library saves the fixture by converting them into hex values. Fixtures are now overridden before being saved as recordings by decoding the hex values into the buffer as expected if the "Content-Type" is "avro/binary".
+  [#10048](https://github.com/Azure/azure-sdk-for-js/pull/10048)
+
+## 2020-07-10
+
+- [Bug Fix] Fixed an issue where the browser-recording file is saved before all the recorded requests are pushed to the array of recordings(request-response pairs). `await recorder.stop()` - stop() call is expected to be await-ed from now on.
+  [#10013](https://github.com/Azure/azure-sdk-for-js/pull/10013)
+
 ## 2020-04-30
 
 - Since Mocha 7.0.0, Mocha behaves as follows: "When conditionally skipping in the `it` test, related afterEach hooks are now executed"

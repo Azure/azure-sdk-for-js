@@ -177,6 +177,32 @@ export class CassandraResources {
   }
 
   /**
+   * Migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>
+   */
+  migrateCassandraKeyspaceToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse> {
+    return this.beginMigrateCassandraKeyspaceToAutoscale(resourceGroupName,accountName,keyspaceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra Keyspace from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>
+   */
+  migrateCassandraKeyspaceToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse> {
+    return this.beginMigrateCassandraKeyspaceToManualThroughput(resourceGroupName,accountName,keyspaceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>;
+  }
+
+  /**
    * Lists the Cassandra table under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -340,6 +366,34 @@ export class CassandraResources {
   }
 
   /**
+   * Migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse>
+   */
+  migrateCassandraTableToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse> {
+    return this.beginMigrateCassandraTableToAutoscale(resourceGroupName,accountName,keyspaceName,tableName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra table from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse>
+   */
+  migrateCassandraTableToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse> {
+    return this.beginMigrateCassandraTableToManualThroughput(resourceGroupName,accountName,keyspaceName,tableName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse>;
+  }
+
+  /**
    * Create or update an Azure Cosmos DB Cassandra keyspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -402,6 +456,46 @@ export class CassandraResources {
         options
       },
       beginUpdateCassandraKeyspaceThroughputOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateCassandraKeyspaceToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        options
+      },
+      beginMigrateCassandraKeyspaceToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra Keyspace from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateCassandraKeyspaceToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        options
+      },
+      beginMigrateCassandraKeyspaceToManualThroughputOperationSpec,
       options);
   }
 
@@ -474,6 +568,50 @@ export class CassandraResources {
         options
       },
       beginUpdateCassandraTableThroughputOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateCassandraTableToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        options
+      },
+      beginMigrateCassandraTableToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra table from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateCassandraTableToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        options
+      },
+      beginMigrateCassandraTableToManualThroughputOperationSpec,
       options);
   }
 }
@@ -730,6 +868,60 @@ const beginUpdateCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec 
   serializer
 };
 
+const beginMigrateCassandraKeyspaceToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginMigrateCassandraKeyspaceToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateCassandraTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
@@ -814,6 +1006,62 @@ const beginUpdateCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginMigrateCassandraTableToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginMigrateCassandraTableToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults

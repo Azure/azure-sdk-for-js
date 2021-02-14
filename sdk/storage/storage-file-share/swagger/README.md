@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.FileStorage/preview/2019-07-07/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.FileStorage/preview/2020-04-08/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -280,6 +280,26 @@ directive:
     where: $.parameters.OptionalBody
     transform: >
       $["x-ms-client-name"] = "body";
+```
+
+### Rename leaseTime -> leaseTimeInSeconds
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share&comp=lease&break"]..responses..headers["x-ms-lease-time"]
+    transform: >
+      $["x-ms-client-name"] = "LeaseTimeInSeconds";
+```
+
+### Add Code to StorageError properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $.properties.Code = { "type": "string" };
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)

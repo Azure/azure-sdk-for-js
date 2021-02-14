@@ -1,10 +1,63 @@
 # Release History
 
-## 5.2.2 (Unreleased)
+## 5.3.2 (Unreleased)
+
+- Updates documentation for `EventData` to call out that the `body` field
+  must be converted to a byte array or `Buffer` when cross-language
+  compatibility while receiving events is required.
+
+## 5.3.1 (2020-11-12)
+
+- Fixes issue [#12278](https://github.com/Azure/azure-sdk-for-js/issues/12278)
+  where the `processEvents` handler could ignore the `maxWaitTimeInSeconds`
+  parameter after a disconnection.
+
+## 5.3.0 (2020-09-08)
+
+### New features:
+
+- Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
+  how aggressively the client claims partitions while load balancing.
+  ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706)).
+- Support using the SharedAccessSignature from the connection string.
+  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+
+### Bug fixes:
+
+- Fixes issue [#9704](https://github.com/Azure/azure-sdk-for-js/issues/9704)
+  where events could be _skipped_ while receiving messages.
+  Previously this could occur when a retryable error was encountered and retries were exhausted while receiving a batch of events.
+
+### Tracing updates:
+
+- Fixes issue [#10298](https://github.com/Azure/azure-sdk-for-js/issues/10298)
+  where spans had inconsistent `peer.address` attributes by removing the scheme
+  (i.e. `sb://`) from EventHub `peer.address` span attributes
+- Addresses [#10276](https://github.com/Azure/azure-sdk-for-js/issues/10276): adds
+  `message_bus.destination` and `peer.address` attributes to `Azure.EventHubs.message` spans.
+  ([PR 10389](https://github.com/Azure/azure-sdk-for-js/pull/10389))
+
+## 5.3.0-preview.1 (2020-07-07)
+
+- Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
+  how aggressively the client claims partitions while load balancing.
+  ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706))
+
+## 5.2.2 (2020-06-30)
 
 - Fixes issue [#9289](https://github.com/Azure/azure-sdk-for-js/issues/9289)
   where calling `await subscription.close()` inside of a subscription's `processError`
   handler would cause the subscription to deadlock.
+- Fixes issue [#9083](https://github.com/Azure/azure-sdk-for-js/issues/9083)
+  where calling `EventHubConsumerClient.close()` would not stop any actively
+  running `Subscriptions`.
+- Fixes issue [#8598](https://github.com/Azure/azure-sdk-for-js/issues/8598)
+  where the EventHubConsumerClient would remain open in the background beyond
+  when `subscription.close()` was called. This would prevent the process from
+  exiting until the `maxWaitTimeInSeconds` (default 60) was reached.
+- Updated to use the latest version of the `@azure/core-amqp` package.
+  This update fixes issue [#9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where some failed operations would delay the process exiting.
 
 ## 5.2.1 (2020-06-08)
 
@@ -125,7 +178,7 @@ Construction of both objects is the same as it was for the previous client.
 ### Breaking changes
 
 - Removed the `createFromIotHubConnectionString` method from `EventHubClient`. ([PR #5311](https://github.com/Azure/azure-sdk-for-js/pull/5311)).
-  Instead, pass an [Event Hubs-compatible connection string](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
+  Instead, pass an [Event Hubs-compatible connection string](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
   when instantiating an `EventHubClient` to read properties or events from an IoT Hub.
 
   Previously:
@@ -244,7 +297,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 2.1.0 (2019-06-10)
 
 - Added support for WebSockets. WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
-  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/websockets.ts) sample to see how to use WebSockets.
+  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/@azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples/websockets.ts) sample to see how to use WebSockets.
 - `@types/async-lock` has been moved to being a dependency from a dev-dependency. This fixes the [bug 3240](https://github.com/Azure/azure-sdk-for-js/issues/3240)
 
 ## 2.0.0 (2019-03-26)
@@ -261,7 +314,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Bug fixes and other changes
 
 - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/sdk/eventhub/event-hubs/README.md#debug-logs).
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md#debug-logs).
 - When recovering from an error that caused the underlying AMQP connection to get disconnected,
   [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
   resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.
@@ -332,7 +385,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 0.2.6 (2018-08-07)
 
 - Improved log statements.
-- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/master/eventhub/event-hubs/#debug-logs).
+- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs//#debug-logs).
 - Minimum dependency on `"rhea": "^0.2.18"`.
 - Fixed bugs in recovery logic
 - Added support to recover from session close for sender and receiver
@@ -340,7 +393,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 - Using `is_closed()` method of sender, receiver and session in rhea to determine whether the sdk initiated the close.
 - MessagingError is retryable by default.
 - Added support to translate node.js [`SystemError`](https://nodejs.org/api/errors.html#errors_class_systemerror) into AmqpError.
-- Added a new static method `createFromTokenProvider()` on the EventHubClient where customers can provide their own [TokenProvider](https://github.com/Azure/azure-event-hubs-node/blob/master/client/lib/amqp-common/auth/token.ts#L42).
+- Added a new static method `createFromTokenProvider()` on the EventHubClient where customers can provide their own [TokenProvider](https://github.com/Azure/azure-event-hubs-node/blob/v0.2.6-EH-August2018/client/lib/amqp-common/auth/token.ts#L42).
 
 ## 0.2.5 (2018-07-17)
 
@@ -392,7 +445,7 @@ const client = await EventHubClient.createFromIotHubConnectionString(
 - Created an options object in the `client.createFromConnectionString()` and the `EventHubClient` constructor. This is a breaking change. However moving to an options object design reduces the chances of breaking changes in the future.
   This options object will:
 - have the existing optional `tokenProvider` property
-- and a new an optional property named `dataTransformer`. You can provide your own transformer. If not provided then we will use the [DefaultDataTransformer](./client/lib/dataTransformer.ts). This should be applicable for majority of the scenarios and will ensure that messages are interoperable between different Azure services. It fixes issue #60.
+- and a new an optional property named `dataTransformer`. You can provide your own transformer. If not provided then we will use the [DefaultDataTransformer](https://github.com/Azure/azure-event-hubs-node/blob/v0.2.0-EH-May2018/client/lib/dataTransformer.ts). This should be applicable for majority of the scenarios and will ensure that messages are interoperable between different Azure services. It fixes issue #60.
 
 ## 0.1.2 (2018-04-26)
 
@@ -405,7 +458,7 @@ const client = await EventHubClient.createFromIotHubConnectionString(
 ## 0.1.0 (2018-04-23)
 
 - Previously we were depending on [amqp10](https://npmjs.com/package/amqp10) package for the amqp protocol. Moving forward we will be depending on [rhea](https://npmjs.com/package/rhea).
-- The public facing API of this library has major breaking changes from the previous version 0.0.8. Please take a look at the [Readme](./README.md) and the [samples](./samples) directory for detailed samples.
+- The public facing API of this library has major breaking changes from the previous version 0.0.8. Please take a look at the [Readme](https://github.com/Azure/azure-event-hubs-node/blob/v0.1.0-April2018/README.md) and the [examples](https://github.com/Azure/azure-event-hubs-node/tree/v0.1.0-April2018/examples) directory for detailed samples.
 - Removed the need to say `client.open.then()`. First call to create a sender, receiver or get metadata about the hub or partition will establish the AMQP connection.
 - Added support to authenticate via Service Principal credentials, MSITokenCredentials, DeviceTokenCredentials.
   - This should make it easy for customers to login once using the above mentioned credentials,

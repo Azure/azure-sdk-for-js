@@ -8,6 +8,8 @@ import { isNode, isNumber, isString } from "../src/util/utils";
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
  * @enum {ConditionStatusMapper}
+ * @internal
+ * @hidden
  */
 export enum ConditionStatusMapper {
   "com.microsoft:timeout" = AmqpResponseStatusCode.RequestTimeout,
@@ -453,6 +455,10 @@ export interface NetworkSystemError {
   syscall: string;
 }
 
+/**
+ * @internal
+ * @hidden
+ */
 const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message">)[] = [
   "address",
   "code",
@@ -462,6 +468,15 @@ const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message
   "stack",
   "syscall"
 ];
+
+/**
+ * Determines if an error is a MessagingError.
+ *
+ * @param error An error that can either be an Error or a MessagingError.
+ */
+export function isMessagingError(error: Error | MessagingError): error is MessagingError {
+  return error.name === "MessagingError";
+}
 
 /**
  * Describes the base class for Messaging Error.
@@ -593,6 +608,7 @@ export function isSystemError(err: any): err is NetworkSystemError {
 
 /**
  * @internal
+ * @hidden
  * Since browser doesn't differentiate between the various kinds of service communication errors,
  * this utility is used to look at the error target to identify such category of errors.
  * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
@@ -611,6 +627,10 @@ function isBrowserWebsocketError(err: any): boolean {
   return result;
 }
 
+/**
+ * @internal
+ * @hidden
+ */
 const rheaPromiseErrors = [
   // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
   "OperationTimeoutError",
@@ -707,6 +727,13 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
   return err;
 }
 
+/**
+ * @internal
+ * @hidden
+ *
+ * @param {*} error
+ * @returns {error is AmqpError}
+ */
 function isAmqpError(error: any): error is AmqpError {
   return rheaIsAmqpError(error);
 }

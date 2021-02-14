@@ -62,10 +62,9 @@ describe("EventHub Sender", function(): void {
     debug("Closing the clients..");
     await producerClient.close();
     await consumerClient.close();
-  })
+  });
 
   describe("Create batch", function(): void {
-
     describe("tryAdd", function() {
       it("doesn't grow if invalid events are added", async () => {
         const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
@@ -82,6 +81,41 @@ describe("EventHub Sender", function(): void {
         failures.should.equal(5);
         batch.sizeInBytes.should.equal(0);
       });
+    });
+
+    it("partitionId is set as expected", async () => {
+      const batch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+      should.equal(batch.partitionId, "0");
+    });
+
+    it("partitionId is set as expected when it is 0 i.e. falsy", async () => {
+      const batch = await producerClient.createBatch({
+        //@ts-expect-error
+        partitionId: 0
+      });
+      should.equal(batch.partitionId, "0");
+    });
+
+    it("partitionKey is set as expected", async () => {
+      const batch = await producerClient.createBatch({
+        partitionKey: "boo"
+      });
+      should.equal(batch.partitionKey, "boo");
+    });
+
+    it("partitionKey is set as expected when it is 0 i.e. falsy", async () => {
+      const batch = await producerClient.createBatch({
+        //@ts-expect-error
+        partitionKey: 0
+      });
+      should.equal(batch.partitionKey, "0");
+    });
+
+    it("maxSizeInBytes is set as expected", async () => {
+      const batch = await producerClient.createBatch({ maxSizeInBytes: 30 });
+      should.equal(batch.maxSizeInBytes, 30);
     });
 
     it("should be sent successfully", async function(): Promise<void> {
@@ -120,6 +154,88 @@ describe("EventHub Sender", function(): void {
       // Mike didn't make it - the message was too big for the batch
       // and was rejected above.
       [list[0], list[2]].should.be.deep.eq(
+        receivedEvents.map((event) => event.body),
+        "Received messages should be equal to our sent messages"
+      );
+    });
+
+    it("should be sent successfully when partitionId is 0 i.e. falsy", async function(): Promise<
+      void
+    > {
+      const list = ["Albert", "Marie"];
+
+      const batch = await producerClient.createBatch({
+        //@ts-expect-error
+        partitionId: 0
+      });
+
+      batch.partitionId!.should.equal("0");
+      should.not.exist(batch.partitionKey);
+      batch.maxSizeInBytes.should.be.gt(0);
+
+      batch.tryAdd({ body: list[0] }).should.be.ok;
+      batch.tryAdd({ body: list[1] }).should.be.ok;
+
+      const {
+        subscriptionEventHandler,
+        startPosition
+      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+
+      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
+        startPosition
+      });
+      await producerClient.sendBatch(batch);
+
+      let receivedEvents;
+
+      try {
+        receivedEvents = await subscriptionEventHandler.waitForEvents(["0"], 2);
+      } finally {
+        await subscriber.close();
+      }
+
+      list.should.be.deep.eq(
+        receivedEvents.map((event) => event.body),
+        "Received messages should be equal to our sent messages"
+      );
+    });
+
+    it("should be sent successfully when partitionKey is 0 i.e. falsy", async function(): Promise<
+      void
+    > {
+      const list = ["Albert", "Marie"];
+
+      const batch = await producerClient.createBatch({
+        //@ts-expect-error
+        partitionKey: 0
+      });
+
+      batch.partitionKey!.should.equal("0");
+      should.not.exist(batch.partitionId);
+      batch.maxSizeInBytes.should.be.gt(0);
+
+      batch.tryAdd({ body: list[0] }).should.be.ok;
+      batch.tryAdd({ body: list[1] }).should.be.ok;
+
+      const {
+        subscriptionEventHandler,
+        startPosition
+      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+
+      const subscriber = consumerClient.subscribe(subscriptionEventHandler, {
+        startPosition
+      });
+      await producerClient.sendBatch(batch);
+
+      let receivedEvents;
+      const allPartitionIds = await producerClient.getPartitionIds();
+      try {
+        receivedEvents = await subscriptionEventHandler.waitForEvents(allPartitionIds, 2);
+      } finally {
+        await subscriber.close();
+      }
+
+      list.should.be.deep.eq(
         receivedEvents.map((event) => event.body),
         "Received messages should be equal to our sent messages"
       );
@@ -361,26 +477,6 @@ describe("EventHub Sender", function(): void {
       eventDataBatch.count.should.equal(1);
     });
 
-    it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
-      void
-    > {
-      const newClient: EventHubProducerClient = new EventHubProducerClient(
-        service.connectionString,
-        service.path
-      );
-
-      try {
-        await newClient.createBatch({ maxSizeInBytes: 2046528 });
-        throw new Error("Test Failure");
-      } catch (err) {
-        err.message.should.match(
-          /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
-        );
-      } finally {
-        await newClient.close();
-      }
-    });
-
     // TODO: Enable this test https://github.com/Azure/azure-sdk-for-js/issues/9202 is fixed
     it.skip("should support being cancelled", async function(): Promise<void> {
       try {
@@ -409,8 +505,7 @@ describe("EventHub Sender", function(): void {
     });
   });
 
-  describe("Multiple messages", function(): void {
-
+  describe("Multiple sendBatch calls", function(): void {
     it("should be sent successfully in parallel", async function(): Promise<void> {
       const {
         subscriptionEventHandler,
@@ -419,7 +514,7 @@ describe("EventHub Sender", function(): void {
 
       const promises = [];
       for (let i = 0; i < 5; i++) {
-        promises.push(producerClient.sendBatch([{body: `Hello World ${i}`}]));
+        promises.push(producerClient.sendBatch([{ body: `Hello World ${i}` }]));
       }
       await Promise.all(promises);
 
@@ -457,7 +552,7 @@ describe("EventHub Sender", function(): void {
       try {
         const promises = [];
         for (let i = 0; i < senderCount; i++) {
-          promises.push(producerClient.sendBatch([{body: `Hello World ${i}`}]));
+          promises.push(producerClient.sendBatch([{ body: `Hello World ${i}` }]));
         }
         await Promise.all(promises);
       } catch (err) {
@@ -466,7 +561,7 @@ describe("EventHub Sender", function(): void {
       }
     });
 
-    it("should be sent successfully in parallel by multiple senders", async function(): Promise<
+    it("should be sent successfully in parallel by multiple clients", async function(): Promise<
       void
     > {
       const senderCount = 3;
@@ -475,13 +570,17 @@ describe("EventHub Sender", function(): void {
         for (let i = 0; i < senderCount; i++) {
           if (i === 0) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(await producerClient.sendBatch([{body: `Hello World ${i}`}], {partitionId: "0"}));
+            promises.push(
+              await producerClient.sendBatch([{ body: `Hello World ${i}` }], { partitionId: "0" })
+            );
           } else if (i === 1) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(await producerClient.sendBatch([{body: `Hello World ${i}`}], {partitionId: "1"}));
+            promises.push(
+              await producerClient.sendBatch([{ body: `Hello World ${i}` }], { partitionId: "1" })
+            );
           } else {
             debug(">>>>> Sending a message to the hub when i == %d", i);
-            promises.push(await producerClient.sendBatch([{body: `Hello World ${i}`}]));
+            promises.push(await producerClient.sendBatch([{ body: `Hello World ${i}` }]));
           }
         }
         await Promise.all(promises);
@@ -638,7 +737,6 @@ describe("EventHub Sender", function(): void {
   });
 
   describe("Array of events", function() {
-    
     it("should be sent successfully", async () => {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
@@ -920,132 +1018,218 @@ describe("EventHub Sender", function(): void {
   });
 
   describe("Validation", function() {
-    describe("sendBatch", function() {
-      describe("with EventDataBatch", function() {
-        it("works if partitionKeys match", async () => {
-          const misconfiguredOptions: SendBatchOptions = {
-            partitionKey: "foo"
-          };
-          const batch = await producerClient.createBatch({ partitionKey: "foo" });
-          await producerClient.sendBatch(batch, misconfiguredOptions);
-        });
-        it("works if partitionIds match", async () => {
-          const misconfiguredOptions: SendBatchOptions = {
-            partitionId: "0"
-          };
-          const batch = await producerClient.createBatch({ partitionId: "0" });
-          await producerClient.sendBatch(batch, misconfiguredOptions);
-        });
-        it("throws an error if partitionKeys don't match", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionKey: "bar"
-          };
-          const batch = await producerClient.createBatch({ partitionKey: "foo" });
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.equal(
-              "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
-            );
-          }
-        });
-        it("throws an error if partitionKeys don't match (undefined)", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionKey: "bar"
-          };
-          const batch = await producerClient.createBatch();
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.equal(
-              "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
-            );
-          }
-        });
-        it("throws an error if partitionIds don't match", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionId: "0"
-          };
-          const batch = await producerClient.createBatch({ partitionId: "1" });
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.equal(
-              "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
-            );
-          }
-        });
-        it("throws an error if partitionIds don't match (undefined)", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionId: "0"
-          };
-          const batch = await producerClient.createBatch();
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.equal(
-              "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
-            );
-          }
-        });
-        it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionKey: "foo"
-          };
-          const batch = await producerClient.createBatch({ partitionId: "0" });
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.not.equal("Test failure");
-          }
-        });
-        it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionId: "0"
-          };
-          const batch = await producerClient.createBatch({ partitionKey: "foo" });
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.not.equal("Test failure");
-          }
-        });
-        it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionKey: "foo",
-            partitionId: "0"
-          };
-          const batch = await producerClient.createBatch();
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.not.equal("Test failure");
-          }
-        });
+    describe("createBatch", function() {
+      it("throws an error if partitionId and partitionKey are set", async () => {
+        try {
+          await producerClient.createBatch({ partitionId: "0", partitionKey: "boo" });
+          throw new Error("Test failure");
+        } catch (error) {
+          error.message.should.equal(
+            "partitionId and partitionKey cannot both be set when creating a batch"
+          );
+        }
       });
-      describe("with events array", function() {
-        it("throws an error if partitionId and partitionKey are set", async () => {
-          const badOptions: SendBatchOptions = {
-            partitionKey: "foo",
-            partitionId: "0"
-          };
-          const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
-          try {
-            await producerClient.sendBatch(batch, badOptions);
-            throw new Error("Test failure");
-          } catch (err) {
-            err.message.should.equal(
-              "The partitionId (0) and partitionKey (foo) cannot both be specified."
-            );
-          }
-        });
+
+      it("throws an error if partitionId and partitionKey are set and partitionId is 0 i.e. falsy", async () => {
+        try {
+          await producerClient.createBatch({
+            //@ts-expect-error
+            partitionId: 0,
+            partitionKey: "boo"
+          });
+          throw new Error("Test failure");
+        } catch (error) {
+          error.message.should.equal(
+            "partitionId and partitionKey cannot both be set when creating a batch"
+          );
+        }
+      });
+
+      it("throws an error if partitionId and partitionKey are set and partitionKey is 0 i.e. falsy", async () => {
+        try {
+          await producerClient.createBatch({
+            partitionId: "1",
+            //@ts-expect-error
+            partitionKey: 0
+          });
+          throw new Error("Test failure");
+        } catch (error) {
+          error.message.should.equal(
+            "partitionId and partitionKey cannot both be set when creating a batch"
+          );
+        }
+      });
+
+      it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
+        void
+      > {
+        try {
+          await producerClient.createBatch({ maxSizeInBytes: 2046528 });
+          throw new Error("Test Failure");
+        } catch (err) {
+          err.message.should.match(
+            /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
+          );
+        }
+      });
+    });
+    describe("sendBatch with EventDataBatch", function() {
+      it("works if partitionKeys match", async () => {
+        const misconfiguredOptions: SendBatchOptions = {
+          partitionKey: "foo"
+        };
+        const batch = await producerClient.createBatch({ partitionKey: "foo" });
+        await producerClient.sendBatch(batch, misconfiguredOptions);
+      });
+      it("works if partitionIds match", async () => {
+        const misconfiguredOptions: SendBatchOptions = {
+          partitionId: "0"
+        };
+        const batch = await producerClient.createBatch({ partitionId: "0" });
+        await producerClient.sendBatch(batch, misconfiguredOptions);
+      });
+      it("throws an error if partitionKeys don't match", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionKey: "bar"
+        };
+        const batch = await producerClient.createBatch({ partitionKey: "foo" });
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
+          );
+        }
+      });
+      it("throws an error if partitionKeys don't match (undefined)", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionKey: "bar"
+        };
+        const batch = await producerClient.createBatch();
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
+          );
+        }
+      });
+      it("throws an error if partitionIds don't match", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionId: "0"
+        };
+        const batch = await producerClient.createBatch({ partitionId: "1" });
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
+          );
+        }
+      });
+      it("throws an error if partitionIds don't match (undefined)", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionId: "0"
+        };
+        const batch = await producerClient.createBatch();
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
+          );
+        }
+      });
+      it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionKey: "foo"
+        };
+        const batch = await producerClient.createBatch({ partitionId: "0" });
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.not.equal("Test failure");
+        }
+      });
+      it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionId: "0"
+        };
+        const batch = await producerClient.createBatch({ partitionKey: "foo" });
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.not.equal("Test failure");
+        }
+      });
+      it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionKey: "foo",
+          partitionId: "0"
+        };
+        const batch = await producerClient.createBatch();
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.not.equal("Test failure");
+        }
+      });
+    });
+
+    describe("sendBatch with EventDataBatch with events array", function() {
+      it("throws an error if partitionId and partitionKey are set", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionKey: "foo",
+          partitionId: "0"
+        };
+        const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionId (0) and partitionKey (foo) cannot both be specified."
+          );
+        }
+      });
+      it("throws an error if partitionId and partitionKey are set with partitionId set to 0 i.e. falsy", async () => {
+        const badOptions: SendBatchOptions = {
+          partitionKey: "foo",
+          //@ts-expect-error
+          partitionId: 0
+        };
+        const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionId (0) and partitionKey (foo) cannot both be specified."
+          );
+        }
+      });
+      it("throws an error if partitionId and partitionKey are set with partitionKey set to 0 i.e. falsy", async () => {
+        const badOptions: SendBatchOptions = {
+          //@ts-expect-error
+          partitionKey: 0,
+          partitionId: "0"
+        };
+        const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+        try {
+          await producerClient.sendBatch(batch, badOptions);
+          throw new Error("Test failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionId (0) and partitionKey (0) cannot both be specified."
+          );
+        }
       });
     });
   });
@@ -1075,7 +1259,9 @@ describe("EventHub Sender", function(): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await producerClient.sendBatch([{ body: "Hello world!" }], { partitionId: id as any });
+            await producerClient.sendBatch([{ body: "Hello world!" }], {
+              partitionId: id as any
+            });
             debug("sent the message.");
             throw new Error("Test failure");
           } catch (err) {
@@ -1089,5 +1275,4 @@ describe("EventHub Sender", function(): void {
       });
     });
   });
-
 }).timeout(20000);

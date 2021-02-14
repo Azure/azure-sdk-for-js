@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export function delay<T>(t: number, value?: T): Promise<T> {
+export function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
@@ -19,8 +19,7 @@ export async function main(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
 
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new SecretClient(url, credential);
 
   const uniqueString = new Date().getTime();

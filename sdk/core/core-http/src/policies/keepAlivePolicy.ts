@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyOptions,
+  RequestPolicyFactory
+} from "./requestPolicy";
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 
@@ -21,7 +26,7 @@ export const DefaultKeepAliveOptions: KeepAliveOptions = {
   enable: true
 };
 
-export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions) {
+export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new KeepAlivePolicy(nextPolicy, options, keepAliveOptions || DefaultKeepAliveOptions);
@@ -36,9 +41,9 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of KeepAlivePolicy.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @param {KeepAliveOptions} [keepAliveOptions]
+   * @param nextPolicy -
+   * @param options -
+   * @param keepAliveOptions -
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -51,9 +56,8 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param {WebResourceLike} request
-   * @returns {Promise<HttpOperationResponse>}
-   * @memberof KeepAlivePolicy
+   * @param request -
+   * @returns
    */
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     request.keepAlive = this.keepAliveOptions.enable;

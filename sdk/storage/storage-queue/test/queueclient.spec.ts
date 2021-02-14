@@ -25,7 +25,7 @@ describe("QueueClient", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -94,6 +94,38 @@ describe("QueueClient", () => {
       "Unable to extract queueName with provided information.",
       "Unexpected error caught: " + error
     );
+  });
+
+  it("exists", async () => {
+    assert.ok(await queueClient.exists());
+
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    assert.ok(!(await qClient.exists()));
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await queueClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+
+    const metadata = { key: "value" };
+    const res2 = await queueClient.createIfNotExists({ metadata });
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "QueueAlreadyExists");
+
+    queueClient = queueServiceClient.getQueueClient(recorder.getUniqueName("queue2"));
+    const res3 = await queueClient.createIfNotExists();
+    assert.ok(res3.succeeded);
+  });
+
+  it("deleteIfExists", async () => {
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    const res = await qClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "QueueNotFound");
+
+    await qClient.create();
+    const res2 = await qClient.deleteIfExists();
+    assert.ok(res2.succeeded);
   });
 
   it("delete", (done) => {
@@ -244,5 +276,11 @@ describe("QueueClient - Verify Name Properties", () => {
       accountName,
       queueName
     );
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new QueueClient(`https://customdomain.com/${queueName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });
 });

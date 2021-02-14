@@ -10,8 +10,8 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-preview/searchindex.json
-add-credentials: true
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchindex.json
+add-credentials: false
 title: SearchClient
 use-extension:
   "@microsoft.azure/autorest.typescript": "5.0.1"
@@ -57,4 +57,26 @@ directive:
     transform: >
       $.properties['@search.action']['x-ms-client-name'] = '__actionType';
       $.required = ['@search.action'];
+```
+
+
+### Change text to _text in SuggestResult
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SuggestResult.properties['@search.text']
+    transform: >
+      $['x-ms-client-name'] = '_text'
+```
+
+### Change score to _score & highlights to _highlights in SuggestResult
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchResult
+    transform: >
+      $.properties['@search.score']['x-ms-client-name'] = '_score';
+      $.properties['@search.highlights']['x-ms-client-name'] = '_highlights';
 ```

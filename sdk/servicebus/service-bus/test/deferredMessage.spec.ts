@@ -7,16 +7,26 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { createServiceBusClientForTests, testPeekMsgsLength } from "./utils/testutils2";
-import { Receiver } from "../src/receivers/receiver";
-import { Sender } from "../src/sender";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import {
+  createServiceBusClientForTests,
+  testPeekMsgsLength,
+  EntityName,
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions
+} from "./utils/testutils2";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 
-describe("deferred messages", () => {
+describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver;
+  let deadLetterReceiver: ServiceBusReceiver;
+
+  let entityNames: EntityName;
+  const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+  const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -27,9 +37,9 @@ describe("deferred messages", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
+    entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -38,22 +48,39 @@ describe("deferred messages", () => {
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
-  async function afterEachTest(): Promise<void> {
+  afterEach(async () => {
     await serviceBusClient.test.afterEach();
-  }
+  });
+
+  it(noSessionTestClientType + ": Empty array as input throws no error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(noSessionTestClientType);
+    const msgs = await receiver.receiveDeferredMessages([]);
+    should.equal(msgs.length, 0);
+  });
+
+  it(
+    withSessionTestClientType + ": Empty array as input throws no error",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      const msgs = await receiver.receiveDeferredMessages([]);
+      should.equal(msgs.length, 0);
+    }
+  );
 
   /**
    * Sends, defers, receives and then returns a test message
    * @param testMessage Test message to send, defer, receive and then return
-   * @param useReceiveDeferredMessages Boolean to indicate whether to use `receiveDeferredMessage` or
-   * `receiveDeferredMessages` to ensure both get code coverage
+   * @param passSequenceNumberInArray Boolean to indicate whether to pass the sequence number
+   * as is or in an array to ensure both get code coverage
    */
   async function deferMessage(
     testMessage: ServiceBusMessage,
-    useReceiveDeferredMessages: boolean
-  ): Promise<ReceivedMessageWithLock> {
-    await sender.send(testMessage);
-    const receivedMsgs = await receiver.receiveBatch(1);
+    passSequenceNumberInArray: boolean
+  ): Promise<ServiceBusReceivedMessage> {
+    await sender.sendMessages(testMessage);
+    const receivedMsgs = await receiver.receiveMessages(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -68,21 +95,19 @@ describe("deferred messages", () => {
       throw "Sequence Number can not be null";
     }
     const sequenceNumber = receivedMsgs[0].sequenceNumber;
-    await receivedMsgs[0].defer();
+    await receiver.deferMessage(receivedMsgs[0]);
 
-    let deferredMsg: ReceivedMessageWithLock | undefined;
-
-    // Randomly choose receiveDeferredMessage/receiveDeferredMessages as the latter is expected to
-    // convert single input to array and then use it
-    if (useReceiveDeferredMessages) {
-      [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber as any);
-    } else {
-      deferredMsg = await receiver.receiveDeferredMessage(sequenceNumber);
-    }
-
+    const [deferredMsg] = await receiver.receiveDeferredMessages(
+      passSequenceNumberInArray ? [sequenceNumber] : sequenceNumber
+    );
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
+    should.equal(
+      !!(deferredMsg as any)["delivery"],
+      true,
+      "Deferred msg should have delivery! We use this assumption to differentiate between deferred msg and other messages when settling."
+    );
     should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       deferredMsg.messageId,
@@ -101,7 +126,7 @@ describe("deferred messages", () => {
   ): Promise<void> {
     await testPeekMsgsLength(receiver, 1);
 
-    const deferredMsg = await receiver.receiveDeferredMessage(sequenceNumber);
+    const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
@@ -118,280 +143,134 @@ describe("deferred messages", () => {
       "MessageId is different than expected"
     );
 
-    await deferredMsg.complete();
+    await receiver.completeMessage(deferredMsg);
 
     await testPeekMsgsLength(receiver, 0);
   }
 
-  describe("Abandon/Defer/Deadletter deferred message", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    async function testAbandon(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      const deferredMsg = await deferMessage(testMessages, true);
-      const sequenceNumber = deferredMsg.sequenceNumber;
-      if (!sequenceNumber) {
-        throw "Sequence Number can not be null";
-      }
-      await deferredMsg.abandon();
-      await completeDeferredMessage(sequenceNumber, 2, testMessages);
+  async function testAbandon(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, true);
+    const sequenceNumber = deferredMsg.sequenceNumber;
+    if (!sequenceNumber) {
+      throw "Sequence Number can not be null";
     }
+    await receiver.abandonMessage(deferredMsg);
+    await completeDeferredMessage(sequenceNumber, 2, testMessages);
+  }
 
-    it("Partitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+  it(
+    noSessionTestClientType + ": Abandoning a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testAbandon();
-    });
-
-    it("Partitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testAbandon();
-    });
-
-    it("Partitioned Queue with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testAbandon(true);
-    });
-
-    it("Partitioned Subscription with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testAbandon(true);
-    });
-
-    it("Unpartitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testAbandon();
-    });
-
-    it("Unpartitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testAbandon();
-    });
-
-    it("Unpartitioned Queue with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testAbandon(true);
-    });
-
-    it("Unpartitioned Subscription with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testAbandon(true);
-    });
-
-    async function testDefer(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      const deferredMsg = await deferMessage(testMessages, false);
-      const sequenceNumber = deferredMsg.sequenceNumber;
-      if (!sequenceNumber) {
-        throw "Sequence Number can not be null";
-      }
-      await deferredMsg.defer();
-      await completeDeferredMessage(sequenceNumber, 2, testMessages);
     }
+  );
 
-    it("Partitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testDefer();
-    });
-
-    it("Partitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDefer();
-    });
-
-    it("Partitioned Queue with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testDefer(true);
-    });
-
-    it("Partitioned Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testDefer(true);
-    });
-
-    it("Unpartitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDefer();
-    });
-
-    it("Unpartitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testDefer();
-    });
-
-    it("Unpartitioned Queue with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testDefer(true);
-    });
-
-    it("Unpartitioned Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testDefer(true);
-    });
-
-    async function testDeadletter(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      const deferredMsg = await deferMessage(testMessages, true);
-
-      await deferredMsg.deadLetter();
-
-      await testPeekMsgsLength(receiver, 0);
-
-      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
-
-      should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-      should.equal(
-        deadLetterMsgs[0].body,
-        testMessages.body,
-        "MessageBody is different than expected"
-      );
-      should.equal(deadLetterMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
-      should.equal(
-        deadLetterMsgs[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-
-      await deadLetterMsgs[0].complete();
-
-      await testPeekMsgsLength(deadLetterReceiver, 0);
+  it(
+    withSessionTestClientType +
+      ": Abandoning a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testAbandon();
     }
+  );
 
-    it("Partitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testDeadletter();
-    });
-
-    it("Partitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDeadletter();
-    });
-
-    it("Partitioned Queue with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testDeadletter(true);
-    });
-
-    it("Partitioned Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testDeadletter(true);
-    });
-
-    it("Unpartitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDeadletter();
-    });
-
-    it("Unpartitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testDeadletter();
-    });
-
-    it("Unpartitioned Queue with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testDeadletter(true);
-    });
-
-    it("Unpartitioned Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testDeadletter(true);
-    });
-  });
-
-  describe("renewLock on a deferred message", function(): void {
-    async function testRenewlockAndDefer(): Promise<void> {
-      const testMessages = TestMessage.getSample();
-      const deferredMsg = await deferMessage(testMessages, false);
-      const sequenceNumber = deferredMsg.sequenceNumber;
-      if (!sequenceNumber) {
-        throw "Sequence Number can not be null";
-      }
-      const lockedUntilBeforeRenewlock = deferredMsg.lockedUntilUtc;
-      const lockedUntilAfterRenewlock = await deferredMsg.renewLock();
-      should.equal(
-        lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
-        true,
-        "MessageLock did not get renewed!"
-      );
-      await deferredMsg.defer();
-      await completeDeferredMessage(sequenceNumber, 2, testMessages);
+  async function testDefer(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, false);
+    const sequenceNumber = deferredMsg.sequenceNumber;
+    if (!sequenceNumber) {
+      throw "Sequence Number can not be null";
     }
+    await receiver.deferMessage(deferredMsg);
+    await completeDeferredMessage(sequenceNumber, 2, testMessages);
+  }
+  it(
+    noSessionTestClientType + ": Deferring a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testDefer();
+    }
+  );
 
-    it("Partitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testRenewlockAndDefer();
-    });
+  it(
+    withSessionTestClientType +
+      ": Deferring a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testDefer();
+    }
+  );
 
-    it("Partitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testRenewlockAndDefer();
-    });
+  async function testDeadletter(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, true);
 
-    it("Unpartitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testRenewlockAndDefer();
-    });
+    await receiver.deadLetterMessage(deferredMsg);
 
-    it("Unpartitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testRenewlockAndDefer();
-    });
+    await testPeekMsgsLength(receiver, 0);
+
+    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
+
+    should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
+    should.equal(
+      deadLetterMsgs[0].body,
+      testMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(deadLetterMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
+    should.equal(
+      deadLetterMsgs[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+
+    await receiver.completeMessage(deadLetterMsgs[0]);
+
+    await testPeekMsgsLength(deadLetterReceiver, 0);
+  }
+
+  it(
+    noSessionTestClientType + ": Deadlettering a deferred message moves it to dead letter queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testDeadletter();
+    }
+  );
+
+  it(
+    withSessionTestClientType + ": Deadlettering a deferred message moves it to dead letter queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testDeadletter();
+    }
+  );
+
+  it(`${noSessionTestClientType}: renewLock on a deferred message`, async function(): Promise<
+    void
+  > {
+    await beforeEachTest(noSessionTestClientType);
+    const testMessages = TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, false);
+    const sequenceNumber = deferredMsg.sequenceNumber;
+    if (!sequenceNumber) {
+      throw "Sequence Number can not be null";
+    }
+    const lockedUntilBeforeRenewlock = deferredMsg.lockedUntilUtc;
+    const lockedUntilAfterRenewlock = await receiver.renewMessageLock(deferredMsg);
+    should.equal(
+      lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
+      true,
+      "MessageLock did not get renewed!"
+    );
+    await receiver.deferMessage(deferredMsg);
+    await completeDeferredMessage(sequenceNumber, 2, testMessages);
   });
 });

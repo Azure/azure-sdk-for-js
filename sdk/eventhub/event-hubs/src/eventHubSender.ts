@@ -9,10 +9,10 @@ import {
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message
+  message,
+  Message as RheaMessage
 } from "rhea-promise";
 import {
-  AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
   RetryConfig,
@@ -22,7 +22,7 @@ import {
   retry,
   translate
 } from "@azure/core-amqp";
-import { EventData, toAmqpMessage } from "./eventData";
+import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
@@ -31,12 +31,13 @@ import { SendOptions } from "./models/public";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
  * @internal
- * @ignore
+ * @hidden
  */
 export class EventHubSender extends LinkEntity {
   /**
@@ -74,7 +75,7 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Creates a new EventHubSender instance.
-   * @ignore
+   * @hidden
    * @constructor
    * @param context The connection context.
    * @param [partitionId] The EventHub partition id to which the sender
@@ -167,7 +168,7 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Deletes the sender from the context. Clears the token renewal timer. Closes the sender link.
-   * @ignore
+   * @hidden
    * @returns Promise<void>
    */
   async close(): Promise<void> {
@@ -183,7 +184,7 @@ export class EventHubSender extends LinkEntity {
         await this._closeLink(senderLink);
       }
     } catch (err) {
-      const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err}`;
+      const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
       throw err;
@@ -192,7 +193,7 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @ignore
+   * @hidden
    * @returns boolean
    */
   isOpen(): boolean {
@@ -287,7 +288,7 @@ export class EventHubSender extends LinkEntity {
    * Send a batch of EventData to the EventHub. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
-   * @ignore
+   * @hidden
    * @param events  An array of EventData objects to be sent in a Batch message.
    * @param options Options to control the way the events are batched along with request options
    * @return Promise<void>
@@ -297,38 +298,6 @@ export class EventHubSender extends LinkEntity {
     options?: SendOptions & EventHubProducerOptions
   ): Promise<void> {
     try {
-      // throw an error if partition key and partition id are both defined
-      if (
-        options &&
-        typeof options.partitionKey === "string" &&
-        typeof options.partitionId === "string"
-      ) {
-        const error = new Error(
-          "Partition key is not supported when using producers that were created using a partition id."
-        );
-        logger.warning(
-          "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
-          this._context.connectionId,
-          error
-        );
-        logErrorStackTrace(error);
-        throw error;
-      }
-
-      // throw an error if partition key is different than the one provided in the options.
-      if (isEventDataBatch(events) && options && options.partitionKey) {
-        const error = new Error(
-          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
-        );
-        logger.warning(
-          "[%s] Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead. %O",
-          this._context.connectionId,
-          error
-        );
-        logErrorStackTrace(error);
-        throw error;
-      }
-
       logger.info(
         "[%s] Sender '%s', trying to send EventData[].",
         this._context.connectionId,
@@ -337,18 +306,28 @@ export class EventHubSender extends LinkEntity {
 
       let encodedBatchMessage: Buffer | undefined;
       if (isEventDataBatch(events)) {
+        if (events.count === 0) {
+          logger.info(
+            `[${this._context.connectionId}] Empty batch was passsed. No events to send.`
+          );
+          return;
+        }
         encodedBatchMessage = events._generateMessage();
       } else {
+        if (events.length === 0) {
+          logger.info(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
+          return;
+        }
         const partitionKey = (options && options.partitionKey) || undefined;
-        const messages: AmqpMessage[] = [];
-        // Convert EventData to AmqpMessage.
+        const messages: RheaMessage[] = [];
+        // Convert EventData to RheaMessage.
         for (let i = 0; i < events.length; i++) {
-          const message = toAmqpMessage(events[i], partitionKey);
-          message.body = this._context.dataTransformer.encode(events[i].body);
+          const message = toRheaMessage(events[i], partitionKey);
+          message.body = defaultDataTransformer.encode(events[i].body);
           messages[i] = message;
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
-        const batchMessage: AmqpMessage = {
+        const batchMessage: RheaMessage = {
           body: message.data_sections(messages.map(message.encode))
         };
 
@@ -369,7 +348,9 @@ export class EventHubSender extends LinkEntity {
       );
       return await this._trySendBatch(encodedBatchMessage, options);
     } catch (err) {
-      logger.warning("An error occurred while sending the batch message %O", err);
+      logger.warning(
+        `An error occurred while sending the batch message ${err?.name}: ${err?.message}`
+      );
       logErrorStackTrace(err);
       throw err;
     }
@@ -409,12 +390,12 @@ export class EventHubSender extends LinkEntity {
    *
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
-   * @ignore
+   * @hidden
    * @param message The message to be sent to EventHub.
    * @returns Promise<void>
    */
   private _trySendBatch(
-    message: AmqpMessage | Buffer,
+    message: RheaMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
@@ -485,10 +466,10 @@ export class EventHubSender extends LinkEntity {
             removeListeners();
             err = translate(err);
             logger.warning(
-              "[%s] An error occurred while creating the sender %s",
+              "[%s] An error occurred while creating the sender %s: %s",
               this._context.connectionId,
               this.name,
-              err
+              `${err?.name}: ${err?.message}`
             );
             logErrorStackTrace(err);
             return reject(err);
@@ -526,9 +507,9 @@ export class EventHubSender extends LinkEntity {
           } catch (err) {
             err = translate(err.innerError || err);
             logger.warning(
-              "[%s] An error occurred while sending the message",
+              "[%s] An error occurred while sending the message %s",
               this._context.connectionId,
-              err
+              `${err?.name}: ${err?.message}`
             );
             logErrorStackTrace(err);
             return reject(err);
@@ -561,8 +542,7 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Initializes the sender session on the connection.
-   * @ignore
-   * @returns
+   * @hidden
    */
   private async _init(options: AwaitableSenderOptions): Promise<void> {
     try {
@@ -608,10 +588,10 @@ export class EventHubSender extends LinkEntity {
       this.isConnecting = false;
       err = translate(err);
       logger.warning(
-        "[%s] An error occurred while creating the sender %s",
+        "[%s] An error occurred while creating the sender %s: %s",
         this._context.connectionId,
         this.name,
-        err
+        `${err?.name}: ${err?.message}`
       );
       logErrorStackTrace(err);
       throw err;
@@ -621,10 +601,9 @@ export class EventHubSender extends LinkEntity {
   /**
    * Creates a new sender to the given event hub, and optionally to a given partition if it is
    * not present in the context or returns the one present in the context.
-   * @ignore
+   * @hidden
    * @static
    * @param [partitionId] Partition ID to which it will send event data.
-   * @returns
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {
     const ehSender: EventHubSender = new EventHubSender(context, partitionId);

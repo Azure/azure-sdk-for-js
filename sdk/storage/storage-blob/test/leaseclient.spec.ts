@@ -23,7 +23,7 @@ describe("LeaseClient from Container", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("acquireLease", async () => {
@@ -145,7 +145,7 @@ describe("LeaseClient from Blob", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -161,7 +161,7 @@ describe("LeaseClient from Blob", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("acquireLease", async () => {

@@ -15,8 +15,8 @@ describe("QueueServiceClient Node.js only", () => {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {

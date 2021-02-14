@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import * as os from "os";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -10,11 +9,17 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { TokenCredential, EventHubProducerClient, EventHubConsumerClient, Subscription } from "../src";
+import {
+  TokenCredential,
+  EventHubProducerClient,
+  EventHubConsumerClient,
+  Subscription
+} from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { MessagingError } from "@azure/core-amqp";
 import { ConnectionContext } from "../src/connectionContext";
+import { getRuntimeInfo } from "../src/util/runtimeInfo";
 const env = getEnvVars();
 
 describe("Create EventHubConsumerClient", function(): void {
@@ -457,7 +462,7 @@ describe("EventHubConsumerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       env[EnvVarKeys.EVENTHUB_NAME]
     );
-    testUserAgentString(consumerClient["_eventHubClient"]["_context"]);
+    testUserAgentString(consumerClient["_context"]);
     await consumerClient.close();
   });
 
@@ -469,7 +474,7 @@ describe("EventHubConsumerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       { userAgent: customUserAgent }
     );
-    testUserAgentString(consumerClient["_eventHubClient"]["_context"], customUserAgent);
+    testUserAgentString(consumerClient["_context"], customUserAgent);
     await consumerClient.close();
   });
 });
@@ -511,7 +516,9 @@ describe("EventHubProducerClient User Agent String", function(): void {
 function testUserAgentString(context: ConnectionContext, customValue?: string) {
   const packageVersion = packageJsonInfo.version;
   const properties = context.connection.options.properties;
-  properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
+  properties!["user-agent"].should.startWith(
+    `azsdk-js-azureeventhubs/${packageVersion} (${getRuntimeInfo()})`
+  );
   should.equal(properties!.product, "MSJSClient");
   should.equal(properties!.version, packageVersion);
   if (isNode) {
@@ -519,7 +526,7 @@ function testUserAgentString(context: ConnectionContext, customValue?: string) {
   } else {
     should.equal(properties!.framework.startsWith("Browser/"), true);
   }
-  should.equal(properties!.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
+  should.exist(properties!.platform);
   if (customValue) {
     properties!["user-agent"].should.endWith(customValue);
   }

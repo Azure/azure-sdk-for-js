@@ -4,7 +4,7 @@
 import chai from "chai";
 chai.should();
 
-import { EventData, fromAmqpMessage, toAmqpMessage } from "../src/eventData";
+import { EventData, fromRheaMessage, toRheaMessage } from "../src/eventData";
 import { Message } from "rhea-promise";
 
 const testAnnotations = {
@@ -35,35 +35,35 @@ const testSourceEventData: EventData = {
   properties: properties
 };
 
-const testEventData = fromAmqpMessage(testMessage);
-const messageFromED = toAmqpMessage(testSourceEventData);
+const testEventData = fromRheaMessage(testMessage);
+const messageFromED = toRheaMessage(testSourceEventData);
 
 describe("EventData", function(): void {
-  describe("fromAmqpMessage", function(): void {
+  describe("fromRheaMessage", function(): void {
     it("populates body with the message body", function(): void {
       testEventData.body.should.equal(testBody);
     });
 
     describe("properties", function(): void {
       it("enqueuedTimeUtc gets the enqueued time from system properties", function(): void {
-        const testEventData = fromAmqpMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage);
         testEventData
           .enqueuedTimeUtc!.getTime()
           .should.equal(testAnnotations["x-opt-enqueued-time"]);
       });
 
       it("offset gets the offset from system properties", function(): void {
-        const testEventData = fromAmqpMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage);
         testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
       });
 
       it("sequenceNumber gets the sequence number from system properties", function(): void {
-        const testEventData = fromAmqpMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage);
         testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
       });
 
       it("partitionKey gets the sequence number from system properties", function(): void {
-        const testEventData = fromAmqpMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage);
         testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
       });
 
@@ -72,7 +72,7 @@ describe("EventData", function(): void {
           "x-iot-foo-prop": "just-a-foo",
           "x-iot-bar-prop": "bar-above-the-rest"
         };
-        const testEventData = fromAmqpMessage({
+        const testEventData = fromRheaMessage({
           body: testBody,
           application_properties: applicationProperties,
           message_annotations: {
@@ -91,7 +91,7 @@ describe("EventData", function(): void {
       });
 
       it("returns systemProperties for special known properties", function(): void {
-        const testEventData = fromAmqpMessage({
+        const testEventData = fromRheaMessage({
           body: testBody,
           application_properties: applicationProperties,
           message_annotations: testAnnotations,

@@ -228,7 +228,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AssemblyCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -254,7 +254,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AssemblyDefinition
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -290,7 +290,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AssemblyDefinition
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -315,7 +315,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -341,7 +341,7 @@ const listContentCallbackUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerCallbackUrl
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

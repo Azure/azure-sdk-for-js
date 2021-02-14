@@ -9,6 +9,7 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { RestError } from '@azure/core-http';
 
 // @public
 export interface AnalyzedTokenInfo {
@@ -20,10 +21,11 @@ export interface AnalyzedTokenInfo {
 
 // @public
 export interface AnalyzeRequest {
-    analyzer?: string;
+    analyzerName?: string;
     charFilters?: string[];
+    text: string;
     tokenFilters?: string[];
-    tokenizer?: string;
+    tokenizerName?: string;
 }
 
 // @public
@@ -78,6 +80,18 @@ export interface AzureActiveDirectoryApplicationCredentials {
 }
 
 export { AzureKeyCredential }
+
+// @public
+export type BlobIndexerDataToExtract = 'storageMetadata' | 'allMetadata' | 'contentAndMetadata';
+
+// @public
+export type BlobIndexerImageAction = 'none' | 'generateNormalizedImages' | 'generateNormalizedImagePerPage';
+
+// @public
+export type BlobIndexerParsingMode = 'default' | 'text' | 'delimitedText' | 'json' | 'jsonArray' | 'jsonLines';
+
+// @public
+export type BlobIndexerPDFTextRotationAlgorithm = 'none' | 'detectAngles';
 
 // @public
 export interface BM25Similarity {
@@ -207,7 +221,7 @@ export interface CustomAnalyzer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
     tokenFilters?: string[];
-    tokenizer: string;
+    tokenizerName: string;
 }
 
 // @public
@@ -215,6 +229,15 @@ export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | Sql
 
 // @public
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
+
+// @public
+export const DEFAULT_BATCH_SIZE: number;
+
+// @public
+export const DEFAULT_FLUSH_WINDOW: number;
+
+// @public
+export const DEFAULT_RETRY_COUNT: number;
 
 // @public
 export interface DefaultCognitiveServicesAccount {
@@ -364,7 +387,7 @@ export class GeographyPoint {
     constructor(latitude: number, longitude: number);
     latitude: number;
     longitude: number;
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
 }
 
 // @public
@@ -451,6 +474,9 @@ export interface IndexDocumentsResult {
 }
 
 // @public
+export type IndexerExecutionEnvironment = 'standard' | 'private';
+
+// @public
 export interface IndexerExecutionResult {
     readonly endTime?: Date;
     readonly errorMessage?: string;
@@ -473,11 +499,31 @@ export type IndexerStatus = 'unknown' | 'error' | 'running';
 // @public
 export interface IndexingParameters {
     batchSize?: number;
-    configuration?: {
-        [propertyName: string]: any;
-    };
+    // (undocumented)
+    configuration?: IndexingParametersConfiguration;
     maxFailedItems?: number;
     maxFailedItemsPerBatch?: number;
+}
+
+// @public
+export interface IndexingParametersConfiguration {
+    [property: string]: any;
+    allowSkillsetToReadFileData?: boolean;
+    dataToExtract?: BlobIndexerDataToExtract;
+    delimitedTextDelimiter?: string;
+    delimitedTextHeaders?: string;
+    documentRoot?: string;
+    excludedFileNameExtensions?: string;
+    executionEnvironment?: IndexerExecutionEnvironment;
+    failOnUnprocessableDocument?: boolean;
+    failOnUnsupportedContentType?: boolean;
+    firstLineContainsHeaders?: boolean;
+    imageAction?: BlobIndexerImageAction;
+    indexedFileNameExtensions?: string;
+    indexStorageMetadataOnlyForOversizedDocuments?: boolean;
+    parsingMode?: BlobIndexerParsingMode;
+    pdfTextRotationAlgorithm?: BlobIndexerPDFTextRotationAlgorithm;
+    queryTimeout?: string;
 }
 
 // @public
@@ -948,27 +994,6 @@ export interface PhoneticTokenFilter {
 export type QueryType = 'simple' | 'full';
 
 // @public
-export interface RawSearchRequest {
-    facets?: string[];
-    filter?: string;
-    highlightFields?: string;
-    highlightPostTag?: string;
-    highlightPreTag?: string;
-    includeTotalResultCount?: boolean;
-    minimumCoverage?: number;
-    orderBy?: string;
-    queryType?: QueryType;
-    scoringParameters?: string[];
-    scoringProfile?: string;
-    searchFields?: string;
-    searchMode?: SearchMode;
-    searchText?: string;
-    select?: string;
-    skip?: number;
-    top?: number;
-}
-
-// @public
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
@@ -1001,21 +1026,25 @@ export interface ScoringProfile {
 }
 
 // @public
+export type ScoringStatistics = 'local' | 'global';
+
+// @public
 export class SearchClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
-    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
+    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
+    getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
-    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -1068,7 +1097,7 @@ export interface SearchIndex {
 // @public
 export class SearchIndexClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
-    analyzeText(indexName: string, text: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
+    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
@@ -1095,6 +1124,7 @@ export type SearchIndexClientOptions = PipelineOptions;
 export interface SearchIndexer {
     dataSourceName: string;
     description?: string;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     fieldMappings?: FieldMapping[];
     isDisabled?: boolean;
@@ -1150,6 +1180,7 @@ export interface SearchIndexerDataSourceConnection {
     dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
     dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
     description?: string;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     name: string;
     type: SearchIndexerDataSourceType;
@@ -1182,6 +1213,7 @@ export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | O
 export interface SearchIndexerSkillset {
     cognitiveServicesAccount?: CognitiveServicesAccount;
     description?: string;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     name: string;
     skills: SearchIndexerSkill[];
@@ -1205,6 +1237,55 @@ export interface SearchIndexerWarning {
 }
 
 // @public
+export interface SearchIndexingBufferedSender<T> {
+    deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
+    dispose(): Promise<void>;
+    flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
+    mergeDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeDocumentsOptions): Promise<void>;
+    mergeOrUploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions): Promise<void>;
+    off(event: "batchAdded", listener: (e: {
+        action: string;
+        documents: T[];
+    }) => void): void;
+    off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+    off(event: "batchFailed", listener: (e: RestError) => void): void;
+    on(event: "batchAdded", listener: (e: {
+        action: string;
+        documents: T[];
+    }) => void): void;
+    on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+    on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+    on(event: "batchFailed", listener: (e: RestError) => void): void;
+    uploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderUploadDocumentsOptions): Promise<void>;
+}
+
+// @public
+export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOptions;
+
+// @public
+export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
+
+// @public
+export type SearchIndexingBufferedSenderMergeDocumentsOptions = OperationOptions;
+
+// @public
+export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = OperationOptions;
+
+// @public
+export interface SearchIndexingBufferedSenderOptions {
+    autoFlush?: boolean;
+    flushWindowInMs?: number;
+    initialBatchActionCount?: number;
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
+}
+
+// @public
+export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
+
+// @public
 export interface SearchIndexStatistics {
     readonly documentCount: number;
     readonly storageSize: number;
@@ -1217,24 +1298,49 @@ export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fie
 export type SearchMode = 'any' | 'all';
 
 // @public
-export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
+export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fields>;
 
 // @public
-export interface SearchRequest<Fields> {
+export interface SearchRequest {
     facets?: string[];
     filter?: string;
     highlightFields?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
-    includeTotalResultCount?: boolean;
+    includeTotalCount?: boolean;
+    minimumCoverage?: number;
+    orderBy?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    scoringStatistics?: ScoringStatistics;
+    searchFields?: string;
+    searchMode?: SearchMode;
+    searchText?: string;
+    select?: string;
+    sessionId?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface SearchRequestOptions<Fields> {
+    facets?: string[];
+    filter?: string;
+    highlightFields?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
+    scoringStatistics?: ScoringStatistics;
     searchFields?: Fields[];
     searchMode?: SearchMode;
     select?: Fields[];
+    sessionId?: string;
     skip?: number;
     top?: number;
 }
@@ -1254,7 +1360,8 @@ export type SearchResult<T> = {
     readonly highlights?: {
         [propertyName: string]: string[];
     };
-} & T;
+    document: T;
+};
 
 // @public
 export interface SearchServiceStatistics {
@@ -1288,7 +1395,6 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
 }
@@ -1442,7 +1548,8 @@ export interface SuggestRequest<Fields> {
 // @public
 export type SuggestResult<T> = {
     readonly text: string;
-} & T;
+    document: T;
+};
 
 // @public
 export interface SynonymMap {

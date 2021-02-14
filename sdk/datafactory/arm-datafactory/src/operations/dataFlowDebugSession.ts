@@ -345,7 +345,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DataFlowDebugSessionCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DataFlowDebugSessionCreateHeaders
     }
   },
   serializer
@@ -381,7 +382,8 @@ const beginExecuteCommandOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DataFlowDebugSessionExecuteCommandHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DataFlowDebugSessionExecuteCommandHeaders
     }
   },
   serializer

@@ -1,0 +1,8 @@
+{
+  "mode": "file",
+  "out": "../../../docGen/keyvault-admin",
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "exclude": ["node_modules/**/*", "src/generated/**/*"],
+  "ignoreCompilerErrors": true
+}

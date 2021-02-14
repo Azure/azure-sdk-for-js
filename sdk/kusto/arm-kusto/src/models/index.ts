@@ -72,11 +72,15 @@ export interface KeyVaultProperties {
   /**
    * The version of the key vault key.
    */
-  keyVersion: string;
+  keyVersion?: string;
   /**
    * The Uri of the key vault.
    */
   keyVaultUri: string;
+  /**
+   * The user assigned identity (ARM resource id) that has access to the key.
+   */
+  userIdentity?: string;
 }
 
 /**
@@ -97,8 +101,8 @@ export interface AzureSku {
    * SKU name. Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
    * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
    * 'Standard_L8s', 'Standard_L16s', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_L4s', 'Dev(No
-   * SLA)_Standard_D11_v2', 'Standard_E2a_v4', 'Standard_E4a_v4', 'Standard_E8a_v4',
-   * 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
+   * SLA)_Standard_D11_v2', 'Standard_E64i_v3', 'Standard_E2a_v4', 'Standard_E4a_v4',
+   * 'Standard_E8a_v4', 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
    * 'Standard_E16as_v4+3TB_PS', 'Standard_E16as_v4+4TB_PS', 'Dev(No SLA)_Standard_E2a_v4'
    */
   name: AzureSkuName;
@@ -243,7 +247,10 @@ export interface Identity {
    */
   readonly tenantId?: string;
   /**
-   * The identity type. Possible values include: 'None', 'SystemAssigned'
+   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
+   * all identities. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned, UserAssigned'
    */
   type: IdentityType;
   /**
@@ -364,8 +371,17 @@ export interface Cluster extends TrackedResource {
   enablePurge?: boolean;
   /**
    * List of the cluster's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  languageExtensions?: LanguageExtensionsList;
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * A boolean value that indicates if double encryption is enabled. Default value: false.
+   */
+  enableDoubleEncryption?: boolean;
+  /**
+   * The engine type. Possible values include: 'V2', 'V3'
+   */
+  engineType?: EngineType;
 }
 
 /**
@@ -445,8 +461,17 @@ export interface ClusterUpdate extends Resource {
   enablePurge?: boolean;
   /**
    * List of the cluster's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  languageExtensions?: LanguageExtensionsList;
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * A boolean value that indicates if double encryption is enabled. Default value: false.
+   */
+  enableDoubleEncryption?: boolean;
+  /**
+   * The engine type. Possible values include: 'V2', 'V3'
+   */
+  engineType?: EngineType;
 }
 
 /**
@@ -577,7 +602,7 @@ export interface ReadWriteDatabase {
    * Indicates whether the database is followed.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly isFollowed?: string;
+  readonly isFollowed?: boolean;
 }
 
 /**
@@ -910,7 +935,7 @@ export interface EventHubDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
   dataFormat?: EventHubDataFormat;
   /**
@@ -921,6 +946,12 @@ export interface EventHubDataConnection {
    * The event hub messages compression type. Possible values include: 'None', 'GZip'
    */
   compression?: Compression;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -973,7 +1004,7 @@ export interface IotHubDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
   dataFormat?: IotHubDataFormat;
   /**
@@ -984,6 +1015,12 @@ export interface IotHubDataConnection {
    * The name of the share access policy
    */
   sharedAccessPolicyName: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -1031,7 +1068,7 @@ export interface EventGridDataConnection {
    * The table where the data should be ingested. Optionally the table information can be added to
    * each message.
    */
-  tableName: string;
+  tableName?: string;
   /**
    * The mapping rule to be used to ingest the data. Optionally the mapping information can be
    * added to each message.
@@ -1040,9 +1077,25 @@ export interface EventGridDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
-  dataFormat: EventGridDataFormat;
+  dataFormat?: EventGridDataFormat;
+  /**
+   * A Boolean value that, if set to true, indicates that ingestion should ignore the first record
+   * of every file
+   */
+  ignoreFirstRecord?: boolean;
+  /**
+   * The name of blob storage event type to process. Possible values include:
+   * 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+   */
+  blobStorageEventType?: BlobStorageEventType;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -1324,17 +1377,25 @@ export type ProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded
 export type LanguageExtensionName = 'PYTHON' | 'R';
 
 /**
+ * Defines values for EngineType.
+ * Possible values include: 'V2', 'V3'
+ * @readonly
+ * @enum {string}
+ */
+export type EngineType = 'V2' | 'V3';
+
+/**
  * Defines values for AzureSkuName.
  * Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
  * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
  * 'Standard_L8s', 'Standard_L16s', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_L4s', 'Dev(No
- * SLA)_Standard_D11_v2', 'Standard_E2a_v4', 'Standard_E4a_v4', 'Standard_E8a_v4',
- * 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
+ * SLA)_Standard_D11_v2', 'Standard_E64i_v3', 'Standard_E2a_v4', 'Standard_E4a_v4',
+ * 'Standard_E8a_v4', 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
  * 'Standard_E16as_v4+3TB_PS', 'Standard_E16as_v4+4TB_PS', 'Dev(No SLA)_Standard_E2a_v4'
  * @readonly
  * @enum {string}
  */
-export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS' | 'Standard_DS14_v2+3TB_PS' | 'Standard_DS14_v2+4TB_PS' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_L4s' | 'Dev(No SLA)_Standard_D11_v2' | 'Standard_E2a_v4' | 'Standard_E4a_v4' | 'Standard_E8a_v4' | 'Standard_E16a_v4' | 'Standard_E8as_v4+1TB_PS' | 'Standard_E8as_v4+2TB_PS' | 'Standard_E16as_v4+3TB_PS' | 'Standard_E16as_v4+4TB_PS' | 'Dev(No SLA)_Standard_E2a_v4';
+export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS' | 'Standard_DS14_v2+3TB_PS' | 'Standard_DS14_v2+4TB_PS' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_L4s' | 'Dev(No SLA)_Standard_D11_v2' | 'Standard_E64i_v3' | 'Standard_E2a_v4' | 'Standard_E4a_v4' | 'Standard_E8a_v4' | 'Standard_E16a_v4' | 'Standard_E8as_v4+1TB_PS' | 'Standard_E8as_v4+2TB_PS' | 'Standard_E16as_v4+3TB_PS' | 'Standard_E16as_v4+4TB_PS' | 'Dev(No SLA)_Standard_E2a_v4';
 
 /**
  * Defines values for AzureSkuTier.
@@ -1371,11 +1432,11 @@ export type PrincipalsModificationKind = 'Union' | 'Replace' | 'None';
 /**
  * Defines values for EventHubDataFormat.
  * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
  * @readonly
  * @enum {string}
  */
-export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC';
+export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
 
 /**
  * Defines values for Compression.
@@ -1388,28 +1449,37 @@ export type Compression = 'None' | 'GZip';
 /**
  * Defines values for IotHubDataFormat.
  * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
  * @readonly
  * @enum {string}
  */
-export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC';
+export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
 
 /**
  * Defines values for EventGridDataFormat.
  * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
  * @readonly
  * @enum {string}
  */
-export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC';
+export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for BlobStorageEventType.
+ * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobStorageEventType = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobRenamed';
 
 /**
  * Defines values for IdentityType.
- * Possible values include: 'None', 'SystemAssigned'
+ * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned'
  * @readonly
  * @enum {string}
  */
-export type IdentityType = 'None' | 'SystemAssigned';
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
 
 /**
  * Defines values for DatabasePrincipalRole.
@@ -2337,6 +2407,26 @@ export type DataConnectionsUpdateResponse = DataConnectionUnion & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginDataConnectionValidationMethod operation.
+ */
+export type DataConnectionsBeginDataConnectionValidationMethodResponse = DataConnectionValidationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionValidationListResult;
     };
 };
 

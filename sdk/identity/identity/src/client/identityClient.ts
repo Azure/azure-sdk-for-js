@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import {
@@ -12,11 +12,14 @@ import {
   createPipelineFromOptions,
   isNode
 } from "@azure/core-http";
+import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
+
 import { CanonicalCode } from "@opentelemetry/api";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
-import { getAuthorityHostEnvironment } from "../util/authHostEnv"
+import { getAuthorityHostEnvironment } from "../util/authHostEnv";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -36,7 +39,7 @@ export interface TokenResponse {
   refreshToken?: string;
 }
 
-export class IdentityClient extends ServiceClient {
+export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
@@ -137,8 +140,9 @@ export class IdentityClient extends ServiceClient {
     }
 
     try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
       const webResource = this.createWebResource({
-        url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
+        url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
         method: "POST",
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
@@ -182,6 +186,36 @@ export class IdentityClient extends ServiceClient {
     } finally {
       span.end();
     }
+  }
+
+  sendGetRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const webResource = new WebResource(url, "GET", options?.body, {}, options?.headers);
+
+    return this.sendRequest(webResource).then((response) => {
+      return {
+        body: response.parsedBody as T,
+        headers: response.headers.rawHeaders(),
+        status: response.status
+      };
+    });
+  }
+
+  sendPostRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const webResource = new WebResource(url, "POST", options?.body, {}, options?.headers);
+
+    return this.sendRequest(webResource).then((response) => {
+      return {
+        body: response.parsedBody as T,
+        headers: response.headers.rawHeaders(),
+        status: response.status
+      };
+    });
   }
 
   static getDefaultOptions(): TokenCredentialOptions {

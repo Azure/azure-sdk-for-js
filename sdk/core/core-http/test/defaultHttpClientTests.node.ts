@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import { assert } from "chai";
 import "chai/register-should";
+import * as sinon from "sinon";
 import * as http from "http";
-import { createReadStream } from "fs";
+import { createReadStream, ReadStream } from "fs";
 
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { PassThrough } from "stream";
-import { ReportTransform } from "../src/fetchHttpClient";
+import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
 
 describe("defaultHttpClient (node)", function() {
   let httpMock: HttpMockFacade;
@@ -20,6 +23,16 @@ describe("defaultHttpClient (node)", function() {
   });
   afterEach(() => httpMock.teardown());
   after(() => httpMock.teardown());
+
+  function getMockedHttpClient(): DefaultHttpClient {
+    const httpClient = new DefaultHttpClient();
+    sinon.stub(httpClient, "fetch").callsFake(async (input, init) => {
+      const response = await httpMock.getFetch()!(input, init);
+      return (response as unknown) as CommonResponse;
+    });
+
+    return httpClient;
+  }
 
   it("should not overwrite a user-provided cookie (nodejs only)", async function() {
     // Cookie is only allowed to be set by the browser based on an actual response Set-Cookie header
@@ -37,7 +50,7 @@ describe("defaultHttpClient (node)", function() {
       };
     });
 
-    const client = new DefaultHttpClient();
+    const client = getMockedHttpClient();
 
     const request1 = new WebResource("http://my.fake.domain/set-cookie");
     const response1 = await client.sendRequest(request1);
@@ -86,7 +99,7 @@ describe("defaultHttpClient (node)", function() {
 
   describe("should report upload and download progress", () => {
     type Notified = { notified: boolean };
-    const listener = (operationStatus: Notified, ev: TransferProgressEvent) => {
+    const listener = (operationStatus: Notified, ev: TransferProgressEvent): void => {
       operationStatus.notified = true;
       if (typeof ProgressEvent !== "undefined") {
         ev.should.not.be.instanceof(ProgressEvent);
@@ -95,7 +108,7 @@ describe("defaultHttpClient (node)", function() {
     };
 
     it("for stream bodies", async function() {
-      let payload = () => createReadStream(__filename);
+      const payload = (): ReadStream => createReadStream(__filename);
 
       const size = payload.toString().length;
 
@@ -124,14 +137,17 @@ describe("defaultHttpClient (node)", function() {
         (ev) => listener(download, ev)
       );
 
-      const client = new DefaultHttpClient();
+      const client = getMockedHttpClient();
+
       const response = await client.sendRequest(request);
       response.status.should.equal(250);
       if (response.blobBody) {
         await response.blobBody;
       } else if (typeof response.readableStreamBody === "function") {
-        const streamBody = (response.readableStreamBody as Function)();
-        streamBody.on("data", () => {});
+        const streamBody = (response.readableStreamBody as () => any)();
+        streamBody.on("data", () => {
+          // Nothing to do here.
+        });
         await new Promise((resolve, reject) => {
           streamBody.on("end", resolve);
           streamBody.on("error", reject);
@@ -148,7 +164,9 @@ describe("ReportTransform", function() {
   it("should not modify the stream data", function() {
     const a = new PassThrough();
     const b = new PassThrough();
-    const callback = () => {};
+    const callback = (): void => {
+      // Nothing to do here.
+    };
     const report = new ReportTransform(callback);
     a.pipe(report, { end: false }).pipe(b, { end: false });
     a.write("hello");

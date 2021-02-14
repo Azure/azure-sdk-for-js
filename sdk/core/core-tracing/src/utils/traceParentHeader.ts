@@ -7,7 +7,7 @@ const VERSION = "00";
 
 /**
  * Generates a `SpanContext` given a `traceparent` header value.
- * @param traceParent Serialized span context data as a `traceparent` header value.
+ * @param traceParent - Serialized span context data as a `traceparent` header value.
  * @returns The `SpanContext` generated from the `traceparent` value.
  */
 export function extractSpanContextFromTraceParentHeader(
@@ -38,7 +38,7 @@ export function extractSpanContextFromTraceParentHeader(
 
 /**
  * Generates a `traceparent` value given a span context.
- * @param spanContext Contains context for a specific span.
+ * @param spanContext - Contains context for a specific span.
  * @returns The `spanContext` represented as a `traceparent` value.
  */
 export function getTraceParentHeader(spanContext: SpanContext): string | undefined {

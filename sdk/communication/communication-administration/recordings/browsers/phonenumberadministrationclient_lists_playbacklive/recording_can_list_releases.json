@@ -1,0 +1,23 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases",
+      "query": {
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"entities\":[{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:31:53.6461811+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Complete\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:29:52.0369309+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Complete\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T03:43:25.2451855+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Complete\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T03:41:38.5096934+00:00\",\"displayName\":\"<missing>\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Complete\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "8ee9733a608b4eacfe34d7e8bb2ac5d1"
+}

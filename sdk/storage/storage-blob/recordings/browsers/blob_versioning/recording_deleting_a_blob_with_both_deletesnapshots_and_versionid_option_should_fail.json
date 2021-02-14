@@ -1,0 +1,157 @@
+{
+  "recordings": [
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container159218752592001401",
+      "query": {
+        "restype": "container"
+      },
+      "requestBody": null,
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0",
+        "date": "Mon, 15 Jun 2020 02:18:45 GMT",
+        "etag": "\"0x8D810D26EE8E344\"",
+        "last-modified": "Mon, 15 Jun 2020 02:18:46 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "25b4ed15-d579-46b5-8039-3ad005631f84",
+        "x-ms-request-id": "2ab972f8-d01e-0067-59bb-425d5c000000",
+        "x-ms-version": "2019-12-12"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container159218752592001401/blob159218752648909591",
+      "query": {},
+      "requestBody": "Hello World",
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0",
+        "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+        "date": "Mon, 15 Jun 2020 02:18:46 GMT",
+        "etag": "\"0x8D810D26F400F48\"",
+        "last-modified": "Mon, 15 Jun 2020 02:18:46 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "66304e5f-6947-437d-b614-c577bff2e469",
+        "x-ms-content-crc64": "YeJLfssylmU=",
+        "x-ms-request-id": "2ab97496-d01e-0067-70bb-425d5c000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2019-12-12",
+        "x-ms-version-id": "2020-06-15T02:18:46.8580959Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container159218752592001401/blob159218752648909591",
+      "query": {},
+      "requestBody": "",
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0",
+        "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+        "date": "Mon, 15 Jun 2020 02:18:46 GMT",
+        "etag": "\"0x8D810D26F6C5776\"",
+        "last-modified": "Mon, 15 Jun 2020 02:18:47 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "75259acf-956e-4d05-9370-eb6d578c4684",
+        "x-ms-content-crc64": "AAAAAAAAAAA=",
+        "x-ms-request-id": "2ab97561-d01e-0067-32bb-425d5c000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2019-12-12",
+        "x-ms-version-id": "2020-06-15T02:18:47.1483014Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container159218752592001401/blob159218752648909591",
+      "query": {
+        "comp": "snapshot"
+      },
+      "requestBody": null,
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0",
+        "date": "Mon, 15 Jun 2020 02:18:47 GMT",
+        "etag": "\"0x8D810D26F6C5776\"",
+        "last-modified": "Mon, 15 Jun 2020 02:18:47 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "45a84677-5faa-43f7-b9e9-2e3a0c272f94",
+        "x-ms-request-id": "2ab9774a-d01e-0067-06bb-425d5c000000",
+        "x-ms-request-server-encrypted": "false",
+        "x-ms-snapshot": "2020-06-15T02:18:47.7147032Z",
+        "x-ms-version": "2019-12-12",
+        "x-ms-version-id": "2020-06-15T02:18:47.7157032Z"
+      }
+    },
+    {
+      "method": "DELETE",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container159218752592001401/blob159218752648909591",
+      "query": {
+        "versionid": "2020-06-15T02:18:46.8580959Z"
+      },
+      "requestBody": null,
+      "status": 400,
+      "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:2ab97909-d01e-0067-39bb-425d5c000000\nTime:2020-06-15T02:18:48.2772209Z</Message><QueryParameterName>versionid</QueryParameterName><QueryParameterValue>2020-06-15T02:18:46.8580959Z</QueryParameterValue><Reason>This operation is only allowed on the root blob. Version id should not be provided.</Reason></Error>",
+      "responseHeaders": {
+        "content-length": "494",
+        "content-type": "application/xml",
+        "date": "Mon, 15 Jun 2020 02:18:47 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "5d171ac8-fe33-4fc4-b91e-b481f880cef7",
+        "x-ms-error-code": "InvalidQueryParameterValue",
+        "x-ms-request-id": "2ab97909-d01e-0067-39bb-425d5c000000",
+        "x-ms-version": "2019-12-12"
+      }
+    },
+    {
+      "method": "DELETE",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container159218752592001401/blob159218752648909591",
+      "query": {
+        "versionid": "2020-06-15T02:18:47.1483014Z"
+      },
+      "requestBody": null,
+      "status": 400,
+      "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:2ab97a85-d01e-0067-2ebb-425d5c000000\nTime:2020-06-15T02:18:48.8376194Z</Message><QueryParameterName>versionid</QueryParameterName><QueryParameterValue>2020-06-15T02:18:47.1483014Z</QueryParameterValue><Reason>This operation is only allowed on the root blob. Version id should not be provided.</Reason></Error>",
+      "responseHeaders": {
+        "content-length": "494",
+        "content-type": "application/xml",
+        "date": "Mon, 15 Jun 2020 02:18:48 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "e38bc658-912d-4398-8dc2-c69c157dbd13",
+        "x-ms-error-code": "InvalidQueryParameterValue",
+        "x-ms-request-id": "2ab97a85-d01e-0067-2ebb-425d5c000000",
+        "x-ms-version": "2019-12-12"
+      }
+    },
+    {
+      "method": "DELETE",
+      "url": "https://fakestorageaccount.blob.core.windows.net/container159218752592001401",
+      "query": {
+        "restype": "container"
+      },
+      "requestBody": null,
+      "status": 202,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0",
+        "date": "Mon, 15 Jun 2020 02:18:48 GMT",
+        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+        "x-ms-client-request-id": "91fbd936-b737-4f54-8298-70db8136f9e3",
+        "x-ms-request-id": "2ab97c05-d01e-0067-29bb-425d5c000000",
+        "x-ms-version": "2019-12-12"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {
+      "container": "container159218752592001401",
+      "blob": "blob159218752648909591"
+    },
+    "newDate": {}
+  },
+  "hash": "05226039259d83b32f5cab06ba4f0c14"
+}

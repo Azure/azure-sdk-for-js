@@ -2,7 +2,7 @@
 
 [![Packages](https://img.shields.io/badge/packages-latest-blue.svg)](https://azure.github.io/azure-sdk/releases/latest/js.html) [![Dependencies](https://img.shields.io/badge/dependency-report-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/dependencies.html) [![DependencyGraph](https://img.shields.io/badge/dependency-graph-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/InterdependencyGraph.html)
 
-This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). For consumers of the SDK we recommend visiting our [public developer docs](https://docs.microsoft.com/en-us/javascript/azure/) or our versioned [developer docs](https://azure.github.io/azure-sdk-for-js).
+This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). For consumers of the SDK we recommend visiting our [public developer docs](https://docs.microsoft.com/javascript/azure/) or our versioned [developer docs](https://azure.github.io/azure-sdk-for-js).
 
 ## Getting started
 
@@ -10,9 +10,9 @@ For your convenience, each service has a separate set of libraries that you can 
 
 Each service might have a number of libraries available from each of the following categories:
 
-- [Client - New Releases](#Client-New-Releases)
-- [Client - Previous Versions](#Client-Previous-Versions)
-- [Management](#Management)
+- [Client - New Releases](#client-new-releases)
+- [Client - Previous Versions](#client-previous-versions)
+- [Management](#management)
 
 ### Client: New Releases
 
@@ -33,7 +33,7 @@ Libraries which enable you to provision specific resources. They are responsible
 ## Need help?
 
 - For detailed documentation visit our [Azure SDK for JavaScript documentation](https://aka.ms/js-docs)
-- File an issue via [Github Issues](https://github.com/Azure/azure-sdk-for-js/issues)
+- File an issue via [GitHub Issues](https://github.com/Azure/azure-sdk-for-js/issues)
 - Check [previous questions](https://stackoverflow.com/questions/tagged/azure-sdk-js) or ask new ones on StackOverflow using `azure-sdk-js` tag.
 
 ### Reporting security issues and security bugs
@@ -41,7 +41,7 @@ Libraries which enable you to provision specific resources. They are responsible
 Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center (MSRC) <secure@microsoft.com>. You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Further information, including the MSRC PGP key, can be found in the [Security TechCenter](https://www.microsoft.com/msrc/faqs-report-an-issue).
 
 ## Contributing
-For details on contributing to this repository, see the [contributing guide](CONTRIBUTING.md).
+For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit
 https://cla.microsoft.com.

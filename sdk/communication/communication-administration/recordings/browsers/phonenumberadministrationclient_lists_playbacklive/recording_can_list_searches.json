@@ -1,0 +1,23 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/searches",
+      "query": {
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"entities\":[{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:32:16.1679155+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:31:15.526014+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Success\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:30:10.7253289+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:29:14.4966452+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Success\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:16:15.2136778+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:15:46.1416374+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:15:18.138973+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:14:53.4021257+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:11:38.0355254+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:10:43.4683501+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:06:36.2162366+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:05:51.8644315+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:05:47.8254709+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Expired\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T05:05:42.6070828+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Expired\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T03:43:48.5528141+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T03:42:48.6019273+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Success\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T03:41:59.9271976+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-21T03:40:56.6351919+00:00\",\"displayName\":\"LRO Test Search\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Success\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-03T16:42:04.364095+00:00\",\"displayName\":\"New search for 1 phone number(s) with 833\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Success\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-11-03T16:23:43.8631039+00:00\",\"displayName\":\"New search for 1 phone number(s) with 833\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Success\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-26T23:52:38.3684105+00:00\",\"displayName\":\"New search for 1 phone number(s) with 720\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Expired\"},{\"id\":\"sanitized\",\"createdAt\":\"2020-10-26T23:50:23.1392872+00:00\",\"displayName\":\"New search for 1 phone number(s) with 833\",\"quantity\":1,\"quantityObtained\":1,\"status\":\"Cancelled\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "c47efafb8af5030fa3eccd566898e895"
+}

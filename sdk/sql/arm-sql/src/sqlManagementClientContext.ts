@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-sql";
-const packageVersion = "7.0.0";
+const packageVersion = "7.0.2";
 
 export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -56,5 +56,24 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
     if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
+  }
+
+  /**
+   * NOTE: This is an override added manually to workaround bug Azure/ms-rest-js/issues/395
+   * When this library is regenerated, this override needs to be brought back
+   * This override adds the header "Accept: application/json" to every request
+   */
+  sendRequest(options: msRest.RequestPrepareOptions | msRest.WebResourceLike) {
+    if(!options.headers) {
+      options.headers = {accept: "application/json"};
+    } else {
+      if (options.headers.set) {
+        options.headers.set("accept", "application/json");
+      } else {
+        (options.headers as {[key: string]: any})["accept"] = "application/json"
+      }
+    }
+
+    return super.sendRequest(options);
   }
 }

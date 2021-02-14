@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
 
@@ -16,7 +16,7 @@ export interface AccessTokenCache {
   /**
    * Sets the cached token.
    *
-   * @param The {@link AccessToken} to be cached or null to
+   * @param accessToken - The {@link AccessToken} to be cached or null to
    *        clear the cached token.
    */
   setCachedToken(accessToken: AccessToken | undefined): void;

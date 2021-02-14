@@ -4,15 +4,17 @@ import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { Pipeline } from "../src/Pipeline";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
+import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
+import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
+import { isIE } from "./utils/index.browser";
 
 dotenv.config();
 
@@ -58,8 +60,8 @@ describe("FileClient", () => {
 
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
-      await shareClient.delete();
-      recorder.stop();
+      await shareClient.delete({ deleteSnapshots: "include" });
+      await recorder.stop();
     }
   });
 
@@ -147,7 +149,24 @@ describe("FileClient", () => {
     assert.ok(properties.fileParentId!);
   });
 
-  it("setProperties with default parameters", async () => {
+  it("create largest file", async function() {
+    // IE complains about "Arithmetic result exceeded 32 bits".
+    if (!isNode && isIE()) {
+      this.skip();
+    }
+
+    const fileSize = FILE_MAX_SIZE_BYTES;
+    const cResp = await fileClient.create(fileSize);
+    assert.equal(cResp.errorCode, undefined);
+
+    await fileClient.resize(fileSize);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, fileSize);
+
+    await fileClient.uploadRange(content, fileSize - content.length, content.length);
+  });
+
+  it("setProperties with default parameters", async function() {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -162,7 +181,12 @@ describe("FileClient", () => {
     assert.ok(result.fileParentId!);
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(!result.cacheControl);
+    // IE11 sends "cache-control: no-cache"/"cache-control:max-age=0" for every requests
+    if (!isNode && isIE()) {
+      assert.ok(result.cacheControl);
+    } else {
+      assert.ok(!result.cacheControl);
+    }
     assert.ok(!result.contentType);
     assert.ok(!result.contentMD5);
     assert.ok(!result.contentEncoding);
@@ -286,6 +310,30 @@ describe("FileClient", () => {
   it("delete", async () => {
     await fileClient.create(content.length);
     await fileClient.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const res = await fileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await fileClient.create(content.length);
+    const res2 = await fileClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("deleteIfExists when parent not exists", async () => {
+    const newDirectoryClient = shareClient.getDirectoryClient(recorder.getUniqueName("newdir"));
+    const newFileClient = newDirectoryClient.getFileClient(fileName);
+    const res = await newFileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ParentNotFound");
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
   });
 
   it("startCopyFromURL", async () => {
@@ -429,6 +477,34 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response), content);
   });
 
+  it("uploadData should work with ArrayBuffer and ArrayBufferView", async () => {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    await fileClient.uploadData(arrayBuf);
+    const res = await fileClient.download();
+    assert.ok(compareBodyWithUint8Array(res, uint8Array));
+
+    const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
+    await fileClient.uploadData(uint8ArrayPartial);
+    const res1 = await fileClient.download();
+    assert.ok(compareBodyWithUint8Array(res1, uint8ArrayPartial));
+
+    const uint16Array = new Uint16Array(arrayBuf, 4, 2);
+    await fileClient.uploadData(uint16Array);
+    const res2 = await fileClient.download();
+    assert.ok(
+      compareBodyWithUint8Array(
+        res2,
+        new Uint8Array(arrayBuf, uint16Array.byteOffset, uint16Array.byteLength)
+      )
+    );
+  });
+
   it("uploadRange", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -501,6 +577,82 @@ describe("FileClient", () => {
     const result = await fileClient.getRangeList();
     assert.deepStrictEqual(result.rangeList.length, 1);
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
+  });
+
+  it("getRangeList with share snapshot", async () => {
+    await fileClient.create(513); // 512-byte aligned
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(0, 513);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeList();
+
+    assert.deepStrictEqual(result.rangeList.length, 1);
+    assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
+  });
+
+  it("getRangeListDiff", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as the result is not stable.
+      this.skip();
+    }
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+    const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("getRangeListDiff with share snapshot", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as the result is not stable.
+      this.skip();
+    }
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const snapshotRes2 = await shareClient.createSnapshot();
+    assert.ok(snapshotRes2.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
+    console.log(result.clearRanges);
+    console.log(result.ranges);
+    console.log(result.requestId);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
   it("download with with default parameters", async () => {
@@ -782,5 +934,24 @@ describe("ShareFileClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirName}/${fileName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ShareFileClient(
+      `https://customdomain.com/${shareName}/${dirName}/${fileName}`
+    );
+
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirName + "/" + fileName,
+      "FilePath is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.name,
+      fileName,
+      "FileClient name is not the same as the baseName of the provided file URI"
+    );
   });
 });

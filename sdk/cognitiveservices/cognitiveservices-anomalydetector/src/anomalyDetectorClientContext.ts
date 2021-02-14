@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-anomalydetector";
-const packageVersion = "2.0.0";
+const packageVersion = "2.1.0";
 
 export class AnomalyDetectorClientContext extends msRest.ServiceClient {
   endpoint: string;

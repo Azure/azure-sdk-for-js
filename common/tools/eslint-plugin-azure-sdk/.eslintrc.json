@@ -21,7 +21,7 @@
   "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/indent": "off",
-    "@typescript-eslint/no-magic-numbers": ["error", { "ignore": [0] }],
+    "@typescript-eslint/no-magic-numbers": ["error", { "ignore": [0], "ignoreArrayIndexes": true }],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "arrow-body-style": ["error", "as-needed"],

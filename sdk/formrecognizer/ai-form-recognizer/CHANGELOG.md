@@ -1,8 +1,56 @@
 # Release History
 
-## 1.0.0-preview.4 (Unreleased)
+## 3.1.0-beta.1 (2020-11-23)
 
+- Added a `pages` option to `BeginRecognizeContentOptions`. This option allows for the specification of which pages of a document to include in the content results. If a value is provided, pages that are not included in the `pages` field will not be analyzed.
+- Added an `appearance` property to `FormLine` that contains information about the appearance of the line, such as style (e.g. "handwritten").
+- Added an optional `boundingBox` property to `FormTable` that has a bounding box that contains the entire table.
+- Added support for the "image/bmp" content type. This content type is supported on all methods that accept a `FormRecognizerRequestBody` **except** for custom form recognition.
+- Added a `language` option to `BeginRecognizeContentOptions`. By default, when performing layout/content analysis, the service will attempt to detect the language of the document and supports multi-language inputs. The `language` parameter allows you to override this behavior and force the service to use a specific language.
+- Added support for Invoice recognition through the `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl` methods. The Invoice model is prebuilt and may be used without training a model.
+- Added support for creating composed models through the `beginCreateComposedModel` method of `FormTrainingClient`. It accepts a list of model IDs that refer to labeled custom models that should be composed into a new model.
+- Added a `formTypeConfidence` property to `RecognizedForm` indicating the model's confidence in determining the correct form type (and therefore the correct model to use) during recognition.
+- Added a `properties` field to `CustomFormModelInfo` that may optionally contain extra properties. Currently, the only property is `isComposedModel` which will indicate whether the model is a composed model or a single trained model.
+- Added a `modelId` field to the `CustomFormSubmodel`, `TrainingDocumentInfo`, and `RecognizedForm` types containing the ID of the exact model that they are associated with (for example, in the context of a composed model, the `modelId` field can determine which specific component model is associated with the submodel, training document, or recognized form).
+- Added support for selection marks in form fields. In addition to the previously-existing variants of `FormField`, custom models can now return fields with `valueType: "selectionMark"` and their `value` will be the state of the selection mark.
+- Added a new page element `FormSelectionMark` that represents marks on a page that can be selected (such as checkboxes and radio buttons). The `selectionMarks` field of `FormPage` contains the selection marks that were recognized in the page. A selection mark has a state value that is either "checked" or "unchecked."
+- Made optimizations to the long-running operation infrastructure that should result in faster and more memory-efficient polling for results of custom form recognition, receipt recognition, and business card recognition.
+- Added an option for specifying the locale of a document to receipt and business card methods through the `locale` property of the options bag.
+- Added support for Business Card recognition through the `beginRecognizeBusinessCards` and `beginRecognizeBusinessCardsFromUrl` methods, which mirror their receipt counterparts. The Invoice model is prebuilt and may be used without training a model.
+- Added the `modelName` property to `CustomFormModelInfo`, reflecting the same property that was added to the model training options.
+- Altered the type hierarchy so that `CustomFormModel` inherits the properties of `CustomFormModelInfo`.
+- Added the `modelName` field to `BeginTrainingOptions`. The given model name will become an immutable property of the trained model.
+- Migrated to the 2.1-preview.1 Form Recognizer service endpoint for all REST API calls.
+
+## 3.0.0 (2020-08-20)
+
+- This release marks the general availability of the `@azure/ai-form-recognizer` package.
+
+## 3.0.0-preview.1 (2020-08-11)
+
+- Changed the package version to 3.0.0-preview.1 to reduce confusion with older versions of the Azure Form Recognizer SDKs.
+- Changed the name of the `options` bag parameter of `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl` to `BeginRecognizeReceiptsOptions`.
+- Switched to using the generally-available 2.0 service endpoint rather than 2.0-preview.
+- Added a `pageNumber` property to the `FormTable` and `FormTableCell` types indicating the number of the page where the table/cell appeared within the input document.
+- [Breaking] Renamed the `includeSubFolders` property of the `TrainSourceFilter` type to `includeSubfolders`.
+- [Breaking] Renamed the `documentName` property of the `TrainingDocumentInfo` type to just `name`.
+- [Breaking] Removed the `containingLine` property of the `FormWord` type.
+- Made the `rowSpan`, `columnSpan`, `isHeader`, and `isFooter` properties of the `FormTableCell` type non-optional to reflect that they have default values.
+- [Breaking] Renamed `CustomFormField` to `CustomFormModelField` for similarity to other language SDKs.
+- [Breaking] Removed the redundant `expirationDateTimeTicks` property from the `CopyAuthorization` type, as the `expiresOn` property exists.
+- [Breaking] Moved the optional `contentType` parameter of the `FormRecognizerClient` recognition methods (`recognizeContent`, `recognizeCustomForms`, `recognizeReceipts`, and their URL-based variants) to the associated options bag for these methods.
+- [Breaking] Removed exports of several internal types, including most internal poller operation states and some unused types. All client poller implementations now return a smaller subset of fields.
+
+## 1.0.0-preview.4 (2020-07-07)
+
+- [Breaking] Replace `RecognizedReceiptArray` with the more generic `RecognizedFormArray` in the Poller response type returned by `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl`.
+- Added an `expiresOn` property to the `CopyAuthorization` type containing the time that the Copy Authorization will expire encoded as a JavaScript `Date` type.
+- [Breaking] Rename the `textContent` field of the `FieldData` and `FormTableCell` types to `fieldElements` to mirror the change in its type.
+- [Breaking] Rename the `FormField` type's `labelText` and `valueText` fields to `labelData` and `valueData` respectively, to mirror the change of their type to `FieldData`;
+- [Breaking] Rename the `includeTextContent` request option to `includeFieldElements` to mirror the change to `FieldData` and `FormElement`.
+- [Breaking] Rename `FieldText` to `FieldData` and `FormContent` to `FormElement` to reflect that fields may contain more than textual information.
 - [Breaking] Rename `includeTextDetails` to `includeTextContent` in custom form and receipt recognition options to be consistent with other languages.
+- [Breaking] Rename properties `requestedOn` to `trainingStartedOn` and `completedOn` to `trainingCompletedOn` in `CustomFormModel` and `CustomFormModelInfo` types.
 
 ## 1.0.0-preview.3 (2020-06-10)
 

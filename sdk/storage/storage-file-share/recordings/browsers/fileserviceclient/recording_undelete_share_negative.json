@@ -1,0 +1,32 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://sd-fakestorageaccount.file.core.windows.net/share159833768453205652",
+   "query": {
+    "restype": "share",
+    "comp": "undelete"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ShareNotFound</Code><Message>The specified share does not exist.\nRequestId:8ba2c0a9-901a-00a9-50aa-7af60b000000\nTime:2020-08-25T06:41:24.6569352Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "217",
+    "content-type": "application/xml",
+    "date": "Tue, 25 Aug 2020 06:41:24 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "a08b31a9-80fa-4a6f-a615-05ef9c2302e3",
+    "x-ms-error-code": "ShareNotFound",
+    "x-ms-request-id": "8ba2c0a9-901a-00a9-50aa-7af60b000000",
+    "x-ms-version": "2019-12-12"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share159833768453205652"
+  },
+  "newDate": {}
+ },
+ "hash": "19d52414998c2a37e395e3c59550db77"
+}

@@ -1,0 +1,30 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestbrowser()",
+   "query": {
+    "$filter": "foo eq 'testEntity'"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.2204471Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"0\",\"Timestamp\":\"2020-10-01T00:39:08.2204471Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.2614757Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"1\",\"Timestamp\":\"2020-10-01T00:39:08.2614757Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.5426721Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"10\",\"Timestamp\":\"2020-10-01T00:39:08.5426721Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.5756933Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"11\",\"Timestamp\":\"2020-10-01T00:39:08.5756933Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.607715Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"12\",\"Timestamp\":\"2020-10-01T00:39:08.607715Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.6377358Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"13\",\"Timestamp\":\"2020-10-01T00:39:08.6377358Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.668757Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"14\",\"Timestamp\":\"2020-10-01T00:39:08.668757Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.7157897Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"15\",\"Timestamp\":\"2020-10-01T00:39:08.7157897Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.7448096Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"16\",\"Timestamp\":\"2020-10-01T00:39:08.7448096Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.7738325Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"17\",\"Timestamp\":\"2020-10-01T00:39:08.7738325Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.8028501Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"18\",\"Timestamp\":\"2020-10-01T00:39:08.8028501Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.8328704Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"19\",\"Timestamp\":\"2020-10-01T00:39:08.8328704Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.2914965Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"2\",\"Timestamp\":\"2020-10-01T00:39:08.2914965Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.3235186Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"3\",\"Timestamp\":\"2020-10-01T00:39:08.3235186Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.3535393Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"4\",\"Timestamp\":\"2020-10-01T00:39:08.3535393Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.3835596Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"5\",\"Timestamp\":\"2020-10-01T00:39:08.3835596Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.4145813Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"6\",\"Timestamp\":\"2020-10-01T00:39:08.4145813Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.4456025Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"7\",\"Timestamp\":\"2020-10-01T00:39:08.4456025Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.4766242Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"8\",\"Timestamp\":\"2020-10-01T00:39:08.4766242Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2020-10-01T00%3A39%3A08.5076459Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"9\",\"Timestamp\":\"2020-10-01T00:39:08.5076459Z\",\"foo\":\"testEntity\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Thu, 01 Oct 2020 00:39:08 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "45675b6e-ce63-410e-9fed-295dbab688ce",
+    "x-ms-request-id": "a61af6de-3002-0027-2c8b-9733b0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "7fd8b0f508f263f38b15e8f822ee6ec2"
+}

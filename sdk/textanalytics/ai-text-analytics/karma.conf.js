@@ -18,7 +18,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["mocha"],
+    frameworks: ["source-map-support", "mocha"],
 
     plugins: [
       "karma-mocha",
@@ -32,6 +32,7 @@ module.exports = function(config) {
       "karma-remap-istanbul",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
+      "karma-source-map-support",
       "karma-json-preprocessor"
     ],
 
@@ -39,9 +40,7 @@ module.exports = function(config) {
     files: [
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
-    ].concat(
-      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
-    ),
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -133,7 +132,7 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 600000,
+    browserNoActivityTimeout: 60000000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -144,7 +143,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
+        timeout: 0
       }
     }
   });

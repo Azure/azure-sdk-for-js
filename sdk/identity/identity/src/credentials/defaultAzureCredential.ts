@@ -1,13 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { AzureCliCredential } from "./azureCliCredential";
-import { VSCodeCredential } from "./vscodeCredential";
-import { TokenCredential } from "@azure/core-http";
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
+
+/**
+ * Provides options to configure the default Azure credentials.
+ */
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Optionally pass in a Tenant ID to be used as part of the credential
+   */
+  tenantId?: string;
+  /**
+   * Optionally pass in a user assigned client ID for the ManagedIdentityCredential
+   */
+  managedIdentityClientId?: string;
+}
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration for
@@ -22,35 +35,27 @@ import { TokenCredential } from "@azure/core-http";
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
-   * Returns the list of credentials DefaultAzureCredential will use to authenticate.
+   * Creates an instance of the DefaultAzureCredential class.
    *
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
-  static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[] {
-    let credentials = [];
+  constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions) {
+    const credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
     if (process.env.AZURE_CLIENT_ID) {
       credentials.push(
-        new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions)
+        new ManagedIdentityCredential(
+          tokenCredentialOptions?.managedIdentityClientId || process.env.AZURE_CLIENT_ID,
+          tokenCredentialOptions
+        )
       );
     }
     credentials.push(new AzureCliCredential());
-    credentials.push(new VSCodeCredential(tokenCredentialOptions));
+    credentials.push(new VisualStudioCodeCredential(tokenCredentialOptions));
 
-    return credentials;
-  }
-  /**
-   * Creates an instance of the DefaultAzureCredential class.
-   *
-   * @param options Options for configuring the client which makes the authentication request.
-   */
-  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    let credentials = DefaultAzureCredential.credentials(tokenCredentialOptions);
-    super(
-      ...credentials
-    );
+    super(...credentials);
     this.UnavailableMessage =
-      "DefaultAzureCredential failed to retrieve a token from the included credentials";
+      "DefaultAzureCredential => failed to retrieve a token from the included credentials";
   }
 }

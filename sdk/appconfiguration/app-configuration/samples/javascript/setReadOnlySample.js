@@ -61,7 +61,7 @@ async function main() {
 }
 
 async function cleanupSampleValues(keys, client) {
-  const existingSettings = await client.listConfigurationSettings({
+  const existingSettings = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
   for await (const setting of existingSettings) {

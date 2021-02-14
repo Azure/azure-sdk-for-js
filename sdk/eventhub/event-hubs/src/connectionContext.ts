@@ -13,17 +13,19 @@ import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  EventHubConnectionConfig,
-  SharedKeyCredential,
-  TokenCredential
+  parseConnectionString,
+  ConnectionConfig
 } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
@@ -33,6 +35,11 @@ export interface ConnectionContext extends ConnectionContextBase {
    * parsing the connection string.
    */
   readonly config: EventHubConnectionConfig;
+  /**
+   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * Default value: SharedKeyCredentials.
+   */
+  tokenCredential: SharedKeyCredential | TokenCredential;
   /**
    * @property wasConnectionCloseCalled Indicates whether the close() method was
    * called on theconnection object.
@@ -70,7 +77,7 @@ export interface ConnectionContext extends ConnectionContextBase {
 /**
  * Describes the members on the ConnectionContext that are only
  * used by it internally.
- * @ignore
+ * @hidden
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
@@ -94,7 +101,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
@@ -123,7 +130,7 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export namespace ConnectionContext {
   /**
@@ -159,7 +166,6 @@ export namespace ConnectionContext {
 
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenCredential: tokenCredential,
       // re-enabling this will be a post-GA discussion.
       // dataTransformer: options.dataTransformer,
       isEntityPathRequired: true,
@@ -171,6 +177,7 @@ export namespace ConnectionContext {
     };
     // Let us create the base context and then add EventHub specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
+    connectionContext.tokenCredential = tokenCredential;
     connectionContext.wasConnectionCloseCalled = false;
     connectionContext.senders = {};
     connectionContext.receivers = {};
@@ -180,8 +187,8 @@ export namespace ConnectionContext {
     };
     connectionContext.managementSession = new ManagementClient(connectionContext, mOptions);
 
-    let waitForDisconnectResolve: () => void;
-    let waitForDisconnectPromise: Promise<void> | undefined;
+    let waitForConnectionRefreshResolve: () => void;
+    let waitForConnectionRefreshPromise: Promise<void> | undefined;
 
     Object.assign<ConnectionContext, ConnectionContextMethods>(connectionContext, {
       isConnectionClosing() {
@@ -197,11 +204,9 @@ export namespace ConnectionContext {
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
         }
-        // Check if the connection is currently in the process of disconnecting.
-        if (waitForDisconnectPromise) {
-          // Wait for the connection to be reset.
-          await this.waitForConnectionReset();
-        }
+
+        // Wait for the connection to be reset.
+        await this.waitForConnectionReset();
       },
       waitForDisconnectedEvent() {
         return new Promise((resolve) => {
@@ -214,8 +219,9 @@ export namespace ConnectionContext {
         });
       },
       waitForConnectionReset() {
-        if (waitForDisconnectPromise) {
-          return waitForDisconnectPromise;
+        // Check if the connection is currently in the process of disconnecting.
+        if (waitForConnectionRefreshPromise) {
+          return waitForConnectionRefreshPromise;
         }
         return Promise.resolve();
       },
@@ -239,9 +245,10 @@ export namespace ConnectionContext {
             logger.info("Closed the amqp connection '%s' on the client.", this.connectionId);
           }
         } catch (err) {
-          err = err instanceof Error ? err : JSON.stringify(err);
+          const errorDescription =
+            err instanceof Error ? `${err.name}: ${err.message}` : JSON.stringify(err);
           logger.warning(
-            `An error occurred while closing the connection "${this.connectionId}":\n${err}`
+            `An error occurred while closing the connection "${this.connectionId}":\n${errorDescription}`
           );
           logErrorStackTrace(err);
           throw err;
@@ -261,11 +268,11 @@ export namespace ConnectionContext {
     };
 
     const onDisconnected: OnAmqpEvent = async (context: EventContext) => {
-      if (waitForDisconnectPromise) {
+      if (waitForConnectionRefreshPromise) {
         return;
       }
-      waitForDisconnectPromise = new Promise((resolve) => {
-        waitForDisconnectResolve = resolve;
+      waitForConnectionRefreshPromise = new Promise((resolve) => {
+        waitForConnectionRefreshResolve = resolve;
       });
 
       logger.verbose(
@@ -332,8 +339,8 @@ export namespace ConnectionContext {
       }
 
       await refreshConnection(connectionContext);
-      waitForDisconnectResolve();
-      waitForDisconnectPromise = undefined;
+      waitForConnectionRefreshResolve();
+      waitForConnectionRefreshPromise = undefined;
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
@@ -425,4 +432,76 @@ export namespace ConnectionContext {
     logger.verbose("[%s] Created connection context successfully.", connectionContext.connectionId);
     return connectionContext;
   }
+}
+
+/**
+ * Helper method to create a ConnectionContext from the input passed to either
+ * EventHubProducerClient or EventHubConsumerClient constructors
+ *
+ * @hidden
+ * @internal
+ */
+export function createConnectionContext(
+  hostOrConnectionString: string,
+  eventHubNameOrOptions?: string | EventHubClientOptions,
+  credentialOrOptions?: TokenCredential | EventHubClientOptions,
+  options?: EventHubClientOptions
+): ConnectionContext {
+  let connectionString;
+  let config;
+  let credential: TokenCredential | SharedKeyCredential;
+  hostOrConnectionString = String(hostOrConnectionString);
+
+  if (!isTokenCredential(credentialOrOptions)) {
+    const parsedCS = parseConnectionString<{ EntityPath?: string }>(hostOrConnectionString);
+    if (
+      !(parsedCS.EntityPath || (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions))
+    ) {
+      throw new TypeError(
+        `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
+          `must contain "EntityPath=<your-event-hub-name>".`
+      );
+    }
+    if (
+      parsedCS.EntityPath &&
+      typeof eventHubNameOrOptions === "string" &&
+      eventHubNameOrOptions &&
+      parsedCS.EntityPath !== eventHubNameOrOptions
+    ) {
+      throw new TypeError(
+        `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
+          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
+      );
+    }
+    connectionString = hostOrConnectionString;
+    if (typeof eventHubNameOrOptions !== "string") {
+      // connectionstring and/or options were passed to constructor
+      config = EventHubConnectionConfig.create(connectionString);
+      options = eventHubNameOrOptions;
+    } else {
+      // connectionstring, eventHubName and/or options were passed to constructor
+      const eventHubName = eventHubNameOrOptions;
+      config = EventHubConnectionConfig.create(connectionString, eventHubName);
+      options = credentialOrOptions;
+    }
+
+    // Since connectionstring was passed, create a SharedKeyCredential
+    credential = SharedKeyCredential.fromConnectionString(connectionString);
+  } else {
+    // host, eventHubName, a TokenCredential and/or options were passed to constructor
+    const eventHubName = eventHubNameOrOptions;
+    let host = hostOrConnectionString;
+    credential = credentialOrOptions;
+    if (!eventHubName) {
+      throw new TypeError(`"eventHubName" is missing`);
+    }
+
+    if (!host.endsWith("/")) host += "/";
+    connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
+    config = EventHubConnectionConfig.create(connectionString);
+  }
+
+  ConnectionConfig.validate(config);
+
+  return ConnectionContext.create(config, credential, options);
 }

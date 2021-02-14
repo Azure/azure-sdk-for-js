@@ -9,7 +9,8 @@
 const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
@@ -18,27 +19,30 @@ async function main() {
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const result = await client.listCustomModels();
-  let i = 0;
-  for await (const modelInfo of result) {
-    console.log(`model ${i++}:`);
-    console.log(modelInfo);
+  // using `for await` syntax:
+  console.log("Iteration using `for await`:");
+  const result = client.listCustomModels();
+  for await (const model of result) {
+    const name = model.modelName || "<unnamed>";
+    console.log(`- Model: ${model.modelId} (${name})`);
   }
 
   // using `iter.next()`
-  i = 1;
+  console.log("Traditional iteration:");
   let iter = client.listCustomModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
-    console.log(`model ${i++}: ${modelItem.value.modelId}`);
+    const name = modelItem.value.modelName || "<unnamed>";
+    console.log(`- Model: ${modelItem.value.modelId} (${name})`);
     modelItem = await iter.next();
   }
 
   // using `byPage()`
-  i = 1;
+  console.log("Iteration by page:");
   for await (const response of client.listCustomModels().byPage()) {
     for (const modelInfo of response.modelList) {
-      console.log(`model ${i++}: ${modelInfo.modelId}`);
+      const name = modelInfo.modelName || "<unnamed>";
+      console.log(`- Model: ${modelInfo.modelId} (${name})`);
     }
   }
 }

@@ -9,10 +9,8 @@ export * from "./AccountSASServices";
 export * from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
 export * from "./FileSASSignatureValues";
-export * from "./ShareDirectoryClient";
-export * from "./ShareFileClient";
+export * from "./Clients";
 export * from "./ShareSASPermissions";
-export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/StorageSharedKeyCredential";
@@ -28,7 +26,8 @@ export {
   TimeNowType,
   TimePreserveType,
   FileAttributesPreserveType,
-  CloseHandlesInfo
+  CloseHandlesInfo,
+  ShareProtocols
 } from "./models";
 export * from "./FileSystemAttributes";
 export * from "./Pipeline";

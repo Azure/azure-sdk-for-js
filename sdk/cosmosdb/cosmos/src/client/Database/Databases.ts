@@ -11,6 +11,7 @@ import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
+import { validateOffer } from "../../utils/offers";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -101,6 +102,26 @@ export class Databases {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
+    }
+
+    validateOffer(body);
+
+    if (body.maxThroughput) {
+      const autoscaleParams: {
+        maxThroughput: number;
+        autoUpgradePolicy?: object;
+      } = {
+        maxThroughput: body.maxThroughput
+      };
+      if (body.autoUpgradePolicy) {
+        autoscaleParams.autoUpgradePolicy = body.autoUpgradePolicy;
+      }
+      const autoscaleHeaders = JSON.stringify(autoscaleParams);
+      options.initialHeaders = Object.assign({}, options.initialHeaders, {
+        [Constants.HttpHeaders.AutoscaleSettings]: autoscaleHeaders
+      });
+      delete body.maxThroughput;
+      delete body.autoUpgradePolicy;
     }
 
     if (body.throughput) {

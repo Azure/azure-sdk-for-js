@@ -1,4 +1,7 @@
-import { AzureCliCredential } from "../src/credentials/azureCliCredential";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { AzureCliCredential } from "../src";
 
 interface MockCredentialClient {
   stdout: string;
@@ -19,11 +22,13 @@ export class MockAzureCliCredentialClient extends AzureCliCredential {
    * Replace the work of getting the access token with a mocked method
    * that will used mocked data instead of the output from the real `az`
    * command.
-   * @param resource The resources to use when accessing token
+   * @param resource - The resources to use when accessing token
    */
-  protected getAzureCliAccessToken(resource: string) {
+  protected getAzureCliAccessToken(
+    _resource: string
+  ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     return new Promise((resolve) => {
-      resolve({ stdout: this.stdout, stderr: this.stderr });
+      resolve({ stdout: this.stdout, stderr: this.stderr, error: null });
     });
   }
 }

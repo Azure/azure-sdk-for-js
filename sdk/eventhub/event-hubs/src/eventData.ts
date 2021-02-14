@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeliveryAnnotations, Message, MessageAnnotations } from "rhea-promise";
+import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 
 /**
  * Describes the delivery annotations.
- * @ignore
+ * @hidden
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -33,7 +33,7 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
- * @ignore
+ * @hidden
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
   /**
@@ -60,7 +60,7 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
 
 /**
  * Describes the structure of an event to be sent or received from the EventHub.
- * @ignore
+ * @hidden
  */
 export interface EventDataInternal {
   /**
@@ -129,9 +129,9 @@ const messagePropertiesMap = {
 /**
  * Converts the AMQP message to an EventData.
  * @param msg The AMQP message that needs to be converted to EventData.
- * @ignore
+ * @hidden
  */
-export function fromAmqpMessage(msg: Message): EventDataInternal {
+export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
   const data: EventDataInternal = {
     body: msg.body
   };
@@ -191,10 +191,10 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
  * Converts an EventData object to an AMQP message.
  * @param data The EventData object that needs to be converted to an AMQP message.
  * @param partitionKey An optional key to determine the partition that this event should land in.
- * @ignore
+ * @hidden
  */
-export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
-  const msg: Message = {
+export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessage {
+  const msg: RheaMessage = {
     body: data.body
   };
   // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
@@ -229,6 +229,9 @@ export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
 export interface EventData {
   /**
    * @property The message body that needs to be sent.
+   * If the application reading the events is not using this SDK,
+   * convert your body payload to a byte array or Buffer for better
+   * cross-language compatibility.
    */
   body: any;
   /**

@@ -59,7 +59,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.includes`
 - `Array.prototype.includes`
 - `Object.assign`
-- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 - `Symbol.iterator`
 
@@ -76,7 +76,7 @@ There are differences between Node.js and browsers runtime. When getting started
 - Shared Access Signature(SAS) generation
   - `generateAccountSASQueryParameters()`
   - `generateFileSASQueryParameters()`
-- Parallel uploading and downloading
+- Parallel uploading and downloading. Note that `ShareFileClient.uploadData()` is available in both Node.js and browsers.
   - `ShareFileClient.uploadFile()`
   - `ShareFileClient.uploadStream()`
   - `ShareFileClient.downloadToBuffer()`
@@ -84,24 +84,11 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
-- Parallel uploading and downloading
-  - `ShareFileClient.uploadBrowserData()`
+N/A
 
 ### JavaScript Bundle
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
-
-#### Special bundling notes for IE11
-
-Currently only `Parcel` and `Rollup` work well with Storage client libraries for IE11.
-
-If `Parcel` is used  then no further work is needed. If using Rollup, an additional step is needed to transform the bundled output to the format that IE11 supports.
-
-Assuming `bundled-output.js` is the result from `Rollup`:
-
-```bash
-tsc --allowJS --target es5 bundled-output.js --outfile final-output.js
-```
 
 ### CORS
 
@@ -126,6 +113,15 @@ The following components and their corresponding client libraries make up the Az
 
 ## Examples
 
+- [Import the package](#import-the-package)
+- [Create the share service client](#create-the-share-service-client)
+- [List shares in the account](#list-shares-in-the-account)
+- [Create a new share and a directory](#create-a-new-share-and-a-directory)
+- [Create an azure file then upload to it](#create-an-azure-file-then-upload-to-it)
+- [List files and directories under a directory](#list-files-and-directories-under-a-directory)
+- [Download a file and convert it to a string (Node.js)](#download-a-file-and-convert-it-to-a-string-nodejs)
+- [Download a file and convert it to a string (Browsers)](#download-a-file-and-convert-it-to-a-string-browsers)
+
 ### Import the package
 
 To use the clients, import the package into your file:
@@ -143,6 +139,18 @@ const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/stora
 ### Create the share service client
 
 The `ShareServiceClient` requires an URL to the file share service and an access credential. It also optionally accepts some settings in the `options` parameter.
+
+#### using connection string
+
+Alternatively, you can instantiate a `ShareServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.)
+
+```javascript
+const { ShareServiceClient } = require("@azure/storage-file-share");
+
+const connStr = "<connection string>";
+
+const ShareServiceClient = ShareServiceClient.fromConnectionString(connStr);
+```
 
 #### with `StorageSharedKeyCredential`
 
@@ -176,7 +184,7 @@ const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 
 const serviceClientWithSAS = new ShareServiceClient(
-  `https://${account}.file.core.windows.net${sas}`,
+  `https://${account}.file.core.windows.net${sas}`
 );
 ```
 
@@ -224,7 +232,7 @@ const serviceClient = new ShareServiceClient(
 );
 
 async function main() {
-  let shareIter = await serviceClient.listShares();
+  let shareIter = serviceClient.listShares();
   let i = 1;
   let shareItem = await shareIter.next();
   while (!shareItem.done) {
@@ -358,7 +366,7 @@ const directoryName = "<directory name>";
 async function main() {
   const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
 
-  let dirIter = await directoryClient.listFilesAndDirectories();
+  let dirIter = directoryClient.listFilesAndDirectories();
   let i = 1;
   let item = await dirIter.next();
   while (!item.done) {
@@ -374,7 +382,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating please see [samples/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/iterators-files-and-directories.ts).
+For a complete sample on iterating please see [samples/typescript/src/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-files-and-directories.ts).
 
 ### Download a file and convert it to a string (Node.js)
 
@@ -393,15 +401,15 @@ const serviceClient = new ShareServiceClient(
 const shareName = "<share name>";
 const fileName = "<file name>";
 
-// [Node.js only] A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream) {
+// [Node.js only] A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });
@@ -416,7 +424,9 @@ async function main() {
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
   const downloadFileResponse = await fileClient.download();
   console.log(
-    `Downloaded file content: ${await streamToString(downloadFileResponse.readableStreamBody)}`
+    `Downloaded file content: ${(
+      await streamToBuffer(downloadFileResponse.readableStreamBody)
+    ).toString()}`
   );
 }
 
@@ -433,24 +443,20 @@ const { ShareServiceClient } = require("@azure/storage-file-share");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 const shareName = "<share name>";
-const fileName = "<file name>"
+const fileName = "<file name>";
 
-const serviceClient = new ShareServiceClient(
-  `https://${account}.file.core.windows.net${sas}`
-);
+const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net${sas}`);
 
 async function main() {
-  const fileClient = serviceClient.getShareClient(shareName)
-    .rootDirectoryClient
-    .getFileClient(fileName);
+  const fileClient = serviceClient
+    .getShareClient(shareName)
+    .rootDirectoryClient.getFileClient(fileName);
 
-    // Get file content from position 0 to the end
-    // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+  // Get file content from position 0 to the end
+  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content: ${await blobToString(
-      await downloadFileResponse.blobBody
-    )}`
+    `Downloaded file content: ${await blobToString(await downloadFileResponse.blobBody)}`
   );
 }
 
@@ -466,10 +472,10 @@ async function blobToString(blob) {
   });
 }
 
-main()
+main();
 ```
 
-A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/basic.ts).
+A complete example of basic scenarios is at [samples/typescript/src/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/src/basic.ts).
 
 ## Troubleshooting
 

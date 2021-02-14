@@ -1,0 +1,35 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/administration/phonenumbers/searches/sanitized/cancel",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 202,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/searches/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-11-21T05:33:46.8284313+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Cancelling\",\"phoneNumbers\":[\"+18005551234\"],\"reservationExpiryDate\":\"2020-11-21T05:49:52.1257401+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "3a98217ee6d02d02558ef731709209c8"
+}

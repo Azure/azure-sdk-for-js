@@ -15,10 +15,6 @@ npm init -y
 npm install @azure/storage-file-datalake
 ```
 
-### Running Samples
-
-Also, change `"../.."` to `"@azure/storage-file-datalake"` in the samples in order to import the published package instead of using source code.
-
 ## Get account credentials of your storage account
 
 - In the [Azure Portal](https://portal.azure.com), go to **Dashboard > Storage > _your-storage-account_**.
@@ -27,7 +23,7 @@ Also, change `"../.."` to `"@azure/storage-file-datalake"` in the samples in ord
 
 ### Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage.
+If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage.
 
 ## Javascript sample
 

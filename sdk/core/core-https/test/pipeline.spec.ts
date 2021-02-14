@@ -7,7 +7,8 @@ import {
   PipelinePolicy,
   HttpsClient,
   createPipelineRequest,
-  createHttpHeaders
+  createHttpHeaders,
+  createPipelineFromOptions
 } from "../src";
 
 describe("HttpsPipeline", function() {
@@ -160,15 +161,21 @@ describe("HttpsPipeline", function() {
       sendRequest: (request, next) => next(request),
       name: "test3"
     };
+    const testPolicy4: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test4"
+    };
     pipeline.addPolicy(testPolicy, { phase: "Retry" });
     pipeline.addPolicy(testPolicy2, { phase: "Serialize" });
     pipeline.addPolicy(testPolicy3);
+    pipeline.addPolicy(testPolicy4, { phase: "Deserialize" });
 
     const policies = pipeline.getOrderedPolicies();
-    assert.strictEqual(policies.length, 3);
-    assert.strictEqual(policies[0], testPolicy3);
-    assert.strictEqual(policies[1], testPolicy2);
-    assert.strictEqual(policies[2], testPolicy);
+    assert.strictEqual(policies.length, 4);
+    assert.strictEqual(policies[0], testPolicy2);
+    assert.strictEqual(policies[1], testPolicy3);
+    assert.strictEqual(policies[2], testPolicy4);
+    assert.strictEqual(policies[3], testPolicy);
   });
 
   it("addPolicy throws on both phase and afterPhase specified", function() {
@@ -337,5 +344,25 @@ describe("HttpsPipeline", function() {
     );
     assert.strictEqual(response.request.url, "afterTest3");
     assert.strictEqual(response.status, 200);
+  });
+
+  describe("createPipelineFromOptions", function() {
+    it("can issue successful requests", async function() {
+      const testHttpsClient: HttpsClient = {
+        sendRequest: async (request) => {
+          assert.strictEqual(request.url, "https://example.com");
+          return {
+            request,
+            headers: createHttpHeaders(),
+            status: 200
+          };
+        }
+      };
+
+      const pipeline = createPipelineFromOptions({});
+      const request = createPipelineRequest({ url: "https://example.com" });
+      const response = await pipeline.sendRequest(testHttpsClient, request);
+      assert.strictEqual(response.status, 200);
+    });
   });
 });

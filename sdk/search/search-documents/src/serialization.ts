@@ -3,7 +3,7 @@
 
 import GeographyPoint from "./geographyPoint";
 
-const ISO8601DateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z/i;
+const ISO8601DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/i;
 const GeoJSONPointTypeName = "Point";
 const WorldGeodeticSystem1984 = "EPSG:4326"; // See https://epsg.io/4326
 
@@ -24,6 +24,7 @@ export function deserialize<OutputT>(obj: unknown): OutputT {
 }
 
 function walk(start: unknown, mapper: (val: any) => any): any {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const seenMarker = new WeakMap<object, boolean>();
   const result = { value: undefined };
   const queue: { value: any; parent: any; key: string }[] = [

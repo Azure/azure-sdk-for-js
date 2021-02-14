@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
@@ -10,6 +10,11 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+
+/**
+ * Methods that are allowed to follow redirects 301 and 302
+ */
+const allowedRedirect = ["GET", "HEAD"];
 
 /**
  * Options for how redirect responses are handled.
@@ -61,7 +66,11 @@ function handleRedirect(
   const locationHeader = response.headers.get("location");
   if (
     locationHeader &&
-    (status === 300 || status === 307 || (status === 303 && request.method === "POST")) &&
+    (status === 300 ||
+      (status === 301 && allowedRedirect.includes(request.method)) ||
+      (status === 302 && allowedRedirect.includes(request.method)) ||
+      (status === 303 && request.method === "POST") ||
+      status === 307) &&
     (!policy.maxRetries || currentRetries < policy.maxRetries)
   ) {
     const builder = URLBuilder.parse(request.url);
@@ -72,6 +81,7 @@ function handleRedirect(
     // redirected GET request if the redirect url is present in the location header
     if (status === 303) {
       request.method = "GET";
+      delete request.body;
     }
 
     return policy._nextPolicy

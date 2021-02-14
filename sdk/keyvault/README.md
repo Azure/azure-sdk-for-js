@@ -1,20 +1,26 @@
-# Azure Key Vault client library for JavaScript
+# Azure Key Vault client libraries for for JavaScript
 
-Azure Key Vault is a Microsoft-managed service providing cloud keys, secrets, and certificate storage and utility that is highly available, secure, durable, scalable, and redundant.
+[Azure Key Vault](https://azure.microsoft.com/services/key-vault/) is a Microsoft-managed service providing cloud keys, secrets, and certificate storage and utility that is highly available, secure, durable, scalable, and redundant.
 
-This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Key Vault service.
+## Libraries for resource management
 
-- [Source Code - Keys](./keyvault-keys)
-- [Source Code - Secrets](./keyvault-secrets)
-- [Source Code - Certificates](./keyvault-certificates)
-- [Product documentation](https://docs.microsoft.com/en-us/azure/key-vault)
-- @azure/keyvault-keys [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys)
-- @azure/keyvault-secrets [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
-- @azure/keyvault-certificates [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates)
-- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/key-vault)
-- [Azure Key Vault REST APIs](https://docs.microsoft.com/en-us/rest/api/keyvault/)
+To manage your Azure Key Vault resources via the Azure Resource Manager, you would use the below package.
 
-## Getting started
+| NPM Package                                                          | Reference                                                                                              |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [@azure/arm-keyvault](https://npmjs.com/package/@azure/arm-keyvault) | [API Reference for @azure/arm-keyvault](https://docs.microsoft.com/javascript/api/@azure/arm-keyvault) |
+
+## Libraries for data access
+
+There are three packages to work with Key Vault keys, secrets and certificates respectively.
+A fourth package, `@azure/keyvault-admin` (still in preview) is also available for administrative tasks on your Key Vault instance.
+
+| NPM Package                                                                            | Reference                                                                                                                | Samples                                                                                                                                   |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| [@azure/keyvault-keys](https://npmjs.com/package/@azure/keyvault-keys)                 | [API Reference for @azure/keyvault-keys](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys)                 | [Samples for working with keys](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)                 |
+| [@azure/keyvault-secrets](https://npmjs.com/package/@azure/keyvault-secrets)           | [API Reference for @azure/keyvault-secrets](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets)           | [Samples for working with secrets](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)           |
+| [@azure/keyvault-certificates](https://npmjs.com/package/@azure/keyvault-certificates) | [API Reference for @azure/keyvault-certificates](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Samples for working with certificates](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples) |
+| [@azure/keyvault-admin](https://npmjs.com/package/@azure/keyvault-admin) (in Preview)  | [API Reference for @azure/keyvault-admin](https://docs.microsoft.com/javascript/api/@azure/keyvault-admin)               | [Samples for administrative tasks](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples)             |
 
 ### Features
 
@@ -37,66 +43,3 @@ This project provides client libraries in JavaScript that makes it easy to consu
   - Backup and restore a certificate.
   - Get, purge or recover a deleted certificate.
   - Get all the versions of a certificate, or certificates, or deleted certificates.
-
-### Compatibility
-
-This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
-
-#### Compatible with IE11
-
-You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
-
-You can also load separate polyfills for missed ES feature(s).
-This library depends on following ES features which need external polyfills loaded.
-
-- `Promise`
-- `String.prototype.startsWith`
-- `String.prototype.endsWith`
-- `String.prototype.repeat`
-- `String.prototype.includes`
-- `Array.prototype.includes`
-- `Object.assign`
-- `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
-- `Symbol`
-
-## Getting Started
-
-The preferred way to install the Azure Key Vault client libraries for JavaScript is to use the npm package manager. Take "@azure/keyvault-secrets" for example.
-
-Simply type the following into a terminal window:
-
-```bash
-npm install @azure/keyvault-secrets
-```
-
-In your TypeScript or JavaScript file, import via following:
-
-```JavaScript
-import * as KeyVaultSecrets from "@azure/keyvault-secrets";
-```
-
-Or
-
-```JavaScript
-const KeyVaultSecrets = require("@azure/keyvault-secrets");
-```
-
-## Examples
-
-## Code Samples
-
-- [KeyVault Keys Samples (JavaScript)](./keyvault-keys/samples/javascript)
-- [KeyVault Keys Samples (TypeScript)](./keyvault-keys/samples/typescript)
-- [KeyVault Keys Test Cases](./keyvault-keys/test/)
-- [KeyVault Secrets Samples (JavaScript)](./keyvault-secrets/samples/javascript)
-- [KeyVault Secrets Samples (TypeScript)](./keyvault-secrets/samples/typescript)
-- [KeyVault Secrets Test Cases](./keyvault-secrets/test/)
-- [KeyVault Certificates Samples (JavaScript)](./keyvault-certificates/samples/javascript)
-- [KeyVault Certificates Samples (TypeScript)](./keyvault-certificates/samples/typescript)
-- [KeyVault Certificates Test Cases](./keyvault-certificates/test/)
-
-## Contributing
-
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2FREADME.png)

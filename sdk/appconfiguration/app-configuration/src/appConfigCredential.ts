@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHash, createHmac } from "crypto";
 import { ServiceClientCredentials, WebResource, URLBuilder } from "@azure/core-http";
+import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export class AppConfigCredential implements ServiceClientCredentials {
   private credential: string;
@@ -20,15 +20,14 @@ export class AppConfigCredential implements ServiceClientCredentials {
   /**
    * Signs a request with the values provided in the credential and secret parameter.
    *
-   * @param {WebResource} webResource The WebResource to be signed.
-   * @returns {Promise<WebResource>} The signed request object.
+   * @param webResource - The WebResource to be signed.
+   * @returns The signed request object.
    */
-  signRequest(webResource: WebResource): Promise<WebResource> {
+  async signRequest(webResource: WebResource): Promise<WebResource> {
     const verb = webResource.method.toUpperCase();
     const utcNow = new Date().toUTCString();
-    const contentHash = createHash("sha256")
-      .update(webResource.body || "")
-      .digest("base64");
+
+    const contentHash = await sha256Digest(webResource.body || "");
 
     const signedHeaders = "x-ms-date;host;x-ms-content-sha256";
 
@@ -38,10 +37,7 @@ export class AppConfigCredential implements ServiceClientCredentials {
 
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${url.getHost()};${contentHash}`;
 
-    const decodedSecret = Buffer.from(this.secret, "base64");
-    var signature = createHmac("sha256", decodedSecret)
-      .update(stringToSign)
-      .digest("base64");
+    const signature = await sha256Hmac(this.secret, stringToSign);
 
     webResource.headers.set("x-ms-date", utcNow);
     webResource.headers.set("x-ms-content-sha256", contentHash);
@@ -50,6 +46,6 @@ export class AppConfigCredential implements ServiceClientCredentials {
       `HMAC-SHA256 Credential=${this.credential}, SignedHeaders=${signedHeaders}, Signature=${signature}`
     );
 
-    return Promise.resolve(webResource);
+    return webResource;
   }
 }

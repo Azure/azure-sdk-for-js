@@ -28,7 +28,7 @@ describe("RetryPolicy", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Retry policy should work when first request fails with 500", async () => {

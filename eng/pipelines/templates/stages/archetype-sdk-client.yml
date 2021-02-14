@@ -1,26 +1,44 @@
 parameters:
-  Artifacts: []
-  ServiceDirectory: not-specified
-  IncludeRelease: true
-  TargetDocRepoOwner: 'MicrosoftDocs'
-  TargetDocRepoName: 'azure-docs-sdk-node'
-  
+- name: Artifacts
+  type: object
+  default: []
+- name: TestPipeline
+  type: boolean
+  default: false
+- name: ServiceDirectory
+  type: string
+  default: not-specified
+- name: IncludeRelease
+  type: boolean
+  default: true
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
+- name: RunUnitTests
+  type: boolean
+  default: true
+
 stages:
 - stage: Build
   jobs:
   - template: ../jobs/archetype-sdk-client.yml
     parameters:
-      ServiceDirectory: ${{parameters.ServiceDirectory}}
-      RunUnitTests: ${{parameters.RunUnitTests}}
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      Artifacts: ${{ parameters.Artifacts }}
+      TestPipeline: ${{ parameters.TestPipeline }}
+      RunUnitTests: ${{ parameters.RunUnitTests }}
 
 # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
 - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
   - template: archetype-js-release.yml
     parameters:
       DependsOn: Build
-      ServiceDirectory: ${{parameters.ServiceDirectory}}
-      Artifacts: ${{parameters.Artifacts}}
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      Artifacts: ${{ parameters.Artifacts }}
+      TestPipeline: ${{ parameters.TestPipeline }}
       ArtifactName: packages
       TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
       TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
-      

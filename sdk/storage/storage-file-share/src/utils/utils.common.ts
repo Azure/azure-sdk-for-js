@@ -160,15 +160,12 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     };
   } else {
     // SAS connection string
-
-    let accountName = getAccountNameFromUrl(fileEndpoint);
     let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountName = getAccountNameFromUrl(fileEndpoint);
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    } else if (!accountName) {
-      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
     return { kind: "SASConnString", url: fileEndpoint, accountName, accountSas };
@@ -205,6 +202,28 @@ export function appendToURLPath(url: string, name: string): string {
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
   urlParsed.setPath(path);
 
+  return urlParsed.toString();
+}
+
+/**
+ * Append a string to URL query.
+ *
+ * @export
+ * @param {string} url Source URL string.
+ * @param {string} queryParts String to be appended to the URL query.
+ * @returns {string} An updated URL string.
+ */
+export function appendToURLQuery(url: string, queryParts: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let query = urlParsed.getQuery();
+  if (query) {
+    query += "&" + queryParts;
+  } else {
+    query = queryParts;
+  }
+
+  urlParsed.setQuery(query);
   return urlParsed.toString();
 }
 
@@ -346,7 +365,7 @@ export function base64decode(encodedString: string): string {
  * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {
@@ -441,20 +460,36 @@ export function getAccountNameFromUrl(url: string): string {
       url = url.endsWith("/") ? url.slice(0, -1) : url;
 
       accountName = parsedUrl.getHost()!.split(".")[0];
-    } else {
+    } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
       accountName = parsedUrl.getPath()!.split("/")[1];
-    }
-
-    if (!accountName) {
-      throw new Error("Provided accountName is invalid.");
+    } else {
+      // Custom domain case: "https://customdomain.com/containername/blob".
+      accountName = "";
     }
     return accountName;
   } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
   }
+}
+
+export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
+  if (parsedUrl.getHost() == undefined) {
+    return false;
+  }
+
+  const host =
+    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+
+  // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
+  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
+  // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
+  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    host
+  );
 }
 
 export function getShareNameAndPathFromUrl(
@@ -483,13 +518,19 @@ export function getShareNameAndPathFromUrl(
       const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
       shareName = pathComponents![1];
       path = pathComponents![3];
-    } else {
+    } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://187.24.0.1:1000/devstoreaccount1/mydirectory/file
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:1000/devstoreaccount1/mydirectory/file
       // .getPath() -> /devstoreaccount1/mydirectory/file
       const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
       shareName = pathComponents![2];
       path = pathComponents![4];
+    } else {
+      // "https://customdomain.com/myshare/mydirectory/file";
+      // .getPath() -> /myshare/mydirectory/file
+      const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+      shareName = pathComponents![1];
+      path = pathComponents![3];
     }
 
     // decode the encoded shareName and filePath - to get all the special characters that might be present in it

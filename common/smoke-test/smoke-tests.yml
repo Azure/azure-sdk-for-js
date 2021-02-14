@@ -2,34 +2,41 @@ jobs:
   - job: SmokeTest
     strategy:
       matrix:
-        Linux (AzureCloud):
+        Linux Node14 (AzureCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(azureCloudArmParameters)
-        Windows (AzureCloud):
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "14.x"
+        Windows Node12 (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(azureCloudArmParameters)
-        Mac (AzureCloud):
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "12.x"
+        Mac Node10 (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(azureCloudArmParameters)
-        Linux (AzureUSGovernment):
-          OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(azureUSGovernmentArmParameters)
-        Windows (AzureUSGovernment):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(azureUSGovernmentArmParameters)
-        Linux (AzureChinaCloud):
-          OSVmImage: "ubuntu-18.04"
-          SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(azureChinaCloudArmParameters)
-        Windows (AzureChinaCloud):
-          OSVmImage: "windows-2019"
-          SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(azureChinaCloudArmParameters)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "10.x"
+#        Linux Node10 (AzureUSGovernment):
+#          OSVmImage: "ubuntu-18.04"
+#          SubscriptionConfiguration: $(sub-config-gov-test-resources)
+#          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+#          NodeTestVersion: "10.x"
+#        Windows Node14 (AzureUSGovernment):
+#          OSVmImage: "windows-2019"
+#          SubscriptionConfiguration: $(sub-config-gov-test-resources)
+#          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+#          NodeTestVersion: "14.x"
+#        Linux Node12 (AzureChinaCloud):
+#          OSVmImage: "ubuntu-18.04"
+#          SubscriptionConfiguration: $(sub-config-cn-test-resources)
+#          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+#          NodeTestVersion: "12.x"
+#        Windows Node10 (AzureChinaCloud):
+#          OSVmImage: "windows-2019"
+#          SubscriptionConfiguration: $(sub-config-cn-test-resources)
+#          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+#          NodeTestVersion: "10.x"
 
     pool:
       vmImage: $(OSVmImage)
@@ -38,15 +45,39 @@ jobs:
       - template: ../../eng/pipelines/templates/variables/globals.yml
       - name: Location
         value: ""
-      - name: azureCloudArmParameters
-        value: "@{ storageEndpointSuffix = 'core.windows.net'; azureCloud = 'AzureCloud'; }"
-      - name: azureUSGovernmentArmParameters
-        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; azureCloud = 'AzureUSGovernment'; }"
-      - name: azureChinaCloudArmParameters
-        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; azureCloud = 'AzureChinaCloud'; }"
+      - name: AzureCloudArmTemplateParameters
+        value: "@{ }"
+      - name: AzureUSGovernmentArmTemplateParameters
+        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.us'; searchSku = 'basic' }"
+      - name: AzureChinaCloudArmTemplateParameters
+        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.cn'; searchSku = 'basic' }"
 
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
+
+      - template: ../../eng/pipelines/templates/steps/use-node-version.yml
+        parameters:
+          NodeVersion: $(NodeTestVersion)
+
+      - pwsh: npm install -g
+        workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
+        displayName: Install dev-tool
+
+      - pwsh: |
+          $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
+          
+          $subscriptionConfiguration = @"
+            $(SubscriptionConfiguration)
+          "@ | ConvertFrom-Json -AsHashtable;
+
+          ./Initialize-SmokeTests.ps1 `
+            -CI `
+            -Verbose `
+            -Location '$(Location)' `
+            @subscriptionConfiguration `
+            -AdditionalParameters $(ArmTemplateParameters)
+        workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
+        displayName: Deploy Smoke Test resources and prepare samples
 
       - task: Npm@1
         inputs:
@@ -61,28 +92,10 @@ jobs:
           workingDir: common/smoke-test/
         displayName: List packages installed from the feed
 
-      # The MacOS image does not have TypeScript installed by default
-      - task: Npm@1
-        inputs:
-          command: custom
-          customCommand: "install -g typescript"
-        displayName: Install TypeScript
-        condition: and(succeeded(), contains(variables['OSVmImage'], 'macos'))
+      - script: npm run smoke-test -- --devops-logging
+        workingDirectory: common/smoke-test/
+        displayName: Run smoke tests
 
-      - script: tsc -p ./common/smoke-test/
-        displayName: "Compile TS"
-
-      - template: ../../eng/common/TestResources/deploy-test-resources.yml
+      - template: /eng/common/TestResources/remove-test-resources.yml
         parameters:
-          ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"
-          Location: $(Location)
-          ArmTemplateParameters: $(ArmTemplateParameters)
-          SubscriptionConfiguration: $(SubscriptionConfiguration)
-
-      - script: node ./common/smoke-test/app.js
-        displayName: Run Smoke Test
-
-      - template: ../../eng/common/TestResources/remove-test-resources.yml
-        parameters:
-          ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"
           SubscriptionConfiguration: $(SubscriptionConfiguration)

@@ -41,6 +41,11 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
+    // The following is required for eventhubs-checkpointstore-blob,
+    // since there is a new 12.4-beta version which is being maintained in the repo
+    // To be reverted when the storage-blob releases a stable version.
+    "@azure/storage-blob": ["^12.3.0"],
+
     "@azure/ms-rest-js": ["^2.0.0"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
@@ -51,7 +56,9 @@
     // ]
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
     "@azure/event-hubs": ["^2.1.4"],
-    // Allow packages to continue to use old eslint-plugin-azure-sdk until they can adapt to 3.0.0
-    "@azure/eslint-plugin-azure-sdk": ["^2.0.1"]
+
+    // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
+    // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
+    "@types/node": ["^10.0.0"]
   }
 }

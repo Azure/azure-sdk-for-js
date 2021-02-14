@@ -3,7 +3,6 @@
 
 import { ListConfigurationSettingsOptions } from "..";
 import { URLBuilder } from "@azure/core-http";
-import { isArray } from "util";
 import {
   ListRevisionsOptions,
   ConfigurationSettingId,
@@ -18,7 +17,7 @@ import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generat
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
- * @ignore
+ * @hidden
  */
 export function quoteETag(etag: string | undefined): string | undefined {
   // https://tools.ietf.org/html/rfc7232#section-3.1
@@ -40,9 +39,9 @@ export function quoteETag(etag: string | undefined): string | undefined {
 /**
  * Checks the onlyIfChanged/onlyIfUnchanged properties to make sure we haven't specified both
  * and throws an Error. Otherwise, returns the properties properly quoted.
- * @param options An options object with onlyIfChanged/onlyIfUnchanged fields
+ * @param options - An options object with onlyIfChanged/onlyIfUnchanged fields
  * @internal
- * @ignore
+ * @hidden
  */
 export function checkAndFormatIfAndIfNoneMatch(
   configurationSetting: ConfigurationSettingId,
@@ -74,7 +73,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  * into the format the REST call will need.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
@@ -107,9 +106,9 @@ export function formatWildcards(
 
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
- * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
+ * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
  * @internal
- * @ignore
+ * @hidden
  */
 export function formatAcceptDateTime(newOptions: {
   acceptDateTime?: Date;
@@ -123,13 +122,13 @@ export function formatAcceptDateTime(newOptions: {
  * Take the URL that gets returned from next link and extract the 'after' token needed
  * to get the next page of results.
  * @internal
- * @ignore
+ * @hidden
  */
 export function extractAfterTokenFromNextLink(nextLink: string) {
-  let parsedLink = URLBuilder.parse(nextLink);
-  let afterToken = parsedLink.getQueryParameterValue("after");
+  const parsedLink = URLBuilder.parse(nextLink);
+  const afterToken = parsedLink.getQueryParameterValue("after");
 
-  if (afterToken == null || isArray(afterToken)) {
+  if (afterToken == null || Array.isArray(afterToken)) {
     throw new Error("Invalid nextLink - invalid after token");
   }
 
@@ -141,7 +140,7 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
  *
- * @param configurationSetting The configuration setting to alter
+ * @param configurationSetting - The configuration setting to alter
  */
 export function makeConfigurationSettingEmpty(
   configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
@@ -162,7 +161,7 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
@@ -176,7 +175,7 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 }
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
@@ -191,7 +190,7 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function transformKeyValueResponse<

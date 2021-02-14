@@ -14,4 +14,6 @@ export * from "./applicationOperations";
 export * from "./location";
 export * from "./operations";
 export * from "./certificateOperations";
+export * from "./privateLinkResourceOperations";
+export * from "./privateEndpointConnectionOperations";
 export * from "./poolOperations";

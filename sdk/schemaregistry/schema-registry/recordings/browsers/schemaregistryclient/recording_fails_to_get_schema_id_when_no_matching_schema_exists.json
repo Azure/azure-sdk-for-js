@@ -1,0 +1,48 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1321",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 28 Dec 2020 22:21:20 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11328.13 - SCUS ProdSlices",
+    "x-ms-request-id": "89850879-0955-4602-9aed-dd218ec0e501"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/$schemagroups/group/schemas/never-registered",
+   "query": {
+    "api-version": "2020-09-01-preview"
+   },
+   "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
+   "status": 404,
+   "response": "{\"Code\":404,\"Detail\":\"Schema group\\/never-registered does not exist. TrackingId:cb308494-fd17-48b5-9510-14b2fbfc86d9_G26, SystemTracker:NoSystemTracker, Timestamp:2020-12-28T22:21:21\"}",
+   "responseHeaders": {
+    "content-type": "application/json",
+    "date": "Mon, 28 Dec 2020 22:21:21 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000",
+    "transfer-encoding": "chunked"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "7d401e42535b3b61eb2f6f62dc9471c8"
+}

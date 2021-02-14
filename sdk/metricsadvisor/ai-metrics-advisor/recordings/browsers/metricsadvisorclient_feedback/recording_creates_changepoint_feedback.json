@@ -1,0 +1,45 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric",
+   "query": {},
+   "requestBody": "{\"feedbackType\":\"ChangePoint\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-08-05T00:00:00.000Z\",\"value\":{\"changePointValue\":\"ChangePoint\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "6da2403f-d99a-453e-ad74-0c446938d670",
+    "content-length": "0",
+    "date": "Fri, 13 Nov 2020 22:04:11 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/16a8593d-7910-4ad0-add4-6363f3ad95d7",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "287",
+    "x-request-id": "6da2403f-d99a-453e-ad74-0c446938d670"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/16a8593d-7910-4ad0-add4-6363f3ad95d7",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"feedbackId\":\"16a8593d-7910-4ad0-add4-6363f3ad95d7\",\"createdTime\":\"2020-11-13T22:04:11.609Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"ChangePoint\",\"startTime\":\"2020-08-05T00:00:00Z\",\"endTime\":\"2020-08-05T00:00:00Z\",\"value\":{\"changePointValue\":\"ChangePoint\"}}",
+   "responseHeaders": {
+    "apim-request-id": "5880e3d1-291f-4244-bd3c-e5c7f3398734",
+    "content-length": "400",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 13 Nov 2020 22:04:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "83",
+    "x-request-id": "5880e3d1-291f-4244-bd3c-e5c7f3398734"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c80b0127d91e999b2d24a1a3223e2e22"
+}

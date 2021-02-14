@@ -35,6 +35,12 @@ export const TrainRequest: coreHttp.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      modelName: {
+        serializedName: "modelName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -54,7 +60,7 @@ export const TrainSourceFilter: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      includeSubFolders: {
+      includeSubfolders: {
         serializedName: "includeSubFolders",
         type: {
           name: "Boolean"
@@ -128,6 +134,18 @@ export const Model: coreHttp.CompositeMapper = {
           name: "Composite",
           className: "TrainResult"
         }
+      },
+      composedTrainResults: {
+        serializedName: "composedTrainResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrainResult"
+            }
+          }
+        }
       }
     }
   }
@@ -153,18 +171,46 @@ export const ModelInfo: coreHttp.CompositeMapper = {
           allowedValues: ["creating", "ready", "invalid"]
         }
       },
-      requestedOn: {
+      trainingStartedOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      completedOn: {
+      trainingCompletedOn: {
         serializedName: "lastUpdatedDateTime",
         required: true,
         type: {
           name: "DateTime"
+        }
+      },
+      modelName: {
+        serializedName: "modelName",
+        type: {
+          name: "String"
+        }
+      },
+      attributes: {
+        serializedName: "attributes",
+        type: {
+          name: "Composite",
+          className: "Attributes"
+        }
+      }
+    }
+  }
+};
+
+export const Attributes: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Attributes",
+    modelProperties: {
+      isComposed: {
+        serializedName: "isComposed",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -202,7 +248,10 @@ export const TrainResult: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "TrainingDocumentInfo" }
+            type: {
+              name: "Composite",
+              className: "TrainingDocumentInfo"
+            }
           }
         }
       },
@@ -211,7 +260,10 @@ export const TrainResult: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "FormFieldsReport" }
+            type: {
+              name: "Composite",
+              className: "FormFieldsReport"
+            }
           }
         }
       },
@@ -221,12 +273,21 @@ export const TrainResult: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      modelId: {
+        serializedName: "modelId",
+        type: {
+          name: "Uuid"
+        }
+      },
       errors: {
         serializedName: "errors",
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ErrorInformation" }
+            type: {
+              name: "Composite",
+              className: "ErrorInformation"
+            }
           }
         }
       }
@@ -239,7 +300,7 @@ export const TrainingDocumentInfo: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TrainingDocumentInfo",
     modelProperties: {
-      documentName: {
+      name: {
         serializedName: "documentName",
         required: true,
         type: {
@@ -259,7 +320,10 @@ export const TrainingDocumentInfo: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ErrorInformation" }
+            type: {
+              name: "Composite",
+              className: "ErrorInformation"
+            }
           }
         }
       },
@@ -371,21 +435,36 @@ export const AnalyzeResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ReadResult" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReadResult"
+            }
+          }
         }
       },
       pageResults: {
         serializedName: "pageResults",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "PageResult" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "PageResult"
+            }
+          }
         }
       },
       documentResults: {
         serializedName: "documentResults",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DocumentResult" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentResult"
+            }
+          }
         }
       },
       errors: {
@@ -393,7 +472,10 @@ export const AnalyzeResult: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ErrorInformation" }
+            type: {
+              name: "Composite",
+              className: "ErrorInformation"
+            }
           }
         }
       }
@@ -419,7 +501,7 @@ export const ReadResult: coreHttp.CompositeMapper = {
       angle: {
         constraints: {
           InclusiveMaximum: 180,
-          InclusiveMinimum: -180
+          ExclusiveMinimum: -180
         },
         serializedName: "angle",
         required: true,
@@ -428,7 +510,9 @@ export const ReadResult: coreHttp.CompositeMapper = {
         }
       },
       width: {
-        constraints: {},
+        constraints: {
+          InclusiveMinimum: 0
+        },
         serializedName: "width",
         required: true,
         type: {
@@ -436,7 +520,9 @@ export const ReadResult: coreHttp.CompositeMapper = {
         }
       },
       height: {
-        constraints: {},
+        constraints: {
+          InclusiveMinimum: 0
+        },
         serializedName: "height",
         required: true,
         type: {
@@ -461,7 +547,24 @@ export const ReadResult: coreHttp.CompositeMapper = {
         serializedName: "lines",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "TextLine" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextLine"
+            }
+          }
+        }
+      },
+      selectionMarks: {
+        serializedName: "selectionMarks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SelectionMark"
+            }
+          }
         }
       }
     }
@@ -489,7 +592,11 @@ export const TextLine: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       language: {
@@ -503,7 +610,19 @@ export const TextLine: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "TextWord" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextWord"
+            }
+          }
+        }
+      },
+      appearance: {
+        serializedName: "appearance",
+        type: {
+          name: "Composite",
+          className: "Appearance"
         }
       }
     }
@@ -531,16 +650,103 @@ export const TextWord: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       confidence: {
         constraints: {
-          InclusiveMaximum: 1
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
         },
         serializedName: "confidence",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Appearance: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Appearance",
+    modelProperties: {
+      style: {
+        serializedName: "style",
+        type: {
+          name: "Composite",
+          className: "Style"
+        }
+      }
+    }
+  }
+};
+
+export const Style: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Style",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      confidence: {
+        serializedName: "confidence",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SelectionMark: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SelectionMark",
+    modelProperties: {
+      boundingBox: {
+        constraints: {
+          MinItems: 8,
+          MaxItems: 8
+        },
+        serializedName: "boundingBox",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      confidence: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
+        },
+        serializedName: "confidence",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      state: {
+        serializedName: "state",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -563,7 +769,9 @@ export const PageResult: coreHttp.CompositeMapper = {
         }
       },
       clusterId: {
-        constraints: {},
+        constraints: {
+          InclusiveMinimum: 0
+        },
         serializedName: "clusterId",
         type: {
           name: "Number"
@@ -573,14 +781,24 @@ export const PageResult: coreHttp.CompositeMapper = {
         serializedName: "keyValuePairs",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "KeyValuePair" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyValuePair"
+            }
+          }
         }
       },
       tables: {
         serializedName: "tables",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DataTable" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataTable"
+            }
+          }
         }
       }
     }
@@ -614,7 +832,8 @@ export const KeyValuePair: coreHttp.CompositeMapper = {
       },
       confidence: {
         constraints: {
-          InclusiveMaximum: 1
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
         },
         serializedName: "confidence",
         required: true,
@@ -631,6 +850,12 @@ export const KeyValueElement: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "KeyValueElement",
     modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       text: {
         serializedName: "text",
         required: true,
@@ -646,14 +871,22 @@ export const KeyValueElement: coreHttp.CompositeMapper = {
         serializedName: "boundingBox",
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       elements: {
         serializedName: "elements",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -690,7 +923,28 @@ export const DataTable: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DataTableCell" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataTableCell"
+            }
+          }
+        }
+      },
+      boundingBox: {
+        constraints: {
+          MinItems: 8,
+          MaxItems: 8
+        },
+        serializedName: "boundingBox",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       }
     }
@@ -703,7 +957,9 @@ export const DataTableCell: coreHttp.CompositeMapper = {
     className: "DataTableCell",
     modelProperties: {
       rowIndex: {
-        constraints: {},
+        constraints: {
+          InclusiveMinimum: 0
+        },
         serializedName: "rowIndex",
         required: true,
         type: {
@@ -711,7 +967,9 @@ export const DataTableCell: coreHttp.CompositeMapper = {
         }
       },
       columnIndex: {
-        constraints: {},
+        constraints: {
+          InclusiveMinimum: 0
+        },
         serializedName: "columnIndex",
         required: true,
         type: {
@@ -754,12 +1012,17 @@ export const DataTableCell: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       confidence: {
         constraints: {
-          InclusiveMaximum: 1
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
         },
         serializedName: "confidence",
         required: true,
@@ -771,7 +1034,11 @@ export const DataTableCell: coreHttp.CompositeMapper = {
         serializedName: "elements",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       isHeader: {
@@ -802,6 +1069,12 @@ export const DocumentResult: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      modelId: {
+        serializedName: "modelId",
+        type: {
+          name: "Uuid"
+        }
+      },
       pageRange: {
         constraints: {
           MinItems: 2,
@@ -812,9 +1085,23 @@ export const DocumentResult: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Number" },
-            constraints: { InclusiveMinimum: 1 }
+            constraints: {
+              InclusiveMinimum: 1
+            },
+            type: {
+              name: "Number"
+            }
           }
+        }
+      },
+      docTypeConfidence: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
+        },
+        serializedName: "docTypeConfidence",
+        type: {
+          name: "Number"
         }
       },
       fields: {
@@ -847,7 +1134,8 @@ export const FieldValue: coreHttp.CompositeMapper = {
             "number",
             "integer",
             "array",
-            "object"
+            "object",
+            "selectionMark"
           ]
         }
       },
@@ -891,7 +1179,12 @@ export const FieldValue: coreHttp.CompositeMapper = {
         serializedName: "valueArray",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "FieldValue" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "FieldValue"
+            }
+          }
         }
       },
       valueObject: {
@@ -899,6 +1192,12 @@ export const FieldValue: coreHttp.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "Composite", className: "FieldValue" } }
+        }
+      },
+      valueSelectionMark: {
+        serializedName: "valueSelectionMark",
+        type: {
+          name: "String"
         }
       },
       text: {
@@ -915,12 +1214,17 @@ export const FieldValue: coreHttp.CompositeMapper = {
         serializedName: "boundingBox",
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       confidence: {
         constraints: {
-          InclusiveMaximum: 1
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
         },
         serializedName: "confidence",
         type: {
@@ -931,7 +1235,11 @@ export const FieldValue: coreHttp.CompositeMapper = {
         serializedName: "elements",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       pageNumber: {
@@ -1073,8 +1381,38 @@ export const CopyResult: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ErrorInformation" }
+            type: {
+              name: "Composite",
+              className: "ErrorInformation"
+            }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ComposeRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ComposeRequest",
+    modelProperties: {
+      modelIds: {
+        serializedName: "modelIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      modelName: {
+        serializedName: "modelName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1097,7 +1435,12 @@ export const Models: coreHttp.CompositeMapper = {
         serializedName: "modelList",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ModelInfo" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelInfo"
+            }
+          }
         }
       },
       nextLink: {
@@ -1192,6 +1535,51 @@ export const GeneratedClientGenerateModelCopyAuthorizationHeaders: coreHttp.Comp
     modelProperties: {
       location: {
         serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GeneratedClientComposeCustomModelsAsyncHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientComposeCustomModelsAsyncHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GeneratedClientAnalyzeBusinessCardAsyncHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientAnalyzeBusinessCardAsyncHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GeneratedClientAnalyzeInvoiceAsyncHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientAnalyzeInvoiceAsyncHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
         type: {
           name: "String"
         }

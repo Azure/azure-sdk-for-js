@@ -13,6 +13,7 @@ export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./StorageRetryPolicyFactory";
 export * from "./models";
+export * from "./utils/DataLakeAclChangeFailedError";
 export { CommonOptions } from "./StorageClient";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-http";

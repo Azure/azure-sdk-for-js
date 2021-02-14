@@ -339,6 +339,8 @@ const searchGetOperationSpec: coreHttp.OperationSpec = {
     Parameters.scoringProfile,
     Parameters.searchFields0,
     Parameters.searchMode,
+    Parameters.scoringStatistics,
+    Parameters.sessionId,
     Parameters.select0,
     Parameters.skip,
     Parameters.top0

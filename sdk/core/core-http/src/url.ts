@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { replaceAll } from "./util/utils";
 
-type URLQueryParseState = "ParameterName" | "ParameterValue" | "Invalid";
+export { URL } from "./util/url";
+
+type URLQueryParseState = "ParameterName" | "ParameterValue";
 
 /**
  * A class that handles the query portion of a URLBuilder.
@@ -30,10 +32,15 @@ export class URLQuery {
    * empty, then this will attempt to remove an existing query parameter with the provided
    * parameterName.
    */
-  public set(parameterName: string, parameterValue: any): void {
+  public set(parameterName: string, parameterValue: unknown): void {
+    const caseParameterValue = parameterValue as {
+      toString: () => string;
+    };
     if (parameterName) {
-      if (parameterValue != undefined) {
-        const newValue = Array.isArray(parameterValue) ? parameterValue : parameterValue.toString();
+      if (caseParameterValue !== undefined && caseParameterValue !== null) {
+        const newValue = Array.isArray(caseParameterValue)
+          ? caseParameterValue
+          : caseParameterValue.toString();
         this._rawQuery[parameterName] = newValue;
       } else {
         delete this._rawQuery[parameterName];
@@ -109,12 +116,6 @@ export class URLQuery {
 
           case "ParameterValue":
             switch (currentCharacter) {
-              case "=":
-                parameterName = "";
-                parameterValue = "";
-                currentState = "Invalid";
-                break;
-
               case "&":
                 result.set(parameterName, parameterValue);
                 parameterName = "";
@@ -125,12 +126,6 @@ export class URLQuery {
               default:
                 parameterValue += currentCharacter;
                 break;
-            }
-            break;
-
-          case "Invalid":
-            if (currentCharacter === "&") {
-              currentState = "ParameterName";
             }
             break;
 
@@ -200,7 +195,7 @@ export class URLBuilder {
    * path or query), those parts will be added to this URL as well.
    */
   public setPort(port: number | string | undefined): void {
-    if (port == undefined || port === "") {
+    if (port === undefined || port === null || port === "") {
       this._port = undefined;
     } else {
       this.set(port.toString(), "PORT");
@@ -279,7 +274,7 @@ export class URLBuilder {
    * query parameter value is undefined or empty, then the query parameter will be removed if it
    * existed.
    */
-  public setQueryParameter(queryParameterName: string, queryParameterValue: any): void {
+  public setQueryParameter(queryParameterName: string, queryParameterValue: unknown): void {
     if (queryParameterName) {
       if (!this._query) {
         this._query = new URLQuery();
@@ -311,6 +306,7 @@ export class URLBuilder {
 
     while (tokenizer.next()) {
       const token: URLToken | undefined = tokenizer.current();
+      let tokenPath: string | undefined;
       if (token) {
         switch (token.type) {
           case "SCHEME":
@@ -326,7 +322,7 @@ export class URLBuilder {
             break;
 
           case "PATH":
-            const tokenPath: string | undefined = token.text || undefined;
+            tokenPath = token.text || undefined;
             if (!this._path || this._path === "/" || tokenPath !== "/") {
               this._path = tokenPath;
             }
@@ -445,7 +441,7 @@ export class URLTokenizer {
 
   public constructor(readonly _text: string, state?: URLTokenizerState) {
     this._textLength = _text ? _text.length : 0;
-    this._currentState = state != undefined ? state : "SCHEME_OR_HOST";
+    this._currentState = state !== undefined && state !== null ? state : "SCHEME_OR_HOST";
     this._currentIndex = 0;
   }
 

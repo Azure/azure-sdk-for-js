@@ -10,7 +10,7 @@ import { MessagingError } from "@azure/core-amqp";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface BasicPartitionProperties {
   /**
@@ -117,7 +117,7 @@ export interface SubscriptionEventHandlers {
    * The `updateCheckpoint()` method on the context can be used to update checkpoints in the `CheckpointStore`
    * (if one was provided to the client). Use this in frequent intervals to mark events that have been processed
    * so that the client can restart from such checkpoints in the event of a restart or error recovery.
-   * 
+   *
    * Note: It is possible for received events to be an empty array.
    * This can happen if there are no new events to receive
    * in the `maxWaitTimeInSeconds`, which is defaulted to 60 seconds.
@@ -209,6 +209,10 @@ export interface SubscribeOptions {
 export interface Subscription {
   /**
    * Stops the subscription from receiving more messages.
+   *
+   * If a checkpoint store has been configured this will also mark this subscription's
+   * partitions as abandoned, freeing them up to be read by other consumers.
+   *
    * @returns Promise<void>
    * @throws Error if the underlying connection encounters an error while closing.
    */

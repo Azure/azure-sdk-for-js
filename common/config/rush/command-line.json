@@ -199,6 +199,16 @@
       "summary": "Unlink dependencies and purge downloaded node_modules",
       "safeForSimultaneousRushProcesses": true,
       "shellCommand": "rush unlink && rush purge"
+    },
+    {
+      "name": "prettier",
+      "commandKind": "global",
+      "summary": "Used by the pre-commit Git hook. This command invokes Prettier to reformat staged changes.",
+
+      "autoinstallerName": "rush-prettier",
+
+      // This will invoke common/autoinstallers/rush-prettier/node_modules/.bin/pretty-quick
+      "shellCommand": "pretty-quick --staged --no-restage"
     }
   ],
 

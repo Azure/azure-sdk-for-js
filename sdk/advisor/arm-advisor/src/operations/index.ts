@@ -8,6 +8,7 @@
  * regenerated.
  */
 
+export * from "./recommendationMetadata";
 export * from "./configurations";
 export * from "./recommendations";
 export * from "./operations";

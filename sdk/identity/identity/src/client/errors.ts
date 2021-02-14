@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * See the official documentation for more details:
@@ -44,7 +44,7 @@ export interface ErrorResponse {
 /**
  * Used for internal deserialization of OAuth responses. Public model is ErrorResponse
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OAuthErrorResponse {
   error: string;
@@ -91,6 +91,7 @@ export class AuthenticationError extends Error {
    */
   public readonly errorResponse: ErrorResponse;
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
     let errorResponse: ErrorResponse = {
       error: "unknown",
@@ -152,11 +153,9 @@ export class AggregateAuthenticationError extends Error {
    */
   public errors: any[];
 
-  constructor(errors: any[], errMsg?: string) {
-    let errorDetail =
-      errors
-        .join("\n");
-    super(`${errMsg}\n\n${errorDetail}`);
+  constructor(errors: any[], errorMessage?: string) {
+    const errorDetail = errors.join("\n");
+    super(`${errorMessage}\n\n${errorDetail}`);
     this.errors = errors;
 
     // Ensure that this type reports the correct name

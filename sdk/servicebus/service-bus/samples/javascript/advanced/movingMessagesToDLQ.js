@@ -2,12 +2,9 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
   
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
-
   This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
   the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
-  https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
+  https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
 
   Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */
@@ -18,7 +15,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
@@ -43,17 +40,17 @@ async function sendMessage() {
       type: "Dinner"
     },
     contentType: "application/json",
-    label: "Recipe"
+    subject: "Recipe"
   };
-  await sender.send(message);
+  await sender.sendMessages(message);
   await sender.close();
 }
 
 async function receiveMessage() {
-  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
-  const receiver = sbClient.createReceiver(queueName, "peekLock");
+  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
+  const receiver = sbClient.createReceiver(queueName);
 
-  const messages = await receiver.receiveBatch(1);
+  const messages = await receiver.receiveMessages(1);
 
   if (messages.length) {
     console.log(
@@ -61,7 +58,7 @@ async function receiveMessage() {
       messages[0].body
     );
     // Deadletter the message received
-    await messages[0].deadLetter({
+    await receiver.deadLetterMessage(messages[0], {
       deadLetterReason: "Incorrect Recipe type",
       deadLetterErrorDescription: "Recipe type does not match preferences."
     });
@@ -74,4 +71,5 @@ async function receiveMessage() {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

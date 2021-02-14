@@ -13,10 +13,7 @@ async function main() {
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
-
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
-
+  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new SecretClient(url, credential);
 
   // Create a secret

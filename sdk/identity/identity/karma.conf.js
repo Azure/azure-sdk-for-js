@@ -1,10 +1,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
-const {
-  isPlaybackMode,
-  isSoftRecordMode
-} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -36,9 +32,7 @@ module.exports = function(config) {
       "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "test-browser/index.js",
       { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
-    ].concat(
-      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
-    ),
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -118,10 +112,6 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
-      terminal: process.env.TEST_MODE !== "record"
-    },
 
     client: {
       mocha: {

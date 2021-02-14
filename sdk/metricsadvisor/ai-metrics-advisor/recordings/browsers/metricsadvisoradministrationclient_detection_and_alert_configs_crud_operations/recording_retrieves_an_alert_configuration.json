@@ -1,0 +1,27 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/0659e6c6-1da2-4f18-be8b-75dd20abea36",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"anomalyAlertingConfigurationId\":\"0659e6c6-1da2-4f18-be8b-75dd20abea36\",\"name\":\"js-alert-config-160530503791501050\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"ddb2a0f8-14a1-48ca-a608-5c74a51045c8\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"ddb2a0f8-14a1-48ca-a608-5c74a51045c8\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "responseHeaders": {
+    "apim-request-id": "8d3612a6-c2c2-4baa-83df-5e726cd1d26a",
+    "content-length": "488",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 13 Nov 2020 22:03:58 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "87",
+    "x-request-id": "8d3612a6-c2c2-4baa-83df-5e726cd1d26a"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "d8eb2d8a56545359ed633e9ee0fc4f6b"
+}

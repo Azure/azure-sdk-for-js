@@ -2,48 +2,55 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { MessagingError, ReceivedMessage, ServiceBusMessage, delay } from "../../src";
+import { MessagingError, ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../src";
 import * as dotenv from "dotenv";
+import { ConnectionContext } from "../../src/connectionContext";
+import { ReceiveOptions } from "../../src/core/messageReceiver";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
 dotenv.config();
 
 export class TestMessage {
   static sessionId: string = "my-session";
 
-  static getSample(): ServiceBusMessage {
-    const randomNumber = Math.random();
+  static getSample(randomTag?: string): ServiceBusMessage {
+    if (randomTag == null) {
+      randomTag = Math.random().toString();
+    }
+
     return {
-      body: `message body ${randomNumber}`,
-      messageId: `message id ${randomNumber}`,
+      body: `message body ${randomTag}`,
+      messageId: `message id ${randomTag}`,
       partitionKey: `dummy partition key`,
-      contentType: `content type ${randomNumber}`,
-      correlationId: `correlation id ${randomNumber}`,
+      contentType: `content type ${randomTag}`,
+      correlationId: `correlation id ${randomTag}`,
       timeToLive: 60 * 60 * 24,
-      label: `label ${randomNumber}`,
-      to: `to ${randomNumber}`,
-      replyTo: `reply to ${randomNumber}`,
+      subject: `label ${randomTag}`,
+      to: `to ${randomTag}`,
+      replyTo: `reply to ${randomTag}`,
       scheduledEnqueueTimeUtc: new Date(),
-      userProperties: {
+      applicationProperties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true
+        propThree: true,
+        propFour: Date()
       }
     };
   }
 
-  static getSessionSample(): ServiceBusMessage {
+  static getSessionSample(): ServiceBusMessage & Required<Pick<ServiceBusMessage, "sessionId">> {
     const randomNumber = Math.random();
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      partitionKey: `partition key ${randomNumber}`,
+      partitionKey: TestMessage.sessionId,
       contentType: `content type ${randomNumber}`,
       correlationId: `correlation id ${randomNumber}`,
       timeToLive: 60 * 60 * 24,
-      label: `label ${randomNumber}`,
+      subject: `label ${randomNumber}`,
       to: `to ${randomNumber}`,
       replyTo: `reply to ${randomNumber}`,
       scheduledEnqueueTimeUtc: new Date(),
-      userProperties: {
+      applicationProperties: {
         propOne: 1,
         propTwo: "two",
         propThree: true
@@ -59,17 +66,17 @@ export class TestMessage {
    */
   static checkMessageContents(
     sent: ServiceBusMessage,
-    received: ReceivedMessage,
+    received: ServiceBusReceivedMessage,
     useSessions?: boolean,
     usePartitions?: boolean
   ): void {
-    if (sent.userProperties) {
-      if (!received.userProperties) {
+    if (sent.applicationProperties) {
+      if (!received.applicationProperties) {
         chai.assert.fail("Received message doesnt have any user properties");
         return;
       }
-      const expectedUserProperties = sent.userProperties;
-      const receivedUserProperties = received.userProperties;
+      const expectedUserProperties = sent.applicationProperties;
+      const receivedUserProperties = received.applicationProperties;
       Object.keys(expectedUserProperties).forEach((key) => {
         chai.assert.equal(
           receivedUserProperties[key],
@@ -125,21 +132,18 @@ export class TestMessage {
 }
 
 export enum TestClientType {
-  PartitionedQueue,
-  PartitionedTopic,
-  PartitionedSubscription,
-  UnpartitionedQueue,
-  UnpartitionedTopic,
-  UnpartitionedSubscription,
-  PartitionedQueueWithSessions,
-  PartitionedTopicWithSessions,
-  PartitionedSubscriptionWithSessions,
-  UnpartitionedQueueWithSessions,
-  UnpartitionedTopicWithSessions,
-  UnpartitionedSubscriptionWithSessions,
-  TopicFilterTestTopic,
-  TopicFilterTestDefaultSubscription,
-  TopicFilterTestSubscription
+  PartitionedQueue = "PartitionedQueue",
+  PartitionedTopic = "PartitionedTopic",
+  PartitionedSubscription = "PartitionedSubscription",
+  UnpartitionedQueue = "UnpartitionedQueue",
+  UnpartitionedTopic = "UnpartitionedTopic",
+  UnpartitionedSubscription = "UnpartitionedSubscription",
+  PartitionedQueueWithSessions = "PartitionedQueueWithSessions",
+  PartitionedTopicWithSessions = "PartitionedTopicWithSessions",
+  PartitionedSubscriptionWithSessions = "PartitionedSubscriptionWithSessions",
+  UnpartitionedQueueWithSessions = "UnpartitionedQueueWithSessions",
+  UnpartitionedTopicWithSessions = "UnpartitionedTopicWithSessions",
+  UnpartitionedSubscriptionWithSessions = "UnpartitionedSubscriptionWithSessions"
 }
 
 /**
@@ -199,9 +203,37 @@ export enum EntityNames {
 }
 
 /**
- * Utility to check if given error is instance of `MessagingError`
- * @param err
+ * Create and initialize a streaming receiver using a given context and entityPath.
+ *
+ * Defaults to peekLock, with no auto lock renewal.
  */
-export function isMessagingError(err: any): err is MessagingError {
-  return err.name === "MessagingError";
+export async function createAndInitStreamingReceiverForTest(
+  context: ConnectionContext,
+  entityPath: string,
+  receiveOptions?: ReceiveOptions
+): Promise<StreamingReceiver> {
+  const streamingReceiver = new StreamingReceiver(
+    context,
+    entityPath,
+    receiveOptions ?? {
+      receiveMode: "peekLock",
+      lockRenewer: undefined
+    }
+  );
+
+  let err: Error | MessagingError | undefined;
+
+  await streamingReceiver.init({
+    useNewName: false,
+    connectionId: context.connectionId,
+    onError: (args) => {
+      err = args.error;
+    }
+  });
+
+  if (err) {
+    throw err;
+  }
+
+  return streamingReceiver;
 }

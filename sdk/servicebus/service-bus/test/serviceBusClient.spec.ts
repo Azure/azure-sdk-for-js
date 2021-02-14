@@ -6,841 +6,849 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import Long from "long";
-import { MessagingError, Receiver, ServiceBusClient, SessionReceiver } from "../src";
-import { Sender } from "../src/sender";
 import {
-  DispositionType,
-  ReceivedMessageWithLock,
-  ServiceBusMessage
-} from "../src/serviceBusMessage";
+  isServiceBusError,
+  ProcessErrorArgs,
+  ServiceBusClient,
+  ServiceBusError,
+  ServiceBusSessionReceiver
+} from "../src";
+import { ServiceBusSender } from "../src/sender";
+import { DispositionType, ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
-import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import {
   createServiceBusClientForTests,
   EntityName,
   ServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 
 dotenv.config();
 
-describe("Create ServiceBusClient", function(): void {
+const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+const withSessionTestClientType = getRandomTestClientTypeWithSessions();
+
+describe("ServiceBusClient live tests", () => {
   let sbClient: ServiceBusClient;
 
-  afterEach(async () => {
-    await sbClient.close();
+  describe("Create ServiceBusClient", function(): void {
+    it("hostname gets populated from the connection string", function(): void {
+      sbClient = new ServiceBusClient(
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+      );
+      sbClient.should.be.an.instanceof(ServiceBusClient);
+      should.equal(
+        sbClient.fullyQualifiedNamespace,
+        "a",
+        "Name of the namespace is different than expected"
+      );
+    });
   });
 
-  it("hostname gets populated from the connection string", function(): void {
-    sbClient = new ServiceBusClient(
-      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-    );
-    sbClient.should.be.an.instanceof(ServiceBusClient);
-    should.equal(
-      sbClient.fullyQualifiedNamespace,
-      "a",
-      "Name of the namespace is different than expected"
-    );
-  });
-});
+  describe("Random scheme in the endpoint from connection string", function(): void {
+    it(noSessionTestClientType + ": send and receive message", async function(): Promise<void> {
+      // Create a test client to get the entity types
+      const sbClient = createServiceBusClientForTests();
+      const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
+      await sbClient.close();
 
-describe("Random scheme in the endpoint from connection string", function(): void {
-  let sbClient: ServiceBusClientForTests;
-  let sbClientWithRelaxedEndPoint: ServiceBusClient;
-  let entities: EntityName;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+      // Create a sb client, sender, receiver with relaxed endpoint
+      const sbClientWithRelaxedEndPoint = new ServiceBusClient(
+        getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+      );
+      const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+      const receiver = entities.queue
+        ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue)
+        : sbClientWithRelaxedEndPoint.createReceiver(entities.topic!, entities.subscription!);
 
-  async function beforeEachTest(testClientType: TestClientType) {
-    sbClient = createServiceBusClientForTests();
-    entities = await sbClient.test.createTestEntities(testClientType);
-    await sbClient.close();
-    sbClientWithRelaxedEndPoint = new ServiceBusClient(
-      getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
-    );
-    sender = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
-    receiver = !entities.usesSessions
-      ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
-      : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
-          sessionId: TestMessage.sessionId
-        });
-  }
+      // Send and receive messages
+      const testMessages = entities.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
+      await sender.sendMessages(testMessages);
+      await testPeekMsgsLength(receiver, 1);
 
-  afterEach(async () => {
-    await sbClient.test.after();
-    await sender.close();
-    await receiver.close();
-    await sbClientWithRelaxedEndPoint.close();
-  });
+      const msgs = await receiver.receiveMessages(1);
 
-  async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
-    await sender.send(testMessages);
-    await testPeekMsgsLength(receiver, 1);
+      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      should.equal(msgs.length, 1, "Unexpected number of messages");
+      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+      should.equal(
+        msgs[0].messageId,
+        testMessages.messageId,
+        "MessageId is different than expected"
+      );
+      should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+      await receiver.completeMessage(msgs[0]);
 
-    const msgs = await receiver.receiveBatch(1);
+      await testPeekMsgsLength(receiver, 0);
 
-    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs.length, 1, "Unexpected number of messages");
-    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
-    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-    await msgs[0].complete();
-
-    await testPeekMsgsLength(receiver, 0);
-  }
-
-  it("Partitioned Queue: send and receive message", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue);
-    await sendReceiveMsg(TestMessage.getSample());
+      // Clean up
+      await sbClient.test.after();
+      await sender.close();
+      await receiver.close();
+      await sbClientWithRelaxedEndPoint.close();
+    });
   });
 
-  it("Unpartitioned Queue With Sessions: send and receive message", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    await sendReceiveMsg(TestMessage.getSessionSample());
-  });
-});
+  describe("Errors with non existing Namespace", function(): void {
+    let sbClient: ServiceBusClient;
+    let errorWasThrown: boolean;
+    beforeEach(() => {
+      sbClient = new ServiceBusClient(
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue"
+      );
+      errorWasThrown = false;
+    });
+    afterEach(() => {
+      return sbClient.close();
+    });
 
-describe("Errors with non existing Namespace", function(): void {
-  let sbClient: ServiceBusClient;
-  let errorWasThrown: boolean;
-  beforeEach(() => {
-    sbClient = new ServiceBusClient(
-      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue"
-    );
-    errorWasThrown = false;
-  });
-  afterEach(() => {
-    return sbClient.close();
-  });
-
-  const testError = (err: Error | MessagingError): void => {
-    if (!isMessagingError(err)) {
-      should.equal(true, false, "Error expected to be instance of MessagingError");
-    } else {
-      if (isNode) {
-        should.equal(
-          err.code === "ENOTFOUND" || err.code === "EAI_AGAIN",
-          true,
-          `Error code ${err.code} is different than expected`
-        );
+    const testError = (err: Error | ServiceBusError): void => {
+      if (!isServiceBusError(err)) {
+        should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
-        should.equal(
-          err.code,
-          "ServiceCommunicationError",
-          "Error code is different than expected"
-        );
+        if (isNode) {
+          should.equal(
+            err.code === "GeneralError",
+            true,
+            `Error code ${err.code} is different than expected`
+          );
+        } else {
+          should.equal(
+            err.code,
+            "ServiceCommunicationProblem",
+            "Error code is different than expected"
+          );
+        }
+
+        errorWasThrown = true;
       }
+    };
 
-      errorWasThrown = true;
-    }
-  };
+    it("throws error when receiving batch data to a non existing namespace", async function(): Promise<
+      void
+    > {
+      const receiver = sbClient.createReceiver("some-queue");
 
-  it("throws error when receiving batch data to a non existing namespace", async function(): Promise<
-    void
-  > {
-    const receiver = sbClient.createReceiver("some-queue", "peekLock");
-    await receiver.receiveBatch(10).catch(testError);
+      await receiver.receiveMessages(10).catch(testError);
 
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when receiving streaming data from a non existing namespace", async function(): Promise<
-    void
-  > {
-    const receiver = sbClient.createReceiver("some-queue", "peekLock");
-    receiver.subscribe({
-      async processMessage() {
-        throw "processMessage should not have been called when receive call is made from a non existing namespace";
-      },
-      async processError(err) {
-        testError(err);
-      }
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    should.equal(
-      await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
-      true,
-      "Error thrown flag must be true"
-    );
-    await receiver.close();
-  });
-});
+    it("throws error when receiving streaming data from a non existing namespace", async function(): Promise<
+      void
+    > {
+      const receiver = sbClient.createReceiver("some-queue");
+      reduceRetries(receiver);
 
-describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
-  let sbClient: ServiceBusClientForTests;
-  let errorWasThrown: boolean;
-  beforeEach(() => {
-    sbClient = createServiceBusClientForTests();
-    errorWasThrown = false;
-  });
-  afterEach(async () => {
-    await sbClient.test.afterEach();
-    await sbClient.test.after();
-  });
-
-  const testError = (err: Error | MessagingError, entityPath: string): void => {
-    if (!isMessagingError(err)) {
-      should.equal(true, false, "Error expected to be instance of MessagingError");
-    } else {
-      should.equal(
-        err.code,
-        "MessagingEntityNotFoundError",
-        "Error code is different than expected"
-      );
-      should.equal(
-        err.message.includes(
-          `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
-        ),
-        true
-      );
-      errorWasThrown = true;
-    }
-  };
-
-  it("throws error when receiving batch data from a non existing queue", async function(): Promise<
-    void
-  > {
-    const receiver = sbClient.createReceiver("some-name", "peekLock");
-    await receiver.receiveBatch(1).catch((err) => testError(err, "some-name"));
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
-    void
-  > {
-    const receiver = sbClient.createReceiver(
-      "some-topic-name",
-      "some-subscription-name",
-      "peekLock"
-    );
-    await receiver
-      .receiveBatch(1)
-      .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when receiving streaming data from a non existing queue", async function(): Promise<
-    void
-  > {
-    const receiver = sbClient.createReceiver("some-name", "peekLock");
-    receiver.subscribe({
-      async processMessage() {
-        throw "processMessage should not have been called when receive call is made from a non existing namespace";
-      },
-      async processError(err) {
-        testError(err, "some-name");
-      }
-    });
-
-    should.equal(
-      await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
-      true,
-      "Error thrown flag must be true"
-    );
-    await receiver.close();
-  });
-
-  it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
-    void
-  > {
-    const receiver = sbClient.createReceiver(
-      "some-topic-name",
-      "some-subscription-name",
-      "peekLock"
-    );
-    receiver.subscribe({
-      async processMessage() {
-        throw "processMessage should not have been called when receive call is made from a non existing namespace";
-      },
-      async processError(err) {
-        testError(err, "some-topic-name/Subscriptions/some-subscription-name");
-      }
-    });
-
-    should.equal(
-      await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
-      true,
-      "Error thrown flag must be true"
-    );
-    await receiver.close();
-  });
-});
-
-describe("Test ServiceBusClient creation", function(): void {
-  let errorWasThrown: boolean = false;
-
-  const env = getEnvVars();
-  const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-    "Endpoint=sb://((.*).servicebus.windows.net)"
-  ) || "")[1];
-
-  /**
-   * Utility to create EnvironmentCredential using `@azure/identity`
-   */
-  function getDefaultTokenCredential() {
-    should.exist(
-      env[EnvVarNames.AZURE_CLIENT_ID],
-      "define AZURE_CLIENT_ID in your environment before running integration tests."
-    );
-    should.exist(
-      env[EnvVarNames.AZURE_TENANT_ID],
-      "define AZURE_TENANT_ID in your environment before running integration tests."
-    );
-    should.exist(
-      env[EnvVarNames.AZURE_CLIENT_SECRET],
-      "define AZURE_CLIENT_SECRET in your environment before running integration tests."
-    );
-    should.exist(
-      env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-      "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-    return new EnvironmentCredential();
-  }
-
-  it("throws error for invalid tokenCredentials", async function(): Promise<void> {
-    try {
-      new ServiceBusClient(serviceBusEndpoint, [] as any);
-    } catch (err) {
-      errorWasThrown = true;
-      should.equal(
-        err.message,
-        "Connection string malformed: each part of the connection string must have an `=` assignment.",
-        // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
-        "ErrorMessage is different than expected"
-      );
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error for undefined tokenCredentials", async function(): Promise<void> {
-    try {
-      new ServiceBusClient(serviceBusEndpoint, undefined as any);
-    } catch (err) {
-      errorWasThrown = true;
-      should.equal(
-        err.message,
-        "Connection string malformed: each part of the connection string must have an `=` assignment.",
-        // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
-        "ErrorMessage is different than expected"
-      );
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  if (isNode) {
-    it("throws error for invalid host name", async function(): Promise<void> {
       try {
-        new ServiceBusClient(123 as any, getDefaultTokenCredential());
-      } catch (error) {
+        receiver.subscribe({
+          async processMessage() {
+            throw "processMessage should not have been called when receive call is made from a non existing namespace";
+          },
+          async processError(args) {
+            const actual: Omit<ProcessErrorArgs, "error"> = {
+              errorSource: args.errorSource,
+              entityPath: args.entityPath,
+              fullyQualifiedNamespace: args.fullyQualifiedNamespace
+            };
+
+            actual.should.deep.equal({
+              errorSource: "receive",
+              entityPath: receiver.entityPath,
+              fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+            } as Omit<ProcessErrorArgs, "error">);
+
+            testError(args.error);
+          }
+        });
+
+        should.equal(
+          await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+          true,
+          "Error thrown flag must be true"
+        );
+      } finally {
+        await receiver.close();
+      }
+    });
+  });
+
+  describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
+    let sbClient: ServiceBusClientForTests;
+    let errorWasThrown: boolean;
+    beforeEach(() => {
+      sbClient = createServiceBusClientForTests();
+      errorWasThrown = false;
+    });
+    afterEach(async () => {
+      await sbClient.test.afterEach();
+      await sbClient.test.after();
+    });
+
+    const testError = (err: Error | ServiceBusError, entityPath: string): void => {
+      if (!isServiceBusError(err)) {
+        should.equal(true, false, "Error expected to be instance of ServiceBusError");
+      } else {
+        should.equal(err.code, "MessagingEntityNotFound", "Error code is different than expected");
+        should.equal(
+          err.message.includes(
+            `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
+          ),
+          true
+        );
+        errorWasThrown = true;
+      }
+    };
+
+    it("throws error when receiving batch data from a non existing queue", async function(): Promise<
+      void
+    > {
+      const receiver = sbClient.createReceiver("some-name");
+      await receiver.receiveMessages(1).catch((err) => testError(err, "some-name"));
+
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    });
+
+    it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
+      void
+    > {
+      const receiver = sbClient.createReceiver("some-topic-name", "some-subscription-name");
+      await receiver
+        .receiveMessages(1)
+        .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
+
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    });
+
+    it("throws error when receiving streaming data from a non existing queue", async function(): Promise<
+      void
+    > {
+      const receiver = sbClient.createReceiver("some-name");
+      reduceRetries(receiver);
+
+      receiver.subscribe({
+        async processMessage() {
+          throw "processMessage should not have been called when receive call is made from a non existing namespace";
+        },
+        async processError(args) {
+          const actual: Omit<ProcessErrorArgs, "error"> = {
+            errorSource: args.errorSource,
+            entityPath: args.entityPath,
+            fullyQualifiedNamespace: args.fullyQualifiedNamespace
+          };
+
+          actual.should.deep.equal({
+            errorSource: "receive",
+            entityPath: receiver.entityPath,
+            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+          } as Omit<ProcessErrorArgs, "error">);
+
+          testError(args.error, "some-name");
+        }
+      });
+
+      should.equal(
+        await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+        true,
+        "Error thrown flag must be true"
+      );
+      await receiver.close();
+    });
+
+    it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
+      void
+    > {
+      const receiver = sbClient.createReceiver(
+        "some-topic-name",
+        "some-subscription-name"
+      ) as ServiceBusReceiverImpl;
+      reduceRetries(receiver);
+
+      receiver.subscribe({
+        async processMessage() {
+          throw "processMessage should not have been called when receive call is made from a non existing namespace";
+        },
+        async processError(args) {
+          const expected: Omit<ProcessErrorArgs, "error"> = {
+            errorSource: args.errorSource,
+            entityPath: args.entityPath,
+            fullyQualifiedNamespace: args.fullyQualifiedNamespace
+          };
+
+          expected.should.deep.equal({
+            errorSource: "receive",
+            entityPath: receiver.entityPath,
+            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+          } as Omit<ProcessErrorArgs, "error">);
+
+          testError(args.error, "some-topic-name/Subscriptions/some-subscription-name");
+        }
+      });
+
+      should.equal(
+        await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+        true,
+        "Error thrown flag must be true"
+      );
+
+      await receiver.close();
+    });
+  });
+
+  describe("Test ServiceBusClient with TokenCredentials", function(): void {
+    let errorWasThrown: boolean = false;
+
+    const env = getEnvVars();
+    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
+      "Endpoint=sb://((.*).servicebus.windows.net)"
+    ) || "")[1];
+
+    /**
+     * Utility to create EnvironmentCredential using `@azure/identity`
+     */
+    function getDefaultTokenCredential() {
+      should.exist(
+        env[EnvVarNames.AZURE_CLIENT_ID],
+        "define AZURE_CLIENT_ID in your environment before running integration tests."
+      );
+      should.exist(
+        env[EnvVarNames.AZURE_TENANT_ID],
+        "define AZURE_TENANT_ID in your environment before running integration tests."
+      );
+      should.exist(
+        env[EnvVarNames.AZURE_CLIENT_SECRET],
+        "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+      );
+      should.exist(
+        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
+        "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+      );
+      return new EnvironmentCredential();
+    }
+
+    it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+      try {
+        new ServiceBusClient(serviceBusEndpoint, [] as any);
+      } catch (err) {
         errorWasThrown = true;
         should.equal(
-          error.message,
-          "`host` parameter is not a string",
+          err.message,
+          "Connection string malformed: each part of the connection string must have an `=` assignment.",
+          // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
           "ErrorMessage is different than expected"
         );
       }
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-      const tokenCreds = getDefaultTokenCredential();
-
-      const serviceBusClient = createServiceBusClientForTests();
-      const entities = await serviceBusClient.test.createTestEntities(
-        TestClientType.UnpartitionedQueue
-      );
-      await serviceBusClient.close();
-
-      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
-      const sender = sbClient.createSender(entities.queue!);
-      const receiver = sbClient.createReceiver(entities.queue!, "peekLock");
-      const testMessages = TestMessage.getSample();
-      await sender.send(testMessages);
-      const msgs = await receiver.receiveBatch(1);
-
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      await sbClient.close();
+    it("throws error for undefined tokenCredentials", async function(): Promise<void> {
+      try {
+        new ServiceBusClient(serviceBusEndpoint, undefined as any);
+      } catch (err) {
+        errorWasThrown = true;
+        should.equal(
+          err.message,
+          "Connection string malformed: each part of the connection string must have an `=` assignment.",
+          // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
+          "ErrorMessage is different than expected"
+        );
+      }
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
-  }
-});
 
-describe("Errors after close()", function(): void {
-  let sbClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
-  let entityName: EntityName;
-  // let subscriptionClient: SubscriptionRuleManager;
+    if (isNode) {
+      it("throws error for invalid host name", async function(): Promise<void> {
+        try {
+          new ServiceBusClient(123 as any, getDefaultTokenCredential());
+        } catch (error) {
+          errorWasThrown = true;
+          should.equal(
+            error.message,
+            "`host` parameter is not a string",
+            "ErrorMessage is different than expected"
+          );
+        }
+        should.equal(errorWasThrown, true, "Error thrown flag must be true");
+      });
 
-  afterEach(async () => {
-    await sbClient.test.afterEach();
-    await sbClient.test.after();
+      it(
+        noSessionTestClientType + ": sends a message to the ServiceBus entity",
+        async function(): Promise<void> {
+          const tokenCreds = getDefaultTokenCredential();
+
+          const serviceBusClient = createServiceBusClientForTests();
+          const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
+          await serviceBusClient.close();
+
+          const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+          try {
+            const sender = sbClient.createSender(entities.queue || entities.topic!);
+            const receiver = entities.queue
+              ? sbClient.createReceiver(entities.queue!)
+              : sbClient.createReceiver(entities.topic!, entities.subscription!);
+
+            const testMessages = TestMessage.getSample();
+            await sender.sendMessages(testMessages);
+            const msgs = await receiver.receiveMessages(1);
+
+            should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+            should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+            should.equal(msgs.length, 1, "Unexpected number of messages");
+          } finally {
+            await sbClient.close();
+          }
+        }
+      );
+    }
   });
 
-  async function beforeEachTest(entityType: TestClientType, entityToClose: string): Promise<void> {
-    sbClient = createServiceBusClientForTests();
-    entityName = await sbClient.test.createTestEntities(entityType);
+  describe("Errors after close()", function(): void {
+    let sbClient: ServiceBusClientForTests;
+    let sender: ServiceBusSender;
+    let receiver: ServiceBusReceiver;
+    let receivedMessage: ServiceBusReceivedMessage;
+    let entityName: EntityName;
 
-    sender = sbClient.test.addToCleanup(
-      sbClient.createSender(entityName.queue ?? entityName.topic!)
-    );
-    receiver = await sbClient.test.getPeekLockReceiver(entityName);
+    afterEach(async () => {
+      await sbClient.test.afterEach();
+      await sbClient.test.after();
+    });
 
-    // Normal send/receive
-    const testMessage = entityName.usesSessions
-      ? TestMessage.getSessionSample()
-      : TestMessage.getSample();
-    await sender.send(testMessage);
-    const receivedMsgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
-    should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
-    receivedMessage = receivedMsgs[0];
+    async function beforeEachTest(
+      entityType: TestClientType,
+      entityToClose: string
+    ): Promise<void> {
+      sbClient = createServiceBusClientForTests();
+      entityName = await sbClient.test.createTestEntities(entityType);
 
-    // subscriptionClient = sbClient.test.addToCleanup(
-    //   sbClient.getSubscriptionRuleManager(entityName.topic!, entityName.subscription!)
-    // );
+      sender = sbClient.test.addToCleanup(
+        sbClient.createSender(entityName.queue ?? entityName.topic!)
+      );
+      receiver = await sbClient.test.createPeekLockReceiver(entityName);
 
-    // close(), so that we can then test the resulting error.
-    switch (entityToClose) {
-      case "namespace":
-        await sbClient.close();
-        break;
-      case "sender":
-        await sender.close();
-        break;
-      case "receiver":
-        await receiver.close();
-        break;
-      default:
-        break;
-    }
-  }
+      // Normal send/receive
+      const testMessage = entityName.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
+      await sender.sendMessages(testMessage);
+      const receivedMsgs = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
+      receivedMessage = receivedMsgs[0];
 
-  /**
-   * Tests the error from settling a message after the receiver is closed - only valid for sessions.
-   * For non-sessions, managementLink allows backup message settlement even after the receiver is closed.
-   */
-  async function testAllDispositions(): Promise<void> {
-    await testDisposition(DispositionType.complete);
-    await testDisposition(DispositionType.abandon);
-    await testDisposition(DispositionType.defer);
-    await testDisposition(DispositionType.deadletter);
-  }
-
-  async function testDisposition(operation: DispositionType): Promise<void> {
-    let caughtError: Error | undefined;
-
-    try {
-      switch (operation) {
-        case DispositionType.complete:
-          await receivedMessage.complete();
+      // close(), so that we can then test the resulting error.
+      switch (entityToClose) {
+        case "namespace":
+          await sbClient.close();
           break;
-        case DispositionType.abandon:
-          await receivedMessage.abandon();
+        case "sender":
+          await sender.close();
           break;
-        case DispositionType.defer:
-          await receivedMessage.defer();
+        case "receiver":
+          await receiver.close();
           break;
-        case DispositionType.deadletter:
-          await receivedMessage.deadLetter();
-          break;
-
         default:
           break;
       }
-    } catch (error) {
-      caughtError = error;
     }
 
-    const expectedErrorMsg =
-      `Failed to ${operation} the message as the AMQP link with which the message was ` +
-      `received is no longer alive.`;
-    should.equal(caughtError && caughtError.message, expectedErrorMsg);
-  }
-
-  /**
-   * Tests that each feature of the sender throws expected error
-   */
-  async function testSender(expectedErrorMsg: string): Promise<void> {
-    should.equal(sender.isClosed, true, "Sender is not marked as closed.");
-
-    const testMessage = TestMessage.getSample();
-    let errorSend: string = "";
-    await sender.send(testMessage).catch((err) => {
-      errorSend = err.message;
-    });
-    should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
-
-    let errorCreateBatch: string = "";
-    await sender.createBatch().catch((err) => {
-      errorCreateBatch = err.message;
-    });
-    should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");
-
-    let errorSendBatch: string = "";
-    await sender.send(1 as any).catch((err) => {
-      errorSendBatch = err.message;
-    });
-    should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
-
-    let errorScheduleMsg: string = "";
-    await sender.scheduleMessage(new Date(Date.now() + 30000), testMessage).catch((err) => {
-      errorScheduleMsg = err.message;
-    });
-    should.equal(
-      errorScheduleMsg,
-      expectedErrorMsg,
-      "Expected error not thrown for scheduleMessage()"
-    );
-
-    let errorScheduleMsgs: string = "";
-    await sender.scheduleMessages(new Date(Date.now() + 30000), [testMessage]).catch((err) => {
-      errorScheduleMsgs = err.message;
-    });
-    should.equal(
-      errorScheduleMsgs,
-      expectedErrorMsg,
-      "Expected error not thrown for scheduleMessages()"
-    );
-
-    let errorCancelMsg: string = "";
-    await sender.cancelScheduledMessage(Long.ZERO).catch((err) => {
-      errorCancelMsg = err.message;
-    });
-    should.equal(
-      errorCancelMsg,
-      expectedErrorMsg,
-      "Expected error not thrown for cancelScheduledMessage()"
-    );
-
-    let errorCancelMsgs: string = "";
-    await sender.cancelScheduledMessages([Long.ZERO]).catch((err) => {
-      errorCancelMsgs = err.message;
-    });
-    should.equal(
-      errorCancelMsgs,
-      expectedErrorMsg,
-      "Expected error not thrown for cancelScheduledMessages()"
-    );
-  }
-
-  /**
-   * Tests creating new sender throws expected error
-   */
-  async function testCreateSender(expectedErrorMsg: string): Promise<void> {
-    let errorNewSender: string = "";
-    try {
-      sbClient.createSender(entityName.queue ?? entityName.topic!);
-    } catch (err) {
-      errorNewSender = err.message;
+    /**
+     * Tests the error from settling a message after the receiver is closed - only valid for sessions.
+     * For non-sessions, managementLink allows backup message settlement even after the receiver is closed.
+     */
+    async function testAllDispositions(): Promise<void> {
+      await testDisposition(DispositionType.complete);
+      await testDisposition(DispositionType.abandon);
+      await testDisposition(DispositionType.defer);
+      await testDisposition(DispositionType.deadletter);
     }
-    should.equal(errorNewSender, expectedErrorMsg, "Expected error not thrown for createSender()");
-  }
 
-  /**
-   * Tests that each feature of the receiver throws expected error
-   */
-  async function testReceiver(expectedErrorMsg: string): Promise<void> {
-    should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
+    async function testDisposition(operation: DispositionType): Promise<void> {
+      let caughtError: Error | undefined;
 
-    let errorReceiveBatch: string = "";
-    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 }).catch((err) => {
-      errorReceiveBatch = err.message;
-    });
-    should.equal(
-      errorReceiveBatch,
-      expectedErrorMsg,
-      "Expected error not thrown for receiveMessages()"
-    );
+      try {
+        switch (operation) {
+          case DispositionType.complete:
+            await receiver.completeMessage(receivedMessage);
+            break;
+          case DispositionType.abandon:
+            await receiver.abandonMessage(receivedMessage);
+            break;
+          case DispositionType.defer:
+            await receiver.deferMessage(receivedMessage);
+            break;
+          case DispositionType.deadletter:
+            await receiver.deadLetterMessage(receivedMessage);
+            break;
 
-    let errorReceiveStream: string = "";
-    try {
-      receiver.subscribe({
-        async processMessage() {},
-        async processError(e) {
-          console.log(e);
+          default:
+            break;
         }
+      } catch (error) {
+        caughtError = error;
+      }
+
+      const expectedErrorMsg = getReceiverClosedErrorMsg(
+        receiver.entityPath,
+        receivedMessage.sessionId
+      );
+      should.equal(caughtError && caughtError.message, expectedErrorMsg);
+    }
+
+    /**
+     * Tests that each feature of the sender throws expected error
+     */
+    async function testSender(expectedErrorMsg: string): Promise<void> {
+      should.equal(sender.isClosed, true, "Sender is not marked as closed.");
+
+      const testMessage = TestMessage.getSample();
+      let errorSend: string = "";
+      await sender.sendMessages(testMessage).catch((err) => {
+        errorSend = err.message;
       });
-    } catch (err) {
-      errorReceiveStream = err.message;
+      should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for sendMessages()");
+
+      let errorCreateBatch: string = "";
+      await sender.createMessageBatch().catch((err) => {
+        errorCreateBatch = err.message;
+      });
+      should.equal(
+        errorCreateBatch,
+        expectedErrorMsg,
+        "Expected error not thrown for createBatch()"
+      );
+
+      let errorSendBatch: string = "";
+      await sender.sendMessages(1 as any).catch((err) => {
+        errorSendBatch = err.message;
+      });
+      should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
+
+      let errorScheduleMsgs: string = "";
+      await sender.scheduleMessages([testMessage], new Date(Date.now() + 30000)).catch((err) => {
+        errorScheduleMsgs = err.message;
+      });
+      should.equal(
+        errorScheduleMsgs,
+        expectedErrorMsg,
+        "Expected error not thrown for scheduleMessages()"
+      );
+
+      let errorCancelMsgs: string = "";
+      await sender.cancelScheduledMessages([Long.ZERO]).catch((err) => {
+        errorCancelMsgs = err.message;
+      });
+      should.equal(
+        errorCancelMsgs,
+        expectedErrorMsg,
+        "Expected error not thrown for cancelScheduledMessages()"
+      );
     }
-    should.equal(
-      errorReceiveStream,
-      expectedErrorMsg,
-      "Expected error not thrown for registerMessageHandler()"
-    );
 
-    let errorDeferredMsg: string = "";
-    await receiver.receiveDeferredMessage(Long.ZERO).catch((err) => {
-      errorDeferredMsg = err.message;
-    });
-    should.equal(
-      errorDeferredMsg,
-      expectedErrorMsg,
-      "Expected error not thrown for receiveDeferredMessage()"
-    );
-
-    let errorDeferredMsgs: string = "";
-    await receiver.receiveDeferredMessage(Long.ZERO).catch((err) => {
-      errorDeferredMsgs = err.message;
-    });
-    should.equal(
-      errorDeferredMsgs,
-      expectedErrorMsg,
-      "Expected error not thrown for receiveDeferredMessages()"
-    );
-
-    let errorPeek: string = "";
-    await receiver.peekMessages().catch((err) => {
-      errorPeek = err.message;
-    });
-    should.equal(
-      errorPeek,
-      expectedErrorMsg,
-      "Expected error not thrown for peekMessages() from receiver"
-    );
-  }
-
-  /**
-   * Tests creating new receiver throws expected error
-   */
-  async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
-    let errorNewReceiver: string = "";
-    try {
-      receiver = await sbClient.test.getPeekLockReceiver(entityName);
-    } catch (err) {
-      errorNewReceiver = err.message;
+    /**
+     * Tests creating new sender throws expected error
+     */
+    async function testCreateSender(expectedErrorMsg: string): Promise<void> {
+      let errorNewSender: string = "";
+      try {
+        sbClient.createSender(entityName.queue ?? entityName.topic!);
+      } catch (err) {
+        errorNewSender = err.message;
+      }
+      should.equal(
+        errorNewSender,
+        expectedErrorMsg,
+        "Expected error not thrown for createSender()"
+      );
     }
-    should.equal(
-      errorNewReceiver,
-      expectedErrorMsg,
-      "Expected error not thrown for createReceiver()"
-    );
-  }
 
-  /**
-   * Tests that each feature of the receiver client with sessions throws expected error
-   */
-  async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
-    await testReceiver(expectedErrorMsg);
-    const sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
+    /**
+     * Tests that each feature of the receiver throws expected error
+     */
+    async function testReceiver(expectedErrorMsg: string): Promise<void> {
+      should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
 
-    let errorPeek: string = "";
-    await sessionReceiver.peekMessages().catch((err) => {
-      errorPeek = err.message;
-    });
-    should.equal(
-      errorPeek,
-      expectedErrorMsg,
-      "Expected error not thrown for peek() from sessionReceiver"
-    );
+      let errorReceiveBatch: string = "";
+      await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 }).catch((err) => {
+        errorReceiveBatch = err.message;
+      });
+      should.equal(
+        errorReceiveBatch,
+        expectedErrorMsg,
+        "Expected error not thrown for receiveMessages()"
+      );
 
-    let errorPeekBySequence: string = "";
-    await sessionReceiver.peekMessages({ fromSequenceNumber: Long.ZERO }).catch((err) => {
-      errorPeekBySequence = err.message;
-    });
-    should.equal(
-      errorPeekBySequence,
-      expectedErrorMsg,
-      "Expected error not thrown for peekBySequenceNumber() from sessionReceiver"
-    );
+      let errorReceiveStream: string = "";
+      try {
+        receiver.subscribe({
+          async processMessage() {},
+          async processError(e) {
+            console.log(e);
+          }
+        });
+      } catch (err) {
+        errorReceiveStream = err.message;
+      }
+      should.equal(
+        errorReceiveStream,
+        expectedErrorMsg,
+        "Expected error not thrown for registerMessageHandler()"
+      );
 
-    let errorGetState: string = "";
-    await sessionReceiver.getState().catch((err) => {
-      errorGetState = err.message;
-    });
-    should.equal(errorGetState, expectedErrorMsg, "Expected error not thrown for getState()");
+      let errorDeferredMsgs: string = "";
+      await receiver.receiveDeferredMessages(Long.ZERO).catch((err) => {
+        errorDeferredMsgs = err.message;
+      });
+      should.equal(
+        errorDeferredMsgs,
+        expectedErrorMsg,
+        "Expected error not thrown for receiveDeferredMessages()"
+      );
 
-    let errorSetState: string = "";
-    await sessionReceiver.setState("state!!").catch((err) => {
-      errorSetState = err.message;
-    });
-    should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
-  }
+      let errorPeek: string = "";
+      await receiver.peekMessages(1).catch((err) => {
+        errorPeek = err.message;
+      });
+      should.equal(
+        errorPeek,
+        expectedErrorMsg,
+        "Expected error not thrown for peekMessages() from receiver"
+      );
+    }
 
-  describe("Errors after close() on namespace", function(): void {
-    const entityToClose = "namespace";
-    const expectedErrorMsg = "The underlying AMQP connection is closed.";
+    /**
+     * Tests creating new receiver throws expected error
+     */
+    async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
+      let errorNewReceiver: string = "";
+      try {
+        receiver = await sbClient.test.createPeekLockReceiver(entityName);
+      } catch (err) {
+        errorNewReceiver = err.message;
+      }
+      should.equal(
+        errorNewReceiver,
+        expectedErrorMsg,
+        "Expected error not thrown for createReceiver()"
+      );
+    }
 
-    it("Unpartitioned Queue: errors after close() on namespace", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
-
-      await testSender(expectedErrorMsg);
-      await testCreateSender(expectedErrorMsg);
+    /**
+     * Tests that each feature of the receiver client with sessions throws expected error
+     */
+    async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
       await testReceiver(expectedErrorMsg);
-      await testCreateReceiver(expectedErrorMsg);
-    });
+      const sessionReceiver = receiver as ServiceBusSessionReceiver;
 
-    it("Unpartitioned Queue with sessions: errors after close() on namespace", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
+      let errorPeek: string = "";
+      await sessionReceiver.peekMessages(1).catch((err) => {
+        errorPeek = err.message;
+      });
+      should.equal(
+        errorPeek,
+        expectedErrorMsg,
+        "Expected error not thrown for peek() from sessionReceiver"
+      );
 
-      await testSender(expectedErrorMsg);
-      await testCreateSender(expectedErrorMsg);
-      await testSessionReceiver(expectedErrorMsg);
-      await testCreateReceiver(expectedErrorMsg);
-    });
+      let errorPeekBySequence: string = "";
+      await sessionReceiver.peekMessages(1, { fromSequenceNumber: Long.ZERO }).catch((err) => {
+        errorPeekBySequence = err.message;
+      });
+      should.equal(
+        errorPeekBySequence,
+        expectedErrorMsg,
+        "Expected error not thrown for peekBySequenceNumber() from sessionReceiver"
+      );
 
-    it("Unpartitioned Topic/Subscription: errors after close() on namespace", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
-      await testSender(expectedErrorMsg);
-      await testCreateSender(expectedErrorMsg);
-      await testReceiver(expectedErrorMsg);
-      await testCreateReceiver(expectedErrorMsg);
-    });
+      let errorGetState: string = "";
+      await sessionReceiver.getSessionState().catch((err) => {
+        errorGetState = err.message;
+      });
+      should.equal(
+        errorGetState,
+        expectedErrorMsg,
+        "Expected error not thrown for getSessionState()"
+      );
 
-    it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, entityToClose);
+      let errorSetState: string = "";
+      await sessionReceiver.setSessionState("state!!").catch((err) => {
+        errorSetState = err.message;
+      });
+      should.equal(
+        errorSetState,
+        expectedErrorMsg,
+        "Expected error not thrown for setSessionState()"
+      );
+    }
 
-      await testSender(expectedErrorMsg);
-      await testCreateSender(expectedErrorMsg);
-      await testSessionReceiver(expectedErrorMsg);
-      await testCreateReceiver(expectedErrorMsg);
-    });
-  });
+    describe("Errors after close() on namespace", function(): void {
+      const entityToClose = "namespace";
+      const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
-  describe("Errors after close() on receiver", function(): void {
-    const entityToClose = "receiver";
+      it(noSessionTestClientType + ": errors after close() on namespace", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(noSessionTestClientType, entityToClose);
 
-    it("Unpartitioned Queue: errors after close() on receiver", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
+        await testSender(expectedErrorMsg);
+        await testCreateSender(expectedErrorMsg);
+        await testReceiver(expectedErrorMsg);
+        await testCreateReceiver(expectedErrorMsg);
+      });
 
-      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
-    });
+      it(
+        withSessionTestClientType + ": errors after close() on namespace",
+        async function(): Promise<void> {
+          await beforeEachTest(withSessionTestClientType, entityToClose);
 
-    it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
-
-      await testReceiver(
-        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
+          await testSender(expectedErrorMsg);
+          await testCreateSender(expectedErrorMsg);
+          await testSessionReceiver(expectedErrorMsg);
+          await testCreateReceiver(expectedErrorMsg);
+        }
       );
     });
 
-    it("Unpartitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
+    describe("Errors after close() on receiver", function(): void {
+      const entityToClose = "receiver";
 
-      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
+      it(noSessionTestClientType + ": errors after close() on receiver", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(noSessionTestClientType, entityToClose);
+
+        await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
+
+        await testAllDispositions();
+      });
+
+      it(
+        withSessionTestClientType + ": errors after close() on receiver",
+        async function(): Promise<void> {
+          await beforeEachTest(withSessionTestClientType, entityToClose);
+
+          await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, TestMessage.sessionId));
+
+          await testAllDispositions();
+        }
+      );
     });
 
-    it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, entityToClose);
+    describe("Errors after close() on sender", function(): void {
+      const entityToClose = "sender";
 
-      await testSessionReceiver(
-        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
-      );
+      it(noSessionTestClientType + ": errors after close() on sender", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(noSessionTestClientType, entityToClose);
+        await testSender(getSenderClosedErrorMsg(sender.entityPath));
+      });
     });
   });
 
-  describe("Errors after close() on sender", function(): void {
-    const entityToClose = "sender";
+  describe("entityPath on sender and receiver", async () => {
+    let sbClient: ServiceBusClientForTests;
 
-    it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
-      await testSender(getSenderClosedErrorMsg(sender.entityPath));
+    before(() => {
+      sbClient = createServiceBusClientForTests();
     });
 
-    it("Unpartitioned Topic: errors after close() on sender", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
-      await testSender(getSenderClosedErrorMsg(sender.entityPath));
+    afterEach(async () => {
+      await sbClient.test.afterEach();
     });
-  });
+    after(async () => {
+      await sbClient.test.after();
+    });
 
-  describe("Errors after close() on receiver", function(): void {
-    const entityToClose = "receiver";
-
-    it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
-
-      await testSessionReceiver(
-        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
+    it("Entity Path on Sender", () => {
+      const dummyQueueOrTopicName = "dummy";
+      const sender = sbClient.createSender(dummyQueueOrTopicName);
+      should.equal(
+        sender.entityPath,
+        dummyQueueOrTopicName,
+        "Entity path on the sender did not match!"
       );
-      await testAllDispositions();
+    });
+
+    it("Entity Path on Queue Receiver", () => {
+      const dummyQueueName = "dummy";
+      const receiver = sbClient.createReceiver(dummyQueueName);
+      should.equal(
+        receiver.entityPath,
+        dummyQueueName,
+        "Entity path on the receiver for queue did not match!"
+      );
+    });
+
+    it("Entity Path on Queue deadletter Receiver", () => {
+      const dummyQueueName = "dummy";
+      const receiver = sbClient.createReceiver(dummyQueueName, { subQueueType: "deadLetter" });
+      should.equal(
+        receiver.entityPath,
+        `${dummyQueueName}/$DeadLetterQueue`,
+        "Entity path on the receiver for queue did not match!"
+      );
+    });
+
+    it("Entity Path on Subscription Receiver", () => {
+      const dummyTopicName = "dummyTopicName";
+      const dummySubscriptionName = "dummySubscriptionName";
+      const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName);
+      should.equal(
+        receiver.entityPath,
+        `${dummyTopicName}/Subscriptions/${dummySubscriptionName}`,
+        "Entity path on the receiver for subscription did not match!"
+      );
+    });
+
+    it("Entity Path on Subscription deadletter Receiver", () => {
+      const dummyTopicName = "dummyTopicName";
+      const dummySubscriptionName = "dummySubscriptionName";
+      const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, {
+        subQueueType: "deadLetter"
+      });
+      should.equal(
+        receiver.entityPath,
+        `${dummyTopicName}/Subscriptions/${dummySubscriptionName}/$DeadLetterQueue`,
+        "Entity path on the receiver for subscription did not match!"
+      );
+    });
+
+    it(withSessionTestClientType + ": EntityPath on Session Receiver", async () => {
+      const entityName = await sbClient.test.createTestEntities(withSessionTestClientType);
+
+      const receiver = await sbClient.test.createPeekLockReceiver(entityName);
+      const expectedEntityPath = entityName.queue
+        ? entityName.queue
+        : `${entityName.topic}/Subscriptions/${entityName.subscription}`;
+      should.equal(
+        receiver.entityPath,
+        expectedEntityPath,
+        "Entity path on the session receiver for did not match!"
+      );
     });
   });
 });
 
-describe("entityPath on sender and receiver", async () => {
-  const sbClient = createServiceBusClientForTests();
-  afterEach(async () => {
-    await sbClient.test.afterEach();
-  });
-  after(async () => {
-    await sbClient.test.after();
-  });
-  it("UnpartitionedQueue", async () => {
-    const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
-    const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.queue!));
-    const receiver = sbClient.test.addToCleanup(
-      sbClient.createReceiver(entityName.queue!, "receiveAndDelete")
-    );
-    const deadLetterReceiver = sbClient.test.addToCleanup(
-      sbClient.createDeadLetterReceiver(entityName.queue!, "receiveAndDelete")
-    );
-    should.equal(sender.entityPath, entityName.queue, "Entity path on the sender did not match!");
-    should.equal(
-      receiver.entityPath,
-      entityName.queue,
-      "Entity path on the receiver did not match!"
-    );
-    should.equal(
-      deadLetterReceiver.entityPath,
-      `${entityName.queue}/$DeadLetterQueue`,
-      "Entity path on the deadLetterReceiver did not match!"
-    );
-  });
-
-  it("PartitionedSubscriptionWithSessions", async () => {
-    const entityName = await sbClient.test.createTestEntities(
-      TestClientType.PartitionedSubscriptionWithSessions
-    );
-    const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.topic!));
-    const receiver = sbClient.test.addToCleanup(
-      await sbClient.createSessionReceiver(
-        entityName.topic!,
-        entityName.subscription!,
-        "receiveAndDelete",
-        { sessionId: TestMessage.sessionId }
-      )
-    );
-    const deadLetterReceiver = sbClient.test.addToCleanup(
-      sbClient.createDeadLetterReceiver(
-        entityName.topic!,
-        entityName.subscription!,
-        "receiveAndDelete"
-      )
-    );
-    should.equal(sender.entityPath, entityName.topic, "Entity path on the sender did not match!");
-    should.equal(
-      receiver.entityPath,
-      `${entityName.topic}/Subscriptions/${entityName.subscription}`,
-      "Entity path on the receiver did not match!"
-    );
-    should.equal(
-      deadLetterReceiver.entityPath,
-      `${entityName.topic}/Subscriptions/${entityName.subscription}/$DeadLetterQueue`,
-      "Entity path on the deadLetterReceiver did not match!"
-    );
-  });
-});
+function reduceRetries(receiver: ServiceBusReceiver) {
+  // for some tests the important thing is just to run a single retry cycle (and then report)
+  // the error. This reduces everything so we run a short retry cycle.
+  //
+  // There are other tests that ensure that the retry cycle does work properly.
+  (receiver as ServiceBusReceiverImpl)["_retryOptions"] = {
+    ...(receiver as ServiceBusReceiverImpl)["_retryOptions"],
+    maxRetries: 0,
+    timeoutInMs: 0,
+    maxRetryDelayInMs: 0,
+    retryDelayInMs: 0
+  };
+}

@@ -2,110 +2,129 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { RequestOptionsBase } from "@azure/core-http";
-import { DeletedSecret, SecretClientInterface } from "../../secretsModels";
+import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { DeletedSecret, DeleteSecretOptions, GetDeletedSecretOptions } from "../../secretsModels";
+import {
+  KeyVaultSecretPollOperation,
+  KeyVaultSecretPollOperationState
+} from "../keyVaultSecretPoller";
+import { KeyVaultClient } from "../../generated/keyVaultClient";
+import { DeleteSecretResponse, GetDeletedSecretResponse } from "../../generated/models";
+import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
+import { getSecretFromSecretBundle } from "../../transformations";
 
 /**
  * An interface representing the state of a delete secret's poll operation
  */
-export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
-  /**
-   * The name of the secret.
-   */
-  name: string;
-  /**
-   * Options for the core-http requests.
-   */
-  requestOptions?: RequestOptionsBase;
-  /**
-   * An interface representing a SecretClient. For internal use.
-   */
-  client: SecretClientInterface;
-}
+export interface DeleteSecretPollOperationState
+  extends KeyVaultSecretPollOperationState<DeletedSecret> {}
 
 /**
  * An interface representing a delete secret's poll operation
  */
-export interface DeleteSecretPollOperation
-  extends PollOperation<DeleteSecretPollOperationState, DeletedSecret> {}
-
-/**
- * @summary Reaches to the service and updates the delete secret's poll operation.
- * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
- */
-async function update(
-  this: DeleteSecretPollOperation,
-  options: {
-    abortSignal?: AbortSignalLike;
-    fireProgress?: (state: DeleteSecretPollOperationState) => void;
-  } = {}
-): Promise<DeleteSecretPollOperation> {
-  const state = this.state;
-  const { name, client } = state;
-
-  const requestOptions = state.requestOptions || {};
-  if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
+export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
+  DeleteSecretPollOperationState,
+  DeletedSecret
+> {
+  constructor(
+    public state: DeleteSecretPollOperationState,
+    private vaultUrl: string,
+    private client: KeyVaultClient,
+    private requestOptions: RequestOptionsBase = {}
+  ) {
+    super(state, { cancelMessage: "Canceling the deletion of a secret is not supported." });
   }
 
-  if (!state.isStarted) {
-    const deletedSecret = await client.deleteSecret(name, requestOptions);
-    state.isStarted = true;
-    state.result = deletedSecret;
-    if (!deletedSecret.properties.recoveryId) {
-      state.isCompleted = true;
-    }
-  }
+  /**
+   * Sends a delete request for the given Key Vault Key's name to the Key Vault service.
+   * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
+   */
+  private async deleteSecret(
+    name: string,
+    options: DeleteSecretOptions = {}
+  ): Promise<DeletedSecret> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("generatedClient.deleteKey", requestOptions);
 
-  if (!state.isCompleted) {
+    let response: DeleteSecretResponse;
     try {
-      state.result = await client.getDeletedSecret(name, { requestOptions });
-      state.isCompleted = true;
-    } catch (error) {
-      if (error.statusCode === 403) {
-        // At this point, the resource exists but the user doesn't have access to it.
-        state.isCompleted = true;
-      } else if (error.statusCode !== 404) {
-        state.error = error;
+      response = await this.client.deleteSecret(
+        this.vaultUrl,
+        name,
+        setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return getSecretFromSecretBundle(response);
+  }
+
+  /**
+   * The getDeletedSecret method returns the specified deleted secret along with its properties.
+   * This operation requires the secrets/get permission.
+   */
+  private async getDeletedSecret(
+    name: string,
+    options: GetDeletedSecretOptions = {}
+  ): Promise<DeletedSecret> {
+    const responseOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("generatedClient.getDeletedSecret", responseOptions);
+
+    let response: GetDeletedSecretResponse;
+    try {
+      response = await this.client.getDeletedSecret(
+        this.vaultUrl,
+        name,
+        setParentSpan(span, responseOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return getSecretFromSecretBundle(response);
+  }
+
+  /**
+   * Reaches to the service and updates the delete secret's poll operation.
+   */
+  public async update(
+    options: {
+      abortSignal?: AbortSignalLike;
+      fireProgress?: (state: DeleteSecretPollOperationState) => void;
+    } = {}
+  ): Promise<DeleteSecretPollOperation> {
+    const state = this.state;
+    const { name } = state;
+
+    if (options.abortSignal) {
+      this.requestOptions.abortSignal = options.abortSignal;
+    }
+
+    if (!state.isStarted) {
+      const deletedSecret = await this.deleteSecret(name, this.requestOptions);
+      state.isStarted = true;
+      state.result = deletedSecret;
+      if (!deletedSecret.properties.recoveryId) {
         state.isCompleted = true;
       }
     }
+
+    if (!state.isCompleted) {
+      try {
+        state.result = await this.getDeletedSecret(name, this.requestOptions);
+        state.isCompleted = true;
+      } catch (error) {
+        if (error.statusCode === 403) {
+          // At this point, the resource exists but the user doesn't have access to it.
+          state.isCompleted = true;
+        } else if (error.statusCode !== 404) {
+          state.error = error;
+          state.isCompleted = true;
+        }
+      }
+    }
+
+    return this;
   }
-
-  return makeDeleteSecretPollOperation(state);
-}
-
-/**
- * @summary Reaches to the service and cancels the secret's operation, also updating the secret's poll operation
- * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
- */
-async function cancel(this: DeleteSecretPollOperation): Promise<DeleteSecretPollOperation> {
-  throw new Error("Canceling the deletion of a secret is not supported.");
-}
-
-/**
- * @summary Serializes the create secret's poll operation
- */
-function toString(this: DeleteSecretPollOperation): string {
-  return JSON.stringify({
-    state: this.state
-  });
-}
-
-/**
- * @summary Builds a create secret's poll operation
- * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
- */
-export function makeDeleteSecretPollOperation(
-  state: DeleteSecretPollOperationState
-): DeleteSecretPollOperation {
-  return {
-    state: {
-      ...state
-    },
-    update,
-    cancel,
-    toString
-  };
 }

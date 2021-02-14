@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { HttpHeaders } from "../httpHeaders";
 import { WebResourceLike } from "../webResource";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
 
 /**
- * @interface ApiKeyCredentialOptions
  * Describes the options to be provided while creating an instance of ApiKeyCredentials
  */
 export interface ApiKeyCredentialOptions {
@@ -34,8 +33,7 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
   private readonly inQuery?: { [x: string]: any };
 
   /**
-   * @constructor
-   * @param {object} options   Specifies the options to be provided for auth. Either header or query needs to be provided.
+   * @param options - Specifies the options to be provided for auth. Either header or query needs to be provided.
    */
   constructor(options: ApiKeyCredentialOptions) {
     if (!options || (options && !options.inHeader && !options.inQuery)) {
@@ -50,8 +48,8 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
   /**
    * Signs a request with the values provided in the inHeader and inQuery parameter.
    *
-   * @param {WebResourceLike} webResource The WebResourceLike to be signed.
-   * @returns {Promise<WebResourceLike>} The signed request object.
+   * @param webResource - The WebResourceLike to be signed.
+   * @returns The signed request object.
    */
   signRequest(webResource: WebResourceLike): Promise<WebResourceLike> {
     if (!webResource) {

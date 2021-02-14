@@ -22,7 +22,7 @@ describe("QueueClient Node.js only", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("getAccessPolicy", async () => {

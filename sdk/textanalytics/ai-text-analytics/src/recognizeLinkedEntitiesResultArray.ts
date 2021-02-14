@@ -18,8 +18,7 @@ import { sortResponseIdObjects } from "./util";
  * Array of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizeLinkedEntitiesResultArray
-  extends Array<RecognizeLinkedEntitiesResult> {
+export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinkedEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

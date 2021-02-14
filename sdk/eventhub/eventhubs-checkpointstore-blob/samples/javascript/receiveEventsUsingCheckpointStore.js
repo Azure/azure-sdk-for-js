@@ -32,7 +32,7 @@ async function main() {
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
 
-  if (!containerClient.exists()) {
+  if (!(await containerClient.exists())) {
     await containerClient.create();
   }
 
@@ -47,6 +47,12 @@ async function main() {
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {
+      if (events.length === 0) {
+        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
+        // will pass you an empty array.
+        return;
+      }
+
       for (const event of events) {
         console.log(
           `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`

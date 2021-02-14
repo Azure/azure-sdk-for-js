@@ -4,14 +4,6 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types"
   },
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-esm",
-    "./samples/**/*.ts",
-    "./dom-shims.d.ts"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "types", "temp", "browser", "dist*", "./dom-shims.d.ts"]
 }

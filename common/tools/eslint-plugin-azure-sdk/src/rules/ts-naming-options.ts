@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @file Rule to require client method option parameter type names to be suffixed with Options and prefixed with the method name.
+ * @file Rule to require client method option parameter type names to be suffixed with Options and prefixed with the class name if it is a class constructor and prefixed with the method name otherwise.
  * @author Arpan Laha
  */
 
@@ -33,7 +33,12 @@ export = {
         getPublicMethods(node).forEach((method: MethodDefinition): void => {
           const methodIdentifier = method.key as Identifier;
           const TSFunction = method.value as TSESTree.FunctionExpression;
-
+          const optionsRegex =
+            // the null check will always succeed because we apply this only for
+            // classes where id.name=/Client$/.
+            method.kind === "constructor" && node.id !== null
+              ? new RegExp(`${node.id.name}Options`, "i")
+              : new RegExp(`${methodIdentifier.name}Options`, "i");
           // look for parameters with types suffixed with Options
           TSFunction.params.forEach((param: TSESTree.Parameter): void => {
             // checks to validate parameter
@@ -46,11 +51,11 @@ export = {
                 const paramTypeName = typeAnnotation.typeName.name;
                 if (paramTypeName.endsWith("Options")) {
                   // check that parameter is prefixed with method name
-                  const optionsRegex = new RegExp(`${methodIdentifier.name}Options`, "i");
                   if (!optionsRegex.test(paramTypeName)) {
+                    const prefixKind = method.kind === "constructor" ? "class" : "method";
                     context.report({
                       node: param,
-                      message: "options parameter type is not prefixed with the method name"
+                      message: `options parameter type is not prefixed with the ${prefixKind} name`
                     });
                   }
                 }

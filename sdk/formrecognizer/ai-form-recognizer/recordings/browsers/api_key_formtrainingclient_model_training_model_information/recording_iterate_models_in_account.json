@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models",
+   "query": {
+    "op": "full"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelList\":[{\"modelId\":\"0061e8b2-9b26-498d-bd3a-f5b43b2bdbde\",\"modelName\":\"p2 unlabeled form testing\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-19T17:16:38Z\",\"lastUpdatedDateTime\":\"2020-11-19T17:16:54Z\"},{\"modelId\":\"07dacf7a-15f6-4a3d-9dee-2da61ea43956\",\"modelName\":\"p2 labeled form testing\",\"attributes\":{\"isComposed\":false},\"status\":\"ready\",\"createdDateTime\":\"2020-11-19T17:17:23Z\",\"lastUpdatedDateTime\":\"2020-11-19T17:17:25Z\"},{\"modelId\":\"0b6d01c1-cf8b-483e-bcc6-0589bf6fab9c\",\"modelName\":\"modelName160588261776002968\",\"attributes\":{\"isComposed\":false},\"status\":\"ready\",\"createdDateTime\":\"2020-11-20T14:30:17Z\",\"lastUpdatedDateTime\":\"2020-11-20T14:30:20Z\"},{\"modelId\":\"11b615b5-c2c1-4478-9c4b-0fa0f7daf584\",\"modelName\":\"modelName160588272292703301\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-20T14:32:02Z\",\"lastUpdatedDateTime\":\"2020-11-20T14:32:19Z\"},{\"modelId\":\"131495cd-829a-4d49-bffc-044636a298fd\",\"modelName\":\"modelName160588265011702238\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-20T14:30:50Z\",\"lastUpdatedDateTime\":\"2020-11-20T14:31:07Z\"},{\"modelId\":\"13cdb032-8404-48b3-ac52-11d074b6076f\",\"modelName\":\"modelName160588275936002493\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-20T14:32:39Z\",\"lastUpdatedDateTime\":\"2020-11-20T14:32:56Z\"},{\"modelId\":\"1437c8d3-4ba7-42c5-8479-0bd168fd353d\",\"modelName\":\"p1 unlabeled form testing\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-19T17:16:19Z\",\"lastUpdatedDateTime\":\"2020-11-19T17:16:33Z\"},{\"modelId\":\"40375d84-f14d-46ca-8398-013ee339adef\",\"modelName\":\"customFormModelName160580293122704418\",\"attributes\":{\"isComposed\":false},\"status\":\"ready\",\"createdDateTime\":\"2020-11-19T16:22:11Z\",\"lastUpdatedDateTime\":\"2020-11-19T16:22:13Z\"},{\"modelId\":\"9528d1cd-aae6-4655-8680-3f91d66c1ffb\",\"modelName\":\"modelName160588268651905251\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-20T14:31:26Z\",\"lastUpdatedDateTime\":\"2020-11-20T14:31:43Z\"},{\"modelId\":\"adcf6d36-3690-4a88-8e8d-505f04ee7f7b\",\"modelName\":\"p1 labeled form testing\",\"attributes\":{\"isComposed\":false},\"status\":\"ready\",\"createdDateTime\":\"2020-11-19T17:17:14Z\",\"lastUpdatedDateTime\":\"2020-11-19T17:17:16Z\"},{\"modelId\":\"cfd02c8a-4fac-4fb2-9a58-d09d85a0eb9d\",\"attributes\":{\"isComposed\":false},\"status\":\"ready\",\"createdDateTime\":\"2020-11-19T17:01:52Z\",\"lastUpdatedDateTime\":\"2020-11-19T17:01:55Z\"},{\"modelId\":\"d63a1ae9-5cfa-44cc-a6d9-f50aa56fda08\",\"modelName\":\"modelName160588263406503124\",\"attributes\":{\"isComposed\":false},\"status\":\"ready\",\"createdDateTime\":\"2020-11-20T14:30:34Z\",\"lastUpdatedDateTime\":\"2020-11-20T14:30:36Z\"},{\"modelId\":\"e5a12366-fb04-4ec2-80cb-f4c4706117f6\",\"modelName\":\"unlabeled testing\",\"status\":\"ready\",\"createdDateTime\":\"2020-11-19T17:02:37Z\",\"lastUpdatedDateTime\":\"2020-11-19T17:03:16Z\"}],\"nextLink\":\"\"}",
+   "responseHeaders": {
+    "apim-request-id": "0762bd2b-f0ae-42bd-83bd-229ef676d597",
+    "content-length": "2727",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 14:33:16 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "128"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "9638007624521315a5d9dcc685e8cc5e"
+}

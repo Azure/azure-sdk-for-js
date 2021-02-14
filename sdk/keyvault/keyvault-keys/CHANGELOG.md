@@ -1,8 +1,48 @@
 # Release History
 
-## 4.1.0-preview.2 (Unreleased)
 
-- Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+## 4.2.0-beta.3 (Unreleased)
+
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- Updated the Key Vault Keys Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
+- Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
+
+## 4.2.0-beta.2 (2020-10-06)
+
+- Added the `oct-HSM` type to `KeyType`.
+- Added encryption, decryption, wrapping and unwrapping service support for the algorithms "A128GCM", "A192GCM", "A256GCM", "A128KW", "A192KW", "A256KW", "A128CBC", "A192CBC", "A256CBC", "A128CBCPAD", "A192CBCPAD", "A256CBCPAD".
+- The encryption, decryption, wrapping and unwrapping operations now support the following optional parameters:
+  - `additionalAuthenticatedData`, Additional data to authenticate but not encrypt/decrypt when using authenticated cryptography algorithms.
+  - `iv`, the initialization vector for symmetric algorithms.
+  - `tag`, the tag to authenticate when performing decryption with an authenticated algorithm.
+
+## 4.2.0-beta.1 (2020-09-11)
+
+- Added `parseKeyVaultKeysIdentifier` and `ParsedKeyVaultKeysIdentifier` to help with parsing the unique identifiers of Key Vault Keys.
+- Added the basic structure of a new client to perform local cryptography operations, which is now called `LocalCryptographyClient`.  
+  - The existing `CryptographyClient`, when initialized, will create one instance of a local cryptography client, which can be retrieved by calling to a new method that is part of the `CryptographyClient` class: `getLocalCryptographyClient()`.
+  - The `LocalCryptographyClient` currently has limited support of the cryptography operations available on the `CryptographyClient`. More operations will be added over time.
+
+## 4.1.0 (2020-08-12)
+
+4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
+
+### Changes since 4.0.4
+
+- Added the optional `serviceVersion` property to the `KeyClient` and `CryptographyClient` optional parameters to control the version of the Key Vault service being used by the clients.
+    - It defaults to the latest supported API version, which currently is `7.1`.
+    - Other supported service version at the moment is `7.0`.
+- Added `import` to the list of possible values for `KeyOperation`.
+- Added `recoverableDays` as an optional property to `KeyProperties` which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
+- Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
+
+### Changes since 4.1.0-preview.1
+
+- Renamed the `apiVersion` property to the `KeyClient` constructor as `serviceVersion`.
+- Moved from service version `7.1-preview` to `7.1`.
+
+## 4.0.4 (2020-06-01)
+
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 
 ## 4.0.3 (2020-05-13)

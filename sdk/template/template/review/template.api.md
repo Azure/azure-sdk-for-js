@@ -4,11 +4,17 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import EventEmitter from 'events';
+import { KeyCredential } from '@azure/core-auth';
 import { URLBuilder } from '@azure/core-http';
+
+export { AzureKeyCredential }
 
 // @public (undocumented)
 export function createEventEmitter(): EventEmitter;
+
+export { KeyCredential }
 
 // @public (undocumented)
 export function (str: string): void;

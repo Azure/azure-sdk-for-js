@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import "chai/register-should";
 import { should } from "chai";
-import tunnel from "tunnel";
+import Tunnel from "tunnel";
 import https from "https";
 
 import { HttpHeaders } from "../src/coreHttp";
@@ -14,9 +14,9 @@ describe("proxyAgent", () => {
     type HttpsAgent = https.Agent & {
       defaultPort: number | undefined;
       options: {
-        proxy: tunnel.ProxyOptions;
+        proxy: Tunnel.ProxyOptions;
       };
-      proxyOptions: tunnel.ProxyOptions;
+      proxyOptions: Tunnel.ProxyOptions;
     };
 
     [
@@ -74,7 +74,7 @@ describe("proxyAgent", () => {
           port: testCase.port
         };
 
-        const fn = function() {
+        const fn = function(): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.not.throw();
@@ -93,7 +93,7 @@ describe("proxyAgent", () => {
           port: testCase.port
         };
 
-        const fn = function() {
+        const fn = function(): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.throw(
@@ -115,13 +115,13 @@ describe("proxyAgent", () => {
     type HttpsAgent = https.Agent & {
       defaultPort: number | undefined;
       options: {
-        proxy: tunnel.ProxyOptions;
+        proxy: Tunnel.ProxyOptions;
       };
     };
 
     [true, false].forEach((value) => {
       it(`returns HTTP agent for HTTP request and HTTP${value ? "S" : ""} proxy`, function() {
-        const tunnelConfig: tunnel.HttpsOverHttpsOptions = {
+        const tunnelConfig: Tunnel.HttpsOverHttpsOptions = {
           proxy: {
             host: defaultProxySettings.host,
             port: defaultProxySettings.port,
@@ -138,7 +138,7 @@ describe("proxyAgent", () => {
 
     [true, false].forEach((value) => {
       it(`returns HTTPS agent for HTTPS request and HTTP${value ? "S" : ""} proxy`, function() {
-        const tunnelConfig: tunnel.HttpsOverHttpsOptions = {
+        const tunnelConfig: Tunnel.HttpsOverHttpsOptions = {
           proxy: {
             host: defaultProxySettings.host,
             port: defaultProxySettings.port,

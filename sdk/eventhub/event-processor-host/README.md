@@ -9,7 +9,7 @@ Azure Storage Blob. This makes it easy to continue receiving messages from where
 #### Conceptual Overview
 ![overview](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/eventhub/event-processor-host/eph.png)
 
-- More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
+- More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/azure/event-hubs/event-hubs-event-processor-host).
 - General overview of how the Event Processor Host SDK works internally can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/overview.md).
 
 ## Pre-requisite ##
@@ -78,7 +78,7 @@ create each instance in a separate process or a separate machine. This should pr
 The following samples focus on EPH (Event Processor Host) which is responsible for receiving messages.
 For sending messages to the EventHub, please use the `azure-event-hubs` package from npm. More
 information about the event hub client can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs).
-You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/sendBatch.ts) that sends
+You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/typescript/src/sendBatch.ts) that sends
 multiple messages batched together. You should be able to run the `send` example from one terminal window and see those messages
 being received in the `singleEph` or `multipleEph` example being run in the second terminal window.
 
@@ -293,7 +293,7 @@ main().catch((err) => {
 ```
 
 ## AMQP Dependencies ##
-It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-processor-host%2FREADME.png)

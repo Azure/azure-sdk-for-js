@@ -1,5 +1,61 @@
 # Release History
 
+## 12.4.0-beta.2 (Unreleased)
+
+- Added a new `from(permissionLike)` function to `AccountSASPermissions`, `BlobSASPermissions` and `ContainerSASPermissions` for creating such a permission from a raw permission-like object. Addressed issue [9714](https://github.com/Azure/azure-sdk-for-js/issues/9714).
+
+## 12.4.0-beta.1 (2020-12-09)
+
+- Updated Azure Storage Service API version to 2020-04-08.
+- Added a new interface `BlockBlobClient.syncUploadFromURL()` to support creating a new Block Blob where the contents of the blob are read from a given URL.
+- Blob Tags updates: `BlobClient.setTags()` and `BlobClient.getTags()` now support the `LeaseAccessConditions` and `BlobServiceClient.findBlobsByTags()` will return all matching tags for each blob.
+- Added `generateSasUrl` to `BlobClient` and `ContainerClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `BlobServiceClient` to generate an account-level SAS URI for the client.
+- Fixed a bug where the `credential` property of the `StorageClient` is not set correctly when using a Token credential. Fixed bug [12219](https://github.com/Azure/azure-sdk-for-js/issues/12219).
+- Blob Batch operations now reorder the subresponses in the client side to perserve the original input order. See `BlobBatchClient.submitBatch()` and [12335](https://github.com/Azure/azure-sdk-for-js/issues/12335).
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
+- Added `isHierarchicalNamespaceEnabled` to the response of `BlobServiceClient.getAccountInfo()`.
+
+## 12.3.0 (2020-11-10)
+
+- Added `BlockBlobClient.uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options)` for parallel uploading. It's avaiable in both Node.js and browsers.
+- Added new SAS permissions Move(m) and Execute(e) for Blob and Container. Also supports specifying an authorized object ID via `saoid` and a correlation ID via `scid` for user delegation SAS.
+
+## 12.3.0-beta.1 (2020-10-13)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+- Added support for Blob Last Access Time tracking.
+- Added support for Blob Query Arrow output format.
+- Added support for Container Soft Delete.
+
+## 12.2.1 (2020-09-17)
+
+- Bug fix - Fixes an issue where`BlockBlobClient.uploadStream()` will give an "Invalid Verb" error when keep-alive is enabled. Fixed bug [11187](https://github.com/Azure/azure-sdk-for-js/issues/11187).
+
+## 12.2.0 (2020-09-08)
+
+- Added RehydratePriority to BlobProperties and BlobItemProperties.
+- Fixed `BlockBlobClient.uploadStream()` to support `bufferSize` larger than `buffer.constants.MAX_LENGTH`.
+- Added support for Object Replication Service.
+- Added custom domain support.
+- Supported Append Blob Seal.
+- Supported tags conditional operations.
+- The Static Website Service now supports a DefaultIndexDocumentPath for a global HTTP 200 route within the static website. You can get it by `BlobServiceClient.getProperties()` and set it via `blobServiceClient.setProperties()`.
+- Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
+- Bug fix - high level upload functions `BlockBlobClient.uploadFile()`, `BlockBlobClient.uploadStream()` and `BlockBlobClient.uploadBrowserData()` now support setting tier. Fixes bug [9062](https://github.com/Azure/azure-sdk-for-js/issues/9062).
+- Optimized error semantic for `listBlobsByHierarchy()`. Using `listBlobsByHierarchy()` with empty `delimiter` will now fail-fast.
+- Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
+
+## 12.2.0-preview.1 (2020.07)
+
+- Updated Azure Storage Service API version to 2019-12-12.
+- Supported quick query. Added a new API `BlockBlobClient.query()`.
+- Supported blob versioning.
+- Supported blob tags.
+- Increased the maximum block size for Block Blob from 100MiB to 4000MiB(~4GB). And thereby supporting ~200TB maximum size for Block Blob.
+- Added convenience method `createIfNotExists` for `ContainerClient`, `AppendBlobClient` and `PageBlobClient`.
+- Added convenience method `deleteIfExists` for `ContainerClient` and `BlobClients`.
+
 ## 12.1.2 (2020.05)
 
 - Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
@@ -9,7 +65,7 @@
 
 ## 12.1.1 (2020.03)
 
-- Bug fix - Blob SAS's `sr` field is now properly set when generating SAS for a blob using a stored policy with `signedpermissions`. For more details about Service SAS, please refer to [link](https://docs.microsoft.com/en-us/rest/api/storageservices/create-service-sas).
+- Bug fix - Blob SAS's `sr` field is now properly set when generating SAS for a blob using a stored policy with `signedpermissions`. For more details about Service SAS, please refer to [link](https://docs.microsoft.com/rest/api/storageservices/create-service-sas).
 - Fixed unexpected hang issue when uploading empty body. Fixed bug [6904](https://github.com/Azure/azure-sdk-for-js/issues/6904).
 
 ## 12.1.0 (2020.02)
@@ -203,8 +259,8 @@
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
-- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/proxyAuth.ts)
-- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
+- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/@azure/storage-blob_12.0.0-preview.3/sdk/storage/storage-blob/samples/typescript/proxyAuth.ts)
+- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 12.0.0-preview.2 (2019.08)
 
@@ -270,7 +326,7 @@ For release notes and more information please visit https://aka.ms/azsdk/release
 
 ## 10.4.0 (2019.07)
 
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
+- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
 - Improved comments for `BlockBlobURL.upload()`.
 - Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 - Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.

@@ -2,19 +2,15 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import {
-  AccessToken,
-  Constants,
-  SharedKeyCredential,
-  TokenType,
-  defaultLock
-} from "@azure/core-amqp";
+import { Constants, TokenType, defaultLock } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
 import { logger } from "./log";
+import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
 
 /**
- * @ignore
+ * @hidden
  */
 export interface LinkEntityOptions {
   /**
@@ -39,7 +35,7 @@ export interface LinkEntityOptions {
 /**
  * Describes the base class for entities like EventHub Sender, Receiver and Management link.
  * @internal
- * @ignore
+ * @hidden
  * @class LinkEntity
  */
 export class LinkEntity {
@@ -100,7 +96,7 @@ export class LinkEntity {
   protected _tokenTimeoutInMs?: number;
   /**
    * Creates a new LinkEntity instance.
-   * @ignore
+   * @hidden
    * @constructor
    * @param context The connection context.
    * @param [options] Options that can be provided while creating the LinkEntity.
@@ -116,7 +112,7 @@ export class LinkEntity {
 
   /**
    * Negotiates cbs claim for the LinkEntity.
-   * @ignore
+   * @hidden
    * @param [setTokenRenewal] Set the token renewal timer. Default false.
    * @returns Promise<void>
    */
@@ -142,8 +138,13 @@ export class LinkEntity {
     if (this._context.tokenCredential instanceof SharedKeyCredential) {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
-      // renew sas token in every 45 minutess
-      this._tokenTimeoutInMs = (3600 - 900) * 1000;
+
+      // expiresOnTimestamp can be 0 if the token is not meant to be renewed
+      // (ie, SharedAccessSignatureCredential)
+      if (tokenObject.expiresOnTimestamp > 0) {
+        // renew sas token in every 45 minutess
+        this._tokenTimeoutInMs = (3600 - 900) * 1000;
+      }
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
       if (!aadToken) {
@@ -170,7 +171,7 @@ export class LinkEntity {
       this.address
     );
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
     });
     logger.verbose(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
@@ -186,12 +187,17 @@ export class LinkEntity {
 
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
-   * @ignore
-   * @returns
+   * @hidden
    */
   protected async _ensureTokenRenewal(): Promise<void> {
     if (!this._tokenTimeoutInMs) {
       return;
+    }
+    // Clear the existing token renewal timer.
+    // This scenario can happen if the connection goes down and is brought back up
+    // before the `nextRenewalTimeout` was reached.
+    if (this._tokenRenewalTimer) {
+      clearTimeout(this._tokenRenewalTimer);
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
@@ -221,7 +227,7 @@ export class LinkEntity {
   /**
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
-   * @ignore
+   * @hidden
    * @param [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */

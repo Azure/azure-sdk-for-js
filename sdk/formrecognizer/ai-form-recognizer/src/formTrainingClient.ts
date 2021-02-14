@@ -9,8 +9,7 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  RestResponse,
-  ServiceClientCredentials
+  RestResponse
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
@@ -29,9 +28,11 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
-  GeneratedClientTrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse,
+  CopyAuthorizationResult,
+  GeneratedClientComposeCustomModelsAsyncResponse
 } from "./generated/models";
-import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
+import { TrainPollerClient, BeginTrainingPoller } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
 import {
@@ -40,25 +41,17 @@ import {
   CustomFormModel,
   CustomFormModelInfo,
   CopyAuthorization,
-  CopyAuthorizationResultModel,
-  ListCustomModelsResponse
+  ListCustomModelsResponse,
+  OperationStatus,
+  ModelStatus
 } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
-import {
-  CopyModelPollerClient,
-  BeginCopyModelPoller,
-  BeginCopyModelPollState
-} from "./lro/copy/poller";
+import { CopyModelPollerClient, BeginCopyModelPoller } from "./lro/copy/poller";
 import { FormRecognizerClient } from "./formRecognizerClient";
 
-export {
-  RestResponse,
-  TrainPollerClient,
-  BeginTrainingPollState,
-  BeginCopyModelPollState,
-  CopyModelPollerClient
-};
+export { RestResponse };
+
 /**
  * Options for model listing operation.
  */
@@ -95,30 +88,83 @@ export type CopyModelOptions = FormRecognizerOperationOptions;
 export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
 
 /**
+ * The status of a copy model operation
+ */
+export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
+  /**
+   * A string representing the current status of the operation.
+   */
+  status: OperationStatus;
+};
+
+/**
+ * Options for configuring long-running operations.
+ */
+export interface FormTrainingPollOperationOptions<TState extends PollOperationState<unknown>> {
+  /**
+   * Interval (in milliseconds) between requests for status updates on the operation.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * Progress handler. The Poller will call this handler with the operation state
+   * after polling.
+   */
+  onProgress?: (state: TState) => void;
+  /**
+   * State of a previously-serialized poller to resume an operation.
+   *
+   * The state can be obtained from a poller using `poller.toString()`.
+   */
+  resumeFrom?: string;
+}
+
+/**
  * Options for begin copy model operation
  */
-export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-  updateIntervalInMs?: number;
-  onProgress?: (state: BeginCopyModelPollState) => void;
-  resumeFrom?: string;
-};
+export type BeginCopyModelOptions = FormRecognizerOperationOptions &
+  FormTrainingPollOperationOptions<CopyModelOperationState>;
 
 /**
  * Options for training models
  */
 export type TrainingFileFilter = FormRecognizerOperationOptions & {
   prefix?: string;
-  includeSubFolders?: boolean;
+  includeSubfolders?: boolean;
+};
+
+/**
+ * The status of a form training operation
+ */
+export type TrainingOperationState = PollOperationState<CustomFormModelInfo> & {
+  /**
+   * A string representing the current status of the operation.
+   */
+  status: ModelStatus;
 };
 
 /**
  * Options for starting model training operation.
  */
-export type BeginTrainingOptions = TrainingFileFilter & {
-  updateIntervalInMs?: number;
-  onProgress?: (state: BeginTrainingPollState) => void;
-  resumeFrom?: string;
-};
+export type BeginTrainingOptions = TrainingFileFilter &
+  FormTrainingPollOperationOptions<TrainingOperationState> & {
+    /**
+     * An optional name to associate with the model
+     */
+    modelName?: string;
+  };
+
+/**
+ * Options for creating a composed model from submodels.
+ */
+export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions &
+  FormTrainingPollOperationOptions<TrainingOperationState> & {
+    /**
+     * An optional name to associate with the composed model.
+     *
+     * Individual models that are part of the composition will retain their original names.
+     */
+    modelName?: string;
+  };
 
 /**
  * Client class for training and managing custom form models.
@@ -131,19 +177,19 @@ export class FormTrainingClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    */
   private readonly credential: TokenCredential | KeyCredential;
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    */
   private readonly clientOptions: FormRecognizerClientOptions;
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -160,9 +206,9 @@ export class FormTrainingClient {
    *    new AzureKeyCredential("<api key>")
    * );
    * ```
-   * @param {string} endpointUrl Url to an Azure Form Recognizer service endpoint
-   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
-   * @param {FormRecognizerClientOptions} [options] Used to configure the client.
+   * @param endpointUrl - Url to an Azure Form Recognizer service endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the client.
    */
   constructor(
     endpointUrl: string,
@@ -201,24 +247,13 @@ export class FormTrainingClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    // The contract with the generated client requires a credential, even though it is never used
-    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
-    // throw an error if the client ever attempts to use it.
-    const dummyCredential: ServiceClientCredentials = {
-      signRequest() {
-        throw new Error(
-          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
-        );
-      }
-    };
-
-    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
+    this.client = new GeneratedClient(this.endpointUrl, pipeline);
   }
 
   /**
    * Retrieves summary information about the cognitive service account
    *
-   * @param {GetAccountPropertiesOptions} options Options to GetSummary operation
+   * @param options - Options to GetSummary operation
    */
   public async getAccountProperties(
     options?: GetAccountPropertiesOptions
@@ -260,8 +295,8 @@ export class FormTrainingClient {
   /**
    * Mark model for deletion. Model artifacts will be permanently removed within 48 hours.
    *
-   * @param {string} modelId Id of the model to mark for deletion
-   * @param {DeleteModelOptions} options Options to the Delete Model operation
+   * @param modelId - Id of the model to mark for deletion
+   * @param options - Options to the Delete Model operation
    */
   public async deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse> {
     const realOptions = options || {};
@@ -289,8 +324,8 @@ export class FormTrainingClient {
   /**
    * Get detailed information about a custom model from training.
    *
-   * @param {string} modelId Id of the model to get information
-   * @param {GetModelOptions} options Options to the Get Model operation
+   * @param modelId - Id of the model to get information
+   * @param options - Options to the Get Model operation
    */
   public async getCustomModel(
     modelId: string,
@@ -322,10 +357,15 @@ export class FormTrainingClient {
   }
 
   private async *listModelsPage(
-    _settings: PageSettings,
+    settings: PageSettings,
     options: ListModelsOptions = {}
   ): AsyncIterableIterator<ListCustomModelsResponse> {
-    let result = await this.list(options);
+    let result: ListCustomModelsResponse;
+    if (settings.continuationToken) {
+      result = await this.listNextPage(settings.continuationToken, options);
+    } else {
+      result = await this.list(options);
+    }
     yield result;
 
     while (result.nextLink) {
@@ -383,7 +423,7 @@ export class FormTrainingClient {
    *  }
    * ```
    *
-   * @param {ListModelOptions} options Options to the List Models operation
+   * @param options - Options to the List Models operation
    */
   public listCustomModels(
     options: ListModelsOptions = {}
@@ -458,12 +498,21 @@ export class FormTrainingClient {
 
   /**
    * Creates and trains a custom form model.
-   * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the operation is completed.
-   * Note that the onProgress callback will not be invoked if the operation completes in the first
-   * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
-   * Note that when training operation fails, a model is still created in Azure Form Recognizer resource.
+   * If the `useTrainingLabels` parameter is set to `true`, then the operation will search
+   * for label files in addition to the training documents, and it will create a labeled
+   * model with the field names specified by the labels. Otherwise, it will create an
+   * unlabeled model automatically that returns generated field names for the items it
+   * determines are fields within the document structure.
+   *
+   * This method returns a long-running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Notes:
+   * - The onProgress callback will not be invoked if the operation completes in the first
+   *   request, and attempting to cancel a completed copy will result in an error being thrown.
+   * - Even when the training operation fails, a model is still created in the Azure Form
+   *   Recognizer resource.
    *
    * Example usage:
    * ```ts
@@ -473,31 +522,32 @@ export class FormTrainingClient {
    * const poller = await trainingClient.beginTraining(trainingFilesUrl, false, {
    *   onProgress: (state) => { console.log("training status: "); console.log(state); }
    * });
-   * await poller.pollUntilDone();
-   * const response = poller.getResult();
+   * const model = await poller.pollUntilDone();
    * ```
-   * @summary Creates and trains a model
-   * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
-   * @param {boolean} useTrainingLabels specifies whether to training the model using label files
-   * @param {BeginTrainingOptions} [options] Options to start model training operation
+   *
+   * Creates and trains a custom form model.
+   * @param trainingFilesUrl - Accessible url to an Azure Storage Blob container storing the training documents and optional label files
+   * @param useTrainingLabels - Specifies whether or not to search for and train using label files
+   * @param options - Options to start the model training operation
    */
   public async beginTraining(
     trainingFilesUrl: string,
     useTrainingLabels: boolean,
     options: BeginTrainingOptions = {}
-  ): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>> {
+  ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
     const trainPollerClient: TrainPollerClient = {
-      getCustomModel: (modelId: string, options: GetModelOptions) => this.getCustomModel(modelId, options),
+      getCustomModel: (modelId: string, optionsParam: GetModelOptions) =>
+        this.getCustomModel(modelId, optionsParam),
       trainCustomModelInternal: (
-        source: string,
+        source: string | string[],
         _useLabelFile?: boolean,
-        options?: TrainingFileFilter
-      ) => trainCustomModelInternal(this.client, source, useTrainingLabels, options)
+        optionsParam?: BeginTrainingOptions
+      ) => trainCustomModelInternal(this.client, source as string, useTrainingLabels, optionsParam)
     };
 
     const poller = new BeginTrainingPoller({
       client: trainPollerClient,
-      source: trainingFilesUrl,
+      trainingInputs: trainingFilesUrl,
       updateIntervalInMs: options.updateIntervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
@@ -509,12 +559,78 @@ export class FormTrainingClient {
   }
 
   /**
-   * Generates authorization for copying a custom model into this Azure Form Recognizer resource.
+   * Combines pre-existing models with labels into a single composed model.
    *
-   * @param {string} resourceId Id of the Azure Form Recognizer resource where a custom model will be copied to
-   * @param {string} resourceRegion Location of the Azure Form Recognizer resource
-   * @param {GetCopyAuthorizationOptions} [options={}] Options to get copy authorization operation
-   * @returns {Promise<CopyAuthorization>} The authorization to copy a custom model
+   * The composed model will contain copies of all of its input submodels, and it will
+   * choose (using a machine learning algorithm) the most appropriate of its input models
+   * to use during form recognition.
+   *
+   * This method returns a long-running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Notes:
+   * - Only labeled models can be composed. Attempting to compose an unlabeled model will
+   *   result in an error.
+   * - the onProgress callback will not be invoked if the operation completes in the first
+   *   request, and attempting to cancel a completed copy will result in an error being thrown.
+   * - evena when the training operation fails, a model is still created in the Azure Form
+   *   Recognizer resource.
+   *
+   * Example usage:
+   * ```ts
+   * const modelIds = ["<model ID 1>", "<model ID 2>", "<model ID 3>"];
+   * const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
+   *
+   * const poller = await trainingClient.beginCreateComposedModel(modelIds, {
+   *   modelName: "<optional name for the composed model>",
+   *   onProgress: (state) => { console.log("training status: "); console.log(state); }
+   * });
+   * const composedModel = await poller.pollUntilDone();
+   * ```
+   *
+   * Combines pre-existing models with labels into a single composed model.
+   * @param modelIds - An array of model IDs within the Form Recognizer resouce to compose
+   * @param options - Options to start the create composed model operation
+   */
+  public async beginCreateComposedModel(
+    modelIds: string[],
+    options: BeginCreateComposedModelOptions
+  ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
+    const composePollerClient: TrainPollerClient = {
+      getCustomModel: (modelId, optionsParam) => this.getCustomModel(modelId, optionsParam),
+      trainCustomModelInternal: (
+        sources: string | string[],
+        _?: boolean,
+        optionsParam?: BeginTrainingOptions
+      ) => composeModelInternal(this.client, sources as string[], optionsParam)
+    };
+
+    const poller = new BeginTrainingPoller({
+      client: composePollerClient,
+      trainingInputs: modelIds,
+      updateIntervalInMs: options.updateIntervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      trainModelOptions: options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Generate an authorization for copying a custom model into this Azure Form Recognizer resource.
+   *
+   * This method should be called on a client that is authenticated using the target resource (where the
+   * model will be copied to) credentials, and the output can be passed as the `target` parameter to the
+   * `beginCopyModel` method of a source client.
+   *
+   * The required `resourceId` and `resourceRegion` are properties of an Azure Form Recognizer resource and their values can be found in the Azure Portal.
+   *
+   * @param resourceId - Id of the Azure Form Recognizer resource where a custom model will be copied to
+   * @param resourceRegion - Location of the Azure Form Recognizer resource, must be a valid region name supported by Azure Cognitive Services. See https://aka.ms/azsdk/cognitiveservices/regionalavailability for information about the regional availability of Azure Cognitive Services.
+   * @param options - Options to get copy authorization operation
+   * @returns The authorization to copy a custom model
    */
   public async getCopyAuthorization(
     resourceId: string,
@@ -527,14 +643,15 @@ export class FormTrainingClient {
     );
 
     try {
-      const response = await this.client.generateModelCopyAuthorization(
+      const response = (await this.client.generateModelCopyAuthorization(
         operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      )) as CopyAuthorizationResult;
       return {
         resourceId: resourceId,
         resourceRegion: resourceRegion,
-        //expiresOn: new Date(response.expirationDateTimeTicks),
-        ...(response as CopyAuthorizationResultModel)
+        expiresOn: new Date(response.expirationDateTimeTicks * 1000), // Convert to ms
+        modelId: response.modelId,
+        accessToken: response.accessToken
       };
     } catch (e) {
       span.setStatus({
@@ -565,19 +682,18 @@ export class FormTrainingClient {
    *     console.log(`Copy model status: ${state.status}`);
    *   }
    * });
-   * await poller.pollUntilDone();
-   * const result = poller.getResult();
+   * const result = await poller.pollUntilDone();
    * ```
-   * @summary Copies custom model to target resource
-   * @param {string} modelId Id of the custom model in this resource to be copied to the target Form Recognizer resource
-   * @param {CopyAuthorization} target Copy authorization produced by calling `targetTrainingClient.getCopyAuthorization()`
-   * @param {BeginTrainingOptions} [options] Options to copy model operation
+   * Copies custom model to target resource
+   * @param modelId - Id of the custom model in this resource to be copied to the target Form Recognizer resource
+   * @param target - Copy authorization produced by calling `targetTrainingClient.getCopyAuthorization()`
+   * @param options - Options to copy model operation
    */
   public async beginCopyModel(
     modelId: string,
     target: CopyAuthorization,
     options: BeginCopyModelOptions = {}
-  ): Promise<PollerLike<PollOperationState<CustomFormModelInfo>, CustomFormModelInfo>> {
+  ): Promise<PollerLike<CopyModelOperationState, CustomFormModelInfo>> {
     const copyModelClient: CopyModelPollerClient = {
       beginCopyModel: (...args) => this.beginCopyModelInternal(...args),
       getCopyModelResult: (...args) => this.getCopyModelResult(...args)
@@ -614,7 +730,11 @@ export class FormTrainingClient {
         {
           targetResourceId: copyAuthorization.resourceId,
           targetResourceRegion: copyAuthorization.resourceRegion,
-          copyAuthorization: copyAuthorization
+          copyAuthorization: {
+            modelId: copyAuthorization.modelId,
+            accessToken: copyAuthorization.accessToken,
+            expirationDateTimeTicks: copyAuthorization.expiresOn.getTime() / 1000
+          }
         },
         operationOptionsToRequestOptionsBase(finalOptions)
       );
@@ -658,13 +778,44 @@ export class FormTrainingClient {
 }
 
 /**
- * @private
+ * @internal
+ */
+async function composeModelInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  client: GeneratedClient,
+  modelIds: string[],
+  options?: BeginCreateComposedModelOptions
+): Promise<GeneratedClientComposeCustomModelsAsyncResponse> {
+  const { span, updatedOptions: finalOptions } = createSpan("composeModelInternal", options ?? {});
+
+  try {
+    return client.composeCustomModelsAsync(
+      {
+        modelIds,
+        modelName: options?.modelName
+      },
+      operationOptionsToRequestOptionsBase(finalOptions)
+    );
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
+
+/**
+ * @internal
  */
 async function trainCustomModelInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   source: string,
   useLabelFile?: boolean,
-  options?: TrainingFileFilter
+  options?: BeginTrainingOptions
 ): Promise<GeneratedClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
@@ -673,16 +824,16 @@ async function trainCustomModelInternal(
   );
 
   try {
-    const requestBody = {
-      source: source,
-      sourceFilter: {
-        prefix: realOptions.prefix,
-        includeSubFolders: realOptions.includeSubFolders
+    return client.trainCustomModelAsync(
+      {
+        source: source,
+        modelName: options?.modelName,
+        sourceFilter: {
+          prefix: realOptions.prefix,
+          includeSubfolders: realOptions.includeSubfolders
+        },
+        useLabelFile
       },
-      useLabelFile
-    };
-    return await client.trainCustomModelAsync(
-      requestBody,
       operationOptionsToRequestOptionsBase(finalOptions)
     );
   } catch (e) {

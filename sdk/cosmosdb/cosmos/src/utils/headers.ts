@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { hmac } from "./hmac";
 import { HTTPMethod, ResourceType, Constants } from "../common";
 

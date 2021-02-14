@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.1.2";
-export const SERVICE_VERSION: string = "2019-07-07";
+export const SDK_VERSION: string = "12.4.0-beta.2";
+export const SERVICE_VERSION: string = "2020-04-08";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
-export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 100 * 1024 * 1024; // 100MB
+export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 4000 * 1024 * 1024; // 4000MB
 export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const DEFAULT_BLOCK_BUFFER_SIZE_BYTES: number = 8 * 1024 * 1024; // 8MB
 export const DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES: number = 4 * 1024 * 1024; // 4MB
@@ -20,6 +20,7 @@ export const URLConstants = {
     FORCE_BROWSER_NO_CACHE: "_",
     SIGNATURE: "sig",
     SNAPSHOT: "snapshot",
+    VERSIONID: "versionid",
     TIMEOUT: "timeout"
   }
 };
@@ -163,7 +164,9 @@ export const StorageBlobLoggingAllowedHeaderNames = [
   "x-ms-source-if-none-match",
   "x-ms-source-if-unmodified-since",
   "x-ms-tag-count",
-  "x-ms-encryption-key-sha256"
+  "x-ms-encryption-key-sha256",
+  "x-ms-if-tags",
+  "x-ms-source-if-tags"
 ];
 
 export const StorageBlobLoggingAllowedQueryParameters = [

@@ -1,5 +1,29 @@
 # Release History
 
+## 12.3.0-beta.2 (Unreleased)
+
+
+## 12.3.0-beta.1 (2020-12-09)
+
+- Updated Azure Storage Service API version to 2020-04-08.
+- Added `generateSasUrl` to `QueueClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `QueueServiceClient` to generate an account-level SAS URI for the client.
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
+
+## 12.2.0 (2020-11-10)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+
+## 12.1.0 (2020-09-08)
+
+- Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
+- Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
+
+## 12.1.0-preview.1 (2020.07)
+
+- Updated Azure Storage Service API version to 2019-12-12.
+- Added `exists`, `createIfNotExists` and `deleteIfExists` to `QueueClient`.
+
 ## 12.0.5 (2020.05)
 
 - Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
@@ -123,8 +147,8 @@
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
-- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/proxyAuth.ts)
-- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
+- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/src/proxyAuth.ts)
+- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 12.0.0-preview.2 (2019.08)
 
@@ -183,7 +207,7 @@ For release notes and more information please visit https://aka.ms/azsdk/release
 - Updated API version to 2018-11-09.
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
+- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
 
 ## 10.1.0 (2019.01)
 

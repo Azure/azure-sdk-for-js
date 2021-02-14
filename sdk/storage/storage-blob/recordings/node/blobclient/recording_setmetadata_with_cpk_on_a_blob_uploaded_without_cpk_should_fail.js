@@ -1,88 +1,96 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156816833054605943","blob":"blob156816833096209984"}
+module.exports.hash = "f4221b714c6b62601c8d8ba436f857f5";
+
+module.exports.testInfo = {"uniqueName":{"container":"container159210827396600974","blob":"blob159210827398305231"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156816833054605943')
+  .put('/container159210827396600974')
   .query(true)
-  .reply(201, "", [ 'Content-Length',
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 11 Sep 2019 02:18:50 GMT',
+  'Sun, 14 Jun 2020 04:17:53 GMT',
   'ETag',
-  '"0x8D7365E62D0ED26"',
+  '"0x8D81019E8DA16C5"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'dd4a5428-901e-0037-7a47-68ca53000000',
+  'c13090bf-201e-003e-6802-42dadf000000',
   'x-ms-client-request-id',
-  '04b5a177-b46a-4595-a112-e1f4691b0661',
+  '5281a8c5-7cc0-4e8d-997d-372e9defbe25',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'Date',
-  'Wed, 11 Sep 2019 02:18:50 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156816833054605943/blob156816833096209984', "Hello World")
-  .reply(201, "", [ 'Content-Length',
+  .put('/container159210827396600974/blob159210827398305231', "Hello World")
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Wed, 11 Sep 2019 02:18:51 GMT',
+  'Sun, 14 Jun 2020 04:17:53 GMT',
   'ETag',
-  '"0x8D7365E63117E09"',
+  '"0x8D81019E8DCA536"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '1071f798-c01e-0024-5b47-68ffb2000000',
+  'c13090c9-201e-003e-6f02-42dadf000000',
   'x-ms-client-request-id',
-  '9e73ba08-2959-4ef9-a698-b75436339d7a',
+  '335356a7-9fb8-4316-a9e7-558073855e32',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'x-ms-content-crc64',
   'YeJLfssylmU=',
   'x-ms-request-server-encrypted',
   'true',
+  'x-ms-version-id',
+  '2020-06-14T04:17:53.9926326Z',
   'Date',
-  'Wed, 11 Sep 2019 02:18:50 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156816833054605943/blob156816833096209984')
+  .put('/container159210827396600974/blob159210827398305231')
   .query(true)
-  .reply(409, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobDoesNotUseCustomerSpecifiedEncryption</Code><Message>The blob is not encrypted with customer specified encryption, but one was provided in the request.\nRequestId:026f8b95-201e-0043-1747-684c15000000\nTime:2019-09-11T02:18:51.7343487Z</Message></Error>", [ 'Content-Length',
+  .reply(409, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobDoesNotUseCustomerSpecifiedEncryption</Code><Message>The blob is not encrypted with customer specified encryption, but one was provided in the request.\nRequestId:c13090cc-201e-003e-7202-42dadf000000\nTime:2020-06-14T04:17:54.0149071Z</Message></Error>", [
+  'Content-Length',
   '308',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '026f8b95-201e-0043-1747-684c15000000',
+  'c13090cc-201e-003e-7202-42dadf000000',
   'x-ms-client-request-id',
-  '6d62f3e3-a94a-4450-81e4-dcf71d5893e0',
+  'ee1869cf-22af-477d-bd82-6c333c48da3f',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'x-ms-error-code',
   'BlobDoesNotUseCustomerSpecifiedEncryption',
   'Date',
-  'Wed, 11 Sep 2019 02:18:51 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156816833054605943')
+  .delete('/container159210827396600974')
   .query(true)
-  .reply(202, "", [ 'Content-Length',
+  .reply(202, "", [
+  'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ad49cdec-801e-006c-2d47-68cd2f000000',
+  'c13090d9-201e-003e-7f02-42dadf000000',
   'x-ms-client-request-id',
-  '4e91daf5-78bc-49de-9c7e-26b3ad53c1d5',
+  '1b5d873c-a01f-4f29-acf3-dbb3fb10d0ed',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'Date',
-  'Wed, 11 Sep 2019 02:18:51 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);

@@ -10,16 +10,19 @@ import { TestClientType } from "./utils/testUtils";
 import {
   EntityName,
   ServiceBusClientForTests,
-  createServiceBusClientForTests
+  createServiceBusClientForTests,
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { ConditionErrorNameMapper } from "@azure/core-amqp";
+import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
 
 describe("Send Batch", () => {
-  let sender: Sender;
+  let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClientForTests;
 
   let entityNames: EntityName;
+  const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+  const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -46,83 +49,48 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+    function prepareMessages(): ServiceBusMessage[] {
       const messagesToSend: ServiceBusMessage[] = [];
       for (let i = 0; i < 1000; i++) {
         messagesToSend.push({
           body: Buffer.alloc(2000),
           messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession` : undefined
+          sessionId: entityNames.usesSessions ? `someSession` : undefined
         });
       }
       return messagesToSend;
     }
 
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages();
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testSendBatch(false);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSendBatch();
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSendBatch();
     });
   });
 
@@ -131,43 +99,35 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
-      const messagesToSend: ServiceBusMessage[] = [];
-      for (let i = 0; i < 1000; i++) {
-        messagesToSend.push({
-          body: Buffer.alloc(2000),
-          messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession ${i}` : undefined
-        });
-      }
-      return messagesToSend;
-    }
-
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
-      for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+      // Size of each message will be > 20000 bytes, maxMessageSize/20000 would exceed the limit
+      const numberOfMessagesToSend =
+        (await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize()) / 20000;
+
+      for (let i = 0; i < numberOfMessagesToSend; i++) {
+        const messageToSend = {
+          body: Buffer.alloc(20000),
+          messageId: `message ${i}`,
+          sessionId: entityNames.usesSessions ? `someSession ${i}` : undefined,
+          partitionKey: entityNames.usesSessions ? `someSession ${i}` : undefined
+        };
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
     // Not allowed for partitioned entities
@@ -185,12 +145,12 @@ describe("Send Batch", () => {
 
     it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
+      await testSendBatch();
     });
 
     it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
+      await testSendBatch();
     });
   });
 
@@ -199,91 +159,56 @@ describe("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+    function prepareMessages(): ServiceBusMessage[] {
       const messagesToSend: ServiceBusMessage[] = [];
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined
       });
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-2`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined
       });
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-3`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined
       });
       return messagesToSend;
     }
 
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages();
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testSendBatch(false);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSendBatch();
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSendBatch();
     });
   });
 
@@ -302,67 +227,33 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(useSessions: boolean): Promise<void> {
+    async function testSendBatch(): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
+      const messagesToSend = prepareMessages(entityNames.usesSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch();
+      const batchMessage = await sender.createMessageBatch();
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testSendBatch(false);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSendBatch();
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSendBatch();
     });
   });
 
@@ -404,62 +295,28 @@ describe("Send Batch", () => {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(false);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(true);
     });
   });
@@ -495,79 +352,46 @@ describe("Send Batch", () => {
     }
 
     async function testSendBatch(
-      useSessions: boolean,
       // Max batch size
       maxSizeInBytes?: number
     ): Promise<void> {
       // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
-      const batchMessage = await sender.createBatch({ maxSizeInBytes });
+      const messagesToSend = prepareMessages(entityNames.usesSessions);
+      const batchMessage = await sender.createMessageBatch({ maxSizeInBytes });
 
       should.equal(
-        batchMessage.tryAdd(messagesToSend[0]),
+        batchMessage.tryAddMessage(messagesToSend[0]),
         true,
         "tryAdd should not have failed for the first message"
       );
       should.equal(
-        batchMessage.tryAdd(messagesToSend[1]),
+        batchMessage.tryAddMessage(messagesToSend[1]),
         false,
         "tryAdd should have failed for the second message"
       );
       should.equal(
-        batchMessage.tryAdd(messagesToSend[2]),
+        batchMessage.tryAddMessage(messagesToSend[2]),
         false,
         "tryAdd should have failed for the third message"
       );
       should.equal(
-        batchMessage.tryAdd(messagesToSend[3]),
+        batchMessage.tryAddMessage(messagesToSend[3]),
         false,
         "tryAdd should have failed for the fourth message"
       );
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, useSessions, [
-        messagesToSend[0]
-      ]);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, [messagesToSend[0]]);
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testSendBatch(false, 5000);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSendBatch(5000);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false, 5000);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false, 5000);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false, 5000);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true, 5000);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true, 5000);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true, 5000);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSendBatch(true, 5000);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSendBatch(5000);
     });
   });
 
@@ -580,11 +404,12 @@ describe("Send Batch", () => {
     async function testSendBatch(maxSizeInBytes?: number): Promise<void> {
       let errorIsThrown = false;
       try {
-        await sender.createBatch({ maxSizeInBytes });
+        await sender.createMessageBatch({ maxSizeInBytes });
       } catch (error) {
+        const maxSize = await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize();
         should.equal(
           error.message,
-          `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (262144 bytes) on the AMQP sender link.`,
+          `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (${maxSize} bytes) on the AMQP sender link.`,
           "Unexpected error message when tried to create a batch of size > maximum message size."
         );
         errorIsThrown = true;
@@ -596,43 +421,13 @@ describe("Send Batch", () => {
       );
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(maxSizeInBytes);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(maxSizeInBytes);
     });
   });
@@ -642,7 +437,7 @@ describe("Send Batch", () => {
   > {
     await beforeEachTest(TestClientType.PartitionedQueue);
     try {
-      await sender.send(
+      await sender.sendMessages(
         [{ body: "ignored since anything will be bigger than the batch size I passed" }],
         {
           // this isn't a documented option for send(batch) but we do pass it through to the underlying
@@ -656,7 +451,8 @@ describe("Send Batch", () => {
         "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
         err.message
       );
-      should.equal(ConditionErrorNameMapper["amqp:link:message-size-exceeded"], err.code);
+      should.equal(err.code, "MessageSizeExceeded");
+      should.equal(err.name, "ServiceBusError");
     }
   });
 
@@ -664,15 +460,15 @@ describe("Send Batch", () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     const messagesToSend = [{ body: "hello" }];
 
-    const batch = await sender.createBatch();
+    const batch = await sender.createMessageBatch();
 
     for (const message of messagesToSend) {
-      if (!batch.tryAdd(message)) {
+      if (!batch.tryAddMessage(message)) {
         throw new Error("We do actually want to send all the events.");
       }
     }
 
-    await sender.send(batch);
-    await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, false, messagesToSend);
+    await sender.sendMessages(batch);
+    await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, messagesToSend);
   });
 });

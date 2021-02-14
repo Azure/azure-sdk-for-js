@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   BaseRequestPolicy,
@@ -12,23 +12,61 @@ import { ProxySettings } from "../serviceClient";
 import { WebResourceLike } from "../webResource";
 import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
+import { getEnvironmentValue } from "../util/utils";
+
+let noProxyList: string[] = [];
+let isNoProxyInitalized = false;
+const byPassedList: Map<string, boolean> = new Map();
 
 function loadEnvironmentProxyValue(): string | undefined {
   if (!process) {
     return undefined;
   }
 
-  if (process.env[Constants.HTTPS_PROXY]) {
-    return process.env[Constants.HTTPS_PROXY];
-  } else if (process.env[Constants.HTTPS_PROXY.toLowerCase()]) {
-    return process.env[Constants.HTTPS_PROXY.toLowerCase()];
-  } else if (process.env[Constants.HTTP_PROXY]) {
-    return process.env[Constants.HTTP_PROXY];
-  } else if (process.env[Constants.HTTP_PROXY.toLowerCase()]) {
-    return process.env[Constants.HTTP_PROXY.toLowerCase()];
-  }
+  const httpsProxy = getEnvironmentValue(Constants.HTTPS_PROXY);
+  const allProxy = getEnvironmentValue(Constants.ALL_PROXY);
+  const httpProxy = getEnvironmentValue(Constants.HTTP_PROXY);
 
-  return undefined;
+  return httpsProxy || allProxy || httpProxy;
+}
+
+// Check whether the given `uri` matches the noProxyList. If it matches, any request sent to that same `uri` won't set the proxy settings.
+function isBypassed(uri: string): boolean | undefined {
+  if (byPassedList.has(uri)) {
+    return byPassedList.get(uri);
+  }
+  loadNoProxy();
+  let isBypassedFlag = false;
+  const host = URLBuilder.parse(uri).getHost()!;
+  for (const proxyString of noProxyList) {
+    if (proxyString[0] === ".") {
+      if (uri.endsWith(proxyString)) {
+        isBypassedFlag = true;
+      } else {
+        if (host === proxyString.slice(1) && host.length === proxyString.length - 1) {
+          isBypassedFlag = true;
+        }
+      }
+    } else {
+      if (host === proxyString) {
+        isBypassedFlag = true;
+      }
+    }
+  }
+  byPassedList.set(uri, isBypassedFlag);
+  return isBypassedFlag;
+}
+
+function loadNoProxy(): void {
+  if (isNoProxyInitalized) {
+    return;
+  }
+  const noProxy = getEnvironmentValue(Constants.NO_PROXY);
+  if (noProxy) {
+    const list = noProxy.split(",");
+    noProxyList = list.map((item) => item.trim()).filter((item) => item.length);
+  }
+  isNoProxyInitalized = true;
 }
 
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
@@ -70,7 +108,7 @@ function extractAuthFromUrl(
   }
 
   const schemeIndex = url.indexOf("://");
-  let authStart = schemeIndex !== -1 ? schemeIndex + 3 : 0;
+  const authStart = schemeIndex !== -1 ? schemeIndex + 3 : 0;
   const auth = url.substring(authStart, atIndex);
   const colonIndex = auth.indexOf(":");
   const hasPassword = colonIndex !== -1;
@@ -97,7 +135,7 @@ export class ProxyPolicy extends BaseRequestPolicy {
   }
 
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!request.proxySettings) {
+    if (!request.proxySettings && !isBypassed(request.url)) {
       request.proxySettings = this.proxySettings;
     }
     return this._nextPolicy.sendRequest(request);

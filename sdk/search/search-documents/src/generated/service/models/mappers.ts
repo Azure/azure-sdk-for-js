@@ -1962,12 +1962,14 @@ export const BM25Similarity: coreHttp.CompositeMapper = {
     modelProperties: {
       ...Similarity.type.modelProperties,
       k1: {
+        nullable: true,
         serializedName: "k1",
         type: {
           name: "Number"
         }
       },
       b: {
+        nullable: true,
         serializedName: "b",
         type: {
           name: "Number"
@@ -2118,6 +2120,67 @@ export const SoftDeleteColumnDeletionDetectionPolicy: coreHttp.CompositeMapper =
   }
 };
 
+export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMapper = {
+  serializedName: "AzureActiveDirectoryApplicationCredentials",
+  type: {
+    name: "Composite",
+    className: "AzureActiveDirectoryApplicationCredentials",
+    modelProperties: {
+      applicationId: {
+        required: true,
+        serializedName: "applicationId",
+        type: {
+          name: "String"
+        }
+      },
+      applicationSecret: {
+        serializedName: "applicationSecret",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
+  serializedName: "SearchResourceEncryptionKey",
+  type: {
+    name: "Composite",
+    className: "SearchResourceEncryptionKey",
+    modelProperties: {
+      keyName: {
+        required: true,
+        serializedName: "keyVaultKeyName",
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        required: true,
+        serializedName: "keyVaultKeyVersion",
+        type: {
+          name: "String"
+        }
+      },
+      vaultUri: {
+        required: true,
+        serializedName: "keyVaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      accessCredentials: {
+        serializedName: "accessCredentials",
+        type: {
+          name: "Composite",
+          className: "AzureActiveDirectoryApplicationCredentials"
+        }
+      }
+    }
+  }
+};
+
 export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
   serializedName: "SearchIndexerDataSource",
   type: {
@@ -2161,6 +2224,7 @@ export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
         }
       },
       dataChangeDetectionPolicy: {
+        nullable: true,
         serializedName: "dataChangeDetectionPolicy",
         type: {
           name: "Composite",
@@ -2168,6 +2232,7 @@ export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
         }
       },
       dataDeletionDetectionPolicy: {
+        nullable: true,
         serializedName: "dataDeletionDetectionPolicy",
         type: {
           name: "Composite",
@@ -2178,6 +2243,14 @@ export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
+        }
+      },
+      encryptionKey: {
+        nullable: true,
+        serializedName: "encryptionKey",
+        type: {
+          name: "Composite",
+          className: "SearchResourceEncryptionKey"
         }
       }
     }
@@ -2231,6 +2304,130 @@ export const IndexingSchedule: coreHttp.CompositeMapper = {
   }
 };
 
+export const IndexingParametersConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "IndexingParametersConfiguration",
+  type: {
+    name: "Composite",
+    className: "IndexingParametersConfiguration",
+    modelProperties: {
+      parsingMode: {
+        serializedName: "parsingMode",
+        defaultValue: 'default',
+        type: {
+          name: "String"
+        }
+      },
+      excludedFileNameExtensions: {
+        serializedName: "excludedFileNameExtensions",
+        defaultValue: '',
+        type: {
+          name: "String"
+        }
+      },
+      indexedFileNameExtensions: {
+        serializedName: "indexedFileNameExtensions",
+        defaultValue: '',
+        type: {
+          name: "String"
+        }
+      },
+      failOnUnsupportedContentType: {
+        serializedName: "failOnUnsupportedContentType",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      failOnUnprocessableDocument: {
+        serializedName: "failOnUnprocessableDocument",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      indexStorageMetadataOnlyForOversizedDocuments: {
+        serializedName: "indexStorageMetadataOnlyForOversizedDocuments",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      delimitedTextHeaders: {
+        serializedName: "delimitedTextHeaders",
+        type: {
+          name: "String"
+        }
+      },
+      delimitedTextDelimiter: {
+        serializedName: "delimitedTextDelimiter",
+        type: {
+          name: "String"
+        }
+      },
+      firstLineContainsHeaders: {
+        serializedName: "firstLineContainsHeaders",
+        defaultValue: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      documentRoot: {
+        serializedName: "documentRoot",
+        type: {
+          name: "String"
+        }
+      },
+      dataToExtract: {
+        serializedName: "dataToExtract",
+        defaultValue: 'contentAndMetadata',
+        type: {
+          name: "String"
+        }
+      },
+      imageAction: {
+        serializedName: "imageAction",
+        defaultValue: 'none',
+        type: {
+          name: "String"
+        }
+      },
+      allowSkillsetToReadFileData: {
+        serializedName: "allowSkillsetToReadFileData",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      pdfTextRotationAlgorithm: {
+        serializedName: "pdfTextRotationAlgorithm",
+        defaultValue: 'none',
+        type: {
+          name: "String"
+        }
+      },
+      executionEnvironment: {
+        serializedName: "executionEnvironment",
+        defaultValue: 'standard',
+        type: {
+          name: "String"
+        }
+      },
+      queryTimeout: {
+        serializedName: "queryTimeout",
+        defaultValue: '00:05:00',
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
 export const IndexingParameters: coreHttp.CompositeMapper = {
   serializedName: "IndexingParameters",
   type: {
@@ -2238,12 +2435,14 @@ export const IndexingParameters: coreHttp.CompositeMapper = {
     className: "IndexingParameters",
     modelProperties: {
       batchSize: {
+        nullable: true,
         serializedName: "batchSize",
         type: {
           name: "Number"
         }
       },
       maxFailedItems: {
+        nullable: true,
         serializedName: "maxFailedItems",
         defaultValue: 0,
         type: {
@@ -2251,6 +2450,7 @@ export const IndexingParameters: coreHttp.CompositeMapper = {
         }
       },
       maxFailedItemsPerBatch: {
+        nullable: true,
         serializedName: "maxFailedItemsPerBatch",
         defaultValue: 0,
         type: {
@@ -2260,8 +2460,9 @@ export const IndexingParameters: coreHttp.CompositeMapper = {
       configuration: {
         serializedName: "configuration",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "IndexingParametersConfiguration",
+          additionalProperties: {
             type: {
               name: "Object"
             }
@@ -2320,6 +2521,7 @@ export const FieldMapping: coreHttp.CompositeMapper = {
         }
       },
       mappingFunction: {
+        nullable: true,
         serializedName: "mappingFunction",
         type: {
           name: "Composite",
@@ -2370,6 +2572,7 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
         }
       },
       schedule: {
+        nullable: true,
         serializedName: "schedule",
         type: {
           name: "Composite",
@@ -2377,6 +2580,7 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
         }
       },
       parameters: {
+        nullable: true,
         serializedName: "parameters",
         type: {
           name: "Composite",
@@ -2408,6 +2612,7 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
         }
       },
       isDisabled: {
+        nullable: true,
         serializedName: "disabled",
         defaultValue: false,
         type: {
@@ -2418,6 +2623,14 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
+        }
+      },
+      encryptionKey: {
+        nullable: true,
+        serializedName: "encryptionKey",
+        type: {
+          name: "Composite",
+          className: "SearchResourceEncryptionKey"
         }
       }
     }
@@ -2585,6 +2798,7 @@ export const IndexerExecutionResult: coreHttp.CompositeMapper = {
         }
       },
       endTime: {
+        nullable: true,
         readOnly: true,
         serializedName: "endTime",
         type: {
@@ -3098,6 +3312,7 @@ export const ScoringProfile: coreHttp.CompositeMapper = {
         }
       },
       textWeights: {
+        nullable: true,
         serializedName: "text",
         type: {
           name: "Composite",
@@ -3199,67 +3414,6 @@ export const Suggester: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMapper = {
-  serializedName: "AzureActiveDirectoryApplicationCredentials",
-  type: {
-    name: "Composite",
-    className: "AzureActiveDirectoryApplicationCredentials",
-    modelProperties: {
-      applicationId: {
-        required: true,
-        serializedName: "applicationId",
-        type: {
-          name: "String"
-        }
-      },
-      applicationSecret: {
-        serializedName: "applicationSecret",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
-  serializedName: "SearchResourceEncryptionKey",
-  type: {
-    name: "Composite",
-    className: "SearchResourceEncryptionKey",
-    modelProperties: {
-      keyName: {
-        required: true,
-        serializedName: "keyVaultKeyName",
-        type: {
-          name: "String"
-        }
-      },
-      keyVersion: {
-        required: true,
-        serializedName: "keyVaultKeyVersion",
-        type: {
-          name: "String"
-        }
-      },
-      vaultUri: {
-        required: true,
-        serializedName: "keyVaultUri",
-        type: {
-          name: "String"
-        }
-      },
-      accessCredentials: {
-        serializedName: "accessCredentials",
-        type: {
-          name: "Composite",
-          className: "AzureActiveDirectoryApplicationCredentials"
-        }
-      }
-    }
-  }
-};
-
 export const SearchIndex: coreHttp.CompositeMapper = {
   serializedName: "SearchIndex",
   type: {
@@ -3305,6 +3459,7 @@ export const SearchIndex: coreHttp.CompositeMapper = {
         }
       },
       corsOptions: {
+        nullable: true,
         serializedName: "corsOptions",
         type: {
           name: "Composite",
@@ -3372,6 +3527,7 @@ export const SearchIndex: coreHttp.CompositeMapper = {
         }
       },
       encryptionKey: {
+        nullable: true,
         serializedName: "encryptionKey",
         type: {
           name: "Composite",
@@ -3648,6 +3804,14 @@ export const SearchIndexerSkillset: coreHttp.CompositeMapper = {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
+        }
+      },
+      encryptionKey: {
+        nullable: true,
+        serializedName: "encryptionKey",
+        type: {
+          name: "Composite",
+          className: "SearchResourceEncryptionKey"
         }
       }
     }
@@ -4084,6 +4248,7 @@ export const SynonymMap: coreHttp.CompositeMapper = {
         }
       },
       encryptionKey: {
+        nullable: true,
         serializedName: "encryptionKey",
         type: {
           name: "Composite",
@@ -4198,14 +4363,6 @@ export const ServiceCounters: coreHttp.CompositeMapper = {
       synonymMapCounter: {
         required: true,
         serializedName: "synonymMaps",
-        type: {
-          name: "Composite",
-          className: "ResourceCounter"
-        }
-      },
-      skillsetCounter: {
-        required: true,
-        serializedName: "skillsetCount",
         type: {
           name: "Composite",
           className: "ResourceCounter"

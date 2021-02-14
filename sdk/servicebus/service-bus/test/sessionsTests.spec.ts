@@ -6,40 +6,41 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceivedMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs, isServiceBusError } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import {
   EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
 let unexpectedError: Error | undefined;
 
-async function processError(err: Error): Promise<void> {
-  if (err) {
-    unexpectedError = err;
-  }
+async function processError(args: ProcessErrorArgs): Promise<void> {
+  unexpectedError = args.error;
 }
 
 describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusSessionReceiver;
+  const testClientType = getRandomTestClientTypeWithSessions();
 
-  async function beforeEachTest(testClientType: TestClientType, sessionId: string): Promise<void> {
+  async function beforeEachTest(sessionId?: string): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
-    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-      sessionId
-    });
+    if (sessionId != null) {
+      receiver = await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, sessionId);
+    } else {
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+    }
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -62,26 +63,73 @@ describe("session tests", () => {
     // }
   }
 
-  async function afterEachTest(): Promise<void> {
+  afterEach(async () => {
     await serviceBusClient.test.afterEach();
     await serviceBusClient.test.after();
-  }
+  });
 
-  describe("SessionReceiver with invalid sessionId", function(): void {
-    const nonExistentSessionId: string = "non" + TestMessage.sessionId;
-    // beforeEach(() => {
-    //   sessionId = ;
-    // });
-
-    afterEach(async () => {
-      await afterEachTest();
+  describe(`${testClientType}: Session Receiver Tests`, function(): void {
+    it("acceptNextSession() No sessionId on empty queue throws OperationTimeoutError", async function(): Promise<
+      void
+    > {
+      let expectedErrorThrown = false;
+      let unexpectedError;
+      try {
+        await beforeEachTest();
+      } catch (error) {
+        // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why we get two different errors.
+        if (
+          isServiceBusError(error) &&
+          (error.code === "ServiceTimeout" || error.code === "SessionCannotBeLocked")
+        ) {
+          expectedErrorThrown = true;
+        } else {
+          unexpectedError = error;
+        }
+      }
+      should.equal(
+        expectedErrorThrown,
+        true,
+        `Instead of ServiceTimeout or SessionCannotBeLocked, found ${unexpectedError}`
+      );
+      await serviceBusClient.close();
     });
 
-    async function test_batching(testClientType: TestClientType): Promise<void> {
-      const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+    it("acceptSession() An already locked session throws SessionCannotBeLockedError", async function(): Promise<
+      void
+    > {
+      let expectedErrorThrown = false;
+      let unexpectedError;
+      await beforeEachTest("boo");
+      try {
+        await serviceBusClient.test.acceptSessionWithPeekLock(
+          { queue: receiver.entityPath, usesSessions: true },
+          "boo"
+        );
+      } catch (error) {
+        if (isServiceBusError(error) && error.code === "SessionCannotBeLocked") {
+          expectedErrorThrown = true;
+        } else {
+          unexpectedError = error;
+        }
+      }
+      should.equal(
+        expectedErrorThrown,
+        true,
+        `Instead of SessionCannotBeLockedError, found ${unexpectedError}`
+      );
+      await serviceBusClient.close();
+    });
 
-      let msgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 10000 });
+    it("Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
+      void
+    > {
+      const nonExistentSessionId: string = "non" + TestMessage.sessionId;
+      await beforeEachTest(nonExistentSessionId);
+      const testMessage = TestMessage.getSessionSample();
+      await sender.sendMessages(testMessage);
+
+      let msgs = await receiver.receiveMessages(1, { maxWaitTimeInMs: 10000 });
       should.equal(msgs.length, 0, "Unexpected number of messages received");
 
       await receiver.close();
@@ -89,9 +137,9 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
-      msgs = await receiver.receiveBatch(1);
+      msgs = await receiver.receiveMessages(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -100,51 +148,21 @@ describe("session tests", () => {
         testMessage.messageId,
         "MessageId is different than expected"
       );
-      await msgs[0].complete();
+      await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
-    }
-
-    it("Partitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, nonExistentSessionId);
-      await test_batching(TestClientType.PartitionedQueueWithSessions);
     });
 
-    it("Partitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
+    it("Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.PartitionedSubscriptionWithSessions,
-        nonExistentSessionId
-      );
-      await test_batching(TestClientType.PartitionedSubscriptionWithSessions);
-    });
-
-    it("Unpartitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, nonExistentSessionId);
-      await test_batching(TestClientType.UnpartitionedQueueWithSessions);
-    });
-
-    it("Unpartitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedSubscriptionWithSessions,
-        nonExistentSessionId
-      );
-      await test_batching(TestClientType.UnpartitionedSubscriptionWithSessions);
-    });
-
-    async function test_streaming(testClientType: TestClientType): Promise<void> {
+      const nonExistentSessionId: string = "non" + TestMessage.sessionId;
+      await beforeEachTest(nonExistentSessionId);
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
-      let receivedMsgs: ReceivedMessage[] = [];
+      let receivedMsgs: ServiceBusReceivedMessage[] = [];
       receiver.subscribe({
-        async processMessage(msg: ReceivedMessage) {
+        async processMessage(msg: ServiceBusReceivedMessage) {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -157,24 +175,24 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
       receivedMsgs = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
               testMessage.messageId,
               "MessageId is different than expected"
             );
-            await msg.complete();
+            await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -182,53 +200,14 @@ describe("session tests", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
       await testPeekMsgsLength(receiver, 0);
-    }
-
-    it("Partitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, nonExistentSessionId);
-      await test_streaming(TestClientType.PartitionedQueueWithSessions);
     });
 
-    it("Partitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.PartitionedSubscriptionWithSessions,
-        nonExistentSessionId
-      );
-      await test_streaming(TestClientType.PartitionedSubscriptionWithSessions);
-    });
-
-    it("Unpartitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, nonExistentSessionId);
-      await test_streaming(TestClientType.UnpartitionedQueueWithSessions);
-    });
-
-    it("Unpartitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedSubscriptionWithSessions,
-        nonExistentSessionId
-      );
-      await test_streaming(TestClientType.UnpartitionedSubscriptionWithSessions);
-    });
-  });
-
-  describe("Session State", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    async function testGetSetState(testClientType: TestClientType): Promise<void> {
+    it("Testing getState and setState", async function(): Promise<void> {
+      await beforeEachTest(TestMessage.sessionId);
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
-      let msgs = await receiver.receiveBatch(2);
+      let msgs = await receiver.receiveMessages(2);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -244,10 +223,10 @@ describe("session tests", () => {
         "SessionId is different than expected"
       );
 
-      let testState = await receiver.getState();
+      let testState = await receiver.getSessionState();
       should.equal(!!testState, false, "SessionState is different than expected");
-      await receiver.setState("new_state");
-      testState = await receiver.getState();
+      await receiver.setSessionState("new_state");
+      testState = await receiver.getSessionState();
       should.equal(testState, "new_state", "SessionState is different than expected");
 
       await receiver.close();
@@ -255,9 +234,9 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
-      msgs = await receiver.receiveBatch(2);
+      msgs = await receiver.receiveMessages(2);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -273,109 +252,65 @@ describe("session tests", () => {
         "SessionId is different than expected"
       );
 
-      testState = await receiver.getState();
+      testState = await receiver.getSessionState();
       should.equal(testState, "new_state", "SessionState is different than expected");
 
-      await receiver.setState(""); // clearing the session-state
-      await msgs[0].complete();
+      await receiver.setSessionState(""); // clearing the session-state
+      await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
-    }
-    it("Partitioned Queue - Testing getState and setState", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
-      await testGetSetState(TestClientType.PartitionedQueueWithSessions);
-    });
-    it("Partitioned Subscription - Testing getState and setState", async function(): Promise<void> {
-      await beforeEachTest(
-        TestClientType.PartitionedSubscriptionWithSessions,
-        TestMessage.sessionId
-      );
-      await testGetSetState(TestClientType.PartitionedSubscriptionWithSessions);
-    });
-    it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, TestMessage.sessionId);
-      await testGetSetState(TestClientType.UnpartitionedQueueWithSessions);
-    });
-    it("Unpartitioned Subscription - Testing getState and setState", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedSubscriptionWithSessions,
-        TestMessage.sessionId
-      );
-      await testGetSetState(TestClientType.UnpartitionedSubscriptionWithSessions);
-    });
-  });
-
-  describe("Cancel operations on the session receiver", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
     });
 
     it("Abort getState request", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiver.getState({ abortSignal: controller.signal });
+        await receiver.getSessionState({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal("The getState operation has been cancelled by the user.");
+        err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
 
     it("Abort setState request on the session receiver", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiver.setState("why", { abortSignal: controller.signal });
+        await receiver.setSessionState("why", { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal("The setState operation has been cancelled by the user.");
+        err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
 
     it("Abort renewSessionLock request on the session receiver", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
         await receiver.renewSessionLock({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal("The renewSessionLock operation has been cancelled by the user.");
-      }
-    });
-
-    it("Abort receiveDeferredMessage request on the session receiver", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
-      const controller = new AbortController();
-      setTimeout(() => controller.abort(), 1);
-      try {
-        await receiver.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal(
-          "The receiveDeferredMessage operation has been cancelled by the user."
-        );
+        err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
 
     it("Abort receiveDeferredMessages request on the session receiver", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
         await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal(
-          "The receiveDeferredMessages operation has been cancelled by the user."
-        );
+        err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
   });
@@ -401,13 +336,16 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     const testMessage = TestMessage.getSessionSample();
     // Create the sender and receiver.
     const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    const receiver = await serviceBusClient.createSessionReceiver(entityName.queue!, "peekLock", {
-      sessionId: testMessage.sessionId,
-      autoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
-    });
+    const receiver = await serviceBusClient.acceptSession(
+      entityName.queue!,
+      testMessage.sessionId,
+      {
+        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
+      }
+    );
     const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
     const receivedErrors: any[] = [];
     let settledMessageCount = 0;
 
@@ -427,7 +365,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
         console.log(`Received a message`);
         messageHandlerCount++;
         try {
-          await message.complete();
+          await receiver.completeMessage(message);
           settledMessageCount++;
         } catch (err) {
           receivedErrors.push(err);
@@ -453,7 +391,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -462,13 +400,10 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as any)["_context"].connection["_connection"].idle();
 
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
     // send a second message to trigger the message handler again.
-    await sender.send(TestMessage.getSessionSample());
+    await sender.sendMessages(TestMessage.getSessionSample());
     console.log("Waiting for 2nd message");
     // wait for the 2nd message to be received.
     await receiverSecondMessage;

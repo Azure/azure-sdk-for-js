@@ -1,18 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, parseConnectionString } from "@azure/core-amqp";
+import { isNode } from "@azure/core-http";
+import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { QueueDescription } from "../src/serializers/queueResourceSerializer";
-import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
-import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
-import { TopicDescription } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
-import { EntityStatus } from "../src/util/utils";
+import { parseServiceBusConnectionString } from "../src";
+import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
+import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
+import {
+  CreateSubscriptionOptions,
+  SubscriptionProperties
+} from "../src/serializers/subscriptionResourceSerializer";
+import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
+import {
+  ServiceBusAdministrationClient,
+  WithResponse
+} from "../src/serviceBusAtomManagementClient";
+import { EntityStatus, EntityAvailabilityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
@@ -26,13 +34,13 @@ dotenv.config();
 
 const env = getEnvVars();
 
-const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
+const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
-const endpointWithProtocol = (parseConnectionString(
+const endpointWithProtocol = parseServiceBusConnectionString(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
-) as any).Endpoint;
+).endpoint;
 
 enum EntityType {
   QUEUE = "Queue",
@@ -53,39 +61,233 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
+type AccessRights = ("Manage" | "Send" | "Listen")[];
+const randomDate = new Date();
 
 describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
       namespaceProperties,
-      { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
-      ["_response", "createdOn", "updatedOn", "name"]
+      { messagingSku: "Standard", messagingUnits: undefined } as any,
+      ["_response", "createdAt", "modifiedAt", "name"]
     );
+  });
+});
+
+describe("Listing methods - PagedAsyncIterableIterator", function(): void {
+  const baseName = "random";
+  const queueNames: string[] = [];
+  const topicNames: string[] = [];
+  const subscriptionNames: string[] = [];
+  const ruleNames: string[] = [];
+  const numberOfEntities = 5;
+
+  before(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    for (let i = 0; i < numberOfEntities; i++) {
+      queueNames.push(
+        (await serviceBusAtomManagementClient.createQueue(baseName + "_queue_" + i)).name
+      );
+      topicNames.push(
+        (await serviceBusAtomManagementClient.createTopic(baseName + "_topic_" + i)).name
+      );
+      subscriptionNames.push(
+        (
+          await serviceBusAtomManagementClient.createSubscription(
+            managementTopic1,
+            baseName + "_subscription_" + i
+          )
+        ).subscriptionName
+      );
+      ruleNames.push(
+        (
+          await serviceBusAtomManagementClient.createRule(
+            managementTopic1,
+            managementSubscription1,
+            baseName + "_rule_" + i,
+            { sqlExpression: "1=1" }
+          )
+        ).name
+      );
+    }
+  });
+
+  after(async () => {
+    for (let i = 0; i < numberOfEntities; i++) {
+      await serviceBusAtomManagementClient.deleteQueue(baseName + "_queue_" + i);
+      await serviceBusAtomManagementClient.deleteTopic(baseName + "_topic_" + i);
+    }
+    await serviceBusAtomManagementClient.deleteTopic(managementTopic1);
+  });
+
+  function verifyEntities(methodName: string, receivedNames: string[]) {
+    let createdNames: string[];
+    if (methodName.includes("Queue")) {
+      createdNames = queueNames;
+    } else if (methodName.includes("Topic")) {
+      createdNames = topicNames;
+    } else if (methodName.includes("Subscription")) {
+      createdNames = subscriptionNames;
+    } else {
+      createdNames = ruleNames;
+    }
+    const numberOfReceived = receivedNames.length;
+    createdNames.forEach((createdName) => {
+      receivedNames = receivedNames.filter((receivedName) => createdName !== receivedName);
+    });
+    should.equal(
+      numberOfReceived,
+      receivedNames.length + createdNames.length,
+      "Unexpected number of entities received"
+    );
+  }
+
+  [
+    "listQueues",
+    "listQueuesRuntimeProperties",
+    "listTopics",
+    "listTopicsRuntimeProperties",
+    "listSubscriptions",
+    "listSubscriptionsRuntimeProperties",
+    "listRules"
+  ].forEach((methodName) => {
+    describe(`${methodName}`, () => {
+      function getIter() {
+        let iterator;
+        if (methodName.includes("Subscription")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
+        } else if (methodName.includes("Rule")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName](
+            managementTopic1,
+            managementSubscription1
+          );
+        } else if (methodName.includes("Queue") || methodName.includes("Topic")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName]();
+        } else {
+          throw new Error("Invalid methodName");
+        }
+        return iterator;
+      }
+
+      it("Verify PagedAsyncIterableIterator", async () => {
+        const receivedEntities = [];
+        const iter = getIter();
+        for await (const entity of iter) {
+          receivedEntities.push(
+            methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+          );
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      it("Verify PagedAsyncIterableIterator(byPage())", async () => {
+        const receivedEntities = [];
+        const iter = getIter().byPage({
+          maxPageSize: 2
+        });
+        for await (const response of iter) {
+          for (const entity of response) {
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
+          }
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      it("Verify PagedAsyncIterableIterator(byPage() - continuationToken)", async () => {
+        const receivedEntities = [];
+        let iterator = getIter().byPage({ maxPageSize: 2 });
+        let response = await iterator.next();
+        // Prints 2 entity names
+        if (!response.done) {
+          for (const entity of response.value) {
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
+          }
+        }
+
+        // Gets next marker
+        let marker = response.value.continuationToken;
+        // Passing next marker as continuationToken
+        iterator = getIter().byPage({
+          continuationToken: marker,
+          maxPageSize: 5
+        });
+        response = await iterator.next();
+        // Gets up to 5 entity names
+        if (!response.done) {
+          for (const entity of response.value) {
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
+          }
+        }
+        marker = response.value.continuationToken;
+
+        // In case the namespace has too many entities and the newly created entities were not recovered
+        if (marker) {
+          for await (const response of getIter().byPage({
+            continuationToken: marker
+          })) {
+            for (const entity of response) {
+              receivedEntities.push(
+                methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+              );
+            }
+          }
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      [2, "-1", [], null].forEach((token) => {
+        it(`Validate continuationToken ${token} - PagedAsyncIterableIterator(byPage())`, async () => {
+          const settings: PageSettings = { continuationToken: token as string };
+          let errorWasThrown = false;
+          try {
+            getIter().byPage(settings);
+          } catch (error) {
+            errorWasThrown = true;
+            should.equal(
+              error.message,
+              `Invalid continuationToken ${token} provided`,
+              "Unexpected error message"
+            );
+          }
+          should.equal(errorWasThrown, true, "Error was not thrown");
+        });
+      });
+    });
   });
 });
 
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
-        .Endpoint;
-      const host = endpoint.match(".*://([^/]*)")[1];
-
-      const serviceBusManagementClient = new ServiceBusManagementClient(
+      const connectionStringProperties = parseServiceBusConnectionString(
+        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+      );
+      const host = connectionStringProperties.fullyQualifiedNamespace;
+      const endpoint = connectionStringProperties.endpoint;
+      const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
         host,
         new DefaultAzureCredential()
       );
 
       should.equal(
-        (await serviceBusManagementClient.createQueue(managementQueue1)).name,
+        (await serviceBusAdministrationClient.createQueue(managementQueue1)).name,
         managementQueue1,
         "Unexpected queue name in the createQueue response"
       );
-      const createQueue2Response = await serviceBusManagementClient.createQueue({
-        name: managementQueue2,
-        forwardTo: managementQueue1
-      });
+      const createQueue2Response = await serviceBusAdministrationClient.createQueue(
+        managementQueue2,
+        {
+          forwardTo: managementQueue1
+        }
+      );
       should.equal(
         createQueue2Response.name,
         managementQueue2,
@@ -96,29 +298,29 @@ describe("Atom management - Authentication", function(): void {
         endpoint + managementQueue1,
         "Unexpected name in the `forwardTo` field of createQueue response"
       );
-      const getQueueResponse = await serviceBusManagementClient.getQueue(managementQueue1);
+      const getQueueResponse = await serviceBusAdministrationClient.getQueue(managementQueue1);
       should.equal(
         getQueueResponse.name,
         managementQueue1,
         "Unexpected queue name in the getQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.updateQueue(getQueueResponse)).name,
+        (await serviceBusAdministrationClient.updateQueue(getQueueResponse)).name,
         managementQueue1,
         "Unexpected queue name in the updateQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.getQueueRuntimeInfo(managementQueue1)).name,
+        (await serviceBusAdministrationClient.getQueueRuntimeProperties(managementQueue1)).name,
         managementQueue1,
-        "Unexpected queue name in the getQueueRuntimeInfo response"
+        "Unexpected queue name in the getQueueRuntimeProperties response"
       );
       should.equal(
-        (await serviceBusManagementClient.getNamespaceProperties()).name,
-        host.match("(.*).servicebus.windows.net")[1],
+        (await serviceBusAdministrationClient.getNamespaceProperties()).name,
+        (host.match("(.*).servicebus.windows.net") || [])[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
-      await serviceBusManagementClient.deleteQueue(managementQueue1);
-      await serviceBusManagementClient.deleteQueue(managementQueue2);
+      await serviceBusAdministrationClient.deleteQueue(managementQueue1);
+      await serviceBusAdministrationClient.deleteQueue(managementQueue2);
     });
   }
 });
@@ -328,14 +530,12 @@ describe("Atom management - Authentication", function(): void {
     alwaysBeExistingEntity: managementQueue1,
     output: {
       sizeInBytes: 0,
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      scheduledMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       name: managementQueue1
     }
   },
@@ -345,6 +545,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       sizeInBytes: 0,
       subscriptionCount: 0,
+      scheduledMessageCount: 0,
       name: managementTopic1
     }
   },
@@ -352,14 +553,11 @@ describe("Atom management - Authentication", function(): void {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1,
     output: {
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       topicName: managementTopic1,
       subscriptionName: managementSubscription1
     }
@@ -403,7 +601,7 @@ describe("Atom management - Authentication", function(): void {
     });
 
     it(`Gets runtime info for an existing ${testCase.entityType} entity(single) successfully`, async () => {
-      const response = await getEntityRuntimeInfo(
+      const response = await getEntityRuntimeProperties(
         testCase.entityType,
         testCase.alwaysBeExistingEntity,
         managementTopic1
@@ -415,9 +613,9 @@ describe("Atom management - Authentication", function(): void {
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "modifiedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -430,14 +628,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue1,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue1
       }
     },
@@ -445,14 +641,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue2,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue2
       }
     }
@@ -464,6 +658,7 @@ describe("Atom management - Authentication", function(): void {
       output: {
         sizeInBytes: 0,
         subscriptionCount: 0,
+        scheduledMessageCount: 0,
         name: managementTopic1
       }
     },
@@ -472,6 +667,7 @@ describe("Atom management - Authentication", function(): void {
       output: {
         sizeInBytes: 0,
         subscriptionCount: 0,
+        scheduledMessageCount: 0,
         name: managementTopic2
       }
     }
@@ -481,14 +677,11 @@ describe("Atom management - Authentication", function(): void {
     1: {
       alwaysBeExistingEntity: managementSubscription1,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription1
       }
@@ -496,14 +689,11 @@ describe("Atom management - Authentication", function(): void {
     2: {
       alwaysBeExistingEntity: managementSubscription2,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription2
       }
@@ -556,9 +746,9 @@ describe("Atom management - Authentication", function(): void {
     });
 
     it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
-      const response = await getEntitiesRuntimeInfo(testCase.entityType, managementTopic1);
+      const response = await getEntitiesRuntimeProperties(testCase.entityType, managementTopic1);
       const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
-      const paramsToExclude = ["createdOn", "accessedOn", "updatedOn"];
+      const paramsToExclude = ["createdAt", "accessedAt", "modifiedAt"];
       for (const info of response) {
         if (info[name] == testCase[1].alwaysBeExistingEntity) {
           assert.deepEqualExcluding(info, testCase[1].output, paramsToExclude);
@@ -582,6 +772,10 @@ describe("Atom management - Authentication", function(): void {
   {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1
+  },
+  {
+    entityType: EntityType.RULE,
+    alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
   describe(`Atom management - "${testCase.entityType}" exists`, function(): void {
@@ -600,6 +794,17 @@ describe("Atom management - Authentication", function(): void {
           await recreateSubscription(managementTopic1, managementSubscription1);
           break;
 
+        case EntityType.RULE:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          await serviceBusAtomManagementClient.createRule(
+            managementTopic1,
+            managementSubscription1,
+            managementRule1,
+            { sqlExpression: "1=2" }
+          );
+          break;
+
         default:
           throw new Error("TestError: Unrecognized EntityType");
       }
@@ -613,6 +818,7 @@ describe("Atom management - Authentication", function(): void {
 
         case EntityType.TOPIC:
         case EntityType.SUBSCRIPTION:
+        case EntityType.RULE:
           await deleteEntity(EntityType.TOPIC, managementTopic1);
           break;
 
@@ -623,7 +829,12 @@ describe("Atom management - Authentication", function(): void {
 
     it(`Returns true for an existing ${testCase.entityType} entity`, async () => {
       should.equal(
-        await entityExists(testCase.entityType, testCase.alwaysBeExistingEntity, managementTopic1),
+        await entityExists(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          managementTopic1,
+          managementSubscription1
+        ),
         true,
         "Returned `false` for an existing entity"
       );
@@ -631,7 +842,12 @@ describe("Atom management - Authentication", function(): void {
 
     it(`Returns false for a non-existing ${testCase.entityType} entity`, async () => {
       should.equal(
-        await entityExists(testCase.entityType, "non-existing-entity-name", managementTopic1),
+        await entityExists(
+          testCase.entityType,
+          "non-existing-entity-name",
+          managementTopic1,
+          managementSubscription1
+        ),
         false,
         "Returned `true` for a non-existing entity"
       );
@@ -942,7 +1158,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404);
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -962,7 +1177,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1019,7 +1233,6 @@ describe("Atom management - Authentication", function(): void {
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1042,44 +1255,50 @@ describe("Atom management - Authentication", function(): void {
     output: {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       maxSizeInMegabytes: 1024,
       userMetadata: undefined,
       requiresDuplicateDetection: false,
       status: "Active",
       supportOrdering: true,
-      name: managementTopic1
+      name: managementTopic1,
+      availabilityStatus: "Available"
     }
   },
   {
     testCaseTitle: "all properties",
     input: {
       requiresDuplicateDetection: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
       status: "SendDisabled" as EntityStatus,
       enablePartitioning: true,
+      enableExpress: false,
       supportOrdering: false,
-      userMetadata: "test metadata"
+      userMetadata: "test metadata",
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
       status: "SendDisabled",
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
       enablePartitioning: true,
+      enableExpress: false,
       maxSizeInMegabytes: 16384,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       authorizationRules: undefined,
       userMetadata: "test metadata",
-      name: managementTopic1
+      name: managementTopic1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1101,81 +1320,103 @@ describe("Atom management - Authentication", function(): void {
       should.equal(response.name, managementTopic1, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "modifiedAt",
+        "accessedAt"
       ]);
     });
   });
 });
 
 // Subscription tests
-[
-  {
-    testCaseTitle: "Undefined subscription options",
-    input: undefined,
-    output: {
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnMessageExpiration: false,
-      deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      forwardDeadLetteredMessagesTo: undefined,
-      enableBatchedOperations: true,
-      forwardTo: undefined,
-      userMetadata: undefined,
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      requiresSession: false,
-      status: "Active",
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
-    }
-  },
-  {
-    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
-    input: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  const createSubscriptionTestCases: {
+    testCaseTitle: string;
+    input?: CreateSubscriptionOptions;
+    output: SubscriptionProperties;
+  }[] = [
+    {
+      testCaseTitle: "Undefined subscription options",
+      input: undefined,
+      output: {
+        autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+        deadLetteringOnMessageExpiration: false,
+        deadLetteringOnFilterEvaluationExceptions: true,
+        defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+        forwardDeadLetteredMessagesTo: undefined,
+        enableBatchedOperations: true,
+        forwardTo: undefined,
+        userMetadata: undefined,
+        lockDuration: "PT1M",
+        maxDeliveryCount: 10,
+        requiresSession: false,
+        status: "Active",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     },
-    output: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-
-      forwardDeadLetteredMessagesTo: undefined,
-      forwardTo: undefined,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled",
-
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+    {
+      testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
+      input: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled" as EntityStatus,
+        availabilityStatus: "Available" as EntityAvailabilityStatus
+      },
+      output: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        forwardDeadLetteredMessagesTo: undefined,
+        forwardTo: undefined,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     }
-  }
-].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
-    beforeEach(async () => {
-      await createEntity(EntityType.TOPIC, managementTopic1);
-    });
+  ];
+  createSubscriptionTestCases.push({
+    testCaseTitle: "case-2 with defaultRuleOptions",
+    input: {
+      ...createSubscriptionTestCases[1].input,
+      defaultRuleOptions: {
+        name: "rule",
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='b'", sqlParameters: undefined }
+      }
+    },
+    output: { ...createSubscriptionTestCases[1].output }
+  });
 
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
+  beforeEach(async () => {
+    await createEntity(EntityType.TOPIC, managementTopic1);
+  });
 
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
+
+  createSubscriptionTestCases.forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
-      const response = await createEntity(
+      const response: WithResponse<SubscriptionProperties> = await createEntity(
         EntityType.SUBSCRIPTION,
         managementSubscription1,
         managementTopic1,
@@ -1191,12 +1432,16 @@ describe("Atom management - Authentication", function(): void {
         managementSubscription1,
         "Subscription name mismatch"
       );
-      assert.deepEqualExcluding(response, testCase.output, [
-        "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
-      ]);
+      assert.deepEqual(response, testCase.output);
+
+      if (testCase.input?.defaultRuleOptions) {
+        const ruleResponse = await serviceBusAtomManagementClient.getRule(
+          response.topicName,
+          response.subscriptionName,
+          testCase.input.defaultRuleOptions.name
+        );
+        assert.deepEqual(ruleResponse, testCase.input.defaultRuleOptions);
+      }
     });
   });
 });
@@ -1211,7 +1456,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
@@ -1225,14 +1470,14 @@ describe("Atom management - Authentication", function(): void {
 
       messageCount: 0,
       enablePartitioning: undefined,
+      enableExpress: undefined,
       maxSizeInMegabytes: undefined,
       sizeInBytes: undefined,
 
       userMetadata: undefined,
       messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
       status: "Active",
-
+      availabilityStatus: "Available",
       subscriptionName: managementSubscription1,
       topicName: managementTopic1
     }
@@ -1296,10 +1541,11 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       forwardDeadLetteredMessagesTo: undefined,
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
@@ -1309,7 +1555,8 @@ describe("Atom management - Authentication", function(): void {
       requiresSession: false,
       status: "Active",
       forwardTo: undefined,
-      userMetadata: undefined
+      userMetadata: undefined,
+      availabilityStatus: "Available"
     }
   },
   {
@@ -1318,7 +1565,7 @@ describe("Atom management - Authentication", function(): void {
       lockDuration: "PT45S",
       requiresDuplicateDetection: true,
       requiresSession: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       maxDeliveryCount: 8,
@@ -1327,33 +1574,29 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
       enablePartitioning: true,
+      enableExpress: false,
       userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+      status: "ReceiveDisabled" as EntityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 8,
@@ -1363,34 +1606,28 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-
       enablePartitioning: true,
+      enableExpress: false,
       maxSizeInMegabytes: 16384,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
-
       status: "ReceiveDisabled",
-      name: managementQueue1
+      name: managementQueue1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1413,9 +1650,9 @@ describe("Atom management - Authentication", function(): void {
 
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "modifiedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1475,100 +1712,135 @@ describe("Atom management - Authentication", function(): void {
   });
 });
 
-// Rule tests
-[
-  {
-    testCaseTitle: "Undefined rule options",
-    input: undefined,
-    output: {
-      filter: {
-        sqlExpression: "1=1",
-        requiresPreprocessing: undefined,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
-      },
-      action: {
-        sqlExpression: undefined,
-        requiresPreprocessing: undefined,
-        sqlParameters: undefined,
-        compatibilityLevel: undefined
-      },
+describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  beforeEach(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+  });
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
 
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Sql Filter rule options",
-    input: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: [
-          { key: "@intParam", value: 1, type: "int" },
-          { key: "@stringParam", value: "b", type: "string" }
-        ]
-      },
-      action: { sqlExpression: "SET a='b'" }
+  // Rule tests
+  const createRuleTests: {
+    testCaseTitle: string;
+    input: Omit<CreateRuleOptions, "name"> | undefined;
+    output: RuleProperties;
+  }[] = [
+    {
+      testCaseTitle: "Undefined rule options",
+      input: undefined,
+      output: {
+        filter: {
+          sqlExpression: "1=1",
+          sqlParameters: undefined
+        },
+        action: {
+          sqlExpression: undefined,
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
     },
-    output: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: [
-          { key: "@intParam", value: 1, type: "int" },
-          { key: "@stringParam", value: "b", type: "string" }
-        ],
-        requiresPreprocessing: false,
-        compatibilityLevel: 20
+    {
+      testCaseTitle: "Sql Filter rule options",
+      input: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='b'" }
       },
-      action: {
-        sqlExpression: "SET a='b'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
-      },
-
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options",
-    input: {
-      filter: {
-        correlationId: "abcd"
-      },
-      action: { sqlExpression: "SET sys.label='GREEN'" }
+      output: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: {
+          sqlExpression: "SET a='b'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
     },
-    output: {
-      filter: {
-        correlationId: "abcd",
-        contentType: "",
-        label: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        userProperties: undefined
+    {
+      testCaseTitle: "Correlation Filter rule options with a single property",
+      input: {
+        filter: {
+          correlationId: "abcd",
+          applicationProperties: {
+            randomState: "WA"
+          }
+        },
+        action: { sqlExpression: "SET sys.label='GREEN'" }
       },
-      action: {
-        sqlExpression: "SET sys.label='GREEN'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+      output: {
+        filter: {
+          correlationId: "abcd",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: {
+            randomState: "WA"
+          }
+        },
+        action: {
+          sqlExpression: "SET sys.label='GREEN'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    },
+    {
+      testCaseTitle: "Correlation Filter rule options with multiple properties",
+      input: {
+        filter: {
+          correlationId: "abcd",
+          applicationProperties: {
+            randomState: "WA",
+            randomCountry: "US",
+            randomInt: 25,
+            randomIntDisguisedAsDouble: 3.0,
+            randomDouble: 12.4,
+            randomBool: true,
+            randomDate: randomDate
+          }
+        },
+        action: { sqlExpression: "SET sys.label='GREEN'" }
       },
-
-      name: managementRule1
+      output: {
+        filter: {
+          correlationId: "abcd",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: {
+            randomState: "WA",
+            randomCountry: "US",
+            randomInt: 25,
+            randomIntDisguisedAsDouble: 3.0,
+            randomDouble: 12.4,
+            randomBool: true,
+            randomDate: randomDate
+          }
+        },
+        action: {
+          sqlExpression: "SET sys.label='GREEN'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
     }
-  }
-].forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
-    beforeEach(async () => {
-      await recreateTopic(managementTopic1);
-      await recreateSubscription(managementTopic1, managementSubscription1);
-    });
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
-
+  ];
+  createRuleTests.forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
@@ -1581,13 +1853,12 @@ describe("Atom management - Authentication", function(): void {
         undefined,
         testCase.input
       );
-
       should.equal(response.name, managementRule1, "Rule name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "modifiedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1599,7 +1870,7 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
       maxDeliveryCount: 5,
@@ -1608,33 +1879,29 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Send"]
-          },
+          accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Listen"]
-          },
+          accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
       enablePartitioning: true,
+      enableExpress: false,
       userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+      status: "ReceiveDisabled" as EntityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
@@ -1642,20 +1909,14 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Send"]
-          },
+          accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Listen"]
-          },
+          accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1669,7 +1930,9 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       enablePartitioning: true,
-      name: managementQueue1
+      enableExpress: false,
+      name: managementQueue1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1679,7 +1942,7 @@ describe("Atom management - Authentication", function(): void {
         lockDuration: "PT45S",
         requiresDuplicateDetection: true,
         requiresSession: true,
-        defaultMessageTtl: "P2D",
+        defaultMessageTimeToLive: "P2D",
         deadLetteringOnMessageExpiration: true,
         duplicateDetectionHistoryTimeWindow: "PT1M",
         maxDeliveryCount: 8,
@@ -1688,26 +1951,21 @@ describe("Atom management - Authentication", function(): void {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
           }
         ],
-        enablePartitioning: true
+        enablePartitioning: true,
+        enableExpress: false
       });
     });
 
@@ -1728,9 +1986,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "modifiedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1749,7 +2007,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
 
@@ -1758,20 +2016,14 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1793,7 +2045,7 @@ describe("Atom management - Authentication", function(): void {
       messageCountDetails: undefined,
 
       enableExpress: undefined,
-      entityAvailabilityStatus: undefined,
+      availabilityStatus: "Available",
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
       enablePartitioning: true,
@@ -1855,25 +2107,28 @@ describe("Atom management - Authentication", function(): void {
       status: "SendDisabled" as EntityStatus,
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
-      maxSizeInMegabytes: 3072
+      maxSizeInMegabytes: 3072,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
       maxSizeInMegabytes: 3072,
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       authorizationRules: undefined,
       status: "SendDisabled",
       userMetadata: "test metadata",
-      name: managementTopic1
+      name: managementTopic1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1899,9 +2154,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "modifiedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1917,19 +2172,20 @@ describe("Atom management - Authentication", function(): void {
     input: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
       requiresSession: false,
       userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus
+      status: "ReceiveDisabled" as EntityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
@@ -1940,20 +2196,19 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      topicName: managementTopic1,
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
   describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
-      await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
     });
 
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
-      await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
 
     it(`${testCase.testCaseTitle}`, async () => {
@@ -1971,9 +2226,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "modifiedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2045,80 +2300,68 @@ describe("Atom management - Authentication", function(): void {
 });
 
 // Rule tests
-[
-  {
-    testCaseTitle: "Sql Filter rule options",
-    input: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
+describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  beforeEach(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    await createEntity(EntityType.RULE, managementRule1, managementTopic1, managementSubscription1);
+  });
+
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
+  [
+    {
+      testCaseTitle: "Sql Filter rule options",
+      input: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam",
+          sqlParameters: { "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='c'" }
       },
-      action: { sqlExpression: "SET a='c'" }
+      output: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam",
+          sqlParameters: { "@stringParam": "b" }
+        },
+        action: {
+          sqlExpression: "SET a='c'",
+          sqlParameters: undefined
+        },
+
+        name: managementRule1
+      }
     },
-    output: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }],
-        requiresPreprocessing: false,
-        compatibilityLevel: 20
+    {
+      testCaseTitle: "Correlation Filter rule options",
+      input: {
+        filter: {
+          correlationId: "defg"
+        },
+        action: { sqlExpression: "SET sys.label='RED'" }
       },
-      action: {
-        sqlExpression: "SET a='c'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
-      },
+      output: {
+        filter: {
+          correlationId: "defg",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: undefined
+        },
+        action: {
+          sqlExpression: "SET sys.label='RED'",
+          sqlParameters: undefined
+        },
 
-      name: managementRule1
+        name: managementRule1
+      }
     }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options",
-    input: {
-      filter: {
-        correlationId: "defg"
-      },
-      action: { sqlExpression: "SET sys.label='RED'" }
-    },
-    output: {
-      filter: {
-        correlationId: "defg",
-        contentType: "",
-        label: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        userProperties: undefined
-      },
-      action: {
-        sqlExpression: "SET sys.label='RED'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
-      },
-
-      name: managementRule1
-    }
-  }
-].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
-    beforeEach(async () => {
-      await recreateTopic(managementTopic1);
-      await recreateSubscription(managementTopic1, managementSubscription1);
-      await createEntity(
-        EntityType.RULE,
-        managementRule1,
-        managementTopic1,
-        managementSubscription1
-      );
-    });
-
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
-
+  ].forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -2135,9 +2378,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "modifiedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2178,10 +2421,10 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "name">,
-  topicOptions?: Omit<TopicDescription, "name">,
-  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "name">
+  queueOptions?: Omit<CreateQueueOptions, "name">,
+  topicOptions?: Omit<CreateTopicOptions, "name">,
+  subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
+  ruleOptions?: Omit<CreateRuleOptions, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2190,10 +2433,7 @@ async function createEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2218,10 +2458,7 @@ async function createEntity(
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "string" }
-          ]
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
         },
         action: { sqlExpression: "SET a='b'" }
       };
@@ -2230,14 +2467,12 @@ async function createEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.createQueue({
-        name: entityPath,
+      const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.createTopic({
-        name: entityPath,
+      const topicResponse = await serviceBusAtomManagementClient.createTopic(entityPath, {
         ...topicOptions
       });
       return topicResponse;
@@ -2247,11 +2482,13 @@ async function createEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription({
-        topicName: topicPath,
-        subscriptionName: entityPath,
-        ...subscriptionOptions
-      });
+      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription(
+        topicPath,
+        entityPath,
+        {
+          ...subscriptionOptions
+        }
+      );
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
@@ -2262,7 +2499,9 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        { name: entityPath, ...ruleOptions }
+        entityPath,
+        ruleOptions?.filter!,
+        ruleOptions?.action!
       );
       return ruleResponse;
   }
@@ -2309,17 +2548,21 @@ async function getEntity(
   throw new Error("TestError: Unrecognized EntityType");
 }
 
-async function getEntityRuntimeInfo(
+async function getEntityRuntimeProperties(
   testEntityType: EntityType,
   entityPath: string,
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeInfo(entityPath);
+      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeProperties(
+        entityPath
+      );
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeInfo(entityPath);
+      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeProperties(
+        entityPath
+      );
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2327,7 +2570,7 @@ async function getEntityRuntimeInfo(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
         topicPath,
         entityPath
       );
@@ -2336,16 +2579,16 @@ async function getEntityRuntimeInfo(
   throw new Error("TestError: Unrecognized EntityType");
 }
 
-async function getEntitiesRuntimeInfo(
+async function getEntitiesRuntimeProperties(
   testEntityType: EntityType,
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueuesRuntimeInfo();
+      const queueResponse = await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]();
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicsRuntimeInfo();
+      const topicResponse = await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]();
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2353,9 +2596,9 @@ async function getEntitiesRuntimeInfo(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionsRuntimeInfo(
-        topicPath
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient[
+        "getSubscriptionsRuntimeProperties"
+      ](topicPath);
       return subscriptionResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
@@ -2364,7 +2607,8 @@ async function getEntitiesRuntimeInfo(
 async function entityExists(
   testEntityType: EntityType,
   entityPath: string,
-  topicPath?: string
+  topicPath?: string,
+  subscriptionPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
@@ -2384,6 +2628,18 @@ async function entityExists(
         entityPath
       );
       return subscriptionResponse;
+    case EntityType.RULE:
+      if (!topicPath || !subscriptionPath) {
+        throw new Error(
+          "TestError: topic path and subscription path must be passed when invoking tests on rules"
+        );
+      }
+      const ruleResponse = await serviceBusAtomManagementClient.ruleExists(
+        topicPath,
+        subscriptionPath,
+        entityPath
+      );
+      return ruleResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
@@ -2394,10 +2650,10 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "name">,
-  topicOptions?: Omit<TopicDescription, "name">,
-  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "name">
+  queueOptions?: Omit<CreateQueueOptions, "name">,
+  topicOptions?: Omit<CreateTopicOptions, "name">,
+  subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
+  ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2406,10 +2662,7 @@ async function updateEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2434,10 +2687,10 @@ async function updateEntity(
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "string" }
-          ]
+          sqlParameters: {
+            "@intParam": 1,
+            "@stringParam": "b"
+          }
         },
         action: { sqlExpression: "SET a='b'" }
       };
@@ -2446,14 +2699,16 @@ async function updateEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
+      const getQueueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       const queueResponse = await serviceBusAtomManagementClient.updateQueue({
-        name: entityPath,
+        ...getQueueResponse,
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
+      const getTopicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       const topicResponse = await serviceBusAtomManagementClient.updateTopic({
-        name: entityPath,
+        ...getTopicResponse,
         ...topicOptions
       });
       return topicResponse;
@@ -2463,9 +2718,12 @@ async function updateEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
+      const getSubscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
+        topicPath,
+        entityPath
+      );
       const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
-        topicName: topicPath,
-        subscriptionName: entityPath,
+        ...getSubscriptionResponse,
         ...subscriptionOptions
       });
       return subscriptionResponse;
@@ -2475,17 +2733,21 @@ async function updateEntity(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
+      const getRuleResponse = await serviceBusAtomManagementClient.getRule(
+        topicPath,
+        subscriptionPath,
+        entityPath
+      );
       const ruleResponse = await serviceBusAtomManagementClient.updateRule(
         topicPath,
         subscriptionPath,
         {
-          name: entityPath,
+          ...getRuleResponse,
           ...ruleOptions
         }
       );
       return ruleResponse;
   }
-  throw new Error("TestError: Unrecognized EntityType");
 }
 
 async function deleteEntity(
@@ -2533,19 +2795,19 @@ async function listEntities(
   topicPath?: string,
   subscriptionPath?: string,
   skip?: number,
-  top?: number
+  maxCount?: number
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueues({
-        skip: skip,
-        top: top
+      const queueResponse = await serviceBusAtomManagementClient["getQueues"]({
+        skip,
+        maxCount
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopics({
-        skip: skip,
-        top: top
+      const topicResponse = await serviceBusAtomManagementClient["getTopics"]({
+        skip,
+        maxCount
       });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
@@ -2554,10 +2816,9 @@ async function listEntities(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptions(
-        topicPath,
-        { skip: skip, top: top }
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient[
+        "getSubscriptions"
+      ](topicPath, { skip, maxCount });
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
@@ -2565,10 +2826,10 @@ async function listEntities(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient.getRules(
+      const ruleResponse = await serviceBusAtomManagementClient["getRules"](
         topicPath,
         subscriptionPath,
-        { skip: skip, top: top }
+        { skip, maxCount }
       );
       return ruleResponse;
   }

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { userAgent } from "../utils/user-agent";
+import { getUserAgent as userAgent } from "universal-user-agent";
 import { Constants } from "./constants";
 
 /**
- * @ignore
+ * @hidden
  */
 export function getUserAgent(suffix?: string) {
   const ua = `${userAgent()} ${Constants.SDKName}/${Constants.SDKVersion}`;

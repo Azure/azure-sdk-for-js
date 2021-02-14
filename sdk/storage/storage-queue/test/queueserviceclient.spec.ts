@@ -13,8 +13,8 @@ describe("QueueServiceClient", () => {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("listQueues with default parameters", async () => {
@@ -144,7 +144,7 @@ describe("QueueServiceClient", () => {
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
-    let iter1 = await queueServiceClient.listQueues({
+    let iter1 = queueServiceClient.listQueues({
       includeMetadata: true,
       prefix: queueNamePrefix
     });
@@ -369,6 +369,14 @@ describe("QueueServiceClient", () => {
       err = error;
     }
     assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
-    assert.ok(err.message.includes("QueueNotFound"), "Error doesn't say `QueueNotFound`");
+    assert.ok(
+      err.message.startsWith("The specified queue does not exist."),
+      "Error doesn't say `QueueNotFound`"
+    );
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new QueueServiceClient(`https://customdomain.com/`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
   });
 });

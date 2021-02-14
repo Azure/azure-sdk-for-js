@@ -37,8 +37,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "test-browser/index.js",
-      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
@@ -60,6 +60,9 @@ module.exports = function(config) {
       "FORM_RECOGNIZER_API_KEY",
       "FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL",
       "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL",
+      "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL",
+      "FORM_RECOGNIZER_TARGET_RESOURCE_ID",
+      "FORM_RECOGNIZER_TARGET_RESOURCE_REGION",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"

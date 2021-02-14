@@ -15,7 +15,7 @@ export const SuggestResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "SuggestResult",
     modelProperties: {
-      text: {
+      _text: {
         required: true,
         readOnly: true,
         serializedName: "@search\\.text",
@@ -159,6 +159,22 @@ export const SearchRequest: coreHttp.CompositeMapper = {
           ]
         }
       },
+      scoringStatistics: {
+        serializedName: "scoringStatistics",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "local",
+            "global"
+          ]
+        }
+      },
+      sessionId: {
+        serializedName: "sessionId",
+        type: {
+          name: "String"
+        }
+      },
       scoringParameters: {
         serializedName: "scoringParameters",
         type: {
@@ -226,7 +242,7 @@ export const SearchResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "SearchResult",
     modelProperties: {
-      score: {
+      _score: {
         required: true,
         nullable: false,
         readOnly: true,
@@ -235,7 +251,7 @@ export const SearchResult: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      highlights: {
+      _highlights: {
         readOnly: true,
         serializedName: "@search\\.highlights",
         type: {
@@ -817,6 +833,20 @@ export const SearchOptions: coreHttp.CompositeMapper = {
             "any",
             "all"
           ]
+        }
+      },
+      scoringStatistics: {
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "local",
+            "global"
+          ]
+        }
+      },
+      sessionId: {
+        type: {
+          name: "String"
         }
       },
       select: {

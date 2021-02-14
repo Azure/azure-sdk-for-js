@@ -8,9 +8,9 @@ The Azure Event Hubs client does not have any recorded tests and so, all the tes
 
 The Azure resources that are used by the tests in this project are:
 
-- An [Azure Event Hubs namespace](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features#namespace) with atleast one Event Hub instance in it.
-- An [Azure Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).
-- An Azure Active Directory application for the tests to use. See the [AAD based authentication](#AAD-based-authentication) for steps to register the application.
+- An [Azure Event Hubs namespace](https://docs.microsoft.com/azure/event-hubs/event-hubs-features#namespace) with atleast one Event Hub instance in it.
+- An [Azure Storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) configured to provide [blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources).
+- An Azure Active Directory application for the tests to use. See the [AAD based authentication](#aad-based-authentication) for steps to register the application.
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -26,15 +26,15 @@ The following steps will help you setup the AAD credentials.
 
 ### Register a new application in AAD
 
-- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
+- Follow [Documentation to register a new application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
 - Note down the `CLIENT_ID` and `TENANT_ID`.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 
 ### Assign owner role to the registered application
 
 - In the Azure portal, go to your Azure Event Hubs namespace and assign the **Azure Event Hubs Data Owner** role to the registered application.
-- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Azure Event Hubs namespace in the Azure portal)<br>
-  _Doing this would allow the registered application manage the resource, i.e., entity creation, deletion, etc.,_<br>
-- For more information on securing your Azure Event Hubs namespace: [Learn more](https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-event-hubs)
+- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Azure Event Hubs namespace in the Azure portal)  
+  _Doing this would allow the registered application manage the resource, i.e., entity creation, deletion, etc._
+- For more information on securing your Azure Event Hubs namespace: [Learn more](https://docs.microsoft.com/azure/event-hubs/authorize-access-event-hubs)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2Ftest%2FREADME.png)

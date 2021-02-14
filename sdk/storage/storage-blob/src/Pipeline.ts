@@ -40,6 +40,7 @@ import {
 } from "./utils/constants";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
+import { attachCredential } from "./utils/utils.common";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -183,9 +184,13 @@ export interface StoragePipelineOptions {
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
-  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+  credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
+  if (credential === undefined) {
+    credential = new AnonymousCredential();
+  }
+
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
@@ -213,7 +218,10 @@ export function newPipeline(
   }
   factories.push(
     isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+      ? attachCredential(
+          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          credential
+        )
       : credential
   );
 

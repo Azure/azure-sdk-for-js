@@ -86,7 +86,7 @@ module.exports = function(config) {
       outputPath: "."
     },
 
-    port: 9328,
+    port: 9330,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,

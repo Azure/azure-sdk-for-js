@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
+import { SpanOptions } from "@azure/core-tracing";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
 declare global {
@@ -87,7 +88,7 @@ export type RequestBodyType =
 /**
  * Metadata about a request being made by the pipeline.
  */
-export interface PipelineRequest {
+export interface PipelineRequest<AdditionalInfo = any> {
   /**
    * The URL to make the request to.
    */
@@ -115,6 +116,17 @@ export interface PipelineRequest {
    * Defaults to false.
    */
   withCredentials: boolean;
+
+  /**
+   * A unique identifier for the request. Used for logging and tracing.
+   */
+  requestId: string;
+
+  /**
+   * Any additional information on the request that
+   * is policy or client specific.
+   */
+  additionalInfo?: AdditionalInfo;
 
   /**
    * The HTTP body content (if any)
@@ -150,6 +162,16 @@ export interface PipelineRequest {
    * Used to abort the request later.
    */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * Options used to create a span when tracing is enabled.
+   */
+  spanOptions?: SpanOptions;
+
+  /**
+   * Clone this request object.
+   */
+  clone(): PipelineRequest;
 
   /**
    * Callback which fires upon upload progress.

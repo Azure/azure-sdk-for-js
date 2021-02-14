@@ -7,7 +7,7 @@ import {
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
-import { getInteger, getString } from "../util/utils";
+import { getInteger, getString, getDate } from "../util/utils";
 
 /**
  * Represents the metadata related to a service bus namespace.
@@ -19,24 +19,20 @@ export interface NamespaceProperties {
   /**
    * The time at which the namespace was created.
    */
-  createdOn: string;
+  createdAt: Date;
   /**
    * The SKU/tier of the namespace.
    * "Basic", "Standard" and "Premium"
    */
-  messagingSku: string;
+  messagingSku: "Basic" | "Premium" | "Standard";
   /**
    * The last time at which the namespace was modified.
    */
-  updatedOn: string;
+  modifiedAt: Date;
   /**
    * Name of the namespace.
    */
   name: string;
-  /**
-   * Type of entities present in the namespace.
-   */
-  namespaceType: string;
   /**
    * Number of messaging units allocated for namespace.
    * Valid only for Premium namespaces.
@@ -47,19 +43,20 @@ export interface NamespaceProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the namespace object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawNamespace
  */
 export function buildNamespace(rawNamespace: any): NamespaceProperties {
-  const messagingSku = getString(rawNamespace["MessagingSKU"], "messagingSku");
+  const messagingSku = <"Basic" | "Premium" | "Standard">(
+    getString(rawNamespace["MessagingSKU"], "messagingSku")
+  );
   return {
-    createdOn: getString(rawNamespace["CreatedTime"], "createdOn"),
+    createdAt: getDate(rawNamespace["CreatedTime"], "createdAt"),
     messagingSku: messagingSku,
-    updatedOn: getString(rawNamespace["ModifiedTime"], "updatedOn"),
+    modifiedAt: getDate(rawNamespace["ModifiedTime"], "modifiedAt"),
     name: getString(rawNamespace["Name"], "name"),
-    namespaceType: getString(rawNamespace["NamespaceType"], "namespaceType"),
     messagingUnits:
       messagingSku === "Premium"
         ? getInteger(rawNamespace["MessagingUnits"], "messagingUnits")
@@ -69,7 +66,7 @@ export function buildNamespace(rawNamespace: any): NamespaceProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Atom XML Serializer for Namespaces.
  */
 export class NamespaceResourceSerializer implements AtomXmlSerializer {

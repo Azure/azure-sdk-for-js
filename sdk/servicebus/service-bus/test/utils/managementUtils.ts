@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { delay } from "../../src";
-import { QueueDescription } from "../../src/serializers/queueResourceSerializer";
-import { TopicDescription } from "../../src/serializers/topicResourceSerializer";
-import { SubscriptionDescription } from "../../src/serializers/subscriptionResourceSerializer";
-import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
+import { CreateTopicOptions } from "../../src/serializers/topicResourceSerializer";
+import { CreateSubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
+import { ServiceBusAdministrationClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
+import { CreateQueueOptions } from "../../src/serializers/queueResourceSerializer";
 const should = chai.should();
 
-let client: ServiceBusManagementClient;
+let client: ServiceBusAdministrationClient;
 
 /**
  * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
@@ -20,7 +20,7 @@ let client: ServiceBusManagementClient;
 async function getManagementClient() {
   if (client == undefined) {
     const env = getEnvVars();
-    client = new ServiceBusManagementClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusAdministrationClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   }
   return client;
 }
@@ -78,7 +78,7 @@ async function retry(
  */
 export async function recreateQueue(
   queueName: string,
-  parameters?: Omit<QueueDescription, "name">
+  parameters?: Omit<CreateQueueOptions, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -87,7 +87,7 @@ export async function recreateQueue(
   };
 
   const createQueueOperation = async () => {
-    await client.createQueue({ name: queueName, ...parameters });
+    await client.createQueue(queueName, parameters);
   };
 
   const checkIfQueueExistsOperation = async () => {
@@ -116,7 +116,7 @@ export async function recreateQueue(
  */
 export async function recreateTopic(
   topicName: string,
-  parameters?: Omit<TopicDescription, "name">
+  parameters?: Omit<CreateTopicOptions, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -125,7 +125,7 @@ export async function recreateTopic(
   };
 
   const createTopicOperation = async () => {
-    await client.createTopic({ name: topicName, ...parameters });
+    await client.createTopic(topicName, parameters);
   };
 
   const checkIfTopicExistsOperation = async () => {
@@ -156,7 +156,7 @@ export async function recreateTopic(
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">
+  parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">
 ): Promise<void> {
   await getManagementClient();
   /*
@@ -166,7 +166,7 @@ export async function recreateSubscription(
   */
 
   const createSubscriptionOperation = async () => {
-    await client.createSubscription({ topicName, subscriptionName, ...parameters });
+    await client.createSubscription(topicName, subscriptionName, parameters);
   };
 
   const checkIfSubscriptionExistsOperation = async () => {
@@ -204,8 +204,9 @@ export async function verifyMessageCount(
   await getManagementClient();
   should.equal(
     queueName
-      ? (await client.getQueueRuntimeInfo(queueName)).messageCount
-      : (await client.getSubscriptionRuntimeInfo(topicName!, subscriptionName!)).messageCount,
+      ? (await client.getQueueRuntimeProperties(queueName)).totalMessageCount
+      : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
+          .totalMessageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`
   );

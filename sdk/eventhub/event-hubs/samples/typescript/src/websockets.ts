@@ -16,7 +16,7 @@
 
 import WebSocket from "ws";
 const url = require("url");
-const httpsProxyAgent = require("https-proxy-agent");
+import { HttpsProxyAgent } from "https-proxy-agent";
 
 import { EventHubConsumerClient } from "@azure/event-hubs";
 
@@ -34,7 +34,7 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 // Skip this section if you are not behind a proxy server
 const urlParts = url.parse("http://localhost:3128");
 urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
-const proxyAgent = new httpsProxyAgent(urlParts);
+const proxyAgent = new HttpsProxyAgent(urlParts);
 
 export async function main(): Promise<void> {
   console.log(`Running websockets sample`);

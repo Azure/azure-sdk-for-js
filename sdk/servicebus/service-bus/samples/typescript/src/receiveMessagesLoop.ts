@@ -2,11 +2,7 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
-  For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
-  
-  This sample demonstrates how the receiveBatch() function can be used to receive Service Bus
+  This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
   messages in a loop.
 
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
@@ -19,21 +15,21 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
-  const queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  const queueReceiver = sbClient.createReceiver(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
   try {
     for (let i = 0; i < 10; i++) {
-      const messages = await queueReceiver.receiveBatch(1, {
+      const messages = await queueReceiver.receiveMessages(1, {
         maxWaitTimeInMs: 5000
       });
 
@@ -43,7 +39,7 @@ export async function main() {
       }
 
       console.log(`Received message #${i}: ${messages[0].body}`);
-      await messages[0].complete();
+      await queueReceiver.completeMessage(messages[0]);
     }
     await queueReceiver.close();
   } finally {
@@ -53,4 +49,5 @@ export async function main() {
 
 main().catch((err) => {
   console.log("Error occurred: ", err);
+  process.exit(1);
 });

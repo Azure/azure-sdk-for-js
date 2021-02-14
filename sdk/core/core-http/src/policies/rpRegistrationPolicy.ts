@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResourceLike } from "../webResource";
@@ -67,9 +68,9 @@ function registerIfNeeded(
 
 /**
  * Reuses the headers of the original request and url (if specified).
- * @param {WebResourceLike} originalRequest The original request
- * @param {boolean} reuseUrlToo Should the url from the original request be reused as well. Default false.
- * @returns {object} A new request object with desired headers.
+ * @param originalRequest - The original request
+ * @param reuseUrlToo - Should the url from the original request be reused as well. Default false.
+ * @returns A new request object with desired headers.
  */
 function getRequestEssentials(
   originalRequest: WebResourceLike,
@@ -93,8 +94,8 @@ function getRequestEssentials(
 /**
  * Validates the error code and message associated with 409 response status code. If it matches to that of
  * RP not registered then it returns the name of the RP else returns undefined.
- * @param {string} body The response body received after making the original request.
- * @returns {string} The name of the RP if condition is satisfied else undefined.
+ * @param body - The response body received after making the original request.
+ * @returns The name of the RP if condition is satisfied else undefined.
  */
 function checkRPNotRegisteredError(body: string): string {
   let result, responseBody;
@@ -123,8 +124,8 @@ function checkRPNotRegisteredError(body: string): string {
 /**
  * Extracts the first part of the URL, just after subscription:
  * https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
- * @param {string} url The original request url
- * @returns {string} The url prefix as explained above.
+ * @param url - The original request url
+ * @returns The url prefix as explained above.
  */
 function extractSubscriptionUrl(url: string): string {
   let result;
@@ -139,12 +140,12 @@ function extractSubscriptionUrl(url: string): string {
 
 /**
  * Registers the given provider.
- * @param {RPRegistrationPolicy} policy The RPRegistrationPolicy this function is being called against.
- * @param {string} urlPrefix https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
- * @param {string} provider The provider name to be registered.
- * @param {WebResourceLike} originalRequest The original request sent by the user that returned a 409 response
+ * @param policy - The RPRegistrationPolicy this function is being called against.
+ * @param urlPrefix - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
+ * @param provider - The provider name to be registered.
+ * @param originalRequest - The original request sent by the user that returned a 409 response
  * with a message that the provider is not registered.
- * @param {registrationCallback} callback The callback that handles the RP registration
+ * @param callback - The callback that handles the RP registration
  */
 function registerRP(
   policy: RPRegistrationPolicy,
@@ -169,11 +170,11 @@ function registerRP(
 /**
  * Polls the registration status of the provider that was registered. Polling happens at an interval of 30 seconds.
  * Polling will happen till the registrationState property of the response body is "Registered".
- * @param {RPRegistrationPolicy} policy The RPRegistrationPolicy this function is being called against.
- * @param {string} url The request url for polling
- * @param {WebResourceLike} originalRequest The original request sent by the user that returned a 409 response
+ * @param policy - The RPRegistrationPolicy this function is being called against.
+ * @param url - The request url for polling
+ * @param originalRequest - The original request sent by the user that returned a 409 response
  * with a message that the provider is not registered.
- * @returns {Promise<boolean>} True if RP Registration is successful.
+ * @returns True if RP Registration is successful.
  */
 function getRegistrationStatus(
   policy: RPRegistrationPolicy,

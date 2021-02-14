@@ -2,135 +2,214 @@
   "folders": [
     {
       "name": "abort-controller",
-      "path": "sdk\\core\\abort-controller"
+      "path": "sdk/core/abort-controller"
+    },
+    {
+      "name": "anomaly-detector",
+      "path": "sdk/anomalydetector/ai-anomaly-detector"
     },
     {
       "name": "app-configuration",
-      "path": "sdk\\appconfiguration\\app-configuration"
+      "path": "sdk/appconfiguration/app-configuration"
+    },
+    {
+      "name": "communication-admin",
+      "path": "sdk/communication/communication-administration"
+    },
+    {
+      "name": "communication-chat",
+      "path": "sdk/communication/communication-chat"
+    },
+    {
+      "name": "communication-sms",
+      "path": "sdk/communication/communication-sms"
     },
     {
       "name": "core-amqp",
-      "path": "sdk\\core\\core-amqp"
-    },
-    {
-      "name": "core-arm",
-      "path": "sdk\\core\\core-arm"
+      "path": "sdk/core/core-amqp"
     },
     {
       "name": "core-asynciterator-polyfill",
-      "path": "sdk\\core\\core-asynciterator-polyfill"
+      "path": "sdk/core/core-asynciterator-polyfill"
     },
     {
       "name": "core-auth",
-      "path": "sdk\\core\\core-auth"
+      "path": "sdk/core/core-auth"
+    },
+    {
+      "name": "core-client",
+      "path": "sdk/core/core-client"
     },
     {
       "name": "core-http",
-      "path": "sdk\\core\\core-http"
+      "path": "sdk/core/core-http"
     },
     {
       "name": "core-https",
-      "path": "sdk\\core\\core-https"
+      "path": "sdk/core/core-https"
     },
     {
       "name": "core-lro",
-      "path": "sdk\\core\\core-lro"
+      "path": "sdk/core/core-lro"
     },
     {
       "name": "core-paging",
-      "path": "sdk\\core\\core-paging"
+      "path": "sdk/core/core-paging"
     },
     {
       "name": "core-tracing",
-      "path": "sdk\\core\\core-tracing"
+      "path": "sdk/core/core-tracing"
+    },
+    {
+      "name": "core-xml",
+      "path": "sdk/core/core-xml"
     },
     {
       "name": "cosmos",
-      "path": "sdk\\cosmosdb\\cosmos"
+      "path": "sdk/cosmosdb/cosmos"
+    },
+    {
+      "name": "eventgrid",
+      "path": "sdk\\eventgrid\\eventgrid"
     },
     {
       "name": "event-hubs",
-      "path": "sdk\\eventhub\\event-hubs"
+      "path": "sdk/eventhub/event-hubs"
     },
     {
       "name": "eventhubs-checkpointstore-blob",
-      "path": "sdk\\eventhub\\eventhubs-checkpointstore-blob"
+      "path": "sdk/eventhub/eventhubs-checkpointstore-blob"
     },
     {
       "name": "event-processor-host",
-      "path": "sdk\\eventhub\\event-processor-host"
+      "path": "sdk/eventhub/event-processor-host"
     },
     {
       "name": "form-recognizer",
-      "path": "sdk\\formrecognizer\\ai-form-recognizer"
+      "path": "sdk/formrecognizer/ai-form-recognizer"
     },
     {
       "name": "testhub",
-      "path": "sdk\\eventhub\\testhub"
+      "path": "sdk/eventhub/testhub"
     },
     {
       "name": "identity",
-      "path": "sdk\\identity\\identity"
+      "path": "sdk/identity/identity"
     },
     {
       "name": "keyvault-certificates",
-      "path": "sdk\\keyvault\\keyvault-certificates"
+      "path": "sdk/keyvault/keyvault-certificates"
     },
     {
       "name": "keyvault-keys",
-      "path": "sdk\\keyvault\\keyvault-keys"
+      "path": "sdk/keyvault/keyvault-keys"
     },
     {
       "name": "keyvault-secrets",
-      "path": "sdk\\keyvault\\keyvault-secrets"
+      "path": "sdk/keyvault/keyvault-secrets"
     },
     {
       "name": "logger",
-      "path": "sdk\\core\\logger"
+      "path": "sdk/core/logger"
+    },
+    {
+      "name": "metrics-advisor",
+      "path": "sdk\\metricsadvisor\\ai-metrics-advisor"
+    },
+    {
+      "name": "schema-registry",
+      "path": "sdk/schemaregistry/schema-registry"
     },
     {
       "name": "search",
-      "path": "sdk\\search\\search-documents"
+      "path": "sdk/search/search-documents"
     },
     {
       "name": "service-bus",
-      "path": "sdk\\servicebus\\service-bus"
+      "path": "sdk/servicebus/service-bus"
     },
     {
       "name": "storage-blob",
-      "path": "sdk\\storage\\storage-blob"
+      "path": "sdk/storage/storage-blob"
+    },
+    {
+      "name": "storage-blob-changefeed",
+      "path": "sdk/storage/storage-blob-changefeed"
     },
     {
       "name": "storage-file-datalake",
-      "path": "sdk\\storage\\storage-file-datalake"
+      "path": "sdk/storage/storage-file-datalake"
     },
     {
       "name": "storage-file-share",
-      "path": "sdk\\storage\\storage-file-share"
+      "path": "sdk/storage/storage-file-share"
+    },
+    {
+      "name": "storage-internal-avro",
+      "path": "sdk/storage/storage-internal-avro"
     },
     {
       "name": "storage-queue",
-      "path": "sdk\\storage\\storage-queue"
+      "path": "sdk/storage/storage-queue"
+    },
+    {
+      "name": "synapse-access-control",
+      "path": "sdk/synapse/synapse-access-control"
+    },
+    {
+      "name": "synapse-artifacts",
+      "path": "sdk/synapse/synapse-artifacts"
+    },
+    {
+      "name": "synapse-managed-private-endpoints",
+      "path": "sdk/synapse/synapse-managed-private-endpoints"
+    },
+    {
+      "name": "synapse-monitoring",
+      "path": "sdk/synapse/synapse-monitoring"
+    },
+    {
+      "name": "synapse-spark",
+      "path": "sdk/synapse/synapse-spark"
+    },
+    {
+      "name": "tables",
+      "path": "sdk/tables/data-tables"
     },
     {
       "name": "text analytics",
-      "path": "sdk\\textanalytics\\ai-text-analytics"
+      "path": "sdk/textanalytics/ai-text-analytics"
+    },
+    {
+      "name": "monitor",
+      "path": "sdk/monitor/opentelemetry-exporter-azure-monitor"
     },
     {
       "name": "test recorder",
-      "path": "sdk\\test-utils\\recorder"
+      "path": "sdk/test-utils/recorder"
     },
     {
       "name": "template",
-      "path": "sdk\\template\\template"
+      "path": "sdk/template/template"
     },
     {
       "name": "eslint plugin",
-      "path": "common\\tools\\eslint-plugin-azure-sdk"
+      "path": "common/tools/eslint-plugin-azure-sdk"
+    },
+    {
+      "name": "dev tool",
+      "path": "common/tools/dev-tool"
     },
     {
       "name": "perfstress",
-      "path": "sdk\\test-utils\\perfstress"
+      "path": "sdk/test-utils/perfstress"
+    },
+    {
+      "name": "multi-version test",
+      "path": "sdk/test-utils/multi-version"
+    },
+    {
+      "path": "sdk\\digitaltwins\\digital-twins-core"
     }
   ],
   "settings": {
@@ -157,8 +236,7 @@
       "**/*.d.ts": true,
       "**/test-browser/*": true
     },
-    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib",
-    
+    "typescript.tsdk": "core-http/node_modules/typescript/lib"
   },
   "extensions": {
     "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]

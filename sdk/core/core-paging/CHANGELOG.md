@@ -1,7 +1,16 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.4 (Unreleased)
 
+
+## 1.1.3 (2020-09-30)
+
+- Also pack `esm` build in addition to `commonjs` build. This fixes the warning about `core-paging` in Angular 10 applications [Issue 11550](https://github.com/Azure/azure-sdk-for-js/issues/11550).
+
+## 1.1.2 (2020-09-02)
+
+- Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 10599](https://github.com/Azure/azure-sdk-for-js/pull/10599)
 
 ## 1.1.1 (2020-04-02)
 

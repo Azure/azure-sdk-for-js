@@ -185,9 +185,12 @@ export interface StoragePipelineOptions {
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
-  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+  credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
+  if (credential === undefined) {
+    credential = new AnonymousCredential();
+  }
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
@@ -215,9 +218,25 @@ export function newPipeline(
   }
   factories.push(
     isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+      ? attachCredential(
+          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          credential
+        )
       : credential
   );
 
   return new Pipeline(factories, pipelineOptions);
+}
+
+/**
+ * Attach a TokenCredential to an object.
+ *
+ * @export
+ * @param {T} thing
+ * @param {TokenCredential} credential
+ * @returns {T}
+ */
+function attachCredential<T>(thing: T, credential: TokenCredential): T {
+  (thing as any).credential = credential;
+  return thing;
 }

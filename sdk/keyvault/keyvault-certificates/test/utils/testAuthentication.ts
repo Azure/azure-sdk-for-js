@@ -7,8 +7,9 @@ import { CertificateClient } from "../../src";
 import { uniqueString } from "./recorderUtils";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import TestClient from "./testClient";
+import { Context } from "mocha";
 
-export async function authenticate(that: any): Promise<any> {
+export async function authenticate(that: Context): Promise<any> {
   const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
