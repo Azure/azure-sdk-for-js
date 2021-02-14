@@ -17,7 +17,7 @@ export class PartitionKeyRangeCache {
   }
   /**
    * Finds or Instantiates the requested Collection Routing Map
-   * @param {string} collectionLink            - Requested collectionLink
+   * @param collectionLink - Requested collectionLink
    * @hidden
    */
   public async onCollectionRoutingMap(
@@ -34,8 +34,6 @@ export class PartitionKeyRangeCache {
 
   /**
    * Given the query ranges and a collection, invokes the callback on the list of overlapping partition key ranges
-   * @param collectionLink
-   * @param queryRange
    * @hidden
    */
   public async getOverlappingRanges(collectionLink: string, queryRange: QueryRange) {

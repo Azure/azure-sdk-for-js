@@ -48,7 +48,6 @@ const JsonContentType = "application/json";
 
 /**
  * @hidden
- * @param param0
  */
 export async function getHeaders({
   clientOptions,
