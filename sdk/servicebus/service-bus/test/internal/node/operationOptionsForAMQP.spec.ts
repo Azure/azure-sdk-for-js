@@ -372,7 +372,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       const queueName = `queue-session-${Math.ceil(Math.random() * 1000)}`;
 
       before(async () => {
-        await sbAdminClient.createQueue(queueName, {
+        await recreateQueue(queueName, {
           requiresSession: true
         });
         sbClient = new ServiceBusClient(serviceBusEndpoint, new EnvironmentCredential());
@@ -553,7 +553,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         it("onDetached upon a disconnect", async function(): Promise<void> {
           const queueName = `queue-${Math.ceil(Math.random() * 10000)}`;
-          await sbAdminClient.createQueue(queueName);
+          await recreateQueue(queueName);
           const sender = sbClient.createSender(queueName);
           await sender.sendMessages(TestMessage.getSample());
 
@@ -703,7 +703,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const queueName = `queue-session-${Math.ceil(Math.random() * 1000)}`;
 
         before(async () => {
-          await sbAdminClient.createQueue(queueName, {
+          await recreateQueue(queueName, {
             requiresSession: true
           });
           sbClient = new ServiceBusClient(serviceBusEndpoint, new EnvironmentCredential());
