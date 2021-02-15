@@ -120,37 +120,20 @@ export class InteractiveBrowserCredential implements TokenCredential {
     // eslint-disable-next-line
     return new Promise<AccessToken | null>(async (resolve, reject) => {
       // eslint-disable-next-line
-      let listen: http.Server | undefined;
       let socketToDestroy: Socket | undefined;
-
-      function cleanup(): void {
-        if (listen) {
-          listen.close();
-        }
-        if (socketToDestroy) {
-          socketToDestroy.destroy();
-        }
-
-        if (server) {
-          server.close();
-          server.stop();
-        }
-      }
 
       // Create Express App and Routes
 
-      let self = this;
-
-      const requestListener = async function(req: http.IncomingMessage, res: http.ServerResponse) {
-        const url = new URL(req.url!, self.redirectUri);
+      const requestListener = async (req: http.IncomingMessage, res: http.ServerResponse) => {
+        const url = new URL(req.url!, this.redirectUri);
         const tokenRequest: AuthorizationCodeRequest = {
           code: url.searchParams.get("code")!,
-          redirectUri: self.redirectUri,
+          redirectUri: this.redirectUri,
           scopes: scopeArray
         };
 
         try {
-          const authResponse = await self.msalClient.acquireTokenByCode(tokenRequest);
+          const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
           const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
           if (authResponse && authResponse.expiresOn) {
             const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
@@ -170,8 +153,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
             );
           }
         } catch (error) {
-          const url = new URL(req.url!, self.redirectUri);
-          url.searchParams.get("error");
           const errorMessage = formatError(
             scopeArray,
             `${url.searchParams.get("error")}. ${url.searchParams.get("error_description")}`
@@ -186,17 +167,31 @@ export class InteractiveBrowserCredential implements TokenCredential {
       };
       const app = http.createServer(requestListener);
 
-      listen = app.listen(this.port, this.host, () =>
+      const listen = app.listen(this.port, this.host, () =>
         logger.info(`Msal Node Auth Code Sample app listening on port ${this.port}!`)
       );
       app.on("connection", (socket) => (socketToDestroy = socket));
-      let server = stoppable(app);
+      const server = stoppable(app);
 
       try {
         await this.openAuthCodeUrl(scopeArray);
       } catch (e) {
         cleanup();
         throw e;
+      }
+
+      function cleanup(): void {
+        if (listen) {
+          listen.close();
+        }
+        if (socketToDestroy) {
+          socketToDestroy.destroy();
+        }
+
+        if (server) {
+          server.close();
+          server.stop();
+        }
       }
     });
   }
