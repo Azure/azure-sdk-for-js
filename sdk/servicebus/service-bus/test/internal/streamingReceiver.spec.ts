@@ -25,6 +25,7 @@ import { getDeliveryProperty } from "./utils/misc";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import sinon from "sinon";
 import { isNode } from "@azure/core-http";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -941,7 +942,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     processErrorFake.called.should.be.false;
 
-    const connectionContext = (receiver as any)["_context"];
+    const connectionContext = (receiver as ServiceBusReceiverImpl)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
