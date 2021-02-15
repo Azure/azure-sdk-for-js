@@ -761,6 +761,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/mixedreality-remoterendering",
+      "projectFolder": "sdk/mixedreality/mixedreality-remoterendering",
+      "versionPolicyName": "client"
+    }
+    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
