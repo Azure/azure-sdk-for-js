@@ -141,7 +141,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
       let self = this;
 
-      const requestListener = async function (req: http.IncomingMessage, res: http.ServerResponse) {
+      const requestListener = async function(req: http.IncomingMessage, res: http.ServerResponse) {
         const url = new URL(req.url!, self.redirectUri);
         const tokenRequest: AuthorizationCodeRequest = {
           code: url.searchParams.get("code")!,
@@ -171,12 +171,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
           }
         } catch (error) {
           const url = new URL(req.url!, self.redirectUri);
-          url.searchParams.get("error")
+          url.searchParams.get("error");
           const errorMessage = formatError(
             scopeArray,
             `${url.searchParams.get("error")}. ${url.searchParams.get("error_description")}`
           );
-          res.writeHead(500)
+          res.writeHead(500);
           res.end(errorMessage);
           logger.getToken.info(errorMessage);
           reject(new Error(errorMessage));
