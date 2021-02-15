@@ -548,8 +548,51 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           );
         });
 
-        // TODO: subscribe
-        // TODO: createStreamingReceiver
+        it("RequestOptions is plumbed through subscribe", async () => {
+          const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+          receiver["_context"].cbsSession.init = async () => {};
+
+          await verifyOperationOptionsAtGetToken(
+            receiver["_context"],
+            sampleOperationOptions,
+            async () => {
+              receiver.subscribe({
+                processMessage: async () => {},
+                processError: async () => {}
+              });
+              await delay(1);
+              await receiver.close();
+            },
+            () => {
+              if (receiver["_streamingReceiver"]) {
+                receiver["_streamingReceiver"]["_initOnce"] = async () => {};
+              }
+            }
+          );
+        });
+
+        it("RequestOptions is plumbed through _createStreamingReceiver", async () => {
+          const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+          receiver["_context"].cbsSession.init = async () => {};
+
+          await verifyOperationOptionsAtGetToken(
+            receiver["_context"],
+            sampleOperationOptions,
+            async () => {
+              await receiver["_createStreamingReceiver"]({
+                receiveMode: "peekLock",
+                onError: () => {},
+                lockRenewer: undefined
+              });
+              await receiver.close();
+            },
+            () => {
+              if (receiver["_streamingReceiver"]) {
+                receiver["_streamingReceiver"]["_initOnce"] = async () => {};
+              }
+            }
+          );
+        });
 
         it("onDetached upon a disconnect", async function(): Promise<void> {
           const queueName = `queue-${Math.ceil(Math.random() * 10000)}`;
