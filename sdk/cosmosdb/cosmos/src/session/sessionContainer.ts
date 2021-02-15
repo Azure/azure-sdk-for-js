@@ -147,8 +147,6 @@ export class SessionContainer {
       resourceType === Constants.Path.DatabasesPathSegment ||
       resourceType === Constants.Path.UsersPathSegment ||
       resourceType === Constants.Path.PermissionsPathSegment ||
-      resourceType === Constants.Path.TopologyPathSegment ||
-      resourceType === Constants.Path.DatabaseAccountPathSegment ||
       resourceType === Constants.Path.PartitionKeyRangesPathSegment ||
       (resourceType === Constants.Path.CollectionsPathSegment &&
         operationType === OperationType.Query)

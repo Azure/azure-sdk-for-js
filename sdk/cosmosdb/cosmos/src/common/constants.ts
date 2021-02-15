@@ -193,7 +193,6 @@ export const Constants = {
     PartitionKeyRangesPathSegment: "pkranges",
     SchemasPathSegment: "schemas",
     OffersPathSegment: "offers",
-    TopologyPathSegment: "topology",
     DatabaseAccountPathSegment: "databaseaccount"
   },
 
@@ -215,7 +214,7 @@ export const Constants = {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF"
   }
-};
+} as const;
 
 /**
  * @hidden

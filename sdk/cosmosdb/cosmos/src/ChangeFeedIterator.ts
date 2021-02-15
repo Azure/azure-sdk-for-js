@@ -112,7 +112,7 @@ export class ChangeFeedIterator<T> {
 
     if (this.nextIfNoneMatch) {
       feedOptions.accessCondition = {
-        type: Constants.HttpHeaders.IfNoneMatch,
+        type: "IfNoneMatch",
         condition: this.nextIfNoneMatch
       };
     }
