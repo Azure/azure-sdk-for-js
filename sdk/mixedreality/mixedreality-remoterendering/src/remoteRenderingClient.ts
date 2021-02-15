@@ -31,9 +31,7 @@ export class RemoteRenderingClient {
    * @param keyCredential The Mixed Reality service account primary or secondary key credential.
    * @param options Additional client options.
    */
-  constructor(
-  )
-  {
-  //  this.client = new GeneratedClient();
+  constructor() {
+    //  this.client = new GeneratedClient();
   }
 }
