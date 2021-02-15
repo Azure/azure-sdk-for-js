@@ -11,9 +11,10 @@ import { Socket } from "net";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
 import { AuthorizationCodeRequest } from "@azure/msal-node";
 
-import express from "express";
 import open from "open";
 import http from "http";
+import stoppable from "stoppable";
+
 import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -26,6 +27,7 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 export class InteractiveBrowserCredential implements TokenCredential {
   private redirectUri: string;
   private port: number;
+  private host: string;
   private msalClient: MsalClient;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
@@ -52,6 +54,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
     if (isNaN(this.port)) {
       this.port = 80;
     }
+
+    this.host = url.host;
 
     let authorityHost;
     if (options && options.authorityHost) {
@@ -126,24 +130,32 @@ export class InteractiveBrowserCredential implements TokenCredential {
         if (socketToDestroy) {
           socketToDestroy.destroy();
         }
+
+        if (server) {
+          server.close();
+          server.stop();
+        }
       }
 
       // Create Express App and Routes
-      const app = express();
 
-      app.get("/", async (req, res) => {
+      let self = this;
+
+      const requestListener = async function (req: http.IncomingMessage, res: http.ServerResponse) {
+        const url = new URL(req.url!, self.redirectUri);
         const tokenRequest: AuthorizationCodeRequest = {
-          code: req.query.code as string,
-          redirectUri: this.redirectUri,
+          code: url.searchParams.get("code")!,
+          redirectUri: self.redirectUri,
           scopes: scopeArray
         };
 
         try {
-          const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
+          const authResponse = await self.msalClient.acquireTokenByCode(tokenRequest);
           const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
           if (authResponse && authResponse.expiresOn) {
             const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
-            res.status(200).send(successMessage);
+            res.writeHead(200);
+            res.end(successMessage);
             logger.getToken.info(formatSuccess(scopeArray));
 
             resolve({
@@ -158,22 +170,27 @@ export class InteractiveBrowserCredential implements TokenCredential {
             );
           }
         } catch (error) {
+          const url = new URL(req.url!, self.redirectUri);
+          url.searchParams.get("error")
           const errorMessage = formatError(
             scopeArray,
-            `${req.query["error"]}. ${req.query["error_description"]}`
+            `${url.searchParams.get("error")}. ${url.searchParams.get("error_description")}`
           );
-          res.status(500).send(errorMessage);
+          res.writeHead(500)
+          res.end(errorMessage);
           logger.getToken.info(errorMessage);
           reject(new Error(errorMessage));
         } finally {
           cleanup();
         }
-      });
+      };
+      const app = http.createServer(requestListener);
 
-      listen = app.listen(this.port, () =>
+      listen = app.listen(this.port, this.host, () =>
         logger.info(`Msal Node Auth Code Sample app listening on port ${this.port}!`)
       );
-      listen.on("connection", (socket) => (socketToDestroy = socket));
+      app.on("connection", (socket) => (socketToDestroy = socket));
+      let server = stoppable(app);
 
       try {
         await this.openAuthCodeUrl(scopeArray);
