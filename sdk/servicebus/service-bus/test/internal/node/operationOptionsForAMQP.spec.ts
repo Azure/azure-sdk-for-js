@@ -700,7 +700,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       });
 
       describe("SessionReceiver methods", () => {
-        const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
+        const queueName = `queue-session-${Math.ceil(Math.random() * 1000)}`;
 
         before(async () => {
           await sbAdminClient.createQueue(queueName, {
