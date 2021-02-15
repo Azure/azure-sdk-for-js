@@ -6,7 +6,7 @@ import { EnvironmentCredential, GetTokenOptions } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
-import { delay, generate_uuid } from "rhea-promise";
+import { AmqpError, delay, generate_uuid } from "rhea-promise";
 import {
   OperationOptionsBase,
   ServiceBusAdministrationClient,
@@ -15,10 +15,11 @@ import {
 import { ConnectionContext } from "../../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { ServiceBusSenderImpl } from "../../../src/sender";
-import { DispositionType } from "../../../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import { getOperationOptionsBase } from "../../../src/util/utils";
 import { getEnvVars } from "../../public/utils/envVarUtils";
 import { recreateQueue } from "../../public/utils/managementUtils";
+import { TestMessage } from "../../public/utils/testUtils";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -38,12 +39,14 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     func: Function,
     plugAfterMockingGetToken?: Function
   ) {
-    let getTokenIsInvoked = false;
     let verifiedOperationOptions = false;
     let actualOptions: OperationOptionsBase = {};
+    let getTokenInvocationDone: Function;
+    const waitUntilGetTokenIsInvoked = new Promise((resolve) => {
+      getTokenInvocationDone = resolve;
+    });
 
     context.tokenCredential.getToken = async (_scopes: string, options: GetTokenOptions) => {
-      getTokenIsInvoked = true;
       actualOptions = getOperationOptionsBase(options);
       should.equal(
         options.requestOptions?.timeout === operationOptions.requestOptions?.timeout,
@@ -62,6 +65,8 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       );
       verifiedOperationOptions = true;
       if (plugAfterMockingGetToken) await plugAfterMockingGetToken();
+
+      getTokenInvocationDone();
       return null;
     };
 
@@ -69,7 +74,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       await func();
       should.fail("Something went wrong - should not have reached here");
     } catch (err) {
-      should.equal(getTokenIsInvoked, true, `getToken is not invoked, instead failed with ${err}`);
+      await waitUntilGetTokenIsInvoked;
       should.equal(
         verifiedOperationOptions,
         true,
@@ -364,7 +369,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     });
 
     describe("SessionReceiver", () => {
-      const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
+      const queueName = `queue-session-${Math.ceil(Math.random() * 1000)}`;
 
       before(async () => {
         await sbAdminClient.createQueue(queueName, {
@@ -513,9 +518,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
             }
           );
         });
-        // TODO: onDetached
-        //      - Sender and Batch receiver don't care,
-        //      - subscribe will care since it re-initializes
       });
 
       describe("Receiver Methods", () => {
@@ -544,6 +546,67 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
               }
             }
           );
+        });
+
+        // TODO: subscribe
+        // TODO: createStreamingReceiver
+
+        it("onDetached upon a disconnect", async function(): Promise<void> {
+          const queueName = `queue-${Math.ceil(Math.random() * 10000)}`;
+          await sbAdminClient.createQueue(queueName);
+          const sender = sbClient.createSender(queueName);
+          await sender.sendMessages(TestMessage.getSample());
+
+          const receiver = sbClient.createReceiver(queueName) as ServiceBusReceiverImpl;
+
+          const connectionContext = receiver["_context"];
+          let onDetachedCalled = false;
+          let testingDone: Function;
+          const testingInProgress = new Promise((resolve) => {
+            testingDone = resolve;
+          });
+
+          const mockOnDetached = () => {
+            if (receiver["_streamingReceiver"]?.onDetached) {
+              const onDetached = receiver["_streamingReceiver"].onDetached;
+              receiver["_streamingReceiver"].onDetached = async (
+                receiverError?: AmqpError | Error | undefined,
+                operationOptions?: OperationOptionsBase | undefined
+              ) => {
+                onDetachedCalled = true;
+                return onDetached.call(
+                  receiver["_streamingReceiver"],
+                  receiverError,
+                  operationOptions
+                );
+              };
+            }
+          };
+
+          // Start the receiver.
+          receiver.subscribe({
+            async processMessage(message: ServiceBusReceivedMessage) {
+              await receiver.completeMessage(message);
+              mockOnDetached();
+              // Simulate a disconnect
+              connectionContext.connection["_connection"].idle();
+
+              await verifyOperationOptionsAtGetToken(
+                connectionContext,
+                sampleOperationOptions,
+                () => {},
+                () => {
+                  if (receiver["_streamingReceiver"])
+                    receiver["_streamingReceiver"]["_initOnce"] = async () => {};
+                }
+              );
+              testingDone();
+            },
+            processError: async () => {}
+          });
+          await testingInProgress;
+          should.equal(onDetachedCalled, true, "onDetached was not called");
+          await sbAdminClient.deleteQueue(queueName);
         });
       });
 
@@ -731,10 +794,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
             }
           );
         });
-        // No similar test for `receiveMessages` because the init happens only at the acceptSession level
-        // Backup settlement
-        // getMessageIterator
-        // subscribe
       });
     });
   });
