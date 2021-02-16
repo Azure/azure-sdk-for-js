@@ -1,5 +1,7 @@
 # Release History
 
+## 11.1.1 (Unreleased)
+
 ## 11.1.0 (2021-02-11)
 
 - The list of changes in 11.1.0 since 11.0.3 & 11.1.0-beta.2 are provided below:
