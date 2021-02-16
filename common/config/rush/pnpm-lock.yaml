@@ -93,6 +93,38 @@ packages:
     dev: false
     resolution:
       integrity: sha512-RVG1Ad3Afv9gwFFmpeCXQAm+Sa0L8KEZRJJAAZEGoYDb6EoO1iQDVmoBz720h8mdrGpi0D60xNU/KhriIwuZfQ==
+  /@azure/communication-common/1.0.0-beta.5:
+    dependencies:
+      '@azure/abort-controller': 1.0.2
+      '@azure/core-auth': 1.1.4
+      '@azure/core-http': 1.2.2
+      '@opentelemetry/api': 0.10.2
+      events: 3.2.0
+      jwt-decode: 2.2.0
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-wNaw43z+7YoOyIDnhlDtqVgIK0rPl8bgv7vV0oBizw4+CinaUrG8EtYv0nZ7tH6Rr8R+ys9UhoPaS5d+JUVoJw==
+  /@azure/communication-identity/1.0.0-beta.4:
+    dependencies:
+      '@azure/abort-controller': 1.0.2
+      '@azure/communication-common': 1.0.0-beta.5
+      '@azure/core-auth': 1.1.4
+      '@azure/core-http': 1.2.2
+      '@azure/core-lro': 1.0.3
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/logger': 1.0.1
+      '@opentelemetry/api': 0.10.2
+      events: 3.2.0
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-qd0N66bR16Xrjc0wSaUrUQDTZDNiabk+MWqfT+oNpTIPM5yvu78bjz4aMH7rFYxIOWWW4k6lxwB91ZdBXXn1/A==
   /@azure/communication-signaling/1.0.0-beta.2:
     dependencies:
       '@azure/core-http': 1.2.2
@@ -8700,6 +8732,7 @@ packages:
     version: 0.0.0
   file:projects/communication-administration.tgz:
     dependencies:
+      '@azure/communication-common': 1.0.0-beta.5
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/identity': 1.2.2
       '@microsoft/api-documenter': 7.8.56
@@ -8751,11 +8784,13 @@ packages:
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-ohPRQvHq35uX34dN4OwCdEX0FNkyjJT16XQOd/w5x53lPJk4qMVHDH7001zmMSTi2mQExuIw74EKgTKJ087oFA==
+      integrity: sha512-pbE+1sWO3hSy98FxDQXdnM7DdAl74zQfJarMxAKnXVqg8yEC+WT3fK93ecRRNXfXK5NgW9SKNsFNVORsIkaELg==
       tarball: file:projects/communication-administration.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
     dependencies:
+      '@azure/communication-common': 1.0.0-beta.5
+      '@azure/communication-identity': 1.0.0-beta.4
       '@azure/communication-signaling': 1.0.0-beta.2
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
@@ -8807,7 +8842,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-h3+kFVIyH06CQ8dvxDRYlw5Ewa9pvPGAW/XJ/qHJ7qvwSF7ndJjlH0maY76ociUBLjRaN+OIiqr2aona/lua7A==
+      integrity: sha512-wX2sL9Sd/2jLeSGnP0om/w6fFtCn1a1l/VePM6D2Nw5bz9G7wt4KCQbWrepAmZ5apO1yiOg152akArzR+Yvmbg==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8866,6 +8901,7 @@ packages:
     version: 0.0.0
   file:projects/communication-identity.tgz:
     dependencies:
+      '@azure/communication-common': 1.0.0-beta.5
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/identity': 1.2.2
       '@microsoft/api-documenter': 7.8.56
@@ -8917,11 +8953,12 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-FApjkAK1duoiYM/1ItyAPBiGdRIrVGhFCgkHto9/AuEaLIdv9D3Zyg6WlSFHnIsODeLb/qElMfLlXIgy/kN/bw==
+      integrity: sha512-ocd+xJYPU1k8gTxrvOM8PqYDx0tlAfbfPoiU97icxbFkwF5oUyxDieypHyQbn5S6bzJPFY+jhVniprQaliz0Fg==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
     dependencies:
+      '@azure/communication-common': 1.0.0-beta.5
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/identity': 1.2.2
       '@microsoft/api-extractor': 7.7.11
@@ -8971,7 +9008,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-7t8AEusk0xEFQJMI9uqrn9BMj9m/2GfO3TNYg1Dg6fYNzMneQvGq5niflhCPXmayiFWcB45nByWn3aIEXsTtnQ==
+      integrity: sha512-nIxR0wwUdmv73I1aPVYpPBkSqYhHjFRhzuYbm4ueTlq0iYhWJQNK9jWYwpVW6+LP0Ts+JD/lZW5lB75QXnf9EQ==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -10321,7 +10358,7 @@ packages:
     dev: false
     name: '@rush-temp/mixedreality-authentication'
     resolution:
-      integrity: sha512-y/8ZIBYB3YY1qKw8QbLKeDDhSNMfmePbNfC1MVlwwZ9pKbbpPdUVJvP2KXQGd8EI+qFjdgsJcO8TVEqEmtnV2A==
+      integrity: sha512-O0igSi9jYKSaHIqZDH++fwEMqTm02lwXO0+PL35QgEUWI3QsTR4io09SzePWVi57WXgQ6rJ7m5ZCjXeoC9eZ+A==
       tarball: file:projects/mixedreality-authentication.tgz
     version: 0.0.0
   file:projects/mock-hub.tgz:
