@@ -465,7 +465,7 @@ function assertError(
   err: any,
   expected: { name: string; message: string; retryable: boolean | undefined },
   assertMessage?: string
-) {
+): void {
   assert.deepEqual(
     {
       name: err.name,
@@ -481,7 +481,7 @@ function assertErrors(
   actualErrors: any[],
   expectedErrors: { name: string; message: string; retryable: boolean | undefined }[],
   assertMessage?: string
-) {
+): void {
   const simpleActualErrors = actualErrors.map((err) => ({
     name: err.name,
     message: err.message,

@@ -48,7 +48,7 @@ export function createSpan(
 /**
  * @internal
  */
-export function getCanonicalCode(err: Error) {
+export function getCanonicalCode(err: Error): CanonicalCode {
   if (err instanceof RestError) {
     switch (err.statusCode) {
       case 401:

@@ -91,7 +91,7 @@ export interface EventDataBatch {
    * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
    * if the event being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
    * the `EventHubProducerClient` to set the maxSizeInBytes.
-   * @readonly.
+   * @readonly
    */
   readonly maxSizeInBytes: number;
 

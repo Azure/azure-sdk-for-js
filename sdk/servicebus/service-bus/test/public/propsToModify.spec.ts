@@ -22,7 +22,7 @@ describe("dead lettering", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(testClientType: TestClientType) {
+  async function beforeEachTest(testClientType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (entityNames.queue == null) {
@@ -150,7 +150,7 @@ describe("dead lettering", () => {
     reason: string;
     description: string;
     customProperty?: string;
-  }) {
+  }): Promise<void> {
     const deadLetterMessages = await deadLetterReceiver.receiveMessages(1);
     should.exist(deadLetterMessages[0]);
 
@@ -177,7 +177,7 @@ describe("abandoning", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(testClientType: TestClientType) {
+  async function beforeEachTest(testClientType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (entityNames.queue == null) {
@@ -278,7 +278,7 @@ describe("abandoning", () => {
   async function checkAbandonedMessage(
     abandonedMessage: ServiceBusReceivedMessage,
     expected: { customProperty?: string }
-  ) {
+  ): Promise<void> {
     should.exist(abandonedMessage);
 
     const customProperty = abandonedMessage.applicationProperties!["customProperty"];
@@ -300,7 +300,7 @@ describe("deferring", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(testClientType: TestClientType) {
+  async function beforeEachTest(testClientType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (entityNames.queue == null) {
@@ -390,7 +390,7 @@ describe("deferring", () => {
     });
   });
 
-  async function checkDeferredMessage(expected: { customProperty?: string }) {
+  async function checkDeferredMessage(expected: { customProperty?: string }): Promise<void> {
     const [deferredMessage] = await receiver.receiveDeferredMessages(
       receivedMessage.sequenceNumber!
     );

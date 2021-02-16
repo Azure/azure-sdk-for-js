@@ -38,7 +38,7 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
    * Signs a request with the Authentication header.
    *
    * @param webResource - The WebResource to be signed.
-   * @returns {Promise<WebResource>} The signed request object.
+   * @returns The signed request object.
    */
   async signRequest(webResource: WebResource): Promise<WebResource> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
