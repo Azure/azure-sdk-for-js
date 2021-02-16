@@ -505,7 +505,7 @@ export type RemoteRenderingListSessionsNextResponse = SessionsList & {
 };
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
+export interface RemoteRenderingRestClientOptionalParams
   extends coreHttp.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;

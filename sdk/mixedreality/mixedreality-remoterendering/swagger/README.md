@@ -7,8 +7,8 @@
 ```yaml
 v3: true
 package-name: "@azure/mixedreality-remoterendering"
-title: GeneratedClient
-description: Example Client
+title: RemoteRenderingRestClient
+description: Azure Remote Rendering Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../

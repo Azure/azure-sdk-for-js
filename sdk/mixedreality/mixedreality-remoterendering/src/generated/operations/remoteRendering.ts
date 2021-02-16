@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { RemoteRenderingRestClient } from "../remoteRenderingRestClient";
 import {
   CreateConversionSettings,
   RemoteRenderingCreateConversionResponse,
@@ -28,13 +28,13 @@ import {
 
 /** Class representing a RemoteRendering. */
 export class RemoteRendering {
-  private readonly client: GeneratedClient;
+  private readonly client: RemoteRenderingRestClient;
 
   /**
    * Initialize a new instance of the class RemoteRendering class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: RemoteRenderingRestClient) {
     this.client = client;
   }
 

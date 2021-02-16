@@ -7,23 +7,26 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { GeneratedClientOptionalParams } from "./models";
+import { RemoteRenderingRestClientOptionalParams } from "./models";
 
 const packageName = "@azure/mixedreality-remoterendering";
 const packageVersion = "1.0.0-beta.1";
 
 /** @hidden */
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+export class RemoteRenderingRestClientContext extends coreHttp.ServiceClient {
   endpoint: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the GeneratedClientContext class.
+   * Initializes a new instance of the RemoteRenderingRestClientContext class.
    * @param endpoint The endpoint to use e.g. https://remoterendering.eastus.mixedreality.azure.com. A
    *                 list can be found at https://docs.microsoft.com/azure/remote-rendering/reference/regions.
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
+  constructor(
+    endpoint: string,
+    options?: RemoteRenderingRestClientOptionalParams
+  ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
