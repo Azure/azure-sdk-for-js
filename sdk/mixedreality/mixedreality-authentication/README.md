@@ -205,3 +205,5 @@ build and test the code.
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [register_aad_app]: https://docs.microsoft.com/azure/spatial-anchors/concepts/authentication
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%mixedreality%2Fmixedreality-authentication%2FREADME.png)
