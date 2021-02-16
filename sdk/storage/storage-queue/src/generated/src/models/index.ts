@@ -25,7 +25,7 @@ export interface Logging {
   /** The version of Storage Analytics to configure. */
   version: string;
   /** Indicates whether all delete requests should be logged. */
-  delete: boolean;
+  deleteProperty: boolean;
   /** Indicates whether all read requests should be logged. */
   read: boolean;
   /** Indicates whether all write requests should be logged. */
@@ -78,6 +78,7 @@ export interface QueueServiceStatistics {
   geoReplication?: GeoReplication;
 }
 
+/** Geo-Replication information for the Secondary Storage Service */
 export interface GeoReplication {
   /** The status of the secondary location */
   status: GeoReplicationStatusType;
@@ -181,6 +182,8 @@ export interface ServiceSetPropertiesHeaders {
   version?: string;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Service_setProperties operation. */
@@ -198,6 +201,8 @@ export interface ServiceGetPropertiesHeaders {
   version?: string;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Service_getProperties operation. */
@@ -217,6 +222,8 @@ export interface ServiceGetStatisticsHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Service_getStatistics operation. */
@@ -236,6 +243,8 @@ export interface ServiceListQueuesSegmentHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Service_listQueuesSegment operation. */
@@ -255,6 +264,8 @@ export interface QueueCreateHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Queue_create operation. */
@@ -274,6 +285,8 @@ export interface QueueDeleteHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Queue_delete operation. */
@@ -296,6 +309,8 @@ export interface QueueGetPropertiesHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Queue_getProperties operation. */
@@ -315,6 +330,8 @@ export interface QueueSetMetadataHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Queue_setMetadata operation. */
@@ -334,6 +351,8 @@ export interface QueueGetAccessPolicyHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Queue_getAccessPolicy operation. */
@@ -353,6 +372,8 @@ export interface QueueSetAccessPolicyHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Queue_setAccessPolicy operation. */
@@ -372,6 +393,8 @@ export interface MessagesDequeueHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Messages_dequeue operation. */
@@ -391,6 +414,8 @@ export interface MessagesClearHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Messages_clear operation. */
@@ -410,6 +435,8 @@ export interface MessagesEnqueueHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Messages_enqueue operation. */
@@ -429,6 +456,8 @@ export interface MessagesPeekHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for Messages_peek operation. */
@@ -452,6 +481,8 @@ export interface MessageIdUpdateHeaders {
   nextVisibleOn?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for MessageId_update operation. */
@@ -471,6 +502,8 @@ export interface MessageIdDeleteHeaders {
   date?: Date;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
+  /** Error Code */
+  errorCode?: string;
 }
 
 /** Defines headers for MessageId_delete operation. */

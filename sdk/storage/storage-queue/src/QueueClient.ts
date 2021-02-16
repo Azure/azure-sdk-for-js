@@ -1010,7 +1010,8 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         signedIdentifiers: [],
-        version: response.version
+        version: response.version,
+        errorCode: response.errorCode
       };
 
       for (const identifier of response) {
@@ -1173,6 +1174,7 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         version: response.version,
+        errorCode: response.errorCode,
         messageId: item.messageId,
         popReceipt: item.popReceipt,
         nextVisibleOn: item.nextVisibleOn,
@@ -1235,7 +1237,8 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         receivedMessageItems: [],
-        version: response.version
+        version: response.version,
+        errorCode: response.errorCode
       };
 
       for (const item of response) {
@@ -1288,7 +1291,8 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         peekedMessageItems: [],
-        version: response.version
+        version: response.version,
+        errorCode: response.errorCode
       };
 
       for (const item of response) {

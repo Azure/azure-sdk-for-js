@@ -146,7 +146,7 @@ export function generateAccountSASQueryParameters(accountSASSignatureValues: Acc
 // @public
 export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
-// @public (undocumented)
+// @public
 export interface GeoReplication {
     lastSyncOn: Date;
     status: GeoReplicationStatusType;
@@ -194,7 +194,7 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export interface Logging {
-    delete: boolean;
+    deleteProperty: boolean;
     read: boolean;
     retentionPolicy: RetentionPolicy;
     version: string;
@@ -202,16 +202,10 @@ export interface Logging {
 }
 
 // @public
-export interface MessageIdDeleteExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface MessageIdDeleteHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -224,16 +218,10 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
 };
 
 // @public
-export interface MessageIdUpdateExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface MessageIdUpdateHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     nextVisibleOn?: Date;
     popReceipt?: string;
     requestId?: string;
@@ -248,16 +236,10 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
 };
 
 // @public
-export interface MessagesClearExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface MessagesClearHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -270,16 +252,10 @@ export type MessagesClearResponse = MessagesClearHeaders & {
 };
 
 // @public
-export interface MessagesDequeueExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface MessagesDequeueHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -293,16 +269,10 @@ export interface MessagesDequeueOptionalParams extends coreHttp.OperationOptions
 }
 
 // @public
-export interface MessagesEnqueueExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface MessagesEnqueueHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -316,16 +286,10 @@ export interface MessagesEnqueueOptionalParams extends coreHttp.OperationOptions
 }
 
 // @public
-export interface MessagesPeekExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface MessagesPeekHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -410,16 +374,10 @@ export class QueueClient extends StorageClient {
 }
 
 // @public
-export interface QueueCreateExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface QueueCreateHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -443,16 +401,10 @@ export type QueueCreateResponse = QueueCreateHeaders & {
 };
 
 // @public
-export interface QueueDeleteExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface QueueDeleteHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -499,16 +451,10 @@ export interface QueueGenerateSasUrlOptions {
 }
 
 // @public
-export interface QueueGetAccessPolicyExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface QueueGetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -530,17 +476,11 @@ export type QueueGetAccessPolicyResponse = {
 };
 
 // @public
-export interface QueueGetPropertiesExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface QueueGetPropertiesHeaders {
     approximateMessagesCount?: number;
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -669,16 +609,10 @@ export interface QueueServiceStatistics {
 }
 
 // @public
-export interface QueueSetAccessPolicyExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface QueueSetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -696,16 +630,10 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
 };
 
 // @public
-export interface QueueSetMetadataExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface QueueSetMetadataHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -785,15 +713,9 @@ export interface ServiceGenerateAccountSasUrlOptions {
 }
 
 // @public
-export interface ServiceGetPropertiesExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface ServiceGetPropertiesHeaders {
     clientRequestId?: string;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -813,16 +735,10 @@ export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & QueueSe
 };
 
 // @public
-export interface ServiceGetStatisticsExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface ServiceGetStatisticsHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -849,16 +765,10 @@ export interface ServiceListQueuesOptions extends CommonOptions {
 }
 
 // @public
-export interface ServiceListQueuesSegmentExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface ServiceListQueuesSegmentHeaders {
     clientRequestId?: string;
     date?: Date;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }
@@ -873,15 +783,9 @@ export type ServiceListQueuesSegmentResponse = ServiceListQueuesSegmentHeaders &
 };
 
 // @public
-export interface ServiceSetPropertiesExceptionHeaders {
-    clientRequestId?: string;
-    // (undocumented)
-    errorCode?: string;
-}
-
-// @public
 export interface ServiceSetPropertiesHeaders {
     clientRequestId?: string;
+    errorCode?: string;
     requestId?: string;
     version?: string;
 }

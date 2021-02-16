@@ -273,4 +273,239 @@ directive:
       $.Expiry["format"] = "string";
 ```
 
+### Change delete property to deleteProperty
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Logging.properties
+    transform: >
+      $.Delete["x-ms-client-name"] = "deleteProperty";
+```
+
+### Add error code to response header - ServiceSetPropertiesHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=service&comp=properties"]["put"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - ServiceGetPropertiesHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=service&comp=properties"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - ServiceGetStatisticsHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=service&comp=stats"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - ServiceListQueuesSegmentHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=list"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - QueueCreateHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}"]["put"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - QueueDeleteHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}"]["delete"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - QueueGetPropertiesHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}?comp=metadata"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - QueueSetMetadataHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}?comp=metadata"]["put"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - QueueGetAccessPolicyHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}?comp=acl"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - QueueSetAccessPolicyHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}?comp=acl"]["put"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - MessagesDequeueHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}/messages"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - MessagesClearHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}/messages"]["delete"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - MessagesEnqueueHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}/messages?visibilitytimeout={visibilityTimeout}&messagettl={messageTimeToLive}"]["post"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - MessagesPeekHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}/messages?peekonly=true"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - MessageIdUpdateHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}?popreceipt={popReceipt}&visibilitytimeout={visibilityTimeout}"]["put"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - MessageIdDeleteHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}?popreceipt={popReceipt}"]["delete"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add description for GeoReplication
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.GeoReplication
+    transform: >
+      $.description = "Geo-Replication information for the Secondary Storage Service";
+```
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fswagger%2FREADME.png)
