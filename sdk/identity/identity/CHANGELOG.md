@@ -6,6 +6,10 @@
 
 - Breaking change: `DefaultAzureCredential` now only uses `InteractiveBrowserCredential` in the browser since it's the only credential intended to be used to authenticate within browsers.
 
+## 1.2.4-beta.1 (2021-02-12)
+
+- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
+
 ## 1.2.3 (2021-02-09)
 
 - Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).

@@ -198,7 +198,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * is implemented by child classes.
    *
    * @returns A Promise that resolves when the link has been properly initialized
-   * @throws {AbortError} if the link has been closed via 'close'
+   * @throws `AbortError` if the link has been closed via 'close'
    */
   async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)

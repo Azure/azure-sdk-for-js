@@ -168,6 +168,10 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
+      - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
+        parameters:
+          AgentImage: $(OSVmImage)
+
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
         - template: /eng/common/TestResources/deploy-test-resources.yml
           parameters:
