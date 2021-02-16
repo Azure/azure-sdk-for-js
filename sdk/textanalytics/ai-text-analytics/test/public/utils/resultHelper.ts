@@ -3,14 +3,18 @@
 
 import { assert } from "chai";
 
-import { TextAnalyticsResult, TextAnalyticsSuccessResult } from "../../../src/";
+import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/";
 
-export function assertAllSuccess(results: TextAnalyticsResult[]): void {
+export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
+  results: (TextAnalyticsErrorResult | TSuccess)[]
+): void {
   for (const result of results) {
     assert.ok(isSuccess(result));
   }
 }
 
-export function isSuccess(res: TextAnalyticsResult): res is TextAnalyticsSuccessResult {
+export function isSuccess<TSuccess extends TextAnalyticsSuccessResult>(
+  res: TextAnalyticsErrorResult | TSuccess
+): res is TSuccess {
   return res.error === undefined;
 }
