@@ -8,10 +8,11 @@ import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { AccessControlClientContext } from "./accessControlClientContext";
 import {
+  AccessControlClientOptionalParams,
   SynapseRole,
   AccessControlClientGetRoleDefinitionsResponse,
   AccessControlClientGetRoleDefinitionByIdResponse,
-  CreateRoleAssignmentOptions,
+  RoleAssignmentOptions,
   AccessControlClientCreateRoleAssignmentResponse,
   AccessControlClientGetRoleAssignmentsOptionalParams,
   AccessControlClientGetRoleAssignmentsResponse,
@@ -20,8 +21,328 @@ import {
   AccessControlClientGetRoleDefinitionsNextResponse
 } from "./models";
 
-// Operation Specifications
+export class AccessControlClient extends AccessControlClientContext {
+  /**
+   * Initializes a new instance of the AccessControlClient class.
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
+   *                 https://myworkspace.dev.azuresynapse.net.
+   * @param options - The parameter options
+   */
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    endpoint: string,
+    options?: AccessControlClientOptionalParams
+  ) {
+    super(credentials, endpoint, options);
+  }
 
+  /**
+   * List roles.
+   * @param options - The options parameters.
+   */
+  public listRoleDefinitions(
+    options?: coreHttp.OperationOptions
+  ): PagedAsyncIterableIterator<SynapseRole> {
+    const iter = this.getRoleDefinitionsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.getRoleDefinitionsPagingPage(options);
+      }
+    };
+  }
+
+  private async *getRoleDefinitionsPagingPage(
+    options?: coreHttp.OperationOptions
+  ): AsyncIterableIterator<SynapseRole[]> {
+    let result = await this._getRoleDefinitions(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._getRoleDefinitionsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *getRoleDefinitionsPagingAll(
+    options?: coreHttp.OperationOptions
+  ): AsyncIterableIterator<SynapseRole> {
+    for await (const page of this.getRoleDefinitionsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List roles.
+   * @param options - The options parameters.
+   */
+  private async _getRoleDefinitions(
+    options?: coreHttp.OperationOptions
+  ): Promise<AccessControlClientGetRoleDefinitionsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-_getRoleDefinitions",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getRoleDefinitionsOperationSpec
+      );
+      return result as AccessControlClientGetRoleDefinitionsResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get role by role Id.
+   * @param roleId - Synapse Built-In Role Id.
+   * @param options - The options parameters.
+   */
+  async getRoleDefinitionById(
+    roleId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<AccessControlClientGetRoleDefinitionByIdResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-getRoleDefinitionById",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      roleId,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getRoleDefinitionByIdOperationSpec
+      );
+      return result as AccessControlClientGetRoleDefinitionByIdResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Create role assignment.
+   * @param createRoleAssignmentOptions - Details of role id and object id.
+   * @param options - The options parameters.
+   */
+  async createRoleAssignment(
+    createRoleAssignmentOptions: RoleAssignmentOptions,
+    options?: coreHttp.OperationOptions
+  ): Promise<AccessControlClientCreateRoleAssignmentResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-createRoleAssignment",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      createRoleAssignmentOptions,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        createRoleAssignmentOperationSpec
+      );
+      return result as AccessControlClientCreateRoleAssignmentResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * List role assignments.
+   * @param options - The options parameters.
+   */
+  async getRoleAssignments(
+    options?: AccessControlClientGetRoleAssignmentsOptionalParams
+  ): Promise<AccessControlClientGetRoleAssignmentsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-getRoleAssignments",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getRoleAssignmentsOperationSpec
+      );
+      return result as AccessControlClientGetRoleAssignmentsResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get role assignment by role assignment Id.
+   * @param roleAssignmentId - The ID of the role assignment.
+   * @param options - The options parameters.
+   */
+  async getRoleAssignmentById(
+    roleAssignmentId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<AccessControlClientGetRoleAssignmentByIdResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-getRoleAssignmentById",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      roleAssignmentId,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getRoleAssignmentByIdOperationSpec
+      );
+      return result as AccessControlClientGetRoleAssignmentByIdResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Delete role assignment by role assignment Id.
+   * @param roleAssignmentId - The ID of the role assignment.
+   * @param options - The options parameters.
+   */
+  async deleteRoleAssignmentById(
+    roleAssignmentId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-deleteRoleAssignmentById",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      roleAssignmentId,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        deleteRoleAssignmentByIdOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * List role assignments of the caller.
+   * @param options - The options parameters.
+   */
+  async getCallerRoleAssignments(
+    options?: coreHttp.OperationOptions
+  ): Promise<AccessControlClientGetCallerRoleAssignmentsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-getCallerRoleAssignments",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getCallerRoleAssignmentsOperationSpec
+      );
+      return result as AccessControlClientGetCallerRoleAssignmentsResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * GetRoleDefinitionsNext
+   * @param nextLink - The nextLink from the previous successful call to the GetRoleDefinitions method.
+   * @param options - The options parameters.
+   */
+  private async _getRoleDefinitionsNext(
+    nextLink: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<AccessControlClientGetRoleDefinitionsNextResponse> {
+    const { span, updatedOptions } = createSpan(
+      "AccessControlClient-_getRoleDefinitionsNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getRoleDefinitionsNextOperationSpec
+      );
+      return result as AccessControlClientGetRoleDefinitionsNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+}
+// Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getRoleDefinitionsOperationSpec: coreHttp.OperationSpec = {
@@ -163,310 +484,3 @@ const getRoleDefinitionsNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-
-export class AccessControlClient extends AccessControlClientContext {
-  /**
-   * List roles.
-   * @param options The options parameters.
-   */
-  public listRoleDefinitions(
-    options?: coreHttp.OperationOptions
-  ): PagedAsyncIterableIterator<SynapseRole> {
-    const iter = this.getRoleDefinitionsPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getRoleDefinitionsPagingPage(options);
-      }
-    };
-  }
-
-  private async *getRoleDefinitionsPagingPage(
-    options?: coreHttp.OperationOptions
-  ): AsyncIterableIterator<SynapseRole[]> {
-    let result = await this._getRoleDefinitions(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getRoleDefinitionsNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getRoleDefinitionsPagingAll(
-    options?: coreHttp.OperationOptions
-  ): AsyncIterableIterator<SynapseRole> {
-    for await (const page of this.getRoleDefinitionsPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List roles.
-   * @param options The options parameters.
-   */
-  private async _getRoleDefinitions(
-    options?: coreHttp.OperationOptions
-  ): Promise<AccessControlClientGetRoleDefinitionsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-_getRoleDefinitions",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getRoleDefinitionsOperationSpec
-      );
-      return result as AccessControlClientGetRoleDefinitionsResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Get role by role Id.
-   * @param roleId Synapse Built-In Role Id.
-   * @param options The options parameters.
-   */
-  async getRoleDefinitionById(
-    roleId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<AccessControlClientGetRoleDefinitionByIdResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-getRoleDefinitionById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      roleId,
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getRoleDefinitionByIdOperationSpec
-      );
-      return result as AccessControlClientGetRoleDefinitionByIdResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Create role assignment.
-   * @param createRoleAssignmentOptions Details of role id and object id.
-   * @param options The options parameters.
-   */
-  async createRoleAssignment(
-    createRoleAssignmentOptions: CreateRoleAssignmentOptions,
-    options?: coreHttp.OperationOptions
-  ): Promise<AccessControlClientCreateRoleAssignmentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-createRoleAssignment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      createRoleAssignmentOptions,
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        createRoleAssignmentOperationSpec
-      );
-      return result as AccessControlClientCreateRoleAssignmentResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * List role assignments.
-   * @param options The options parameters.
-   */
-  async getRoleAssignments(
-    options?: AccessControlClientGetRoleAssignmentsOptionalParams
-  ): Promise<AccessControlClientGetRoleAssignmentsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-getRoleAssignments",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getRoleAssignmentsOperationSpec
-      );
-      return result as AccessControlClientGetRoleAssignmentsResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Get role assignment by role assignment Id.
-   * @param roleAssignmentId The ID of the role assignment.
-   * @param options The options parameters.
-   */
-  async getRoleAssignmentById(
-    roleAssignmentId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<AccessControlClientGetRoleAssignmentByIdResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-getRoleAssignmentById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      roleAssignmentId,
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getRoleAssignmentByIdOperationSpec
-      );
-      return result as AccessControlClientGetRoleAssignmentByIdResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Delete role assignment by role assignment Id.
-   * @param roleAssignmentId The ID of the role assignment.
-   * @param options The options parameters.
-   */
-  async deleteRoleAssignmentById(
-    roleAssignmentId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-deleteRoleAssignmentById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      roleAssignmentId,
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        deleteRoleAssignmentByIdOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * List role assignments of the caller.
-   * @param options The options parameters.
-   */
-  async getCallerRoleAssignments(
-    options?: coreHttp.OperationOptions
-  ): Promise<AccessControlClientGetCallerRoleAssignmentsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-getCallerRoleAssignments",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getCallerRoleAssignmentsOperationSpec
-      );
-      return result as AccessControlClientGetCallerRoleAssignmentsResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * GetRoleDefinitionsNext
-   * @param nextLink The nextLink from the previous successful call to the GetRoleDefinitions method.
-   * @param options The options parameters.
-   */
-  private async _getRoleDefinitionsNext(
-    nextLink: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<AccessControlClientGetRoleDefinitionsNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-_getRoleDefinitionsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: updatedOptions
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getRoleDefinitionsNextOperationSpec
-      );
-      return result as AccessControlClientGetRoleDefinitionsNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-}

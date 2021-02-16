@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -79,8 +79,8 @@
     "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",
     "process": "^0.11.10",
-    "rhea": "^1.0.21",
-    "rhea-promise": "^1.0.0",
+    "rhea": "^1.0.24",
+    "rhea-promise": "^1.1.0",
     "tslib": "^2.0.0",
     "url": "^0.11.0",
     "util": "^0.12.1"

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { URLBuilder } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@azure/storage-blob";
@@ -102,6 +102,7 @@ function toFileSystemAsyncIterableIterator(
           (val: ContainerItem): FileSystemItem => {
             return {
               ...val,
+              versionId: val.version,
               properties: {
                 ...val.properties,
                 publicAccess: toPublicAccessType(val.properties.publicAccess)
@@ -129,6 +130,7 @@ export function toFileSystemPagedAsyncIterableIterator(
         result.value.properties.publicAccess = toPublicAccessType(
           rawResult.value.properties.publicAccess
         );
+        result.value.versionId = rawResult.value.version;
       }
       return result;
     },

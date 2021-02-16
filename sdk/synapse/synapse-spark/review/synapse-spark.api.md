@@ -7,7 +7,7 @@
 import * as coreHttp from '@azure/core-http';
 
 // @public
-export const enum KnownPluginCurrentState {
+export enum KnownPluginCurrentState {
     // (undocumented)
     Cleanup = "Cleanup",
     // (undocumented)
@@ -25,7 +25,7 @@ export const enum KnownPluginCurrentState {
 }
 
 // @public
-export const enum KnownSchedulerCurrentState {
+export enum KnownSchedulerCurrentState {
     // (undocumented)
     Ended = "Ended",
     // (undocumented)
@@ -35,7 +35,7 @@ export const enum KnownSchedulerCurrentState {
 }
 
 // @public
-export const enum KnownSparkBatchJobResultType {
+export enum KnownSparkBatchJobResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -47,7 +47,7 @@ export const enum KnownSparkBatchJobResultType {
 }
 
 // @public
-export const enum KnownSparkErrorSource {
+export enum KnownSparkErrorSource {
     // (undocumented)
     Dependency = "Dependency",
     // (undocumented)
@@ -59,7 +59,7 @@ export const enum KnownSparkErrorSource {
 }
 
 // @public
-export const enum KnownSparkJobType {
+export enum KnownSparkJobType {
     // (undocumented)
     SparkBatch = "SparkBatch",
     // (undocumented)
@@ -67,7 +67,7 @@ export const enum KnownSparkJobType {
 }
 
 // @public
-export const enum KnownSparkSessionResultType {
+export enum KnownSparkSessionResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -79,11 +79,11 @@ export const enum KnownSparkSessionResultType {
 }
 
 // @public
-export const enum KnownSparkStatementLanguageType {
+export enum KnownSparkStatementLanguageType {
     // (undocumented)
-    Dotnetspark = "dotnetspark",
+    DotNetSpark = "dotnetspark",
     // (undocumented)
-    Pyspark = "pyspark",
+    PySpark = "pyspark",
     // (undocumented)
     Spark = "spark",
     // (undocumented)
@@ -303,7 +303,7 @@ export interface SparkRequest {
 // @public (undocumented)
 export interface SparkScheduler {
     // (undocumented)
-    cancellationRequestedAt?: Date;
+    cancellationRequestedAt?: Date | null;
     // (undocumented)
     currentState?: SchedulerCurrentState;
     // (undocumented)
@@ -550,15 +550,14 @@ export interface SparkStatement {
     // (undocumented)
     id: number;
     // (undocumented)
-    output?: SparkStatementOutput;
+    output?: SparkStatementOutput | null;
     // (undocumented)
     state?: string;
 }
 
 // @public (undocumented)
 export interface SparkStatementCancellationResult {
-    // (undocumented)
-    msg?: string;
+    message?: string;
 }
 
 // @public (undocumented)
@@ -584,15 +583,15 @@ export interface SparkStatementOptions {
 export interface SparkStatementOutput {
     data?: any;
     // (undocumented)
-    errorName?: string;
+    errorName?: string | null;
     // (undocumented)
-    errorValue?: string;
+    errorValue?: string | null;
     // (undocumented)
     executionCount: number;
     // (undocumented)
     status?: string;
     // (undocumented)
-    traceback?: string[];
+    traceback?: string[] | null;
 }
 
 

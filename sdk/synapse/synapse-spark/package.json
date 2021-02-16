@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-spark/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "sdk-type": "client",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "@opentelemetry/api": "^0.10.2",
@@ -65,7 +65,8 @@
     "pack": "npm pack 2>&1",
     "build:test": "echo skipped",
     "test": "echo skipped",
-    "lint": "echo skipped",
+    "lint:fix": "eslint package.json api-extractor.json src --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src --ext .ts -f html -o synapse-spark-lintReport.html || exit 0",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

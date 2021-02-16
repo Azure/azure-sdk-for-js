@@ -12,15 +12,13 @@ import {
   WorkspaceGitRepoManagementGetGitHubAccessTokenResponse
 } from "../models";
 
-/**
- * Class representing a WorkspaceGitRepoManagement.
- */
+/** Class representing a WorkspaceGitRepoManagement. */
 export class WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class WorkspaceGitRepoManagement class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -29,7 +27,7 @@ export class WorkspaceGitRepoManagement {
   /**
    * Get the GitHub access token.
    * @param gitHubAccessTokenRequest
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async getGitHubAccessToken(
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
@@ -61,7 +59,6 @@ export class WorkspaceGitRepoManagement {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {

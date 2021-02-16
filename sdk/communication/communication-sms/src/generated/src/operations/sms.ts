@@ -20,7 +20,7 @@ export class Sms {
 
   /**
    * Create a Sms.
-   * @param {SmsApiClientContext} client Reference to the service client.
+   * @param client - Reference to the service client.
    */
   constructor(client: SmsApiClientContext) {
     this.client = client;
@@ -28,8 +28,8 @@ export class Sms {
 
   /**
    * @summary Sends a SMS message from a phone number that belongs to the authenticated account.
-   * @param sendMessageRequest Represents the body of the send message request.
-   * @param [options] The optional parameters
+   * @param sendMessageRequest - Represents the body of the send message request.
+   * @param options - The optional parameters
    * @returns Promise<Models.SmsSendResponse>
    */
   send(
@@ -37,17 +37,17 @@ export class Sms {
     options?: coreHttp.RequestOptionsBase
   ): Promise<Models.SmsSendResponse>;
   /**
-   * @param sendMessageRequest Represents the body of the send message request.
-   * @param callback The callback
+   * @param sendMessageRequest - Represents the body of the send message request.
+   * @param callback - The callback
    */
   send(
     sendMessageRequest: Models.SendMessageRequest,
     callback: coreHttp.ServiceCallback<Models.SendSmsResponse>
   ): void;
   /**
-   * @param sendMessageRequest Represents the body of the send message request.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param sendMessageRequest - Represents the body of the send message request.
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   send(
     sendMessageRequest: Models.SendMessageRequest,

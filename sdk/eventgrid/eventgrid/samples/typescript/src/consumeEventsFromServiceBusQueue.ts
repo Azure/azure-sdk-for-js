@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventGridConsumer, isSystemEvent } from "@azure/eventgrid";
+import { EventGridDeserializer, isSystemEvent } from "@azure/eventgrid";
 import { ServiceBusClient, ServiceBusReceivedMessage } from "@azure/service-bus";
 import * as dotenv from "dotenv";
 
@@ -23,7 +23,7 @@ const receiver = new ServiceBusClient(serviceBusClientConnectionString).createRe
 );
 
 // Create a Event Grid Consumer which will decode the payload of service bus message into an array of EventGridEvent objects.
-const consumer = new EventGridConsumer();
+const consumer = new EventGridDeserializer();
 
 // The handler function which will be run on each message we remove from the Service Bus Queue.
 async function processMessage(message: ServiceBusReceivedMessage): Promise<void> {

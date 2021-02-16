@@ -184,9 +184,9 @@ async function deserializeResponseBody(
           valueToDeserialize,
           "operationRes.parsedBody"
         );
-      } catch (error) {
+      } catch (deserializeError) {
         const restError = new RestError(
-          `Error ${error} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
+          `Error ${deserializeError} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
           {
             statusCode: parsedResponse.status,
             request: parsedResponse.request,

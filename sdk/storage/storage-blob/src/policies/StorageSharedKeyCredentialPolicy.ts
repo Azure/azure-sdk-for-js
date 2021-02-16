@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/core-http";
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";

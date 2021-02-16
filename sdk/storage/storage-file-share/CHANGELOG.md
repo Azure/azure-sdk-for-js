@@ -1,6 +1,9 @@
 # Release History
 
-## 12.4.1 (Unreleased)
+## 12.4.2 (Unreleased)
+
+
+## 12.4.1 (2021-02-03)
 
 - Fixed a bug where `generateFileSASQueryParameters()` won't correctly set the resource type if `FileSASSignatureValues.permissions` is not specified. Fixed issue [13223](https://github.com/Azure/azure-sdk-for-js/issues/13223).
 - The `"Unclosed root tag"` XML parser error is now retriable. [PR #13076](https://github.com/Azure/azure-sdk-for-js/pull/13076).

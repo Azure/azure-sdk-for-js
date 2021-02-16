@@ -36,6 +36,7 @@ const defaultAllowedHeaderNames = [
   "x-ms-correlation-request-id",
   "x-ms-request-id",
   "client-request-id",
+  "ms-cv",
   "return-client-request-id",
   "traceparent",
 
@@ -90,7 +91,7 @@ export class Sanitizer {
     this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
   }
 
-  public sanitize(obj: object): string {
+  public sanitize(obj: unknown): string {
     return JSON.stringify(obj, this.replacer.bind(this), 2);
   }
 

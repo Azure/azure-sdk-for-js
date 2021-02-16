@@ -1,8 +1,16 @@
 # Release History
 
-## 1.2.3 (Unreleased)
+## 1.2.4 (Unreleased)
 
+
+## 1.2.3 (2021-02-04)
+
+- Don't set a default content-type when there is no request body. [PR 13233](https://github.com/Azure/azure-sdk-for-js/pull/13233)
+- Clean up abort event handler properly for streaming operations. Fixed [issue 12029](https://github.com/Azure/azure-sdk-for-js/issues/12029)
+- Reduce memory usage of the cache in proxy policy. Fixed [issue 13277](https://github.com/Azure/azure-sdk-for-js/issues/13277)
 - Fix an issue where non-streaming response body was treated as stream [PR 13192](https://github.com/Azure/azure-sdk-for-js/pull/13192)
+- Browser XML parser now lazily load parser error namespace into cache. Fixed [issue 13268](https://github.com/Azure/azure-sdk-for-js/issues/13268)
+- Add ms-cv header used as correlation vector (used for distributed tracing) to list of non-redacted headers so that clients can share this header for debugging purposes. [PR 13541](https://github.com/Azure/azure-sdk-for-js/pull/13541)
 
 ## 1.2.2 (2021-01-07)
 

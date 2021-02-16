@@ -45,7 +45,7 @@ export function throttlingRetryPolicy(): PipelinePolicy {
 /**
  * Returns the number of milliseconds to wait based on a Retry-After header value.
  * Returns undefined if there is no valid value.
- * @param headerValue An HTTP Retry-After header value.
+ * @param headerValue - An HTTP Retry-After header value.
  */
 function parseRetryAfterHeader(headerValue: string): number | undefined {
   try {

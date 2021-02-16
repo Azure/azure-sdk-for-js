@@ -8,8 +8,8 @@ import { CanonicalCode, Span, SpanKind, SpanOptions as OTSpanOptions } from "@op
 /**
  * @internal
  * Creates a span using the global tracer.
- * @param name The name of the operation being performed.
- * @param operationOptions The options for the underlying http request.
+ * @param name - The name of the operation being performed.
+ * @param operationOptions - The options for the underlying http request.
  */
 export function createSpan(
   operationName: string,
@@ -48,7 +48,7 @@ export function createSpan(
 /**
  * @internal
  */
-export function getCanonicalCode(err: Error) {
+export function getCanonicalCode(err: Error): CanonicalCode {
   if (err instanceof RestError) {
     switch (err.statusCode) {
       case 401:

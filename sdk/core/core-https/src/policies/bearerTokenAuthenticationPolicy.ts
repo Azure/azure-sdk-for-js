@@ -34,10 +34,10 @@ export function bearerTokenAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  async function getToken(options: GetTokenOptions): Promise<string | undefined> {
+  async function getToken(tokenOptions: GetTokenOptions): Promise<string | undefined> {
     let accessToken = tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      accessToken = (await credential.getToken(scopes, options)) || undefined;
+      accessToken = (await credential.getToken(scopes, tokenOptions)) || undefined;
       tokenCache.setCachedToken(accessToken);
     }
 

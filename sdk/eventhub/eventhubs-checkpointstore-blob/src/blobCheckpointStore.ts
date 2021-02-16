@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { ContainerClient, Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
@@ -8,7 +8,6 @@ import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * An implementation of CheckpointStore that uses Azure Blob Storage to persist checkpoint data.
- * @class
  */
 export class BlobCheckpointStore implements CheckpointStore {
   private _containerClient: ContainerClient;
@@ -21,11 +20,11 @@ export class BlobCheckpointStore implements CheckpointStore {
    * results if there are is no existing ownership information.
    * Partition Ownership contains the information on which `EventHubConsumerClient` subscribe call is currently processing the partition.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
-   * @return Partition ownership details of all the partitions that have had an owner.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @returns Partition ownership details of all the partitions that have had an owner.
    */
   async listOwnership(
     fullyQualifiedNamespace: string,
@@ -81,15 +80,15 @@ export class BlobCheckpointStore implements CheckpointStore {
    * Claim ownership of a list of partitions. This will return the list of partitions that were
    * successfully claimed.
    *
-   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
-   * @return A list partitions this instance successfully claimed ownership.
+   * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
+   * @returns A list partitions this instance successfully claimed ownership.
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
-    let partitionOwnershipArray: PartitionOwnership[] = [];
+    const partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
       const blobName = BlobCheckpointStore.getBlobPrefix({ type: "ownership", ...ownership });
       try {
-        let updatedBlobResponse = await this._setBlobMetadata(
+        const updatedBlobResponse = await this._setBlobMetadata(
           blobName,
           {
             ownerid: ownership.ownerId
@@ -135,10 +134,10 @@ export class BlobCheckpointStore implements CheckpointStore {
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
    */
   async listCheckpoints(
     fullyQualifiedNamespace: string,
@@ -188,8 +187,8 @@ export class BlobCheckpointStore implements CheckpointStore {
   /**
    * Updates the checkpoint in the data store for a partition.
    *
-   * @param checkpoint The checkpoint.
-   * @return The new etag on successful update.
+   * @param checkpoint - The checkpoint.
+   * @returns The new etag on successful update.
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     throwTypeErrorIfParameterMissing(

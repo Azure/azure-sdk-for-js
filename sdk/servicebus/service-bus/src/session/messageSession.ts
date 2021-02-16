@@ -66,39 +66,39 @@ export type MessageSessionOptions = Pick<
  */
 export class MessageSession extends LinkEntity<Receiver> {
   /**
-   * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
+   * Provides the duration until which the session is locked.
    */
   sessionLockedUntilUtc!: Date;
   /**
-   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId.
+   * The sessionId for the message session. Empty string is valid sessionId.
    */
   sessionId!: string;
   /**
-   * @property {number} [maxConcurrentSessions] The maximum number of concurrent sessions that the
+   * The maximum number of concurrent sessions that the
    * client should initiate.
    * - **Default**: `1`.
    */
   maxConcurrentSessions?: number;
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * The maximum number of messages that should be
    * processed concurrently in a session while in streaming mode. Once this limit has been reached,
    * more messages will not be received until the user's message handler has completed processing current message.
    * - **Default**: `1` (message in a session at a time).
    */
   maxConcurrentCalls: number = 1;
   /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
+   * The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
   receiveMode: ReceiveMode;
   /**
-   * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
+   * Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
    * Default: false.
    */
   autoComplete: boolean;
   /**
-   * @property {number} maxAutoRenewDurationInMs The maximum duration within which the
+   * The maximum duration within which the
    * lock will be renewed automatically. This value should be greater than the longest message
    * lock duration; for example, the `lockDuration` property on the received message.
    *
@@ -106,7 +106,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * @property {boolean} autoRenewLock Should lock renewal happen automatically.
+   * Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
   /**
@@ -120,7 +120,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   private _isReceivingMessagesForSubscriber: boolean;
 
   /**
-   * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
+   * Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
    */
@@ -129,47 +129,47 @@ export class MessageSession extends LinkEntity<Receiver> {
     DeferredPromiseAndTimer
   >();
   /**
-   * @property {OnMessage} _onMessage The message handler provided by the user that will
+   * The message handler provided by the user that will
    * be wrapped inside _onAmqpMessage.
    */
   private _onMessage!: OnMessage;
   /**
-   * @property {OnError} _onError The error handler provided by the user that will be wrapped
+   * The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    */
   private _onError?: OnError;
   /**
-   * @property {OnError} _notifyError If the user provided error handler is present then it will
+   * If the user provided error handler is present then it will
    * notify the user's error handler about the error.
    */
   private _notifyError: OnError;
   /**
-   * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
    */
   private _onAmqpClose: OnAmqpEventAsPromise;
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
    */
   private _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
    */
   private _onSessionClose: OnAmqpEventAsPromise;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    */
   private _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSettled The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "settled" event.
    */
   private _onSettled: OnAmqpEvent;
   /**
-   * @property {NodeJS.Timer} _sessionLockRenewalTimer The session lock renewal timer that keeps
+   * The session lock renewal timer that keeps
    * track of when the MessageSession is due for session lock renewal.
    */
   private _sessionLockRenewalTimer?: NodeJS.Timer;
@@ -347,19 +347,19 @@ export class MessageSession extends LinkEntity<Receiver> {
    * Constructs a MessageSession instance which lets you receive messages as batches
    * or via callbacks using subscribe.
    *
-   * @param _providedSessionId The sessionId provided by the user. This can be the
+   * @param _providedSessionId - The sessionId provided by the user. This can be the
    * name of a session ID to open (empty string is also valid) or it can be undefined,
    * to indicate we want the next unlocked non-empty session.
    */
   constructor(
-    context: ConnectionContext,
+    connectionContext: ConnectionContext,
     entityPath: string,
     private _providedSessionId: string | undefined,
     options?: MessageSessionOptions
   ) {
-    super(entityPath, entityPath, context, "session", logger, {
+    super(entityPath, entityPath, connectionContext, "session", logger, {
       address: entityPath,
-      audience: `${context.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`
     });
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
@@ -378,7 +378,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     this._isReceivingMessagesForSubscriber = false;
     this._batchingReceiverLite = new BatchingReceiverLite(
-      context,
+      connectionContext,
       entityPath,
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
@@ -581,8 +581,6 @@ export class MessageSession extends LinkEntity<Receiver> {
    * @param options - Options to control whether messages should be automatically completed. You can
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
-   *
-   * @returns void
    */
   subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
@@ -739,10 +737,10 @@ export class MessageSession extends LinkEntity<Receiver> {
    * Returns a batch of messages based on given count and timeout over an AMQP receiver link
    * from a Queue/Subscription.
    *
-   * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInMs The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxMessageCount - The maximum number of messages to receive from Queue/Subscription.
+   * @param maxWaitTimeInMs - The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
+   * @returns A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
@@ -765,9 +763,9 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   /**
    * Settles the message with the specified disposition.
-   * @param message The ServiceBus Message that needs to be settled.
-   * @param operation The disposition type.
-   * @param options Optional parameters that can be provided while disposing the message.
+   * @param message - The ServiceBus Message that needs to be settled.
+   * @param operation - The disposition type.
+   * @param options - Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(
     message: ServiceBusMessageImpl,
@@ -833,8 +831,8 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   /**
    * Creates a new instance of the MessageSession based on the provided parameters.
-   * @param context The client entity context
-   * @param options Options that can be provided while creating the MessageSession.
+   * @param context - The client entity context
+   * @param options - Options that can be provided while creating the MessageSession.
    */
   static async create(
     context: ConnectionContext,

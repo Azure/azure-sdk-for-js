@@ -278,6 +278,20 @@ export const Operation: msRest.CompositeMapper = {
           name: "Composite",
           className: "OperationDisplay"
         }
+      },
+      origin: {
+        readOnly: true,
+        serializedName: "origin",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        readOnly: true,
+        serializedName: "properties",
+        type: {
+          name: "Object"
+        }
       }
     }
   }
@@ -338,6 +352,30 @@ export const AppAvailabilityInfo: msRest.CompositeMapper = {
   }
 };
 
+export const AppTemplateLocations: msRest.CompositeMapper = {
+  serializedName: "AppTemplateLocations",
+  type: {
+    name: "Composite",
+    className: "AppTemplateLocations",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        readOnly: true,
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AppTemplate: msRest.CompositeMapper = {
   serializedName: "AppTemplate",
   type: {
@@ -384,6 +422,26 @@ export const AppTemplate: msRest.CompositeMapper = {
         serializedName: "description",
         type: {
           name: "String"
+        }
+      },
+      industry: {
+        readOnly: true,
+        serializedName: "industry",
+        type: {
+          name: "String"
+        }
+      },
+      locations: {
+        readOnly: true,
+        serializedName: "locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppTemplateLocations"
+            }
+          }
         }
       }
     }

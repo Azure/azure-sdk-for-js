@@ -11,8 +11,7 @@ import {
   operationOptionsToRequestOptionsBase,
   RestResponse
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 import {
@@ -177,19 +176,16 @@ export class FormTrainingClient {
 
   /**
    * @internal
-   * @hidden
    */
   private readonly credential: TokenCredential | KeyCredential;
 
   /**
    * @internal
-   * @hidden
    */
   private readonly clientOptions: FormRecognizerClientOptions;
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;

@@ -19,15 +19,13 @@ import {
   SqlScriptGetSqlScriptsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a SqlScript.
- */
+/** Class representing a SqlScript. */
 export class SqlScript {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class SqlScript class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +33,7 @@ export class SqlScript {
 
   /**
    * Lists sql scripts.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listSqlScriptsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,7 +75,7 @@ export class SqlScript {
 
   /**
    * Lists sql scripts.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getSqlScriptsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -108,45 +106,58 @@ export class SqlScript {
 
   /**
    * Creates or updates a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param sqlScript Sql Script resource definition.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param sqlScript - Sql Script resource definition.
+   * @param options - The options parameters.
    */
   async createOrUpdateSqlScript(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
-  ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> {
+  ): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateSqlScript",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       sqlScript,
       options: updatedOptions
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateSqlScriptOperationSpec
-      );
-      return result as SqlScriptCreateOrUpdateSqlScriptResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as SqlScriptCreateOrUpdateSqlScriptResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      createOrUpdateSqlScriptOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: createOrUpdateSqlScriptOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
    * Gets a sql script.
-   * @param sqlScriptName The sql script name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param options - The options parameters.
    */
   async getSqlScript(
     sqlScriptName: string,
@@ -179,43 +190,56 @@ export class SqlScript {
 
   /**
    * Deletes a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param options - The options parameters.
    */
   async deleteSqlScript(
     sqlScriptName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteSqlScript",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       options: updatedOptions
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteSqlScriptOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      deleteSqlScriptOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: deleteSqlScriptOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
    * Renames a sqlScript.
-   * @param sqlScriptName The sql script name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   async renameSqlScript(
     sqlScriptName: string,
@@ -263,9 +287,9 @@ export class SqlScript {
 
   /**
    * GetSqlScriptsByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
+   * @param nextLink - The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
    *                 method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getSqlScriptsByWorkspaceNext(
     nextLink: string,
@@ -309,7 +333,6 @@ export class SqlScript {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSqlScriptsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
@@ -333,6 +356,15 @@ const createOrUpdateSqlScriptOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
+      bodyMapper: Mappers.SqlScriptResource
+    },
+    201: {
+      bodyMapper: Mappers.SqlScriptResource
+    },
+    202: {
+      bodyMapper: Mappers.SqlScriptResource
+    },
+    204: {
       bodyMapper: Mappers.SqlScriptResource
     },
     default: {
@@ -368,6 +400,8 @@ const deleteSqlScriptOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError

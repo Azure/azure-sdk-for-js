@@ -21,15 +21,13 @@ import {
   PipelineGetPipelinesByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Pipeline.
- */
+/** Class representing a Pipeline. */
 export class Pipeline {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class Pipeline class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -37,7 +35,7 @@ export class Pipeline {
 
   /**
    * Lists pipelines.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listPipelinesByWorkspace(
     options?: coreHttp.OperationOptions
@@ -79,7 +77,7 @@ export class Pipeline {
 
   /**
    * Lists pipelines.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getPipelinesByWorkspace(
     options?: coreHttp.OperationOptions
@@ -110,9 +108,9 @@ export class Pipeline {
 
   /**
    * Creates or updates a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param pipeline Pipeline resource definition.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param pipeline - Pipeline resource definition.
+   * @param options - The options parameters.
    */
   async createOrUpdatePipeline(
     pipelineName: string,
@@ -160,8 +158,8 @@ export class Pipeline {
 
   /**
    * Gets a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   async getPipeline(
     pipelineName: string,
@@ -194,8 +192,8 @@ export class Pipeline {
 
   /**
    * Deletes a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   async deletePipeline(
     pipelineName: string,
@@ -241,9 +239,9 @@ export class Pipeline {
 
   /**
    * Renames a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   async renamePipeline(
     pipelineName: string,
@@ -291,8 +289,8 @@ export class Pipeline {
 
   /**
    * Creates a run of a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   async createPipelineRun(
     pipelineName: string,
@@ -325,9 +323,9 @@ export class Pipeline {
 
   /**
    * GetPipelinesByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetPipelinesByWorkspace
+   * @param nextLink - The nextLink from the previous successful call to the GetPipelinesByWorkspace
    *                 method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getPipelinesByWorkspaceNext(
     nextLink: string,
@@ -371,7 +369,6 @@ export class Pipeline {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getPipelinesByWorkspaceOperationSpec: coreHttp.OperationSpec = {

@@ -18,13 +18,13 @@ export function lroPolicy() {
   };
 }
 
-export class LROPolicy extends BaseRequestPolicy {
+class LROPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
 
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    let result: LROOperationResponse = await this._nextPolicy.sendRequest(webResource);
+    const result: LROOperationResponse = await this._nextPolicy.sendRequest(webResource);
     const _lroData = getLROData(result);
 
     result[LROSYM] = _lroData;

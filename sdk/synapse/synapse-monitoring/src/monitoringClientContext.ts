@@ -4,7 +4,7 @@ import * as coreHttp from "@azure/core-http";
 import { MonitoringClientOptionalParams } from "./models";
 
 const packageName = "@azure/synapse-monitoring";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class MonitoringClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -12,10 +12,10 @@ export class MonitoringClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the MonitoringClientContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param options The parameter options
+   * @param options - The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,

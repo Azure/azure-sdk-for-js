@@ -46,8 +46,6 @@ export interface AmqpAnnotatedMessage {
 export const AmqpAnnotatedMessage = {
   /**
    * Takes RheaMessage(`Message` type from "rhea") and returns it in the AmqpAnnotatedMessage format.
-   *
-   * @param {RheaMessage} msg
    */
   fromRheaMessage(msg: RheaMessage): AmqpAnnotatedMessage {
     return {

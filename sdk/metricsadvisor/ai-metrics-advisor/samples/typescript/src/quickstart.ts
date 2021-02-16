@@ -12,7 +12,7 @@ import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   AnomalyAlert,
-  CreateDataFeedResponse,
+  GetDataFeedResponse,
   MetricsAdvisorClient,
   WebNotificationHook,
   DataFeedDescriptor,
@@ -38,9 +38,8 @@ export async function main() {
 
   const created = await createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery);
   console.log(`Data feed created: ${created.id}`);
-  const datafeed = await adminClient.getDataFeed(created.id);
   console.log("  metrics: ");
-  console.log(datafeed.schema.metrics);
+  console.log(created.schema.metrics);
 
   console.log("Waiting for a minute before checking ingestion status...");
   await delay(60 * 1000);
@@ -53,7 +52,7 @@ export async function main() {
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    const metricId = datafeed.schema.metrics[0].id!;
+    const metricId = created.schema.metrics[0].id!;
     const detectionConfig = await configureAnomalyDetectionConfiguration(adminClient, metricId);
     console.log(`Detection configuration created: ${detectionConfig.id!}`);
 
@@ -89,7 +88,7 @@ async function createDataFeed(
   adminClient: MetricsAdvisorAdministrationClient,
   sqlServerConnectionString: string,
   sqlServerQuery: string
-): Promise<CreateDataFeedResponse> {
+): Promise<GetDataFeedResponse> {
   console.log("Creating Datafeed...");
   const dataFeed: DataFeedDescriptor = {
     name: "test_datafeed_" + new Date().getTime().toString(),

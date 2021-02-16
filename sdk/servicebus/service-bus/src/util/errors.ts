@@ -27,7 +27,7 @@ export const InvalidMaxMessageCountError = "'maxMessageCount' must be a number g
 /**
  * @internal
  * Logs and throws Error if the current AMQP connection is closed.
- * @param context The ConnectionContext associated with the current AMQP connection.
+ * @param context - The ConnectionContext associated with the current AMQP connection.
  */
 export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
   if (context && context.wasConnectionCloseCalled) {
@@ -41,7 +41,7 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 /**
  * @internal
  * Gets the error message when a sender is used when its already closed
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
+ * @param entityPath - Value of the `entityPath` property on the client which denotes its name
  */
 export function getSenderClosedErrorMsg(entityPath: string): string {
   return (
@@ -53,8 +53,8 @@ export function getSenderClosedErrorMsg(entityPath: string): string {
 /**
  * @internal
  * Gets the error message when a receiver is used when its already closed
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param sessionId If using session receiver, then the id of the session
+ * @param entityPath - Value of the `entityPath` property on the client which denotes its name
+ * @param sessionId - If using session receiver, then the id of the session
  */
 export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string): string {
   if (sessionId == undefined) {
@@ -71,8 +71,8 @@ export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string
 
 /**
  * @internal
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param sessionId If using session receiver, then the id of the session
+ * @param entityPath - Value of the `entityPath` property on the client which denotes its name
+ * @param sessionId - If using session receiver, then the id of the session
  */
 export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: string): string {
   if (sessionId == undefined) {
@@ -84,9 +84,9 @@ export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: stri
 /**
  * @internal
  * Logs and Throws TypeError if given parameter is undefined or null
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to check
- * @param parameterValue Value of the parameter to check
+ * @param connectionId - Id of the underlying AMQP connection used for logging
+ * @param parameterName - Name of the parameter to check
+ * @param parameterValue - Value of the parameter to check
  */
 export function throwTypeErrorIfParameterMissing(
   connectionId: string,
@@ -103,10 +103,10 @@ export function throwTypeErrorIfParameterMissing(
 /**
  * @internal
  * Logs and Throws TypeError if given parameter is not of expected type
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to type check
- * @param parameterValue Value of the parameter to type check
- * @param expectedType Expected type of the parameter
+ * @param connectionId - Id of the underlying AMQP connection used for logging
+ * @param parameterName - Name of the parameter to type check
+ * @param parameterValue - Value of the parameter to type check
+ * @param expectedType - Expected type of the parameter
  */
 
 export function throwTypeErrorIfParameterTypeMismatch(
@@ -127,9 +127,9 @@ export function throwTypeErrorIfParameterTypeMismatch(
 /**
  * @internal
  * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to type check
- * @param parameterValue Value of the parameter to type check
+ * @param connectionId - Id of the underlying AMQP connection used for logging
+ * @param parameterName - Name of the parameter to type check
+ * @param parameterValue - Value of the parameter to type check
  */
 export function throwTypeErrorIfParameterNotLong(
   connectionId: string,
@@ -150,9 +150,9 @@ export function throwTypeErrorIfParameterNotLong(
 /**
  * @internal
  * Logs and Throws TypeError if given parameter is not an array of type `Long`
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to type check
- * @param parameterValue Value of the parameter to type check
+ * @param connectionId - Id of the underlying AMQP connection used for logging
+ * @param parameterName - Name of the parameter to type check
+ * @param parameterValue - Value of the parameter to type check
  */
 export function throwTypeErrorIfParameterNotLongArray(
   connectionId: string,
@@ -170,9 +170,9 @@ export function throwTypeErrorIfParameterNotLongArray(
 /**
  * @internal
  * Logs and Throws TypeError if given parameter is an empty string
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to type check
- * @param parameterValue Value of the parameter to type check
+ * @param connectionId - Id of the underlying AMQP connection used for logging
+ * @param parameterName - Name of the parameter to type check
+ * @param parameterValue - Value of the parameter to type check
  */
 export function throwTypeErrorIfParameterIsEmptyString(
   connectionId: string,
@@ -215,7 +215,7 @@ export function throwErrorIfInvalidOperationOnMessage(
   message: ServiceBusReceivedMessage,
   receiveMode: ReceiveMode,
   connectionId: string
-) {
+): void {
   let error: Error | undefined;
 
   if (receiveMode === "receiveAndDelete") {
@@ -246,8 +246,8 @@ export const PartitionKeySessionIdMismatchError =
 /**
  * Throws error if the given object is not a valid ServiceBusMessage
  * @internal
- * @param msg The object that needs to be validated as a ServiceBusMessage
- * @param errorMessageForWrongType The error message to use when given object is not a ServiceBusMessage
+ * @param msg - The object that needs to be validated as a ServiceBusMessage
+ * @param errorMessageForWrongType - The error message to use when given object is not a ServiceBusMessage
  */
 export function throwIfNotValidServiceBusMessage(msg: any, errorMessageForWrongType: string): void {
   if (!isServiceBusMessage(msg)) {

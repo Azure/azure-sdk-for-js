@@ -71,8 +71,8 @@ export interface PipelinePolicy {
   name: string;
   /**
    * The main method to implement that manipulates a request/response.
-   * @param request The request being performed.
-   * @param next The next policy in the pipeline. Must be called to continue the pipeline.
+   * @param request - The request being performed.
+   * @param next - The next policy in the pipeline. Must be called to continue the pipeline.
    */
   sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse>;
 }
@@ -85,19 +85,19 @@ export interface PipelinePolicy {
 export interface Pipeline {
   /**
    * Add a new policy to the pipeline.
-   * @param policy A policy that manipulates a request.
-   * @param options A set of options for when the policy should run.
+   * @param policy - A policy that manipulates a request.
+   * @param options - A set of options for when the policy should run.
    */
   addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
   /**
    * Remove a policy from the pipeline.
-   * @param options Options that let you specify which policies to remove.
+   * @param options - Options that let you specify which policies to remove.
    */
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
   /**
    * Uses the pipeline to make a HTTPS request.
-   * @param httpsClient The HttpsClient that actually performs the request.
-   * @param request The request to be made.
+   * @param httpsClient - The HttpsClient that actually performs the request.
+   * @param request - The request to be made.
    */
   sendRequest(httpsClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
   /**
@@ -182,11 +182,11 @@ class HttpsPipeline implements Pipeline {
 
     const pipeline = policies.reduceRight<SendRequest>(
       (next, policy) => {
-        return (request: PipelineRequest) => {
-          return policy.sendRequest(request, next);
+        return (req: PipelineRequest) => {
+          return policy.sendRequest(req, next);
         };
       },
-      (request: PipelineRequest) => httpsClient.sendRequest(request)
+      (req: PipelineRequest) => httpsClient.sendRequest(req)
     );
 
     return pipeline(request);
@@ -346,7 +346,7 @@ class HttpsPipeline implements Pipeline {
       }
     }
 
-    function walkPhases() {
+    function walkPhases(): void {
       let noPhaseRan = false;
 
       for (const phase of orderedPhases) {
@@ -398,12 +398,6 @@ export function createEmptyPipeline(): Pipeline {
  */
 export interface PipelineOptions {
   /**
-   * The HttpsClient implementation to use for outgoing HTTP requests.
-   * Defaults to DefaultHttpsClient.
-   */
-  httpsClient?: HttpsClient;
-
-  /**
    * Options that control how to retry failed requests.
    */
   retryOptions?: ExponentialRetryPolicyOptions;
@@ -437,7 +431,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
 
 /**
  * Create a new pipeline with a default set of customizable policies.
- * @param options Options to configure a custom pipeline.
+ * @param options - Options to configure a custom pipeline.
  */
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = HttpsPipeline.create();

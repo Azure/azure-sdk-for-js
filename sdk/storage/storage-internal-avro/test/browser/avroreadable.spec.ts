@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { AvroReadableFromBlob } from "../../src/index.browser";
 import { arraysEqual } from "../../src/utils/utils.common";
@@ -12,7 +15,7 @@ describe("AvroReadableFromBlob", () => {
   const blob = new Blob([u8arr]);
 
   it("read in sequence", async () => {
-    let rfs = new AvroReadableFromBlob(blob);
+    const rfs = new AvroReadableFromBlob(blob);
     assert.equal(rfs.position, 0);
 
     const length = 10;
@@ -35,7 +38,7 @@ describe("AvroReadableFromBlob", () => {
   });
 
   it("read in parallel", async () => {
-    let rfs = new AvroReadableFromBlob(blob);
+    const rfs = new AvroReadableFromBlob(blob);
     assert.equal(rfs.position, 0);
 
     let offset = 0;
@@ -63,7 +66,7 @@ describe("AvroReadableFromBlob", () => {
     const largeSize = 1024 * 1024 * 1024;
     const largeArr = new Int8Array(largeSize);
     const largeBlob = new Blob([largeArr]);
-    let rfs = new AvroReadableFromBlob(largeBlob);
+    const rfs = new AvroReadableFromBlob(largeBlob);
 
     const aborter = new AbortController();
     const res = rfs.read(largeSize, { abortSignal: aborter.signal });

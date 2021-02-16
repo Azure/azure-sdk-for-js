@@ -1,6 +1,9 @@
 # Release History
 
-## 12.3.1 (Unreleased)
+## 12.3.2 (Unreleased)
+
+
+## 12.3.1 (2021-02-03)
 
 - The `"Unclosed root tag"` XML parser error is now retriable. [PR #13076](https://github.com/Azure/azure-sdk-for-js/pull/13076).
 

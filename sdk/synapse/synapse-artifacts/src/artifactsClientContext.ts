@@ -5,7 +5,7 @@ import { ArtifactsClientOptionalParams } from "./models";
 import { lroPolicy } from "./lro";
 
 const packageName = "@azure/synapse-artifacts";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class ArtifactsClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -13,10 +13,10 @@ export class ArtifactsClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the ArtifactsClientContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param options The parameter options
+   * @param options - The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,

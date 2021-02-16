@@ -16,15 +16,13 @@ import {
   SparkBatchGetSparkBatchJobResponse
 } from "../models";
 
-/**
- * Class representing a SparkBatch.
- */
+/** Class representing a SparkBatch. */
 export class SparkBatch {
   private readonly client: SparkClient;
 
   /**
    * Initialize a new instance of the class SparkBatch class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: SparkClient) {
     this.client = client;
@@ -32,7 +30,7 @@ export class SparkBatch {
 
   /**
    * List all spark batch jobs which are running under a particular spark pool.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async getSparkBatchJobs(
     options?: SparkBatchGetSparkBatchJobsOptionalParams
@@ -63,8 +61,8 @@ export class SparkBatch {
 
   /**
    * Create new spark batch job.
-   * @param sparkBatchJobOptions Livy compatible batch job request payload.
-   * @param options The options parameters.
+   * @param sparkBatchJobOptions - Livy compatible batch job request payload.
+   * @param options - The options parameters.
    */
   async createSparkBatchJob(
     sparkBatchJobOptions: SparkBatchJobOptions,
@@ -97,8 +95,8 @@ export class SparkBatch {
 
   /**
    * Gets a single spark batch job.
-   * @param batchId Identifier for the batch job.
-   * @param options The options parameters.
+   * @param batchId - Identifier for the batch job.
+   * @param options - The options parameters.
    */
   async getSparkBatchJob(
     batchId: number,
@@ -131,8 +129,8 @@ export class SparkBatch {
 
   /**
    * Cancels a running spark batch job.
-   * @param batchId Identifier for the batch job.
-   * @param options The options parameters.
+   * @param batchId - Identifier for the batch job.
+   * @param options - The options parameters.
    */
   async cancelSparkBatchJob(
     batchId: number,
@@ -164,7 +162,6 @@ export class SparkBatch {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSparkBatchJobsOperationSpec: coreHttp.OperationSpec = {

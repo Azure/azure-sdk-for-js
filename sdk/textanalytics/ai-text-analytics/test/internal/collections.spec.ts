@@ -10,6 +10,7 @@ import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinke
 import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray";
 import { DetectLanguageInput, TextDocumentInput } from "../../src";
 import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray";
+import { combineSucceededAndErredActions } from "../../src/analyzeBatchActionsResult";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {
@@ -61,7 +62,6 @@ describe("SentimentResultArray", () => {
           }
         }
       ],
-      _response: {} as any,
       modelVersion: ""
     });
 
@@ -87,9 +87,8 @@ describe("DetectLanguageResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeDetectLanguageResultArray(
-      input,
-      [
+    const result = makeDetectLanguageResultArray(input, {
+      documents: [
         {
           id: "A",
           detectedLanguage: {
@@ -109,7 +108,7 @@ describe("DetectLanguageResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -118,8 +117,8 @@ describe("DetectLanguageResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
 
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
@@ -143,9 +142,8 @@ describe("ExtractKeyPhrasesResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeExtractKeyPhrasesResultArray(
-      input,
-      [
+    const result = makeExtractKeyPhrasesResultArray(input, {
+      documents: [
         {
           id: "A",
           keyPhrases: ["test", "test2"],
@@ -157,7 +155,7 @@ describe("ExtractKeyPhrasesResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -166,8 +164,8 @@ describe("ExtractKeyPhrasesResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
 
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
@@ -191,9 +189,8 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeCategorizedEntitiesResultArray(
-      input,
-      [
+    const result = makeRecognizeCategorizedEntitiesResultArray(input, {
+      documents: [
         {
           id: "A",
           entities: [
@@ -201,7 +198,8 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               text: "Microsoft",
               category: "Organization",
               confidenceScore: 0.9989,
-              offset: 0
+              offset: 0,
+              length: 0
             }
           ],
           warnings: []
@@ -214,13 +212,14 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               category: "DateTime",
               subCategory: "DateRange",
               confidenceScore: 0.8,
-              offset: 0
+              offset: 0,
+              length: 0
             }
           ],
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -229,8 +228,8 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
 
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
@@ -254,9 +253,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeLinkedEntitiesResultArray(
-      input,
-      [
+    const result = makeRecognizeLinkedEntitiesResultArray(input, {
+      documents: [
         {
           id: "A",
           entities: [
@@ -266,7 +264,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 {
                   text: "Seattle",
                   confidenceScore: 0.15046201222847677,
-                  offset: 0
+                  offset: 0,
+                  length: 0
                 }
               ],
               language: "en",
@@ -286,7 +285,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 {
                   text: "Microsoft",
                   confidenceScore: 0.1869365971673207,
-                  offset: 0
+                  offset: 0,
+                  length: 0
                 }
               ],
               language: "en",
@@ -298,7 +298,7 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -307,8 +307,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
     assert.deepEqual(inputOrder, outputOrder);
@@ -339,7 +339,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 text: "(555) 555-5555",
                 category: "US Phone Number",
                 confidenceScore: 0.9989,
-                offset: 0
+                offset: 0,
+                length: 0
               }
             ],
             warnings: [],
@@ -353,7 +354,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 category: "US Address",
                 subCategory: "",
                 confidenceScore: 0.8,
-                offset: 0
+                offset: 0,
+                length: 0
               }
             ],
             warnings: [],
@@ -375,6 +377,174 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
       const inputOrder = input.map((item) => item.id);
       const outputOrder = result.map((item) => item.id);
       assert.deepEqual(inputOrder, outputOrder);
+    });
+  });
+
+  describe("combineSucceededAndErredActions", () => {
+    it("merges items in order", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions(
+        [succeededAction, succeededAction],
+        [
+          {
+            code: "",
+            index: 0,
+            message: "0",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 2,
+            message: "2",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        {
+          error: {
+            code: "",
+            message: "0",
+            target: undefined
+          }
+        },
+        succeededAction,
+        {
+          error: {
+            code: "",
+            message: "2",
+            target: undefined
+          }
+        },
+        succeededAction
+      ]);
+    });
+
+    it("correctly handles empty succeeded actions list", () => {
+      const result = combineSucceededAndErredActions(
+        [],
+        [
+          {
+            code: "",
+            index: 0,
+            message: "0",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 1,
+            message: "1",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        {
+          error: {
+            code: "",
+            message: "0",
+            target: undefined
+          }
+        },
+        {
+          error: {
+            code: "",
+            message: "1",
+            target: undefined
+          }
+        }
+      ]);
+    });
+
+    it("correctly handles empty erred actions list", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions([succeededAction, succeededAction], []);
+      assert.deepEqual(result, [succeededAction, succeededAction]);
+    });
+
+    it("correctly handles a prefix of erred actions", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions(
+        [succeededAction],
+        [
+          {
+            code: "",
+            index: 0,
+            message: "0",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 1,
+            message: "1",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        {
+          error: {
+            code: "",
+            message: "0",
+            target: undefined
+          }
+        },
+        {
+          error: {
+            code: "",
+            message: "1",
+            target: undefined
+          }
+        },
+        succeededAction
+      ]);
+    });
+
+    it("correctly handles a prefix of succeeded actions", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions(
+        [succeededAction, succeededAction],
+        [
+          {
+            code: "",
+            index: 2,
+            message: "2",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 3,
+            message: "3",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        succeededAction,
+        succeededAction,
+        {
+          error: {
+            code: "",
+            message: "2",
+            target: undefined
+          }
+        },
+        {
+          error: {
+            code: "",
+            message: "3",
+            target: undefined
+          }
+        }
+      ]);
     });
   });
 });

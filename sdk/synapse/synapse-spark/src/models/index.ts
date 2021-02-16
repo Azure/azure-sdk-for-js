@@ -2,128 +2,70 @@
 // Licensed under the MIT license.
 import * as coreHttp from "@azure/core-http";
 
-/**
- * Response for batch list operation.
- */
+/** Response for batch list operation. */
 export interface SparkBatchJobCollection {
-  /**
-   * The start index of fetched sessions.
-   */
+  /** The start index of fetched sessions. */
   from: number;
-  /**
-   * Number of sessions fetched.
-   */
+  /** Number of sessions fetched. */
   total: number;
-  /**
-   * Batch list
-   */
+  /** Batch list */
   sessions?: SparkBatchJob[];
 }
 
 export interface SparkBatchJob {
   livyInfo?: SparkBatchJobState;
-  /**
-   * The batch name.
-   */
+  /** The batch name. */
   name?: string;
-  /**
-   * The workspace name.
-   */
+  /** The workspace name. */
   workspaceName?: string;
-  /**
-   * The Spark pool name.
-   */
+  /** The Spark pool name. */
   sparkPoolName?: string;
-  /**
-   * The submitter name.
-   */
+  /** The submitter name. */
   submitterName?: string;
-  /**
-   * The submitter identifier.
-   */
+  /** The submitter identifier. */
   submitterId?: string;
-  /**
-   * The artifact identifier.
-   */
+  /** The artifact identifier. */
   artifactId?: string;
-  /**
-   * The job type.
-   */
+  /** The job type. */
   jobType?: SparkJobType;
-  /**
-   * The Spark batch job result.
-   */
+  /** The Spark batch job result. */
   result?: SparkBatchJobResultType;
-  /**
-   * The scheduler information.
-   */
+  /** The scheduler information. */
   scheduler?: SparkScheduler;
-  /**
-   * The plugin information.
-   */
+  /** The plugin information. */
   plugin?: SparkServicePlugin;
-  /**
-   * The error information.
-   */
+  /** The error information. */
   errors?: SparkServiceError[];
-  /**
-   * The tags.
-   */
+  /** The tags. */
   tags?: { [propertyName: string]: string };
-  /**
-   * The session Id.
-   */
+  /** The session Id. */
   id: number;
-  /**
-   * The application id of this session
-   */
+  /** The application id of this session */
   appId?: string | null;
-  /**
-   * The detailed application info.
-   */
+  /** The detailed application info. */
   appInfo?: { [propertyName: string]: string } | null;
-  /**
-   * The batch state
-   */
+  /** The batch state */
   state?: string;
-  /**
-   * The log lines.
-   */
+  /** The log lines. */
   logLines?: string[] | null;
 }
 
 export interface SparkBatchJobState {
-  /**
-   * the time that at which "not_started" livy state was first seen.
-   */
+  /** the time that at which "not_started" livy state was first seen. */
   notStartedAt?: Date | null;
-  /**
-   * the time that at which "starting" livy state was first seen.
-   */
+  /** the time that at which "starting" livy state was first seen. */
   startingAt?: Date | null;
-  /**
-   * the time that at which "running" livy state was first seen.
-   */
+  /** the time that at which "running" livy state was first seen. */
   runningAt?: Date | null;
-  /**
-   * time that at which "dead" livy state was first seen.
-   */
+  /** time that at which "dead" livy state was first seen. */
   deadAt?: Date | null;
-  /**
-   * the time that at which "success" livy state was first seen.
-   */
+  /** the time that at which "success" livy state was first seen. */
   successAt?: Date | null;
-  /**
-   * the time that at which "killed" livy state was first seen.
-   */
+  /** the time that at which "killed" livy state was first seen. */
   terminatedAt?: Date | null;
-  /**
-   * the time that at which "recovering" livy state was first seen.
-   */
+  /** the time that at which "recovering" livy state was first seen. */
   recoveringAt?: Date | null;
-  /**
-   * the Spark job state.
-   */
+  /** the Spark job state. */
   currentState?: string;
   jobCreationRequest?: SparkRequest;
 }
@@ -137,9 +79,7 @@ export interface SparkRequest {
   pythonFiles?: string[];
   files?: string[];
   archives?: string[];
-  /**
-   * Dictionary of <string>
-   */
+  /** Dictionary of <string> */
   configuration?: { [propertyName: string]: string };
   driverMemory?: string;
   driverCores?: number;
@@ -152,7 +92,7 @@ export interface SparkScheduler {
   submittedAt?: Date | null;
   scheduledAt?: Date | null;
   endedAt?: Date | null;
-  cancellationRequestedAt?: Date;
+  cancellationRequestedAt?: Date | null;
   currentState?: SchedulerCurrentState;
 }
 
@@ -172,9 +112,7 @@ export interface SparkServiceError {
 }
 
 export interface SparkBatchJobOptions {
-  /**
-   * Dictionary of <string>
-   */
+  /** Dictionary of <string> */
   tags?: { [propertyName: string]: string };
   artifactId?: string;
   name: string;
@@ -185,9 +123,7 @@ export interface SparkBatchJobOptions {
   pythonFiles?: string[];
   files?: string[];
   archives?: string[];
-  /**
-   * Dictionary of <string>
-   */
+  /** Dictionary of <string> */
   configuration?: { [propertyName: string]: string };
   driverMemory?: string;
   driverCores?: number;
@@ -210,26 +146,18 @@ export interface SparkSession {
   submitterName?: string;
   submitterId?: string;
   artifactId?: string;
-  /**
-   * The job type.
-   */
+  /** The job type. */
   jobType?: SparkJobType;
   result?: SparkSessionResultType;
   scheduler?: SparkScheduler;
   plugin?: SparkServicePlugin;
-  /**
-   * The error information.
-   */
+  /** The error information. */
   errors?: SparkServiceError[];
-  /**
-   * Dictionary of <string>
-   */
+  /** Dictionary of <string> */
   tags?: { [propertyName: string]: string };
   id: number;
   appId?: string | null;
-  /**
-   * Dictionary of <string>
-   */
+  /** Dictionary of <string> */
   appInfo?: { [propertyName: string]: string } | null;
   state?: string;
   logLines?: string[] | null;
@@ -241,9 +169,7 @@ export interface SparkSessionState {
   idleAt?: Date | null;
   deadAt?: Date | null;
   shuttingDownAt?: Date | null;
-  /**
-   * the time that at which "killed" livy state was first seen.
-   */
+  /** the time that at which "killed" livy state was first seen. */
   terminatedAt?: Date | null;
   recoveringAt?: Date | null;
   busyAt?: Date | null;
@@ -253,9 +179,7 @@ export interface SparkSessionState {
 }
 
 export interface SparkSessionOptions {
-  /**
-   * Dictionary of <string>
-   */
+  /** Dictionary of <string> */
   tags?: { [propertyName: string]: string };
   artifactId?: string;
   name: string;
@@ -266,9 +190,7 @@ export interface SparkSessionOptions {
   pythonFiles?: string[];
   files?: string[];
   archives?: string[];
-  /**
-   * Dictionary of <string>
-   */
+  /** Dictionary of <string> */
   configuration?: { [propertyName: string]: string };
   driverMemory?: string;
   driverCores?: number;
@@ -286,19 +208,17 @@ export interface SparkStatement {
   id: number;
   code?: string;
   state?: string;
-  output?: SparkStatementOutput;
+  output?: SparkStatementOutput | null;
 }
 
 export interface SparkStatementOutput {
   status?: string;
   executionCount: number;
-  /**
-   * Any object
-   */
+  /** Any object */
   data?: any;
-  errorName?: string;
-  errorValue?: string;
-  traceback?: string[];
+  errorName?: string | null;
+  errorValue?: string | null;
+  traceback?: string[] | null;
 }
 
 export interface SparkStatementOptions {
@@ -307,13 +227,12 @@ export interface SparkStatementOptions {
 }
 
 export interface SparkStatementCancellationResult {
-  msg?: string;
+  /** The msg property from the Livy API. The value is always "canceled". */
+  message?: string;
 }
 
-/**
- * Known values of {@link SparkJobType} that the service accepts.
- */
-export const enum KnownSparkJobType {
+/** Known values of {@link SparkJobType} that the service accepts. */
+export enum KnownSparkJobType {
   SparkBatch = "SparkBatch",
   SparkSession = "SparkSession"
 }
@@ -328,10 +247,8 @@ export const enum KnownSparkJobType {
  */
 export type SparkJobType = string;
 
-/**
- * Known values of {@link SparkBatchJobResultType} that the service accepts.
- */
-export const enum KnownSparkBatchJobResultType {
+/** Known values of {@link SparkBatchJobResultType} that the service accepts. */
+export enum KnownSparkBatchJobResultType {
   Uncertain = "Uncertain",
   Succeeded = "Succeeded",
   Failed = "Failed",
@@ -350,10 +267,8 @@ export const enum KnownSparkBatchJobResultType {
  */
 export type SparkBatchJobResultType = string;
 
-/**
- * Known values of {@link SchedulerCurrentState} that the service accepts.
- */
-export const enum KnownSchedulerCurrentState {
+/** Known values of {@link SchedulerCurrentState} that the service accepts. */
+export enum KnownSchedulerCurrentState {
   Queued = "Queued",
   Scheduled = "Scheduled",
   Ended = "Ended"
@@ -370,10 +285,8 @@ export const enum KnownSchedulerCurrentState {
  */
 export type SchedulerCurrentState = string;
 
-/**
- * Known values of {@link PluginCurrentState} that the service accepts.
- */
-export const enum KnownPluginCurrentState {
+/** Known values of {@link PluginCurrentState} that the service accepts. */
+export enum KnownPluginCurrentState {
   Preparation = "Preparation",
   ResourceAcquisition = "ResourceAcquisition",
   Queued = "Queued",
@@ -398,10 +311,8 @@ export const enum KnownPluginCurrentState {
  */
 export type PluginCurrentState = string;
 
-/**
- * Known values of {@link SparkErrorSource} that the service accepts.
- */
-export const enum KnownSparkErrorSource {
+/** Known values of {@link SparkErrorSource} that the service accepts. */
+export enum KnownSparkErrorSource {
   System = "System",
   User = "User",
   Unknown = "Unknown",
@@ -420,10 +331,8 @@ export const enum KnownSparkErrorSource {
  */
 export type SparkErrorSource = string;
 
-/**
- * Known values of {@link SparkSessionResultType} that the service accepts.
- */
-export const enum KnownSparkSessionResultType {
+/** Known values of {@link SparkSessionResultType} that the service accepts. */
+export enum KnownSparkSessionResultType {
   Uncertain = "Uncertain",
   Succeeded = "Succeeded",
   Failed = "Failed",
@@ -442,13 +351,11 @@ export const enum KnownSparkSessionResultType {
  */
 export type SparkSessionResultType = string;
 
-/**
- * Known values of {@link SparkStatementLanguageType} that the service accepts.
- */
-export const enum KnownSparkStatementLanguageType {
+/** Known values of {@link SparkStatementLanguageType} that the service accepts. */
+export enum KnownSparkStatementLanguageType {
   Spark = "spark",
-  Pyspark = "pyspark",
-  Dotnetspark = "dotnetspark",
+  PySpark = "pyspark",
+  DotNetSpark = "dotnetspark",
   Sql = "sql"
 }
 
@@ -464,294 +371,180 @@ export const enum KnownSparkStatementLanguageType {
  */
 export type SparkStatementLanguageType = string;
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface SparkBatchGetSparkBatchJobsOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Optional param specifying which index the list should begin from.
-   */
+  /** Optional param specifying which index the list should begin from. */
   fromParam?: number;
   /**
    * Optional param specifying the size of the returned list.
    *             By default it is 20 and that is the maximum.
    */
   size?: number;
-  /**
-   * Optional query param specifying whether detailed response is returned beyond plain livy.
-   */
+  /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
-/**
- * Contains response data for the getSparkBatchJobs operation.
- */
+/** Contains response data for the getSparkBatchJobs operation. */
 export type SparkBatchGetSparkBatchJobsResponse = SparkBatchJobCollection & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkBatchJobCollection;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface SparkBatchCreateSparkBatchJobOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Optional query param specifying whether detailed response is returned beyond plain livy.
-   */
+  /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
-/**
- * Contains response data for the createSparkBatchJob operation.
- */
+/** Contains response data for the createSparkBatchJob operation. */
 export type SparkBatchCreateSparkBatchJobResponse = SparkBatchJob & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkBatchJob;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface SparkBatchGetSparkBatchJobOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Optional query param specifying whether detailed response is returned beyond plain livy.
-   */
+  /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
-/**
- * Contains response data for the getSparkBatchJob operation.
- */
+/** Contains response data for the getSparkBatchJob operation. */
 export type SparkBatchGetSparkBatchJobResponse = SparkBatchJob & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkBatchJob;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface SparkSessionGetSparkSessionsOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Optional param specifying which index the list should begin from.
-   */
+  /** Optional param specifying which index the list should begin from. */
   fromParam?: number;
   /**
    * Optional param specifying the size of the returned list.
    *             By default it is 20 and that is the maximum.
    */
   size?: number;
-  /**
-   * Optional query param specifying whether detailed response is returned beyond plain livy.
-   */
+  /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
-/**
- * Contains response data for the getSparkSessions operation.
- */
+/** Contains response data for the getSparkSessions operation. */
 export type SparkSessionGetSparkSessionsResponse = SparkSessionCollection & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkSessionCollection;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface SparkSessionCreateSparkSessionOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Optional query param specifying whether detailed response is returned beyond plain livy.
-   */
+  /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
-/**
- * Contains response data for the createSparkSession operation.
- */
+/** Contains response data for the createSparkSession operation. */
 export type SparkSessionCreateSparkSessionResponse = SparkSession & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkSession;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface SparkSessionGetSparkSessionOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Optional query param specifying whether detailed response is returned beyond plain livy.
-   */
+  /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
-/**
- * Contains response data for the getSparkSession operation.
- */
+/** Contains response data for the getSparkSession operation. */
 export type SparkSessionGetSparkSessionResponse = SparkSession & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkSession;
   };
 };
 
-/**
- * Contains response data for the getSparkStatements operation.
- */
+/** Contains response data for the getSparkStatements operation. */
 export type SparkSessionGetSparkStatementsResponse = SparkStatementCollection & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkStatementCollection;
   };
 };
 
-/**
- * Contains response data for the createSparkStatement operation.
- */
+/** Contains response data for the createSparkStatement operation. */
 export type SparkSessionCreateSparkStatementResponse = SparkStatement & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkStatement;
   };
 };
 
-/**
- * Contains response data for the getSparkStatement operation.
- */
+/** Contains response data for the getSparkStatement operation. */
 export type SparkSessionGetSparkStatementResponse = SparkStatement & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkStatement;
   };
 };
 
-/**
- * Contains response data for the cancelSparkStatement operation.
- */
+/** Contains response data for the cancelSparkStatement operation. */
 export type SparkSessionCancelSparkStatementResponse = SparkStatementCancellationResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkStatementCancellationResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface SparkClientOptionalParams extends coreHttp.ServiceClientOptions {
-  /**
-   * Valid api-version for the request.
-   */
+  /** Valid api-version for the request. */
   livyApiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

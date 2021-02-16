@@ -8,15 +8,13 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { WorkspaceGetResponse } from "../models";
 
-/**
- * Class representing a Workspace.
- */
+/** Class representing a Workspace. */
 export class Workspace {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class Workspace class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -24,7 +22,7 @@ export class Workspace {
 
   /**
    * Get Workspace
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
     const { span, updatedOptions } = createSpan(
@@ -49,7 +47,6 @@ export class Workspace {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreHttp.OperationSpec = {

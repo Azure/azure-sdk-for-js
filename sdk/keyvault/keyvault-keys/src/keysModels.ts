@@ -292,7 +292,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   readonly expiresOn?: Date;
   /**
-   * Size of the key
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
 }
@@ -346,16 +346,23 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
-   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
-   */
-  keySize?: number;
-  /**
    * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
 
   /** The public exponent for a RSA key. */
   publicExponent?: number;
+}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link createOctKey}
+ */
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+  /**
+   * Whether to create a hardware-protected key in a hardware security module (HSM).
+   */
+  hsm?: boolean;
 }
 
 /**

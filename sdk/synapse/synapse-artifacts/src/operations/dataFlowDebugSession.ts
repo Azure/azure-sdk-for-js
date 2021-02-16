@@ -21,15 +21,13 @@ import {
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a DataFlowDebugSession.
- */
+/** Class representing a DataFlowDebugSession. */
 export class DataFlowDebugSession {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class DataFlowDebugSession class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -37,7 +35,7 @@ export class DataFlowDebugSession {
 
   /**
    * Query all active data flow debug sessions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listQueryDataFlowDebugSessionsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -79,8 +77,8 @@ export class DataFlowDebugSession {
 
   /**
    * Creates a data flow debug session.
-   * @param request Data flow debug session definition
-   * @param options The options parameters.
+   * @param request - Data flow debug session definition
+   * @param options - The options parameters.
    */
   async createDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
@@ -126,7 +124,7 @@ export class DataFlowDebugSession {
 
   /**
    * Query all active data flow debug sessions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _queryDataFlowDebugSessionsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -157,8 +155,8 @@ export class DataFlowDebugSession {
 
   /**
    * Add a data flow into debug session.
-   * @param request Data flow debug session definition with debug content.
-   * @param options The options parameters.
+   * @param request - Data flow debug session definition with debug content.
+   * @param options - The options parameters.
    */
   async addDataFlow(
     request: DataFlowDebugPackage,
@@ -191,8 +189,8 @@ export class DataFlowDebugSession {
 
   /**
    * Deletes a data flow debug session.
-   * @param request Data flow debug session definition for deletion
-   * @param options The options parameters.
+   * @param request - Data flow debug session definition for deletion
+   * @param options - The options parameters.
    */
   async deleteDataFlowDebugSession(
     request: DeleteDataFlowDebugSessionRequest,
@@ -225,8 +223,8 @@ export class DataFlowDebugSession {
 
   /**
    * Execute a data flow debug command.
-   * @param request Data flow debug command definition.
-   * @param options The options parameters.
+   * @param request - Data flow debug command definition.
+   * @param options - The options parameters.
    */
   async executeCommand(
     request: DataFlowDebugCommandRequest,
@@ -272,9 +270,9 @@ export class DataFlowDebugSession {
 
   /**
    * QueryDataFlowDebugSessionsByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the
+   * @param nextLink - The nextLink from the previous successful call to the
    *                 QueryDataFlowDebugSessionsByWorkspace method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _queryDataFlowDebugSessionsByWorkspaceNext(
     nextLink: string,
@@ -318,7 +316,6 @@ export class DataFlowDebugSession {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {

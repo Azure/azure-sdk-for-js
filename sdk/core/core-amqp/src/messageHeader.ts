@@ -10,25 +10,25 @@ import { logger } from "./log";
  */
 export interface AmqpMessageHeader {
   /**
-   * @property {boolean} [firstAcquirer] If this value is true, then this message has not been
+   * If this value is true, then this message has not been
    * acquired by any other link. If this value is false, then this message MAY have previously
    * been acquired by another link or links.
    */
   firstAcquirer?: boolean;
   /**
-   * @property {number} [deliveryCount] The number of prior unsuccessful delivery attempts.
+   * The number of prior unsuccessful delivery attempts.
    */
   deliveryCount?: number;
   /**
-   * @property {number} [timeToLive] time to live in ms.
+   * time to live in ms.
    */
   timeToLive?: number;
   /**
-   * @property {boolean} [durable] Specifies durability requirements.
+   * Specifies durability requirements.
    */
   durable?: boolean;
   /**
-   * @property {number} [priority] The relative message priority. Higher numbers indicate higher
+   * The relative message priority. Higher numbers indicate higher
    * priority messages.
    */
   priority?: number;
@@ -36,14 +36,13 @@ export interface AmqpMessageHeader {
 
 /**
  * Describes the operations that can be performed on the message header.
- * @module MessageHeader
  */
 export const AmqpMessageHeader = {
   /**
    * Converts MessageHeader to RheaMessageHeader.
    *
-   * @param {MessageHeader} props Message header.
-   * @returns {RheaMessageHeader} RheaMessageHeader
+   * @param props - Message header.
+   * @returns RheaMessageHeader
    */
   toRheaMessageHeader(props: AmqpMessageHeader): RheaMessageHeader {
     const amqpHeader: RheaMessageHeader = {};
@@ -67,8 +66,8 @@ export const AmqpMessageHeader = {
   /**
    * Converts RheaMessageHeader to MessageHeader.
    *
-   * @param {RheaMessageHeader} props Amqp Message Header
-   * @returns {AmqpMessageHeader} MessageHeader.
+   * @param props - Amqp Message Header
+   * @returns MessageHeader.
    */
   fromRheaMessageHeader(props: RheaMessageHeader): AmqpMessageHeader {
     const msgHeader: AmqpMessageHeader = {};

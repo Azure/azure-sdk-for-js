@@ -4,7 +4,7 @@ import * as coreHttp from "@azure/core-http";
 import { SparkClientOptionalParams } from "./models";
 
 const packageName = "@azure/synapse-spark";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class SparkClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -13,11 +13,11 @@ export class SparkClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the SparkClientContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param sparkPoolName Name of the spark pool.
-   * @param options The parameter options
+   * @param sparkPoolName - Name of the spark pool.
+   * @param options - The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
@@ -32,7 +35,7 @@ describe("FileClient", () => {
     "D:(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
   let recorder: Recorder;
 
-  let fullFileAttributes = new FileSystemAttributes();
+  const fullFileAttributes = new FileSystemAttributes();
   fullFileAttributes.readonly = true;
   fullFileAttributes.hidden = true;
   fullFileAttributes.system = true;
@@ -373,7 +376,7 @@ describe("FileClient", () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
 
-    let fileAttributesInstance = new FileSystemAttributes();
+    const fileAttributesInstance = new FileSystemAttributes();
     fileAttributesInstance.hidden = true;
     fileAttributesInstance.system = true;
     const fileAttributes = fileAttributesInstance.toString();
@@ -410,7 +413,7 @@ describe("FileClient", () => {
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
 
     const createPermResp = await shareClient.createPermission(filePermissionInSDDL);
-    let fileAttributesInstance = new FileSystemAttributes();
+    const fileAttributesInstance = new FileSystemAttributes();
     fileAttributesInstance.hidden = true;
     fileAttributesInstance.system = true;
     const fileAttributes = fileAttributesInstance.toString();

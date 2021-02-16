@@ -68,9 +68,9 @@ export function nodeConfig({ test = false, production = false } = {}) {
   if (test) {
     // entry point is every test file
     baseConfig.input = [
-      "dist-esm/service-bus/test/internal/*.spec.js",
-      "dist-esm/service-bus/test/node/*.spec.js",
-      "dist-esm/service-bus/test/*.spec.js"
+      "dist-esm/service-bus/test/internal/**/*.spec.js",
+      "dist-esm/service-bus/test/internal/node/*.spec.js",
+      "dist-esm/service-bus/test/public/**/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
@@ -160,7 +160,7 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/public/**/*.spec.js", "dist-esm/test/internal/*.spec.js", "dist-esm/test/internal/unit/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 

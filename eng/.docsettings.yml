@@ -20,6 +20,8 @@ omitted_paths:
   - sdk/servicebus/service-bus/test/perf-js-libs/service-bus-*
   - sdk/servicebus/service-bus/test/perf/**
   - sdk/servicebus/service-bus/test/stress/*
+  - sdk/eventhub/event-hubs/test/perf/track-1/*
+  - sdk/eventhub/event-hubs/test/perf/track-2/*
   - sdk/schemaregistry/README.md
   - sdk/storage/*/test/README.md
   - sdk/storage/storage-internal-avro/*
@@ -118,6 +120,7 @@ known_content_issues:
   - ["sdk/eventhub/eventhubs-checkpointstore-blob/README.md",  "#1583"]
   - ["sdk/eventhub/event-processor-host/README.md",  "#1583"]
   - ["sdk/eventhub/README.md",  "#1583"]
+  - ["sdk/eventhub/mock-hub/README.md",  "#1583"]
   - ["sdk/eventhub/testhub/README.md",  "#1583"]
   - ["sdk/graphrbac/graph/README.md",  "#1583"]
   - ["sdk/keyvault/README.md",  "#1583"]

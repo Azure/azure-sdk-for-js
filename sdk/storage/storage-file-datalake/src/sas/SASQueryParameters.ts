@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { UserDelegationKey } from "../models";
 import { ipRangeToString, SasIPRange } from "./SasIPRange";
 import { truncatedISO8061Date } from "../utils/utils.common";

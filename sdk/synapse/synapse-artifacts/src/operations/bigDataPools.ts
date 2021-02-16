@@ -8,15 +8,13 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { BigDataPoolsListResponse, BigDataPoolsGetResponse } from "../models";
 
-/**
- * Class representing a BigDataPools.
- */
+/** Class representing a BigDataPools. */
 export class BigDataPools {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class BigDataPools class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -24,7 +22,7 @@ export class BigDataPools {
 
   /**
    * List Big Data Pools
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse> {
     const { span, updatedOptions } = createSpan(
@@ -50,8 +48,8 @@ export class BigDataPools {
 
   /**
    * Get Big Data Pool
-   * @param bigDataPoolName The Big Data Pool name
-   * @param options The options parameters.
+   * @param bigDataPoolName - The Big Data Pool name
+   * @param options - The options parameters.
    */
   async get(
     bigDataPoolName: string,
@@ -80,7 +78,6 @@ export class BigDataPools {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {

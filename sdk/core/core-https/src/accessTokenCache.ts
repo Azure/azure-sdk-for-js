@@ -16,7 +16,7 @@ export interface AccessTokenCache {
   /**
    * Sets the cached token.
    *
-   * @param accessToken The AccessToken to be cached or null to
+   * @param accessToken - The AccessToken to be cached or null to
    *   clear the cached token.
    */
   setCachedToken(accessToken: AccessToken | undefined): void;

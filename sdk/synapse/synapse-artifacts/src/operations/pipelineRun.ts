@@ -14,15 +14,13 @@ import {
   PipelineRunCancelPipelineRunOptionalParams
 } from "../models";
 
-/**
- * Class representing a PipelineRun.
- */
+/** Class representing a PipelineRun. */
 export class PipelineRun {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class PipelineRun class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -30,8 +28,8 @@ export class PipelineRun {
 
   /**
    * Query pipeline runs in the workspace based on input filter conditions.
-   * @param filterParameters Parameters to filter the pipeline run.
-   * @param options The options parameters.
+   * @param filterParameters - Parameters to filter the pipeline run.
+   * @param options - The options parameters.
    */
   async queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
@@ -64,8 +62,8 @@ export class PipelineRun {
 
   /**
    * Get a pipeline run by its run ID.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   async getPipelineRun(
     runId: string,
@@ -98,10 +96,10 @@ export class PipelineRun {
 
   /**
    * Query activity runs based on input filter conditions.
-   * @param pipelineName The pipeline name.
-   * @param runId The pipeline run identifier.
-   * @param filterParameters Parameters to filter the activity runs.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param runId - The pipeline run identifier.
+   * @param filterParameters - Parameters to filter the activity runs.
+   * @param options - The options parameters.
    */
   async queryActivityRuns(
     pipelineName: string,
@@ -138,8 +136,8 @@ export class PipelineRun {
 
   /**
    * Cancel a pipeline run by its run ID.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   async cancelPipelineRun(
     runId: string,
@@ -171,7 +169,6 @@ export class PipelineRun {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const queryPipelineRunsByWorkspaceOperationSpec: coreHttp.OperationSpec = {

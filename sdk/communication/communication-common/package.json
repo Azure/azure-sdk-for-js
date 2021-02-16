@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -64,7 +64,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.1.3",
+    "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
     "@opentelemetry/api": "^0.10.2",
     "events": "^3.0.0",

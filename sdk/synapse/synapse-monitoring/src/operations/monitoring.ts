@@ -13,15 +13,13 @@ import {
   MonitoringGetSqlJobQueryStringResponse
 } from "../models";
 
-/**
- * Class representing a Monitoring.
- */
+/** Class representing a Monitoring. */
 export class Monitoring {
   private readonly client: MonitoringClient;
 
   /**
    * Initialize a new instance of the class Monitoring class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: MonitoringClient) {
     this.client = client;
@@ -29,7 +27,7 @@ export class Monitoring {
 
   /**
    * Get list of spark applications for the workspace.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async getSparkJobList(
     options?: MonitoringGetSparkJobListOptionalParams
@@ -60,7 +58,7 @@ export class Monitoring {
 
   /**
    * Get SQL OD/DW Query for the workspace.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async getSqlJobQueryString(
     options?: MonitoringGetSqlJobQueryStringOptionalParams
@@ -90,7 +88,6 @@ export class Monitoring {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSparkJobListOperationSpec: coreHttp.OperationSpec = {

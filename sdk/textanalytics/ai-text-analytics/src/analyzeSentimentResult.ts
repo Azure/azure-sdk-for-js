@@ -20,7 +20,7 @@ import {
   TokenSentimentValue as SentenceAspectSentiment,
   AspectConfidenceScoreLabel
 } from "./generated/models";
-import { findOpinionIndex, OpinionIndex } from "./util";
+import { OpinionIndex, parseOpinionIndex } from "./util";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -68,6 +68,10 @@ export interface SentenceSentiment {
    */
   offset: number;
   /**
+   * The length of the sentence text.
+   */
+  length: number;
+  /**
    * The list of opinions mined from this sentence. For example in "The food is
    * good, but the service is bad", we would mind these two opinions "food is
    * good", "service is bad". Only returned if `show_opinion_mining` is set to
@@ -102,6 +106,10 @@ export interface AspectSentiment {
    * The aspect text offset from the start of the sentence.
    */
   offset: number;
+  /**
+   * The length of the aspect text.
+   */
+  length: number;
 }
 
 /**
@@ -132,8 +140,12 @@ export interface MinedOpinion {
  */
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
+/**
+ * @param document - A document result coming from the service.
+ * @internal
+ */
 export function makeAnalyzeSentimentResult(
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): AnalyzeSentimentSuccessResult {
   const {
     id,
@@ -142,15 +154,18 @@ export function makeAnalyzeSentimentResult(
     sentenceSentiments: sentences,
     warnings,
     statistics
-  } = document;
+  } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, document))
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, result))
   };
 }
 
+/**
+ * @internal
+ */
 export function makeAnalyzeSentimentErrorResult(
   id: string,
   error: TextAnalyticsError
@@ -165,16 +180,18 @@ export function makeAnalyzeSentimentErrorResult(
  * @param sentence - The sentence sentiment object to be converted.
  * @param response - The entire response returned by the service.
  * @returns The user-friendly sentence sentiment object.
+ * @internal
  */
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): SentenceSentiment {
   return {
     confidenceScores: sentence.confidenceScores,
     sentiment: sentence.sentiment,
     text: sentence.text,
     offset: sentence.offset,
+    length: sentence.length,
     minedOpinions: sentence.aspects
       ? sentence.aspects.map(
           (aspect: SentenceAspect): MinedOpinion => ({
@@ -182,11 +199,12 @@ function convertGeneratedSentenceSentiment(
               confidenceScores: aspect.confidenceScores,
               sentiment: aspect.sentiment,
               text: aspect.text,
-              offset: aspect.offset
+              offset: aspect.offset,
+              length: aspect.length
             },
             opinions: aspect.relations
               .filter((relation) => relation.relationType === "opinion")
-              .map((relation) => convertAspectRelationToOpinionSentiment(relation, document))
+              .map((relation) => convertAspectRelationToOpinionSentiment(relation, result))
           })
         )
       : []
@@ -201,15 +219,16 @@ function convertGeneratedSentenceSentiment(
  * @param aspectRelation - The aspect relation object to be converted.
  * @param response - The entire response returned by the service.
  * @returns The user-friendly opinion sentiment object.
+ * @internal
  */
 function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): OpinionSentiment {
   const opinionPtr = aspectRelation.ref;
-  const opinionIndex: OpinionIndex = findOpinionIndex(opinionPtr);
+  const opinionIndex: OpinionIndex = parseOpinionIndex(opinionPtr);
   const opinion: SentenceOpinion | undefined =
-    document.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
+    result.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
   if (opinion !== undefined) {
     return opinion;
   } else {

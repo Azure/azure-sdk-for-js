@@ -29,7 +29,7 @@ export interface RedirectPolicyOptions {
 /**
  * A policy to follow Location headers from the server in order
  * to support server-side redirection.
- * @param options Options to control policy behavior.
+ * @param options - Options to control policy behavior.
  */
 export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePolicy {
   const { maxRetries = 20 } = options;

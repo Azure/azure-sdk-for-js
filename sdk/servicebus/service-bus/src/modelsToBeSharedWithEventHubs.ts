@@ -8,7 +8,7 @@ import { OperationOptions } from "@azure/core-http";
 import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
 
 /**
- * NOTE: This type is intended to mirror the relevant fields and structure from @azure/core-http OperationOptions
+ * NOTE: This type is intended to mirror the relevant fields and structure from `@azure/core-http` OperationOptions
  *
  * Options for configuring tracing and the abortSignal.
  */
@@ -26,10 +26,6 @@ export function getParentSpan(
 /**
  * @internal
  *
- * @param {(Span | SpanContext | null)} [parentSpan]
- * @param {SpanContext[]} [spanContextsToLink=[]]
- * @param {string} [entityPath]
- * @param {string} [host]
  */
 export function createSendSpan(
   parentSpan?: Span | SpanContext | null,

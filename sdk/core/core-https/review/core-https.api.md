@@ -137,7 +137,6 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
-    httpsClient?: HttpsClient;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: ExponentialRetryPolicyOptions;
@@ -184,7 +183,6 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
-    skipDecompressResponse?: boolean;
     spanOptions?: SpanOptions;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;

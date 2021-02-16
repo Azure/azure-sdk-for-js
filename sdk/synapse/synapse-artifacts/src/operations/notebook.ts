@@ -21,15 +21,13 @@ import {
   NotebookGetNotebookSummaryByWorkSpaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Notebook.
- */
+/** Class representing a Notebook. */
 export class Notebook {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class Notebook class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -37,7 +35,7 @@ export class Notebook {
 
   /**
    * Lists Notebooks.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listNotebooksByWorkspace(
     options?: coreHttp.OperationOptions
@@ -79,7 +77,7 @@ export class Notebook {
 
   /**
    * Lists a summary of Notebooks.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listNotebookSummaryByWorkSpace(
     options?: coreHttp.OperationOptions
@@ -121,7 +119,7 @@ export class Notebook {
 
   /**
    * Lists Notebooks.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getNotebooksByWorkspace(
     options?: coreHttp.OperationOptions
@@ -152,7 +150,7 @@ export class Notebook {
 
   /**
    * Lists a summary of Notebooks.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getNotebookSummaryByWorkSpace(
     options?: coreHttp.OperationOptions
@@ -183,9 +181,9 @@ export class Notebook {
 
   /**
    * Creates or updates a Note Book.
-   * @param notebookName The notebook name.
-   * @param notebook Note book resource definition.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param notebook - Note book resource definition.
+   * @param options - The options parameters.
    */
   async createOrUpdateNotebook(
     notebookName: string,
@@ -233,8 +231,8 @@ export class Notebook {
 
   /**
    * Gets a Note Book.
-   * @param notebookName The notebook name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param options - The options parameters.
    */
   async getNotebook(
     notebookName: string,
@@ -267,8 +265,8 @@ export class Notebook {
 
   /**
    * Deletes a Note book.
-   * @param notebookName The notebook name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param options - The options parameters.
    */
   async deleteNotebook(
     notebookName: string,
@@ -314,9 +312,9 @@ export class Notebook {
 
   /**
    * Renames a notebook.
-   * @param notebookName The notebook name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   async renameNotebook(
     notebookName: string,
@@ -364,9 +362,9 @@ export class Notebook {
 
   /**
    * GetNotebooksByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetNotebooksByWorkspace
+   * @param nextLink - The nextLink from the previous successful call to the GetNotebooksByWorkspace
    *                 method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getNotebooksByWorkspaceNext(
     nextLink: string,
@@ -399,9 +397,9 @@ export class Notebook {
 
   /**
    * GetNotebookSummaryByWorkSpaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetNotebookSummaryByWorkSpace
+   * @param nextLink - The nextLink from the previous successful call to the GetNotebookSummaryByWorkSpace
    *                 method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getNotebookSummaryByWorkSpaceNext(
     nextLink: string,
@@ -445,7 +443,6 @@ export class Notebook {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getNotebooksByWorkspaceOperationSpec: coreHttp.OperationSpec = {

@@ -19,15 +19,13 @@ import {
   LinkedServiceGetLinkedServicesByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a LinkedService.
- */
+/** Class representing a LinkedService. */
 export class LinkedService {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class LinkedService class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +33,7 @@ export class LinkedService {
 
   /**
    * Lists linked services.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listLinkedServicesByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,7 +75,7 @@ export class LinkedService {
 
   /**
    * Lists linked services.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getLinkedServicesByWorkspace(
     options?: coreHttp.OperationOptions
@@ -108,9 +106,9 @@ export class LinkedService {
 
   /**
    * Creates or updates a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param linkedService Linked service resource definition.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param linkedService - Linked service resource definition.
+   * @param options - The options parameters.
    */
   async createOrUpdateLinkedService(
     linkedServiceName: string,
@@ -158,8 +156,8 @@ export class LinkedService {
 
   /**
    * Gets a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param options - The options parameters.
    */
   async getLinkedService(
     linkedServiceName: string,
@@ -192,8 +190,8 @@ export class LinkedService {
 
   /**
    * Deletes a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param options - The options parameters.
    */
   async deleteLinkedService(
     linkedServiceName: string,
@@ -239,9 +237,9 @@ export class LinkedService {
 
   /**
    * Renames a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   async renameLinkedService(
     linkedServiceName: string,
@@ -289,9 +287,9 @@ export class LinkedService {
 
   /**
    * GetLinkedServicesByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetLinkedServicesByWorkspace
+   * @param nextLink - The nextLink from the previous successful call to the GetLinkedServicesByWorkspace
    *                 method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getLinkedServicesByWorkspaceNext(
     nextLink: string,
@@ -335,7 +333,6 @@ export class LinkedService {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getLinkedServicesByWorkspaceOperationSpec: coreHttp.OperationSpec = {
