@@ -215,7 +215,7 @@ export function throwErrorIfInvalidOperationOnMessage(
   message: ServiceBusReceivedMessage,
   receiveMode: ReceiveMode,
   connectionId: string
-) {
+): void {
   let error: Error | undefined;
 
   if (receiveMode === "receiveAndDelete") {

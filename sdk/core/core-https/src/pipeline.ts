@@ -398,12 +398,6 @@ export function createEmptyPipeline(): Pipeline {
  */
 export interface PipelineOptions {
   /**
-   * The HttpsClient implementation to use for outgoing HTTP requests.
-   * Defaults to DefaultHttpsClient.
-   */
-  httpsClient?: HttpsClient;
-
-  /**
    * Options that control how to retry failed requests.
    */
   retryOptions?: ExponentialRetryPolicyOptions;

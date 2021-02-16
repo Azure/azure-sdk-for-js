@@ -49,29 +49,29 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     await recorder.stop();
   });
 
-  async function deleteModels() {
+  async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
     } catch (Exception) {}
   }
 
-  async function createModel() {
+  async function createModel(): Promise<void> {
     const simpleModel = [dtdl_model_building];
     await client.createModels(simpleModel);
   }
 
-  async function setUpModels() {
+  async function setUpModels(): Promise<void> {
     await deleteModels();
     await createModel();
   }
 
-  async function deleteDigitalTwin(digitalTwinId: string) {
+  async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
     } catch (Exception) {}
   }
 
-  async function deleteDigitalTwins() {
+  async function deleteDigitalTwins(): Promise<void> {
     try {
       const queryResult = client.queryTwins("SELECT * FROM digitaltwins");
       for await (const item of queryResult) {
@@ -865,7 +865,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       const query = "SELECT * FROM digitaltwins";
       const queryResult = client.queryTwins(query);
       for await (const item of queryResult) {
-        if (item.$dtId == digitalTwinId) {
+        if (item.$dtId === digitalTwinId) {
           twinFound = true;
           break;
         }

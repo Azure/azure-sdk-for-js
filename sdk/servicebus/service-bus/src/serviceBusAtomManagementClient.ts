@@ -450,10 +450,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    *
-   * @returns {PagedAsyncIterableIterator<
-   *     QueueProperties,
-   *     EntitiesResponse<QueueProperties>,
-   *   >} An asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
     options?: OperationOptions
@@ -556,10 +553,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the queues in pages.
    *
    *
-   * @returns {PagedAsyncIterableIterator<
-   *     QueueRuntimeProperties,
-   *     EntitiesResponse<QueueRuntimeProperties>,
-   *   >} An asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listQueuesRuntimeProperties(
     options?: OperationOptions
@@ -932,10 +926,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list the topics in pages.
    *
    *
-   * @returns {PagedAsyncIterableIterator<
-   *     TopicProperties,
-   *     EntitiesResponse<TopicProperties>,
-   *   >} An asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listTopics(
     options?: OperationOptions
@@ -1038,11 +1029,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the topics in pages.
    *
    *
-   * @returns {PagedAsyncIterableIterator<
-   *     TopicRuntimeProperties,
-   *     EntitiesResponse<TopicRuntimeProperties>,
-
-   *   >} An asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listTopicsRuntimeProperties(
     options?: OperationOptions
@@ -1433,10 +1420,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the subscriptions in pages.
    *
-   * @returns {PagedAsyncIterableIterator<
-   *     SubscriptionProperties,
-   *     EntitiesResponse<SubscriptionProperties>
-   *   >} An asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listSubscriptions(
     topicName: string,
@@ -1550,11 +1534,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list runtime info of subscriptions in pages.
    *
-   * @returns {PagedAsyncIterableIterator<
-   *     SubscriptionRuntimeProperties,
-   *     EntitiesResponse<SubscriptionRuntimeProperties>,
-
-   *   >}  An asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listSubscriptionsRuntimeProperties(
     topicName: string,
@@ -1959,7 +1939,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the rules in pages.
    *
-   * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listRules(
     topicName: string,
@@ -2802,7 +2782,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     }
   }
 
-  private throwIfInvalidContinuationToken(token: string | undefined) {
+  private throwIfInvalidContinuationToken(token: string | undefined): void {
     if (!(token === undefined || (typeof token === "string" && Number(token) >= 0))) {
       throw new Error(`Invalid continuationToken ${token} provided`);
     }

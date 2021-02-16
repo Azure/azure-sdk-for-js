@@ -3,16 +3,15 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentKeyPhrases,
-  TextDocumentInput
+  TextDocumentInput,
+  KeyPhraseResult
 } from "./generated/models";
 import {
   ExtractKeyPhrasesResult,
   makeExtractKeyPhrasesResult,
   makeExtractKeyPhrasesErrorResult
 } from "./extractKeyPhrasesResult";
-import { sortResponseIdObjects } from "./util";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**
  * Array of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and
@@ -32,34 +31,17 @@ export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesRes
   modelVersion: string;
 }
 
+/**
+ * @internal
+ */
 export function makeExtractKeyPhrasesResultArray(
   input: TextDocumentInput[],
-  documents: DocumentKeyPhrases[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: KeyPhraseResult
 ): ExtractKeyPhrasesResultArray {
-  const unsortedResult = documents
-    .map(
-      (document): ExtractKeyPhrasesResult => {
-        return makeExtractKeyPhrasesResult(
-          document.id,
-          document.keyPhrases,
-          document.warnings,
-          document.statistics
-        );
-      }
-    )
-    .concat(
-      errors.map(
-        (error): ExtractKeyPhrasesResult => {
-          return makeExtractKeyPhrasesErrorResult(error.id, error.error);
-        }
-      )
-    );
-  const result = sortResponseIdObjects(input, unsortedResult);
-  return Object.assign(result, {
-    statistics,
-    modelVersion
-  });
+  return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
+    input,
+    response,
+    makeExtractKeyPhrasesResult,
+    makeExtractKeyPhrasesErrorResult
+  );
 }

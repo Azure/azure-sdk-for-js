@@ -151,7 +151,7 @@ export function createConnectionContextForTestsWithSessionId(
  * - It handles draining (via the .drain = true/addCredit(1) combo of operations).
  * - It respects .close(), so the state of the receiver should be accurate for isOpen().
  */
-export function createRheaReceiverForTests(options?: ReceiverOptions) {
+export function createRheaReceiverForTests(options?: ReceiverOptions): RheaReceiver {
   const receiver = new EventEmitter() as RheaReceiver;
 
   (receiver as any).name = options?.name == null ? getUniqueName("entity") : options.name;

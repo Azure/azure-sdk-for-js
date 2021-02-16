@@ -6,6 +6,9 @@ import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { StringIndexType as GeneratedStringIndexType } from "./generated";
 
+/**
+ * @internal
+ */
 export interface IdObject {
   id: string;
 }
@@ -44,12 +47,18 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
   return result;
 }
 
+/**
+ * @internal
+ */
 export interface OpinionIndex {
   document: number;
   sentence: number;
   opinion: number;
 }
 
+/**
+ * @internal
+ */
 export function parseOpinionIndex(pointer: string): OpinionIndex {
   const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/opinions\/(\d+)/);
   const res = regex.exec(pointer);
@@ -69,7 +78,6 @@ export function parseOpinionIndex(pointer: string): OpinionIndex {
  * Parses the index of the healthcare entity from a JSON pointer.
  * @param pointer - a JSON pointer representing an entity
  * @internal
- * @hidden
  */
 export function parseHealthcareEntityIndex(pointer: string): number {
   const regex = new RegExp(/#\/results\/documents\/(\d+)\/entities\/(\d+)/);
@@ -88,6 +96,9 @@ const jsEncodingUnit = "Utf16CodeUnit";
  */
 export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
+/**
+ * @internal
+ */
 export function addStrEncodingParam<Options extends { stringIndexType?: StringIndexType }>(
   options: Options
 ): Options & { stringIndexType: StringIndexType } {
@@ -98,7 +109,6 @@ export function addStrEncodingParam<Options extends { stringIndexType?: StringIn
  * Set the stringIndexType property with default if it does not exist in x.
  * @param options - operation options bag that has a {@link StringIndexType}
  * @internal
- * @hidden
  */
 export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStringIndexType }>(
   x: X
@@ -106,15 +116,24 @@ export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStrin
   return { ...x, stringIndexType: x.stringIndexType || jsEncodingUnit };
 }
 
+/**
+ * @internal
+ */
 export function AddParamsToTask<X>(action: X): { parameters?: X } {
   return { parameters: action };
 }
 
+/**
+ * @internal
+ */
 export interface PageParam {
   top: number;
   skip: number;
 }
 
+/**
+ * @internal
+ */
 export function nextLinkToTopAndSkip(nextLink: string): PageParam {
   const url = new URL(nextLink);
   const searchParams = new URLSearchParams(url.searchParams);
@@ -136,6 +155,9 @@ export function nextLinkToTopAndSkip(nextLink: string): PageParam {
   };
 }
 
+/**
+ * @internal
+ */
 export function getOperationId(operationLocation: string): string {
   const lastSlashIndex = operationLocation.lastIndexOf("/");
   return operationLocation.substring(lastSlashIndex + 1);
