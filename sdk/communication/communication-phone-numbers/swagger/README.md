@@ -20,13 +20,3 @@ use-extension:
 add-credentials: false
 azure-arm: false
 ```
-
-### Make areaCode required in PhoneNumberSearchRequest
-
-<!-- ```yaml
-directive:
-  from: swagger-document
-  where: $.definitions.PhoneNumberSearchRequest
-  transform: >
-    $.required = ["phoneNumberType", "assignmentType", "capabilities", "areaCode"]
-``` -->

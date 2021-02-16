@@ -160,7 +160,7 @@ export class PhoneNumbersClient {
     options: ListPhoneNumbersOptions = {}
   ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
     const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-listAllPhoneNumbers",
+      "PhoneNumbersClient-listAllPhoneNumbers",
       options
     );
     const iter = this.client.listPhoneNumbers(updatedOptions);
@@ -193,7 +193,7 @@ export class PhoneNumbersClient {
     options: BeginReleasePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
     const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-beginReleasePhoneNumber",
+      "PhoneNumbersClient-beginReleasePhoneNumber",
       options
     );
 
@@ -239,7 +239,7 @@ export class PhoneNumbersClient {
     options: BeginSearchAvailablePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
     const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-beginSearchAvailablePhoneNumbers",
+      "PhoneNumbersClient-beginSearchAvailablePhoneNumbers",
       options
     );
 
@@ -292,7 +292,7 @@ export class PhoneNumbersClient {
     options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
     const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-beginPurchasePhoneNumbers",
+      "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options
     );
 
@@ -337,7 +337,7 @@ export class PhoneNumbersClient {
     options: BeginUpdatePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
     const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-beginUpdatePhoneNumberCapabilities",
+      "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
       options
     );
 
