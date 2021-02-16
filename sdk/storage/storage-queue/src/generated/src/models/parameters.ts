@@ -213,13 +213,21 @@ export const include: OperationQueryParameter = {
 };
 
 export const metadata: OperationParameter = {
-  parameterPath: ["options", "metadata"],
+  parameterPath: [
+    "options",
+    "metadata"
+  ],
   mapper: {
     serializedName: "x-ms-meta",
-    xmlName: "x-ms-meta",
     type: {
-      name: "String"
-    }
+      name: "Dictionary",
+      value: {
+        type: {
+          name: "String"
+        }
+      }
+    },
+    headerCollectionPrefix: "x-ms-meta-"
   }
 };
 
