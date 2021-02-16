@@ -13,7 +13,7 @@ import {
 } from "./models";
 
 const packageName = "@azure/search-documents";
-const packageVersion = "11.1.0";
+const packageVersion = "11.1.1";
 
 /** @internal */
 export class SearchServiceClientContext extends coreHttp.ServiceClient {
