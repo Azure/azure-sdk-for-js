@@ -14,7 +14,7 @@ import {
   createPipelineFromOptions
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { logger, createSpan, attachHttpResponse, SDK_VERSION } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
@@ -158,7 +158,7 @@ export class PhoneNumbersClient {
    */
   public listPhoneNumbers(
     options: ListPhoneNumbersOptions = {}
-  ): PagedAsyncIterableIterator<AcquiredPhoneNumber, AcquiredPhoneNumber[], PageSettings> {
+  ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-listAllPhoneNumbers",
       options
@@ -244,13 +244,12 @@ export class PhoneNumbersClient {
     );
 
     try {
-      const { phoneNumberType, assignmentType, capabilities, areaCode, ...rest } = search;
+      const { phoneNumberType, assignmentType, capabilities, ...rest } = search;
       return await this.client.searchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,
         assignmentType,
         capabilities,
-        areaCode,
         {
           ...updatedOptions,
           ...rest

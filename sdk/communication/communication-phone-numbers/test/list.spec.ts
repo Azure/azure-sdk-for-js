@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
@@ -10,6 +10,12 @@ describe("PhoneNumbersClient - lists", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
   let all = 0;
+
+  this.beforeAll(function() {
+    if (isPlaybackMode() || isLiveMode()) {
+      this.skip();
+    }
+  });
 
   beforeEach(function() {
     ({ client, recorder } = createRecordedClient(this));

@@ -8,7 +8,6 @@ import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
@@ -16,9 +15,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcquiredPhoneNumber {
-    applicationId?: string;
     assignmentType: PhoneNumberAssignmentType;
-    callbackUri?: string;
     capabilities: PhoneNumberCapabilities;
     cost?: PhoneNumberCost;
     countryCode: string;
@@ -64,7 +61,7 @@ export const enum KnownPhoneNumberAssignmentType {
     // (undocumented)
     Application = "application",
     // (undocumented)
-    User = "user"
+    Person = "person"
 }
 
 // @public
@@ -136,7 +133,7 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(countryCode: string, search: PhoneNumberSearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<GetPhoneNumberResponse>;
-    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber, AcquiredPhoneNumber[], PageSettings>;
+    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
 }
 
 // @public
@@ -145,7 +142,7 @@ export interface PhoneNumbersClientOptions extends PipelineOptions {
 
 // @public
 export interface PhoneNumberSearchRequest {
-    areaCode: string;
+    areaCode?: string;
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     phoneNumberType: PhoneNumberType;
@@ -156,10 +153,10 @@ export interface PhoneNumberSearchRequest {
 export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
-    cost?: PhoneNumberCost;
+    cost: PhoneNumberCost;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
-    searchExpiresBy?: Date;
+    searchExpiresBy: Date;
     searchId: string;
 }
 

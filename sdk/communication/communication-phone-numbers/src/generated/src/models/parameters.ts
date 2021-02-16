@@ -14,7 +14,6 @@ import {
 import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
-  PhoneNumberUpdateRequest as PhoneNumberUpdateRequestMapper,
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper
 } from "../models/mappers";
 
@@ -58,7 +57,7 @@ export const capabilities: OperationParameter = {
 };
 
 export const areaCode: OperationParameter = {
-  parameterPath: "areaCode",
+  parameterPath: ["options", "areaCode"],
   mapper: PhoneNumberSearchRequestMapper
 };
 
@@ -140,28 +139,6 @@ export const phoneNumber: OperationURLParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/merge-patch+json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const callbackUri: OperationParameter = {
-  parameterPath: ["options", "callbackUri"],
-  mapper: PhoneNumberUpdateRequestMapper
-};
-
-export const applicationId: OperationParameter = {
-  parameterPath: ["options", "applicationId"],
-  mapper: PhoneNumberUpdateRequestMapper
-};
-
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
@@ -179,6 +156,18 @@ export const top: OperationQueryParameter = {
     serializedName: "top",
     type: {
       name: "Number"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
     }
   }
 };

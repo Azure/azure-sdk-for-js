@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import {
   KnownPhoneNumberAssignmentType,
@@ -22,9 +22,14 @@ describe("PhoneNumbersClient - lro - search", function() {
     capabilities: {
       sms: "inbound+outbound",
       calling: "none"
-    },
-    areaCode: "844"
+    }
   };
+
+  this.beforeAll(function() {
+    if (isPlaybackMode() || isLiveMode()) {
+      this.skip();
+    }
+  });
 
   beforeEach(function() {
     ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
@@ -55,10 +60,9 @@ describe("PhoneNumbersClient - lro - search", function() {
     }
 
     const quantity = 2;
-    searchRequest.quantity = quantity;
     const searchPoller = await client.beginSearchAvailablePhoneNumbers(
       countryCode,
-      searchRequest,
+      { ...searchRequest, quantity },
       testPollerOptions
     );
     //assert.ok(searchPoller.getOperationState().isStarted);

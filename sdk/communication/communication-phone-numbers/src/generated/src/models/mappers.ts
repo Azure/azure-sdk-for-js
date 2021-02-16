@@ -36,7 +36,6 @@ export const PhoneNumberSearchRequest: coreHttp.CompositeMapper = {
       },
       areaCode: {
         serializedName: "areaCode",
-        required: true,
         type: {
           name: "String"
         }
@@ -133,6 +132,7 @@ export const PhoneNumberSearchResult: coreHttp.CompositeMapper = {
       },
       searchExpiresBy: {
         serializedName: "searchExpiresBy",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -362,44 +362,11 @@ export const AcquiredPhoneNumber: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      callbackUri: {
-        serializedName: "callbackUri",
-        type: {
-          name: "String"
-        }
-      },
-      applicationId: {
-        serializedName: "applicationId",
-        type: {
-          name: "String"
-        }
-      },
       cost: {
         serializedName: "cost",
         type: {
           name: "Composite",
           className: "PhoneNumberCost"
-        }
-      }
-    }
-  }
-};
-
-export const PhoneNumberUpdateRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PhoneNumberUpdateRequest",
-    modelProperties: {
-      callbackUri: {
-        serializedName: "callbackUri",
-        type: {
-          name: "String"
-        }
-      },
-      applicationId: {
-        serializedName: "applicationId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -460,14 +427,26 @@ export const PhoneNumbersSearchAvailablePhoneNumbersHeaders: coreHttp.CompositeM
     name: "Composite",
     className: "PhoneNumbersSearchAvailablePhoneNumbersHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       operationLocation: {
         serializedName: "operation-location",
         type: {
           name: "String"
         }
       },
-      location: {
-        serializedName: "location",
+      operationId: {
+        serializedName: "operation-id",
+        type: {
+          name: "String"
+        }
+      },
+      searchId: {
+        serializedName: "search-id",
         type: {
           name: "String"
         }
@@ -481,12 +460,39 @@ export const PhoneNumbersPurchasePhoneNumbersHeaders: coreHttp.CompositeMapper =
     name: "Composite",
     className: "PhoneNumbersPurchasePhoneNumbersHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       operationLocation: {
         serializedName: "operation-location",
         type: {
           name: "String"
         }
       },
+      operationId: {
+        serializedName: "operation-id",
+        type: {
+          name: "String"
+        }
+      },
+      purchaseId: {
+        serializedName: "purchase-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumbersGetOperationHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumbersGetOperationHeaders",
+    modelProperties: {
       location: {
         serializedName: "location",
         type: {
@@ -508,8 +514,14 @@ export const PhoneNumbersReleasePhoneNumberHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      location: {
-        serializedName: "location",
+      operationId: {
+        serializedName: "operation-id",
+        type: {
+          name: "String"
+        }
+      },
+      releaseId: {
+        serializedName: "release-id",
         type: {
           name: "String"
         }
@@ -523,14 +535,26 @@ export const PhoneNumbersUpdateCapabilitiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PhoneNumbersUpdateCapabilitiesHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       operationLocation: {
         serializedName: "operation-location",
         type: {
           name: "String"
         }
       },
-      location: {
-        serializedName: "location",
+      operationId: {
+        serializedName: "operation-id",
+        type: {
+          name: "String"
+        }
+      },
+      capabilitiesId: {
+        serializedName: "capabilities-id",
         type: {
           name: "String"
         }

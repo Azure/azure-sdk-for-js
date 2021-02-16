@@ -28,8 +28,6 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Acquire
     sms: "inbound+outbound",
     calling: "none"
   },
-  callbackUri: "http://calbackuri",
-  applicationId: "phoneNumbersClient-test",
   cost: {
     amount: 5,
     currencyCode: "USD",

@@ -11,7 +11,7 @@ package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f20d92b324842b407e0dcce36ad0e67bd9bb66cf/specification/communication/data-plane/Microsoft.CommunicationServicesPhoneNumbers/stable/2021-03-07/phonenumbers.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/967da531665d4b51a7a5599324e5edd95489cc3d/specification/communication/data-plane/Microsoft.CommunicationServicesPhoneNumbers/stable/2021-03-07/phonenumbers.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
@@ -23,10 +23,10 @@ azure-arm: false
 
 ### Make areaCode required in PhoneNumberSearchRequest
 
-```yaml
+<!-- ```yaml
 directive:
   from: swagger-document
   where: $.definitions.PhoneNumberSearchRequest
   transform: >
     $.required = ["phoneNumberType", "assignmentType", "capabilities", "areaCode"]
-```
+``` -->

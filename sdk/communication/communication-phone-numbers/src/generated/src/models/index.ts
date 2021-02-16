@@ -18,7 +18,7 @@ export interface PhoneNumberSearchRequest {
   /** Capabilities of a phone number. */
   capabilities: PhoneNumberCapabilities;
   /** The area code of the desired phone number, e.g. 425. */
-  areaCode: string;
+  areaCode?: string;
   /** The quantity of desired phone numbers. The default value is 1. */
   quantity?: number;
 }
@@ -44,9 +44,9 @@ export interface PhoneNumberSearchResult {
   /** Capabilities of a phone number. */
   capabilities: PhoneNumberCapabilities;
   /** The incurred cost for a single phone number. */
-  cost?: PhoneNumberCost;
+  cost: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
-  searchExpiresBy?: Date;
+  searchExpiresBy: Date;
 }
 
 /** The incurred cost for a single phone number. */
@@ -131,25 +131,8 @@ export interface AcquiredPhoneNumber {
   assignmentType: PhoneNumberAssignmentType;
   /** The date and time that the phone number was purchased. */
   purchaseDate?: Date;
-  /** The webhook for receiving incoming events, e.g. https://{{site-name}}.azurewebsites.net/api/updates */
-  callbackUri?: string;
-  /** The application id of the server application the phone number is assigned to. The property is empty if the phone number is assigned to a person. */
-  applicationId?: string;
   /** The incurred cost for a single phone number. */
   cost?: PhoneNumberCost;
-}
-
-/** Property updates for a phone number */
-export interface PhoneNumberUpdateRequest {
-  /**
-   * The webhook for receiving incoming events.
-   * e.g. "https://{{site-name}}.azurewebsites.net/api/updates".
-   * Please read https://docs.microsoft.com/en-us/azure/communication-services/concepts/event-handling
-   * for integration with Azure Event Grid to deliver real-time event notifications.
-   */
-  callbackUri?: string;
-  /** The application id of the application to which to configure. */
-  applicationId?: string;
 }
 
 /** The list of acquired phone numbers. */
@@ -170,16 +153,30 @@ export interface PhoneNumberCapabilitiesRequest {
 
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersHeaders {
+  /** URL to retrieve the final result after operation completes. */
+  location?: string;
   /** URL to query for status of the operation. */
   operationLocation?: string;
-  /** Url to retrieve the final result after operation completes. */
-  location?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The search operation id. */
+  searchId?: string;
 }
 
 /** Defines headers for PhoneNumbers_purchasePhoneNumbers operation. */
 export interface PhoneNumbersPurchasePhoneNumbersHeaders {
+  /** URL to retrieve the final result after operation completes. */
+  location?: string;
   /** URL to query for status of the operation. */
   operationLocation?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The purchase operation id. */
+  purchaseId?: string;
+}
+
+/** Defines headers for PhoneNumbers_getOperation operation. */
+export interface PhoneNumbersGetOperationHeaders {
   /** Url to retrieve the final result after operation completes. */
   location?: string;
 }
@@ -188,16 +185,22 @@ export interface PhoneNumbersPurchasePhoneNumbersHeaders {
 export interface PhoneNumbersReleasePhoneNumberHeaders {
   /** URL to query for status of the operation. */
   operationLocation?: string;
-  /** Url to retrieve the final result after operation completes. */
-  location?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The release operation id. */
+  releaseId?: string;
 }
 
 /** Defines headers for PhoneNumbers_updateCapabilities operation. */
 export interface PhoneNumbersUpdateCapabilitiesHeaders {
+  /** URL to retrieve the final result after operation completes. */
+  location?: string;
   /** URL to query for status of the operation. */
   operationLocation?: string;
-  /** Url to retrieve the final result after operation completes. */
-  location?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The capabilities operation id. */
+  capabilitiesId?: string;
 }
 
 /** Known values of {@link PhoneNumberType} that the service accepts. */
@@ -218,7 +221,7 @@ export type PhoneNumberType = string;
 
 /** Known values of {@link PhoneNumberAssignmentType} that the service accepts. */
 export const enum KnownPhoneNumberAssignmentType {
-  User = "user",
+  Person = "person",
   Application = "application"
 }
 
@@ -227,7 +230,7 @@ export const enum KnownPhoneNumberAssignmentType {
  * {@link KnownPhoneNumberAssignmentType} can be used interchangeably with PhoneNumberAssignmentType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **user** \
+ * **person** \
  * **application**
  */
 export type PhoneNumberAssignmentType = string;
@@ -309,6 +312,8 @@ export type PhoneNumberOperationType = string;
 /** Optional parameters. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   extends coreHttp.OperationOptions {
+  /** The area code of the desired phone number, e.g. 425. */
+  areaCode?: string;
   /** The quantity of desired phone numbers. The default value is 1. */
   quantity?: number;
 }
@@ -366,16 +371,19 @@ export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhone
   };
 
 /** Contains response data for the getOperation operation. */
-export type PhoneNumbersGetOperationResponse = PhoneNumberOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type PhoneNumbersGetOperationResponse = PhoneNumbersGetOperationHeaders &
+  PhoneNumberOperation & {
+    /** The underlying HTTP response. */
+    _response: coreHttp.HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: PhoneNumberOperation;
+      /** The response body as parsed JSON or XML */
+      parsedBody: PhoneNumberOperation;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: PhoneNumbersGetOperationHeaders;
+    };
   };
-};
 
 /** Contains response data for the getByNumber operation. */
 export type PhoneNumbersGetByNumberResponse = AcquiredPhoneNumber & {
@@ -397,31 +405,6 @@ export type PhoneNumbersReleasePhoneNumberResponse = PhoneNumbersReleasePhoneNum
     parsedHeaders: PhoneNumbersReleasePhoneNumberHeaders;
     /** The parsed HTTP response headers. */
     [LROSYM]: LROResponseInfo;
-  };
-};
-
-/** Optional parameters. */
-export interface PhoneNumbersUpdateOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * The webhook for receiving incoming events.
-   * e.g. "https://{{site-name}}.azurewebsites.net/api/updates".
-   * Please read https://docs.microsoft.com/en-us/azure/communication-services/concepts/event-handling
-   * for integration with Azure Event Grid to deliver real-time event notifications.
-   */
-  callbackUri?: string;
-  /** The application id of the application to which to configure. */
-  applicationId?: string;
-}
-
-/** Contains response data for the update operation. */
-export type PhoneNumbersUpdateResponse = AcquiredPhoneNumber & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AcquiredPhoneNumber;
   };
 };
 

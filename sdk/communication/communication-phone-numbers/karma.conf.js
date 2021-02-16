@@ -59,7 +59,7 @@ module.exports = function(config) {
     envPreprocessor: [
       "TEST_MODE",
       "COMMUNICATION_CONNECTION_STRING",
-      "INCLUDE_PHONENUMBER_TESTS",
+      "INCLUDE_PHONENUMBER_LIVE_TESTS",
       "AZURE_PHONE_NUMBER",
       "COMMUNICATION_ENDPOINT"
     ],
