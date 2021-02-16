@@ -508,4 +508,14 @@ directive:
       $.description = "Geo-Replication information for the Secondary Storage Service";
 ```
 
+### Add description for Metrics
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Metrics
+    transform: >
+      $.description = "An interface representing Metrics.";
+```
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fswagger%2FREADME.png)

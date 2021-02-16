@@ -42,6 +42,7 @@ export interface RetentionPolicy {
   days?: number;
 }
 
+/** An interface representing Metrics. */
 export interface Metrics {
   /** The version of Storage Analytics to configure. */
   version?: string;

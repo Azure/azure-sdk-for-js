@@ -306,7 +306,7 @@ export interface Metadata {
     [propertyName: string]: string;
 }
 
-// @public (undocumented)
+// @public
 export interface Metrics {
     enabled: boolean;
     includeAPIs?: boolean;
