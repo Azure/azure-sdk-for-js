@@ -160,7 +160,6 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
-    contentType: "application/pdf",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
@@ -260,7 +259,6 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeReceipts(readStream, {
-    contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
