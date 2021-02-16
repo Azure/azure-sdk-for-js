@@ -13,11 +13,14 @@ export {
   CloudError,
   Configuration,
   Database,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   FirewallRule,
   LogFile,
   PrivateEndpointConnection,
   PrivateEndpointProperty,
   PrivateLinkResource,
+  PrivateLinkResourceListResult,
   PrivateLinkResourceProperties,
   PrivateLinkServiceConnectionStateProperty,
   ProxyResource,
@@ -34,6 +37,5 @@ export {
   Sku,
   StorageProfile,
   TrackedResource,
-  VirtualNetworkRule,
-  VirtualNetworkRuleListResult
+  VirtualNetworkRule
 } from "../models/mappers";
