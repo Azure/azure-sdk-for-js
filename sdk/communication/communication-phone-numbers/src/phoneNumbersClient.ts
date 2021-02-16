@@ -159,10 +159,7 @@ export class PhoneNumbersClient {
   public listPhoneNumbers(
     options: ListPhoneNumbersOptions = {}
   ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumbersClient-listAllPhoneNumbers",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PhoneNumbersClient-listAllPhoneNumbers", options);
     const iter = this.client.listPhoneNumbers(updatedOptions);
     span.end();
     return iter;
