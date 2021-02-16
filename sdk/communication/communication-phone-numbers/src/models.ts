@@ -38,11 +38,6 @@ export interface ListPhoneNumbersOptions extends OperationOptions {
 
 export {
   AcquiredPhoneNumber,
-  BillingFrequency,
-  KnownBillingFrequency,
-  KnownPhoneNumberAssignmentType,
-  KnownPhoneNumberCapabilityValue,
-  KnownPhoneNumberType,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,

@@ -56,7 +56,7 @@ export interface PhoneNumberCost {
   /** The ISO 4217 currency code for the cost amount, e.g. USD. */
   currencyCode: string;
   /** The frequency with which the cost gets billed. */
-  billingFrequency: BillingFrequency;
+  billingFrequency: "monthly";
 }
 
 /** The Communication Services error. */
@@ -203,111 +203,20 @@ export interface PhoneNumbersUpdateCapabilitiesHeaders {
   capabilitiesId?: string;
 }
 
-/** Known values of {@link PhoneNumberType} that the service accepts. */
-export const enum KnownPhoneNumberType {
-  Geographic = "geographic",
-  TollFree = "tollFree"
-}
-
-/**
- * Defines values for PhoneNumberType. \
- * {@link KnownPhoneNumberType} can be used interchangeably with PhoneNumberType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **geographic** \
- * **tollFree**
- */
-export type PhoneNumberType = string;
-
-/** Known values of {@link PhoneNumberAssignmentType} that the service accepts. */
-export const enum KnownPhoneNumberAssignmentType {
-  Person = "person",
-  Application = "application"
-}
-
-/**
- * Defines values for PhoneNumberAssignmentType. \
- * {@link KnownPhoneNumberAssignmentType} can be used interchangeably with PhoneNumberAssignmentType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **person** \
- * **application**
- */
-export type PhoneNumberAssignmentType = string;
-
-/** Known values of {@link PhoneNumberCapabilityValue} that the service accepts. */
-export const enum KnownPhoneNumberCapabilityValue {
-  None = "none",
-  Inbound = "inbound",
-  Outbound = "outbound",
-  InboundOutbound = "inbound+outbound"
-}
-
-/**
- * Defines values for PhoneNumberCapabilityValue. \
- * {@link KnownPhoneNumberCapabilityValue} can be used interchangeably with PhoneNumberCapabilityValue,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **none** \
- * **inbound** \
- * **outbound** \
- * **inbound+outbound**
- */
-export type PhoneNumberCapabilityValue = string;
-
-/** Known values of {@link BillingFrequency} that the service accepts. */
-export const enum KnownBillingFrequency {
-  Monthly = "monthly"
-}
-
-/**
- * Defines values for BillingFrequency. \
- * {@link KnownBillingFrequency} can be used interchangeably with BillingFrequency,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **monthly**
- */
-export type BillingFrequency = string;
-
-/** Known values of {@link PhoneNumberOperationStatus} that the service accepts. */
-export const enum KnownPhoneNumberOperationStatus {
-  NotStarted = "notStarted",
-  Running = "running",
-  Succeeded = "succeeded",
-  Failed = "failed"
-}
-
-/**
- * Defines values for PhoneNumberOperationStatus. \
- * {@link KnownPhoneNumberOperationStatus} can be used interchangeably with PhoneNumberOperationStatus,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **notStarted** \
- * **running** \
- * **succeeded** \
- * **failed**
- */
-export type PhoneNumberOperationStatus = string;
-
-/** Known values of {@link PhoneNumberOperationType} that the service accepts. */
-export const enum KnownPhoneNumberOperationType {
-  Purchase = "purchase",
-  ReleasePhoneNumber = "releasePhoneNumber",
-  Search = "search",
-  UpdatePhoneNumberCapabilities = "updatePhoneNumberCapabilities"
-}
-
-/**
- * Defines values for PhoneNumberOperationType. \
- * {@link KnownPhoneNumberOperationType} can be used interchangeably with PhoneNumberOperationType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **purchase** \
- * **releasePhoneNumber** \
- * **search** \
- * **updatePhoneNumberCapabilities**
- */
-export type PhoneNumberOperationType = string;
+/** Defines values for PhoneNumberType. */
+export type PhoneNumberType = "geographic" | "tollFree";
+/** Defines values for PhoneNumberAssignmentType. */
+export type PhoneNumberAssignmentType = "person" | "application";
+/** Defines values for PhoneNumberCapabilityValue. */
+export type PhoneNumberCapabilityValue = "none" | "inbound" | "outbound" | "inbound+outbound";
+/** Defines values for PhoneNumberOperationStatus. */
+export type PhoneNumberOperationStatus = "notStarted" | "running" | "succeeded" | "failed";
+/** Defines values for PhoneNumberOperationType. */
+export type PhoneNumberOperationType =
+  | "purchase"
+  | "releasePhoneNumber"
+  | "search"
+  | "updatePhoneNumberCapabilities";
 
 /** Optional parameters. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
