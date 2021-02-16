@@ -183,7 +183,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1";
+    serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 // @public

@@ -16,7 +16,7 @@ export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.1";
+export const LATEST_API_VERSION = "7.2";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -25,7 +25,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1";
+  serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 /**
