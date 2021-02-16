@@ -373,7 +373,7 @@ export class Items {
    * The choices are: Create, Upsert, Read, Replace, and Delete
    *
    * Usage example:
-   *```typescript
+   * ```typescript
    * // partitionKey is optional at the top level if present in the resourceBody
    * const operations: OperationInput[] = [
    *    {
