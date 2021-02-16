@@ -6,32 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as operations from "./operations";
-import * as Models from "./models";
-import * as Mappers from "./models/mappers";
+import { PhoneNumbers } from "./operations";
 import { PhoneNumbersClientContext } from "./phoneNumbersClientContext";
 import { PhoneNumbersClientOptionalParams } from "./models";
 
-class PhoneNumbersClient extends PhoneNumbersClientContext {
+export class PhoneNumbersClient extends PhoneNumbersClientContext {
   /**
    * Initializes a new instance of the PhoneNumbersClient class.
-   * @param endpoint The endpoint of the Azure Communication resource.
+   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {
     super(endpoint, options);
-    this.phoneNumbers = new operations.PhoneNumbers(this);
+    this.phoneNumbers = new PhoneNumbers(this);
   }
 
-  phoneNumbers: operations.PhoneNumbers;
+  phoneNumbers: PhoneNumbers;
 }
-
-// Operation Specifications
-
-export {
-  PhoneNumbersClient,
-  PhoneNumbersClientContext,
-  Models as PhoneNumbersModels,
-  Mappers as PhoneNumbersMappers
-};
-export * from "./operations";

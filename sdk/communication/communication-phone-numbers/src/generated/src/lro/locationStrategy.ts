@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResult, LROOperationStep, LROStrategy } from "./models";
+import { BaseResult, LROOperationStep, LROStrategy, LROSYM } from "./models";
 import { SendOperationFn } from "./lroPoller";
 import { OperationSpec } from "@azure/core-http";
 
@@ -14,7 +14,7 @@ export function createLocationStrategy<TResult extends BaseResult>(
   initialOperation: LROOperationStep<TResult>,
   sendOperationFn: SendOperationFn<TResult>
 ): LROStrategy<TResult> {
-  const lroData = initialOperation.result._lroData;
+  const lroData = initialOperation.result._response[LROSYM];
   if (!lroData) {
     throw new Error("Expected lroData to be defined for Azure-AsyncOperation strategy");
   }
@@ -24,7 +24,7 @@ export function createLocationStrategy<TResult extends BaseResult>(
 
   return {
     isTerminal: () => {
-      const currentResult = currentOperation.result._lroData;
+      const currentResult = currentOperation.result._response[LROSYM];
       if (!currentResult) {
         throw new Error("Expected lroData to determine terminal status");
       }
@@ -57,7 +57,7 @@ export function createLocationStrategy<TResult extends BaseResult>(
       const result = await sendOperationFn(pollingArgs, pollingSpec);
 
       // Update latest polling url
-      lastKnownPollingUrl = result._lroData?.location || lastKnownPollingUrl;
+      lastKnownPollingUrl = result._response[LROSYM]?.location || lastKnownPollingUrl;
 
       // Update lastOperation result
       currentOperation = {

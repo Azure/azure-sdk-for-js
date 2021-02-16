@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResult, LROOperationState, LROOperation } from "./models";
+import { BaseResult, LROOperationState, LROOperation, LROSYM } from "./models";
 
 /**
  * Creates a copy of the operation from a given State
@@ -46,7 +46,7 @@ async function update<TResult extends BaseResult>(
 
   const { sendFinalRequest, poll, isTerminal } = state.pollingStrategy;
   const currentResponse = state.lastOperation;
-  const currentLroData = currentResponse.result._lroData;
+  const currentLroData = currentResponse.result._response[LROSYM];
 
   if (!currentLroData) {
     throw new Error("Expected lroData to be defined for updating LRO operation");

@@ -6,31 +6,34 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PhoneNumbersClient } from "../phoneNumbersClient";
 import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
-  PhoneNumberSearchRequest,
+  AcquiredPhoneNumber,
+  PhoneNumbersListPhoneNumbersNextOptionalParams,
+  PhoneNumbersListPhoneNumbersOptionalParams,
+  PhoneNumberType,
+  PhoneNumberAssignmentType,
+  PhoneNumberCapabilities,
+  PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
   PhoneNumbersSearchAvailablePhoneNumbersResponse,
   PhoneNumbersGetSearchResultResponse,
-  PhoneNumberPurchaseRequest,
+  PhoneNumbersPurchasePhoneNumbersOptionalParams,
   PhoneNumbersPurchasePhoneNumbersResponse,
   PhoneNumbersGetOperationResponse,
-  PhoneNumbersListPhoneNumbersResponse,
-  PhoneNumbersGetPhoneNumberResponse,
-  AcquiredPhoneNumberUpdate,
-  PhoneNumbersUpdatePhoneNumberResponse,
+  PhoneNumbersGetByNumberResponse,
   PhoneNumbersReleasePhoneNumberResponse,
-  PhoneNumberCapabilitiesRequest,
-  PhoneNumbersUpdatePhoneNumberCapabilitiesResponse,
+  PhoneNumbersListPhoneNumbersResponse,
+  PhoneNumbersUpdateCapabilitiesOptionalParams,
+  PhoneNumbersUpdateCapabilitiesResponse,
   PhoneNumbersListPhoneNumbersNextResponse
 } from "../models";
 
-/**
- * Class representing a PhoneNumbers.
- */
+/** Class representing a PhoneNumbers. */
 export class PhoneNumbers {
   private readonly client: PhoneNumbersClient;
 
@@ -43,42 +46,91 @@ export class PhoneNumbers {
   }
 
   /**
+   * Gets the list of all acquired phone numbers.
+   * @param options The options parameters.
+   */
+  public listPhoneNumbers(
+    options?: PhoneNumbersListPhoneNumbersOptionalParams
+  ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
+    const iter = this.listPhoneNumbersPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPhoneNumbersPagingPage(options);
+      }
+    };
+  }
+
+  private async *listPhoneNumbersPagingPage(
+    options?: PhoneNumbersListPhoneNumbersOptionalParams
+  ): AsyncIterableIterator<AcquiredPhoneNumber[]> {
+    let result = await this._listPhoneNumbers(options);
+    yield result.phoneNumbers || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listPhoneNumbersNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.phoneNumbers || [];
+    }
+  }
+
+  private async *listPhoneNumbersPagingAll(
+    options?: PhoneNumbersListPhoneNumbersOptionalParams
+  ): AsyncIterableIterator<AcquiredPhoneNumber> {
+    for await (const page of this.listPhoneNumbersPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Search for available phone numbers to purchase.
-   * @param countryCode The ISO 3166-2 country code.
-   * @param search The search request.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, or tollFree.
+   * @param assignmentType The assignment type of the phone numbers to search for. A phone number can be
+   *                       assigned to a person, or to an application.
+   * @param capabilities Capabilities of a phone number.
    * @param options The options parameters.
    */
   async searchAvailablePhoneNumbers(
     countryCode: string,
-    search: PhoneNumberSearchRequest,
-    options?: coreHttp.OperationOptions
+    phoneNumberType: PhoneNumberType,
+    assignmentType: PhoneNumberAssignmentType,
+    capabilities: PhoneNumberCapabilities,
+    options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   ): Promise<LROPoller<PhoneNumbersSearchAvailablePhoneNumbersResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
-
-    const args: coreHttp.OperationArguments = {
+    const operationArguments: coreHttp.OperationArguments = {
       countryCode,
-      search,
-      options: operationOptions
+      phoneNumberType,
+      assignmentType,
+      capabilities,
+      options: this.getOperationOptions(options, "location")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
         PhoneNumbersSearchAvailablePhoneNumbersResponse
       >;
+    };
+
     const initialOperationResult = await sendOperation(
-      args,
+      operationArguments,
       searchAvailablePhoneNumbersOperationSpec
     );
-
     return new LROPoller({
-      initialOperationArguments: args,
+      initialOperationArguments: operationArguments,
       initialOperationSpec: searchAvailablePhoneNumbersOperationSpec,
       initialOperationResult,
-      sendOperation
+      sendOperation,
+      finalStateVia: "location"
     });
   }
 
   /**
-   * Get a search result by its id.
+   * Gets a phone number search result by search id.
    * @param searchId The search Id.
    * @param options The options parameters.
    */
@@ -86,199 +138,181 @@ export class PhoneNumbers {
     searchId: string,
     options?: coreHttp.OperationOptions
   ): Promise<PhoneNumbersGetSearchResultResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      searchId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { searchId, options: operationOptions },
+      operationArguments,
       getSearchResultOperationSpec
     ) as Promise<PhoneNumbersGetSearchResultResponse>;
   }
 
   /**
-   * Purchase phone numbers.
-   * @param purchase The purchase.
+   * Purchases phone numbers.
    * @param options The options parameters.
    */
   async purchasePhoneNumbers(
-    purchase: PhoneNumberPurchaseRequest,
-    options?: coreHttp.OperationOptions
+    options?: PhoneNumbersPurchasePhoneNumbersOptionalParams
   ): Promise<LROPoller<PhoneNumbersPurchasePhoneNumbersResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
-
-    const args: coreHttp.OperationArguments = {
-      purchase,
-      options: operationOptions
+    const operationArguments: coreHttp.OperationArguments = {
+      options: this.getOperationOptions(options, "location")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
         PhoneNumbersPurchasePhoneNumbersResponse
       >;
-    const initialOperationResult = await sendOperation(args, purchasePhoneNumbersOperationSpec);
+    };
 
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      purchasePhoneNumbersOperationSpec
+    );
     return new LROPoller({
-      initialOperationArguments: args,
+      initialOperationArguments: operationArguments,
       initialOperationSpec: purchasePhoneNumbersOperationSpec,
       initialOperationResult,
-      sendOperation
+      sendOperation,
+      finalStateVia: "location"
     });
   }
 
   /**
-   * Get an operation by its id.
-   * @param operationId The operation Id.
+   * Gets an operation by its id.
+   * @param operationId The id of the operation
    * @param options The options parameters.
    */
   getOperation(
     operationId: string,
     options?: coreHttp.OperationOptions
   ): Promise<PhoneNumbersGetOperationResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      operationId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { operationId, options: operationOptions },
+      operationArguments,
       getOperationOperationSpec
     ) as Promise<PhoneNumbersGetOperationResponse>;
   }
 
   /**
-   * Cancels the operation if cancellation is supported for the operation type.
-   * @param operationId The operation Id.
+   * Cancels an operation by its id.
+   * @param operationId The id of the operation
    * @param options The options parameters.
    */
   cancelOperation(
     operationId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      operationId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { operationId, options: operationOptions },
+      operationArguments,
       cancelOperationOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
-   * Lists acquired phone numbers.
+   * Gets the details of the given acquired phone number.
+   * @param phoneNumber The acquired phone number whose details are to be fetched in E.164 format, e.g.
+   *                    +11234567890.
    * @param options The options parameters.
    */
-  listPhoneNumbers(
-    options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumbersListPhoneNumbersResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      listPhoneNumbersOperationSpec
-    ) as Promise<PhoneNumbersListPhoneNumbersResponse>;
-  }
-
-  /**
-   * Gets information about an acquired phone number.
-   * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
-   *                    as %2B.
-   * @param options The options parameters.
-   */
-  getPhoneNumber(
+  getByNumber(
     phoneNumber: string,
     options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumbersGetPhoneNumberResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  ): Promise<PhoneNumbersGetByNumberResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      phoneNumber,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { phoneNumber, options: operationOptions },
-      getPhoneNumberOperationSpec
-    ) as Promise<PhoneNumbersGetPhoneNumberResponse>;
-  }
-
-  /**
-   * Update an acquired phone number.
-   * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
-   *                    as %2B.
-   * @param update Update to an acquired phone number.
-   * @param options The options parameters.
-   */
-  updatePhoneNumber(
-    phoneNumber: string,
-    update: AcquiredPhoneNumberUpdate,
-    options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumbersUpdatePhoneNumberResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { phoneNumber, update, options: operationOptions },
-      updatePhoneNumberOperationSpec
-    ) as Promise<PhoneNumbersUpdatePhoneNumberResponse>;
+      operationArguments,
+      getByNumberOperationSpec
+    ) as Promise<PhoneNumbersGetByNumberResponse>;
   }
 
   /**
    * Releases an acquired phone number.
-   * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
-   *                    as %2B.
+   * @param phoneNumber Phone number to be released, e.g. +11234567890.
    * @param options The options parameters.
    */
   async releasePhoneNumber(
     phoneNumber: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<PhoneNumbersReleasePhoneNumberResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
-
-    const args: coreHttp.OperationArguments = {
+    const operationArguments: coreHttp.OperationArguments = {
       phoneNumber,
-      options: operationOptions
+      options: this.getOperationOptions(options, "location")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
         PhoneNumbersReleasePhoneNumberResponse
       >;
-    const initialOperationResult = await sendOperation(args, releasePhoneNumberOperationSpec);
+    };
 
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      releasePhoneNumberOperationSpec
+    );
     return new LROPoller({
-      initialOperationArguments: args,
+      initialOperationArguments: operationArguments,
       initialOperationSpec: releasePhoneNumberOperationSpec,
       initialOperationResult,
-      sendOperation
+      sendOperation,
+      finalStateVia: "location"
     });
   }
 
   /**
-   * Update capabilities of an acquired phone number.
-   * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
-   *                    as %2B.
-   * @param update Update capabilities of an acquired phone number.
+   * Gets the list of all acquired phone numbers.
    * @param options The options parameters.
    */
-  async updatePhoneNumberCapabilities(
-    phoneNumber: string,
-    update: PhoneNumberCapabilitiesRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<PhoneNumbersUpdatePhoneNumberCapabilitiesResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
-
-    const args: coreHttp.OperationArguments = {
-      phoneNumber,
-      update,
-      options: operationOptions
+  private _listPhoneNumbers(
+    options?: PhoneNumbersListPhoneNumbersOptionalParams
+  ): Promise<PhoneNumbersListPhoneNumbersResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        PhoneNumbersUpdatePhoneNumberCapabilitiesResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
-      updatePhoneNumberCapabilitiesOperationSpec
-    );
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listPhoneNumbersOperationSpec
+    ) as Promise<PhoneNumbersListPhoneNumbersResponse>;
+  }
 
+  /**
+   * Updates the capabilities of a phone number.
+   * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
+   *                    as %2B, e.g. +11234567890.
+   * @param options The options parameters.
+   */
+  async updateCapabilities(
+    phoneNumber: string,
+    options?: PhoneNumbersUpdateCapabilitiesOptionalParams
+  ): Promise<LROPoller<PhoneNumbersUpdateCapabilitiesResponse>> {
+    const operationArguments: coreHttp.OperationArguments = {
+      phoneNumber,
+      options: this.getOperationOptions(options, "location")
+    };
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        PhoneNumbersUpdateCapabilitiesResponse
+      >;
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      updateCapabilitiesOperationSpec
+    );
     return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: updatePhoneNumberCapabilitiesOperationSpec,
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: updateCapabilitiesOperationSpec,
       initialOperationResult,
-      sendOperation
+      sendOperation,
+      finalStateVia: "location"
     });
   }
 
@@ -287,15 +321,16 @@ export class PhoneNumbers {
    * @param nextLink The nextLink from the previous successful call to the ListPhoneNumbers method.
    * @param options The options parameters.
    */
-  listPhoneNumbersNext(
+  private _listPhoneNumbersNext(
     nextLink: string,
-    options?: coreHttp.OperationOptions
+    options?: PhoneNumbersListPhoneNumbersNextOptionalParams
   ): Promise<PhoneNumbersListPhoneNumbersNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { nextLink, options: operationOptions },
+      operationArguments,
       listPhoneNumbersNextOperationSpec
     ) as Promise<PhoneNumbersListPhoneNumbersNextResponse>;
   }
@@ -313,33 +348,45 @@ export class PhoneNumbers {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const searchAvailablePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
-  path: "/availablePhoneNumbers/countries/{countryCode}/~search",
+  path: "/availablePhoneNumbers/countries/{countryCode}/:search",
   httpMethod: "POST",
   responses: {
     200: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     201: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     202: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     204: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.search,
+  requestBody: {
+    parameterPath: {
+      phoneNumberType: ["phoneNumberType"],
+      assignmentType: ["assignmentType"],
+      capabilities: ["capabilities"],
+      areaCode: ["options", "areaCode"],
+      quantity: ["options", "quantity"]
+    },
+    mapper: { ...Mappers.PhoneNumberSearchRequest, required: true }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -356,32 +403,40 @@ const getSearchResultOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.searchId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const purchasePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
-  path: "/availablePhoneNumbers/~purchase",
+  path: "/availablePhoneNumbers/:purchase",
   httpMethod: "POST",
   responses: {
     200: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     201: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     202: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     204: {
+      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.purchase,
+  requestBody: {
+    parameterPath: { searchId: ["options", "searchId"] },
+    mapper: { ...Mappers.PhoneNumberPurchaseRequest, required: true }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -390,7 +445,8 @@ const getOperationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PhoneNumberOperation
+      bodyMapper: Mappers.PhoneNumberOperation,
+      headersMapper: Mappers.PhoneNumbersGetOperationHeaders
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -398,37 +454,24 @@ const getOperationOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const cancelOperationOperationSpec: coreHttp.OperationSpec = {
   path: "/phoneNumbers/operations/{operationId}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const listPhoneNumbersOperationSpec: coreHttp.OperationSpec = {
-  path: "/phoneNumbers",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcquiredPhoneNumbers
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  serializer
-};
-const getPhoneNumberOperationSpec: coreHttp.OperationSpec = {
+const getByNumberOperationSpec: coreHttp.OperationSpec = {
   path: "/phoneNumbers/{phoneNumber}",
   httpMethod: "GET",
   responses: {
@@ -441,24 +484,7 @@ const getPhoneNumberOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
-  serializer
-};
-const updatePhoneNumberOperationSpec: coreHttp.OperationSpec = {
-  path: "/phoneNumbers/{phoneNumber}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcquiredPhoneNumber
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: Parameters.update,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
-  headerParameters: [Parameters.contentType1],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const releasePhoneNumberOperationSpec: coreHttp.OperationSpec = {
@@ -483,36 +509,56 @@ const releasePhoneNumberOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const updatePhoneNumberCapabilitiesOperationSpec: coreHttp.OperationSpec = {
-  path: "/phoneNumbers/{phoneNumber}/capabilities",
-  httpMethod: "PATCH",
+const listPhoneNumbersOperationSpec: coreHttp.OperationSpec = {
+  path: "/phoneNumbers",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
-    },
-    201: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
-    },
-    202: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
-    },
-    204: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
+      bodyMapper: Mappers.AcquiredPhoneNumbers
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.update1,
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateCapabilitiesOperationSpec: coreHttp.OperationSpec = {
+  path: "/phoneNumbers/{phoneNumber}/capabilities",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    201: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    202: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    204: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: { calling: ["options", "calling"], sms: ["options", "sms"] },
+    mapper: Mappers.PhoneNumberCapabilitiesRequest
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
-  headerParameters: [Parameters.contentType1],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -527,7 +573,8 @@ const listPhoneNumbersNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };
