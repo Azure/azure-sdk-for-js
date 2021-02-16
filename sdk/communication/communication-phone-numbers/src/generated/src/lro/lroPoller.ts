@@ -8,7 +8,7 @@
 
 import { Poller } from "@azure/core-lro";
 import { OperationSpec, OperationArguments, delay, RestError } from "@azure/core-http";
-import { BaseResult, LROOperationState, LROOperationStep, FinalStateVia } from "./models";
+import { BaseResult, LROOperationState, LROOperationStep, FinalStateVia, LROSYM } from "./models";
 import { makeOperation } from "./operation";
 import { createBodyPollingStrategy } from "./bodyPollingStrategy";
 import { createAzureAsyncOperationStrategy } from "./azureAsyncOperationStrategy";
@@ -108,7 +108,7 @@ function getPollingStrategy<TResult extends BaseResult>(
   sendOperationFn: SendOperationFn<TResult>,
   finalStateVia?: FinalStateVia
 ) {
-  const lroData = initialOperation.result._lroData;
+  const lroData = initialOperation.result._response[LROSYM];
 
   if (!lroData) {
     const error = new RestError(

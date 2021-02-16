@@ -15,22 +15,14 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcquiredPhoneNumber {
-    applicationId: string;
     assignmentType: PhoneNumberAssignmentType;
-    callbackUri: string;
     capabilities: PhoneNumberCapabilities;
-    cost: PhoneNumberCost;
+    cost?: PhoneNumberCost;
     countryCode: string;
     id: string;
     phoneNumber: string;
     phoneNumberType: PhoneNumberType;
-    purchaseDate: Date;
-}
-
-// @public
-export interface AcquiredPhoneNumberUpdate {
-    applicationId?: string;
-    callbackUri?: string;
+    purchaseDate?: Date;
 }
 
 // @public (undocumented)
@@ -49,17 +41,57 @@ export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPoll
 export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
 }
 
+// @public
+export type BillingFrequency = string;
+
 // @public (undocumented)
 export type GetPhoneNumberOptions = OperationOptions;
 
 // @public (undocumented)
 export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
-// @public (undocumented)
-export type ListPhoneNumbersOptions = OperationOptions;
+// @public
+export const enum KnownBillingFrequency {
+    // (undocumented)
+    Monthly = "monthly"
+}
 
 // @public
-export type PhoneNumberAssignmentType = "person" | "application";
+export const enum KnownPhoneNumberAssignmentType {
+    // (undocumented)
+    Application = "application",
+    // (undocumented)
+    Person = "person"
+}
+
+// @public
+export const enum KnownPhoneNumberCapabilityValue {
+    // (undocumented)
+    Inbound = "inbound",
+    // (undocumented)
+    InboundOutbound = "inbound+outbound",
+    // (undocumented)
+    None = "none",
+    // (undocumented)
+    Outbound = "outbound"
+}
+
+// @public
+export const enum KnownPhoneNumberType {
+    // (undocumented)
+    Geographic = "geographic",
+    // (undocumented)
+    TollFree = "tollFree"
+}
+
+// @public
+export interface ListPhoneNumbersOptions extends OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type PhoneNumberAssignmentType = string;
 
 // @public
 export interface PhoneNumberCapabilities {
@@ -74,12 +106,12 @@ export interface PhoneNumberCapabilitiesRequest {
 }
 
 // @public
-export type PhoneNumberCapabilityValue = "inbound" | "outbound" | "inbound+outbound" | "none";
+export type PhoneNumberCapabilityValue = string;
 
 // @public
 export interface PhoneNumberCost {
     amount: number;
-    billingFrequency: "monthly";
+    billingFrequency: BillingFrequency;
     currencyCode: string;
 }
 
@@ -102,7 +134,6 @@ export class PhoneNumbersClient {
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<GetPhoneNumberResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
-    updatePhoneNumber(phoneNumber: string, update: AcquiredPhoneNumberUpdate, options?: UpdatePhoneNumberOptions): Promise<UpdatePhoneNumberResponse>;
 }
 
 // @public
@@ -113,7 +144,7 @@ export interface PhoneNumbersClientOptions extends PipelineOptions {
 export interface PhoneNumberSearchRequest {
     areaCode?: string;
     assignmentType: PhoneNumberAssignmentType;
-    capabilities: PhoneNumberCapabilitiesRequest;
+    capabilities: PhoneNumberCapabilities;
     phoneNumberType: PhoneNumberType;
     quantity?: number;
 }
@@ -123,20 +154,14 @@ export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     cost: PhoneNumberCost;
-    id: string;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
+    searchId: string;
 }
 
 // @public
-export type PhoneNumberType = "tollFree" | "geographic";
-
-// @public (undocumented)
-export type UpdatePhoneNumberOptions = OperationOptions;
-
-// @public (undocumented)
-export type UpdatePhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
+export type PhoneNumberType = string;
 
 // @public
 export type VoidResponse = WithResponse<{}>;
