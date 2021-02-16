@@ -67,7 +67,6 @@ jobs:
         parameters:
           Artifacts: ${{ parameters.Artifacts }}
           ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
-          ConfigFileDir: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - job: "Analyze"
     dependsOn: "Build"
