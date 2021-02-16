@@ -98,7 +98,7 @@ export async function executeAtomXmlOperation(
  * This method recursively removes the key-value pairs with undefined/null as the values from the request object that is to be serialized.
  *
  */
-export function sanitizeSerializableObject(resource: { [key: string]: any }) {
+export function sanitizeSerializableObject(resource: { [key: string]: any }): void {
   Object.keys(resource).forEach(function(property) {
     if (resource[property] == undefined) {
       delete resource[property];
@@ -299,7 +299,6 @@ function parseFeedResult(feed: any): object[] & { nextLink?: string } {
 
 /**
  * @internal
- * @returns {statusCode is keyof typeof Constants.HttpResponseCodes}
  */
 function isKnownResponseCode(
   statusCode: number

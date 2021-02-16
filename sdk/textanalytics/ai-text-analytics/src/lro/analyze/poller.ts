@@ -12,6 +12,9 @@ import {
   AnalyzeBatchActionsOperationState
 } from "./operation";
 
+/**
+ * @internal
+ */
 export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions {
   actions: GeneratedActions;
   readonly displayName?: string;
@@ -19,7 +22,7 @@ export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions 
 }
 
 /**
- * Result type of the Analyze Long-Running-Operation (LRO)
+ * Result type of the Begin Analyze Batch Actions Long-Running-Operation (LRO).
  */
 export type AnalyzeBatchActionsPollerLike = PollerLike<
   AnalyzeBatchActionsOperationState,
@@ -27,7 +30,8 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<
 >;
 
 /**
- * Class that represents a poller that waits for the analyze results.
+ * Class that represents a poller that waits for the analyze batch actions results.
+ * @internal
  */
 export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
   AnalyzeBatchActionsOperationState,

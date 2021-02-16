@@ -228,28 +228,28 @@ describe("autoLockRenewer unit tests", () => {
     };
 
     it("doesn't support receiveAndDelete mode", () => {
-      const autoLockRenewer = LockRenewer.create(
+      const autoLockRenewer2 = LockRenewer.create(
         unusedMgmtClient,
         1, // this is okay,
         "receiveAndDelete" // this is not okay - there aren't any locks to renew in receiveAndDelete mode.
       );
 
       assert.notExists(
-        autoLockRenewer,
+        autoLockRenewer2,
         "Shouldn't create an autolockRenewer in receiveAndDelete mode"
       );
     });
 
     [0, -1].forEach((invalidMaxAutoRenewLockDurationInMs) => {
       it(`Invalid maxAutoRenewLockDurationInMs duration: ${invalidMaxAutoRenewLockDurationInMs}`, () => {
-        const autoLockRenewer = LockRenewer.create(
+        const autoLockRenewer2 = LockRenewer.create(
           unusedMgmtClient,
           invalidMaxAutoRenewLockDurationInMs,
           "peekLock" // this is okay
         );
 
         assert.notExists(
-          autoLockRenewer,
+          autoLockRenewer2,
           "Shouldn't create an autolockRenewer when the auto lock duration is invalid"
         );
       });

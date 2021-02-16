@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as fs from "fs";
 import * as util from "util";
@@ -78,7 +78,7 @@ export async function streamToBuffer2(
   encoding?: string
 ): Promise<number> {
   let pos = 0; // Position in stream
-  let bufferSize = buffer.length;
+  const bufferSize = buffer.length;
 
   return new Promise<number>((resolve, reject) => {
     stream.on("readable", () => {

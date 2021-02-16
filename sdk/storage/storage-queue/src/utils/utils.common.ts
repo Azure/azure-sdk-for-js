@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
@@ -238,8 +238,8 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getAccountNameFromUrl(queueEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(queueEndpoint);
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {

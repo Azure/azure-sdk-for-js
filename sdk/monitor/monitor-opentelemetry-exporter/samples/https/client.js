@@ -1,6 +1,7 @@
 "use strict";
 
 const tracer = require("./tracer")("example-https-client");
+const api = require("@opentelemetry/api");
 // eslint-disable-next-line import/order
 const http = require("http");
 
@@ -12,7 +13,7 @@ function makeRequest() {
   const span = tracer.startSpan("makeRequest", {
     kind: 2 // client
   });
-  tracer.withSpan(span, () => {
+  api.context.with(api.setSpan(api.context.active(), span), () => {
     // simulate 1 second of work, then make a request
     setTimeout(() => {
       http.get(
