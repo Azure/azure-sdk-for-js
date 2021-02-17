@@ -25,7 +25,7 @@ import {
   DeleteMessageOptions,
   ListMessagesOptions,
   UpdateMessageOptions,
-  UpdateThreadOptions,
+  UpdateTopicOptions,
   AddParticipantsOptions,
   ListParticipantsOptions,
   RemoveParticipantOptions,
@@ -106,16 +106,20 @@ export class ChatThreadClient {
   }
 
   /**
-   * Updates a thread's properties.
+   * Updates a thread's topic.
+   * @param topic - The topic needs to be updated to.
    * @param options - Operation options.
    */
-  public async updateThread(options: UpdateThreadOptions = {}): Promise<OperationResponse> {
-    const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateThread", options);
+  public async updateTopic(
+    topic: string,
+    options: UpdateTopicOptions = {}
+  ): Promise<OperationResponse> {
+    const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateTopic", options);
 
     try {
       return await this.client.chatThread.updateChatThread(
         this.threadId,
-        { topic: options.topic },
+        { topic: topic },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -431,7 +435,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveParticipant", options);
 
     try {
-      return await this.client.chatThread.removeChatParticipant(
+      return await this.client.chatThread.removeChatParticipantById(
         this.threadId,
         participant.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)

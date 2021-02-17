@@ -27,7 +27,7 @@ export class Chat {
 
   /**
    * Initialize a new instance of the class Chat class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ChatApiClient) {
     this.client = client;
@@ -35,8 +35,8 @@ export class Chat {
 
   /**
    * Creates a chat thread.
-   * @param createChatThreadRequest - Request payload for creating a chat thread.
-   * @param options - The options parameters.
+   * @param createChatThreadRequest Request payload for creating a chat thread.
+   * @param options The options parameters.
    */
   createChatThread(
     createChatThreadRequest: CreateChatThreadRequest,
@@ -54,7 +54,7 @@ export class Chat {
 
   /**
    * Gets the list of chat threads of a user.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listChatThreads(
     options?: ChatListChatThreadsOptionalParams
@@ -70,8 +70,8 @@ export class Chat {
 
   /**
    * Gets a chat thread.
-   * @param chatThreadId - Id of the thread.
-   * @param options - The options parameters.
+   * @param chatThreadId Id of the thread.
+   * @param options The options parameters.
    */
   getChatThread(
     chatThreadId: string,
@@ -89,8 +89,8 @@ export class Chat {
 
   /**
    * Deletes a thread.
-   * @param chatThreadId - Id of the thread to be deleted.
-   * @param options - The options parameters.
+   * @param chatThreadId Id of the thread to be deleted.
+   * @param options The options parameters.
    */
   deleteChatThread(
     chatThreadId: string,
@@ -108,8 +108,8 @@ export class Chat {
 
   /**
    * ListChatThreadsNext
-   * @param nextLink - The nextLink from the previous successful call to the ListChatThreads method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the ListChatThreads method.
+   * @param options The options parameters.
    */
   listChatThreadsNext(
     nextLink: string,

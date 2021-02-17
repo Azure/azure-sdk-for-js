@@ -1,0 +1,33 @@
+{
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/chat/threads/19%3A2780d69dc907497681b20e54421431cb%40thread.v2",
+   "query": {
+    "api-version": "2020-11-01-preview3"
+   },
+   "requestBody": "{\"topic\":\"new topic\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {}
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3A2780d69dc907497681b20e54421431cb%40thread.v2",
+   "query": {
+    "api-version": "2020-11-01-preview3"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"19:2780d69dc907497681b20e54421431cb@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2021-02-17T01:22:30Z\",\"createdBy\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7f63-02c3-593a0d00e31b\"}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a91960c69a05cd430b2e93bb71219bbb"
+}

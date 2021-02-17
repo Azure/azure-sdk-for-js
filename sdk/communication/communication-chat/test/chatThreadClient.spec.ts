@@ -52,6 +52,14 @@ describe("ChatThreadClient", function() {
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
   });
 
+  it("successfully updates the thread topic", async function() {
+    const topic = "new topic";
+    await chatThreadClient.updateTopic(topic);
+
+    const thread = await chatClient.getChatThread(threadId);
+    assert.equal(topic, thread.topic);
+  });
+
   it("successfully sends a message", async function() {
     const request = { content: `content` };
     const result = await chatThreadClient.sendMessage(request);
