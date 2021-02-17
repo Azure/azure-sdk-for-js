@@ -10,8 +10,8 @@ import { SpanExporter } from '@opentelemetry/tracing';
 
 // @public
 export interface AzureExporterConfig {
+    apiVersion?: ServiceApiVersion;
     connectionString?: string;
-    serviceApiVersion?: ServiceApiVersion;
 }
 
 // @public

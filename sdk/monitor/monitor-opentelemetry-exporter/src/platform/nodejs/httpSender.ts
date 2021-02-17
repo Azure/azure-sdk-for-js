@@ -21,7 +21,7 @@ export class HttpSender implements Sender {
   private readonly _appInsightsClient: ApplicationInsightsClient;
   private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(private _exporterOptions: Partial<AzureExporterInternalConfig>) {
+  constructor(private _exporterOptions: AzureExporterInternalConfig) {
     this._logger = this._exporterOptions.logger || new ConsoleLogger(LogLevel.ERROR);
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {

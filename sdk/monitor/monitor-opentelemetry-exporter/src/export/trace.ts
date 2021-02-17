@@ -42,7 +42,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     this._options = {
       ...DEFAULT_EXPORTER_CONFIG
     };
-    this._options.serviceApiVersion = options.serviceApiVersion ?? this._options.serviceApiVersion;
+    this._options.apiVersion = options.apiVersion ?? this._options.apiVersion;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString, this._logger);

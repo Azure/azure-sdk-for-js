@@ -21,6 +21,8 @@ steps:
     displayName: "Set folder variable for readme links"
 
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
+    parameters:
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - script: |
       npm install ./eng/tools/versioning
