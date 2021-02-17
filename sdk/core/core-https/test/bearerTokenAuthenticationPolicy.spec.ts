@@ -5,7 +5,6 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { TokenCredential, AccessToken } from "@azure/core-auth";
 import {} from "../src/policies/bearerTokenAuthenticationPolicy";
-import { DefaultTokenRefreshBufferMs } from "../src/accessTokenCache";
 import {
   PipelinePolicy,
   createPipelineRequest,
@@ -14,6 +13,13 @@ import {
   bearerTokenAuthenticationPolicy,
   SendRequest
 } from "../src";
+import { delay } from "../src/util/helpers";
+
+// Token is refreshed one millisecond BEFORE it expires.
+const testTokenExpiresThisEarlier = 1000;
+
+// To avoid many refresh requests, we make new refresh requests only after:
+const testRequiredMillisecondsBeforeNewRefresh = 500;
 
 describe("BearerTokenAuthenticationPolicy", function() {
   it("correctly adds an Authentication header with the Bearer token", async function() {
@@ -48,19 +54,9 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
   });
 
-  it("refreshes access tokens when they expire", async () => {
-    const now = Date.now();
-    const refreshCred1 = new MockRefreshAzureCredential(now);
-    const refreshCred2 = new MockRefreshAzureCredential(now + DefaultTokenRefreshBufferMs);
-    const notRefreshCred1 = new MockRefreshAzureCredential(
-      now + DefaultTokenRefreshBufferMs + 5000
-    );
-
-    const credentialsToTest: [MockRefreshAzureCredential, number][] = [
-      [refreshCred1, 2],
-      [refreshCred2, 2],
-      [notRefreshCred1, 1]
-    ];
+  it("refreshes the token on initial request", async () => {
+    const expiresOn = Date.now() + 1000 * 60; // One minute later.
+    const credential = new MockRefreshAzureCredential(expiresOn);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -71,12 +67,78 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
 
-    for (const [credentialToTest, expectedCalls] of credentialsToTest) {
-      const policy = createBearerTokenPolicy("testscope", credentialToTest);
-      await policy.sendRequest(request, next);
-      await policy.sendRequest(request, next);
-      assert.strictEqual(credentialToTest.authCount, expectedCalls);
-    }
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+  });
+
+  it("refreshes the token again only once it expired", async () => {
+    const expireDelayMs = 5000;
+    let tokenExpiration = Date.now() + expireDelayMs;
+    const credential = new MockRefreshAzureCredential(tokenExpiration);
+
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200
+    };
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(successResponse);
+
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    // The token is cached and remains cached for a bit.
+    await policy.sendRequest(request, next);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+
+    // The token will remain cached until tokenExpiration - testTokenRefreshBufferMs, so in (5000 - 1000) milliseconds.
+
+    // For safe measure, we test the token is still cached a second earlier than the refresh expectation.
+    await delay(expireDelayMs - testTokenExpiresThisEarlier - 1000);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+
+    // The new token will last 5 seconds again.
+    tokenExpiration = Date.now() + expireDelayMs;
+    credential.setExpiresOnTimestamp(tokenExpiration);
+
+    // Now we wait until it expires:
+    await delay(1000);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 2);
+  });
+
+  it("access token refresher should prevent refreshers to happen too fast", async () => {
+    const expiresOn = Date.now(); // Already expired
+    const credential = new MockRefreshAzureCredential(expiresOn);
+
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200
+    };
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(successResponse);
+
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+    credential.setExpiresOnTimestamp(Date.now());
+
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+    credential.setExpiresOnTimestamp(Date.now());
+
+    await delay(testRequiredMillisecondsBeforeNewRefresh);
+
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 2);
+    credential.setExpiresOnTimestamp(Date.now());
   });
 
   function createBearerTokenPolicy(
@@ -85,7 +147,9 @@ describe("BearerTokenAuthenticationPolicy", function() {
   ): PipelinePolicy {
     return bearerTokenAuthenticationPolicy({
       scopes,
-      credential
+      credential,
+      tokenRefreshBufferMs: testTokenExpiresThisEarlier,
+      refreshAttemptsBufferMs: testRequiredMillisecondsBeforeNewRefresh
     });
   }
 });
@@ -98,8 +162,11 @@ class MockRefreshAzureCredential implements TokenCredential {
     this._expiresOnTimestamp = expiresOnTimestamp;
   }
 
+  public setExpiresOnTimestamp(expiresOnTimestamp: number): void {
+    this._expiresOnTimestamp = expiresOnTimestamp;
+  }
   public async getToken(): Promise<AccessToken> {
     this.authCount++;
-    return { token: "mocktoken", expiresOnTimestamp: this._expiresOnTimestamp };
+    return { token: "mock-token", expiresOnTimestamp: this._expiresOnTimestamp };
   }
 }

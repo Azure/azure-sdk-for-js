@@ -26,7 +26,9 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
     credential: TokenCredential;
+    refreshAttemptsBufferMs?: number;
     scopes: string | string[];
+    tokenRefreshBufferMs?: number;
 }
 
 // @public
