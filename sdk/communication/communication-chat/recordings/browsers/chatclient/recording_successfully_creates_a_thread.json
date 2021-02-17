@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-e30a-b351-5a3a0d000091\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-02-05T20:21:46.9940418+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-79db-02c3-593a0d00e317\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-02-18T01:22:27.4657213+00:00\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -21,7 +21,7 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-e409-b351-5a3a0d000092\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-02-05T20:21:47.4985083+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7a45-02c3-593a0d00e318\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-02-18T01:22:27.5715949+00:00\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -32,12 +32,12 @@
    "query": {
     "api-version": "2020-11-01-preview3"
    },
-   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-e30a-b351-5a3a0d000091\"},{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-e409-b351-5a3a0d000092\"}]}",
+   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-79db-02c3-593a0d00e317\"},{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7a45-02c3-593a0d00e318\"}]}",
    "status": 201,
-   "response": "{\"chatThread\":{\"id\":\"19:2d3d0df2d35b4723a25193d4aaaefd21@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-02-04T20:21:49Z\",\"createdBy\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-e30a-b351-5a3a0d000091\"}}",
+   "response": "{\"chatThread\":{\"id\":\"19:eab7acd7a1a742bda99785ea2bd81204@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-02-17T01:22:28Z\",\"createdBy\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-79db-02c3-593a0d00e317\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "location": "https://endpoint/chat/threads/19%3A2d3d0df2d35b4723a25193d4aaaefd21@thread.v2"
+    "location": "https://endpoint/chat/threads/19%3Aeab7acd7a1a742bda99785ea2bd81204@thread.v2"
    }
   }
  ],
@@ -45,5 +45,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "46472dfad938311e726759d1c26c9e61"
+ "hash": "f2f945a1306632a97dc7ad44b56f9396"
 }
