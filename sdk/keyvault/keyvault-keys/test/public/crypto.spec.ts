@@ -101,6 +101,50 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
   }
 
+  describe.only("algorithm specific encryption parameters", async function() {
+    it("defines encryption and decryption parameters for RSA keys", async function() {
+      const customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      const customKeyVaultKey = await client.createKey(customKeyName, "RSA", { keySize: 128 });
+      const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
+
+      const text = this.test!.title;
+      const encryptResult = await cryptoClientFromKey.encrypt({
+        algorithm: "RSA1_5",
+        plaintext: stringToUint8Array(text)
+      });
+      console.log("encryptResult", encryptResult);
+      const decryptResult = await cryptoClientFromKey.decrypt({
+        algorithm: "RSA1_5",
+        ciphertext: encryptResult.result
+      });
+      const decryptedText = uint8ArrayToString(decryptResult.result);
+      assert.equal(text, decryptedText);
+    });
+
+    it.only("defines encryption and decryption parameters for AES keys", async function() {
+      const customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      const customKeyVaultKey = await client.createKey(customKeyName, "AES", { keySize: 128 });
+      const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
+
+      const text = this.test!.title;
+      const encryptResult = await cryptoClientFromKey.encrypt({
+        algorithm: "A128GCM",
+        plaintext: stringToUint8Array(text),
+        additionalAuthenticatedData: stringToUint8Array(text)
+      });
+      console.log("encryptResult", encryptResult);
+      const decryptResult = await cryptoClientFromKey.decrypt({
+        algorithm: "A128GCM",
+        ciphertext: encryptResult.result,
+        iv: encryptResult.iv!,
+        authenticationTag: encryptResult.authenticationTag!,
+        additionalAuthenticatedData: encryptResult.additionalAuthenticatedData
+      });
+      const decryptedText = uint8ArrayToString(decryptResult.result);
+      assert.equal(text, decryptedText);
+    });
+  });
+
   // Local encryption is only supported in NodeJS.
   it("sign and verify with RS256", async function(): Promise<void> {
     const signatureValue = this.test!.title;

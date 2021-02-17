@@ -48,7 +48,20 @@ export interface EncryptResult {
    * The ID of the Key Vault Key used to encrypt the data.
    */
   keyID?: string;
+  /**
+   * The initialization vector used for encryption.
+   */
+  iv?: Uint8Array;
+  /**
+   * The authentication tag resulting from encryption with a symmetric key including A128GCM, A192GCM, and A256GCM.
+   */
+  authenticationTag?: Uint8Array;
+  /**
+   * Additional data that is authenticated during decryption but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
 }
+// TODO: test the additional values set above
 
 /**
  * Result of the {@link wrap} operation.
@@ -184,7 +197,10 @@ export interface WrapKeyOptions extends KeyOperationsOptions {}
  */
 export interface UnwrapKeyOptions extends KeyOperationsOptions {}
 
-export interface BaseEncryptionParameters {
+interface BaseEncryptionParameters {
+  /**
+   *
+   */
   plaintext: Uint8Array;
 }
 
@@ -207,9 +223,39 @@ export interface AesCbcPadEncryptionParameters extends BaseEncryptionParameters 
   iv?: Uint8Array;
 }
 
-// TODO: what about Pad??
 export type EncryptParameters =
   | RsaEncryptionParameters
   | AesGcmEncryptionParameters
   | AesCbcEncryptionParameters
   | AesCbcPadEncryptionParameters;
+
+interface BaseDecryptionParameters {
+  ciphertext: Uint8Array;
+}
+
+export interface RsaDecryptionParameters extends BaseDecryptionParameters {
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+}
+
+export interface AesGcmDecryptionParameters extends BaseDecryptionParameters {
+  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  iv: Uint8Array;
+  authenticationTag: Uint8Array;
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+export interface AesCbcDecryptionParameters extends BaseDecryptionParameters {
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC";
+  iv: Uint8Array;
+}
+
+export interface AesCbcPadDecryptionParameters extends BaseDecryptionParameters {
+  algorithm: "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  iv: Uint8Array;
+}
+
+export type DecryptParameters =
+  | RsaDecryptionParameters
+  | AesGcmDecryptionParameters
+  | AesCbcDecryptionParameters
+  | AesCbcPadDecryptionParameters;

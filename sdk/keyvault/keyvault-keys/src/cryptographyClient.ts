@@ -21,7 +21,8 @@ import {
   UnwrapKeyOptions,
   EncryptParameters,
   SignOptions,
-  VerifyOptions
+  VerifyOptions,
+  DecryptParameters
 } from "./cryptographyClientModels";
 import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
@@ -137,25 +138,11 @@ export class CryptographyClient {
     algorithmOrParameters: EncryptionAlgorithm | EncryptParameters,
     ...plainTextOrOptions: [CryptographyOptions?] | [Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
-    console.log("algorithmOrParameters", algorithmOrParameters);
-    console.log("plainTextOrOptions", plainTextOrOptions);
-    let algorithm: EncryptionAlgorithm;
-    let plaintext: Uint8Array;
-    let options: Omit<EncryptOptions, "algorithm"> = {};
-    if (typeof algorithmOrParameters === "string") {
-      algorithm = algorithmOrParameters;
-      plaintext = plainTextOrOptions[0] as Uint8Array;
-      options = plainTextOrOptions[1] as EncryptOptions;
-    } else {
-      console.log("In here the new mode");
-      // Need to make an EncryptOptions from options and encryptParameters...
-      const { algorithm: a, plaintext: p, ...rest } = algorithmOrParameters;
-      algorithm = a;
-      plaintext = p;
-      console.log("before", algorithm, plaintext, options);
-      Object.assign(options, plainTextOrOptions[0] || {}, rest);
-      console.log("after", algorithm, plaintext, options);
-    }
+    const { algorithm, plaintext, options } = this.disambiguateEncryptArguments(
+      algorithmOrParameters,
+      plainTextOrOptions
+    );
+
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.encrypt(algorithm, plaintext, options);
     } else {
@@ -166,6 +153,26 @@ export class CryptographyClient {
         algorithm as LocalSupportedAlgorithmName,
         plaintext
       );
+    }
+  }
+
+  private disambiguateEncryptArguments(
+    algorithmOrParameters: EncryptionAlgorithm | EncryptParameters,
+    plainTextOrOptions: [CryptographyOptions?] | [Uint8Array, EncryptOptions?]
+  ) {
+    if (typeof algorithmOrParameters === "string") {
+      return {
+        algorithm: algorithmOrParameters,
+        plaintext: plainTextOrOptions[0] as Uint8Array,
+        options: plainTextOrOptions[1] as EncryptOptions
+      };
+    } else {
+      const { algorithm, plaintext, ...rest } = algorithmOrParameters;
+      return {
+        algorithm,
+        plaintext,
+        options: Object.assign({}, plainTextOrOptions[0] || {}, rest) as EncryptOptions
+      };
     }
   }
 
@@ -185,12 +192,44 @@ export class CryptographyClient {
   public async decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
-    options: DecryptOptions = {}
+    options?: DecryptOptions
+  ): Promise<DecryptResult>;
+  public async decrypt(
+    decryptParameters: DecryptParameters,
+    options?: CryptographyOptions
+  ): Promise<DecryptResult>;
+  public async decrypt(
+    algorithmOrParameters: EncryptionAlgorithm | DecryptParameters,
+    ...cipherTextOrOptions: [CryptographyOptions?] | [Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
+    const { algorithm, ciphertext, options } = this.disambiguateDecryptArguments(
+      algorithmOrParameters,
+      cipherTextOrOptions
+    );
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.decrypt(algorithm, ciphertext, options);
     } else {
       throw new Error("Decrypting using a local JsonWebKey is not supported.");
+    }
+  }
+
+  private disambiguateDecryptArguments(
+    algorithmOrParameters: EncryptionAlgorithm | DecryptParameters,
+    cipherTextOrOptions: [CryptographyOptions?] | [Uint8Array, DecryptOptions?]
+  ) {
+    if (typeof algorithmOrParameters === "string") {
+      return {
+        algorithm: algorithmOrParameters,
+        ciphertext: cipherTextOrOptions[0] as Uint8Array,
+        options: cipherTextOrOptions[1] as EncryptOptions
+      };
+    } else {
+      const { algorithm, ciphertext, ...rest } = algorithmOrParameters;
+      return {
+        algorithm,
+        ciphertext,
+        options: Object.assign({}, cipherTextOrOptions[0] || {}, rest) as EncryptOptions
+      };
     }
   }
 
