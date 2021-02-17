@@ -4,6 +4,7 @@
 
 ## 1.2.4-beta.2 (Unreleased)
 
+- Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
 
 ## 1.2.4-beta.1 (2021-02-12)
 
