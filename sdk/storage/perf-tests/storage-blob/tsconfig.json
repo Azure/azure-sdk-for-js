@@ -5,19 +5,9 @@
     "module": "commonjs",
     "declarationDir": "./typings/latest",
     "outDir": "./dist-esm",
-    "lib": [
-      "dom",
-      "es5",
-      "es6",
-      "es7",
-      "esnext"
-    ]
+    "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules",
-  ],
-  "include": [
-    "./test/**/*.ts"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["./test/**/*.ts"]
 }
