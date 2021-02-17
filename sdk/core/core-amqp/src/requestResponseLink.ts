@@ -215,16 +215,20 @@ export class RequestResponseLink implements ReqResLink {
    * @param connection - The amqp connection.
    * @param senderOptions - Options that must be provided to create the sender link.
    * @param receiverOptions - Options that must be provided to create the receiver link.
+   * @param options - Optional parameters that can be used to affect this method's behavior.
+   *    For example, `abortSignal` can be passed to allow cancelling an in-progress `create` invocation.
    * @returns Promise<RequestResponseLink>
    */
   static async create(
     connection: Connection,
     senderOptions: SenderOptions,
-    receiverOptions: ReceiverOptions
+    receiverOptions: ReceiverOptions,
+    options: { abortSignal?: AbortSignalLike } = {}
   ): Promise<RequestResponseLink> {
-    const session = await connection.createSession();
-    const sender = await session.createSender(senderOptions);
-    const receiver = await session.createReceiver(receiverOptions);
+    const { abortSignal } = options;
+    const session = await connection.createSession({ abortSignal });
+    const sender = await session.createSender({ ...senderOptions, abortSignal });
+    const receiver = await session.createReceiver({ ...receiverOptions, abortSignal });
     logger.verbose(
       "[%s] Successfully created the sender and receiver links on the same session.",
       connection.id
