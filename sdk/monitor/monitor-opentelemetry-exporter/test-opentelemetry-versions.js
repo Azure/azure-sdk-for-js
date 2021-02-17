@@ -26,7 +26,9 @@ async function exec(cmd) {
       // Note: this moves devDeps to dependencies, but it does not matter for these tests
       const packagesToInstall = packages.map((package) => `${package}@${version}`).join(" ");
       console.log(`Installing ${packagesToInstall}`);
-      await exec(`npm install --no-save ${packagesToInstall}`);
+      await exec(
+        `npm install --no-save --prefix ./test-opentelemetry-versions ${packagesToInstall}`
+      );
 
       console.log(`Compiling on version: ${version}`);
       await exec(`npm run build`);
