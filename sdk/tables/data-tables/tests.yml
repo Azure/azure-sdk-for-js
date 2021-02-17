@@ -5,7 +5,8 @@ extends:
   parameters:
     PackageName: "@azure/data-tables"
     ResourceServiceDirectory: tables
-    TestSamples: false
+    MatrixFilters:
+      - TestType=node|browser
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

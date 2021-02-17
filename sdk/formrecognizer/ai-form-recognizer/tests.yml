@@ -15,6 +15,8 @@ extends:
   parameters:
     PackageName: "@azure/ai-form-recognizer"
     ResourceServiceDirectory: formrecognizer
+    MatrixFilters:
+      - TestType=node|browser|minmax
     TestSamples: false
     ResourceGroupLocation: "${{ parameters.Location }}"
     TestMinMax: true

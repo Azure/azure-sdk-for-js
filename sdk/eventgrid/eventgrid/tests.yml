@@ -5,4 +5,5 @@ extends:
   parameters:
     PackageName: "@azure/eventgrid"
     ResourceServiceDirectory: eventgrid
-    TestSamples: false
+    MatrixFilters:
+      - TestType=node|browser

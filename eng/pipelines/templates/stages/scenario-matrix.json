@@ -1,0 +1,26 @@
+{
+  "displayNames": {
+    "**/test-results.xml": "",
+    "**/test-results.browser.xml": ""
+  },
+  "matrix": {
+    "Agent": {
+      "ubuntu-18.04": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" },
+      "windows-coverage": { "OSVmImage": "MMS2019", "Pool": "azsdk-pool-mms-win-2019-general", "PublishCodeCoverage": true }
+    },
+    "TestType": [ "sample", "node", "browser" ],
+    "NodeTestVersion": [ "10.x", "8.x", "12.x" ],
+    "TestResultsFiles": [ "", "**/test-results.xml", "**/test-results.browser.xml" ]
+  },
+  "include": [
+    {
+      "Agent": {
+        "ubuntu-18.04": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "12.x",
+      "DependencyVersion": [ "max", "min" ],
+      "TestResultsFiles": "**/test-results.xml"
+    }
+  ]
+}

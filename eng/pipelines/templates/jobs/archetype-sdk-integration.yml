@@ -8,7 +8,7 @@ parameters:
 - name: PostIntegrationSteps
   type: string
   default: ""
-- name: ResourceServiceDirectory
+- name: ServiceDirectory
   type: string
   default: ""
 - name: EnvVars
@@ -35,6 +35,10 @@ parameters:
 - name: ArmTemplateParameters
   type: string
   default: "@{}"
+- name: MatrixFilters
+  type: object
+  default:
+   - TestType=node|browser|sample
 - name: TestBrowser
   type: boolean
   default: true
@@ -50,114 +54,20 @@ parameters:
 - name: TestCanary
   type: boolean
   default: false
-- name: Matrix
-  type: object
-  default:
-    Windows Node 8:
-      Pool: azsdk-pool-mms-win-2019-general
-      OSVmImage: MMS2019
-      TestType: "node"
-      NodeTestVersion: "8.x"
-      PublishCodeCoverage: true
-    Linux Node 10:
-      Pool: azsdk-pool-mms-ubuntu-1804-general
-      OSVmImage: MMSUbuntu18.04
-      TestType: "node"
-      NodeTestVersion: "10.x"
-    Linux Node 12:
-      Pool: azsdk-pool-mms-ubuntu-1804-general
-      OSVmImage: MMSUbuntu18.04
-      TestType: "node"
-      NodeTestVersion: "12.x"
-    MacOS Node 14:
-      Pool: Azure Pipelines
-      OSVmImage: "macOS-10.15"
-      TestType: "node"
-      NodeTestVersion: "14.x"
 
 jobs:
   - job: "IntegrationTest"
 
     variables:
       - template: ../variables/globals.yml
-      - name: SubscriptionConfiguration
-        value: ${{ parameters.SubscriptionConfiguration }}
       - name: ResourceGroupLocation
         value: ${{ parameters.ResourceGroupLocation }}
       - name: ArmTemplateParameters
         value: ${{ parameters.ArmTemplateParameters }}
 
-
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
       matrix:
-        ${{ each matrixEntry in parameters.Matrix }}:
-          ${{ matrixEntry.key }}:         
-            # TestResultsFiles
-            ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
-              TestResultsFiles: "**/test-results.browser.xml"
-            ${{ if eq(matrixEntry.value.TestType, 'node') }}:
-              TestResultsFiles: "**/test-results.xml"
-            # Remaining entries from the matrix object
-            ${{ insert }}: ${{ matrixEntry.value }}
-            # Include these entries in all test matrices. Note that TestResultsFile
-            # is specified because the template logic above is not running in this
-            # context.
-
-        # Add matrix entry for browser testing
-        ${{ if eq(parameters.TestBrowser, 'true') }}:
-          Windows Browser:
-            Pool: azsdk-pool-mms-win-2019-general
-            OSVmImage: MMS2019
-            TestType: "browser"
-            NodeTestVersion: "$(NodeVersion)"
-            TestResultsFiles: "**/test-results.browser.xml"
-
-        # Add matrix entry for sample testing
-        ${{ if eq(parameters.TestSamples, 'true') }}:
-          Samples Linux Node 10:
-            Pool: azsdk-pool-mms-ubuntu-1804-general
-            OSVmImage: MMSUbuntu18.04
-            TestType: "sample"
-            NodeTestVersion: "10.x"            
-        
-        # Add matrix entry for min-max testing
-        ${{ if eq(parameters.TestMinMax, 'true') }}:
-          MaxVersion_Node:
-            Pool: azsdk-pool-mms-ubuntu-1804-general
-            OSVmImage: MMSUbuntu18.04
-            TestType: "node"
-            DependencyVersion: max
-            NodeTestVersion: "$(NodeVersion)"
-            TestResultsFiles: "**/test-results.xml"            
-          MinVersion_Node:
-            Pool: azsdk-pool-mms-ubuntu-1804-general
-            OSVmImage: MMSUbuntu18.04
-            TestType: "node"
-            DependencyVersion: min
-            NodeTestVersion: "$(NodeVersion)"
-            TestResultsFiles: "**/test-results.xml"                  
-
-        # Add matrix entry for same dep testing
-        ${{ if eq(parameters.TestSame, 'true') }}:
-          SameVersion_Node:
-            Pool: azsdk-pool-mms-ubuntu-1804-general
-            OSVmImage: MMSUbuntu18.04
-            TestType: "node"
-            DependencyVersion: same
-            NodeTestVersion: "$(NodeVersion)"
-            TestResultsFiles: "**/test-results.xml"   
-
-        # Add matrix entry for canary testing
-        ${{ if eq(parameters.TestCanary, 'true') }}:
-          CanaryTest_Node:
-            Pool: azsdk-pool-mms-ubuntu-1804-general
-            OSVmImage: MMSUbuntu18.04
-            TestType: "node"
-            NodeTestVersion: "$(NodeVersion)"
-            TestResultsFiles: "**/test-results.xml"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-            ResourceGroupLocation: ${{ parameters.ResourceGroupLocationCanary }}
 
     pool:
       name: $(Pool)
@@ -172,13 +82,13 @@ jobs:
         parameters:
           AgentImage: $(OSVmImage)
 
-      - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
+      - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/deploy-test-resources.yml
           parameters:
-            ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
-            SubscriptionConfiguration: $(SubscriptionConfiguration)
-            Location: $(ResourceGroupLocation)
-            ArmTemplateParameters: $(ArmTemplateParameters)
+            Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
+            ServiceDirectory: '${{ parameters.ServiceDirectory }}'
+            SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
+            ArmTemplateParameters: ${{ coalesce(parameters.CloudConfig.ArmTemplateParameters, '@{}') }}
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -196,7 +106,7 @@ jobs:
           node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
         condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
-      
+
       - script: |
           npm install
           node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
@@ -258,11 +168,11 @@ jobs:
           ${{ insert }}: ${{ parameters.EnvVars }}
         condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
-      - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
+      - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/remove-test-resources.yml
           parameters:
-            ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
-            SubscriptionConfiguration: $(SubscriptionConfiguration)
+            ServiceDirectory: "${{ parameters.ServiceDirectory }}"
+            SubscriptionConfiguration: '${{ parameters.CloudConfig.SubscriptionConfiguration }}'
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"
@@ -302,17 +212,7 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
-          testResultsFiles: "**/test-results.xml"
-          testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeTestVersion)]"
-        condition: and(always(), eq(variables['TestType'], 'node'))
-        displayName: "Publish NodeJS integration test results"
-
-      # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
-      # PublishTestResults.searchFolder only supports absolute paths, not relative.
-      - task: PublishTestResults@2
-        inputs:
-          searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
-          testResultsFiles: "**/test-results.browser.xml"
-          testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeTestVersion)]"
-        condition: and(always(), eq(variables['TestType'], 'browser'))
-        displayName: "Publish browser integration test results"
+          testResultsFiles: "$(TestResultsFiles)"
+          testRunTitle: "$(OSName) - $(TestType) - Integration Tests - [Node $(NodeTestVersion)]"
+        condition: and(always(), ne(variables['TestResultsFiles'], ''))
+        displayName: "Publish $(TestType) integration test results"
