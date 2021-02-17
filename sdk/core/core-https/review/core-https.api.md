@@ -137,7 +137,6 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
-    httpsClient?: HttpsClient;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: ExponentialRetryPolicyOptions;

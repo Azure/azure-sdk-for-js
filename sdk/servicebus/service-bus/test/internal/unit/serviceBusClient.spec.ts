@@ -297,7 +297,7 @@ describe("serviceBusClient unit tests", () => {
     function validateWebsocketInfo(
       connectionContext: ConnectionContext,
       providedWebsocketConstructorOptions: any
-    ) {
+    ): void {
       assert.equal(
         connectionContext.config.webSocketEndpointPath,
         "$servicebus/websocket",

@@ -162,7 +162,7 @@ export interface SubscriptionEventHandlers {
 
 /**
  * Options to configure the `subscribe` method on the `EventHubConsumerClient`.
- * For example, `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
+ * For example, `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }`
  */
 export interface SubscribeOptions {
   /**

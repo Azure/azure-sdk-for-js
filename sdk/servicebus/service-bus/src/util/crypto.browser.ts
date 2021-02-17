@@ -6,7 +6,6 @@
 
 /**
  * @internal
- * @returns {Promise<string>}
  */
 export async function generateKey(secret: string, stringToSign: string): Promise<string> {
   const key = await window.crypto.subtle.importKey(
@@ -29,7 +28,7 @@ export async function generateKey(secret: string, stringToSign: string): Promise
 /**
  * @internal
  */
-function convertToUint8Array(value: string) {
+function convertToUint8Array(value: string): Uint8Array {
   const arr = new Uint8Array(value.length);
   for (let i = 0; i < value.length; i++) {
     arr[i] = value.charCodeAt(i);
@@ -41,7 +40,7 @@ function convertToUint8Array(value: string) {
  * Encodes a byte array in base64 format.
  * @param value - the Uint8Aray to encode
  * @internal
- * @returns {string}
+ *
  */
 function encodeByteArray(value: Uint8Array): string {
   let str = "";

@@ -598,7 +598,6 @@ export class EventHubSender extends LinkEntity {
    * Creates a new sender to the given event hub, and optionally to a given partition if it is
    * not present in the context or returns the one present in the context.
    * @hidden
-   * @static
    * @param partitionId - Partition ID to which it will send event data.
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {

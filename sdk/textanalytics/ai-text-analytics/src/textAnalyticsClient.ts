@@ -407,13 +407,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeDetectLanguageResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeDetectLanguageResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -498,13 +492,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
-      return makeRecognizeCategorizedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
     } catch (e) {
       /**
        * This special logic handles REST exception with code
@@ -669,13 +657,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeExtractKeyPhrasesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeExtractKeyPhrasesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -831,13 +813,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
-      return makeRecognizeLinkedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -981,6 +957,9 @@ export class TextAnalyticsClient {
   }
 }
 
+/**
+ * @internal
+ */
 function addEncodingParamToAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions
@@ -997,6 +976,9 @@ function isStringArray(documents: any[]): documents is string[] {
   return typeof documents[0] === "string";
 }
 
+/**
+ * @internal
+ */
 function convertToDetectLanguageInput(
   inputs: string[],
   countryHint: string
@@ -1015,6 +997,9 @@ function convertToDetectLanguageInput(
   );
 }
 
+/**
+ * @internal
+ */
 function convertToTextDocumentInput(inputs: string[], language: string): TextDocumentInput[] {
   return inputs.map(
     (text: string, index): TextDocumentInput => {
@@ -1031,7 +1016,6 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
  * Creates the options the service expects for the analyze sentiment API from the user friendly ones.
  * @param params - the user friendly parameters
  * @internal
- * @hidden
  */
 function makeAnalyzeSentimentOptionsModel(
   params: AnalyzeSentimentOptions
@@ -1051,7 +1035,6 @@ function makeAnalyzeSentimentOptionsModel(
  * Creates the options the service expects for the recognize pii entities API from the user friendly ones.
  * @param params - the user friendly parameters
  * @internal
- * @hidden
  */
 function makePiiEntitiesOptionsModel(
   params: RecognizePiiEntitiesOptions

@@ -67,10 +67,10 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _onSessionClose: OnAmqpEvent;
   private _retryOptions: RetryOptions;
 
-  constructor(context: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
-    super(entityPath, entityPath, context, "sender", logger, {
+  constructor(connectionContext: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
+    super(entityPath, entityPath, connectionContext, "sender", logger, {
       address: entityPath,
-      audience: `${context.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`
     });
     this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
@@ -158,7 +158,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *
    * @param encodedMessage - The encoded message to be sent to ServiceBus.
    * @param sendBatch - Boolean indicating whether the encoded message represents a batch of messages or not
-   * @returns Promise<Delivery>
    */
   private _trySend(
     encodedMessage: Buffer,
@@ -320,7 +319,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
    * Closes the rhea link.
    * To be called when connection is disconnected, onAmqpClose and onSessionClose events.
-   * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(): Promise<void> {
     // Clears the token renewal timer. Closes the link and its session if they are open.
@@ -330,7 +328,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this.link == null ? false : this.link.isOpen();
@@ -348,7 +345,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Sends the given message, with the given options on this link
    *
    * @param data - Message to send. Will be sent as UTF8-encoded JSON string.
-   * @returns {Promise<void>}
    */
   async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -390,7 +386,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * of the envelope (batch message).
    * @param inputMessages - An array of Message objects to be sent in a
    * Batch message.
-   * @returns {Promise<void>}
    */
   async sendMessages(
     inputMessages: ServiceBusMessage[],
@@ -476,7 +471,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
    * }
    * ```
-   * @returns {Promise<number>}
    */
   async getMaxMessageSize(
     options: {

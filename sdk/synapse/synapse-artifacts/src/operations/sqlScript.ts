@@ -25,7 +25,7 @@ export class SqlScript {
 
   /**
    * Initialize a new instance of the class SqlScript class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -33,7 +33,7 @@ export class SqlScript {
 
   /**
    * Lists sql scripts.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listSqlScriptsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -75,7 +75,7 @@ export class SqlScript {
 
   /**
    * Lists sql scripts.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getSqlScriptsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -106,9 +106,9 @@ export class SqlScript {
 
   /**
    * Creates or updates a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param sqlScript - Sql Script resource definition.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param sqlScript Sql Script resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateSqlScript(
     sqlScriptName: string,
@@ -156,8 +156,8 @@ export class SqlScript {
 
   /**
    * Gets a sql script.
-   * @param sqlScriptName - The sql script name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
    */
   async getSqlScript(
     sqlScriptName: string,
@@ -190,8 +190,8 @@ export class SqlScript {
 
   /**
    * Deletes a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
    */
   async deleteSqlScript(
     sqlScriptName: string,
@@ -237,9 +237,9 @@ export class SqlScript {
 
   /**
    * Renames a sqlScript.
-   * @param sqlScriptName - The sql script name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renameSqlScript(
     sqlScriptName: string,
@@ -287,9 +287,9 @@ export class SqlScript {
 
   /**
    * GetSqlScriptsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
+   * @param nextLink The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
    *                 method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getSqlScriptsByWorkspaceNext(
     nextLink: string,
