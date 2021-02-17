@@ -45,7 +45,7 @@ describe("The Keys client should set the serviceVersion", () => {
     sandbox.restore();
   });
 
-  it("it should default to the latest API version", async function () {
+  it("it should default to the latest API version", async function() {
     const client = new KeyClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient
     });
@@ -59,10 +59,10 @@ describe("The Keys client should set the serviceVersion", () => {
   });
 
   // Adding this to the source would change the public API.
-  type ApIVersions = "7.0" | "7.1";
+  type ApIVersions = "7.0" | "7.1" | "7.2";
 
-  it("it should allow us to specify an API version from a specific set of versions", async function () {
-    const versions: ApIVersions[] = ["7.0", "7.1"];
+  it("it should allow us to specify an API version from a specific set of versions", async function() {
+    const versions: ApIVersions[] = ["7.0", "7.1", "7.2"];
     for (const serviceVersion in versions) {
       const client = new KeyClient(keyVaultUrl, credential, {
         serviceVersion: serviceVersion as ApIVersions,

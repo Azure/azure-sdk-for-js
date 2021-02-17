@@ -7,12 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import {
-  DetectedLanguage,
-  TextDocumentStatistics,
-  TextAnalyticsError,
-  TextAnalyticsWarning
-} from "./generated/models";
+import { DetectedLanguage, TextAnalyticsError, DocumentLanguage } from "./generated/models";
 
 /**
  * The result of the detect language operation on a single document.
@@ -35,18 +30,20 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
  */
 export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
 
-export function makeDetectLanguageResult(
-  id: string,
-  detectedLanguage: DetectedLanguage,
-  warnings: TextAnalyticsWarning[],
-  statistics?: TextDocumentStatistics
-): DetectLanguageSuccessResult {
+/**
+ * @internal
+ */
+export function makeDetectLanguageResult(response: DocumentLanguage): DetectLanguageSuccessResult {
+  const { id, warnings, statistics, detectedLanguage } = response;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     primaryLanguage: detectedLanguage
   };
 }
 
+/**
+ * @internal
+ */
 export function makeDetectLanguageErrorResult(
   id: string,
   error: TextAnalyticsError

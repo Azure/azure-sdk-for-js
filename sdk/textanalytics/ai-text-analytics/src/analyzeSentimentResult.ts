@@ -140,8 +140,12 @@ export interface MinedOpinion {
  */
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
+/**
+ * @param document - A document result coming from the service.
+ * @internal
+ */
 export function makeAnalyzeSentimentResult(
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): AnalyzeSentimentSuccessResult {
   const {
     id,
@@ -150,15 +154,18 @@ export function makeAnalyzeSentimentResult(
     sentenceSentiments: sentences,
     warnings,
     statistics
-  } = document;
+  } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, document))
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, result))
   };
 }
 
+/**
+ * @internal
+ */
 export function makeAnalyzeSentimentErrorResult(
   id: string,
   error: TextAnalyticsError
@@ -173,10 +180,11 @@ export function makeAnalyzeSentimentErrorResult(
  * @param sentence - The sentence sentiment object to be converted.
  * @param response - The entire response returned by the service.
  * @returns The user-friendly sentence sentiment object.
+ * @internal
  */
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): SentenceSentiment {
   return {
     confidenceScores: sentence.confidenceScores,
@@ -196,7 +204,7 @@ function convertGeneratedSentenceSentiment(
             },
             opinions: aspect.relations
               .filter((relation) => relation.relationType === "opinion")
-              .map((relation) => convertAspectRelationToOpinionSentiment(relation, document))
+              .map((relation) => convertAspectRelationToOpinionSentiment(relation, result))
           })
         )
       : []
@@ -211,15 +219,16 @@ function convertGeneratedSentenceSentiment(
  * @param aspectRelation - The aspect relation object to be converted.
  * @param response - The entire response returned by the service.
  * @returns The user-friendly opinion sentiment object.
+ * @internal
  */
 function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): OpinionSentiment {
   const opinionPtr = aspectRelation.ref;
   const opinionIndex: OpinionIndex = parseOpinionIndex(opinionPtr);
   const opinion: SentenceOpinion | undefined =
-    document.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
+    result.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
   if (opinion !== undefined) {
     return opinion;
   } else {

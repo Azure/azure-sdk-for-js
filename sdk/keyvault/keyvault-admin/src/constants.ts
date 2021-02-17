@@ -9,9 +9,9 @@ export const SDK_VERSION: string = "4.0.0-beta.3";
 /**
  * The latest supported Key Vault service API version.
  */
-export const LATEST_API_VERSION = "7.2-preview";
+export const LATEST_API_VERSION = "7.2";
 
 /**
  * Supported API versions
  */
-export type SUPPORTED_API_VERSIONS = "7.2-preview";
+export type SUPPORTED_API_VERSIONS = "7.2";

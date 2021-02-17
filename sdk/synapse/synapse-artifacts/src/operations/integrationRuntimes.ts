@@ -14,7 +14,7 @@ export class IntegrationRuntimes {
 
   /**
    * Initialize a new instance of the class IntegrationRuntimes class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -22,7 +22,7 @@ export class IntegrationRuntimes {
 
   /**
    * List Integration Runtimes
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse> {
     const { span, updatedOptions } = createSpan(
@@ -48,8 +48,8 @@ export class IntegrationRuntimes {
 
   /**
    * Get Integration Runtime
-   * @param integrationRuntimeName - The Integration Runtime name
-   * @param options - The options parameters.
+   * @param integrationRuntimeName The Integration Runtime name
+   * @param options The options parameters.
    */
   async get(
     integrationRuntimeName: string,

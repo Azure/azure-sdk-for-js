@@ -103,7 +103,6 @@ export {
   ExtractKeyPhrasesActionSuccessResult
 } from "./analyzeBatchActionsResult";
 export {
-  TextAnalyticsResult,
   ErrorCode,
   TextAnalyticsError,
   TextAnalyticsErrorResult,
