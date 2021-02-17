@@ -636,6 +636,11 @@
       "packageName": "@azure/perf-test-storage-blob",
       "projectFolder": "sdk/storage/perf-tests/storage-blob",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixedreality-authentication",
+      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
+      "versionPolicyName": "client"
     }
   ]
 }
