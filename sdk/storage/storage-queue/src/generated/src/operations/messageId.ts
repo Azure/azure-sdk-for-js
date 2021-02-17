@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClient } from "../storageClient";
+import { StorageClientContext } from "../storageClientContext";
 import {
   MessageIdUpdateOptionalParams,
   MessageIdUpdateResponse,
@@ -19,13 +19,13 @@ import {
 
 /** Class representing a MessageId. */
 export class MessageId {
-  private readonly client: StorageClient;
+  private readonly client: StorageClientContext;
 
   /**
    * Initialize a new instance of the class MessageId class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClient) {
+  constructor(client: StorageClientContext) {
     this.client = client;
   }
 

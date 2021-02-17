@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClient } from "../storageClient";
+import { StorageClientContext } from "../storageClientContext";
 import {
   QueueCreateOptionalParams,
   QueueCreateResponse,
@@ -27,13 +27,13 @@ import {
 
 /** Class representing a Queue. */
 export class Queue {
-  private readonly client: StorageClient;
+  private readonly client: StorageClientContext;
 
   /**
    * Initialize a new instance of the class Queue class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClient) {
+  constructor(client: StorageClientContext) {
     this.client = client;
   }
 

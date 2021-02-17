@@ -336,7 +336,7 @@ export class QueueServiceClient extends StorageClient {
       pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
-    this.serviceContext = new Service(this.storageClient);
+    this.serviceContext = new Service(this.storageClientContext);
   }
 
   /**

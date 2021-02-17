@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { StorageClient as GeneratedStorageClient } from "./generated/src/storageClient";
+import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
-import { getAccountNameFromUrl, getStorageClient } from "./utils/utils.common";
+import { getAccountNameFromUrl, getStorageClientContext } from "./utils/utils.common";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -65,7 +65,7 @@ export abstract class StorageClient {
    * @type {StorageClientContext}
    * @memberof StorageClient
    */
-  protected readonly storageClient: GeneratedStorageClient;
+  protected readonly storageClientContext: StorageClientContext;
 
   /**
    * Creates an instance of StorageClient.
@@ -77,7 +77,7 @@ export abstract class StorageClient {
     this.url = url;
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
-    this.storageClient = getStorageClient(url, pipeline);
+    this.storageClientContext = getStorageClientContext(url, pipeline);
 
     // Retrieve credential from the pipeline.
     this.credential = new AnonymousCredential();

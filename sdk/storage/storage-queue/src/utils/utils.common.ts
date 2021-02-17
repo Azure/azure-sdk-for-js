@@ -3,7 +3,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
-import { StorageClient } from "../generated/src/storageClient";
+import { StorageClientContext } from "../generated/src/storageClientContext";
 import { Pipeline } from "../Pipeline";
 
 /**
@@ -412,17 +412,17 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
 }
 
 /**
- * Gets a new StorageClient
- * @param {string} url Url used for the StorageClient
+ * Gets a new StorageClientContext
+ * @param {string} url Url used for the StorageClientContext
  * @param {url} pipeline a pipeline containing HTTP request policies
- * @returns {StorageClient} new StorageClient
+ * @returns {StorageClientContext} new StorageClientContext
  */
-export function getStorageClient(url: string, pipeline: Pipeline): StorageClient {
-  const storageClient = new StorageClient(url, pipeline.toServiceClientOptions());
+export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
+  const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
 
   // Override protocol layer's default content-type
-  (storageClient as any).requestContentType = undefined;
-  return storageClient;
+  (storageClientContext as any).requestContentType = undefined;
+  return storageClientContext;
 }
 
 /**

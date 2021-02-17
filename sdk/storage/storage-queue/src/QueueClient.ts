@@ -40,7 +40,7 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle,
   truncatedISO8061Date,
-  getStorageClient,
+  getStorageClientContext,
   appendToURLQuery
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -675,7 +675,7 @@ export class QueueClient extends StorageClient {
     }
     super(url, pipeline);
     this._name = this.getQueueNameFromUrl();
-    this.queueContext = new Queue(this.storageClient);
+    this.queueContext = new Queue(this.storageClientContext);
 
     // MessagesContext
     // Build the url with "messages"
@@ -684,7 +684,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], "messages");
 
-    this.messagesContext = new Messages(getStorageClient(this._messagesUrl, this.pipeline));
+    this.messagesContext = new Messages(getStorageClientContext(this._messagesUrl, this.pipeline));
   }
 
   private getMessageIdContext(messageId: string): MessageId {
@@ -694,7 +694,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], messageId);
 
-    return new MessageId(getStorageClient(urlWithMessageId, this.pipeline));
+    return new MessageId(getStorageClientContext(urlWithMessageId, this.pipeline));
   }
 
   /**
