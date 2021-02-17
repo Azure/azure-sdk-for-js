@@ -16,12 +16,12 @@ const DEFAULT_MAX_CONSECUTIVE_FAILURES_BEFORE_WARNING = 10;
  */
 export interface AzureExporterConfig {
   /**
-  * Azure Connection String.
-  */
+   * Azure Connection String.
+   */
   connectionString?: string;
   /**
-  * Azure service API version.
-  */
+   * Azure service API version.
+   */
   serviceApiVersion?: ServiceApiVersion;
 }
 

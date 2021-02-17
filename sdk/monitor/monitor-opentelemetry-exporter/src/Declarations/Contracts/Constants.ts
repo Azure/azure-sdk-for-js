@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 /**
-* Subset of Connection String fields which this SDK can parse. Lower-typecased to
+ * Subset of Connection String fields which this SDK can parse. Lower-typecased to
  * allow for case-insensitivity across field names.
-* @internal
-*/
+ * @internal
+ */
 export type ConnectionString = { [key in ConnectionStringKey]?: string };
 
 /**
-* ConnectionString keys.
-* @internal
-*/
+ * ConnectionString keys.
+ * @internal
+ */
 export type ConnectionStringKey =
   | "authorization"
   | "instrumentationkey"

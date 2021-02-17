@@ -113,9 +113,9 @@ export type QuickPulseDocumentType =
   | "RemoteDependency"
   | "Availability";
 /**
-* QuickPulse telemetry types.
-* @internal
-*/
+ * QuickPulse telemetry types.
+ * @internal
+ */
 export type QuickPulseType =
   | "EventTelemetryDocument"
   | "ExceptionTelemetryDocument"
@@ -126,9 +126,9 @@ export type QuickPulseType =
   | "AvailabilityTelemetryDocument";
 
 /**
-* OpenTelemetry Span Attributes.
-* @internal
-*/
+ * OpenTelemetry Span Attributes.
+ * @internal
+ */
 export const SpanAttribute = {
   // HTTP
   HttpHost: "http.host",
@@ -144,9 +144,9 @@ export const SpanAttribute = {
 };
 
 /**
-* OpenTelemetry dependency type names.
-* @internal
-*/
+ * OpenTelemetry dependency type names.
+ * @internal
+ */
 export const DependencyTypeName = {
   Grpc: "GRPC",
   Http: "HTTP",
