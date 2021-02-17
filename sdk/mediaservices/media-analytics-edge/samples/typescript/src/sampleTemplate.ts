@@ -22,7 +22,7 @@ import { ModuleClient } from "azure-iot-device";
 
 // const setrequest: MediaGraphTopologySetRequest = {
 //   graph: {name: 'sample', properties: {description: 'sample descrip',
-//   parameters:[{name: "rtspUserName",type: 'String'},{name: 'rtspPassword',type:'SecretString'},{name:'rtspUrl', type:'String'}]}},
+//   parameters:[{name: "rtspUserName","@type": 'String'},{name: 'rtspPassword',"@type":'SecretString'},{name:'rtspUrl', "@type":'String'}]}},
 //   apiVersion: '2.0'
 // }
 
@@ -31,14 +31,14 @@ function buildGraphTopology() {
     name: "rtspSource",
     endpoint: {
       url: "${rtspUrl}",
-      type: "#Microsoft.Media.MediaGraphUnsecuredEndpoint",
+      "@type": "#Microsoft.Media.MediaGraphUnsecuredEndpoint",
       credentials: {
         username: "${rtspUserName}",
         password: "${rtspPassword}",
-        type: "#Microsoft.Media.MediaGraphUsernamePasswordCredentials"
+        "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials"
       }
     } as MediaGraphUnsecuredEndpoint,
-    type: "#Microsoft.Media.MediaGraphRtspSource"
+    "@type": "#Microsoft.Media.MediaGraphRtspSource"
   };
 
   const graphNodeInput: MediaGraphNodeInput = {
@@ -51,7 +51,7 @@ function buildGraphTopology() {
     assetNamePattern: "sampleAsset-${System.GraphTopologyName}-${System.GraphInstanceName}",
     localMediaCachePath: "/var/lib/azuremediaservices/tmp/",
     localMediaCacheMaximumSizeMiB: "2048",
-    type: "#Microsoft.Media.MediaGraphAssetSink"
+    "@type": "#Microsoft.Media.MediaGraphAssetSink"
   };
 
   const graphTopology: MediaGraphTopology = {
@@ -86,9 +86,9 @@ function buildGraphInstance(graphTopologyName: string) {
 
 export async function main() {
   console.log("== Sample Template ==");
-  const device_id = "lva-sample-device";
+  const device_id = "etshea-rainier";
   const module_d = "lvaEdge";
-  const connectionString = "enter-your-connection-string";
+  const connectionString = "HostName=amsuswe1iotmediadev11.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=c73AqBWTLodtcf+oj0tXrXGpLFHkoSlF1dbjz/wUtG0=";
   const cli = Client.fromConnectionString(connectionString);
 
   const invokeMethod = async (methodRequest: MethodRequest) => {

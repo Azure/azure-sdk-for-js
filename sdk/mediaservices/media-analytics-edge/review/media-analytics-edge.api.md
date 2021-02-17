@@ -100,7 +100,7 @@ export const enum KnownMediaGraphRtspTransport {
 
 // @public
 export type MediaGraphAssetSink = MediaGraphSink & {
-    type: "#Microsoft.Media.MediaGraphAssetSink";
+    "@type": "#Microsoft.Media.MediaGraphAssetSink";
     assetNamePattern: string;
     segmentLength?: string;
     localMediaCachePath: string;
@@ -109,7 +109,7 @@ export type MediaGraphAssetSink = MediaGraphSink & {
 
 // @public
 export interface MediaGraphCertificateSource {
-    type: "#Microsoft.Media.MediaGraphPemCertificateList";
+    "@type": "#Microsoft.Media.MediaGraphPemCertificateList";
 }
 
 // @public (undocumented)
@@ -117,12 +117,12 @@ export type MediaGraphCertificateSourceUnion = MediaGraphCertificateSource | Med
 
 // @public
 export type MediaGraphCognitiveServicesVisionExtension = MediaGraphExtensionProcessorBase & {
-    type: "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension";
+    "@type": "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension";
 };
 
 // @public
 export interface MediaGraphCredentials {
-    type: "#Microsoft.Media.MediaGraphUsernamePasswordCredentials" | "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
+    "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials" | "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
 }
 
 // @public (undocumented)
@@ -130,8 +130,8 @@ export type MediaGraphCredentialsUnion = MediaGraphCredentials | MediaGraphUsern
 
 // @public
 export interface MediaGraphEndpoint {
+    "@type": "#Microsoft.Media.MediaGraphUnsecuredEndpoint" | "#Microsoft.Media.MediaGraphTlsEndpoint";
     credentials?: MediaGraphCredentialsUnion;
-    type: "#Microsoft.Media.MediaGraphUnsecuredEndpoint" | "#Microsoft.Media.MediaGraphTlsEndpoint";
     url: string;
 }
 
@@ -140,7 +140,7 @@ export type MediaGraphEndpointUnion = MediaGraphEndpoint | MediaGraphUnsecuredEn
 
 // @public
 export type MediaGraphExtensionProcessorBase = MediaGraphProcessor & {
-    type: "#Microsoft.Media.MediaGraphExtensionProcessorBase";
+    "@type": "#Microsoft.Media.MediaGraphExtensionProcessorBase";
     endpoint: MediaGraphEndpointUnion;
     image: MediaGraphImage;
     samplingOptions?: MediaGraphSamplingOptions;
@@ -151,7 +151,7 @@ export type MediaGraphExtensionProcessorBaseUnion = MediaGraphExtensionProcessor
 
 // @public
 export type MediaGraphFileSink = MediaGraphSink & {
-    type: "#Microsoft.Media.MediaGraphFileSink";
+    "@type": "#Microsoft.Media.MediaGraphFileSink";
     baseDirectoryPath: string;
     fileNamePattern: string;
     maximumSizeMiB: string;
@@ -159,7 +159,7 @@ export type MediaGraphFileSink = MediaGraphSink & {
 
 // @public
 export type MediaGraphGrpcExtension = MediaGraphExtensionProcessorBase & {
-    type: "#Microsoft.Media.MediaGraphGrpcExtension";
+    "@type": "#Microsoft.Media.MediaGraphGrpcExtension";
     dataTransfer: MediaGraphGrpcExtensionDataTransfer;
     extensionConfiguration?: string;
 };
@@ -175,12 +175,12 @@ export type MediaGraphGrpcExtensionDataTransferMode = string;
 
 // @public
 export type MediaGraphHttpExtension = MediaGraphExtensionProcessorBase & {
-    type: "#Microsoft.Media.MediaGraphHttpExtension";
+    "@type": "#Microsoft.Media.MediaGraphHttpExtension";
 };
 
 // @public
 export type MediaGraphHttpHeaderCredentials = MediaGraphCredentials & {
-    type: "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
+    "@type": "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
     headerName: string;
     headerValue: string;
 };
@@ -193,28 +193,28 @@ export interface MediaGraphImage {
 
 // @public
 export interface MediaGraphImageFormat {
-    type: "#Microsoft.Media.MediaGraphImageFormatRaw" | "#Microsoft.Media.MediaGraphImageFormatJpeg" | "#Microsoft.Media.MediaGraphImageFormatBmp" | "#Microsoft.Media.MediaGraphImageFormatPng";
+    "@type": "#Microsoft.Media.MediaGraphImageFormatRaw" | "#Microsoft.Media.MediaGraphImageFormatJpeg" | "#Microsoft.Media.MediaGraphImageFormatBmp" | "#Microsoft.Media.MediaGraphImageFormatPng";
 }
 
 // @public
 export type MediaGraphImageFormatBmp = MediaGraphImageFormat & {
-    type: "#Microsoft.Media.MediaGraphImageFormatBmp";
+    "@type": "#Microsoft.Media.MediaGraphImageFormatBmp";
 };
 
 // @public
 export type MediaGraphImageFormatJpeg = MediaGraphImageFormat & {
-    type: "#Microsoft.Media.MediaGraphImageFormatJpeg";
+    "@type": "#Microsoft.Media.MediaGraphImageFormatJpeg";
     quality?: string;
 };
 
 // @public
 export type MediaGraphImageFormatPng = MediaGraphImageFormat & {
-    type: "#Microsoft.Media.MediaGraphImageFormatPng";
+    "@type": "#Microsoft.Media.MediaGraphImageFormatPng";
 };
 
 // @public
 export type MediaGraphImageFormatRaw = MediaGraphImageFormat & {
-    type: "#Microsoft.Media.MediaGraphImageFormatRaw";
+    "@type": "#Microsoft.Media.MediaGraphImageFormatRaw";
     pixelFormat: MediaGraphImageFormatRawPixelFormat;
 };
 
@@ -295,19 +295,19 @@ export type MediaGraphInstanceState = string;
 
 // @public
 export type MediaGraphIoTHubMessageSink = MediaGraphSink & {
-    type: "#Microsoft.Media.MediaGraphIoTHubMessageSink";
+    "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink";
     hubOutputName: string;
 };
 
 // @public
 export type MediaGraphIoTHubMessageSource = MediaGraphSource & {
-    type: "#Microsoft.Media.MediaGraphIoTHubMessageSource";
+    "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSource";
     hubInputName?: string;
 };
 
 // @public
 export type MediaGraphMotionDetectionProcessor = MediaGraphProcessor & {
-    type: "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
+    "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
     sensitivity?: MediaGraphMotionDetectionSensitivity;
     outputMotionRegion?: boolean;
     eventAggregationWindow?: string;
@@ -354,15 +354,15 @@ export type MediaGraphParameterType = string;
 
 // @public
 export type MediaGraphPemCertificateList = MediaGraphCertificateSource & {
-    type: "#Microsoft.Media.MediaGraphPemCertificateList";
+    "@type": "#Microsoft.Media.MediaGraphPemCertificateList";
     certificates: string[];
 };
 
 // @public
 export interface MediaGraphProcessor {
+    "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor" | "#Microsoft.Media.MediaGraphExtensionProcessorBase" | "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension" | "#Microsoft.Media.MediaGraphGrpcExtension" | "#Microsoft.Media.MediaGraphHttpExtension" | "#Microsoft.Media.MediaGraphSignalGateProcessor";
     inputs: MediaGraphNodeInput[];
     name: string;
-    type: "#Microsoft.Media.MediaGraphMotionDetectionProcessor" | "#Microsoft.Media.MediaGraphExtensionProcessorBase" | "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension" | "#Microsoft.Media.MediaGraphGrpcExtension" | "#Microsoft.Media.MediaGraphHttpExtension" | "#Microsoft.Media.MediaGraphSignalGateProcessor";
 }
 
 // @public (undocumented)
@@ -370,7 +370,7 @@ export type MediaGraphProcessorUnion = MediaGraphProcessor | MediaGraphMotionDet
 
 // @public
 export type MediaGraphRtspSource = MediaGraphSource & {
-    type: "#Microsoft.Media.MediaGraphRtspSource";
+    "@type": "#Microsoft.Media.MediaGraphRtspSource";
     transport?: MediaGraphRtspTransport;
     endpoint: MediaGraphEndpointUnion;
 };
@@ -386,7 +386,7 @@ export interface MediaGraphSamplingOptions {
 
 // @public
 export type MediaGraphSignalGateProcessor = MediaGraphProcessor & {
-    type: "#Microsoft.Media.MediaGraphSignalGateProcessor";
+    "@type": "#Microsoft.Media.MediaGraphSignalGateProcessor";
     activationEvaluationWindow?: string;
     activationSignalOffset?: string;
     minimumActivationTime?: string;
@@ -395,9 +395,9 @@ export type MediaGraphSignalGateProcessor = MediaGraphProcessor & {
 
 // @public
 export interface MediaGraphSink {
+    "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink" | "#Microsoft.Media.MediaGraphFileSink" | "#Microsoft.Media.MediaGraphAssetSink";
     inputs: MediaGraphNodeInput[];
     name: string;
-    type: "#Microsoft.Media.MediaGraphIoTHubMessageSink" | "#Microsoft.Media.MediaGraphFileSink" | "#Microsoft.Media.MediaGraphAssetSink";
 }
 
 // @public (undocumented)
@@ -405,8 +405,8 @@ export type MediaGraphSinkUnion = MediaGraphSink | MediaGraphIoTHubMessageSink |
 
 // @public
 export interface MediaGraphSource {
+    "@type": "#Microsoft.Media.MediaGraphRtspSource" | "#Microsoft.Media.MediaGraphIoTHubMessageSource";
     name: string;
-    type: "#Microsoft.Media.MediaGraphRtspSource" | "#Microsoft.Media.MediaGraphIoTHubMessageSource";
 }
 
 // @public (undocumented)
@@ -420,7 +420,7 @@ export interface MediaGraphSystemData {
 
 // @public
 export type MediaGraphTlsEndpoint = MediaGraphEndpoint & {
-    type: "#Microsoft.Media.MediaGraphTlsEndpoint";
+    "@type": "#Microsoft.Media.MediaGraphTlsEndpoint";
     trustedCertificates?: MediaGraphCertificateSourceUnion;
     validationOptions?: MediaGraphTlsValidationOptions;
 };
@@ -480,12 +480,12 @@ export type MediaGraphTopologySetRequestBody = MethodRequest_2 & MediaGraphTopol
 
 // @public
 export type MediaGraphUnsecuredEndpoint = MediaGraphEndpoint & {
-    type: "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
+    "@type": "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
 };
 
 // @public
 export type MediaGraphUsernamePasswordCredentials = MediaGraphCredentials & {
-    type: "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
+    "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
     username: string;
     password: string;
 };
@@ -497,7 +497,7 @@ export class MethodRequest {
     MethodName: string;
     // (undocumented)
     Payload: {
-        '@apiVersion': string;
+        "@apiVersion": string;
         [x: string]: any;
     };
 }

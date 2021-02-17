@@ -1,5 +1,7 @@
 export * from "./generated/models";
-import { MediaGraphInstance, MediaGraphTopology } from "./generated/models";
+import { MediaGraphInstance, MediaGraphTopology}  from "./generated/models"
+/*   MediaGraphRtspSource as MediaGraphRtspSourceInternal 
+} from "./generated/models"; */
 import {
   MethodRequest as MethodRequestInternal,
   MediaGraphTopologySetRequest as MediaGraphTopologySetRequestInternal,
@@ -13,21 +15,10 @@ import {
   MediaGraphInstanceActivateRequest as MediaGraphInstanceActivateRequestInternal,
   MediaGraphInstanceDeActivateRequest as MediaGraphInstanceDeActivateRequestInternal
 } from "./generated/models/mappers";
-//export type MediaGraphTopologySetRequest = Omit<MediaGraphTopologySetRequestInternal, "methodName">
 
-/* interface Payload { apiVersion: string; [x: string]: any }
-interface MethodRequest {
-  methodName: string;
-  payload: Payload
-} */
 
-/* function init(that: MethodRequest, methodName: string, payload: object ) {
-  that.methodName = methodName;
-  that.payload = {
-      ...payload,
-      apiVersion: MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue
-    };
-} */
+//type RenameProperty<Original, Key extends keyof Original, NewKey extends string> = Pick<Original, Exclude<keyof Original, Key>> & { [P in NewKey]: Original[Key] }
+//export type MediaGraphRtspSource = RenameProperty<MediaGraphRtspSourceInternal, "type", "@type">
 
 export class MethodRequest {
   public MethodName: string;
@@ -101,3 +92,25 @@ export class MediaGraphInstanceDeActivateRequest extends MethodRequest {
     super(MediaGraphInstanceDeActivateRequestInternal.serializedName!, { name });
   }
 }
+
+//export type MediaGraphTopologySetRequest = Omit<MediaGraphTopologySetRequestInternal, "methodName">
+
+/* interface Payload { apiVersion: string; [x: string]: any }
+interface MethodRequest {
+  methodName: string;
+  payload: Payload
+} */
+
+/* function init(that: MethodRequest, methodName: string, payload: object ) {
+  that.methodName = methodName;
+  that.payload = {
+      ...payload,
+      apiVersion: MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue
+    };
+} */
+
+/* export interface MediaGraphSource {
+  type: "#Microsoft.Media.MediaGraphRtspSource" | "#Microsoft.Media.MediaGraphIoTHubMessageSource"
+  name: string
+}
+ */
