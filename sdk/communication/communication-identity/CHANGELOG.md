@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-- `CommunicationIdentityClient` method `issueToken` renamed to `getToken`
+- `CommunicationIdentityClient` method `issueToken` renamed to `getToken`.
 
 ## 1.0.0-beta.4 (2021-02-09)
 
