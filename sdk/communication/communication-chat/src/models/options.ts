@@ -4,7 +4,6 @@ import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import {
   SendChatMessageRequest as RestSendMessageOptions,
   UpdateChatMessageRequest as RestUpdateMessageOptions,
-  UpdateChatThreadRequest as RestUpdateThreadOptions,
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
@@ -16,7 +15,6 @@ export {
   RestCreateChatThreadOptions,
   RestSendMessageOptions,
   RestUpdateMessageOptions,
-  RestUpdateThreadOptions,
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,
@@ -36,7 +34,7 @@ export interface ChatThreadClientOptions extends ChatClientOptions {}
 /**
  * Options to update a chat thread.
  */
-export interface UpdateThreadOptions extends RestUpdateThreadOptions, OperationOptions {}
+export interface UpdateTopicOptions extends OperationOptions {}
 
 /**
  * Options to get chat threads.

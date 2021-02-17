@@ -39,7 +39,7 @@ export class ChatThread {
 
   /**
    * Initialize a new instance of the class ChatThread class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ChatApiClient) {
     this.client = client;
@@ -47,8 +47,8 @@ export class ChatThread {
 
   /**
    * Gets chat message read receipts for a thread.
-   * @param chatThreadId - Thread id to get the chat message read receipts for.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get the chat message read receipts for.
+   * @param options The options parameters.
    */
   listChatReadReceipts(
     chatThreadId: string,
@@ -66,9 +66,9 @@ export class ChatThread {
 
   /**
    * Sends a read receipt event to a thread, on behalf of a user.
-   * @param chatThreadId - Thread id to send the read receipt event to.
-   * @param sendReadReceiptRequest - Read receipt details.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to send the read receipt event to.
+   * @param sendReadReceiptRequest Read receipt details.
+   * @param options The options parameters.
    */
   sendChatReadReceipt(
     chatThreadId: string,
@@ -88,9 +88,9 @@ export class ChatThread {
 
   /**
    * Sends a message to a thread.
-   * @param chatThreadId - The thread id to send the message to.
-   * @param sendChatMessageRequest - Details of the message to send.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to send the message to.
+   * @param sendChatMessageRequest Details of the message to send.
+   * @param options The options parameters.
    */
   sendChatMessage(
     chatThreadId: string,
@@ -110,8 +110,8 @@ export class ChatThread {
 
   /**
    * Gets a list of messages from a thread.
-   * @param chatThreadId - The thread id of the message.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id of the message.
+   * @param options The options parameters.
    */
   listChatMessages(
     chatThreadId: string,
@@ -129,9 +129,9 @@ export class ChatThread {
 
   /**
    * Gets a message by id.
-   * @param chatThreadId - The thread id to which the message was sent.
-   * @param chatMessageId - The message id.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param chatMessageId The message id.
+   * @param options The options parameters.
    */
   getChatMessage(
     chatThreadId: string,
@@ -151,10 +151,10 @@ export class ChatThread {
 
   /**
    * Updates a message.
-   * @param chatThreadId - The thread id to which the message was sent.
-   * @param chatMessageId - The message id.
-   * @param updateChatMessageRequest - Details of the request to update the message.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param chatMessageId The message id.
+   * @param updateChatMessageRequest Details of the request to update the message.
+   * @param options The options parameters.
    */
   updateChatMessage(
     chatThreadId: string,
@@ -176,9 +176,9 @@ export class ChatThread {
 
   /**
    * Deletes a message.
-   * @param chatThreadId - The thread id to which the message was sent.
-   * @param chatMessageId - The message id.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param chatMessageId The message id.
+   * @param options The options parameters.
    */
   deleteChatMessage(
     chatThreadId: string,
@@ -198,8 +198,8 @@ export class ChatThread {
 
   /**
    * Posts a typing event to a thread, on behalf of a user.
-   * @param chatThreadId - Id of the thread.
-   * @param options - The options parameters.
+   * @param chatThreadId Id of the thread.
+   * @param options The options parameters.
    */
   sendTypingNotification(
     chatThreadId: string,
@@ -217,8 +217,8 @@ export class ChatThread {
 
   /**
    * Gets the participants of a thread.
-   * @param chatThreadId - Thread id to get participants for.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get participants for.
+   * @param options The options parameters.
    */
   listChatParticipants(
     chatThreadId: string,
@@ -236,11 +236,11 @@ export class ChatThread {
 
   /**
    * Remove a participant from a thread.
-   * @param chatThreadId - Thread id to remove the participant from.
-   * @param chatParticipantId - Id of the thread participant to remove from the thread.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to remove the participant from.
+   * @param chatParticipantId Id of the thread participant to remove from the thread.
+   * @param options The options parameters.
    */
-  removeChatParticipant(
+  removeChatParticipantById(
     chatThreadId: string,
     chatParticipantId: string,
     options?: coreHttp.OperationOptions
@@ -252,15 +252,15 @@ export class ChatThread {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      removeChatParticipantOperationSpec
+      removeChatParticipantByIdOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
    * Adds thread participants to a thread. If participants already exist, no change occurs.
-   * @param chatThreadId - Id of the thread to add participants to.
-   * @param addChatParticipantsRequest - Thread participants to be added to the thread.
-   * @param options - The options parameters.
+   * @param chatThreadId Id of the thread to add participants to.
+   * @param addChatParticipantsRequest Thread participants to be added to the thread.
+   * @param options The options parameters.
    */
   addChatParticipants(
     chatThreadId: string,
@@ -280,9 +280,9 @@ export class ChatThread {
 
   /**
    * Updates a thread's properties.
-   * @param chatThreadId - The id of the thread to update.
-   * @param updateChatThreadRequest - Request payload for updating a chat thread.
-   * @param options - The options parameters.
+   * @param chatThreadId The id of the thread to update.
+   * @param updateChatThreadRequest Request payload for updating a chat thread.
+   * @param options The options parameters.
    */
   updateChatThread(
     chatThreadId: string,
@@ -302,9 +302,9 @@ export class ChatThread {
 
   /**
    * ListChatReadReceiptsNext
-   * @param chatThreadId - Thread id to get the chat message read receipts for.
-   * @param nextLink - The nextLink from the previous successful call to the ListChatReadReceipts method.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get the chat message read receipts for.
+   * @param nextLink The nextLink from the previous successful call to the ListChatReadReceipts method.
+   * @param options The options parameters.
    */
   listChatReadReceiptsNext(
     chatThreadId: string,
@@ -324,9 +324,9 @@ export class ChatThread {
 
   /**
    * ListChatMessagesNext
-   * @param chatThreadId - The thread id of the message.
-   * @param nextLink - The nextLink from the previous successful call to the ListChatMessages method.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id of the message.
+   * @param nextLink The nextLink from the previous successful call to the ListChatMessages method.
+   * @param options The options parameters.
    */
   listChatMessagesNext(
     chatThreadId: string,
@@ -346,9 +346,9 @@ export class ChatThread {
 
   /**
    * ListChatParticipantsNext
-   * @param chatThreadId - Thread id to get participants for.
-   * @param nextLink - The nextLink from the previous successful call to the ListChatParticipants method.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get participants for.
+   * @param nextLink The nextLink from the previous successful call to the ListChatParticipants method.
+   * @param options The options parameters.
    */
   listChatParticipantsNext(
     chatThreadId: string,
@@ -628,7 +628,7 @@ const listChatParticipantsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const removeChatParticipantOperationSpec: coreHttp.OperationSpec = {
+const removeChatParticipantByIdOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}/participants/{chatParticipantId}",
   httpMethod: "DELETE",
   responses: {
