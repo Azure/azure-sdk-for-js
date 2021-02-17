@@ -11,30 +11,37 @@ import {
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 const DEFAULT_MAX_CONSECUTIVE_FAILURES_BEFORE_WARNING = 10;
 
+/**
+ * Provides configuration options for AzureMonitorTraceExporter.
+ */
 export interface AzureExporterConfig {
-  // Setup String
+  /**
+  * Azure Connection String.
+  */
   connectionString?: string;
-  // Azure service API version
+  /**
+  * Azure service API version.
+  */
   serviceApiVersion?: ServiceApiVersion;
 }
 
+/**
+ * Internal Azure exporter configuration
+ * @internal
+ */
 export interface AzureExporterInternalConfig {
   instrumentationKey: string;
-
-  // Exporter
   logger?: Logger;
-
-  // Channel
   batchSendRetryIntervalMs: number;
-
-  // Sender
   maxConsecutiveFailuresBeforeWarning: number;
-
   endpointUrl: string;
-
   serviceApiVersion: ServiceApiVersion;
 }
 
+/**
+ * Internal default Azure exporter configuration
+ * @internal
+ */
 export const DEFAULT_EXPORTER_CONFIG: AzureExporterInternalConfig = {
   instrumentationKey: "",
   endpointUrl: DEFAULT_BREEZE_ENDPOINT,

@@ -6,6 +6,10 @@ import { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts
 
 import * as Constants from "../Declarations/Constants";
 
+/**
+ * ConnectionString parser.
+ * @internal
+ */
 export class ConnectionStringParser {
   private static readonly FIELDS_SEPARATOR = ";";
 

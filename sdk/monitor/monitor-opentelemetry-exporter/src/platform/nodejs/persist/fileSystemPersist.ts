@@ -16,6 +16,10 @@ const readFileAsync = promisify(fs.readFile);
 const unlinkAsync = promisify(fs.unlink);
 const writeFileAsync = promisify(fs.writeFile);
 
+/**
+ * File system persist class.
+ * @internal
+ */
 export class FileSystemPersist implements PersistentStorage {
   static TEMPDIR_PREFIX = "ot-azure-exporter-";
 

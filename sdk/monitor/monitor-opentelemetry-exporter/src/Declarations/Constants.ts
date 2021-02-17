@@ -1,17 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * Azure service API version.
+ */
 export enum ServiceApiVersion {
   V2 = "2020-09-15_Preview"
 }
 
+/**
+ * Default Breeze endpoint.
+ * @internal
+ */
 export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
+/**
+ * Default Breeze API version.
+ * @internal
+ */
 export const DEFAULT_BREEZE_API_VERSION = ServiceApiVersion.V2;
+/**
+ * Default Live Metrics endpoint.
+ * @internal
+ */
 export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.com";
+/**
+ * Default Live Metrics host.
+ * @internal
+ */
 export const DEFAULT_LIVEMETRICS_HOST = "rt.services.visualstudio.com";
+/**
+ * Connection string environment variable name.
+ * @internal
+ */
 export const ENV_CONNECTION_STRING = "APPLICATIONINSIGHTS_CONNECTION_STRING";
+/**
+ * Instrumentation key environment variable name.
+ * @internal
+ */
 export const ENV_INSTRUMENTATION_KEY = "APPINSIGHTS_INSTRUMENTATIONKEY";
 
+/**
+ * QuickPulse metric counter names.
+ * @internal
+ */
 export enum QuickPulseCounter {
   // Memory
   COMMITTED_BYTES = "\\Memory\\Committed Bytes",
@@ -33,6 +64,10 @@ export enum QuickPulseCounter {
   EXCEPTION_RATE = "\\ApplicationInsights\\Exceptions/Sec"
 }
 
+/**
+ * Performance metric counter names.
+ * @internal
+ */
 export enum PerformanceCounter {
   // Memory
   PRIVATE_BYTES = "\\Process(??APP_WIN32_PROC??)\\Private Bytes",
@@ -49,6 +84,7 @@ export enum PerformanceCounter {
 
 /**
  * Map a PerformanceCounter/QuickPulseCounter to a QuickPulseCounter. If no mapping exists, mapping is *undefined*
+ * @internal
  */
 export const PerformanceToQuickPulseCounter: { [key: string]: QuickPulseCounter } = {
   [PerformanceCounter.PROCESSOR_TIME]: QuickPulseCounter.PROCESSOR_TIME,
@@ -64,8 +100,10 @@ export const PerformanceToQuickPulseCounter: { [key: string]: QuickPulseCounter 
   [QuickPulseCounter.EXCEPTION_RATE]: QuickPulseCounter.EXCEPTION_RATE
 };
 
-// Note: Explicitly define these types instead of using enum due to
-// potential 'export enum' issues with typescript < 2.0.
+/**
+ * QuickPulse document types.
+ * @internal
+ */
 export type QuickPulseDocumentType =
   | "Event"
   | "Exception"
@@ -74,6 +112,10 @@ export type QuickPulseDocumentType =
   | "Request"
   | "RemoteDependency"
   | "Availability";
+/**
+* QuickPulse telemetry types.
+* @internal
+*/
 export type QuickPulseType =
   | "EventTelemetryDocument"
   | "ExceptionTelemetryDocument"
@@ -83,7 +125,10 @@ export type QuickPulseType =
   | "DependencyTelemetryDocument"
   | "AvailabilityTelemetryDocument";
 
-// OpenTelemetry Span Attributes
+/**
+* OpenTelemetry Span Attributes.
+* @internal
+*/
 export const SpanAttribute = {
   // HTTP
   HttpHost: "http.host",
@@ -98,6 +143,10 @@ export const SpanAttribute = {
   GrpcService: "rpc.service" // rpc not grpc
 };
 
+/**
+* OpenTelemetry dependency type names.
+* @internal
+*/
 export const DependencyTypeName = {
   Grpc: "GRPC",
   Http: "HTTP",

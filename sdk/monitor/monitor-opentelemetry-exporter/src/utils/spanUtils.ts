@@ -207,6 +207,10 @@ function createInProcData(span: ReadableSpan): RemoteDependencyData {
   return data;
 }
 
+/**
+ * Span to Azure envelope parsing.
+ * @internal
+ */
 export function readableSpanToEnvelope(
   span: ReadableSpan,
   ikey: string,

@@ -18,6 +18,9 @@ import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope } from "../utils/spanUtils";
 
+/**
+ * Azure Monitor OpenTelemetry Trace Exporter.
+ */
 export class AzureMonitorTraceExporter implements SpanExporter {
   private readonly _persister: PersistentStorage;
 
@@ -29,7 +32,11 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
   private readonly _options: AzureExporterInternalConfig;
 
-  constructor(options: Partial<AzureExporterConfig> = {}) {
+  /**
+  * Initializes a new instance of the AzureMonitorTraceExporter class.
+  * @param AzureExporterConfig - Exporter configuration.
+  */
+  constructor(options: AzureExporterConfig = {}) {
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
     this._logger = new ConsoleLogger(LogLevel.ERROR);
     this._options = {
@@ -64,9 +71,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk.")
+        };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -125,6 +132,11 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     }
   }
 
+  /**
+   * Export OpenTelemetry spans.
+   * @param spans - Spans to export.
+   * @param resultCallback - Result callback.
+   */
   async export(
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
@@ -136,6 +148,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     resultCallback(await this.exportEnvelopes(envelopes));
   }
 
+  /**
+   * Shutdown AzureMonitorTraceExporter.
+   */
   async shutdown(): Promise<void> {
     this._logger.info("Azure Monitor Trace Exporter shutting down");
     return this._sender.shutdown();
