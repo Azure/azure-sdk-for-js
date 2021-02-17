@@ -91,7 +91,9 @@ export class CbsClient {
     readonly connectionLock: string;
     readonly endpoint: string;
     init(): Promise<void>;
-    negotiateClaim(audience: string, token: string, tokenType: TokenType): Promise<CbsResponse>;
+    negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
 }

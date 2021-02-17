@@ -12,6 +12,7 @@ import {
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
 import { translate } from "./errors";
@@ -179,15 +180,24 @@ export class CbsClient {
    *     - **ManagementClient**
    *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
    * @param token - The token that needs to be sent in the put-token request.
+   * @param tokenType - The type of token being used. For example, 'jwt' or 'servicebus.windows.net:sastoken'.
+   * @param options - Optional parameters that can be used to affect this method's behavior.
+   *    For example, `abortSignal` can be passed to allow cancelling an in-progress `negotiateClaim` invocation.
    * @returns A Promise that resolves when $cbs authentication is successful
    * and rejects when an error occurs during $cbs authentication.
    */
   async negotiateClaim(
     audience: string,
     token: string,
-    tokenType: TokenType
+    tokenType: TokenType,
+    options: { abortSignal?: AbortSignalLike } = {}
   ): Promise<CbsResponse> {
+    const { abortSignal } = options;
     try {
+      if (abortSignal?.aborted) {
+        throw new AbortError("The negotiateClaim operation has been cancelled by the user.");
+      }
+
       if (!this._cbsSenderReceiverLink) {
         throw new Error("Attempted to negotiate a claim but the CBS link does not exist.");
       }
@@ -203,7 +213,10 @@ export class CbsClient {
           type: tokenType
         }
       };
-      const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request);
+      const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request, {
+        abortSignal,
+        requestName: "negotiateClaim"
+      });
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
       return this._fromRheaMessageResponse(responseMessage);
     } catch (err) {
