@@ -3,6 +3,7 @@
 
 import { parseConnectionString } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
+import { isDefined } from "../util/typeGuards";
 
 /**
  * Describes the options that can be provided while creating a connection config.
@@ -82,6 +83,7 @@ export interface ConnectionConfig {
 /**
  * Describes the ConnectionConfig module
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const ConnectionConfig = {
   /**
    * Creates the connection config.
@@ -146,7 +148,7 @@ export const ConnectionConfig = {
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");
     }
-    if (config.entityPath != undefined) {
+    if (isDefined(config.entityPath)) {
       config.entityPath = String(config.entityPath);
     }
 
