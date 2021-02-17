@@ -25,7 +25,7 @@ export class CommunicationIdentityClient {
     createUser(options?: OperationOptions): Promise<CreateUserResponse>;
     createUserWithToken(scopes: TokenScope[], options?: OperationOptions): Promise<CreateUserWithTokenResponse>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
-    issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
+    getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
 }
 
