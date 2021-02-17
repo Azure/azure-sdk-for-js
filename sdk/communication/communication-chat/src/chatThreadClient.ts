@@ -110,7 +110,10 @@ export class ChatThreadClient {
    * @param topic - The topic needs to be updated to.
    * @param options - Operation options.
    */
-  public async updateTopic(topic:string, options: UpdateTopicOptions = {}): Promise<OperationResponse> {
+  public async updateTopic(
+    topic: string,
+    options: UpdateTopicOptions = {}
+  ): Promise<OperationResponse> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateTopic", options);
 
     try {

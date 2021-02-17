@@ -56,7 +56,7 @@ describe("ChatThreadClient", function() {
     const topic = "new topic";
     await chatThreadClient.updateTopic(topic);
 
-    const thread  = await chatClient.getChatThread(threadId)
+    const thread = await chatClient.getChatThread(threadId);
     assert.equal(topic, thread.topic);
   });
 
