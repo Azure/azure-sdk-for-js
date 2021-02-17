@@ -17,7 +17,9 @@ export function createConnectionStub(): Connection {
     },
     createSender: () => {
       const sender = new EventEmitter() as any;
-      sender.send = () => {};
+      sender.send = () => {
+        /* no-op */
+      };
       return Promise.resolve(sender);
     },
     createReceiver: () => {
