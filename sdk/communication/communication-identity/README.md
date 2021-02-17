@@ -77,19 +77,19 @@ const user = await client.createUser();
 
 ### Creating and refreshing a user token
 
-Use the `issueToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
+Use the `getToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
 
 - `chat` (Chat)
 - `voip` (Voice over IP)
 
 ```typescript
-let { token } = await client.issueToken(user, ["chat"]);
+let { token } = await client.getToken(user, ["chat"]);
 ```
 
 To refresh the user token, issue another token with the same user.
 
 ```typescript
-{ token } = await client.issueToken(user, ["chat"]);
+{ token } = await client.getToken(user, ["chat"]);
 ```
 
 ### Creating a user together with a token in a single request
