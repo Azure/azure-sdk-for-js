@@ -450,7 +450,7 @@ export class RequestResponseLink implements ReqResLink {
     constructor(session: Session, sender: Sender, receiver: Receiver);
     close(): Promise<void>;
     get connection(): Connection;
-    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions, options?: {
+    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions, createOptions?: {
         abortSignal?: AbortSignalLike;
     }): Promise<RequestResponseLink>;
     isOpen(): boolean;
