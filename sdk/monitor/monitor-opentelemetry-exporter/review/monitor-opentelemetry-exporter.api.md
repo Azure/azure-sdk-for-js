@@ -23,7 +23,6 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
 // @public
 export enum ServiceApiVersion {
-    // (undocumented)
     V2 = "2020-09-15_Preview"
 }
 
