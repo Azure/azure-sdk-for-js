@@ -1,7 +1,8 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 1.3.0 (Unreleased)
 
+- Support more options in `ProxySettings`. [PR 13716](https://github.com/Azure/azure-sdk-for-js/issues/13716)
 
 ## 1.2.3 (2021-02-04)
 

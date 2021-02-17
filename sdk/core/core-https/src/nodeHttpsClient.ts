@@ -12,7 +12,8 @@ import {
   PipelineResponse,
   TransferProgressEvent,
   HttpHeaders,
-  RequestBodyType
+  RequestBodyType,
+  RawHttpHeaders
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
@@ -197,10 +198,20 @@ export class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
+        const combinedHeaders = Object.assign(
+          request.headers.toJSON(),
+          proxySettings.headers
+        ) as RawHttpHeaders;
+
         const proxyAgentOptions: HttpsProxyAgentOptions = {
           host: proxySettings.host,
           port: proxySettings.port,
-          headers: request.headers.toJSON()
+          headers: combinedHeaders,
+          ca: proxySettings.ca,
+          cert: proxySettings.cert,
+          key: proxySettings.key,
+          servername: proxySettings.servername,
+          localAddress: proxySettings.localAddress
         };
         if (proxySettings.username && proxySettings.password) {
           proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
