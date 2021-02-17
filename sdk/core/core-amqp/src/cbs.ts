@@ -89,10 +89,7 @@ export class CbsClient {
       if (!this.connection.isOpen()) {
         logger.verbose("The CBS client is trying to establish an AMQP connection.");
         await defaultLock.acquire(this.connectionLock, () => {
-          if (abortSignal?.aborted) {
-            return Promise.reject(new AbortError(initAbortMessage));
-          }
-          return this.connection.open();
+          return this.connection.open({ abortSignal });
         });
       }
 
