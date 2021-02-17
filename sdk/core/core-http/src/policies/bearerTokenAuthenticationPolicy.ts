@@ -89,7 +89,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
 
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     // We reset the cached token some before it expires,
-    // after that point, we retry the refresh fo the token only if the token refresher is ready.
+    // after that point, we retry the refresh of the token only if the token refresher is ready.
     let token = this.tokenCache.getCachedToken();
     if (!token && this.tokenRefresher.isReady()) {
       token = await this.tokenRefresher.refresh(options);
