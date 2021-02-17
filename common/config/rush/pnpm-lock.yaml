@@ -40,6 +40,7 @@ dependencies:
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-test-storage-blob': file:projects/perf-test-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -960,6 +961,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
+  /@types/dotenv/8.2.0:
+    dependencies:
+      dotenv: 8.2.0
+    deprecated: This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.
+    dev: false
+    resolution:
+      integrity: sha512-ylSC9GhfRH7m1EUXBXofhgx4lUWmFeQDINW5oLuS+gxWdfUeW4zJdeVTYVkexEW+e2VUvlZR2kGnGGipAWR7kw==
   /@types/eslint/7.2.6:
     dependencies:
       '@types/estree': 0.0.46
@@ -9732,6 +9740,21 @@ packages:
       integrity: sha512-PQ9TYELaQ7eyzGfdPwoqAoUxEv9WH0sHPdwuXd7iyUXNRyqT5Hjg2a30zfOrd6QHB5IX4iQq6UtthzLKfCQwmA==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
+  file:projects/perf-test-storage-blob.tgz:
+    dependencies:
+      '@azure/core-https': 1.0.0-beta.1
+      '@types/dotenv': 8.2.0
+      '@types/node-fetch': 2.5.8
+      '@types/uuid': 8.3.0
+      dotenv: 8.2.0
+      node-fetch: 2.6.1
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-test-storage-blob'
+    resolution:
+      integrity: sha512-4O4iR4mnTYeRo58LzQGujgq2u8780mfEqq2ilKrvVgVIYoov3PBMQREg7n/AEKrvjN7TIcdgvNJhqBV7CHnNXg==
+      tarball: file:projects/perf-test-storage-blob.tgz
+    version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
       '@azure/identity': 1.2.2
@@ -10696,6 +10719,7 @@ specifiers:
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-test-storage-blob': file:./projects/perf-test-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
