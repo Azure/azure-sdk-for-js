@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A18dfab168a9245feb44837c918781d14%40thread.v2/messages",
+   "url": "https://endpoint/chat/threads/19%3A2780d69dc907497681b20e54421431cb%40thread.v2/messages",
    "query": {
     "api-version": "2020-11-01-preview3"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"id\":\"1612470112922\",\"type\":\"text\",\"sequenceId\":\"3\",\"version\":\"1612470112922\",\"content\":{\"message\":\"content\"},\"senderDisplayName\":\"\",\"createdOn\":\"2021-02-04T20:21:52Z\",\"senderId\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-eeba-b351-5a3a0d000093\"},{\"id\":\"1612470111916\",\"type\":\"topicUpdated\",\"sequenceId\":\"2\",\"version\":\"1612470111916\",\"content\":{\"topic\":\"test topic\",\"initiator\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-eeba-b351-5a3a0d000093\"},\"createdOn\":\"2021-02-04T20:21:51Z\"},{\"id\":\"1612470111838\",\"type\":\"participantAdded\",\"sequenceId\":\"1\",\"version\":\"1612470111838\",\"content\":{\"participants\":[{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-eeba-b351-5a3a0d000093\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-efc5-b351-5a3a0d000094\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}],\"initiator\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-eeba-b351-5a3a0d000093\"},\"createdOn\":\"2021-02-04T20:21:51Z\"}]}",
+   "response": "{\"value\":[{\"id\":\"1613524951233\",\"type\":\"text\",\"sequenceId\":\"4\",\"version\":\"1613524951233\",\"content\":{\"message\":\"content\"},\"senderDisplayName\":\"\",\"createdOn\":\"2021-02-17T01:22:31Z\",\"senderId\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7f63-02c3-593a0d00e31b\"},{\"id\":\"1613524950819\",\"type\":\"topicUpdated\",\"sequenceId\":\"3\",\"version\":\"1613524950819\",\"content\":{\"topic\":\"new topic\",\"initiator\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7f63-02c3-593a0d00e31b\"},\"createdOn\":\"2021-02-17T01:22:30Z\"},{\"id\":\"1613524950344\",\"type\":\"topicUpdated\",\"sequenceId\":\"2\",\"version\":\"1613524950344\",\"content\":{\"topic\":\"test topic\",\"initiator\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7f63-02c3-593a0d00e31b\"},\"createdOn\":\"2021-02-17T01:22:30Z\"},{\"id\":\"1613524950214\",\"type\":\"participantAdded\",\"sequenceId\":\"1\",\"version\":\"1613524950214\",\"content\":{\"participants\":[{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7f63-02c3-593a0d00e31b\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7fbf-02c3-593a0d00e31c\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}],\"initiator\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7f63-02c3-593a0d00e31b\"},\"createdOn\":\"2021-02-17T01:22:30Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

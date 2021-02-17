@@ -6,7 +6,6 @@ import { assert } from "chai";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
   ChatThreadClient,
-  UpdateThreadOptions,
   SendMessageRequest,
   SendMessageOptions,
   UpdateMessageOptions,
@@ -38,23 +37,21 @@ describe("[Mocked] ChatThreadClient", async () => {
     new ChatThreadClient(threadId, baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
-  it("makes successful update thread request", async () => {
+  it("makes successful update thread topic", async () => {
     const mockHttpClient = generateHttpClient(204);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const sendOptions: UpdateThreadOptions = {
-      topic: "mockTopic"
-    };
+    const topic = "mockTopic";
 
-    await chatThreadClient.updateThread(sendOptions);
+    await chatThreadClient.updateTopic(topic);
 
     sinon.assert.calledOnce(spy);
     const request = spy.getCall(0).args[0];
     assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body), { topic: sendOptions.topic });
+    assert.deepEqual(JSON.parse(request.body), { topic: topic });
   });
 
   it("makes successful send message request", async () => {

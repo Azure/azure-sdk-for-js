@@ -124,7 +124,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<OperationResponse>;
-    updateThread(options?: UpdateThreadOptions): Promise<OperationResponse>;
+    updateTopic(topic: string, options?: UpdateTopicOptions): Promise<OperationResponse>;
     }
 
 // @public
@@ -304,11 +304,6 @@ export interface RestUpdateMessageOptions {
 }
 
 // @public
-export interface RestUpdateThreadOptions {
-    topic?: string;
-}
-
-// @public
 interface SendChatMessageRequest {
     content: string;
     senderDisplayName?: string;
@@ -351,7 +346,7 @@ export interface UpdateMessageOptions extends RestUpdateMessageOptions, Operatio
 }
 
 // @public
-export interface UpdateThreadOptions extends RestUpdateThreadOptions, OperationOptions {
+export interface UpdateTopicOptions extends OperationOptions {
 }
 
 // @public
