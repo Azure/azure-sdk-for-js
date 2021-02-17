@@ -80,7 +80,8 @@ import {
   DefaultCertificatePolicy,
   CertificateClientOptions,
   LATEST_API_VERSION,
-  CancelCertificateOperationOptions
+  CancelCertificateOperationOptions,
+  ImportCertificatePolicy
 } from "./certificatesModels";
 
 import {
@@ -175,6 +176,7 @@ export {
   CertificateOperation,
   CertificateOperationError,
   CertificatePolicy,
+  ImportCertificatePolicy,
   CertificatePolicyAction,
   CertificatePolicyProperties,
   PolicySubjectProperties,
