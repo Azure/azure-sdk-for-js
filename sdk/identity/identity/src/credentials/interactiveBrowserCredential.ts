@@ -27,7 +27,7 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 export class InteractiveBrowserCredential implements TokenCredential {
   private redirectUri: string;
   private port: number;
-  private host: string;
+  private hostname: string;
   private msalClient: MsalClient;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
@@ -55,7 +55,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       this.port = 80;
     }
 
-    this.host = url.host;
+    this.hostname = url.hostname;
 
     let authorityHost;
     if (options && options.authorityHost) {
@@ -167,7 +167,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       };
       const app = http.createServer(requestListener);
 
-      const listen = app.listen(this.port, this.host, () =>
+      const listen = app.listen(this.port, this.hostname, () =>
         logger.info(`Msal Node Auth Code Sample app listening on port ${this.port}!`)
       );
       app.on("connection", (socket) => (socketToDestroy = socket));
