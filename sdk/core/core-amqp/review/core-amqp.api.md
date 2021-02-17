@@ -90,7 +90,9 @@ export class CbsClient {
     connection: Connection;
     readonly connectionLock: string;
     readonly endpoint: string;
-    init(): Promise<void>;
+    init(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
     negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<CbsResponse>;
@@ -448,7 +450,9 @@ export class RequestResponseLink implements ReqResLink {
     constructor(session: Session, sender: Sender, receiver: Receiver);
     close(): Promise<void>;
     get connection(): Connection;
-    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<RequestResponseLink>;
+    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions, options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<RequestResponseLink>;
     isOpen(): boolean;
     // (undocumented)
     receiver: Receiver;
