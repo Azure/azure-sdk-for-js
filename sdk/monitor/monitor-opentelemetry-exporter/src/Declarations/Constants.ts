@@ -6,8 +6,8 @@
  */
 export enum ServiceApiVersion {
   /**
-  * V2 Version
-  */
+   * V2 Version
+   */
   V2 = "2020-09-15_Preview"
 }
 
