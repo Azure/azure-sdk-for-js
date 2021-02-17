@@ -72,14 +72,26 @@ export class CbsClient {
   /**
    * Creates a singleton instance of the CBS session if it hasn't been initialized previously on
    * the given connection.
+   * @param options - Optional parameters that can be used to affect this method's behavior.
+   *    For example, `abortSignal` can be passed to allow cancelling an in-progress `init` invocation.
    * @returns Promise<void>.
    */
-  async init(): Promise<void> {
+  async init(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    const { abortSignal } = options;
+    const initAbortMessage = "The init operation has been cancelled by the user.";
+
     try {
+      if (abortSignal?.aborted) {
+        throw new AbortError(initAbortMessage);
+      }
+
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this.connection.isOpen()) {
         logger.verbose("The CBS client is trying to establish an AMQP connection.");
         await defaultLock.acquire(this.connectionLock, () => {
+          if (abortSignal?.aborted) {
+            return Promise.reject(new AbortError(initAbortMessage));
+          }
           return this.connection.open();
         });
       }
@@ -108,7 +120,8 @@ export class CbsClient {
         this._cbsSenderReceiverLink = await RequestResponseLink.create(
           this.connection,
           srOpt,
-          rxOpt
+          rxOpt,
+          { abortSignal }
         );
         this._cbsSenderReceiverLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
