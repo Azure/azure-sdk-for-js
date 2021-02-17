@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/logFilesMappers";
+import * as Mappers from "../models/recoverableServersMappers";
 import * as Parameters from "../models/parameters";
 import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
 
-/** Class representing a LogFiles. */
-export class LogFiles {
+/** Class representing a RecoverableServers. */
+export class RecoverableServers {
   private readonly client: PostgreSQLManagementClientContext;
 
   /**
-   * Create a LogFiles.
+   * Create a RecoverableServers.
    * @param {PostgreSQLManagementClientContext} client Reference to the service client.
    */
   constructor(client: PostgreSQLManagementClientContext) {
@@ -26,43 +26,43 @@ export class LogFiles {
   }
 
   /**
-   * List all the log files in a given server.
+   * Gets a recoverable PostgreSQL Server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
-   * @returns Promise<Models.LogFilesListByServerResponse>
+   * @returns Promise<Models.RecoverableServersGetResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.LogFilesListByServerResponse>;
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoverableServersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.LogFileListResult>): void;
+  get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.RecoverableServerResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogFileListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogFileListResult>, callback?: msRest.ServiceCallback<Models.LogFileListResult>): Promise<Models.LogFilesListByServerResponse> {
+  get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableServerResource>): void;
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableServerResource>, callback?: msRest.ServiceCallback<Models.RecoverableServerResource>): Promise<Models.RecoverableServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serverName,
         options
       },
-      listByServerOperationSpec,
-      callback) as Promise<Models.LogFilesListByServerResponse>;
+      getOperationSpec,
+      callback) as Promise<Models.RecoverableServersGetResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByServerOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSQL/servers/{serverName}/logFiles",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSQL/servers/{serverName}/recoverableServers",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -76,7 +76,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LogFileListResult
+      bodyMapper: Mappers.RecoverableServerResource
     },
     default: {
       bodyMapper: Mappers.CloudError
