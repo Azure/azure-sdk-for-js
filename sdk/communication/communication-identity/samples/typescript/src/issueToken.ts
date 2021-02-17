@@ -31,7 +31,7 @@ export const main = async () => {
   console.log("Issuing Token");
 
   // Issue token and get token from response
-  const { token } = await client.issueToken(user, scopes);
+  const { token } = await client.getToken(user, scopes);
 
   console.log(`Issued token: ${token}`);
 };
