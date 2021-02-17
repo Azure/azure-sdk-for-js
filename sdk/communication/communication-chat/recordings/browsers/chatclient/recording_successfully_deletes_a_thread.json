@@ -1,20 +1,20 @@
 {
- "recordings": [
-  {
-   "method": "DELETE",
-   "url": "https://endpoint/chat/threads/19%3A60b5513d521d4ff5beeb26f8fe35efe3%40thread.v2",
-   "query": {
-    "api-version": "2021-01-27-preview4"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {}
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "e51bac69f00a983af97a432032dbf341"
+  "recordings": [
+    {
+      "method": "DELETE",
+      "url": "https://endpoint/chat/threads/19%3A60b5513d521d4ff5beeb26f8fe35efe3%40thread.v2",
+      "query": {
+        "api-version": "2021-01-27-preview4"
+      },
+      "requestBody": null,
+      "status": 204,
+      "response": "",
+      "responseHeaders": {}
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "e51bac69f00a983af97a432032dbf341"
 }

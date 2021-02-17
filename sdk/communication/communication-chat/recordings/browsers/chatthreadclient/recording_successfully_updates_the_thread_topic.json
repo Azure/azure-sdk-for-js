@@ -1,33 +1,33 @@
 {
- "recordings": [
-  {
-   "method": "PATCH",
-   "url": "https://endpoint/chat/threads/19%3Adb4189c1cea440d6855cf911e6162571%40thread.v2",
-   "query": {
-    "api-version": "2021-01-27-preview4"
-   },
-   "requestBody": "{\"topic\":\"new topic\"}",
-   "status": 204,
-   "response": "",
-   "responseHeaders": {}
+  "recordings": [
+    {
+      "method": "PATCH",
+      "url": "https://endpoint/chat/threads/19%3Adb4189c1cea440d6855cf911e6162571%40thread.v2",
+      "query": {
+        "api-version": "2021-01-27-preview4"
+      },
+      "requestBody": "{\"topic\":\"new topic\"}",
+      "status": 204,
+      "response": "",
+      "responseHeaders": {}
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/chat/threads/19%3Adb4189c1cea440d6855cf911e6162571%40thread.v2",
+      "query": {
+        "api-version": "2021-01-27-preview4"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"id\":\"19:db4189c1cea440d6855cf911e6162571@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2021-02-26T00:40:16Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-7ba9-0fb2-f6c7-593a0d00c625\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-7ba9-0fb2-f6c7-593a0d00c625\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
   },
-  {
-   "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3Adb4189c1cea440d6855cf911e6162571%40thread.v2",
-   "query": {
-    "api-version": "2021-01-27-preview4"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"19:db4189c1cea440d6855cf911e6162571@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2021-02-26T00:40:16Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-7ba9-0fb2-f6c7-593a0d00c625\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-7ba9-0fb2-f6c7-593a0d00c625\"}}}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "c0146657597775a9d686a9cd49c328f2"
+  "hash": "c0146657597775a9d686a9cd49c328f2"
 }
