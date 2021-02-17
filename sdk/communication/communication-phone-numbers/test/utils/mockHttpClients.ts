@@ -22,7 +22,7 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Acquire
   phoneNumber: "+18005550100",
   countryCode: "US",
   phoneNumberType: "geographic",
-  assignmentType: "user",
+  assignmentType: "person",
   purchaseDate: new Date(),
   capabilities: {
     sms: "inbound+outbound",

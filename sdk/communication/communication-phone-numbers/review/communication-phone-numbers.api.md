@@ -41,48 +41,11 @@ export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPoll
 export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
 }
 
-// @public
-export type BillingFrequency = string;
-
 // @public (undocumented)
 export type GetPhoneNumberOptions = OperationOptions;
 
 // @public (undocumented)
 export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
-
-// @public
-export const enum KnownBillingFrequency {
-    // (undocumented)
-    Monthly = "monthly"
-}
-
-// @public
-export const enum KnownPhoneNumberAssignmentType {
-    // (undocumented)
-    Application = "application",
-    // (undocumented)
-    Person = "person"
-}
-
-// @public
-export const enum KnownPhoneNumberCapabilityValue {
-    // (undocumented)
-    Inbound = "inbound",
-    // (undocumented)
-    InboundOutbound = "inbound+outbound",
-    // (undocumented)
-    None = "none",
-    // (undocumented)
-    Outbound = "outbound"
-}
-
-// @public
-export const enum KnownPhoneNumberType {
-    // (undocumented)
-    Geographic = "geographic",
-    // (undocumented)
-    TollFree = "tollFree"
-}
 
 // @public
 export interface ListPhoneNumbersOptions extends OperationOptions {
@@ -91,7 +54,7 @@ export interface ListPhoneNumbersOptions extends OperationOptions {
 }
 
 // @public
-export type PhoneNumberAssignmentType = string;
+export type PhoneNumberAssignmentType = "person" | "application";
 
 // @public
 export interface PhoneNumberCapabilities {
@@ -106,12 +69,12 @@ export interface PhoneNumberCapabilitiesRequest {
 }
 
 // @public
-export type PhoneNumberCapabilityValue = string;
+export type PhoneNumberCapabilityValue = "none" | "inbound" | "outbound" | "inbound+outbound";
 
 // @public
 export interface PhoneNumberCost {
     amount: number;
-    billingFrequency: BillingFrequency;
+    billingFrequency: "monthly";
     currencyCode: string;
 }
 
@@ -161,7 +124,7 @@ export interface PhoneNumberSearchResult {
 }
 
 // @public
-export type PhoneNumberType = string;
+export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
 export type VoidResponse = WithResponse<{}>;

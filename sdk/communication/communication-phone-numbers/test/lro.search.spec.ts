@@ -3,11 +3,7 @@
 
 import { isLiveMode, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import {
-  KnownPhoneNumberAssignmentType,
-  KnownPhoneNumberType,
-  PhoneNumberSearchRequest
-} from "../src";
+import { PhoneNumberSearchRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
 
@@ -17,8 +13,8 @@ describe("PhoneNumbersClient - lro - search", function() {
   let includePhoneNumberLiveTests: boolean;
   const countryCode = "US";
   const searchRequest: PhoneNumberSearchRequest = {
-    phoneNumberType: KnownPhoneNumberType.TollFree,
-    assignmentType: KnownPhoneNumberAssignmentType.Application,
+    phoneNumberType: "tollFree",
+    assignmentType: "application",
     capabilities: {
       sms: "inbound+outbound",
       calling: "none"
