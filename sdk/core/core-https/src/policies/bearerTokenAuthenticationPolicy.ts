@@ -48,7 +48,7 @@ export function bearerTokenAuthenticationPolicy(
 
   let refreshPromise: Promise<AccessToken | null> | undefined;
 
-  let refreshAttemptsBufferMs = options.refreshAttemptsBufferMs || 30000;
+  let refreshAttemptsBufferMs = options.refreshAttemptsBufferMs ?? 30000;
 
   // When the refresh buffer is hit, we trigger this refresher
   // which tries to update the token every so often.
