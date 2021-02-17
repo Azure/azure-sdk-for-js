@@ -4,6 +4,7 @@
 import AsyncLock from "async-lock";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
+import { isDefined } from "./typeGuards";
 
 export { AsyncLock };
 /**
@@ -209,7 +210,7 @@ export function delay<T>(
     };
 
     onAborted = (): void => {
-      if (timer != null) {
+      if (isDefined(timer)) {
         clearTimeout(timer);
       }
       removeListeners();

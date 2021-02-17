@@ -12,6 +12,7 @@ export function isDefined<T>(thing: T | undefined | null): thing is T {
 
 /**
  * Helper TypeGuard that checks if the input is an object with the specified properties.
+ * Note: The properties may be inherited.
  * @param thing - Anything.
  * @param properties - The name of the properties that should appear in the object.
  * @internal
@@ -35,6 +36,7 @@ export function isObjectWithProperties<Thing extends unknown, PropertyName exten
 
 /**
  * Helper TypeGuard that checks if the input is an object with the specified property.
+ * Note: The property may be inherited.
  * @param thing - Any object.
  * @param property - The name of the property that should appear in the object.
  * @internal

@@ -18,6 +18,7 @@ import {
 } from "rhea-promise";
 import { ConditionStatusMapper, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
+import { isDefined } from "./util/typeGuards";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -134,7 +135,7 @@ export class RequestResponseLink implements ReqResLink {
 
       const onAbort = (): void => {
         // safe to clear the timeout if it hasn't already occurred.
-        if (timer != null) {
+        if (isDefined(timer)) {
           clearTimeout(timer);
         }
         aborter!.removeEventListener("abort", onAbort);
@@ -172,7 +173,7 @@ export class RequestResponseLink implements ReqResLink {
         reject: reject,
         cleanupBeforeResolveOrReject: () => {
           if (aborter) aborter.removeEventListener("abort", onAbort);
-          if (timer != null) {
+          if (isDefined(timer)) {
             clearTimeout(timer);
           }
         }
