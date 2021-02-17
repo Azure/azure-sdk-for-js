@@ -161,8 +161,9 @@ export const PhoneNumberCost: coreHttp.CompositeMapper = {
         }
       },
       billingFrequency: {
+        defaultValue: "monthly",
+        isConstant: true,
         serializedName: "billingFrequency",
-        required: true,
         type: {
           name: "String"
         }
