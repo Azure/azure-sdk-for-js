@@ -20,7 +20,7 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
   let includePhoneNumberLiveTests: boolean;
   let reservationId: string;
   let areaCode: string;
-  let countryCode = "US";
+  const countryCode = "US";
   const phonePlanIds: string[] = [];
 
   beforeEach(function() {
