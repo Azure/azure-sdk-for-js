@@ -7,9 +7,11 @@ import {
   Entity,
   HealthcareRelation,
   TextDocumentBatchStatistics,
-  HealthcareEntity as GeneratedHealthcareEntity
+  HealthcareEntity as GeneratedHealthcareEntity,
+  TextAnalyticsError
 } from "./generated/models";
 import {
+  makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult
@@ -44,7 +46,6 @@ export type HealthcareEntityRelationType =
  * a type predicate for the healthcare entity relation type
  * @param relation - a healthcare entity relation type
  * @internal
- * @hidden
  */
 function isHealthcareEntityRelationType(
   relation: string
@@ -172,7 +173,6 @@ export interface PagedAnalyzeHealthcareEntitiesResult
  * Creates a user-friendly healthcare entity represented as a node in a graph
  * @param entity - the healthcare entity returned by the service
  * @internal
- * @hidden
  */
 function makeHealthcareEntitiesWithoutNeighbors(
   entity: GeneratedHealthcareEntity
@@ -201,7 +201,6 @@ function makeHealthcareEntitiesWithoutNeighbors(
  * @param relations - relationship information between pairs of healthcare entities
  *                  - using JSON pointers
  * @internal
- * @hidden
  */
 function makeHealthcareEntitiesGraph(
   entities: HealthcareEntity[],
@@ -228,7 +227,6 @@ function makeHealthcareEntitiesGraph(
  * Creates a healthcare entity in the convenience layer from the one sent by the service.
  * @param document - incoming results sent by the service for a particular document
  * @internal
- * @hidden
  */
 export function makeHealthcareEntitiesResult(
   document: DocumentHealthcareEntities
@@ -240,4 +238,14 @@ export function makeHealthcareEntitiesResult(
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities: newEntities
   };
+}
+
+/**
+ * @internal
+ */
+export function makeHealthcareEntitiesErrorResult(
+  id: string,
+  error: TextAnalyticsError
+): AnalyzeHealthcareEntitiesErrorResult {
+  return makeTextAnalyticsErrorResult(id, error);
 }

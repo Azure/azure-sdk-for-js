@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "1.2.4",
+  "version": "1.2.4-beta.2",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -84,6 +84,7 @@
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
     "@azure/msal-node": "1.0.0-beta.6",
+    "@azure/msal-browser": "2.9.0",
     "@opentelemetry/api": "^0.10.2",
     "@types/express": "^4.16.0",
     "axios": "^0.21.1",

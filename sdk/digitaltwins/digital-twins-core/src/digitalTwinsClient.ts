@@ -72,7 +72,6 @@ const DEFAULT_DIGITALTWINS_SCOPE = "https://digitaltwins.azure.net/.default";
  */
 export class DigitalTwinsClient {
   /**
-   * @internal
    * A reference to the auto-generated AzureDigitalTwinsAPI
    */
   private readonly client: GeneratedClient;
@@ -435,7 +434,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listRelationships}.
    *
    * @param digitalTwinId - The Id of the digital twin.
@@ -472,7 +470,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listRelationships}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -523,7 +520,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listIncomingRelationships}.
    *
    * @param digitalTwinId - The Id of the digital twin.
@@ -560,7 +556,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listIncomingRelationships}.
    * @param digitalTwinId - The Id of the digital twin.
    * @param options - Common options for the iterative endpoints.
@@ -735,7 +730,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link list}.
    *
    * @param options - Common options for the iterative endpoints.
@@ -766,7 +760,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link list}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -938,7 +931,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link list}.
    *
    * @param options - Common options for the iterative endpoints.
@@ -969,7 +961,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link list}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -1093,7 +1084,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link query}.
    *
    * @param query - The query string, in SQL-like syntax.
@@ -1128,7 +1118,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link query}.
    * @param query - The query string, in SQL-like syntax.
    * @param options - Common options for the iterative endpoints.
