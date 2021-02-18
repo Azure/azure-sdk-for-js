@@ -129,10 +129,12 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
         state.result = await this.getRelease(state.releaseId, this.requestOptions);
         state.isCompleted = isComplete(state.result, "Complete");
       }
+
+      return this;
     } catch (error) {
       state.error = error;
       state.isCompleted = true;
-    } finally {
+
       return this;
     }
   }
