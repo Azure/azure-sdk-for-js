@@ -1,9 +1,9 @@
 trigger: none
 
-extends:
-  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-  parameters:
-    PackageName: "@azure/storage-queue"
-    ResourceServiceDirectory: storage
-    ResourceGroupLocation: canadacentral
-    SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/storage-queue"
+      ServiceDirectory: storage
+      Location: canadacentral
+      Clouds: 'Preview'

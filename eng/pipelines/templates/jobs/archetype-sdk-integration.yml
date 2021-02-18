@@ -2,12 +2,6 @@ parameters:
 - name: PackageName
   type: string
   default: ""
-- name: PreIntegrationSteps
-  type: string
-  default: ""
-- name: PostIntegrationSteps
-  type: string
-  default: ""
 - name: ServiceDirectory
   type: string
   default: ""
@@ -23,57 +17,49 @@ parameters:
 - name: PublishCodeCoverage
   type: boolean
   default: false
-- name: SubscriptionConfiguration
-  type: string
-  default: $(sub-config-azure-cloud-test-resources)
-- name: ResourceGroupLocation
-  type: string
-  default: ""
-- name: ResourceGroupLocationCanary
-  type: string
-  default: "centraluseuap"
-- name: ArmTemplateParameters
-  type: string
-  default: "@{}"
-- name: MatrixFilters
+- name: PreSteps
   type: object
-  default:
-   - TestType=node|browser|sample
-- name: TestBrowser
-  type: boolean
-  default: true
-- name: TestSamples
-  type: boolean
-  default: true
-- name: TestMinMax
-  type: boolean
-  default: false
-- name: TestSame
-  type: boolean
-  default: false
-- name: TestCanary
+  default: []
+- name: PostSteps
+  type: object
+  default: []
+- name: Location
+  type: string
+  default: ''
+- name: CloudConfig
+  type: object
+  default: {}
+- name: Matrix
+  type: string
+- name: DependsOn
+  type: string
+  default: ''
+- name: UsePlatformContainer
   type: boolean
   default: false
 
+
 jobs:
-  - job: "IntegrationTest"
+  - job:
+    dependsOn: ${{ parameters.DependsOn }}
+    condition: ne(${{ parameters.Matrix }}, '{}')
+    strategy:
+      maxParallel: ${{ parameters.MaxParallel }}
+      matrix: $[ ${{ parameters.Matrix }} ]
 
     variables:
       - template: ../variables/globals.yml
-      - name: ResourceGroupLocation
-        value: ${{ parameters.ResourceGroupLocation }}
       - name: ArmTemplateParameters
-        value: ${{ parameters.ArmTemplateParameters }}
-
-    strategy:
-      maxParallel: ${{ parameters.MaxParallel }}
-      matrix:
+        value: '@{}'
 
     pool:
       name: $(Pool)
       vmImage: $(OSVmImage)
 
     timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
+
+    ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
+      container: $[ variables['Container'] ]
 
     steps:
       - template: ../steps/common.yml
@@ -85,10 +71,11 @@ jobs:
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/deploy-test-resources.yml
           parameters:
-            Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
+            ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
+              Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
             ServiceDirectory: '${{ parameters.ServiceDirectory }}'
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
-            ArmTemplateParameters: ${{ coalesce(parameters.CloudConfig.ArmTemplateParameters, '@{}') }}
+            ArmTemplateParameters: $(ArmTemplateParameters)
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -126,8 +113,7 @@ jobs:
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
-      - ${{if ne(parameters.PreIntegrationSteps, '')}}:
-          - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
+      - ${{ parameters.PreSteps }}
 
       - pwsh: |
           npm install
@@ -157,8 +143,7 @@ jobs:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
 
-      - ${{if ne(parameters.PostIntegrationSteps, '')}}:
-          - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
+      - ${{ parameters.PostSteps }}
 
       - script: |
           node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples

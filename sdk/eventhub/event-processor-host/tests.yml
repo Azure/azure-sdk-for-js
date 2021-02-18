@@ -1,10 +1,10 @@
 trigger: none
 
-extends:
-  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-  parameters:
-    PackageName: "@azure/event-processor-host"
-    ResourceServiceDirectory: eventhub
-    TimeoutInMinutes: 90
-    TestBrowser: false
-    TestSamples: false
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/event-processor-host"
+      ServiceDirectory: eventhub
+      TimeoutInMinutes: 90
+      MatrixFilters:
+        - TestType=node

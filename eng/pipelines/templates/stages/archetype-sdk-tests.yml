@@ -2,13 +2,7 @@ parameters:
   - name: PackageName
     type: string
     default: ""
-  - name: PreIntegrationSteps
-    type: string
-    default: ""
-  - name: PostIntegrationSteps
-    type: string
-    default: ""
-  - name: ResourceServiceDirectory
+  - name: ServiceDirectory
     type: string
     default: ""
   - name: EnvVars
@@ -23,36 +17,24 @@ parameters:
   - name: PublishCodeCoverage
     type: boolean
     default: false
-  - name: SubscriptionConfiguration
-    type: string
-    default: $(sub-config-azure-cloud-test-resources)
-  - name: ResourceGroupLocation
+  - name: Location
     type: string
     default: ""
-  - name: ResourceGroupLocationCanary
-    type: string
-    default: "centraluseuap"
-  - name: ArmTemplateParameters
-    type: string
-    default: "@{}"
-  - name: TestBrowser
-    type: boolean
-    default: true
-  - name: TestSamples
-    type: boolean
-    default: true
-  - name: TestMinMax
-    type: boolean
-    default: false
-  - name: TestSame
-    type: boolean
-    default: false
   - name: Clouds
     type: string
     default: 'Public'
   - name: SupportedClouds
     type: string
     default: 'Public,Canary'
+  - name: UnsupportedClouds
+    type: string
+    default: ''
+  - name: PreSteps
+    type: object
+    default: []
+  - name: PostSteps
+    type: object
+    default: []
   - name: CloudConfig
     type: object
     default:
@@ -79,7 +61,9 @@ parameters:
     default: []
   - name: MatrixFilters
     type: object
-    default: []
+    default:
+      # Include all test scenarios except min/max tests by default
+      - 'DependencyVersion=^$'
 
 stages:
 - ${{ each cloud in parameters.CloudConfig }}:
@@ -95,26 +79,16 @@ stages:
           parameters:
             JobTemplatePath: /eng/pipelines/templates/jobs/archetype-sdk-integration.yml
             AdditionalParameters:
+              PackageName: ${{ parameters.PackageName }}
               ServiceDirectory: ${{ parameters.ServiceDirectory }}
-              PreSteps:
-                - ${{ parameters.PlatformPreSteps }}
-                - ${{ parameters.PreSteps }}
-              PostSteps:
-                - ${{ parameters.PlatformPostSteps }}
-                - ${{ parameters.PostSteps }}
               EnvVars: ${{ parameters.EnvVars }}
               MaxParallel: ${{ parameters.MaxParallel }}
-              BeforeTestSteps: ${{ parameters.BeforeTestSteps }}
-              AfterTestSteps: ${{ parameters.AfterTestSteps }}
-              AdditionalTestArgs: ${{ parameters.AdditionalTestArgs }}
-              BuildTargetingString: ${{ parameters.BuildTargetingString }}
-              TestMarkArgument: ${{ parameters.TestMarkArgument }}
-              InjectedPackages: ${{ parameters.InjectedPackages }}
-              BuildDocs: ${{ parameters.BuildDocs }}
-              AllocateResourceGroup: ${{ parameters.AllocateResourceGroup }}
-              DeployArmTemplate: ${{ parameters.DeployArmTemplate }}
-              TestTimeoutInMinutes: ${{ parameters.TestTimeoutInMinutes }}
-              TestSamples: ${{ parameters.TestSamples }}
+              TimeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
+              PublishCodeCoverage: ${{ parameters.PublishCodeCoverage }}
+              PreSteps:
+                - ${{ parameters.PreSteps }}
+              PostSteps:
+                - ${{ parameters.PostSteps }}
             MatrixConfigs:
               # Enumerate platforms and additional platforms based on supported clouds (sparse platform<-->cloud matrix).
               - ${{ each config in parameters.MatrixConfigs }}:

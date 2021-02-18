@@ -1,13 +1,25 @@
 trigger: none
 
-extends:
-  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-  parameters:
-    PackageName: "@azure/keyvault-keys"
-    ResourceServiceDirectory: keyvault
-    TimeoutInMinutes: 59
-    TestMinMax: true
-    EnvVars:
-      AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-      AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-      AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/keyvault-keys"
+      ServiceDirectory: keyvault
+      TimeoutInMinutes: 59
+      # KV HSM limitation prevents us from running live tests
+      # against multiple platforms in parallel (we're limited to a single
+      # instance per region per subscription) so we're only running
+      # live tests against a single instance.
+      Location: eastus2
+      MatrixFilters:
+        - TestType=node|browser|sample
+        - DependencyVersion=^$|min|max
+      AdditionalMatrixConfigs:
+        - Name: Keyvault_live_test_base
+          Path: sdk/keyvault/keyvault-keys/platform-matrix.json
+          Selection: sparse
+          GenerateVMJobs: true
+      EnvVars:
+        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
