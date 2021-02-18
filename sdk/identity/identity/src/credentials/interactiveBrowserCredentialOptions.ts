@@ -23,9 +23,9 @@ export type BrowserLoginStyle = "redirect" | "popup";
 export type InteractiveBrowserAuthenticationFlow = "implicit-grant" | "auth-code";
 
 /**
- * Defines options for the InteractiveBrowserCredential class.
+ * Defines the common options for the InteractiveBrowserCredential class.
  */
-export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
+export interface InteractiveBrowserCredentialCommonOptions extends TokenCredentialOptions {
   /**
    * (Only available if used from a browser)
    * Specifies whether a redirect or a popup window should be used to
@@ -53,11 +53,6 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
   tenantId?: string;
 
   /**
-   * The client (application) ID of an App Registration in the tenant.
-   */
-  clientId?: string;
-
-  /**
    * Correlation ID that can be customized to keep track of the browser authentication requests.
    */
   correlationId?: string;
@@ -82,6 +77,29 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
    * Otherwise, auth-code will be assumed, which uses PKCE and MSAL 2.
    */
   flow?: InteractiveBrowserAuthenticationFlow;
+}
+
+/**
+ * Defines options for the InteractiveBrowserCredential class for NodeJS.
+ */
+export interface InteractiveBrowserCredentialOptions
+  extends InteractiveBrowserCredentialCommonOptions {
+  /**
+   * The client (application) ID of an App Registration in the tenant.
+   */
+  clientId?: string;
+}
+
+/**
+ * Defines options for the InteractiveBrowserCredential class for the browser.
+ */
+export interface InteractiveBrowserCredentialBrowserOptions
+  extends InteractiveBrowserCredentialCommonOptions {
+  /**
+   * The client (application) ID of an App Registration in the tenant.
+   * This parameter is required on the browser.
+   */
+  clientId: string;
 }
 
 /**
