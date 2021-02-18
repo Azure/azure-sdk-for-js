@@ -16,7 +16,7 @@ import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions"> & {
   /**
    * Options used when creating and sending HTTP requests for this operation.
-   * (Not applicable for the AMQP operations.)
+   * Only passed through to `@azure/identity` for the operations emanating from ServiceBusClient.
    */
   requestOptions?: {
     /**
