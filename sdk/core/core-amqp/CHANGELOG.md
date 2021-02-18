@@ -1,7 +1,12 @@
 # Release History
 
-## 2.1.1 (Unreleased)
+## 2.2.0 (Unreleased)
 
+- Addresses issue [9988](https://github.com/Azure/azure-sdk-for-js/issues/9988)
+  by updating the following operations to accept an `abortSignal` to allow cancellation:
+  - CbsClient.init()
+  - CbsClient.negotiateClaim()
+  - RequestResponseLink.create()
 
 ## 2.1.0 (2021-02-08)
 

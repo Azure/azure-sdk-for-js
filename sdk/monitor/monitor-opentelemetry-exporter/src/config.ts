@@ -15,7 +15,7 @@ export interface AzureExporterConfig {
   // Setup String
   connectionString?: string;
   // Azure service API version
-  serviceApiVersion?: ServiceApiVersion;
+  apiVersion?: ServiceApiVersion;
 }
 
 export interface AzureExporterInternalConfig {
@@ -32,7 +32,7 @@ export interface AzureExporterInternalConfig {
 
   endpointUrl: string;
 
-  serviceApiVersion: ServiceApiVersion;
+  apiVersion: ServiceApiVersion;
 }
 
 export const DEFAULT_EXPORTER_CONFIG: AzureExporterInternalConfig = {
@@ -40,5 +40,5 @@ export const DEFAULT_EXPORTER_CONFIG: AzureExporterInternalConfig = {
   endpointUrl: DEFAULT_BREEZE_ENDPOINT,
   batchSendRetryIntervalMs: DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS,
   maxConsecutiveFailuresBeforeWarning: DEFAULT_MAX_CONSECUTIVE_FAILURES_BEFORE_WARNING,
-  serviceApiVersion: DEFAULT_BREEZE_API_VERSION
+  apiVersion: DEFAULT_BREEZE_API_VERSION
 };

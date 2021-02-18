@@ -62,4 +62,5 @@ async function cleanupSampleValues(keys, client) {
 
 main().catch((error) => {
   console.error("Failed to run sample:", error);
+  process.exit(1);
 });

@@ -631,6 +631,11 @@
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/mixedreality-authentication",
+      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
+      "versionPolicyName": "client"
     }
   ]
 }

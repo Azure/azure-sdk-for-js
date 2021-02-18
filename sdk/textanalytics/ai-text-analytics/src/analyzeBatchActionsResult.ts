@@ -326,10 +326,7 @@ function makeRecognizeCategorizedEntitiesActionResult(
     if (actionResults.documents.length !== 0 || actionResults.errors.length !== 0) {
       const recognizeEntitiesResults = makeRecognizeCategorizedEntitiesResultArray(
         documents,
-        actionResults?.documents,
-        actionResults?.errors,
-        actionResults?.modelVersion,
-        actionResults?.statistics
+        actionResults
       );
       return [
         ...actions,
@@ -403,13 +400,7 @@ function makeExtractKeyPhrasesActionResult(
   ): ExtractKeyPhrasesActionSuccessResult[] {
     const { results: actionResults, lastUpdateDateTime } = task;
     if (actionResults.documents.length !== 0 || actionResults.errors.length !== 0) {
-      const extractKeyPhrasesResults = makeExtractKeyPhrasesResultArray(
-        documents,
-        actionResults?.documents,
-        actionResults?.errors,
-        actionResults?.modelVersion,
-        actionResults?.statistics
-      );
+      const extractKeyPhrasesResults = makeExtractKeyPhrasesResultArray(documents, actionResults);
       return [
         ...actions,
         {

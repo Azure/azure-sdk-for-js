@@ -13,10 +13,10 @@ export class ArtifactsClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the ArtifactsClientContext class.
-   * @param credentials - Subscription credentials which uniquely identify client subscription.
-   * @param endpoint - The workspace development endpoint, for example
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param endpoint The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param options - The parameter options
+   * @param options The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
