@@ -1,3 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/**
+ * Track 1 perf tests are not maintained through rush in this repository.
+ * 
+ * This helper script is meant to be used to "build" and "install" 
+ * the `@azure/test-utils-perfstress` package in the track-1 perf-test projects
+ * so that the track 1 perf tests can leverage the perf framework.
+ * 
+ * Additionally, this runs `npm install` in the track-1 perf test projects.
+ */
 const { spawnSync } = require("child_process");
 const path = require("path");
 
