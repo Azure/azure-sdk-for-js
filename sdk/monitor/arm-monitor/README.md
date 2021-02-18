@@ -15,7 +15,7 @@ npm install @azure/arm-monitor
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listByResourceGroup autoscaleSettings as an example written in TypeScript.
+#### nodejs - client creation and get activityLogAlerts as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,17 +26,17 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { MonitorManagementClient, MonitorManagementModels, MonitorManagementMappers } from "@azure/arm-monitor";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { MonitorManagementClient } = require("@azure/arm-monitor");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new MonitorManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
-  client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
+  const activityLogAlertName = "testactivityLogAlertName";
+  client.activityLogAlerts.get(resourceGroupName, activityLogAlertName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and listByResourceGroup autoscaleSettings as an example written in JavaScript.
+#### browser - Authentication, client creation and get activityLogAlerts as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -80,7 +80,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.ArmMonitor.MonitorManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
-        client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
+        const activityLogAlertName = "testactivityLogAlertName";
+        client.activityLogAlerts.get(resourceGroupName, activityLogAlertName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -98,4 +99,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmonitor%2Farm-monitor%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/arm-monitor/README.png)
