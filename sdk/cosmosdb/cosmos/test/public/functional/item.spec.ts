@@ -503,18 +503,27 @@ describe("bulk item operations", function() {
       assert.equal(deleteResponse[0].statusCode, 204);
     });
   });
+});
 
-  describe("subpartitioned container item CRUD", async function() {
-    let container: Container;
+describe("subpartitioned container item CRUD", async function() {
+  let container: Container;
 
-    before(async function() {
-      const database = await getTestDatabase("autoscale test");
-      const containerRequest: ContainerRequest = {
-        id: "subpartition conatiner",
-        partitionKey: ["/topLevel", "/lowerLevel"]
-      };
-      const response = await database.containers.create(containerRequest);
-      container = response.container;
-    });
+  before(async function() {
+    const database = await getTestDatabase("autoscale test");
+    const containerRequest: ContainerRequest = {
+      id: "subpartition conatiner",
+      partitionKey: ["/topLevel", "/lowerLevel"]
+    };
+    const response = await database.containers.create(containerRequest);
+    container = response.container;
+  });
+
+  it.only("create subpartitioned items", async () => {
+    const itemBody = {
+      id: "subpartitionId",
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    await container.items.create(itemBody);
   });
 });
