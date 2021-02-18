@@ -495,7 +495,7 @@ export interface UpdatePhoneNumberCapabilitiesResponse {
 }
 
 // @public
-export type VoidResponse = WithResponse<{}>;
+export type VoidResponse = WithResponse<Record<string, unknown>>;
 
 // @public
 export type WithResponse<T> = T & {

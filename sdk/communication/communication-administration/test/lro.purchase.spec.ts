@@ -44,7 +44,7 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
 
     let phonePlanGroupId: string = "";
     for await (const phonePlanGroup of client.listPhonePlanGroups(countryCode)) {
-      if (phonePlanGroup.phoneNumberType == "Geographic") {
+      if (phonePlanGroup.phoneNumberType === "Geographic") {
         assert.isString(phonePlanGroup.phonePlanGroupId);
         ({ phonePlanGroupId } = phonePlanGroup);
         break;

@@ -931,7 +931,7 @@ export class PhoneNumberAdministrationClient {
    * for await (const phonePlan of client.listPhonePlanGroups(PLAN_GROUP_INFO)) {
    *   console.log("plan id: ", phonePlan.phonePlanId);
    * }
-   *
+   * ```
    * Gets all available phone plans for a given plan group.
    * @param planGroupInfo - Information need to search for plans.
    * @param options - Additional request options.
