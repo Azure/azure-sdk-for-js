@@ -4,7 +4,7 @@
 import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { SpanKind, Logger, StatusCode, Link } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
 import { SERVICE_RESOURCE } from "@opentelemetry/resources";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
@@ -108,7 +108,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const data: RemoteDependencyData = {
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
-    success: span.status.code === StatusCode.OK,
+    success: span.status.code === SpanStatusCode.OK,
     resultCode: String(span.status.code),
     target: span.attributes[HTTP_URL] as string | undefined,
     type: "Dependency",
@@ -162,7 +162,7 @@ function createRequestData(span: ReadableSpan): RequestData {
   const data: RequestData = {
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
-    success: span.status.code === StatusCode.OK,
+    success: span.status.code === SpanStatusCode.OK,
     responseCode: String(span.status.code),
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 1,
@@ -209,8 +209,7 @@ function createInProcData(span: ReadableSpan): RemoteDependencyData {
 
 export function readableSpanToEnvelope(
   span: ReadableSpan,
-  ikey: string,
-  logger?: Logger
+  ikey: string
 ): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
@@ -241,9 +240,7 @@ export function readableSpanToEnvelope(
       break;
     default:
       // never
-      if (logger) {
-        logger.error(`Unsupported span kind ${span.kind}`);
-      }
+      diag.error(`Unsupported span kind ${span.kind}`);
       throw new Error(`Unsupported span kind ${span.kind}`);
   }
 

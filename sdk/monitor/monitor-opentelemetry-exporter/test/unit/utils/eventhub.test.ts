@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  Attributes,
+  SpanAttributes,
   HrTime,
-  NoopLogger,
   SpanContext,
   SpanKind,
   ROOT_CONTEXT
@@ -24,14 +23,12 @@ import {
 import { parseEventHubSpan } from "../../../src/utils/eventhub";
 import { RemoteDependencyData, TelemetryItem as Envelope } from "../../../src/generated";
 
-const tracer = new BasicTracerProvider({
-  logger: new NoopLogger()
-}).getTracer("default");
+const tracer = new BasicTracerProvider().getTracer("default");
 
 describe("#parseEventHubSpan(...)", () => {
   const peerAddress = "example.servicebus.windows.net";
   const destination = "test123";
-  const attributes: Attributes = {
+  const attributes: SpanAttributes = {
     [AzNamespace]: MicrosoftEventHub,
     ["peer.address"]: peerAddress,
     [MessageBusDestination]: destination

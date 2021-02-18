@@ -4,7 +4,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { Logger, NoopLogger } from "@opentelemetry/api";
+import { diag } from "@opentelemetry/api";
 import { PersistentStorage } from "../../../types";
 import { DEFAULT_EXPORTER_CONFIG, AzureExporterInternalConfig } from "../../../config";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
@@ -25,32 +25,29 @@ export class FileSystemPersist implements PersistentStorage {
 
   private readonly _options: AzureExporterInternalConfig;
 
-  private readonly _logger: Logger;
-
   constructor(options: Partial<AzureExporterInternalConfig> = {}) {
     this._options = { ...DEFAULT_EXPORTER_CONFIG, ...options };
-    this._logger = options.logger || new NoopLogger();
     if (!this._options.instrumentationKey) {
-      this._logger.error(
+      diag.error(
         `No instrumentation key was provided to FileSystemPersister. Files may not be properly persisted`
       );
     }
   }
 
   push(value: unknown[]): Promise<boolean> {
-    this._logger.debug("Pushing value to persistent storage", value.toString());
+    diag.debug("Pushing value to persistent storage", value.toString());
     return this._storeToDisk(JSON.stringify(value));
   }
 
   async shift(): Promise<unknown> {
-    this._logger.debug("Searching for filesystem persisted files");
+    diag.debug("Searching for filesystem persisted files");
     try {
       const buffer = await this._getFirstFileOnDisk();
       if (buffer) {
         return JSON.parse(buffer.toString("utf8"));
       }
     } catch (e) {
-      this._logger.debug("Failed to read persisted file", e);
+      diag.debug("Failed to read persisted file", e);
     }
     return null;
   }
@@ -103,20 +100,20 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await confirmDirExists(directory);
     } catch (error) {
-      this._logger.warn(`Error while checking/creating directory: `, error && error.message);
+      diag.warn(`Error while checking/creating directory: `, error && error.message);
       return false;
     }
 
     try {
       const size = await getShallowDirectorySize(directory);
       if (size > this.maxBytesOnDisk) {
-        this._logger.warn(
+        diag.warn(
           `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`
         );
         return false;
       }
     } catch (error) {
-      this._logger.warn(
+      diag.warn(
         `Error while checking size of persistence directory: `,
         error && error.message
       );
@@ -129,11 +126,11 @@ export class FileSystemPersist implements PersistentStorage {
     const fileFullPath = path.join(directory, fileName);
 
     // Mode 600 is w/r for creator and no read access for others
-    this._logger.info(`saving data to disk at: ${fileFullPath}`);
+    diag.info(`saving data to disk at: ${fileFullPath}`);
     try {
       await writeFileAsync(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError) {
-      this._logger.warn(`Error writing file to persistent file storage`, writeError);
+      diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
     }
     return true;

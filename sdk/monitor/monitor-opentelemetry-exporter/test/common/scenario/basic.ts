@@ -6,7 +6,7 @@ import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
-import { StatusCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
 import { delay } from "@azure/core-http";
 import { TelemetryItem as Envelope } from "../../../src/generated";
@@ -59,16 +59,16 @@ export class BasicScenario implements Scenario {
         opentelemetry.context.with(
           opentelemetry.setSpan(opentelemetry.context.active(), child1),
           () => {
-            child1.setStatus({ code: StatusCode.OK });
+            child1.setStatus({ code: SpanStatusCode.OK });
             child1.end(100);
           }
         );
 
         await delay(0);
-        child2.setStatus({ code: StatusCode.OK });
+        child2.setStatus({ code: SpanStatusCode.OK });
         child2.end(100);
 
-        root.setStatus({ code: StatusCode.OK });
+        root.setStatus({ code: SpanStatusCode.OK });
         root.end(600);
       }
     );
