@@ -11,15 +11,15 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-communication-sms";
-const packageVersion = "1.0.0-beta.3";
+const packageVersion = "1.0.0-beta.4";
 
 export class SmsApiClientContext extends coreHttp.ServiceClient {
   endpoint: string;
 
   /**
    * Initializes a new instance of the SmsApiClientContext class.
-   * @param endpoint - The endpoint of the Azure Communication resource.
-   * @param options - The parameter options
+   * @param endpoint The endpoint of the Azure Communication resource.
+   * @param [options] The parameter options
    */
   constructor(endpoint: string, options?: coreHttp.ServiceClientOptions) {
     if (endpoint == undefined) {

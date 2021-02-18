@@ -26,12 +26,12 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-    curve?: KeyCurveName;
     hsm?: boolean;
 }
 
 // @public
 export interface CreateKeyOptions extends coreHttp.OperationOptions {
+    curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
     keyOps?: KeyOperation[];
@@ -50,7 +50,6 @@ export interface CreateOctKeyOptions extends CreateKeyOptions {
 // @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     hsm?: boolean;
-    keySize?: number;
     publicExponent?: number;
 }
 
@@ -184,7 +183,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1";
+    serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 // @public

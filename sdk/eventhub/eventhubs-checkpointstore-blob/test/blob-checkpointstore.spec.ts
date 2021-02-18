@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -418,7 +418,7 @@ describe("Blob Checkpoint Store", function(): void {
     // and "unowning" a partition is possible to with an empty ownerId
     ownershipList[0].ownerId = "";
 
-    let ownershipsAfterUnclaiming = await checkpointStore.claimOwnership([ownershipList[0]]);
+    const ownershipsAfterUnclaiming = await checkpointStore.claimOwnership([ownershipList[0]]);
     ownershipsAfterUnclaiming.length.should.equal(1);
 
     ownershipsAfterUnclaiming[0].ownerId.should.equal("");

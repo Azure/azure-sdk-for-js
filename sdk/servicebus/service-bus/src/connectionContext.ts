@@ -140,7 +140,7 @@ async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
   receiverType: ReceiverType
-) {
+): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
   for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
@@ -176,7 +176,7 @@ async function callOnDetachedOnReceivers(
 async function getNumberOfReceivers(
   connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
   receiverType: ReceiverType
-) {
+): Promise<number> {
   if (receiverType === "session") {
     const receivers = connectionContext.messageSessions;
     return Object.keys(receivers).length;
@@ -494,7 +494,7 @@ export namespace ConnectionContext {
       }
     };
 
-    async function refreshConnection(connectionContext: ConnectionContext) {
+    async function refreshConnection(connectionContext: ConnectionContext): Promise<void> {
       const originalConnectionId = connectionContext.connectionId;
       try {
         await cleanConnectionContext(connectionContext);
@@ -547,7 +547,6 @@ export namespace ConnectionContext {
    * Once closed,
    * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
    * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
-   * @returns {Promise<any>}
    */
   export async function close(context: ConnectionContext): Promise<void> {
     const logPrefix = `[${context.connectionId}]`;

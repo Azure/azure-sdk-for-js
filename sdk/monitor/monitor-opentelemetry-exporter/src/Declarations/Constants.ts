@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export enum ServiceApiVersion {
+  V2 = "2020-09-15_Preview"
+}
+
 export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
-export const DEFAULT_BREEZE_API_VERSION = "2";
+export const DEFAULT_BREEZE_API_VERSION = ServiceApiVersion.V2;
 export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.com";
 export const DEFAULT_LIVEMETRICS_HOST = "rt.services.visualstudio.com";
 export const ENV_CONNECTION_STRING = "APPLICATIONINSIGHTS_CONNECTION_STRING";

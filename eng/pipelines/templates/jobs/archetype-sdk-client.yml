@@ -8,12 +8,6 @@ parameters:
   - name: ServiceDirectory
     type: string
     default: not-specified
-  - name: WindowsPool
-    type: string
-    default: azsdk-pool-mms-win-2019-general
-  - name: LinuxPool
-    type: string
-    default: azsdk-pool-mms-ubuntu-1804-general
   - name: RunUnitTests
     type: boolean
     default: true
@@ -21,28 +15,28 @@ parameters:
     type: object
     default:
       Linux_Node8:
-        Pool: $(LinuxPool)
-        OSVmImage:
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
         NodeTestVersion: "8.x"
         TestType: "node"
       Windows_Node10:
-        Pool: $(WindowsPool)
-        OSVmImage:
+        Pool: azsdk-pool-mms-win-2019-general
+        OSVmImage: MMS2019
         NodeTestVersion: "10.x"
         TestType: "node"
       macOS_Node12:
-        Pool:
+        Pool: Azure Pipelines
         OSVmImage: "macOS-10.15"
         NodeTestVersion: "12.x"
         TestType: "node"
       Browser_Linux_Node12:
-        Pool: $(LinuxPool)
-        OSVmImage: "ubuntu-18.04"
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
         NodeTestVersion: "$(NodeVersion)"
         TestType: "browser"
       Linux_Node14:
-        Pool: $(LinuxPool)
-        OSVmImage: "ubuntu-18.04"
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
         NodeTestVersion: "14.x"
         TestType: "node"
 
@@ -52,7 +46,8 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      name: ${{ parameters.LinuxPool }}
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
 
     steps:
       - script: |
@@ -79,7 +74,8 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      name: ${{ parameters.LinuxPool }}
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
 
     steps:
       - template: ../steps/common.yml
@@ -97,15 +93,11 @@ jobs:
           matrix: ${{parameters.Matrix}}
 
         pool:
-          name: $[coalesce(variables['Pool'], '')]
-          vmImage: $[coalesce(variables['OSVmImage'], '')]
+          name: $(Pool)
+          vmImage: $(OSVmImage)
 
         variables:
           - template: ../variables/globals.yml
-          - name: WindowsPool
-            value: ${{ parameters.WindowsPool }}
-          - name: LinuxPool
-            value: ${{ parameters.LinuxPool }}
 
         steps:
           - template: ../steps/common.yml

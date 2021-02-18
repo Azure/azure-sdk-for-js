@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "5.1.0-beta.4",
+  "version": "5.1.0-beta.5",
   "keywords": [
     "node",
     "azure",
@@ -82,7 +82,7 @@
   "autoPublish": false,
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-auth": "^1.1.3",
+    "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",

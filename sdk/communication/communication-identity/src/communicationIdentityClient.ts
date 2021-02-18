@@ -121,7 +121,7 @@ export class CommunicationIdentityClient {
    * @param scopes - Scopes to include in the token.
    * @param options - Additional options for the request.
    */
-  public async issueToken(
+  public async getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options: OperationOptions = {}

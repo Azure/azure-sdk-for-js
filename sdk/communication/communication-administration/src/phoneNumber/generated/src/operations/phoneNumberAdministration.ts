@@ -61,7 +61,7 @@ export class PhoneNumberAdministration {
 
   /**
    * Initialize a new instance of the class PhoneNumberAdministration class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: PhoneNumberRestClient) {
     this.client = client;
@@ -69,7 +69,7 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets the list of the acquired phone numbers.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getAllPhoneNumbers(
     options?: PhoneNumberAdministrationGetAllPhoneNumbersOptionalParams
@@ -85,11 +85,11 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a list of the supported area codes
-   * @param locationType - The type of location information required by the plan.
-   * @param countryCode - The ISO 3166-2 country code
-   * @param phonePlanId - The plan id from which to search area codes.
-   * @param body - Location options for when location type is selection.
-   * @param options - The options parameters.
+   * @param locationType The type of location information required by the plan.
+   * @param countryCode The ISO 3166-2 country code
+   * @param phonePlanId The plan id from which to search area codes.
+   * @param body Location options for when location type is selection.
+   * @param options The options parameters.
    */
   getAllAreaCodes(
     locationType: string,
@@ -116,7 +116,7 @@ export class PhoneNumberAdministration {
   /**
    * Get capabilities by capabilities update id.
    * @param capabilitiesUpdateId
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getCapabilitiesUpdate(
     capabilitiesUpdateId: string,
@@ -133,8 +133,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Adds or removes phone number capabilities
-   * @param body - Represents a numbers capabilities update request
-   * @param options - The options parameters.
+   * @param body Represents a numbers capabilities update request
+   * @param options The options parameters.
    */
   updateCapabilities(
     body: UpdateNumberCapabilitiesRequest,
@@ -151,7 +151,7 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a list of supported countries
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getAllSupportedCountries(
     options?: PhoneNumberAdministrationGetAllSupportedCountriesOptionalParams
@@ -167,8 +167,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Endpoint for getting number configurations
-   * @param body - The phone number whose configuration is to be fetched
-   * @param options - The options parameters.
+   * @param body The phone number whose configuration is to be fetched
+   * @param options The options parameters.
    */
   getNumberConfiguration(
     body: NumberConfigurationPhoneNumber,
@@ -185,8 +185,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Endpoint for configuring a pstn number
-   * @param body - Details of pstn number configuration of the given phoneNumber
-   * @param options - The options parameters.
+   * @param body Details of pstn number configuration of the given phoneNumber
+   * @param options The options parameters.
    */
   configureNumber(
     body: NumberConfiguration,
@@ -203,8 +203,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Endpoint for unconfiguring a pstn number by removing the configuration
-   * @param body - The phone number to un-configure
-   * @param options - The options parameters.
+   * @param body The phone number to un-configure
+   * @param options The options parameters.
    */
   unconfigureNumber(
     body: NumberConfigurationPhoneNumber,
@@ -221,8 +221,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a list of phone plan groups for the given country
-   * @param countryCode - The ISO 3166-2 country code.
-   * @param options - The options parameters.
+   * @param countryCode The ISO 3166-2 country code.
+   * @param options The options parameters.
    */
   getPhonePlanGroups(
     countryCode: string,
@@ -239,9 +239,9 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a list of phone plans for a phone plan group
-   * @param countryCode - The ISO 3166-2 country code.
+   * @param countryCode The ISO 3166-2 country code.
    * @param phonePlanGroupId
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getPhonePlans(
     countryCode: string,
@@ -259,10 +259,10 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a list of location options for a phone plan
-   * @param countryCode - The ISO 3166-2 country code.
+   * @param countryCode The ISO 3166-2 country code.
    * @param phonePlanGroupId
    * @param phonePlanId
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getPhonePlanLocationOptions(
     countryCode: string,
@@ -281,8 +281,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a release by a release id
-   * @param releaseId - Represents the release id
-   * @param options - The options parameters.
+   * @param releaseId Represents the release id
+   * @param options The options parameters.
    */
   getReleaseById(
     releaseId: string,
@@ -299,8 +299,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Creates a release for the given phone numbers
-   * @param body - Config api Release request
-   * @param options - The options parameters.
+   * @param body Config api Release request
+   * @param options The options parameters.
    */
   releasePhoneNumbers(
     body: ReleaseRequest,
@@ -317,7 +317,7 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a list of all releases
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getAllReleases(
     options?: PhoneNumberAdministrationGetAllReleasesOptionalParams
@@ -333,8 +333,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Get search by search id
-   * @param searchId - The search id to be searched for
-   * @param options - The options parameters.
+   * @param searchId The search id to be searched for
+   * @param options The options parameters.
    */
   getSearchById(
     searchId: string,
@@ -351,8 +351,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Creates a phone number search
-   * @param body - Defines the search options
-   * @param options - The options parameters.
+   * @param body Defines the search options
+   * @param options The options parameters.
    */
   createSearch(
     body: CreateSearchOptions,
@@ -369,7 +369,7 @@ export class PhoneNumberAdministration {
 
   /**
    * Gets a list of all searches
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getAllSearches(
     options?: PhoneNumberAdministrationGetAllSearchesOptionalParams
@@ -385,8 +385,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Cancels the search. This means existing numbers in the search will be made available.
-   * @param searchId - The search id to be canceled
-   * @param options - The options parameters.
+   * @param searchId The search id to be canceled
+   * @param options The options parameters.
    */
   cancelSearch(
     searchId: string,
@@ -403,8 +403,8 @@ export class PhoneNumberAdministration {
 
   /**
    * Purchases the phone number search.
-   * @param searchId - The search id to be purchased
-   * @param options - The options parameters.
+   * @param searchId The search id to be purchased
+   * @param options The options parameters.
    */
   purchaseSearch(
     searchId: string,
@@ -421,8 +421,8 @@ export class PhoneNumberAdministration {
 
   /**
    * GetAllPhoneNumbersNext
-   * @param nextLink - The nextLink from the previous successful call to the GetAllPhoneNumbers method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetAllPhoneNumbers method.
+   * @param options The options parameters.
    */
   getAllPhoneNumbersNext(
     nextLink: string,
@@ -439,9 +439,9 @@ export class PhoneNumberAdministration {
 
   /**
    * GetAllSupportedCountriesNext
-   * @param nextLink - The nextLink from the previous successful call to the GetAllSupportedCountries
+   * @param nextLink The nextLink from the previous successful call to the GetAllSupportedCountries
    *                 method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   getAllSupportedCountriesNext(
     nextLink: string,
@@ -458,9 +458,9 @@ export class PhoneNumberAdministration {
 
   /**
    * GetPhonePlanGroupsNext
-   * @param countryCode - The ISO 3166-2 country code.
-   * @param nextLink - The nextLink from the previous successful call to the GetPhonePlanGroups method.
-   * @param options - The options parameters.
+   * @param countryCode The ISO 3166-2 country code.
+   * @param nextLink The nextLink from the previous successful call to the GetPhonePlanGroups method.
+   * @param options The options parameters.
    */
   getPhonePlanGroupsNext(
     countryCode: string,
@@ -478,10 +478,10 @@ export class PhoneNumberAdministration {
 
   /**
    * GetPhonePlansNext
-   * @param countryCode - The ISO 3166-2 country code.
+   * @param countryCode The ISO 3166-2 country code.
    * @param phonePlanGroupId
-   * @param nextLink - The nextLink from the previous successful call to the GetPhonePlans method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetPhonePlans method.
+   * @param options The options parameters.
    */
   getPhonePlansNext(
     countryCode: string,
@@ -500,8 +500,8 @@ export class PhoneNumberAdministration {
 
   /**
    * GetAllReleasesNext
-   * @param nextLink - The nextLink from the previous successful call to the GetAllReleases method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetAllReleases method.
+   * @param options The options parameters.
    */
   getAllReleasesNext(
     nextLink: string,
@@ -518,8 +518,8 @@ export class PhoneNumberAdministration {
 
   /**
    * GetAllSearchesNext
-   * @param nextLink - The nextLink from the previous successful call to the GetAllSearches method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetAllSearches method.
+   * @param options The options parameters.
    */
   getAllSearchesNext(
     nextLink: string,

@@ -26,7 +26,7 @@ export class TestCommunicationIdentityClient {
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: issueTokenHttpClient
     });
-    return client.issueToken(user, scopes, options);
+    return client.getToken(user, scopes, options);
   }
 
   public async revokeTokensTest(

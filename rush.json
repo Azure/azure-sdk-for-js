@@ -483,6 +483,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/mock-hub",
+      "projectFolder": "sdk/eventhub/mock-hub",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "testhub",
       "projectFolder": "sdk/eventhub/testhub",
       "versionPolicyName": "utility"
@@ -625,6 +630,11 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/mixedreality-authentication",
+      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
       "versionPolicyName": "client"
     }
   ]

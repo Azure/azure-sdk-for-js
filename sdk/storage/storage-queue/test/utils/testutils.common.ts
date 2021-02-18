@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { padStart } from "../../src/utils/utils.common";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 

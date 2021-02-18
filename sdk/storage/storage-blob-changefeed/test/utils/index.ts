@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as dotenv from "dotenv";
 import { SimpleTokenCredential } from "./testutils.common";
 import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";

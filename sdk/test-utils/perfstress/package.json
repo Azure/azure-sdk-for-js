@@ -64,7 +64,7 @@
   "private": true,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.2.0",
+    "@azure/core-http": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0",
     "node-fetch": "^2.6.0",

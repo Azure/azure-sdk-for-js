@@ -1,5 +1,8 @@
 # Release History
 
+## 3.1.0-beta.3 (Unreleased)
+
+
 ## 3.1.0-beta.2 (2021-02-09)
 
 - Renamed `Appearance` to `TextAppearance`, `Style` to `TextStyle` (previously the name of the enum for `Style.name`, and the `TextStyle` enum to `StyleName` for the sake of clarity in the type names.
