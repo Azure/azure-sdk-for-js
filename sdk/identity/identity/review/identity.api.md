@@ -154,11 +154,20 @@ export class InteractiveBrowserCredential implements TokenCredential {
     getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
-// Warning: (ae-forgotten-export) The symbol "InteractiveBrowserCredentialCommonOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveBrowserCredentialCommonOptions {
     clientId: string;
+}
+
+// @public
+export interface InteractiveBrowserCredentialCommonOptions extends TokenCredentialOptions {
+    authenticationRecord?: AuthenticationRecord;
+    correlationId?: string;
+    flow?: InteractiveBrowserAuthenticationFlow;
+    loginStyle?: BrowserLoginStyle;
+    postLogoutRedirectUri?: string | (() => string);
+    redirectUri?: string | (() => string);
+    tenantId?: string;
 }
 
 // @public
