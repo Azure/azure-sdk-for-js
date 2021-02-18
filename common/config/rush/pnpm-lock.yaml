@@ -41,7 +41,7 @@ dependencies:
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
-  '@rush-temp/perf-test-storage-blob': file:projects/perf-test-storage-blob.tgz
+  '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -8792,7 +8792,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-pbE+1sWO3hSy98FxDQXdnM7DdAl74zQfJarMxAKnXVqg8yEC+WT3fK93ecRRNXfXK5NgW9SKNsFNVORsIkaELg==
+      integrity: sha512-cGtziUBhQ3TvjHjX3/qbEcKFfyHr8Ee/Ncz+QetxsaxB+GDLxHmqKoWyYI5GTr5Tn4S/BSWJOMwddHdlSiF2Xw==
       tarball: file:projects/communication-administration.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8850,7 +8850,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-wX2sL9Sd/2jLeSGnP0om/w6fFtCn1a1l/VePM6D2Nw5bz9G7wt4KCQbWrepAmZ5apO1yiOg152akArzR+Yvmbg==
+      integrity: sha512-rx4W1fAnOD80LRZby/oT9vxSvxgln2Q2Utd9QMwDX7Tcle4DQWj0/1r+pN9qUa88KTp/TAFUSmXHqbD6HiF8Tw==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8961,7 +8961,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-ocd+xJYPU1k8gTxrvOM8PqYDx0tlAfbfPoiU97icxbFkwF5oUyxDieypHyQbn5S6bzJPFY+jhVniprQaliz0Fg==
+      integrity: sha512-V+Utbh0SO/yMctv5X1tmwmBlcgLTMojVpRl3reWRSkbQgjzwa93VTuEIFyhIHY/3V/PwvJWG2ax6OysBCs7Udg==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -9016,7 +9016,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-nIxR0wwUdmv73I1aPVYpPBkSqYhHjFRhzuYbm4ueTlq0iYhWJQNK9jWYwpVW6+LP0Ts+JD/lZW5lB75QXnf9EQ==
+      integrity: sha512-JC2+L87wZ+G3UkEqQm5SlNtLc/BU9BiUI4lSQzBq8zPjnoPQXMfAokoBRE4WU2kMKuJTsPck+5TteOfZ3/ed1g==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -10416,20 +10416,23 @@ packages:
       integrity: sha512-PQ9TYELaQ7eyzGfdPwoqAoUxEv9WH0sHPdwuXd7iyUXNRyqT5Hjg2a30zfOrd6QHB5IX4iQq6UtthzLKfCQwmA==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
-  file:projects/perf-test-storage-blob.tgz:
+  file:projects/perf-storage-blob.tgz:
     dependencies:
       '@azure/core-https': 1.0.0-beta.1
       '@types/dotenv': 8.2.0
+      '@types/node': 8.10.66
       '@types/node-fetch': 2.5.8
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
       node-fetch: 2.6.1
+      tslib: 2.1.0
+      typescript: 4.1.2
       uuid: 8.3.2
     dev: false
-    name: '@rush-temp/perf-test-storage-blob'
+    name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-4O4iR4mnTYeRo58LzQGujgq2u8780mfEqq2ilKrvVgVIYoov3PBMQREg7n/AEKrvjN7TIcdgvNJhqBV7CHnNXg==
-      tarball: file:projects/perf-test-storage-blob.tgz
+      integrity: sha512-jsMAAOThI7IpoBBne8HB3vAZ23Tr0eTk+yBqyvr8TrXD/6GqiqN94BnkZsPhSeksTZPc4pruN7vq/ac9Pep0JA==
+      tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
@@ -11396,7 +11399,7 @@ specifiers:
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
-  '@rush-temp/perf-test-storage-blob': file:./projects/perf-test-storage-blob.tgz
+  '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
