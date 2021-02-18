@@ -98,7 +98,7 @@ describe("Highlevel", () => {
     const inputStream = fs.createReadStream(tempFile);
 
     try {
-      await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
+      await blockBlobClient.upload(inputStream, maxPutBlobSizeLimitInMB * MB, {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {

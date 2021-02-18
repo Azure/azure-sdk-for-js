@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
-
-import { AnonymousCredentialPolicy } from "../policies/AnonymousCredentialPolicy";
+import { PipelineRequest } from "@azure/core-https";
 import { Credential } from "./Credential";
 
 /**
@@ -17,18 +15,8 @@ import { Credential } from "./Credential";
  * @extends {Credential}
  */
 export class AnonymousCredential extends Credential {
-  /**
-   * Creates an {@link AnonymousCredentialPolicy} object.
-   *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {AnonymousCredentialPolicy}
-   * @memberof AnonymousCredential
-   */
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): AnonymousCredentialPolicy {
-    return new AnonymousCredentialPolicy(nextPolicy, options);
+  public name = "storageAnonymousCredential";
+  signRequest(request: PipelineRequest): PipelineRequest {
+    return request;
   }
 }

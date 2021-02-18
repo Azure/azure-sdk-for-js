@@ -93,7 +93,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -130,7 +130,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -340,7 +340,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
       // Check blob tier set properly.
@@ -370,7 +370,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
       // Check blob tier set properly.
@@ -411,7 +411,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
       // Check blob tier set properly.
@@ -457,7 +457,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithVersion[i].url);
 
       // Check blob tier set properly.
@@ -502,7 +502,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithSnapshot[i].url);
 
       // Check blob tier set properly.
@@ -561,7 +561,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
 
       // Check blob tier set properly.
       const resp2 = await blockBlobClients[i].getProperties();
@@ -706,7 +706,7 @@ describe("BlobBatch", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -793,7 +793,7 @@ describe("BlobBatch Token auth", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
   });
@@ -824,7 +824,7 @@ describe("BlobBatch Token auth", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
   });

@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  HttpResponse,
-  getDefaultProxySettings
-} from "@azure/core-http";
+
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { getDefaultProxySettings } from "@azure/core-https";
+import { isNode } from "@azure/core-https";
 import { CanonicalCode } from "@opentelemetry/api";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -21,9 +18,7 @@ import {
   ServiceListContainersSegmentResponse,
   ContainerItem,
   ListContainersIncludeType,
-  UserDelegationKeyModel,
   ContainerUndeleteResponse,
-  FilterBlobSegmentModel,
   ServiceFilterBlobsHeaders,
   ContainerRenameResponse,
   LeaseAccessConditions
@@ -309,28 +304,7 @@ export interface FilterBlobSegment {
 /**
  * The response of {@link BlobServiceClient.findBlobsByTags} operation.
  */
-export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment &
-  ServiceFilterBlobsHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceFilterBlobsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FilterBlobSegmentModel;
-    };
-  };
+export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceFilterBlobsHeaders;
 
 /**
  * A user delegation key.
@@ -391,27 +365,7 @@ export interface UserDelegationKey {
  * Contains response data for the {@link getUserDelegationKey} operation.
  */
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
-  ServiceGetUserDelegationKeyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceGetUserDelegationKeyHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserDelegationKeyModel;
-    };
-  };
+  ServiceGetUserDelegationKeyHeaders;
 
 /**
  * Options to configure {@link BlobServiceClient.undeleteContainer} operation.
@@ -835,7 +789,7 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -869,7 +823,7 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -902,7 +856,7 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -936,7 +890,7 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getAccountInfo({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -979,7 +933,7 @@ export class BlobServiceClient extends StorageClient {
         marker,
         ...options,
         include: typeof options.include === "string" ? [options.include] : options.include,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1029,12 +983,11 @@ export class BlobServiceClient extends StorageClient {
         where: tagFilterSqlExpression,
         marker,
         maxPageSize: options.maxPageSize,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
 
       const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
         blobs: response.blobs.map((blob) => {
           let tagValue = "";
           if (blob.tags?.blobTagSet.length === 1) {
@@ -1432,7 +1385,7 @@ export class BlobServiceClient extends StorageClient {
         },
         {
           abortSignal: options.abortSignal,
-          spanOptions
+          tracingOptions: { spanOptions }
         }
       );
 
@@ -1447,7 +1400,6 @@ export class BlobServiceClient extends StorageClient {
       };
 
       const res: ServiceGetUserDelegationKeyResponse = {
-        _response: response._response,
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         version: response.version,

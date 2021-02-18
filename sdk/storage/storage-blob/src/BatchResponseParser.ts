@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "@azure/core-http";
+import { createHttpHeaders } from "@azure/core-https";
 
 import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import {
@@ -24,6 +24,7 @@ const NOT_FOUND = -1;
  */
 export class BatchResponseParser {
   private readonly batchResponse: ServiceSubmitBatchResponseModel;
+  private readonly responseStatus: number;
   private readonly responseBatchBoundary: string;
   private readonly perResponsePrefix: string;
   private readonly batchResponseEnding: string;
@@ -31,6 +32,7 @@ export class BatchResponseParser {
 
   constructor(
     batchResponse: ServiceSubmitBatchResponseModel,
+    responseStatus: number,
     subRequests: Map<number, BatchSubRequest>
   ) {
     if (!batchResponse || !batchResponse.contentType) {
@@ -44,6 +46,7 @@ export class BatchResponseParser {
     }
 
     this.batchResponse = batchResponse;
+    this.responseStatus = responseStatus;
     this.subRequests = subRequests;
     this.responseBatchBoundary = this.batchResponse.contentType!.split("=")[1];
     this.perResponsePrefix = `--${this.responseBatchBoundary}${HTTP_LINE_ENDING}`;
@@ -54,10 +57,8 @@ export class BatchResponseParser {
   public async parseBatchResponse(): Promise<ParsedBatchResponse> {
     // When logic reach here, suppose batch request has already succeeded with 202, so we can further parse
     // sub request's response.
-    if (this.batchResponse._response.status != HTTPURLConnection.HTTP_ACCEPTED) {
-      throw new Error(
-        `Invalid state: batch request failed with status: '${this.batchResponse._response.status}'.`
-      );
+    if (this.responseStatus != HTTPURLConnection.HTTP_ACCEPTED) {
+      throw new Error(`Invalid state: batch request failed with status: '${this.responseStatus}'.`);
     }
 
     const responseBodyAsText = await getBodyAsText(this.batchResponse);
@@ -84,7 +85,7 @@ export class BatchResponseParser {
     for (let index = 0; index < subResponseCount; index++) {
       const subResponse = subResponses[index];
       const deserializedSubResponse = {} as BatchSubResponse;
-      deserializedSubResponse.headers = new HttpHeaders();
+      deserializedSubResponse.headers = createHttpHeaders();
 
       const responseLines = subResponse.split(`${HTTP_LINE_ENDING}`);
       let subRespHeaderStartFound = false;

@@ -14,7 +14,7 @@ import { BlobBatch } from "./BlobBatch";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
-import { HttpResponse, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { Service, Container } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -23,6 +23,7 @@ import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { getURLPath } from "./utils/utils.common";
+import { FullOperationResponse } from "@azure/core-client";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -46,18 +47,7 @@ export interface BlobBatchSubmitBatchOptionalParams
 /**
  * Contains response data for blob batch operations.
  */
-export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
-  ServiceSubmitBatchHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceSubmitBatchHeaders;
-    };
-  };
+export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse & ServiceSubmitBatchHeaders;
 
 /**
  * Contains response data for the {@link deleteBlobs} operation.
@@ -325,6 +315,7 @@ export class BlobBatchClient {
     try {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 
+      let status = 0;
       // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
       const rawBatchResponse: ServiceSubmitBatchResponseModel = await this.serviceOrContainerContext.submitBatch(
         batchRequestBody,
@@ -332,19 +323,22 @@ export class BlobBatchClient {
         batchRequest.getMultiPartContentType(),
         {
           ...options,
-          spanOptions
+          tracingOptions: { spanOptions },
+          onResponse: (rawResponse: FullOperationResponse) => {
+            status = rawResponse.status;
+          }
         }
       );
 
       // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
       const batchResponseParser = new BatchResponseParser(
         rawBatchResponse,
+        status,
         batchRequest.getSubRequests()
       );
       const responseSummary = await batchResponseParser.parseBatchResponse();
 
       const res: BlobBatchSubmitBatchResponse = {
-        _response: rawBatchResponse._response,
         contentType: rawBatchResponse.contentType,
         errorCode: rawBatchResponse.errorCode,
         requestId: rawBatchResponse.requestId,

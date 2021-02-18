@@ -1,8 +1,9 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "declarationDir": "./typings/latest",
+    "downlevelIteration": true,
     "outDir": "./dist-esm",
     "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },

@@ -15,7 +15,7 @@ import {
   PollerLike,
   PollOperationState
 } from "../src";
-import { URLBuilder, URLQuery } from "@azure/core-http";
+import { URL } from "@azure/core-https";
 dotenv.config();
 
 describe("BlobClient beginCopyFromURL Poller", () => {
@@ -77,15 +77,11 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.set("sig", "");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(blobClient.url);
+    sanitizedExpectedUrl.searchParams.set("sig", "");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -120,15 +116,11 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.set("sig", "");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(blobClient.url);
+    sanitizedExpectedUrl.searchParams.set("sig", "");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),

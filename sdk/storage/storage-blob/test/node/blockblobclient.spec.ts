@@ -21,7 +21,7 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";

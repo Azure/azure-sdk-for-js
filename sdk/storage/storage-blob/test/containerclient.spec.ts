@@ -12,7 +12,7 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { URLBuilder } from "@azure/core-http";
+import { URL } from "@azure/core-https";
 import {
   ContainerClient,
   BlockBlobTier,
@@ -708,7 +708,7 @@ describe("ContainerClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(blockBlobClient.url).getPath() || "";
+    const urlPath = new URL(blockBlobClient.url).pathname || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {

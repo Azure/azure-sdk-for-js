@@ -1,17 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  generateUuid,
-  getDefaultProxySettings,
-  HttpRequestBody,
-  HttpResponse,
-  isNode,
-  isTokenCredential,
-  TokenCredential,
-  TransferProgressEvent,
-  URLBuilder
-} from "@azure/core-http";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { isNode, RequestBodyType, URL, TransferProgressEvent } from "@azure/core-https";
+import { getDefaultProxySettings } from "@azure/core-https";
+import { v4 as uuidv4 } from "uuid";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { CanonicalCode } from "@opentelemetry/api";
 import { Readable } from "stream";
@@ -39,7 +32,6 @@ import {
   BlobSetTagsResponse,
   BlobSetTierResponse,
   BlobStartCopyFromURLResponse,
-  BlobTags,
   BlobUndeleteResponse,
   BlockBlobCommitBlockListResponse,
   BlockBlobGetBlockListResponse,
@@ -506,27 +498,7 @@ export interface BlobGetTagsOptions extends CommonOptions {
 /**
  * Contains response data for the {@link BlobClient.getTags} operation.
  */
-export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BlobGetTagsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BlobTags;
-    };
-  };
+export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders;
 
 /**
  * Options to configure Blob - Acquire Lease operation.
@@ -1438,18 +1410,19 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+        },
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
         cpkInfo: options.customerProvidedKey,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
 
       const wrappedRes = {
         ...res,
-        _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
       };
@@ -1549,10 +1522,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
         conditions: options.conditions,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
+        tracingOptions: { spanOptions }
       });
       return true;
     } catch (e) {
@@ -1602,12 +1572,11 @@ export class BlobClient extends StorageClient {
           ifTags: options.conditions?.tagConditions
         },
         cpkInfo: options.customerProvidedKey,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
 
       return {
         ...res,
-        _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
       };
@@ -1645,7 +1614,7 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1680,8 +1649,7 @@ export class BlobClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res,
-        _response: res._response // _response is made non-enumerable
+        ...res
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobNotFound") {
@@ -1691,8 +1659,7 @@ export class BlobClient extends StorageClient {
         });
         return {
           succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response
+          ...e.response?.parsedHeaders
         };
       }
       span.setStatus({
@@ -1720,7 +1687,7 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.undelete({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1763,8 +1730,8 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        cpkInfo: options.customerProvidedKey,
-        spanOptions
+        // cpkInfo: options.customerProvidedKey,
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1808,7 +1775,7 @@ export class BlobClient extends StorageClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1842,7 +1809,7 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions,
+        tracingOptions: { spanOptions },
         tags: toBlobTags(tags)
       });
     } catch (e) {
@@ -1873,11 +1840,10 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
         tags: toTags({ blobTagSet: response.blobTagSet }) || {}
       };
       return wrappedResponse;
@@ -1928,7 +1894,7 @@ export class BlobClient extends StorageClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -2059,7 +2025,7 @@ export class BlobClient extends StorageClient {
       return await this.blobContext.abortCopyFromURL(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -2107,7 +2073,7 @@ export class BlobClient extends StorageClient {
         },
         sourceContentMD5: options.sourceContentMD5,
         blobTagsString: toBlobTagsString(options.tags),
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -2147,7 +2113,7 @@ export class BlobClient extends StorageClient {
           ifTags: options.conditions?.tagConditions
         },
         rehydratePriority: options.rehydratePriority,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -2257,7 +2223,6 @@ export class BlobClient extends StorageClient {
         const response = await this.getProperties({
           ...options,
           tracingOptions: {
-            ...options.tracingOptions,
             spanOptions
           }
         });
@@ -2301,7 +2266,6 @@ export class BlobClient extends StorageClient {
             maxRetryRequests: options.maxRetryRequestsPerBlock,
             customerProvidedKey: options.customerProvidedKey,
             tracingOptions: {
-              ...options.tracingOptions,
               spanOptions
             }
           });
@@ -2357,7 +2321,6 @@ export class BlobClient extends StorageClient {
       const response = await this.download(offset, count, {
         ...options,
         tracingOptions: {
-          ...options.tracingOptions,
           spanOptions
         }
       });
@@ -2391,25 +2354,25 @@ export class BlobClient extends StorageClient {
       // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10000/devstoreaccount1/containername/blob`
       // http://localhost:10001/devstoreaccount1/containername/blob
 
-      const parsedUrl = URLBuilder.parse(this.url);
+      const parsedUrl = new URL(this.url);
 
-      if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+      if (parsedUrl.host!.split(".")[1] === "blob") {
         // "https://myaccount.blob.core.windows.net/containername/blob".
-        // .getPath() -> /containername/blob
-        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        // .pathname -> /containername/blob
+        const pathComponents = parsedUrl.pathname!.match("/([^/]*)(/(.*))?");
         containerName = pathComponents![1];
         blobName = pathComponents![3];
       } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername/blob
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername/blob
-        // .getPath() -> /devstoreaccount1/containername/blob
-        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
+        // .pathname -> /devstoreaccount1/containername/blob
+        const pathComponents = parsedUrl.pathname!.match("/([^/]*)/([^/]*)(/(.*))?");
         containerName = pathComponents![2];
         blobName = pathComponents![4];
       } else {
         // "https://customdomain.com/containername/blob".
-        // .getPath() -> /containername/blob
-        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        // .pathname -> /containername/blob
+        const pathComponents = parsedUrl.pathname!.match("/([^/]*)(/(.*))?");
         containerName = pathComponents![1];
         blobName = pathComponents![3];
       }
@@ -2475,7 +2438,7 @@ export class BlobClient extends StorageClient {
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         sealBlob: options.sealBlob,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -3031,7 +2994,7 @@ export class AppendBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         blobTagsString: toBlobTagsString(options.tags),
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -3069,8 +3032,7 @@ export class AppendBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res,
-        _response: res._response // _response is made non-enumerable
+        ...res
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -3080,8 +3042,7 @@ export class AppendBlobClient extends BlobClient {
         });
         return {
           succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response
+          ...e.response?.parsedHeaders
         };
       }
 
@@ -3114,7 +3075,7 @@ export class AppendBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -3131,7 +3092,7 @@ export class AppendBlobClient extends BlobClient {
    * Commits a new block of data to the end of the existing append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
-   * @param {HttpRequestBody} body Data to be appended.
+   * @param {RequestBodyType} body Data to be appended.
    * @param {number} contentLength Length of the body in bytes.
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<AppendBlobAppendBlockResponse>}
@@ -3153,7 +3114,7 @@ export class AppendBlobClient extends BlobClient {
    * ```
    */
   public async appendBlock(
-    body: HttpRequestBody,
+    body: RequestBodyType,
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<AppendBlobAppendBlockResponse> {
@@ -3173,12 +3134,14 @@ export class AppendBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -3241,7 +3204,7 @@ export class AppendBlobClient extends BlobClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -4054,15 +4017,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
  *
  * @export
  */
-export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
-  /**
-   * The underlying HTTP response.
-   *
-   * @type {HttpResponse}
-   * @memberof BlobUploadCommonResponse
-   */
-  _response: HttpResponse;
-};
+export type BlobUploadCommonResponse = BlockBlobUploadHeaders;
 
 /**
  * BlockBlobClient defines a set of operations applicable to block blobs.
@@ -4318,7 +4273,7 @@ export class BlockBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
       return new BlobQueryResponse(response, {
         abortSignal: options.abortSignal,
@@ -4349,7 +4304,7 @@ export class BlockBlobClient extends BlobClient {
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   * @param {RequestBodyType} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
@@ -4365,7 +4320,7 @@ export class BlockBlobClient extends BlobClient {
    * ```
    */
   public async upload(
-    body: HttpRequestBody,
+    body: RequestBodyType,
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<BlockBlobUploadResponse> {
@@ -4382,12 +4337,14 @@ export class BlockBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -4449,7 +4406,7 @@ export class BlockBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -4468,7 +4425,7 @@ export class BlockBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block
    *
    * @param {string} blockId A 64-byte value that is base64-encoded
-   * @param {HttpRequestBody} body Data to upload to the staging area.
+   * @param {RequestBodyType} body Data to upload to the staging area.
    * @param {number} contentLength Number of bytes to upload.
    * @param {BlockBlobStageBlockOptions} [options] Options to the Block Blob Stage Block operation.
    * @returns {Promise<BlockBlobStageBlockResponse>} Response data for the Block Blob Stage Block operation.
@@ -4476,7 +4433,7 @@ export class BlockBlobClient extends BlobClient {
    */
   public async stageBlock(
     blockId: string,
-    body: HttpRequestBody,
+    body: RequestBodyType,
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<BlockBlobStageBlockResponse> {
@@ -4486,12 +4443,14 @@ export class BlockBlobClient extends BlobClient {
       return await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -4547,7 +4506,7 @@ export class BlockBlobClient extends BlobClient {
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -4599,7 +4558,7 @@ export class BlockBlobClient extends BlobClient {
           encryptionScope: options.encryptionScope,
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
-          spanOptions
+          tracingOptions: { spanOptions }
         }
       );
     } catch (e) {
@@ -4640,7 +4599,7 @@ export class BlockBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
 
       if (!res.committedBlocks) {
@@ -4769,21 +4728,21 @@ export class BlockBlobClient extends BlobClient {
   /**
    *
    * Uploads data to block blob. Requires a bodyFactory as the data source,
-   * which need to return a {@link HttpRequestBody} object with the offset and size provided.
+   * which need to return a {@link RequestBodyType} object with the offset and size provided.
    *
    * When data length is no more than the specifiled {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
    * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
-   * @param {(offset: number, size: number) => HttpRequestBody} bodyFactory
+   * @param {(offset: number, size: number) => RequestBodyType} bodyFactory
    * @param {number} size size of the data to upload.
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   private async uploadSeekableInternal(
-    bodyFactory: (offset: number, size: number) => HttpRequestBody,
+    bodyFactory: (offset: number, size: number) => RequestBodyType,
     size: number,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
@@ -4848,7 +4807,7 @@ export class BlockBlobClient extends BlobClient {
       }
 
       const blockList: string[] = [];
-      const blockIDPrefix = generateUuid();
+      const blockIDPrefix = uuidv4();
       let transferProgress: number = 0;
 
       const batch = new Batch(options.concurrency);
@@ -4917,12 +4876,11 @@ export class BlockBlobClient extends BlobClient {
       const size = (await fsStat(filePath)).size;
       return await this.uploadSeekableInternal(
         (offset, count) => {
-          return () =>
-            fsCreateReadStream(filePath, {
-              autoClose: true,
-              end: count ? offset + count - 1 : Infinity,
-              start: offset
-            });
+          return fsCreateReadStream(filePath, {
+            autoClose: true,
+            end: count ? offset + count - 1 : Infinity,
+            start: offset
+          });
         },
         size,
         { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
@@ -4975,7 +4933,7 @@ export class BlockBlobClient extends BlobClient {
 
     try {
       let blockNum = 0;
-      const blockIDPrefix = generateUuid();
+      const blockIDPrefix = uuidv4();
       let transferProgress: number = 0;
       const blockList: string[] = [];
 
@@ -5706,7 +5664,7 @@ export class PageBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -5747,8 +5705,7 @@ export class PageBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res,
-        _response: res._response // _response is made non-enumerable
+        ...res
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -5758,8 +5715,7 @@ export class PageBlobClient extends BlobClient {
         });
         return {
           succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response
+          ...e.response?.parsedHeaders
         };
       }
 
@@ -5777,7 +5733,7 @@ export class PageBlobClient extends BlobClient {
    * Writes 1 or more pages to the page blob. The start and end offsets must be a multiple of 512.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {HttpRequestBody} body Data to upload
+   * @param {RequestBodyType} body Data to upload
    * @param {number} offset Offset of destination page blob
    * @param {number} count Content length of the body, also number of bytes to be uploaded
    * @param {PageBlobUploadPagesOptions} [options] Options to the Page Blob Upload Pages operation.
@@ -5785,7 +5741,7 @@ export class PageBlobClient extends BlobClient {
    * @memberof PageBlobClient
    */
   public async uploadPages(
-    body: HttpRequestBody,
+    body: RequestBodyType,
     offset: number,
     count: number,
     options: PageBlobUploadPagesOptions = {}
@@ -5801,14 +5757,16 @@ export class PageBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -5872,7 +5830,7 @@ export class PageBlobClient extends BlobClient {
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
-          spanOptions
+          tracingOptions: { spanOptions }
         }
       );
     } catch (e) {
@@ -5915,7 +5873,7 @@ export class PageBlobClient extends BlobClient {
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -5958,7 +5916,7 @@ export class PageBlobClient extends BlobClient {
             ifTags: options.conditions?.tagConditions
           },
           range: rangeToString({ offset, count }),
-          spanOptions
+          tracingOptions: { spanOptions }
         })
         .then(rangeResponseFromModel);
     } catch (e) {
@@ -6006,7 +5964,7 @@ export class PageBlobClient extends BlobClient {
           },
           prevsnapshot: prevSnapshot,
           range: rangeToString({ offset, count }),
-          spanOptions
+          tracingOptions: { spanOptions }
         })
         .then(rangeResponseFromModel);
     } catch (e) {
@@ -6054,7 +6012,7 @@ export class PageBlobClient extends BlobClient {
           },
           prevSnapshotUrl,
           range: rangeToString({ offset, count }),
-          spanOptions
+          tracingOptions: { spanOptions }
         })
         .then(rangeResponseFromModel);
     } catch (e) {
@@ -6092,7 +6050,7 @@ export class PageBlobClient extends BlobClient {
           ifTags: options.conditions?.tagConditions
         },
         encryptionScope: options.encryptionScope,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -6134,7 +6092,7 @@ export class PageBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -6176,7 +6134,7 @@ export class PageBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({

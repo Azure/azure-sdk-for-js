@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as uuidv4 } from "uuid";
 import { PerfStressOptionDictionary, executeParallel } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobListTestOptions {
@@ -22,7 +22,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     await super.globalSetup();
     await executeParallel(
       async (count: number, parallelIndex: number) => {
-        await this.containerClient.uploadBlockBlob(generateUuid(), Buffer.alloc(0), 0);
+        await this.containerClient.uploadBlockBlob(uuidv4(), Buffer.alloc(0), 0);
         console.log(`[` + parallelIndex + `] ` + count);
       },
       this.parsedOptions.count.value!,

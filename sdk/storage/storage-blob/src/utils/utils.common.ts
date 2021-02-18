@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { createHttpHeaders, HttpHeaders, isNode, URL } from "@azure/core-https";
 
 import {
   BlobQueryArrowConfiguration,
@@ -73,13 +74,13 @@ import {
  * @returns {string}
  */
 export function escapeURLPath(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path || "/";
 
   path = escape(path);
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -236,11 +237,11 @@ function escape(text: string): string {
  * @returns {string} An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -256,8 +257,9 @@ export function appendToURLPath(url: string, name: string): string {
  * @returns {string} An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setQueryParameter(name, value);
+  const urlParsed = new URL(url);
+  //TODO: (jeremymeng) for undefined value, set empty or delete?
+  urlParsed.searchParams.set(name, value ?? "");
   return urlParsed.toString();
 }
 
@@ -267,11 +269,11 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * @export
  * @param {string} url
  * @param {string} name
- * @returns {(string | string[] | undefined)}
+ * @returns {(string | null)}
  */
-export function getURLParameter(url: string, name: string): string | string[] | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getQueryParameterValue(name);
+export function getURLParameter(url: string, name: string): string | null {
+  const urlParsed = new URL(url);
+  return urlParsed.searchParams.get(name);
 }
 
 /**
@@ -283,8 +285,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setHost(host);
+  const urlParsed = new URL(url);
+  urlParsed.host = host;
   return urlParsed.toString();
 }
 
@@ -296,8 +298,8 @@ export function setURLHost(url: string, host: string): string {
  * @returns {(string | undefined)}
  */
 export function getURLPath(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getPath();
+  const urlParsed = new URL(url);
+  return urlParsed.pathname;
 }
 
 /**
@@ -308,8 +310,8 @@ export function getURLPath(url: string): string | undefined {
  * @returns {(string | undefined)}
  */
 export function getURLScheme(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getScheme();
+  const urlParsed = new URL(url);
+  return urlParsed.protocol;
 }
 
 /**
@@ -320,13 +322,14 @@ export function getURLScheme(url: string): string | undefined {
  * @returns {(string | undefined)}
  */
 export function getURLPathAndQuery(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  const pathString = urlParsed.getPath();
+  const urlParsed = new URL(url);
+  const pathString = urlParsed.pathname;
   if (!pathString) {
     throw new RangeError("Invalid url without valid path.");
   }
 
-  let queryString = urlParsed.getQuery() || "";
+  //TODO: (jeremymeng) this might not be needed with URL
+  let queryString = urlParsed.searchParams.toString();
   queryString = queryString.trim();
   if (queryString != "") {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
@@ -343,7 +346,8 @@ export function getURLPathAndQuery(url: string): string | undefined {
  * @returns {{[key: string]: string}}
  */
 export function getURLQueries(url: string): { [key: string]: string } {
-  let queryString = URLBuilder.parse(url).getQuery();
+  //TODO: (jeremymeng) this might not be needed with URL
+  let queryString = new URL(url).searchParams.toString();
   if (!queryString) {
     return {};
   }
@@ -380,17 +384,15 @@ export function getURLQueries(url: string): { [key: string]: string } {
  * @returns {string} An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  //TODO: (jeremymeng) correct replacement?
+  const urlParsed = new URL(url);
 
-  let query = urlParsed.getQuery();
+  let query = urlParsed.searchParams.toString();
   if (query) {
-    query += "&" + queryParts;
+    return new URL(urlParsed.toString() + "&" + queryParts).toString();
   } else {
-    query = queryParts;
+    return new URL(urlParsed.toString() + "?" + queryParts).toString();
   }
-
-  urlParsed.setQuery(query);
-  return urlParsed.toString();
 }
 
 /**
@@ -533,17 +535,16 @@ export function sanitizeURL(url: string): string {
 }
 
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
-  const headers: HttpHeaders = new HttpHeaders();
-  for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
-      headers.set(header.name, "*****");
-    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
-      headers.set(header.name, sanitizeURL(header.value));
+  const headers: HttpHeaders = createHttpHeaders();
+  for (const [name, value] of originalHeader) {
+    if (name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
+      headers.set(name, "*****");
+    } else if (name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(name, sanitizeURL(value));
     } else {
-      headers.set(header.name, header.value);
+      headers.set(name, value);
     }
   }
-
   return headers;
 }
 /**
@@ -564,17 +565,17 @@ export function iEqual(str1: string, str2: string): boolean {
  * @returns {string} with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  const parsedUrl: URL = new URL(url);
   let accountName;
   try {
-    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+    if (parsedUrl.host!.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-      accountName = parsedUrl.getHost()!.split(".")[0];
+      accountName = parsedUrl.host!.split(".")[0];
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
-      // .getPath() -> /devstoreaccount1/
-      accountName = parsedUrl.getPath()!.split("/")[1];
+      // .pathname -> /devstoreaccount1/
+      accountName = parsedUrl.pathname!.split("/")[1];
     } else {
       // Custom domain case: "https://customdomain.com/containername/blob".
       accountName = "";
@@ -585,13 +586,12 @@ export function getAccountNameFromUrl(url: string): string {
   }
 }
 
-export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() == undefined) {
+export function isIpEndpointStyle(parsedUrl: URL): boolean {
+  if (parsedUrl.host == undefined) {
     return false;
   }
 
-  const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+  const host = parsedUrl.host! + (parsedUrl.port == undefined ? "" : ":" + parsedUrl.port);
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.

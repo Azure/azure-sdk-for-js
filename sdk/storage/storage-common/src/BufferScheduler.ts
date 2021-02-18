@@ -9,7 +9,7 @@ import { PooledBuffer } from "./PooledBuffer";
  * OutgoingHandler is an async function triggered by BufferScheduler.
  */
 export declare type OutgoingHandler = (
-  body: () => NodeJS.ReadableStream,
+  body: NodeJS.ReadableStream,
   length: number,
   offset?: number
 ) => Promise<any>;
@@ -272,7 +272,7 @@ export class BufferScheduler {
         if (this.isStreamEnd && this.executingOutgoingHandlers === 0) {
           if (this.unresolvedLength > 0 && this.unresolvedLength < this.bufferSize) {
             const buffer = this.shiftBufferFromUnresolvedDataArray();
-            this.outgoingHandler(() => buffer.getReadableStream(), buffer.size, this.offset)
+            this.outgoingHandler(buffer.getReadableStream(), buffer.size, this.offset)
               .then(resolve)
               .catch(reject);
           } else if (this.unresolvedLength >= this.bufferSize) {
@@ -387,7 +387,7 @@ export class BufferScheduler {
 
     try {
       await this.outgoingHandler(
-        () => buffer.getReadableStream(),
+        buffer.getReadableStream(),
         bufferLength,
         this.offset - bufferLength
       );

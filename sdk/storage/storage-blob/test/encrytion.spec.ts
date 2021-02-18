@@ -7,7 +7,7 @@ import { getBSU, recorderEnvSetup } from "./utils";
 import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-https";
 dotenv.config();
 
 describe("Encryption Scope", function() {

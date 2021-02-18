@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure/core-http";
 import {
   PageBlobGetPageRangesHeaders,
   PageBlobGetPageRangesDiffHeaders,
@@ -28,54 +27,14 @@ export interface PageList {
 /**
  * Contains response data for the {@link BlobClient.getPageRanges} operation.
  */
-export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPageRangesHeaders {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobGetPageRangesHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PageList;
-  };
-}
+export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPageRangesHeaders {}
 
 /**
  * Contains response data for the {@link BlobClient.getPageRangesDiff} operation.
  */
 export interface PageBlobGetPageRangesDiffResponse
   extends PageList,
-    PageBlobGetPageRangesDiffHeaders {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobGetPageRangesDiffHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PageList;
-  };
-}
+    PageBlobGetPageRangesDiffHeaders {}
 
 /**
  * Function that converts PageRange and ClearRange to a common Range object.
@@ -86,12 +45,12 @@ export interface PageBlobGetPageRangesDiffResponse
 export function rangeResponseFromModel(
   response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
-  const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
+  const pageRange = (response.pageRange || []).map((x) => ({
     offset: x.start,
     count: x.end - x.start
   }));
 
-  const clearRange = (response._response.parsedBody.clearRange || []).map((x) => ({
+  const clearRange = (response.clearRange || []).map((x) => ({
     offset: x.start,
     count: x.end - x.start
   }));
@@ -99,13 +58,6 @@ export function rangeResponseFromModel(
   return {
     ...response,
     pageRange,
-    clearRange,
-    _response: {
-      ...response._response,
-      parsedBody: {
-        pageRange,
-        clearRange
-      }
-    }
+    clearRange
   };
 }

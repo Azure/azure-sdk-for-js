@@ -1603,7 +1603,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 

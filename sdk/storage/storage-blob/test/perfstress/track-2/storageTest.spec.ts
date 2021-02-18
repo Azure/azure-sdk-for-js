@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as uuidv4 } from "uuid";
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import { BlobServiceClient, ContainerClient, StorageSharedKeyCredential } from "../../../src";
 import { getValueInConnString } from "../../../src/utils/utils.common";
@@ -14,7 +14,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
   blobServiceClient: BlobServiceClient;
   containerClient: ContainerClient;
   sharedKeyCredential: StorageSharedKeyCredential;
-  static containerName = generateUuid();
+  static containerName = uuidv4();
 
   constructor() {
     super();

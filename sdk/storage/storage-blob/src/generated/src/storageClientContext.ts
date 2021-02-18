@@ -8,12 +8,9 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClient, ServiceClientOptions } from "@azure/core-client";
 
-const packageName = "azure-storage-blob";
-const packageVersion = "12.5.0-beta.1";
-
-export class StorageClientContext extends coreHttp.ServiceClient {
+export class StorageClientContext extends ServiceClient {
   url: string;
   version: string;
 
@@ -23,7 +20,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
    * operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: coreHttp.ServiceClientOptions) {
+  constructor(url: string, options?: ServiceClientOptions) {
     if (url == undefined) {
       throw new Error("'url' cannot be null.");
     }
@@ -32,16 +29,12 @@ export class StorageClientContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
-    super(undefined, options);
+    super({
+      ...options,
+      baseUri: options?.baseUri || "{url}"
+    });
 
     this.version = '2020-06-12';
-    this.baseUri = "{url}";
-    this.requestContentType = "application/json; charset=utf-8";
     this.url = url;
   }
 }

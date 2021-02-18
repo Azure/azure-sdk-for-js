@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { generateUuid } from "@azure/core-http";
+
+import { v4 as uuidv4 } from "uuid";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
 import { executeParallel, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
@@ -23,7 +24,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     await super.globalSetup();
     await executeParallel(
       async (count: number, parallelIndex: number) => {
-        const blockBlobClient = BlockBlobURL.fromContainerURL(this.containerClient, generateUuid());
+        const blockBlobClient = BlockBlobURL.fromContainerURL(this.containerClient, uuidv4());
         blockBlobClient.upload(Aborter.none, Buffer.alloc(0), 0);
         console.log(`[` + parallelIndex + `] ` + count);
       },

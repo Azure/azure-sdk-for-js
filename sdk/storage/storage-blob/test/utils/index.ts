@@ -19,7 +19,7 @@ import {
   AccountSASServices
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { env } from "@azure/test-utils-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
 

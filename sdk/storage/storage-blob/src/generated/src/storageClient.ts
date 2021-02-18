@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClientOptions } from "@azure/core-client";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -30,7 +30,7 @@ class StorageClient extends StorageClientContext {
    * operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: coreHttp.ServiceClientOptions) {
+  constructor(url: string, options?: ServiceClientOptions) {
     super(url, options);
     this.service = new operations.Service(this);
     this.container = new operations.Container(this);
@@ -44,10 +44,5 @@ class StorageClient extends StorageClientContext {
 
 // Operation Specifications
 
-export {
-  StorageClient,
-  StorageClientContext,
-  Models as StorageModels,
-  Mappers as StorageMappers
-};
+export { StorageClient, StorageClientContext, Models as StorageModels, Mappers as StorageMappers };
 export * from "./operations";

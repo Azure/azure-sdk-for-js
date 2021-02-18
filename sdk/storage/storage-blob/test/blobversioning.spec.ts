@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
-import { isNode, delay } from "@azure/core-http";
+import { isNode, delay } from "@azure/core-https";
 import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import {
@@ -185,7 +185,7 @@ describe("Blob versioning", () => {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.ok(resp.subResponses[i].headers.has("x-ms-request-id"));
       assert.equal(
         resp.subResponses[i]._request.url,
         blockBlobClients[i].withVersion(versions[i]!).url

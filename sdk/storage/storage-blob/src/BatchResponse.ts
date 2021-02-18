@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { BatchSubRequest } from "./BlobBatch";
-import { HttpHeaders } from "@azure/core-http";
+import { HttpHeaders } from "@azure/core-https";
 
 /**
  * The response data associated with a single request within a batch operation.

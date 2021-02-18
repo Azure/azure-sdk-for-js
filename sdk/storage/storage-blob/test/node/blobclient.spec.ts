@@ -7,7 +7,8 @@ import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { isNode } from "@azure/core-https";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
 import {

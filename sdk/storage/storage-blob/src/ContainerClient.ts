@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  getDefaultProxySettings,
-  HttpRequestBody,
-  HttpResponse,
-  isNode,
-  isTokenCredential,
-  TokenCredential,
-  URLBuilder
-} from "@azure/core-http";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { RequestBodyType, isNode, URL, getDefaultProxySettings } from "@azure/core-https";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -30,8 +23,6 @@ import {
   ContainerSetAccessPolicyResponse,
   ContainerSetMetadataResponse,
   LeaseAccessConditions,
-  ListBlobsFlatSegmentResponseModel,
-  ListBlobsHierarchySegmentResponseModel,
   ListBlobsIncludeItem,
   PublicAccessType,
   SignedIdentifierModel
@@ -261,25 +252,7 @@ export interface SignedIdentifier {
  */
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
-} & ContainerGetAccessPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
-  };
+} & ContainerGetAccessPolicyHeaders;
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.
@@ -511,27 +484,7 @@ export interface ListBlobsHierarchySegmentResponse {
  * Contains response data for the listBlobHierarchySegment operation.
  */
 export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse &
-  ContainerListBlobHierarchySegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerListBlobHierarchySegmentHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListBlobsHierarchySegmentResponseModel;
-    };
-  };
+  ContainerListBlobHierarchySegmentHeaders;
 
 /**
  * An Azure Storage blob
@@ -572,27 +525,7 @@ export interface ListBlobsFlatSegmentResponse {
  * Contains response data for the listBlobFlatSegment operation.
  */
 export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse &
-  ContainerListBlobFlatSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerListBlobFlatSegmentHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListBlobsFlatSegmentResponseModel;
-    };
-  };
+  ContainerListBlobFlatSegmentHeaders;
 
 /**
  * Options to configure Container - List Blobs operations.
@@ -818,7 +751,7 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          options!.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -866,7 +799,7 @@ export class ContainerClient extends StorageClient {
       // this will filter out unwanted properties from the response object into result object
       return await this.containerContext.create({
         ...options,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -902,8 +835,7 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res,
-        _response: res._response // _response is made non-enumerable
+        ...res
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
@@ -913,8 +845,7 @@ export class ContainerClient extends StorageClient {
         });
         return {
           succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response
+          ...e.response?.parsedHeaders
         };
       }
 
@@ -1056,7 +987,7 @@ export class ContainerClient extends StorageClient {
       return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1091,7 +1022,7 @@ export class ContainerClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1128,8 +1059,7 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res,
-        _response: res._response // _response is made non-enumerable
+        ...res
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerNotFound") {
@@ -1139,8 +1069,7 @@ export class ContainerClient extends StorageClient {
         });
         return {
           succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response
+          ...e.response?.parsedHeaders
         };
       }
       span.setStatus({
@@ -1189,7 +1118,7 @@ export class ContainerClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         metadata,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1231,11 +1160,10 @@ export class ContainerClient extends StorageClient {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
 
       const res: ContainerGetAccessPolicyResponse = {
-        _response: response._response,
         blobPublicAccess: response.blobPublicAccess,
         date: response.date,
         etag: response.etag,
@@ -1333,7 +1261,7 @@ export class ContainerClient extends StorageClient {
         containerAcl: acl,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -1372,7 +1300,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {string} blobName Name of the block blob to create or update.
-   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   * @param {RequestBodyType} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
@@ -1382,7 +1310,7 @@ export class ContainerClient extends StorageClient {
    */
   public async uploadBlockBlob(
     blobName: string,
-    body: HttpRequestBody,
+    body: RequestBodyType,
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
@@ -1472,11 +1400,10 @@ export class ContainerClient extends StorageClient {
       const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
         segment: {
           ...response.segment,
           blobItems: response.segment.blobItems.map((blobItemInteral) => {
@@ -1529,11 +1456,10 @@ export class ContainerClient extends StorageClient {
       const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
         segment: {
           ...response.segment,
           blobItems: response.segment.blobItems.map((blobItemInteral) => {
@@ -1961,22 +1887,22 @@ export class ContainerClient extends StorageClient {
       // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10000/devstoreaccount1/containername`
       // http://localhost:10001/devstoreaccount1/containername
 
-      const parsedUrl = URLBuilder.parse(this.url);
+      const parsedUrl = new URL(this.url);
 
-      if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+      if (parsedUrl.host!.split(".")[1] === "blob") {
         // "https://myaccount.blob.core.windows.net/containername".
         // "https://customdomain.com/containername".
-        // .getPath() -> /containername
-        containerName = parsedUrl.getPath()!.split("/")[1];
+        // .pathname -> /containername
+        containerName = parsedUrl.pathname!.split("/")[1];
       } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername
-        // .getPath() -> /devstoreaccount1/containername
-        containerName = parsedUrl.getPath()!.split("/")[2];
+        // .pathname -> /devstoreaccount1/containername
+        containerName = parsedUrl.pathname!.split("/")[2];
       } else {
         // "https://customdomain.com/containername".
-        // .getPath() -> /containername
-        containerName = parsedUrl.getPath()!.split("/")[1];
+        // .pathname -> /containername
+        containerName = parsedUrl.pathname!.split("/")[1];
       }
 
       // decode the encoded containerName - to get all the special characters that might be present in it

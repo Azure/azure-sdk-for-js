@@ -8,7 +8,8 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { createSerializer, OperationSpec } from "@azure/core-client";
+import { RequestBodyType } from "@azure/core-https";
 import * as Models from "../models";
 import * as Mappers from "../models/appendBlobMappers";
 import * as Parameters from "../models/parameters";
@@ -32,26 +33,13 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobCreateResponse>
    */
-  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams): Promise<Models.AppendBlobCreateResponse>;
-  /**
-   * @param contentLength The length of the request.
-   * @param callback The callback
-   */
-  create(contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param contentLength The length of the request.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobCreateResponse> {
+  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams): Promise<Models.AppendBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
         options
       },
-      createOperationSpec,
-      callback) as Promise<Models.AppendBlobCreateResponse>;
+      createOperationSpec) as Promise<Models.AppendBlobCreateResponse>;
   }
 
   /**
@@ -63,29 +51,14 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobAppendBlockResponse>
    */
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse>;
-  /**
-   * @param body Initial data
-   * @param contentLength The length of the request.
-   * @param callback The callback
-   */
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param body Initial data
-   * @param contentLength The length of the request.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockResponse> {
+  appendBlock(body: RequestBodyType, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse> {
     return this.client.sendOperationRequest(
       {
         body,
         contentLength,
         options
       },
-      appendBlockOperationSpec,
-      callback) as Promise<Models.AppendBlobAppendBlockResponse>;
+      appendBlockOperationSpec) as Promise<Models.AppendBlobAppendBlockResponse>;
   }
 
   /**
@@ -98,29 +71,14 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobAppendBlockFromUrlResponse>
    */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams): Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
-  /**
-   * @param sourceUrl Specify a URL to the copy source.
-   * @param contentLength The length of the request.
-   * @param callback The callback
-   */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param sourceUrl Specify a URL to the copy source.
-   * @param contentLength The length of the request.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options: Models.AppendBlobAppendBlockFromUrlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
     return this.client.sendOperationRequest(
       {
         sourceUrl,
         contentLength,
         options
       },
-      appendBlockFromUrlOperationSpec,
-      callback) as Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
+      appendBlockFromUrlOperationSpec) as Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
   }
 
   /**
@@ -129,29 +87,18 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobSealResponse>
    */
-  seal(options?: Models.AppendBlobSealOptionalParams): Promise<Models.AppendBlobSealResponse>;
-  /**
-   * @param callback The callback
-   */
-  seal(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  seal(options: Models.AppendBlobSealOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  seal(options?: Models.AppendBlobSealOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobSealResponse> {
+  seal(options?: Models.AppendBlobSealOptionalParams): Promise<Models.AppendBlobSealResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      sealOperationSpec,
-      callback) as Promise<Models.AppendBlobSealResponse>;
+      sealOperationSpec) as Promise<Models.AppendBlobSealResponse>;
   }
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, true);
-const createOperationSpec: coreHttp.OperationSpec = {
+const serializer = createSerializer(Mappers, true);
+const createOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -197,7 +144,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const appendBlockOperationSpec: coreHttp.OperationSpec = {
+const appendBlockOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -250,7 +197,7 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
+const appendBlockFromUrlOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -299,7 +246,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const sealOperationSpec: coreHttp.OperationSpec = {
+const sealOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [

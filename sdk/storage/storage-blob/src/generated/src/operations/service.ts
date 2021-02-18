@@ -8,11 +8,12 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceMappers";
 import * as Parameters from "../models/parameters";
 import { StorageClientContext } from "../storageClientContext";
+import { RequestBodyType } from "@azure/core-https";
 
 /** Class representing a Service. */
 export class Service {
@@ -33,26 +34,13 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSetPropertiesResponse>
    */
-  setProperties(blobServiceProperties: Models.BlobServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
-  /**
-   * @param blobServiceProperties The StorageService properties.
-   * @param callback The callback
-   */
-  setProperties(blobServiceProperties: Models.BlobServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param blobServiceProperties The StorageService properties.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  setProperties(blobServiceProperties: Models.BlobServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setProperties(blobServiceProperties: Models.BlobServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(blobServiceProperties: Models.BlobServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams){
     return this.client.sendOperationRequest(
       {
         blobServiceProperties,
         options
       },
-      setPropertiesOperationSpec,
-      callback) as Promise<Models.ServiceSetPropertiesResponse>;
+      setPropertiesOperationSpec) as Promise<Models.ServiceSetPropertiesResponse>;
   }
 
   /**
@@ -61,23 +49,12 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetPropertiesResponse>
    */
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse>;
-  /**
-   * @param callback The callback
-   */
-  getProperties(callback: coreHttp.ServiceCallback<Models.BlobServiceProperties>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.BlobServiceProperties>): void;
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.BlobServiceProperties>, callback?: coreHttp.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(options?: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getPropertiesOperationSpec,
-      callback) as Promise<Models.ServiceGetPropertiesResponse>;
+      getPropertiesOperationSpec) as Promise<Models.ServiceGetPropertiesResponse>;
   }
 
   /**
@@ -87,23 +64,12 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetStatisticsResponse>
    */
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams): Promise<Models.ServiceGetStatisticsResponse>;
-  /**
-   * @param callback The callback
-   */
-  getStatistics(callback: coreHttp.ServiceCallback<Models.BlobServiceStatistics>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.BlobServiceStatistics>): void;
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.BlobServiceStatistics>, callback?: coreHttp.ServiceCallback<Models.BlobServiceStatistics>): Promise<Models.ServiceGetStatisticsResponse> {
+  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams): Promise<Models.ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getStatisticsOperationSpec,
-      callback) as Promise<Models.ServiceGetStatisticsResponse>;
+      getStatisticsOperationSpec) as Promise<Models.ServiceGetStatisticsResponse>;
   }
 
   /**
@@ -112,23 +78,12 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListContainersSegmentResponse>
    */
-  listContainersSegment(options?: Models.ServiceListContainersSegmentOptionalParams): Promise<Models.ServiceListContainersSegmentResponse>;
-  /**
-   * @param callback The callback
-   */
-  listContainersSegment(callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listContainersSegment(options: Models.ServiceListContainersSegmentOptionalParams, callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>): void;
-  listContainersSegment(options?: Models.ServiceListContainersSegmentOptionalParams | coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>): Promise<Models.ServiceListContainersSegmentResponse> {
+  listContainersSegment(options?: Models.ServiceListContainersSegmentOptionalParams): Promise<Models.ServiceListContainersSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listContainersSegmentOperationSpec,
-      callback) as Promise<Models.ServiceListContainersSegmentResponse>;
+      listContainersSegmentOperationSpec) as Promise<Models.ServiceListContainersSegmentResponse>;
   }
 
   /**
@@ -138,26 +93,13 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetUserDelegationKeyResponse>
    */
-  getUserDelegationKey(keyInfo: Models.KeyInfo, options?: Models.ServiceGetUserDelegationKeyOptionalParams): Promise<Models.ServiceGetUserDelegationKeyResponse>;
-  /**
-   * @param keyInfo
-   * @param callback The callback
-   */
-  getUserDelegationKey(keyInfo: Models.KeyInfo, callback: coreHttp.ServiceCallback<Models.UserDelegationKey>): void;
-  /**
-   * @param keyInfo
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getUserDelegationKey(keyInfo: Models.KeyInfo, options: Models.ServiceGetUserDelegationKeyOptionalParams, callback: coreHttp.ServiceCallback<Models.UserDelegationKey>): void;
-  getUserDelegationKey(keyInfo: Models.KeyInfo, options?: Models.ServiceGetUserDelegationKeyOptionalParams | coreHttp.ServiceCallback<Models.UserDelegationKey>, callback?: coreHttp.ServiceCallback<Models.UserDelegationKey>): Promise<Models.ServiceGetUserDelegationKeyResponse> {
+  getUserDelegationKey(keyInfo: Models.KeyInfo, options?: Models.ServiceGetUserDelegationKeyOptionalParams): Promise<Models.ServiceGetUserDelegationKeyResponse> {
     return this.client.sendOperationRequest(
       {
         keyInfo,
         options
       },
-      getUserDelegationKeyOperationSpec,
-      callback) as Promise<Models.ServiceGetUserDelegationKeyResponse>;
+      getUserDelegationKeyOperationSpec) as Promise<Models.ServiceGetUserDelegationKeyResponse>;
   }
 
   /**
@@ -165,23 +107,12 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetAccountInfoResponse>
    */
-  getAccountInfo(options?: coreHttp.RequestOptionsBase): Promise<Models.ServiceGetAccountInfoResponse>;
-  /**
-   * @param callback The callback
-   */
-  getAccountInfo(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getAccountInfo(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
-  getAccountInfo(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceGetAccountInfoResponse> {
+  getAccountInfo(options?: OperationOptions): Promise<Models.ServiceGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getAccountInfoOperationSpec,
-      callback) as Promise<Models.ServiceGetAccountInfoResponse>;
+      getAccountInfoOperationSpec) as Promise<Models.ServiceGetAccountInfoResponse>;
   }
 
   /**
@@ -193,25 +124,7 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSubmitBatchResponse>
    */
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams): Promise<Models.ServiceSubmitBatchResponse>;
-  /**
-   * @param body Initial data
-   * @param contentLength The length of the request.
-   * @param multipartContentType Required. The value of this header must be multipart/mixed with a
-   * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
-   * @param callback The callback
-   */
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param body Initial data
-   * @param contentLength The length of the request.
-   * @param multipartContentType Required. The value of this header must be multipart/mixed with a
-   * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options: Models.ServiceSubmitBatchOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSubmitBatchResponse> {
+  submitBatch(body: RequestBodyType, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams): Promise<Models.ServiceSubmitBatchResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -219,8 +132,7 @@ export class Service {
         multipartContentType,
         options
       },
-      submitBatchOperationSpec,
-      callback) as Promise<Models.ServiceSubmitBatchResponse>;
+      submitBatchOperationSpec) as Promise<Models.ServiceSubmitBatchResponse>;
   }
 
   /**
@@ -230,29 +142,18 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceFilterBlobsResponse>
    */
-  filterBlobs(options?: Models.ServiceFilterBlobsOptionalParams): Promise<Models.ServiceFilterBlobsResponse>;
-  /**
-   * @param callback The callback
-   */
-  filterBlobs(callback: coreHttp.ServiceCallback<Models.FilterBlobSegment>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  filterBlobs(options: Models.ServiceFilterBlobsOptionalParams, callback: coreHttp.ServiceCallback<Models.FilterBlobSegment>): void;
-  filterBlobs(options?: Models.ServiceFilterBlobsOptionalParams | coreHttp.ServiceCallback<Models.FilterBlobSegment>, callback?: coreHttp.ServiceCallback<Models.FilterBlobSegment>): Promise<Models.ServiceFilterBlobsResponse> {
+  filterBlobs(options?: Models.ServiceFilterBlobsOptionalParams): Promise<Models.ServiceFilterBlobsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      filterBlobsOperationSpec,
-      callback) as Promise<Models.ServiceFilterBlobsResponse>;
+      filterBlobsOperationSpec) as Promise<Models.ServiceFilterBlobsResponse>;
   }
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, true);
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const serializer = createSerializer(Mappers, true);
+const setPropertiesOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   urlParameters: [
     Parameters.url
@@ -287,7 +188,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
@@ -315,7 +216,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getStatisticsOperationSpec: OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
@@ -343,7 +244,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
+const listContainersSegmentOperationSpec: OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
@@ -374,7 +275,7 @@ const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
+const getUserDelegationKeyOperationSpec: OperationSpec = {
   httpMethod: "POST",
   urlParameters: [
     Parameters.url
@@ -410,7 +311,7 @@ const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
+const getAccountInfoOperationSpec: OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
@@ -435,7 +336,7 @@ const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const submitBatchOperationSpec: coreHttp.OperationSpec = {
+const submitBatchOperationSpec: OperationSpec = {
   httpMethod: "POST",
   urlParameters: [
     Parameters.url
@@ -480,7 +381,7 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const filterBlobsOperationSpec: coreHttp.OperationSpec = {
+const filterBlobsOperationSpec: OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url

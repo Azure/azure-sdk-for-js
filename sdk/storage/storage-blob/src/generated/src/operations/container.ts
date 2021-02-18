@@ -8,7 +8,8 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
+import { RequestBodyType } from "@azure/core-https";
 import * as Models from "../models";
 import * as Mappers from "../models/containerMappers";
 import * as Parameters from "../models/parameters";
@@ -32,23 +33,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerCreateResponse>
    */
-  create(options?: Models.ContainerCreateOptionalParams): Promise<Models.ContainerCreateResponse>;
-  /**
-   * @param callback The callback
-   */
-  create(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  create(options: Models.ContainerCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(options?: Models.ContainerCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerCreateResponse> {
+  create(options?: Models.ContainerCreateOptionalParams): Promise<Models.ContainerCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      createOperationSpec,
-      callback) as Promise<Models.ContainerCreateResponse>;
+      createOperationSpec) as Promise<Models.ContainerCreateResponse>;
   }
 
   /**
@@ -57,23 +47,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGetPropertiesResponse>
    */
-  getProperties(options?: Models.ContainerGetPropertiesOptionalParams): Promise<Models.ContainerGetPropertiesResponse>;
-  /**
-   * @param callback The callback
-   */
-  getProperties(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getProperties(options: Models.ContainerGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getProperties(options?: Models.ContainerGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerGetPropertiesResponse> {
+  getProperties(options?: Models.ContainerGetPropertiesOptionalParams): Promise<Models.ContainerGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getPropertiesOperationSpec,
-      callback) as Promise<Models.ContainerGetPropertiesResponse>;
+      getPropertiesOperationSpec) as Promise<Models.ContainerGetPropertiesResponse>;
   }
 
   /**
@@ -82,23 +61,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerDeleteResponse>
    */
-  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams): Promise<Models.ContainerDeleteResponse>;
-  /**
-   * @param callback The callback
-   */
-  deleteMethod(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(options: Models.ContainerDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerDeleteResponse> {
+  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams): Promise<Models.ContainerDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      deleteMethodOperationSpec,
-      callback) as Promise<Models.ContainerDeleteResponse>;
+      deleteMethodOperationSpec) as Promise<Models.ContainerDeleteResponse>;
   }
 
   /**
@@ -106,23 +74,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerSetMetadataResponse>
    */
-  setMetadata(options?: Models.ContainerSetMetadataOptionalParams): Promise<Models.ContainerSetMetadataResponse>;
-  /**
-   * @param callback The callback
-   */
-  setMetadata(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  setMetadata(options: Models.ContainerSetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setMetadata(options?: Models.ContainerSetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerSetMetadataResponse> {
+  setMetadata(options?: Models.ContainerSetMetadataOptionalParams): Promise<Models.ContainerSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      setMetadataOperationSpec,
-      callback) as Promise<Models.ContainerSetMetadataResponse>;
+      setMetadataOperationSpec) as Promise<Models.ContainerSetMetadataResponse>;
   }
 
   /**
@@ -131,23 +88,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGetAccessPolicyResponse>
    */
-  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams): Promise<Models.ContainerGetAccessPolicyResponse>;
-  /**
-   * @param callback The callback
-   */
-  getAccessPolicy(callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getAccessPolicy(options: Models.ContainerGetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams | coreHttp.ServiceCallback<Models.SignedIdentifier[]>, callback?: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ContainerGetAccessPolicyResponse> {
+  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams): Promise<Models.ContainerGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getAccessPolicyOperationSpec,
-      callback) as Promise<Models.ContainerGetAccessPolicyResponse>;
+      getAccessPolicyOperationSpec) as Promise<Models.ContainerGetAccessPolicyResponse>;
   }
 
   /**
@@ -156,23 +102,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerSetAccessPolicyResponse>
    */
-  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams): Promise<Models.ContainerSetAccessPolicyResponse>;
-  /**
-   * @param callback The callback
-   */
-  setAccessPolicy(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  setAccessPolicy(options: Models.ContainerSetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerSetAccessPolicyResponse> {
+  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams): Promise<Models.ContainerSetAccessPolicyResponse>{
     return this.client.sendOperationRequest(
       {
         options
       },
-      setAccessPolicyOperationSpec,
-      callback) as Promise<Models.ContainerSetAccessPolicyResponse>;
+      setAccessPolicyOperationSpec) as Promise<Models.ContainerSetAccessPolicyResponse>;
   }
 
   /**
@@ -180,23 +115,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerRestoreResponse>
    */
-  restore(options?: Models.ContainerRestoreOptionalParams): Promise<Models.ContainerRestoreResponse>;
-  /**
-   * @param callback The callback
-   */
-  restore(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  restore(options: Models.ContainerRestoreOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  restore(options?: Models.ContainerRestoreOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerRestoreResponse> {
+  restore(options?: Models.ContainerRestoreOptionalParams): Promise<Models.ContainerRestoreResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      restoreOperationSpec,
-      callback) as Promise<Models.ContainerRestoreResponse>;
+      restoreOperationSpec) as Promise<Models.ContainerRestoreResponse>;
   }
 
   /**
@@ -205,26 +129,13 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerRenameResponse>
    */
-  rename(sourceContainerName: string, options?: Models.ContainerRenameOptionalParams): Promise<Models.ContainerRenameResponse>;
-  /**
-   * @param sourceContainerName Required.  Specifies the name of the container to rename.
-   * @param callback The callback
-   */
-  rename(sourceContainerName: string, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param sourceContainerName Required.  Specifies the name of the container to rename.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  rename(sourceContainerName: string, options: Models.ContainerRenameOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  rename(sourceContainerName: string, options?: Models.ContainerRenameOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerRenameResponse> {
+  rename(sourceContainerName: string, options?: Models.ContainerRenameOptionalParams): Promise<Models.ContainerRenameResponse> {
     return this.client.sendOperationRequest(
       {
         sourceContainerName,
         options
       },
-      renameOperationSpec,
-      callback) as Promise<Models.ContainerRenameResponse>;
+      renameOperationSpec) as Promise<Models.ContainerRenameResponse>;
   }
 
   /**
@@ -236,25 +147,7 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerSubmitBatchResponse>
    */
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ContainerSubmitBatchOptionalParams): Promise<Models.ContainerSubmitBatchResponse>;
-  /**
-   * @param body Initial data
-   * @param contentLength The length of the request.
-   * @param multipartContentType Required. The value of this header must be multipart/mixed with a
-   * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
-   * @param callback The callback
-   */
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param body Initial data
-   * @param contentLength The length of the request.
-   * @param multipartContentType Required. The value of this header must be multipart/mixed with a
-   * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options: Models.ContainerSubmitBatchOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ContainerSubmitBatchOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerSubmitBatchResponse> {
+  submitBatch(body: RequestBodyType, contentLength: number, multipartContentType: string, options?: Models.ContainerSubmitBatchOptionalParams): Promise<Models.ContainerSubmitBatchResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -262,8 +155,7 @@ export class Container {
         multipartContentType,
         options
       },
-      submitBatchOperationSpec,
-      callback) as Promise<Models.ContainerSubmitBatchResponse>;
+      submitBatchOperationSpec) as Promise<Models.ContainerSubmitBatchResponse>;
   }
 
   /**
@@ -272,23 +164,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerAcquireLeaseResponse>
    */
-  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams): Promise<Models.ContainerAcquireLeaseResponse>;
-  /**
-   * @param callback The callback
-   */
-  acquireLease(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  acquireLease(options: Models.ContainerAcquireLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerAcquireLeaseResponse> {
+  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams): Promise<Models.ContainerAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      acquireLeaseOperationSpec,
-      callback) as Promise<Models.ContainerAcquireLeaseResponse>;
+      acquireLeaseOperationSpec) as Promise<Models.ContainerAcquireLeaseResponse>;
   }
 
   /**
@@ -298,26 +179,13 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerReleaseLeaseResponse>
    */
-  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams): Promise<Models.ContainerReleaseLeaseResponse>;
-  /**
-   * @param leaseId Specifies the current lease ID on the resource.
-   * @param callback The callback
-   */
-  releaseLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param leaseId Specifies the current lease ID on the resource.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  releaseLease(leaseId: string, options: Models.ContainerReleaseLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerReleaseLeaseResponse> {
+  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams): Promise<Models.ContainerReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
-      releaseLeaseOperationSpec,
-      callback) as Promise<Models.ContainerReleaseLeaseResponse>;
+      releaseLeaseOperationSpec) as Promise<Models.ContainerReleaseLeaseResponse>;
   }
 
   /**
@@ -327,26 +195,13 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerRenewLeaseResponse>
    */
-  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams): Promise<Models.ContainerRenewLeaseResponse>;
-  /**
-   * @param leaseId Specifies the current lease ID on the resource.
-   * @param callback The callback
-   */
-  renewLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param leaseId Specifies the current lease ID on the resource.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  renewLease(leaseId: string, options: Models.ContainerRenewLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerRenewLeaseResponse> {
+  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams): Promise<Models.ContainerRenewLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
-      renewLeaseOperationSpec,
-      callback) as Promise<Models.ContainerRenewLeaseResponse>;
+      renewLeaseOperationSpec) as Promise<Models.ContainerRenewLeaseResponse>;
   }
 
   /**
@@ -355,23 +210,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerBreakLeaseResponse>
    */
-  breakLease(options?: Models.ContainerBreakLeaseOptionalParams): Promise<Models.ContainerBreakLeaseResponse>;
-  /**
-   * @param callback The callback
-   */
-  breakLease(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  breakLease(options: Models.ContainerBreakLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  breakLease(options?: Models.ContainerBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerBreakLeaseResponse> {
+  breakLease(options?: Models.ContainerBreakLeaseOptionalParams): Promise<Models.ContainerBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      breakLeaseOperationSpec,
-      callback) as Promise<Models.ContainerBreakLeaseResponse>;
+      breakLeaseOperationSpec) as Promise<Models.ContainerBreakLeaseResponse>;
   }
 
   /**
@@ -384,33 +228,14 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerChangeLeaseResponse>
    */
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams): Promise<Models.ContainerChangeLeaseResponse>;
-  /**
-   * @param leaseId Specifies the current lease ID on the resource.
-   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
-   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
-   * (String) for a list of valid GUID string formats.
-   * @param callback The callback
-   */
-  changeLease(leaseId: string, proposedLeaseId: string, callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param leaseId Specifies the current lease ID on the resource.
-   * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
-   * (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor
-   * (String) for a list of valid GUID string formats.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  changeLease(leaseId: string, proposedLeaseId: string, options: Models.ContainerChangeLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerChangeLeaseResponse> {
+  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams): Promise<Models.ContainerChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         proposedLeaseId,
         options
       },
-      changeLeaseOperationSpec,
-      callback) as Promise<Models.ContainerChangeLeaseResponse>;
+      changeLeaseOperationSpec) as Promise<Models.ContainerChangeLeaseResponse>;
   }
 
   /**
@@ -418,23 +243,12 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerListBlobFlatSegmentResponse>
    */
-  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams): Promise<Models.ContainerListBlobFlatSegmentResponse>;
-  /**
-   * @param callback The callback
-   */
-  listBlobFlatSegment(callback: coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listBlobFlatSegment(options: Models.ContainerListBlobFlatSegmentOptionalParams, callback: coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
-  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams | coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): Promise<Models.ContainerListBlobFlatSegmentResponse> {
+  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams): Promise<Models.ContainerListBlobFlatSegmentResponse>{
     return this.client.sendOperationRequest(
       {
         options
       },
-      listBlobFlatSegmentOperationSpec,
-      callback) as Promise<Models.ContainerListBlobFlatSegmentResponse>;
+      listBlobFlatSegmentOperationSpec) as Promise<Models.ContainerListBlobFlatSegmentResponse>;
   }
 
   /**
@@ -446,32 +260,13 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerListBlobHierarchySegmentResponse>
    */
-  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams): Promise<Models.ContainerListBlobHierarchySegmentResponse>;
-  /**
-   * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
-   * element in the response body that acts as a placeholder for all blobs whose names begin with the
-   * same substring up to the appearance of the delimiter character. The delimiter may be a single
-   * character or a string.
-   * @param callback The callback
-   */
-  listBlobHierarchySegment(delimiter: string, callback: coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
-  /**
-   * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
-   * element in the response body that acts as a placeholder for all blobs whose names begin with the
-   * same substring up to the appearance of the delimiter character. The delimiter may be a single
-   * character or a string.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listBlobHierarchySegment(delimiter: string, options: Models.ContainerListBlobHierarchySegmentOptionalParams, callback: coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
-  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams | coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
+  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
     return this.client.sendOperationRequest(
       {
         delimiter,
         options
       },
-      listBlobHierarchySegmentOperationSpec,
-      callback) as Promise<Models.ContainerListBlobHierarchySegmentResponse>;
+      listBlobHierarchySegmentOperationSpec) as Promise<Models.ContainerListBlobHierarchySegmentResponse>;
   }
 
   /**
@@ -479,29 +274,18 @@ export class Container {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGetAccountInfoResponse>
    */
-  getAccountInfo(options?: coreHttp.RequestOptionsBase): Promise<Models.ContainerGetAccountInfoResponse>;
-  /**
-   * @param callback The callback
-   */
-  getAccountInfo(callback: coreHttp.ServiceCallback<void>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getAccountInfo(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
-  getAccountInfo(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ContainerGetAccountInfoResponse> {
+  getAccountInfo(options?: OperationOptions): Promise<Models.ContainerGetAccountInfoResponse>{
     return this.client.sendOperationRequest(
       {
         options
       },
-      getAccountInfoOperationSpec,
-      callback) as Promise<Models.ContainerGetAccountInfoResponse>;
+      getAccountInfoOperationSpec) as Promise<Models.ContainerGetAccountInfoResponse>;
   }
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, true);
-const createOperationSpec: coreHttp.OperationSpec = {
+const serializer = createSerializer(Mappers, true);
+const createOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -532,7 +316,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}",
   urlParameters: [
@@ -560,7 +344,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: coreHttp.OperationSpec = {
+const deleteMethodOperationSpec: OperationSpec = {
   httpMethod: "DELETE",
   path: "{containerName}",
   urlParameters: [
@@ -590,7 +374,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const setMetadataOperationSpec: coreHttp.OperationSpec = {
+const setMetadataOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -621,7 +405,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const getAccessPolicyOperationSpec: OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}",
   urlParameters: [
@@ -663,7 +447,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const setAccessPolicyOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -716,7 +500,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const restoreOperationSpec: coreHttp.OperationSpec = {
+const restoreOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -746,7 +530,7 @@ const restoreOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const renameOperationSpec: coreHttp.OperationSpec = {
+const renameOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -776,7 +560,7 @@ const renameOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const submitBatchOperationSpec: coreHttp.OperationSpec = {
+const submitBatchOperationSpec: OperationSpec = {
   httpMethod: "POST",
   path: "{containerName}",
   urlParameters: [
@@ -823,7 +607,7 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
+const acquireLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -856,7 +640,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
+const releaseLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -888,7 +672,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const renewLeaseOperationSpec: coreHttp.OperationSpec = {
+const renewLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -920,7 +704,7 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const breakLeaseOperationSpec: coreHttp.OperationSpec = {
+const breakLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -952,7 +736,7 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const changeLeaseOperationSpec: coreHttp.OperationSpec = {
+const changeLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}",
   urlParameters: [
@@ -985,7 +769,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const listBlobFlatSegmentOperationSpec: coreHttp.OperationSpec = {
+const listBlobFlatSegmentOperationSpec: OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}",
   urlParameters: [
@@ -1018,7 +802,7 @@ const listBlobFlatSegmentOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
+const listBlobHierarchySegmentOperationSpec: OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}",
   urlParameters: [
@@ -1052,7 +836,7 @@ const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
+const getAccountInfoOperationSpec: OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}",
   urlParameters: [

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { generateUuid, HttpResponse } from "@azure/core-http";
+import { v4 as uuidv4 } from "uuid";
 import { StorageClientContext } from "./generated/src/storageClient";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -67,17 +67,7 @@ export interface Lease {
  *
  * See {@link BlobLeaseClient}.
  */
-export type LeaseOperationResponse = Lease & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: Lease;
-  };
-};
+export type LeaseOperationResponse = Lease;
 
 /**
  * Configures lease operations.
@@ -159,7 +149,7 @@ export class BlobLeaseClient {
     }
 
     if (!leaseId) {
-      leaseId = generateUuid();
+      leaseId = uuidv4();
     }
     this._leaseId = leaseId;
   }
@@ -206,7 +196,7 @@ export class BlobLeaseClient {
           ifTags: options.conditions?.tagConditions
         },
         proposedLeaseId: this._leaseId,
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -257,7 +247,7 @@ export class BlobLeaseClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions
           },
-          spanOptions
+          tracingOptions: { spanOptions }
         }
       );
       this._leaseId = proposedLeaseId;
@@ -308,7 +298,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -352,7 +342,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -403,7 +393,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        tracingOptions: { spanOptions }
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
     } catch (e) {

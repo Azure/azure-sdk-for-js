@@ -8,6 +8,8 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { Debugger } from '@azure/logger';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
+import { URL } from 'url';
+import { URLSearchParams } from 'url';
 
 // @public
 export interface AddPipelineOptions {
@@ -51,6 +53,9 @@ export const decompressResponsePolicyName = "decompressResponsePolicy";
 export class DefaultHttpsClient implements HttpsClient {
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
+
+// @public
+export function delay<T>(t: number, value?: T): Promise<T | void>;
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
@@ -103,6 +108,9 @@ export interface HttpsClient {
 export interface InternalPipelineOptions extends PipelineOptions {
     loggingOptions?: LogPolicyOptions;
 }
+
+// @public
+export const isNode: boolean;
 
 // @public
 export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
@@ -296,6 +304,10 @@ export interface TracingPolicyOptions {
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
+
+export { URL }
+
+export { URLSearchParams }
 
 // @public
 export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;

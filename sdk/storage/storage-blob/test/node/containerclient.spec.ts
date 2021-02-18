@@ -12,7 +12,7 @@ import {
   ContainerSASPermissions,
   BlobServiceClient
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
@@ -35,7 +35,7 @@ describe("ContainerClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("getAccessPolicy", async () => {
+  it.only("getAccessPolicy", async () => {
     const result = await containerClient.getAccessPolicy();
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);

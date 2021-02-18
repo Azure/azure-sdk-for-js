@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { OperationParameter, OperationQueryParameter, OperationURLParameter } from "@azure/core-client";
 
-export const access: coreHttp.OperationParameter = {
+export const access: OperationParameter = {
   parameterPath: [
     "options",
     "access"
@@ -22,7 +22,7 @@ export const access: coreHttp.OperationParameter = {
     }
   }
 };
-export const action0: coreHttp.OperationParameter = {
+export const action0: OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -34,7 +34,7 @@ export const action0: coreHttp.OperationParameter = {
     }
   }
 };
-export const action1: coreHttp.OperationParameter = {
+export const action1: OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -46,7 +46,7 @@ export const action1: coreHttp.OperationParameter = {
     }
   }
 };
-export const action2: coreHttp.OperationParameter = {
+export const action2: OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -58,7 +58,7 @@ export const action2: coreHttp.OperationParameter = {
     }
   }
 };
-export const action3: coreHttp.OperationParameter = {
+export const action3: OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -70,7 +70,7 @@ export const action3: coreHttp.OperationParameter = {
     }
   }
 };
-export const action4: coreHttp.OperationParameter = {
+export const action4: OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -82,7 +82,7 @@ export const action4: coreHttp.OperationParameter = {
     }
   }
 };
-export const action5: coreHttp.OperationQueryParameter = {
+export const action5: OperationQueryParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -94,7 +94,7 @@ export const action5: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const action6: coreHttp.OperationQueryParameter = {
+export const action6: OperationQueryParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -106,7 +106,7 @@ export const action6: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const appendPosition: coreHttp.OperationParameter = {
+export const appendPosition: OperationParameter = {
   parameterPath: [
     "options",
     "appendPositionAccessConditions",
@@ -119,7 +119,7 @@ export const appendPosition: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobCacheControl: coreHttp.OperationParameter = {
+export const blobCacheControl: OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -132,7 +132,7 @@ export const blobCacheControl: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobContentDisposition: coreHttp.OperationParameter = {
+export const blobContentDisposition: OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -145,7 +145,7 @@ export const blobContentDisposition: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobContentEncoding: coreHttp.OperationParameter = {
+export const blobContentEncoding: OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -158,7 +158,7 @@ export const blobContentEncoding: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobContentLanguage: coreHttp.OperationParameter = {
+export const blobContentLanguage: OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -171,7 +171,7 @@ export const blobContentLanguage: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobContentLength: coreHttp.OperationParameter = {
+export const blobContentLength: OperationParameter = {
   parameterPath: "blobContentLength",
   mapper: {
     required: true,
@@ -181,7 +181,7 @@ export const blobContentLength: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobContentMD5: coreHttp.OperationParameter = {
+export const blobContentMD5: OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -194,7 +194,7 @@ export const blobContentMD5: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobContentType: coreHttp.OperationParameter = {
+export const blobContentType: OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -207,7 +207,7 @@ export const blobContentType: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobDeleteType: coreHttp.OperationQueryParameter = {
+export const blobDeleteType: OperationQueryParameter = {
   parameterPath: [
     "options",
     "blobDeleteType"
@@ -222,7 +222,7 @@ export const blobDeleteType: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const blobSequenceNumber: coreHttp.OperationParameter = {
+export const blobSequenceNumber: OperationParameter = {
   parameterPath: [
     "options",
     "blobSequenceNumber"
@@ -235,7 +235,7 @@ export const blobSequenceNumber: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobTagsString: coreHttp.OperationParameter = {
+export const blobTagsString: OperationParameter = {
   parameterPath: [
     "options",
     "blobTagsString"
@@ -247,7 +247,7 @@ export const blobTagsString: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobType0: coreHttp.OperationParameter = {
+export const blobType0: OperationParameter = {
   parameterPath: "blobType",
   mapper: {
     required: true,
@@ -259,7 +259,7 @@ export const blobType0: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobType1: coreHttp.OperationParameter = {
+export const blobType1: OperationParameter = {
   parameterPath: "blobType",
   mapper: {
     required: true,
@@ -271,7 +271,7 @@ export const blobType1: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobType2: coreHttp.OperationParameter = {
+export const blobType2: OperationParameter = {
   parameterPath: "blobType",
   mapper: {
     required: true,
@@ -283,7 +283,7 @@ export const blobType2: coreHttp.OperationParameter = {
     }
   }
 };
-export const blockId: coreHttp.OperationQueryParameter = {
+export const blockId: OperationQueryParameter = {
   parameterPath: "blockId",
   mapper: {
     required: true,
@@ -293,7 +293,7 @@ export const blockId: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const breakPeriod: coreHttp.OperationParameter = {
+export const breakPeriod: OperationParameter = {
   parameterPath: [
     "options",
     "breakPeriod"
@@ -305,7 +305,7 @@ export const breakPeriod: coreHttp.OperationParameter = {
     }
   }
 };
-export const cacheControl: coreHttp.OperationParameter = {
+export const cacheControl: OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -318,7 +318,7 @@ export const cacheControl: coreHttp.OperationParameter = {
     }
   }
 };
-export const comp0: coreHttp.OperationQueryParameter = {
+export const comp0: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -330,7 +330,7 @@ export const comp0: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp1: coreHttp.OperationQueryParameter = {
+export const comp1: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -342,7 +342,7 @@ export const comp1: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp10: coreHttp.OperationQueryParameter = {
+export const comp10: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -354,7 +354,7 @@ export const comp10: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp11: coreHttp.OperationQueryParameter = {
+export const comp11: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -366,7 +366,7 @@ export const comp11: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp12: coreHttp.OperationQueryParameter = {
+export const comp12: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -378,7 +378,7 @@ export const comp12: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp13: coreHttp.OperationQueryParameter = {
+export const comp13: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -390,7 +390,7 @@ export const comp13: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp14: coreHttp.OperationQueryParameter = {
+export const comp14: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -402,7 +402,7 @@ export const comp14: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp15: coreHttp.OperationQueryParameter = {
+export const comp15: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -414,7 +414,7 @@ export const comp15: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp16: coreHttp.OperationQueryParameter = {
+export const comp16: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -426,7 +426,7 @@ export const comp16: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp17: coreHttp.OperationQueryParameter = {
+export const comp17: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -438,7 +438,7 @@ export const comp17: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp18: coreHttp.OperationQueryParameter = {
+export const comp18: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -450,7 +450,7 @@ export const comp18: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp19: coreHttp.OperationQueryParameter = {
+export const comp19: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -462,7 +462,7 @@ export const comp19: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp2: coreHttp.OperationQueryParameter = {
+export const comp2: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -474,7 +474,7 @@ export const comp2: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp20: coreHttp.OperationQueryParameter = {
+export const comp20: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -486,7 +486,7 @@ export const comp20: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp21: coreHttp.OperationQueryParameter = {
+export const comp21: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -498,7 +498,7 @@ export const comp21: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp22: coreHttp.OperationQueryParameter = {
+export const comp22: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -510,7 +510,7 @@ export const comp22: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp23: coreHttp.OperationQueryParameter = {
+export const comp23: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -522,7 +522,7 @@ export const comp23: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp3: coreHttp.OperationQueryParameter = {
+export const comp3: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -534,7 +534,7 @@ export const comp3: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp4: coreHttp.OperationQueryParameter = {
+export const comp4: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -546,7 +546,7 @@ export const comp4: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp5: coreHttp.OperationQueryParameter = {
+export const comp5: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -558,7 +558,7 @@ export const comp5: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp6: coreHttp.OperationQueryParameter = {
+export const comp6: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -570,7 +570,7 @@ export const comp6: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp7: coreHttp.OperationQueryParameter = {
+export const comp7: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -582,7 +582,7 @@ export const comp7: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp8: coreHttp.OperationQueryParameter = {
+export const comp8: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -594,7 +594,7 @@ export const comp8: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const comp9: coreHttp.OperationQueryParameter = {
+export const comp9: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -606,7 +606,7 @@ export const comp9: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const contentDisposition: coreHttp.OperationParameter = {
+export const contentDisposition: OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -619,7 +619,7 @@ export const contentDisposition: coreHttp.OperationParameter = {
     }
   }
 };
-export const contentEncoding: coreHttp.OperationParameter = {
+export const contentEncoding: OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -632,7 +632,7 @@ export const contentEncoding: coreHttp.OperationParameter = {
     }
   }
 };
-export const contentLanguage: coreHttp.OperationParameter = {
+export const contentLanguage: OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -645,7 +645,7 @@ export const contentLanguage: coreHttp.OperationParameter = {
     }
   }
 };
-export const contentLength: coreHttp.OperationParameter = {
+export const contentLength: OperationParameter = {
   parameterPath: "contentLength",
   mapper: {
     required: true,
@@ -655,7 +655,7 @@ export const contentLength: coreHttp.OperationParameter = {
     }
   }
 };
-export const contentType: coreHttp.OperationParameter = {
+export const contentType: OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -668,7 +668,7 @@ export const contentType: coreHttp.OperationParameter = {
     }
   }
 };
-export const copyActionAbortConstant: coreHttp.OperationParameter = {
+export const copyActionAbortConstant: OperationParameter = {
   parameterPath: "copyActionAbortConstant",
   mapper: {
     required: true,
@@ -680,7 +680,7 @@ export const copyActionAbortConstant: coreHttp.OperationParameter = {
     }
   }
 };
-export const copyId: coreHttp.OperationQueryParameter = {
+export const copyId: OperationQueryParameter = {
   parameterPath: "copyId",
   mapper: {
     required: true,
@@ -690,7 +690,7 @@ export const copyId: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const copySource: coreHttp.OperationParameter = {
+export const copySource: OperationParameter = {
   parameterPath: "copySource",
   mapper: {
     required: true,
@@ -700,7 +700,7 @@ export const copySource: coreHttp.OperationParameter = {
     }
   }
 };
-export const copySourceBlobProperties: coreHttp.OperationParameter = {
+export const copySourceBlobProperties: OperationParameter = {
   parameterPath: [
     "options",
     "copySourceBlobProperties"
@@ -712,7 +712,7 @@ export const copySourceBlobProperties: coreHttp.OperationParameter = {
     }
   }
 };
-export const defaultEncryptionScope: coreHttp.OperationParameter = {
+export const defaultEncryptionScope: OperationParameter = {
   parameterPath: [
     "options",
     "containerEncryptionScope",
@@ -725,7 +725,7 @@ export const defaultEncryptionScope: coreHttp.OperationParameter = {
     }
   }
 };
-export const deletedContainerName: coreHttp.OperationParameter = {
+export const deletedContainerName: OperationParameter = {
   parameterPath: [
     "options",
     "deletedContainerName"
@@ -737,7 +737,7 @@ export const deletedContainerName: coreHttp.OperationParameter = {
     }
   }
 };
-export const deletedContainerVersion: coreHttp.OperationParameter = {
+export const deletedContainerVersion: OperationParameter = {
   parameterPath: [
     "options",
     "deletedContainerVersion"
@@ -749,7 +749,7 @@ export const deletedContainerVersion: coreHttp.OperationParameter = {
     }
   }
 };
-export const deleteSnapshots: coreHttp.OperationParameter = {
+export const deleteSnapshots: OperationParameter = {
   parameterPath: [
     "options",
     "deleteSnapshots"
@@ -765,7 +765,7 @@ export const deleteSnapshots: coreHttp.OperationParameter = {
     }
   }
 };
-export const delimiter: coreHttp.OperationQueryParameter = {
+export const delimiter: OperationQueryParameter = {
   parameterPath: "delimiter",
   mapper: {
     required: true,
@@ -775,7 +775,7 @@ export const delimiter: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const directoryProperties: coreHttp.OperationParameter = {
+export const directoryProperties: OperationParameter = {
   parameterPath: [
     "options",
     "directoryProperties"
@@ -787,7 +787,7 @@ export const directoryProperties: coreHttp.OperationParameter = {
     }
   }
 };
-export const duration: coreHttp.OperationParameter = {
+export const duration: OperationParameter = {
   parameterPath: [
     "options",
     "duration"
@@ -799,7 +799,7 @@ export const duration: coreHttp.OperationParameter = {
     }
   }
 };
-export const encryptionAlgorithm: coreHttp.OperationParameter = {
+export const encryptionAlgorithm: OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -815,7 +815,7 @@ export const encryptionAlgorithm: coreHttp.OperationParameter = {
     }
   }
 };
-export const encryptionKey: coreHttp.OperationParameter = {
+export const encryptionKey: OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -828,7 +828,7 @@ export const encryptionKey: coreHttp.OperationParameter = {
     }
   }
 };
-export const encryptionKeySha256: coreHttp.OperationParameter = {
+export const encryptionKeySha256: OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -841,7 +841,7 @@ export const encryptionKeySha256: coreHttp.OperationParameter = {
     }
   }
 };
-export const encryptionScope: coreHttp.OperationParameter = {
+export const encryptionScope: OperationParameter = {
   parameterPath: [
     "options",
     "encryptionScope"
@@ -853,7 +853,7 @@ export const encryptionScope: coreHttp.OperationParameter = {
     }
   }
 };
-export const expiresOn: coreHttp.OperationParameter = {
+export const expiresOn: OperationParameter = {
   parameterPath: [
     "options",
     "expiresOn"
@@ -865,7 +865,7 @@ export const expiresOn: coreHttp.OperationParameter = {
     }
   }
 };
-export const expiryOptions: coreHttp.OperationParameter = {
+export const expiryOptions: OperationParameter = {
   parameterPath: "expiryOptions",
   mapper: {
     required: true,
@@ -875,7 +875,7 @@ export const expiryOptions: coreHttp.OperationParameter = {
     }
   }
 };
-export const group: coreHttp.OperationParameter = {
+export const group: OperationParameter = {
   parameterPath: [
     "options",
     "group"
@@ -887,7 +887,7 @@ export const group: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifMatch: coreHttp.OperationParameter = {
+export const ifMatch: OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -900,7 +900,7 @@ export const ifMatch: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince: coreHttp.OperationParameter = {
+export const ifModifiedSince: OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -913,7 +913,7 @@ export const ifModifiedSince: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch: coreHttp.OperationParameter = {
+export const ifNoneMatch: OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -926,7 +926,7 @@ export const ifNoneMatch: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifSequenceNumberEqualTo: coreHttp.OperationParameter = {
+export const ifSequenceNumberEqualTo: OperationParameter = {
   parameterPath: [
     "options",
     "sequenceNumberAccessConditions",
@@ -939,7 +939,7 @@ export const ifSequenceNumberEqualTo: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifSequenceNumberLessThan: coreHttp.OperationParameter = {
+export const ifSequenceNumberLessThan: OperationParameter = {
   parameterPath: [
     "options",
     "sequenceNumberAccessConditions",
@@ -952,7 +952,7 @@ export const ifSequenceNumberLessThan: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifSequenceNumberLessThanOrEqualTo: coreHttp.OperationParameter = {
+export const ifSequenceNumberLessThanOrEqualTo: OperationParameter = {
   parameterPath: [
     "options",
     "sequenceNumberAccessConditions",
@@ -965,7 +965,7 @@ export const ifSequenceNumberLessThanOrEqualTo: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifTags: coreHttp.OperationParameter = {
+export const ifTags: OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -978,7 +978,7 @@ export const ifTags: coreHttp.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince: coreHttp.OperationParameter = {
+export const ifUnmodifiedSince: OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -991,7 +991,7 @@ export const ifUnmodifiedSince: coreHttp.OperationParameter = {
     }
   }
 };
-export const include0: coreHttp.OperationQueryParameter = {
+export const include0: OperationQueryParameter = {
   parameterPath: [
     "options",
     "include"
@@ -1011,9 +1011,9 @@ export const include0: coreHttp.OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: coreHttp.QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
-export const include1: coreHttp.OperationQueryParameter = {
+export const include1: OperationQueryParameter = {
   parameterPath: [
     "options",
     "include"
@@ -1038,9 +1038,9 @@ export const include1: coreHttp.OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: coreHttp.QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
-export const leaseId0: coreHttp.OperationParameter = {
+export const leaseId0: OperationParameter = {
   parameterPath: [
     "options",
     "leaseAccessConditions",
@@ -1053,7 +1053,7 @@ export const leaseId0: coreHttp.OperationParameter = {
     }
   }
 };
-export const leaseId1: coreHttp.OperationParameter = {
+export const leaseId1: OperationParameter = {
   parameterPath: "leaseId",
   mapper: {
     required: true,
@@ -1063,7 +1063,7 @@ export const leaseId1: coreHttp.OperationParameter = {
     }
   }
 };
-export const listType: coreHttp.OperationQueryParameter = {
+export const listType: OperationQueryParameter = {
   parameterPath: "listType",
   mapper: {
     required: true,
@@ -1079,7 +1079,7 @@ export const listType: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const marker0: coreHttp.OperationQueryParameter = {
+export const marker0: OperationQueryParameter = {
   parameterPath: [
     "options",
     "marker"
@@ -1091,7 +1091,7 @@ export const marker0: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const marker1: coreHttp.OperationQueryParameter = {
+export const marker1: OperationQueryParameter = {
   parameterPath: [
     "options",
     "marker"
@@ -1103,7 +1103,7 @@ export const marker1: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxPageSize: coreHttp.OperationQueryParameter = {
+export const maxPageSize: OperationQueryParameter = {
   parameterPath: [
     "options",
     "maxPageSize"
@@ -1118,7 +1118,7 @@ export const maxPageSize: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxSize: coreHttp.OperationParameter = {
+export const maxSize: OperationParameter = {
   parameterPath: [
     "options",
     "appendPositionAccessConditions",
@@ -1131,7 +1131,7 @@ export const maxSize: coreHttp.OperationParameter = {
     }
   }
 };
-export const metadata: coreHttp.OperationParameter = {
+export const metadata: OperationParameter = {
   parameterPath: [
     "options",
     "metadata"
@@ -1149,7 +1149,7 @@ export const metadata: coreHttp.OperationParameter = {
     headerCollectionPrefix: "x-ms-meta-"
   }
 };
-export const multipartContentType: coreHttp.OperationParameter = {
+export const multipartContentType: OperationParameter = {
   parameterPath: "multipartContentType",
   mapper: {
     required: true,
@@ -1159,7 +1159,7 @@ export const multipartContentType: coreHttp.OperationParameter = {
     }
   }
 };
-export const owner: coreHttp.OperationParameter = {
+export const owner: OperationParameter = {
   parameterPath: [
     "options",
     "owner"
@@ -1171,7 +1171,7 @@ export const owner: coreHttp.OperationParameter = {
     }
   }
 };
-export const pageWrite0: coreHttp.OperationParameter = {
+export const pageWrite0: OperationParameter = {
   parameterPath: "pageWrite",
   mapper: {
     required: true,
@@ -1183,7 +1183,7 @@ export const pageWrite0: coreHttp.OperationParameter = {
     }
   }
 };
-export const pageWrite1: coreHttp.OperationParameter = {
+export const pageWrite1: OperationParameter = {
   parameterPath: "pageWrite",
   mapper: {
     required: true,
@@ -1195,7 +1195,7 @@ export const pageWrite1: coreHttp.OperationParameter = {
     }
   }
 };
-export const pathRenameMode: coreHttp.OperationQueryParameter = {
+export const pathRenameMode: OperationQueryParameter = {
   parameterPath: [
     "options",
     "pathRenameMode"
@@ -1211,7 +1211,7 @@ export const pathRenameMode: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const posixAcl: coreHttp.OperationParameter = {
+export const posixAcl: OperationParameter = {
   parameterPath: [
     "options",
     "posixAcl"
@@ -1223,7 +1223,7 @@ export const posixAcl: coreHttp.OperationParameter = {
     }
   }
 };
-export const posixPermissions: coreHttp.OperationParameter = {
+export const posixPermissions: OperationParameter = {
   parameterPath: [
     "options",
     "posixPermissions"
@@ -1235,7 +1235,7 @@ export const posixPermissions: coreHttp.OperationParameter = {
     }
   }
 };
-export const posixUmask: coreHttp.OperationParameter = {
+export const posixUmask: OperationParameter = {
   parameterPath: [
     "options",
     "posixUmask"
@@ -1247,7 +1247,7 @@ export const posixUmask: coreHttp.OperationParameter = {
     }
   }
 };
-export const prefix: coreHttp.OperationQueryParameter = {
+export const prefix: OperationQueryParameter = {
   parameterPath: [
     "options",
     "prefix"
@@ -1259,7 +1259,7 @@ export const prefix: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const preventEncryptionScopeOverride: coreHttp.OperationParameter = {
+export const preventEncryptionScopeOverride: OperationParameter = {
   parameterPath: [
     "options",
     "containerEncryptionScope",
@@ -1272,7 +1272,7 @@ export const preventEncryptionScopeOverride: coreHttp.OperationParameter = {
     }
   }
 };
-export const prevsnapshot: coreHttp.OperationQueryParameter = {
+export const prevsnapshot: OperationQueryParameter = {
   parameterPath: [
     "options",
     "prevsnapshot"
@@ -1284,7 +1284,7 @@ export const prevsnapshot: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const prevSnapshotUrl: coreHttp.OperationParameter = {
+export const prevSnapshotUrl: OperationParameter = {
   parameterPath: [
     "options",
     "prevSnapshotUrl"
@@ -1296,7 +1296,7 @@ export const prevSnapshotUrl: coreHttp.OperationParameter = {
     }
   }
 };
-export const proposedLeaseId0: coreHttp.OperationParameter = {
+export const proposedLeaseId0: OperationParameter = {
   parameterPath: [
     "options",
     "proposedLeaseId"
@@ -1308,7 +1308,7 @@ export const proposedLeaseId0: coreHttp.OperationParameter = {
     }
   }
 };
-export const proposedLeaseId1: coreHttp.OperationParameter = {
+export const proposedLeaseId1: OperationParameter = {
   parameterPath: "proposedLeaseId",
   mapper: {
     required: true,
@@ -1318,7 +1318,7 @@ export const proposedLeaseId1: coreHttp.OperationParameter = {
     }
   }
 };
-export const range0: coreHttp.OperationParameter = {
+export const range0: OperationParameter = {
   parameterPath: [
     "options",
     "range"
@@ -1330,7 +1330,7 @@ export const range0: coreHttp.OperationParameter = {
     }
   }
 };
-export const range1: coreHttp.OperationParameter = {
+export const range1: OperationParameter = {
   parameterPath: "range",
   mapper: {
     required: true,
@@ -1340,7 +1340,7 @@ export const range1: coreHttp.OperationParameter = {
     }
   }
 };
-export const rangeGetContentCRC64: coreHttp.OperationParameter = {
+export const rangeGetContentCRC64: OperationParameter = {
   parameterPath: [
     "options",
     "rangeGetContentCRC64"
@@ -1352,7 +1352,7 @@ export const rangeGetContentCRC64: coreHttp.OperationParameter = {
     }
   }
 };
-export const rangeGetContentMD5: coreHttp.OperationParameter = {
+export const rangeGetContentMD5: OperationParameter = {
   parameterPath: [
     "options",
     "rangeGetContentMD5"
@@ -1364,7 +1364,7 @@ export const rangeGetContentMD5: coreHttp.OperationParameter = {
     }
   }
 };
-export const recursiveDirectoryDelete: coreHttp.OperationQueryParameter = {
+export const recursiveDirectoryDelete: OperationQueryParameter = {
   parameterPath: "recursiveDirectoryDelete",
   mapper: {
     required: true,
@@ -1374,7 +1374,7 @@ export const recursiveDirectoryDelete: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const rehydratePriority: coreHttp.OperationParameter = {
+export const rehydratePriority: OperationParameter = {
   parameterPath: [
     "options",
     "rehydratePriority"
@@ -1386,7 +1386,7 @@ export const rehydratePriority: coreHttp.OperationParameter = {
     }
   }
 };
-export const renameSource: coreHttp.OperationParameter = {
+export const renameSource: OperationParameter = {
   parameterPath: "renameSource",
   mapper: {
     required: true,
@@ -1396,7 +1396,7 @@ export const renameSource: coreHttp.OperationParameter = {
     }
   }
 };
-export const requestId: coreHttp.OperationParameter = {
+export const requestId: OperationParameter = {
   parameterPath: [
     "options",
     "requestId"
@@ -1408,7 +1408,7 @@ export const requestId: coreHttp.OperationParameter = {
     }
   }
 };
-export const resource: coreHttp.OperationQueryParameter = {
+export const resource: OperationQueryParameter = {
   parameterPath: "resource",
   mapper: {
     required: true,
@@ -1420,7 +1420,7 @@ export const resource: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const restype0: coreHttp.OperationQueryParameter = {
+export const restype0: OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -1432,7 +1432,7 @@ export const restype0: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const restype1: coreHttp.OperationQueryParameter = {
+export const restype1: OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -1444,7 +1444,7 @@ export const restype1: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const restype2: coreHttp.OperationQueryParameter = {
+export const restype2: OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -1456,7 +1456,7 @@ export const restype2: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const sealBlob: coreHttp.OperationParameter = {
+export const sealBlob: OperationParameter = {
   parameterPath: [
     "options",
     "sealBlob"
@@ -1468,7 +1468,7 @@ export const sealBlob: coreHttp.OperationParameter = {
     }
   }
 };
-export const sequenceNumberAction: coreHttp.OperationParameter = {
+export const sequenceNumberAction: OperationParameter = {
   parameterPath: "sequenceNumberAction",
   mapper: {
     required: true,
@@ -1483,7 +1483,7 @@ export const sequenceNumberAction: coreHttp.OperationParameter = {
     }
   }
 };
-export const snapshot: coreHttp.OperationQueryParameter = {
+export const snapshot: OperationQueryParameter = {
   parameterPath: [
     "options",
     "snapshot"
@@ -1495,7 +1495,7 @@ export const snapshot: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const sourceContainerName: coreHttp.OperationParameter = {
+export const sourceContainerName: OperationParameter = {
   parameterPath: "sourceContainerName",
   mapper: {
     required: true,
@@ -1505,7 +1505,7 @@ export const sourceContainerName: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceContentCrc64: coreHttp.OperationParameter = {
+export const sourceContentCrc64: OperationParameter = {
   parameterPath: [
     "options",
     "sourceContentCrc64"
@@ -1517,7 +1517,7 @@ export const sourceContentCrc64: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceContentMD5: coreHttp.OperationParameter = {
+export const sourceContentMD5: OperationParameter = {
   parameterPath: [
     "options",
     "sourceContentMD5"
@@ -1529,7 +1529,7 @@ export const sourceContentMD5: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceIfMatch: coreHttp.OperationParameter = {
+export const sourceIfMatch: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1542,7 +1542,7 @@ export const sourceIfMatch: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceIfModifiedSince: coreHttp.OperationParameter = {
+export const sourceIfModifiedSince: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1555,7 +1555,7 @@ export const sourceIfModifiedSince: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceIfNoneMatch: coreHttp.OperationParameter = {
+export const sourceIfNoneMatch: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1568,7 +1568,7 @@ export const sourceIfNoneMatch: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceIfTags: coreHttp.OperationParameter = {
+export const sourceIfTags: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1581,7 +1581,7 @@ export const sourceIfTags: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceIfUnmodifiedSince: coreHttp.OperationParameter = {
+export const sourceIfUnmodifiedSince: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1594,7 +1594,7 @@ export const sourceIfUnmodifiedSince: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceLeaseId: coreHttp.OperationParameter = {
+export const sourceLeaseId: OperationParameter = {
   parameterPath: [
     "options",
     "sourceLeaseId"
@@ -1606,7 +1606,7 @@ export const sourceLeaseId: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceRange0: coreHttp.OperationParameter = {
+export const sourceRange0: OperationParameter = {
   parameterPath: "sourceRange",
   mapper: {
     required: true,
@@ -1616,7 +1616,7 @@ export const sourceRange0: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceRange1: coreHttp.OperationParameter = {
+export const sourceRange1: OperationParameter = {
   parameterPath: [
     "options",
     "sourceRange"
@@ -1628,7 +1628,7 @@ export const sourceRange1: coreHttp.OperationParameter = {
     }
   }
 };
-export const sourceUrl: coreHttp.OperationParameter = {
+export const sourceUrl: OperationParameter = {
   parameterPath: "sourceUrl",
   mapper: {
     required: true,
@@ -1638,7 +1638,7 @@ export const sourceUrl: coreHttp.OperationParameter = {
     }
   }
 };
-export const tier0: coreHttp.OperationParameter = {
+export const tier0: OperationParameter = {
   parameterPath: [
     "options",
     "tier"
@@ -1650,7 +1650,7 @@ export const tier0: coreHttp.OperationParameter = {
     }
   }
 };
-export const tier1: coreHttp.OperationParameter = {
+export const tier1: OperationParameter = {
   parameterPath: "tier",
   mapper: {
     required: true,
@@ -1660,7 +1660,7 @@ export const tier1: coreHttp.OperationParameter = {
     }
   }
 };
-export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
+export const timeoutInSeconds: OperationQueryParameter = {
   parameterPath: [
     "options",
     "timeoutInSeconds"
@@ -1675,7 +1675,7 @@ export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const transactionalContentCrc64: coreHttp.OperationParameter = {
+export const transactionalContentCrc64: OperationParameter = {
   parameterPath: [
     "options",
     "transactionalContentCrc64"
@@ -1687,7 +1687,7 @@ export const transactionalContentCrc64: coreHttp.OperationParameter = {
     }
   }
 };
-export const transactionalContentMD5: coreHttp.OperationParameter = {
+export const transactionalContentMD5: OperationParameter = {
   parameterPath: [
     "options",
     "transactionalContentMD5"
@@ -1699,7 +1699,7 @@ export const transactionalContentMD5: coreHttp.OperationParameter = {
     }
   }
 };
-export const upn: coreHttp.OperationQueryParameter = {
+export const upn: OperationQueryParameter = {
   parameterPath: [
     "options",
     "upn"
@@ -1711,7 +1711,7 @@ export const upn: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const url: coreHttp.OperationURLParameter = {
+export const url: OperationURLParameter = {
   parameterPath: "url",
   mapper: {
     required: true,
@@ -1723,7 +1723,7 @@ export const url: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const version: coreHttp.OperationParameter = {
+export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
     required: true,
@@ -1735,7 +1735,7 @@ export const version: coreHttp.OperationParameter = {
     }
   }
 };
-export const versionId: coreHttp.OperationQueryParameter = {
+export const versionId: OperationQueryParameter = {
   parameterPath: [
     "options",
     "versionId"
@@ -1747,7 +1747,7 @@ export const versionId: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const where: coreHttp.OperationQueryParameter = {
+export const where: OperationQueryParameter = {
   parameterPath: [
     "options",
     "where"
@@ -1759,7 +1759,7 @@ export const where: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const xMsRequiresSync: coreHttp.OperationParameter = {
+export const xMsRequiresSync: OperationParameter = {
   parameterPath: "xMsRequiresSync",
   mapper: {
     required: true,

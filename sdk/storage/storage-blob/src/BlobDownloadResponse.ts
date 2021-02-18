@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { HttpResponse, isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-https";
 
 import {
-  BlobDownloadHeaders,
   BlobType,
   CopyStatusType,
   LeaseDurationType,
@@ -552,18 +551,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
     return isNode ? this.blobDownloadStream : undefined;
-  }
-
-  /**
-   * The HTTP response.
-   *
-   * @type {HttpResponse}
-   * @memberof BlobDownloadResponse
-   */
-  public get _response(): HttpResponse & {
-    parsedHeaders: BlobDownloadHeaders;
-  } {
-    return this.originalResponse._response;
   }
 
   private originalResponse: BlobDownloadResponseParsed;

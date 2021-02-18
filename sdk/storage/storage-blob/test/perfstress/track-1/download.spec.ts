@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as uuidv4 } from "uuid";
 import { Aborter, BlobURL, BlockBlobURL } from "@azure/storage-blob";
 import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
@@ -21,7 +21,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     }
   };
 
-  static blobName = generateUuid();
+  static blobName = uuidv4();
   blockBlobClient: BlockBlobURL;
 
   constructor() {

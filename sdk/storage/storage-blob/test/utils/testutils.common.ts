@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { padStart } from "../../src/utils/utils.common";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 export const testPollerProperties = {

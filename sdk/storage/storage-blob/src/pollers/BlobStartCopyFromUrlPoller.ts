@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-https";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { BlobClient, BlobStartCopyFromURLOptions, BlobBeginCopyFromURLResponse } from "../Clients";
 

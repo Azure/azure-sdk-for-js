@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { v4 as uuidv4 } from "uuid";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
-  BaseRequestPolicy,
-  deserializationPolicy,
-  generateUuid,
-  HttpHeaders,
-  HttpOperationResponse,
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions,
-  WebResource,
-  TokenCredential,
-  isTokenCredential,
+  createPipelineRequest,
+  isNode,
+  Pipeline as CorePipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
   bearerTokenAuthenticationPolicy,
-  isNode
-} from "@azure/core-http";
+  SendRequest,
+  createEmptyPipeline,
+  createHttpHeaders
+} from "@azure/core-https";
+import { deserializationPolicy } from "@azure/core-client";
 import { CanonicalCode } from "@opentelemetry/api";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
@@ -371,7 +371,7 @@ class InnerBatchRequest {
     this.operationCount = 0;
     this.body = "";
 
-    const tempGuid = generateUuid();
+    const tempGuid = uuidv4();
 
     // batch_{batchid}
     this.boundary = `batch_${tempGuid}`;
@@ -398,25 +398,33 @@ class InnerBatchRequest {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential
   ): Pipeline {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
-    const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserializationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
-    const factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
+    const factories: CorePipeline = createEmptyPipeline();
 
-    factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer
-    factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
+    factories.addPolicy(deserializationPolicy());
+    factories.addPolicy(new BatchHeaderFilterPolicy());
+
     if (!isAnonymousCreds) {
-      factories[2] = isTokenCredential(credential)
-        ? attachCredential(
-            bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+      if (isTokenCredential(credential)) {
+        factories.addPolicy(
+          attachCredential(
+            bearerTokenAuthenticationPolicy({
+              credential,
+              scopes:
+                typeof StorageOAuthScopes === "string" ? [StorageOAuthScopes] : StorageOAuthScopes
+            }),
             credential
           )
-        : credential;
+        );
+      } else {
+        factories.addPolicy(credential);
+      }
     }
-    factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
+    factories.addPolicy(new BatchRequestAssemblePolicy(this)); // Use batch assemble policy to assemble request and intercept request from going to wire
 
     return new Pipeline(factories, {});
   }
 
-  public appendSubRequestToBody(request: WebResource) {
+  public appendSubRequestToBody(request: PipelineRequest) {
     // Start to assemble sub request
     this.body += [
       this.subRequestPrefix, // sub request constant prefix
@@ -427,8 +435,8 @@ class InnerBatchRequest {
       )} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}` // sub request start line with method
     ].join(HTTP_LINE_ENDING);
 
-    for (const header of request.headers.headersArray()) {
-      this.body += `${header.name}: ${header.value}${HTTP_LINE_ENDING}`;
+    for (const [name, value] of request.headers) {
+      this.body += `${name}: ${value}${HTTP_LINE_ENDING}`;
     }
 
     this.body += HTTP_LINE_ENDING; // sub request's headers need be ending with an empty line
@@ -467,72 +475,46 @@ class InnerBatchRequest {
   }
 }
 
-class BatchRequestAssemblePolicy extends BaseRequestPolicy {
+class BatchRequestAssemblePolicy implements PipelinePolicy {
+  public name = "StorageBatchRequestAssemblePolicy";
+
   private batchRequest: InnerBatchRequest;
-  private readonly dummyResponse: HttpOperationResponse = {
-    request: new WebResource(),
+  private readonly dummyResponse: PipelineResponse = {
+    request: createPipelineRequest({ url: "https://example.com" }),
     status: 200,
-    headers: new HttpHeaders()
+    headers: createHttpHeaders()
   };
 
-  constructor(
-    batchRequest: InnerBatchRequest,
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ) {
-    super(nextPolicy, options);
-
+  constructor(batchRequest: InnerBatchRequest) {
     this.batchRequest = batchRequest;
   }
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(
+    request: PipelineRequest,
+    _next: SendRequest
+  ): Promise<PipelineResponse> {
     await this.batchRequest.appendSubRequestToBody(request);
 
     return this.dummyResponse; // Intercept request from going to wire
   }
 }
 
-class BatchRequestAssemblePolicyFactory implements RequestPolicyFactory {
-  private batchRequest: InnerBatchRequest;
+class BatchHeaderFilterPolicy implements PipelinePolicy {
+  public name = "StorageBatchHeaderFilterPolicy";
 
-  constructor(batchRequest: InnerBatchRequest) {
-    this.batchRequest = batchRequest;
-  }
-
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): BatchRequestAssemblePolicy {
-    return new BatchRequestAssemblePolicy(this.batchRequest, nextPolicy, options);
-  }
-}
-
-class BatchHeaderFilterPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
-    super(nextPolicy, options);
-  }
-
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
     let xMsHeaderName = "";
 
-    for (const header of request.headers.headersArray()) {
-      if (iEqual(header.name, HeaderConstants.X_MS_VERSION)) {
-        xMsHeaderName = header.name;
+    for (const [name, _value] of request.headers) {
+      if (iEqual(name, HeaderConstants.X_MS_VERSION)) {
+        xMsHeaderName = name;
       }
     }
 
     if (xMsHeaderName !== "") {
-      request.headers.remove(xMsHeaderName); // The subrequests should not have the x-ms-version header.
+      request.headers.delete(xMsHeaderName); // The subrequests should not have the x-ms-version header.
     }
 
-    return this._nextPolicy.sendRequest(request);
-  }
-}
-
-class BatchHeaderFilterPolicyFactory implements RequestPolicyFactory {
-  constructor() {}
-
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BatchHeaderFilterPolicy {
-    return new BatchHeaderFilterPolicy(nextPolicy, options);
+    return next(request);
   }
 }

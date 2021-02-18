@@ -4,7 +4,7 @@
 import { drainStream, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 import { BlockBlobClient } from "../../../src";
-import { generateUuid } from "@azure/core-http";
+import { v4 as uuidv4 } from "uuid";
 
 interface StorageBlobDownloadTestOptions {
   size: number;
@@ -21,7 +21,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     }
   };
 
-  static blobName = generateUuid();
+  static blobName = uuidv4();
   blockBlobClient: BlockBlobClient;
 
   constructor() {

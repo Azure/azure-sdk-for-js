@@ -6,8 +6,10 @@ import { Pipeline } from "./Pipeline";
 import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isNode } from "@azure/core-https";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import { RawResponseCallback } from "@azure/core-client";
 
 /**
  * An interface for options common to every remote operation.
@@ -17,6 +19,12 @@ export interface CommonOptions {
    * Options to configure spans created when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
+  /**
+   * A function to be called each time a response is received from the server
+   * while performing the requested operation.
+   * May be called multiple times.
+   */
+  onResponse?: RawResponseCallback;
 }
 
 /**
@@ -83,10 +91,10 @@ export abstract class StorageClient {
       pipeline.toServiceClientOptions()
     );
 
-    this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
+    this.isHttps = iEqual(getURLScheme(this.url) || "", "https:");
 
     this.credential = new AnonymousCredential();
-    for (const factory of this.pipeline.factories) {
+    for (const factory of this.pipeline.factories.getOrderedPolicies()) {
       if (
         (isNode && factory instanceof StorageSharedKeyCredential) ||
         factory instanceof AnonymousCredential
