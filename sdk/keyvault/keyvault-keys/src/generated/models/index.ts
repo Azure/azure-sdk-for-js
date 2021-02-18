@@ -23,8 +23,6 @@ export interface KeyCreateParameters {
   tags?: { [propertyName: string]: string };
   /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
   curve?: JsonWebKeyCurveName;
-  /** The policy rules under which the key can be exported. */
-  releasePolicy?: KeyReleasePolicy;
 }
 
 /** The object attributes managed by the KeyVault service. */
@@ -47,26 +45,6 @@ export interface Attributes {
   readonly updated?: Date;
 }
 
-export interface KeyReleasePolicy {
-  /** key release policy version */
-  version?: KeyReleasePolicyVersion;
-  anyOf?: KeyReleaseAuthority[];
-}
-
-export interface KeyReleaseAuthority {
-  /** Base URL of the attestation service. */
-  authorityURL?: string;
-  allOf?: KeyReleaseCondition[];
-}
-
-export interface KeyReleaseCondition {
-  /** claim type name */
-  claimType?: string;
-  /** condition to test */
-  claimCondition?: KeyReleaseConditionCondition;
-  value?: string;
-}
-
 /** A KeyBundle consisting of a WebKey plus its attributes. */
 export interface KeyBundle {
   /** The Json web key. */
@@ -80,8 +58,6 @@ export interface KeyBundle {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly managed?: boolean;
-  /** The policy rules under which the key can be exported. */
-  releasePolicy?: KeyReleasePolicy;
 }
 
 /** As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18 */
@@ -125,7 +101,7 @@ export interface KeyVaultError {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorModel;
+  readonly error?: ErrorModel | null;
 }
 
 /** The key vault server error. */
@@ -144,7 +120,7 @@ export interface ErrorModel {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel | null;
 }
 
 /** The key import parameters. */
@@ -157,8 +133,6 @@ export interface KeyImportParameters {
   keyAttributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /** The policy rules under which the key can be exported. */
-  releasePolicy?: KeyReleasePolicy;
 }
 
 /** The key update parameters. */
@@ -169,8 +143,6 @@ export interface KeyUpdateParameters {
   keyAttributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /** The policy rules under which the key can be exported. */
-  releasePolicy?: KeyReleasePolicy;
 }
 
 /** The key list result. */
@@ -239,6 +211,12 @@ export interface KeyOperationResult {
   readonly kid?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly result?: Uint8Array;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly iv?: Uint8Array;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly authenticationTag?: Uint8Array;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly additionalAuthenticatedData?: Uint8Array;
 }
 
 /** The key operations parameters. */
@@ -267,12 +245,6 @@ export interface KeyVerifyResult {
   readonly value?: boolean;
 }
 
-/** The export key parameters. */
-export interface KeyExportParameters {
-  /** The target environment assertion. */
-  environment: string;
-}
-
 /** A list of keys that have been deleted in this vault. */
 export interface DeletedKeyListResult {
   /**
@@ -289,8 +261,6 @@ export interface DeletedKeyListResult {
 
 /** Properties of the key pair backing a certificate. */
 export interface KeyProperties {
-  /** Indicates if the private key can be exported. */
-  exportable?: boolean;
   /** The type of key pair to be used for the certificate. */
   keyType?: JsonWebKeyType;
   /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
@@ -313,8 +283,6 @@ export type KeyAttributes = Attributes & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
-  /** Indicates if the private key can be exported. */
-  exportable?: boolean;
 };
 
 /** A DeletedKeyBundle consisting of a WebKey plus its Attributes and deletion info */
@@ -396,22 +364,13 @@ export type JsonWebKeyType = string;
 
 /** Known values of {@link JsonWebKeyOperation} that the service accepts. */
 export const enum KnownJsonWebKeyOperation {
-  /** Key operation - encrypt */
   Encrypt = "encrypt",
-  /** Key operation - decrypt */
   Decrypt = "decrypt",
-  /** Key operation - sign */
   Sign = "sign",
-  /** Key operation - verify */
   Verify = "verify",
-  /** Key operation - wrapKey */
   WrapKey = "wrapKey",
-  /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
-  /** Key operation - import */
-  Import = "import",
-  /** Key operation - export */
-  Export = "export"
+  Import = "import"
 }
 
 /**
@@ -425,8 +384,7 @@ export const enum KnownJsonWebKeyOperation {
  * **verify** \
  * **wrapKey** \
  * **unwrapKey** \
- * **import** \
- * **export**
+ * **import**
  */
 export type JsonWebKeyOperation = string;
 
@@ -487,67 +445,22 @@ export const enum KnownJsonWebKeyCurveName {
  */
 export type JsonWebKeyCurveName = string;
 
-/** Known values of {@link KeyReleasePolicyVersion} that the service accepts. */
-export const enum KnownKeyReleasePolicyVersion {
-  /** Schema version 0.2 */
-  Zero2 = "0.2"
-}
-
-/**
- * Defines values for KeyReleasePolicyVersion. \
- * {@link KnownKeyReleasePolicyVersion} can be used interchangeably with KeyReleasePolicyVersion,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **0.2**: Schema version 0.2
- */
-export type KeyReleasePolicyVersion = string;
-
-/** Known values of {@link KeyReleaseConditionCondition} that the service accepts. */
-export const enum KnownKeyReleaseConditionCondition {
-  /** equals comparison. */
-  Equals = "equals"
-}
-
-/**
- * Defines values for KeyReleaseConditionCondition. \
- * {@link KnownKeyReleaseConditionCondition} can be used interchangeably with KeyReleaseConditionCondition,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **equals**: equals comparison.
- */
-export type KeyReleaseConditionCondition = string;
-
 /** Known values of {@link JsonWebKeyEncryptionAlgorithm} that the service accepts. */
 export const enum KnownJsonWebKeyEncryptionAlgorithm {
-  /** Encryption Algorithm - RSA-OAEP */
   RSAOaep = "RSA-OAEP",
-  /** Encryption Algorithm - RSA-OAEP-256 */
   RSAOaep256 = "RSA-OAEP-256",
-  /** Encryption Algorithm - RSA1_5 */
   RSA15 = "RSA1_5",
-  /** Encryption Algorithm - A128GCM */
   A128GCM = "A128GCM",
-  /** Encryption Algorithm - A192GCM */
   A192GCM = "A192GCM",
-  /** Encryption Algorithm - A256GCM */
   A256GCM = "A256GCM",
-  /** Encryption Algorithm - A128KW */
   A128KW = "A128KW",
-  /** Encryption Algorithm - A192KW */
   A192KW = "A192KW",
-  /** Encryption Algorithm - A256KW */
   A256KW = "A256KW",
-  /** Encryption Algorithm - A128CBC */
   A128CBC = "A128CBC",
-  /** Encryption Algorithm - A192CBC */
   A192CBC = "A192CBC",
-  /** Encryption Algorithm - A256CBC */
   A256CBC = "A256CBC",
-  /** Encryption Algorithm - A128CBCPAD */
   A128Cbcpad = "A128CBCPAD",
-  /** Encryption Algorithm - A192CBCPAD */
   A192Cbcpad = "A192CBCPAD",
-  /** Encryption Algorithm - A256CBCPAD */
   A256Cbcpad = "A256CBCPAD"
 }
 
@@ -634,8 +547,6 @@ export interface KeyVaultClientCreateKeyOptionalParams
   tags?: { [propertyName: string]: string };
   /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
   curve?: JsonWebKeyCurveName;
-  /** The policy rules under which the key can be exported. */
-  releasePolicy?: KeyReleasePolicy;
 }
 
 /** Contains response data for the createKey operation. */
@@ -659,8 +570,6 @@ export interface KeyVaultClientImportKeyOptionalParams
   keyAttributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /** The policy rules under which the key can be exported. */
-  releasePolicy?: KeyReleasePolicy;
 }
 
 /** Contains response data for the importKey operation. */
@@ -696,8 +605,6 @@ export interface KeyVaultClientUpdateKeyOptionalParams
   keyAttributes?: KeyAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /** The policy rules under which the key can be exported. */
-  releasePolicy?: KeyReleasePolicy;
 }
 
 /** Contains response data for the updateKey operation. */
@@ -899,18 +806,6 @@ export type KeyVaultClientUnwrapKeyResponse = KeyOperationResult & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: KeyOperationResult;
-  };
-};
-
-/** Contains response data for the exportKey operation. */
-export type KeyVaultClientExportKeyResponse = KeyBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: KeyBundle;
   };
 };
 

@@ -261,20 +261,35 @@ export const enum KnownDeletionRecoveryLevel {
 
 // @public
 export const enum KnownEncryptionAlgorithms {
+    // (undocumented)
     A128CBC = "A128CBC",
+    // (undocumented)
     A128Cbcpad = "A128CBCPAD",
+    // (undocumented)
     A128GCM = "A128GCM",
+    // (undocumented)
     A128KW = "A128KW",
+    // (undocumented)
     A192CBC = "A192CBC",
+    // (undocumented)
     A192Cbcpad = "A192CBCPAD",
+    // (undocumented)
     A192GCM = "A192GCM",
+    // (undocumented)
     A192KW = "A192KW",
+    // (undocumented)
     A256CBC = "A256CBC",
+    // (undocumented)
     A256Cbcpad = "A256CBCPAD",
+    // (undocumented)
     A256GCM = "A256GCM",
+    // (undocumented)
     A256KW = "A256KW",
+    // (undocumented)
     RSA15 = "RSA1_5",
+    // (undocumented)
     RSAOaep = "RSA-OAEP",
+    // (undocumented)
     RSAOaep256 = "RSA-OAEP-256"
 }
 
@@ -288,13 +303,19 @@ export const enum KnownKeyCurveNames {
 
 // @public
 export const enum KnownKeyOperations {
+    // (undocumented)
     Decrypt = "decrypt",
+    // (undocumented)
     Encrypt = "encrypt",
-    Export = "export",
+    // (undocumented)
     Import = "import",
+    // (undocumented)
     Sign = "sign",
+    // (undocumented)
     UnwrapKey = "unwrapKey",
+    // (undocumented)
     Verify = "verify",
+    // (undocumented)
     WrapKey = "wrapKey"
 }
 

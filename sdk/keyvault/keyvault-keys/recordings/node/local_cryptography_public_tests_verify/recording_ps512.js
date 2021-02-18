@@ -23,7 +23,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '99194038-852a-49e8-bc83-facf3a52f041',
+  'b11b1fe5-06b6-4507-9e6b-c1011388e15b',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -35,7 +35,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:36 GMT'
+  'Thu, 18 Feb 2021 01:26:58 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -56,17 +56,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b4b49a55-ce7e-4f5d-90e2-26f5b1e4fd00',
+  '173e2c82-2164-4429-a884-f9ee6da11600',
   'x-ms-ests-server',
-  '2.1.11496.5 - SCUS ProdSlices',
+  '2.1.11496.5 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlYh5w5_onJDnZLEqg70g4sA4qsDFAAAAIACvtcOAAAA; expires=Thu, 18-Mar-2021 18:18:37 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ag8YnLS1fBhKslvpke6qkmYA4qsDCwAAAPO4v9cOAAAA; expires=Sat, 20-Mar-2021 01:26:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT',
+  'Thu, 18 Feb 2021 01:26:59 GMT',
   'Content-Length',
   '1315'
 ]);
@@ -74,7 +74,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/localCryptoKeyName-PS512-/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"px--K7gjp7Oiwp69wuKzAnDs8xi74lGF471H9YYL5XedDM_-_NNrn67w5nUpAEC_7Aa_24sYerVNBqnmpVrNqb_VS9zYrpYN4G8lWkCaq1isx_eJgKkP5wZmh1KcR_RPGY4ER-2kl_7fQrujteQaew_DNtFDTxspJTZ3AHE-HyecnHTS65Vh4EwwsxzW8PibDOPmnlSr-pDELzV0CDiSffLYfn3H0z6iw48kBuFZIIpZGNzxdium1ZH3hsyuIaowOFCErp-_gxBB-w4ZqLlqHhdKdSQWC3OyW5O0pjmZbPP8oos3RecafPEgg6NW9oKXN2uQxfuLjqh8R3EHZREkJQ","e":"AQAB"},"attributes":{"enabled":true,"created":1613499517,"updated":1613499517,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m40sk3k_fCWdZNNcHo_Ed2jBzAIlUeZldfbAZZEsxUK_IUuRpRgQOSMydB6l2YhFSwbBjysXrQrpTnhRv5enegAwNN1oox_-jU5TFSbMid-BYTdKBrKPSOnE80rVTHtXevRb3QBX9nnxYOKfOJBcTc8RLRCS8XGqD0oJSd-2iLPzoY8KusS1TLmJmH4lIKccYUN9dp07qfFjGFr-aoYAPJ6tpdckP5DqGgAt2R-6Bn6kp3O4Yl7Ezd1qZQG-iswNRZl5gBl1Z3zj47R4gbd4q_NKtipyJ690BKgPSUk2F-A58Zh5Z8rnM4umGNEHlrkUcfedGomoHUMW-9o_nlB83Q","e":"AQAB"},"attributes":{"enabled":true,"created":1613611619,"updated":1613611619,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -86,7 +86,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '092807e0-f32d-4321-92bb-1cfb6d2f45f6',
+  'd22bd231-f1c5-4a7e-a577-7b0cdd1adcc8',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -98,13 +98,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT',
+  'Thu, 18 Feb 2021 01:26:58 GMT',
   'Content-Length',
   '715'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005')
+  .get('/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -122,7 +122,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '611b31f5-59c5-455a-a68f-32ae32f52340',
+  '01fa9d50-6d48-4113-b85a-5980e3639318',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -134,7 +134,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT'
+  'Thu, 18 Feb 2021 01:26:58 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -144,8 +144,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1315',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -157,23 +155,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0e690c11-1753-4330-bc02-db0e2f4bdf00',
+  '7716efac-1903-470b-b215-0f91e7475d01',
   'x-ms-ests-server',
-  '2.1.11496.5 - SCUS ProdSlices',
+  '2.1.11496.5 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlYh5w5_onJDnZLEqg70g4sA4qsDFAAAAIACvtcOAAAA; expires=Thu, 18-Mar-2021 18:18:37 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ag8YnLS1fBhKslvpke6qkmYA4qsDCwAAAPO4v9cOAAAA; expires=Sat, 20-Mar-2021 01:26:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT'
+  'Thu, 18 Feb 2021 01:26:59 GMT',
+  'Content-Length',
+  '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005')
+  .get('/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687')
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"px--K7gjp7Oiwp69wuKzAnDs8xi74lGF471H9YYL5XedDM_-_NNrn67w5nUpAEC_7Aa_24sYerVNBqnmpVrNqb_VS9zYrpYN4G8lWkCaq1isx_eJgKkP5wZmh1KcR_RPGY4ER-2kl_7fQrujteQaew_DNtFDTxspJTZ3AHE-HyecnHTS65Vh4EwwsxzW8PibDOPmnlSr-pDELzV0CDiSffLYfn3H0z6iw48kBuFZIIpZGNzxdium1ZH3hsyuIaowOFCErp-_gxBB-w4ZqLlqHhdKdSQWC3OyW5O0pjmZbPP8oos3RecafPEgg6NW9oKXN2uQxfuLjqh8R3EHZREkJQ","e":"AQAB"},"attributes":{"enabled":true,"created":1613499517,"updated":1613499517,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m40sk3k_fCWdZNNcHo_Ed2jBzAIlUeZldfbAZZEsxUK_IUuRpRgQOSMydB6l2YhFSwbBjysXrQrpTnhRv5enegAwNN1oox_-jU5TFSbMid-BYTdKBrKPSOnE80rVTHtXevRb3QBX9nnxYOKfOJBcTc8RLRCS8XGqD0oJSd-2iLPzoY8KusS1TLmJmH4lIKccYUN9dp07qfFjGFr-aoYAPJ6tpdckP5DqGgAt2R-6Bn6kp3O4Yl7Ezd1qZQG-iswNRZl5gBl1Z3zj47R4gbd4q_NKtipyJ690BKgPSUk2F-A58Zh5Z8rnM4umGNEHlrkUcfedGomoHUMW-9o_nlB83Q","e":"AQAB"},"attributes":{"enabled":true,"created":1613611619,"updated":1613611619,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -185,7 +185,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  'bb44a547-efe2-4cd7-9cbc-6ca698514b83',
+  '2192ac0c-818f-4eb5-9890-d551866b7bf5',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -197,15 +197,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT',
+  'Thu, 18 Feb 2021 01:26:59 GMT',
   'Content-Length',
   '715'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005/sign', {"alg":"PS512","value":"N-pezlZMah39l8dyRzaKq0HwVUk7PQGpMkG1N-ogZB33pcAt09-5bL3a_NzW7QKNqZzNikQfEVgclTpgJafSAw"})
+  .post('/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687/sign', {"alg":"PS512","value":"N-pezlZMah39l8dyRzaKq0HwVUk7PQGpMkG1N-ogZB33pcAt09-5bL3a_NzW7QKNqZzNikQfEVgclTpgJafSAw"})
   .query(true)
-  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005","value":"loPT7N6a8S7eyugsk1784ofB8ApgTStLbEyN9CE2rhCkZfmz6rvNBScI08afI_BESoocZLS4K8VOLQBw0qq-l94U5Cbuh6QGG_ruLeID9eFHt5gYuP0Jv-Ay_wQdY7W_j7dQy0iqgJvfEH2xI0ZqbKrzFLSYlCO_TxGzOs_NwhU5q7xVfJSIVncTj0Vp6ZPtfg9I_Zeop5MSkH8ms35Kk5TC4ScWmrXHGDlVAQGtDmUeDoPJ4aoPE6YSg2IDEMrnK0EdVYisoN4ZyA209ELKcQIcVp04L1X6mfhLNHjF0HVnKvjkqfBuc17tVtR_GaOI0HUkrfO9W1M7qrUyXeM3pA"}, [
+  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687","value":"DLF_EJdrhlfH1F3NxvaTXGhgdPq5jZEyimp22jHBVpNqMvoW_gdron6F3K_CbeeMnAyo7xQ1EYhIBd0VcYjo06dcBfDJsMKvdOPgq-PlsZNtPc9rGB8NjIiqyV9QfM5hdchUjyqsLXU1rmK2g9f7wC0e4BA8gkFcrh1wK7-s7mzDiv5vmfmr0Vr7OPFxw9a0GKdr7c53eFw32FeEbvJ9fucJHUPgiOita5nL0rVVqeaq51roacVd7a5q7qkXBnl7c7PLsgcb3lVCBXnKv2WxHtZT_YpS-ERWQIGN6HOcVclBg31xt5BFScY1Cy8hzcBM4-ptgYVyREH1mP9aGwCDYQ"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -217,7 +217,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '6a714783-9320-409e-90ee-9cb3c7a2f61c',
+  '6aa9703e-10da-4939-99ef-cb0abc403ebb',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -229,7 +229,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT',
+  'Thu, 18 Feb 2021 01:26:59 GMT',
   'Content-Length',
   '476'
 ]);
@@ -237,7 +237,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/localCryptoKeyName-PS512-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-PS512-","deletedDate":1613499518,"scheduledPurgeDate":1614104318,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"px--K7gjp7Oiwp69wuKzAnDs8xi74lGF471H9YYL5XedDM_-_NNrn67w5nUpAEC_7Aa_24sYerVNBqnmpVrNqb_VS9zYrpYN4G8lWkCaq1isx_eJgKkP5wZmh1KcR_RPGY4ER-2kl_7fQrujteQaew_DNtFDTxspJTZ3AHE-HyecnHTS65Vh4EwwsxzW8PibDOPmnlSr-pDELzV0CDiSffLYfn3H0z6iw48kBuFZIIpZGNzxdium1ZH3hsyuIaowOFCErp-_gxBB-w4ZqLlqHhdKdSQWC3OyW5O0pjmZbPP8oos3RecafPEgg6NW9oKXN2uQxfuLjqh8R3EHZREkJQ","e":"AQAB"},"attributes":{"enabled":true,"created":1613499517,"updated":1613499517,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-PS512-","deletedDate":1613611619,"scheduledPurgeDate":1614216419,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m40sk3k_fCWdZNNcHo_Ed2jBzAIlUeZldfbAZZEsxUK_IUuRpRgQOSMydB6l2YhFSwbBjysXrQrpTnhRv5enegAwNN1oox_-jU5TFSbMid-BYTdKBrKPSOnE80rVTHtXevRb3QBX9nnxYOKfOJBcTc8RLRCS8XGqD0oJSd-2iLPzoY8KusS1TLmJmH4lIKccYUN9dp07qfFjGFr-aoYAPJ6tpdckP5DqGgAt2R-6Bn6kp3O4Yl7Ezd1qZQG-iswNRZl5gBl1Z3zj47R4gbd4q_NKtipyJ690BKgPSUk2F-A58Zh5Z8rnM4umGNEHlrkUcfedGomoHUMW-9o_nlB83Q","e":"AQAB"},"attributes":{"enabled":true,"created":1613611619,"updated":1613611619,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -249,7 +249,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '4d1cfb2a-2d10-423b-bbd9-b6443f7b605e',
+  'aa54eed2-9ac5-4495-8180-062ea0200ebd',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -261,7 +261,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT',
+  'Thu, 18 Feb 2021 01:26:59 GMT',
   'Content-Length',
   '875'
 ]);
@@ -283,7 +283,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '4df0bcdf-e877-4beb-8d63-a598059f8260',
+  '81c58a8e-e167-415b-970c-825f6024dd7d',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -295,7 +295,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT'
+  'Thu, 18 Feb 2021 01:26:59 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -315,7 +315,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '03139146-4bac-4e9e-9fb0-88428910c7e5',
+  '05855a80-6743-4e97-8bbe-cc6668f323c8',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -327,7 +327,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:37 GMT'
+  'Thu, 18 Feb 2021 01:26:59 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -347,7 +347,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '97ad8694-1ed9-4ae1-b35a-f0b681d0e98d',
+  '121e3084-d096-4af7-be42-037a8a4247b1',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -359,7 +359,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:39 GMT'
+  'Thu, 18 Feb 2021 01:27:01 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -379,7 +379,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '3a415430-542f-4dd2-870c-8e9d9f2dee4d',
+  '787e9be2-31a6-43f1-b347-a80a511f44b3',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -391,7 +391,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:41 GMT'
+  'Thu, 18 Feb 2021 01:27:03 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -411,7 +411,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '7fc76327-1379-476d-8b05-dbdada096ec2',
+  '7ad596c8-74fe-4932-9d61-80af5219b2fa',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -423,13 +423,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:44 GMT'
+  'Thu, 18 Feb 2021 01:27:05 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/localCryptoKeyName-PS512-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-PS512-","deletedDate":1613499518,"scheduledPurgeDate":1614104318,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/71f5ed1289284311808b87ede8c01005","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"px--K7gjp7Oiwp69wuKzAnDs8xi74lGF471H9YYL5XedDM_-_NNrn67w5nUpAEC_7Aa_24sYerVNBqnmpVrNqb_VS9zYrpYN4G8lWkCaq1isx_eJgKkP5wZmh1KcR_RPGY4ER-2kl_7fQrujteQaew_DNtFDTxspJTZ3AHE-HyecnHTS65Vh4EwwsxzW8PibDOPmnlSr-pDELzV0CDiSffLYfn3H0z6iw48kBuFZIIpZGNzxdium1ZH3hsyuIaowOFCErp-_gxBB-w4ZqLlqHhdKdSQWC3OyW5O0pjmZbPP8oos3RecafPEgg6NW9oKXN2uQxfuLjqh8R3EHZREkJQ","e":"AQAB"},"attributes":{"enabled":true,"created":1613499517,"updated":1613499517,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-PS512-","deletedDate":1613611619,"scheduledPurgeDate":1614216419,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS512-/29834cabeebd47958ad4ef8c5fdd0687","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m40sk3k_fCWdZNNcHo_Ed2jBzAIlUeZldfbAZZEsxUK_IUuRpRgQOSMydB6l2YhFSwbBjysXrQrpTnhRv5enegAwNN1oox_-jU5TFSbMid-BYTdKBrKPSOnE80rVTHtXevRb3QBX9nnxYOKfOJBcTc8RLRCS8XGqD0oJSd-2iLPzoY8KusS1TLmJmH4lIKccYUN9dp07qfFjGFr-aoYAPJ6tpdckP5DqGgAt2R-6Bn6kp3O4Yl7Ezd1qZQG-iswNRZl5gBl1Z3zj47R4gbd4q_NKtipyJ690BKgPSUk2F-A58Zh5Z8rnM4umGNEHlrkUcfedGomoHUMW-9o_nlB83Q","e":"AQAB"},"attributes":{"enabled":true,"created":1613611619,"updated":1613611619,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -441,7 +441,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '54d0e59c-8c31-417c-afa0-ac42aef3b5b1',
+  '96c84ef2-3470-4c87-96d6-c73681af6763',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -453,7 +453,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:46 GMT',
+  'Thu, 18 Feb 2021 01:27:07 GMT',
   'Content-Length',
   '875'
 ]);
@@ -471,7 +471,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '67f00979-9d1a-4bcd-9fda-c0fcc29a02e2',
+  '601d706d-a43e-4804-b08b-91e0cd05272c',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -483,5 +483,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:18:46 GMT'
+  'Thu, 18 Feb 2021 01:27:07 GMT'
 ]);

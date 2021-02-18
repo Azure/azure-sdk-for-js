@@ -23,7 +23,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '3a7afded-17d2-4002-bcee-c7c17c28aae8',
+  '5c08f287-ccb1-4426-b3d9-869ad6d103b7',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -35,7 +35,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:17:48 GMT'
+  'Thu, 18 Feb 2021 01:26:10 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -45,6 +45,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1315',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -56,25 +58,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ae3f7834-b414-4cdd-9f0f-84dc5fddfd00',
+  '8487e8da-cfc4-4eed-9ba9-6bf199d04f01',
   'x-ms-ests-server',
-  '2.1.11496.5 - SCUS ProdSlices',
+  '2.1.11496.5 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlYh5w5_onJDnZLEqg70g4sA4qsDFAAAAIACvtcOAAAA; expires=Thu, 18-Mar-2021 18:17:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ag8YnLS1fBhKslvpke6qkmYA4qsDCgAAAPO4v9cOAAAA; expires=Sat, 20-Mar-2021 01:26:10 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 16 Feb 2021 18:17:47 GMT',
-  'Content-Length',
-  '1315'
+  'Thu, 18 Feb 2021 01:26:10 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/localCryptoKeyName-beforeeachhook-/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-/dc60e7ae31e4433ea1de9e7a616a16d8","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"pHPDtxBmNjjebxoTakANWA1jWci4Qur9V91NmMyv0zAjMfoQw3Fe9XmcniqUfAIHl7fjPfRbCRiwYgILgHSZxd1A0UbZmqve6goix_RRbYIlUQT-wvC-NOlYshpx7lLb-qgAffEXMia6_UN-hrtDGdNzhfvAVsttvH7tgtJjy0LNbcRHAV7uIEheBVn5Du_7nzJyuOPZ7y1DNqElPBYRrQx5fFjNKKhyBYSjJPeOJ3e2Z4FU1lK6rmo4NsQw4vIG6o0WLUm1Aw9EKzKfN6qQ6b54sbdlM61t7GYR-nfsspcC_4B4r2F548OVkY1i2WQMSO8hn_3ze3uC31DdyQNJvQ","e":"AQAB"},"attributes":{"enabled":true,"created":1613499468,"updated":1613499468,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-/49ce90eea0f44443a2463641bcb6e550","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"8UUfykdvCn3Jljg8aolUVdKSKCQzFDyyoPsZToZ7rrEeDWg3xbV2KRlsRkZDgYe3IR7q2sdGX1jfaMj0i7CXUfkEZxVc2YvRtvKHaMkAedin4yHjL1-ZXXWwM-uIaloDz0zY-S5daAFo-HyYJ6uxizy0Z-OuLMYPqCeMfzx2Cg9Vk-vIglP1f57sVg_kNcDfrJY3SVPC7jPwHF6fFUUj1_r97TJPU59krqoG4KIUCC8zXGIG3ptpkWZJHyfAtV9SCqm7z9jZga59N2jLZwstIUqMMKORH0GjIR3oYz2GJ7fzFen1xDfLTkPnccNLig3oGNcfeTTZcb5fGHfoD-ebQQ","e":"AQAB"},"attributes":{"enabled":true,"created":1613611570,"updated":1613611570,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -86,7 +86,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  'c1898f38-5a16-4048-917b-9b1a8b97c933',
+  'df0dfd95-9f6d-48a0-8e52-9f9308a23e51',
   'x-ms-keyvault-service-version',
   '1.2.164.2',
   'x-ms-keyvault-network-info',
@@ -98,7 +98,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:17:48 GMT',
+  'Thu, 18 Feb 2021 01:26:10 GMT',
   'Content-Length',
-  '724'
+  '725'
 ]);

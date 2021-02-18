@@ -62,13 +62,6 @@ export const KeyCreateParameters: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      releasePolicy: {
-        serializedName: "release_policy",
-        type: {
-          name: "Composite",
-          className: "KeyReleasePolicy"
-        }
       }
     }
   }
@@ -115,93 +108,6 @@ export const Attributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyReleasePolicy: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyReleasePolicy",
-    modelProperties: {
-      version: {
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      },
-      anyOf: {
-        serializedName: "anyOf",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyReleaseAuthority"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const KeyReleaseAuthority: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyReleaseAuthority",
-    modelProperties: {
-      authorityURL: {
-        constraints: {
-          MinLength: 1
-        },
-        serializedName: "authority",
-        type: {
-          name: "String"
-        }
-      },
-      allOf: {
-        serializedName: "allOf",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyReleaseCondition"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const KeyReleaseCondition: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyReleaseCondition",
-    modelProperties: {
-      claimType: {
-        constraints: {
-          MinLength: 1
-        },
-        serializedName: "claim",
-        type: {
-          name: "String"
-        }
-      },
-      claimCondition: {
-        serializedName: "condition",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const KeyBundle: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -233,13 +139,6 @@ export const KeyBundle: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
-        }
-      },
-      releasePolicy: {
-        serializedName: "release_policy",
-        type: {
-          name: "Composite",
-          className: "KeyReleasePolicy"
         }
       }
     }
@@ -433,13 +332,6 @@ export const KeyImportParameters: coreHttp.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
-      },
-      releasePolicy: {
-        serializedName: "release_policy",
-        type: {
-          name: "Composite",
-          className: "KeyReleasePolicy"
-        }
       }
     }
   }
@@ -473,13 +365,6 @@ export const KeyUpdateParameters: coreHttp.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      },
-      releasePolicy: {
-        serializedName: "release_policy",
-        type: {
-          name: "Composite",
-          className: "KeyReleasePolicy"
         }
       }
     }
@@ -642,6 +527,27 @@ export const KeyOperationResult: coreHttp.CompositeMapper = {
         type: {
           name: "Base64Url"
         }
+      },
+      iv: {
+        serializedName: "iv",
+        readOnly: true,
+        type: {
+          name: "Base64Url"
+        }
+      },
+      authenticationTag: {
+        serializedName: "tag",
+        readOnly: true,
+        type: {
+          name: "Base64Url"
+        }
+      },
+      additionalAuthenticatedData: {
+        serializedName: "aad",
+        readOnly: true,
+        type: {
+          name: "Base64Url"
+        }
       }
     }
   }
@@ -716,25 +622,6 @@ export const KeyVerifyResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyExportParameters: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyExportParameters",
-    modelProperties: {
-      environment: {
-        constraints: {
-          MinLength: 1
-        },
-        serializedName: "env",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DeletedKeyListResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -769,12 +656,6 @@ export const KeyProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "KeyProperties",
     modelProperties: {
-      exportable: {
-        serializedName: "exportable",
-        type: {
-          name: "Boolean"
-        }
-      },
       keyType: {
         serializedName: "kty",
         type: {
@@ -821,12 +702,6 @@ export const KeyAttributes: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      exportable: {
-        serializedName: "exportable",
-        type: {
-          name: "Boolean"
         }
       }
     }

@@ -18,6 +18,7 @@ import TestClient from "../utils/testClient";
 import { Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { localSupportedAlgorithms } from "../../src/localCryptography/algorithms";
+import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {
@@ -125,8 +126,24 @@ describe("Local cryptography public tests", () => {
     });
   });
 
+  it("returns additional parameters when encrypting", async function() {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyVaultKey = await client.createKey(keyName, "RSA");
+
+    const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
+    const text = stringToUint8Array(this.test!.title);
+    const encrypted = await localCryptoClient.encrypt("RSA1_5", text, {
+      additionalAuthenticatedData: stringToUint8Array("aad"),
+      iv: stringToUint8Array("iv"),
+      tag: stringToUint8Array("tag")
+    });
+    assert.equal(uint8ArrayToString(encrypted.additionalAuthenticatedData!), "aad");
+    assert.equal(uint8ArrayToString(encrypted.iv!), "iv");
+    assert.equal(uint8ArrayToString(encrypted.tag!), "tag");
+    await testClient.flushKey(keyName);
+  });
+
   it("encrypt & decrypt RSA1_5", async function() {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -140,7 +157,6 @@ describe("Local cryptography public tests", () => {
   });
 
   it("encrypt & decrypt RSA-OAEP", async function() {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -154,7 +170,6 @@ describe("Local cryptography public tests", () => {
   });
 
   it("wrapKey & unwrapKey RSA1_5", async function() {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -171,7 +186,6 @@ describe("Local cryptography public tests", () => {
   });
 
   it("wrapKey & unwrapKey RSA-OAEP", async function() {
-    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);

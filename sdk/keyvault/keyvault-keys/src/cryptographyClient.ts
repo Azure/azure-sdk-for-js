@@ -135,7 +135,8 @@ export class CryptographyClient {
       }
       return this.concreteClient.client.encrypt(
         algorithm as LocalSupportedAlgorithmName,
-        plaintext
+        plaintext,
+        options
       );
     }
   }

@@ -135,7 +135,7 @@ export class KeyVaultCryptographyClient {
   public async encrypt(
     algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
-    options: EncryptOptions = {}
+    options: EncryptOptions
   ): Promise<EncryptResult> {
     const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -146,7 +146,11 @@ export class KeyVaultCryptographyClient {
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
-        return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
+        return localCryptographyClient.encrypt(
+          algorithm as LocalSupportedAlgorithmName,
+          plaintext,
+          options
+        );
       } catch (e) {
         if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
@@ -171,7 +175,15 @@ export class KeyVaultCryptographyClient {
       span.end();
     }
 
-    return { result: result.result!, algorithm, keyID: this.getKeyID() };
+    return {
+      result: result.result!,
+      algorithm,
+      keyID: this.getKeyID(),
+      additionalAuthenticatedData:
+        result.additionalAuthenticatedData || options.additionalAuthenticatedData,
+      iv: result.iv || options.iv,
+      tag: result.authenticationTag || options.tag
+    };
   }
 
   /**
@@ -190,7 +202,7 @@ export class KeyVaultCryptographyClient {
   public async decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
-    options: DecryptOptions = {}
+    options: DecryptOptions
   ): Promise<DecryptResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);

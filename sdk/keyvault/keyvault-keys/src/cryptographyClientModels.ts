@@ -48,6 +48,19 @@ export interface EncryptResult {
    * The ID of the Key Vault Key used to encrypt the data.
    */
   keyID?: string;
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  readonly additionalAuthenticatedData?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
 }
 
 /**

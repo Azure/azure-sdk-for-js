@@ -14,7 +14,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
-describe("CryptographyClient (all decrypts happen remotely)", () => {
+describe.only("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
@@ -58,6 +58,19 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
+    });
+
+    it.only("encrypt with additional parameters returns them", async function() {
+      const text = this.test!.title;
+      const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text), {
+        iv: stringToUint8Array("iv"),
+        tag: stringToUint8Array("tag"),
+        additionalAuthenticatedData: stringToUint8Array("aad")
+      });
+      console.log("encryptResult", encryptResult);
+      assert.equal(uint8ArrayToString(encryptResult.iv!), "iv");
+      assert.equal(uint8ArrayToString(encryptResult.tag!), "tag");
+      assert.equal(uint8ArrayToString(encryptResult.additionalAuthenticatedData!), "aad");
     });
 
     it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
