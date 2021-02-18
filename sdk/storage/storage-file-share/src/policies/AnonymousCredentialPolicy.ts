@@ -16,8 +16,8 @@ import { CredentialPolicy } from "./CredentialPolicy";
 export class AnonymousCredentialPolicy extends CredentialPolicy {
   /**
    * Creates an instance of AnonymousCredentialPolicy.
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param nextPolicy -
+   * @param options -
    * @memberof AnonymousCredentialPolicy
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {

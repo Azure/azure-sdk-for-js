@@ -94,7 +94,7 @@ export class Batch {
 
   /**
    * Creates an instance of Batch.
-   * @param {number} [concurrency=5]
+   * @param concurrency -
    * @memberof Batch
    */
   public constructor(concurrency: number = 5) {
@@ -108,7 +108,7 @@ export class Batch {
   /**
    * Add a operation into queue.
    *
-   * @param {Operation} operation
+   * @param operation -
    * @memberof Batch
    */
   public addOperation(operation: Operation): void {
@@ -128,7 +128,7 @@ export class Batch {
   /**
    * Start execute operations in the queue.
    *
-   * @returns {Promise<void>}
+   *
    * @memberof Batch
    */
   public async do(): Promise<void> {
@@ -151,7 +151,7 @@ export class Batch {
    * Get next operation to be executed. Return null when reaching ends.
    *
    * @private
-   * @returns {(Operation | null)}
+   *
    * @memberof Batch
    */
   private nextOperation(): Operation | null {
@@ -166,7 +166,7 @@ export class Batch {
    * this method with do() is that do() wraps as an sync method.
    *
    * @private
-   * @returns {void}
+   *
    * @memberof Batch
    */
   private parallelExecute(): void {

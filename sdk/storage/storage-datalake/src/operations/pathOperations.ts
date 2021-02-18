@@ -20,7 +20,7 @@ export class PathOperations {
 
   /**
    * Create a PathOperations.
-   * @param {DataLakeStorageClientContext} client Reference to the service client.
+   * @param client - Reference to the service client.
    */
   constructor(client: DataLakeStorageClientContext) {
     this.client = client;
@@ -36,10 +36,14 @@ export class PathOperations {
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.PathListResponse>
    */
-  list(recursive: boolean, filesystem: string, options?: Models.PathListOptionalParams): Promise<Models.PathListResponse>;
+  list(
+    recursive: boolean,
+    filesystem: string,
+    options?: Models.PathListOptionalParams
+  ): Promise<Models.PathListResponse>;
   /**
    * @param recursive If "true", all paths are listed; otherwise, only paths at the root of the
    * filesystem are listed.  If "directory" is specified, the list will only include paths that share
@@ -50,7 +54,11 @@ export class PathOperations {
    * characters.
    * @param callback The callback
    */
-  list(recursive: boolean, filesystem: string, callback: msRest.ServiceCallback<Models.PathList>): void;
+  list(
+    recursive: boolean,
+    filesystem: string,
+    callback: msRest.ServiceCallback<Models.PathList>
+  ): void;
   /**
    * @param recursive If "true", all paths are listed; otherwise, only paths at the root of the
    * filesystem are listed.  If "directory" is specified, the list will only include paths that share
@@ -62,8 +70,18 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(recursive: boolean, filesystem: string, options: Models.PathListOptionalParams, callback: msRest.ServiceCallback<Models.PathList>): void;
-  list(recursive: boolean, filesystem: string, options?: Models.PathListOptionalParams | msRest.ServiceCallback<Models.PathList>, callback?: msRest.ServiceCallback<Models.PathList>): Promise<Models.PathListResponse> {
+  list(
+    recursive: boolean,
+    filesystem: string,
+    options: Models.PathListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PathList>
+  ): void;
+  list(
+    recursive: boolean,
+    filesystem: string,
+    options?: Models.PathListOptionalParams | msRest.ServiceCallback<Models.PathList>,
+    callback?: msRest.ServiceCallback<Models.PathList>
+  ): Promise<Models.PathListResponse> {
     return this.client.sendOperationRequest(
       {
         recursive,
@@ -71,7 +89,8 @@ export class PathOperations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PathListResponse>;
+      callback
+    ) as Promise<Models.PathListResponse>;
   }
 
   /**
@@ -84,10 +103,14 @@ export class PathOperations {
    * @summary Create File | Create Directory | Rename File | Rename Directory
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.PathCreateResponse>
    */
-  create(filesystem: string, path: string, options?: Models.PathCreateOptionalParams): Promise<Models.PathCreateResponse>;
+  create(
+    filesystem: string,
+    path: string,
+    options?: Models.PathCreateOptionalParams
+  ): Promise<Models.PathCreateResponse>;
   /**
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
@@ -100,8 +123,18 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(filesystem: string, path: string, options: Models.PathCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(filesystem: string, path: string, options?: Models.PathCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PathCreateResponse> {
+  create(
+    filesystem: string,
+    path: string,
+    options: Models.PathCreateOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  create(
+    filesystem: string,
+    path: string,
+    options?: Models.PathCreateOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.PathCreateResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
@@ -109,7 +142,8 @@ export class PathOperations {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.PathCreateResponse>;
+      callback
+    ) as Promise<Models.PathCreateResponse>;
   }
 
   /**
@@ -129,10 +163,15 @@ export class PathOperations {
    * 'setAccessControl'
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.PathUpdateResponse>
    */
-  update(action: Models.PathUpdateAction, filesystem: string, path: string, options?: Models.PathUpdateOptionalParams): Promise<Models.PathUpdateResponse>;
+  update(
+    action: Models.PathUpdateAction,
+    filesystem: string,
+    path: string,
+    options?: Models.PathUpdateOptionalParams
+  ): Promise<Models.PathUpdateResponse>;
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
@@ -146,7 +185,12 @@ export class PathOperations {
    * @param path The file or directory path.
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, filesystem: string, path: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    action: Models.PathUpdateAction,
+    filesystem: string,
+    path: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
@@ -161,8 +205,20 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, filesystem: string, path: string, options: Models.PathUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(action: Models.PathUpdateAction, filesystem: string, path: string, options?: Models.PathUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PathUpdateResponse> {
+  update(
+    action: Models.PathUpdateAction,
+    filesystem: string,
+    path: string,
+    options: Models.PathUpdateOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    action: Models.PathUpdateAction,
+    filesystem: string,
+    path: string,
+    options?: Models.PathUpdateOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.PathUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         action,
@@ -171,7 +227,8 @@ export class PathOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PathUpdateResponse>;
+      callback
+    ) as Promise<Models.PathUpdateResponse>;
   }
 
   /**
@@ -192,10 +249,15 @@ export class PathOperations {
    * 'acquire', 'break', 'change', 'renew', 'release'
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.PathLeaseResponse>
    */
-  lease(xMsLeaseAction: Models.PathLeaseAction, filesystem: string, path: string, options?: Models.PathLeaseOptionalParams): Promise<Models.PathLeaseResponse>;
+  lease(
+    xMsLeaseAction: Models.PathLeaseAction,
+    filesystem: string,
+    path: string,
+    options?: Models.PathLeaseOptionalParams
+  ): Promise<Models.PathLeaseResponse>;
   /**
    * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
    * "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
@@ -211,7 +273,12 @@ export class PathOperations {
    * @param path The file or directory path.
    * @param callback The callback
    */
-  lease(xMsLeaseAction: Models.PathLeaseAction, filesystem: string, path: string, callback: msRest.ServiceCallback<void>): void;
+  lease(
+    xMsLeaseAction: Models.PathLeaseAction,
+    filesystem: string,
+    path: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
    * "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
@@ -228,8 +295,20 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  lease(xMsLeaseAction: Models.PathLeaseAction, filesystem: string, path: string, options: Models.PathLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  lease(xMsLeaseAction: Models.PathLeaseAction, filesystem: string, path: string, options?: Models.PathLeaseOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PathLeaseResponse> {
+  lease(
+    xMsLeaseAction: Models.PathLeaseAction,
+    filesystem: string,
+    path: string,
+    options: Models.PathLeaseOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  lease(
+    xMsLeaseAction: Models.PathLeaseAction,
+    filesystem: string,
+    path: string,
+    options?: Models.PathLeaseOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.PathLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         xMsLeaseAction,
@@ -238,7 +317,8 @@ export class PathOperations {
         options
       },
       leaseOperationSpec,
-      callback) as Promise<Models.PathLeaseResponse>;
+      callback
+    ) as Promise<Models.PathLeaseResponse>;
   }
 
   /**
@@ -249,10 +329,14 @@ export class PathOperations {
    * @summary Read File
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.PathReadResponse>
    */
-  read(filesystem: string, path: string, options?: Models.PathReadOptionalParams): Promise<Models.PathReadResponse>;
+  read(
+    filesystem: string,
+    path: string,
+    options?: Models.PathReadOptionalParams
+  ): Promise<Models.PathReadResponse>;
   /**
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
@@ -265,8 +349,18 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  read(filesystem: string, path: string, options: Models.PathReadOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  read(filesystem: string, path: string, options?: Models.PathReadOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PathReadResponse> {
+  read(
+    filesystem: string,
+    path: string,
+    options: Models.PathReadOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  read(
+    filesystem: string,
+    path: string,
+    options?: Models.PathReadOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.PathReadResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
@@ -274,7 +368,8 @@ export class PathOperations {
         options
       },
       readOperationSpec,
-      callback) as Promise<Models.PathReadResponse>;
+      callback
+    ) as Promise<Models.PathReadResponse>;
   }
 
   /**
@@ -286,10 +381,14 @@ export class PathOperations {
    * @summary Get Properties | Get Status | Get Access Control List
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.PathGetPropertiesResponse>
    */
-  getProperties(filesystem: string, path: string, options?: Models.PathGetPropertiesOptionalParams): Promise<Models.PathGetPropertiesResponse>;
+  getProperties(
+    filesystem: string,
+    path: string,
+    options?: Models.PathGetPropertiesOptionalParams
+  ): Promise<Models.PathGetPropertiesResponse>;
   /**
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
@@ -302,8 +401,18 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(filesystem: string, path: string, options: Models.PathGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(filesystem: string, path: string, options?: Models.PathGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PathGetPropertiesResponse> {
+  getProperties(
+    filesystem: string,
+    path: string,
+    options: Models.PathGetPropertiesOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getProperties(
+    filesystem: string,
+    path: string,
+    options?: Models.PathGetPropertiesOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.PathGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
@@ -311,7 +420,8 @@ export class PathOperations {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.PathGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.PathGetPropertiesResponse>;
   }
 
   /**
@@ -321,10 +431,14 @@ export class PathOperations {
    * @summary Delete File | Delete Directory
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.PathDeleteResponse>
    */
-  deleteMethod(filesystem: string, path: string, options?: Models.PathDeleteMethodOptionalParams): Promise<Models.PathDeleteResponse>;
+  deleteMethod(
+    filesystem: string,
+    path: string,
+    options?: Models.PathDeleteMethodOptionalParams
+  ): Promise<Models.PathDeleteResponse>;
   /**
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
@@ -337,8 +451,18 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(filesystem: string, path: string, options: Models.PathDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(filesystem: string, path: string, options?: Models.PathDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PathDeleteResponse> {
+  deleteMethod(
+    filesystem: string,
+    path: string,
+    options: Models.PathDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    filesystem: string,
+    path: string,
+    options?: Models.PathDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.PathDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
@@ -346,7 +470,8 @@ export class PathOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.PathDeleteResponse>;
+      callback
+    ) as Promise<Models.PathDeleteResponse>;
   }
 }
 
@@ -355,11 +480,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.accountName,
-    Parameters.dnsSuffix,
-    Parameters.filesystem
-  ],
+  urlParameters: [Parameters.accountName, Parameters.dnsSuffix, Parameters.filesystem],
   queryParameters: [
     Parameters.directory,
     Parameters.recursive0,
@@ -483,10 +604,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "requestBody"
-    ],
+    parameterPath: ["options", "requestBody"],
     mapper: {
       serializedName: "requestBody",
       type: {
@@ -518,9 +636,7 @@ const leaseOperationSpec: msRest.OperationSpec = {
     Parameters.filesystem,
     Parameters.path
   ],
-  queryParameters: [
-    Parameters.timeout
-  ],
+  queryParameters: [Parameters.timeout],
   headerParameters: [
     Parameters.xMsLeaseAction,
     Parameters.xMsLeaseDuration,
@@ -562,9 +678,7 @@ const readOperationSpec: msRest.OperationSpec = {
     Parameters.filesystem,
     Parameters.path
   ],
-  queryParameters: [
-    Parameters.timeout
-  ],
+  queryParameters: [Parameters.timeout],
   headerParameters: [
     Parameters.range,
     Parameters.xMsLeaseId,
@@ -613,11 +727,7 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.filesystem,
     Parameters.path
   ],
-  queryParameters: [
-    Parameters.action1,
-    Parameters.upn,
-    Parameters.timeout
-  ],
+  queryParameters: [Parameters.action1, Parameters.upn, Parameters.timeout],
   headerParameters: [
     Parameters.xMsLeaseId,
     Parameters.ifMatch,
@@ -649,11 +759,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.filesystem,
     Parameters.path
   ],
-  queryParameters: [
-    Parameters.recursive1,
-    Parameters.continuation,
-    Parameters.timeout
-  ],
+  queryParameters: [Parameters.recursive1, Parameters.continuation, Parameters.timeout],
   headerParameters: [
     Parameters.xMsLeaseId,
     Parameters.ifMatch,

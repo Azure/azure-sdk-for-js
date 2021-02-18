@@ -73,7 +73,7 @@ export class SimpleTokenCredential implements TokenCredential {
 
   /**
    * Creates an instance of TokenCredential.
-   * @param {string} token
+   * @param token -
    */
   constructor(token: string, expiresOn?: Date) {
     this.token = token;
@@ -85,7 +85,7 @@ export class SimpleTokenCredential implements TokenCredential {
    *
    * @param _scopes Ignored since token is already known.
    * @param _options Ignored since token is already known.
-   * @returns {AccessToken} The access token details.
+   * @returns The access token details.
    */
   async getToken(
     _scopes: string | string[],

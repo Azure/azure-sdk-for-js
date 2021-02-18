@@ -28,10 +28,10 @@ export class AvroParser {
    * Reads a fixed number of bytes from the stream.
    *
    * @static
-   * @param {AvroReadable} [stream]
-   * @param {number} [length]
-   * @param {AvroParserReadOptions} [options={}]
-   * @returns {Promise<Uint8Array>}
+   * @param stream -
+   * @param length -
+   * @param options -
+   *
    * @memberof AvroParser
    */
   public static async readFixedBytes(
@@ -50,9 +50,9 @@ export class AvroParser {
    * Reads a single byte from the stream.
    *
    * @static
-   * @param {AvroReadable} [stream]
-   * @param {AvroParserReadOptions} [options={}]
-   * @returns {Promise<number>}
+   * @param stream -
+   * @param options -
+   *
    * @memberof AvroParser
    */
   private static async readByte(

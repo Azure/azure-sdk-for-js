@@ -250,9 +250,9 @@ export interface DataLakeSASSignatureValues {
  * ```
  *
  * @export
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 export function generateDataLakeSASQueryParameters(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -284,10 +284,10 @@ export function generateDataLakeSASQueryParameters(
  * ```
  *
  * @export
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {UserDelegationKey} userDelegationKey Return value of `blobServiceClient.getUserDelegationKey()`
- * @param {string} accountName
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+ * @param accountName -
+ *
  */
 export function generateDataLakeSASQueryParameters(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -374,9 +374,9 @@ export function generateDataLakeSASQueryParameters(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 function generateBlobSASQueryParameters20150405(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -481,9 +481,9 @@ function generateBlobSASQueryParameters20150405(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 function generateBlobSASQueryParameters20181109(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -603,9 +603,9 @@ function generateBlobSASQueryParameters20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ *
  */
 function generateBlobSASQueryParametersUDK20181109(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -731,9 +731,9 @@ function generateBlobSASQueryParametersUDK20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ *
  */
 function generateBlobSASQueryParametersUDK20200210(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
