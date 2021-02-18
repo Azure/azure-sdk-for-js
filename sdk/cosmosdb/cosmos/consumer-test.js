@@ -17,11 +17,11 @@ async function exec(cmd) {
   try {
     console.log("Running typescript consumer test against", versions);
     for (const version of versions) {
-      console.log(`Compling with typescript@${version} - Basic`);
+      console.log(`Compiling with typescript@${version} - Basic`);
       await exec(
         `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --target ES5`
       );
-      console.log(`Compling with typescript@${version} - Custom lib`);
+      console.log(`Compiling with typescript@${version} - Custom lib`);
       await exec(
         `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`
       );
