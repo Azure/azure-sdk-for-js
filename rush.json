@@ -633,7 +633,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/perf-test-storage-blob",
+      "packageName": "@azure-tests/perf-storage-blob",
       "projectFolder": "sdk/storage/perf-tests/storage-blob",
       "versionPolicyName": "test"
     },

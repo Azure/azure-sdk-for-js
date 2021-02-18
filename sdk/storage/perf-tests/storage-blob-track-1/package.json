@@ -1,5 +1,5 @@
 {
-  "name": "@azure/perf-test-storage-blob-track-1",
+  "name": "@azure-tests/perf-storage-blob-track-1",
   "version": "1.0.0",
   "description": "",
   "main": "",
