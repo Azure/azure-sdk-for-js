@@ -55,7 +55,7 @@ export interface EncryptResult {
   /**
    * The authentication tag resulting from encryption with a symmetric key including A128GCM, A192GCM, and A256GCM.
    */
-  authenticationTag?: Uint8Array;
+  tag?: Uint8Array;
   /**
    * Additional data that is authenticated during decryption but not encrypted.
    */
@@ -239,19 +239,19 @@ export interface RsaDecryptionParameters extends BaseDecryptionParameters {
 
 export interface AesGcmDecryptionParameters extends BaseDecryptionParameters {
   algorithm: "A128GCM" | "A192GCM" | "A256GCM";
-  iv: Uint8Array;
-  authenticationTag: Uint8Array;
+  iv?: Uint8Array;
+  tag?: Uint8Array;
   additionalAuthenticatedData?: Uint8Array;
 }
 
 export interface AesCbcDecryptionParameters extends BaseDecryptionParameters {
   algorithm: "A128CBC" | "A192CBC" | "A256CBC";
-  iv: Uint8Array;
+  iv?: Uint8Array;
 }
 
 export interface AesCbcPadDecryptionParameters extends BaseDecryptionParameters {
   algorithm: "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
-  iv: Uint8Array;
+  iv?: Uint8Array;
 }
 
 export type DecryptParameters =

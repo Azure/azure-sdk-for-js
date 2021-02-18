@@ -41,7 +41,6 @@ import {
   KeyVaultClientWrapKeyResponse,
   KeyVaultClientUnwrapKeyOptionalParams,
   KeyVaultClientUnwrapKeyResponse,
-  KeyVaultClientExportKeyResponse,
   KeyVaultClientGetDeletedKeysOptionalParams,
   KeyVaultClientGetDeletedKeysResponse,
   KeyVaultClientGetDeletedKeyResponse,
@@ -524,35 +523,6 @@ export class KeyVaultClient extends KeyVaultClientContext {
   }
 
   /**
-   * The export key operation is applicable to all key types. The target key must be marked exportable.
-   * This operation requires the keys/export permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param keyName The name of the key to get.
-   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
-   * @param environment The target environment assertion.
-   * @param options The options parameters.
-   */
-  exportKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    environment: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientExportKeyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      keyName,
-      keyVersion,
-      environment,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      exportKeyOperationSpec
-    ) as Promise<KeyVaultClientExportKeyResponse>;
-  }
-
-  /**
    * Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public
    * part of a deleted key. This operation includes deletion-specific information. The Get Deleted Keys
    * operation is applicable for vaults enabled for soft-delete. While the operation can be invoked on
@@ -739,8 +709,7 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
       keyOps: ["options", "keyOps"],
       keyAttributes: ["options", "keyAttributes"],
       tags: ["options", "tags"],
-      curve: ["options", "curve"],
-      releasePolicy: ["options", "releasePolicy"]
+      curve: ["options", "curve"]
     },
     mapper: Mappers.KeyCreateParameters
   },
@@ -766,8 +735,7 @@ const importKeyOperationSpec: coreHttp.OperationSpec = {
       hsm: ["options", "hsm"],
       key: ["key"],
       keyAttributes: ["options", "keyAttributes"],
-      tags: ["options", "tags"],
-      releasePolicy: ["options", "releasePolicy"]
+      tags: ["options", "tags"]
     },
     mapper: Mappers.KeyImportParameters
   },
@@ -808,8 +776,7 @@ const updateKeyOperationSpec: coreHttp.OperationSpec = {
     parameterPath: {
       keyOps: ["options", "keyOps"],
       keyAttributes: ["options", "keyAttributes"],
-      tags: ["options", "tags"],
-      releasePolicy: ["options", "releasePolicy"]
+      tags: ["options", "tags"]
     },
     mapper: Mappers.KeyUpdateParameters
   },
@@ -1079,31 +1046,6 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
       tag: ["options", "tag"]
     },
     mapper: Mappers.KeyOperationsParameters
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const exportKeyOperationSpec: coreHttp.OperationSpec = {
-  path: "/keys/{key-name}/{key-version}/export",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.KeyBundle
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  requestBody: {
-    parameterPath: { environment: ["environment"] },
-    mapper: Mappers.KeyExportParameters
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [

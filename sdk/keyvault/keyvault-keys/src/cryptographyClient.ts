@@ -126,7 +126,8 @@ export class CryptographyClient {
    * @param options - Additional options.
    */
   public async encrypt(
-    algorithm: EncryptionAlgorithm,
+    // consider @deprecate and possibly reorder?
+    algorithm: EncryptionAlgorithm, // ask: consider refining without an object...
     plaintext: Uint8Array,
     options?: EncryptOptions
   ): Promise<EncryptResult>;
@@ -136,7 +137,7 @@ export class CryptographyClient {
   ): Promise<EncryptResult>;
   public async encrypt(
     algorithmOrParameters: EncryptionAlgorithm | EncryptParameters,
-    ...plainTextOrOptions: [CryptographyOptions?] | [Uint8Array, EncryptOptions?]
+    ...plainTextOrOptions: [CryptographyOptions?] | [Uint8Array, EncryptOptions?] // todo: what version of TS is required vs what we support...
   ): Promise<EncryptResult> {
     const { algorithm, plaintext, options } = this.disambiguateEncryptArguments(
       algorithmOrParameters,
@@ -151,7 +152,8 @@ export class CryptographyClient {
       }
       return this.concreteClient.client.encrypt(
         algorithm as LocalSupportedAlgorithmName,
-        plaintext
+        plaintext,
+        options
       );
     }
   }
@@ -171,7 +173,7 @@ export class CryptographyClient {
       return {
         algorithm,
         plaintext,
-        options: Object.assign({}, plainTextOrOptions[0] || {}, rest) as EncryptOptions
+        options: Object.assign({}, plainTextOrOptions[0] || {}, rest) as EncryptOptions // {...plainTextOrOptions[0], ...rest}
       };
     }
   }
@@ -207,6 +209,9 @@ export class CryptographyClient {
       cipherTextOrOptions
     );
     if (this.concreteClient.kind === "remote") {
+      console.log("algorithm", algorithm);
+      console.log("ciphertext", ciphertext);
+      console.log("options", options);
       return this.concreteClient.client.decrypt(algorithm, ciphertext, options);
     } else {
       throw new Error("Decrypting using a local JsonWebKey is not supported.");

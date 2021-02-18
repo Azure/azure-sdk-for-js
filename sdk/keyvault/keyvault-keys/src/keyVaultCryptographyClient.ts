@@ -150,7 +150,11 @@ export class KeyVaultCryptographyClient {
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
-        return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
+        return localCryptographyClient.encrypt(
+          algorithm as LocalSupportedAlgorithmName,
+          plaintext,
+          options
+        );
       } catch (e) {
         if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
@@ -175,7 +179,15 @@ export class KeyVaultCryptographyClient {
       span.end();
     }
 
-    return { result: result.result!, algorithm, keyID: this.getKeyID() };
+    return {
+      algorithm,
+      result: result.result!,
+      keyID: this.getKeyID(),
+      additionalAuthenticatedData:
+        options.additionalAuthenticatedData || result.additionalAuthenticatedData,
+      tag: result.authenticationTag,
+      iv: options.iv || result.iv
+    };
   }
 
   /**
@@ -197,6 +209,7 @@ export class KeyVaultCryptographyClient {
     options: DecryptOptions = {}
   ): Promise<DecryptResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
+    console.log("requestOptions", requestOptions);
     const span = this.createSpan("decrypt", requestOptions);
 
     await this.checkPermissions("decrypt");
