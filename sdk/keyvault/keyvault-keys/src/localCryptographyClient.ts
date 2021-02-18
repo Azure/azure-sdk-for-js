@@ -56,10 +56,7 @@ export class LocalCryptographyClient {
     return {
       result,
       algorithm: encryptParameters.algorithm as EncryptionAlgorithm,
-      keyID,
-      additionalAuthenticatedData: (encryptParameters as any).additionalAuthenticatedData,
-      authenticationTag: (encryptParameters as any).authenticationTag,
-      iv: (encryptParameters as any).iv
+      keyID
     };
   }
 
