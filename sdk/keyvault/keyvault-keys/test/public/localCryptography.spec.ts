@@ -144,6 +144,7 @@ describe("Local cryptography public tests", () => {
   });
 
   it("encrypt & decrypt RSA1_5", async function() {
+    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -157,6 +158,7 @@ describe("Local cryptography public tests", () => {
   });
 
   it("encrypt & decrypt RSA-OAEP", async function() {
+    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -170,6 +172,7 @@ describe("Local cryptography public tests", () => {
   });
 
   it("wrapKey & unwrapKey RSA1_5", async function() {
+    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
@@ -186,6 +189,7 @@ describe("Local cryptography public tests", () => {
   });
 
   it("wrapKey & unwrapKey RSA-OAEP", async function() {
+    recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
