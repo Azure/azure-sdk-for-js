@@ -292,8 +292,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Initializes the sender session on the connection.
    */
   public async open(
-    options?: AwaitableSenderOptions,
-    operationOptions?: OperationOptionsBase
+    options: AwaitableSenderOptions | undefined,
+    operationOptions: OperationOptionsBase
   ): Promise<void> {
     try {
       if (!options) {
