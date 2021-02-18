@@ -225,7 +225,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   ): Promise<void>;
 
   /**
-   * Clears lock renewal timers on all active messages, clears token remewal for current receiver,
+   * Clears lock renewal timers on all active messages, clears token renewal for current receiver,
    * removes current MessageReceiver instance from cache, and closes the underlying AMQP receiver.
    * @returns Promise<void>.
    */
