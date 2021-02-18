@@ -220,8 +220,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * @param error - The error accompanying the receiver/session error or connection disconnected events
    */
   abstract onDetached(
-    error?: AmqpError | Error,
-    operationOptions?: OperationOptionsBase
+    error: AmqpError | Error | undefined,
+    operationOptions: OperationOptionsBase | undefined
   ): Promise<void>;
 
   /**

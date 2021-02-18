@@ -221,7 +221,7 @@ describe("StreamingReceiver unit tests", () => {
         "A receiver that has successfully opened the link and is subscribing should be receiving messages"
       );
 
-      await streamingReceiver.onDetached(new Error("let's detach"));
+      await streamingReceiver.onDetached(new Error("let's detach"), undefined);
 
       assert.isTrue(
         streamingReceiver.isReceivingMessages,
@@ -434,7 +434,7 @@ describe("StreamingReceiver unit tests", () => {
     streamingReceiver["_onError"] = onErrorMock;
     streamingReceiver["_receiverHelper"]["addCredit"] = addCreditMock;
 
-    await streamingReceiver.onDetached(new Error("let's detach"));
+    await streamingReceiver.onDetached(new Error("let's detach"), undefined);
     assert.isTrue(
       addCreditMock.calledWith(101),
       "Credits need to be re-added to the link since it's been recreated."
@@ -454,7 +454,8 @@ describe("StreamingReceiver unit tests", () => {
     initMock.resetHistory();
 
     await streamingReceiver.onDetached(
-      new Error("let's detach but it won't because there's already a onDetached running.")
+      new Error("let's detach but it won't because there's already a onDetached running."),
+      undefined
     );
     assert.isFalse(initMock.called); // we don't do parallel detaches - subsequent ones are just stopped
     streamingReceiver["_isDetaching"] = false;

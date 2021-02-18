@@ -453,8 +453,8 @@ export class StreamingReceiver extends MessageReceiver {
    * @param receiverError - The receiver error or connection error, if any.
    */
   async onDetached(
-    receiverError?: AmqpError | Error,
-    operationOptions?: OperationOptionsBase
+    receiverError: AmqpError | Error | undefined,
+    operationOptions: OperationOptionsBase | undefined
   ): Promise<void> {
     logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);
 
@@ -503,12 +503,12 @@ export class StreamingReceiver extends MessageReceiver {
 
     try {
       await this.init({
+        ...operationOptions,
         // provide a new name to the link while re-connecting it. This ensures that
         // the service does not send an error stating that the link is still open.
         useNewName: true,
         connectionId: this._context.connectionId,
-        onError: (args) => this._onError && this._onError(args),
-        ...operationOptions
+        onError: (args) => this._onError && this._onError(args)
       });
 
       this._receiverHelper.addCredit(this.maxConcurrentCalls);
