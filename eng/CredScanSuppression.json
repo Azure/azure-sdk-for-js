@@ -45,6 +45,14 @@
         "_password"
       ],
       "_justification": "Secret used by test code, it is fake."
-    }
+    },
+    {
+        "file":[
+            "sdk/identity/identity/test/azure-identity-chain-test.crt",
+            "sdk/identity/identity/test/azure-identity-test.crt",
+            "sdk/keyvault/keyvault-certificates/ca.key"
+        ],
+        "_justification": "File contains private key used by test code."
+    }  
   ]
 }
