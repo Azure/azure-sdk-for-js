@@ -393,8 +393,9 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     );
     await defaultLock.acquire(this._context.cbsSession.cbsLock, async () => {
       this.checkIfConnectionReady();
-      // TODO: Pass operationOptions to init() - core-amqp
-      return this._context.cbsSession.init();
+      // TODO: Though operationOptions is being passed here, core-amqp only supports abortSignal.
+      //       More work to be done at core-amqp to support the requestOptions and tracing.
+      return this._context.cbsSession.init(operationOptions);
     });
     let tokenObject: AccessToken;
     let tokenType: TokenType;
