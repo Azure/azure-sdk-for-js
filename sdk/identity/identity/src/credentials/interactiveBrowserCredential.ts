@@ -122,18 +122,23 @@ export class InteractiveBrowserCredential implements TokenCredential {
       // eslint-disable-next-line
       let socketToDestroy: Socket | undefined;
 
-      // Create Express App and Routes
-
-      const requestListener = async (req: http.IncomingMessage, res: http.ServerResponse) => {
-        const url = new URL(req.url!, this.redirectUri);
+      const requestListener = (req: http.IncomingMessage, res: http.ServerResponse) => {
+        if (!req.url) {
+          reject(
+            new Error(
+              `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
+            )
+          );
+          return;
+        }
+        const url = new URL(req.url, this.redirectUri);
         const tokenRequest: AuthorizationCodeRequest = {
           code: url.searchParams.get("code")!,
           redirectUri: this.redirectUri,
           scopes: scopeArray
         };
 
-        try {
-          const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
+        this.msalClient.acquireTokenByCode(tokenRequest).then((authResponse) => {
           const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
           if (authResponse && authResponse.expiresOn) {
             const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
@@ -146,13 +151,22 @@ export class InteractiveBrowserCredential implements TokenCredential {
               token: authResponse.accessToken
             });
           } else {
+            const errorMessage = formatError(
+              scopeArray,
+              `${url.searchParams.get("error")}. ${url.searchParams.get("error_description")}`
+            );
+            res.writeHead(500);
+            res.end(errorMessage);
+            logger.getToken.info(errorMessage);
+
             reject(
               new Error(
                 `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
               )
             );
           }
-        } catch (error) {
+          cleanup();
+        }).catch(() => {
           const errorMessage = formatError(
             scopeArray,
             `${url.searchParams.get("error")}. ${url.searchParams.get("error_description")}`
@@ -160,10 +174,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
           res.writeHead(500);
           res.end(errorMessage);
           logger.getToken.info(errorMessage);
-          reject(new Error(errorMessage));
-        } finally {
+
+          reject(
+              new Error(
+                `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
+              )
+            );
           cleanup();
-        }
+        });
       };
       const app = http.createServer(requestListener);
 

@@ -86,7 +86,6 @@
     "@azure/msal-node": "1.0.0-beta.6",
     "@azure/msal-browser": "2.9.0",
     "@opentelemetry/api": "^0.10.2",
-    "@types/express": "^4.16.0",
     "@types/stoppable": "^1.1.0",
     "stoppable": "^1.1.0",
     "axios": "^0.21.1",
