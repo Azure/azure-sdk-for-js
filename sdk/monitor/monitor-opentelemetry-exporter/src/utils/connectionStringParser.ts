@@ -11,9 +11,7 @@ export class ConnectionStringParser {
 
   private static readonly FIELD_KEY_VALUE_SEPARATOR = "=";
 
-  public static parse(
-    connectionString?: string
-  ): ConnectionString {
+  public static parse(connectionString?: string): ConnectionString {
     if (!connectionString) {
       return {};
     }

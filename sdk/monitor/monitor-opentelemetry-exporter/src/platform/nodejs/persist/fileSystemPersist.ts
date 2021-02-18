@@ -113,10 +113,7 @@ export class FileSystemPersist implements PersistentStorage {
         return false;
       }
     } catch (error) {
-      diag.warn(
-        `Error while checking size of persistence directory: `,
-        error && error.message
-      );
+      diag.warn(`Error while checking size of persistence directory: `, error && error.message);
       return false;
     }
 

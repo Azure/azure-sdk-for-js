@@ -207,10 +207,7 @@ function createInProcData(span: ReadableSpan): RemoteDependencyData {
   return data;
 }
 
-export function readableSpanToEnvelope(
-  span: ReadableSpan,
-  ikey: string
-): Envelope {
+export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
   const sampleRate = 100;
