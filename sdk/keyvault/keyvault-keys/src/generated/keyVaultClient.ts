@@ -896,7 +896,7 @@ const encryptOperationSpec: coreHttp.OperationSpec = {
       value: ["value"],
       iv: ["options", "iv"],
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
-      tag: ["options", "tag"]
+      authenticationTag: ["options", "authenticationTag"]
     },
     mapper: Mappers.KeyOperationsParameters
   },
@@ -927,7 +927,7 @@ const decryptOperationSpec: coreHttp.OperationSpec = {
       value: ["value"],
       iv: ["options", "iv"],
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
-      tag: ["options", "tag"]
+      authenticationTag: ["options", "authenticationTag"]
     },
     mapper: Mappers.KeyOperationsParameters
   },
@@ -1012,7 +1012,7 @@ const wrapKeyOperationSpec: coreHttp.OperationSpec = {
       value: ["value"],
       iv: ["options", "iv"],
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
-      tag: ["options", "tag"]
+      authenticationTag: ["options", "authenticationTag"]
     },
     mapper: Mappers.KeyOperationsParameters
   },
@@ -1043,7 +1043,7 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
       value: ["value"],
       iv: ["options", "iv"],
       additionalAuthenticatedData: ["options", "additionalAuthenticatedData"],
-      tag: ["options", "tag"]
+      authenticationTag: ["options", "authenticationTag"]
     },
     mapper: Mappers.KeyOperationsParameters
   },

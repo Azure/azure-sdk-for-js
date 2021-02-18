@@ -55,7 +55,7 @@ export interface EncryptResult {
   /**
    * The authentication tag resulting from encryption with a symmetric key including A128GCM, A192GCM, and A256GCM.
    */
-  tag?: Uint8Array;
+  authenticationTag?: Uint8Array;
   /**
    * Additional data that is authenticated during decryption but not encrypted.
    */
@@ -151,21 +151,7 @@ export interface VerifyResult {
 /**
  * Common optional properties for encrypt, decrypt, wrap and unwrap.
  */
-export interface KeyOperationsOptions extends CryptographyOptions {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  readonly additionalAuthenticatedData?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
+export interface KeyOperationsOptions extends CryptographyOptions {}
 
 /**
  * Options for {@link encrypt}.
@@ -240,7 +226,7 @@ export interface RsaDecryptionParameters extends BaseDecryptionParameters {
 export interface AesGcmDecryptionParameters extends BaseDecryptionParameters {
   algorithm: "A128GCM" | "A192GCM" | "A256GCM";
   iv?: Uint8Array;
-  tag?: Uint8Array;
+  authenticationTag?: Uint8Array;
   additionalAuthenticatedData?: Uint8Array;
 }
 

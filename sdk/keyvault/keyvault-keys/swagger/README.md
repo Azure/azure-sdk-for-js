@@ -33,4 +33,8 @@ directive:
     where: $.definitions.KeyOperationsParameters.properties.aad
     transform: >
       $["x-ms-client-name"] = "additionalAuthenticatedData";
+  - from: swagger-document
+    where: $.definitions.KeyOperationsParameters.properties.tag
+    transform: >
+      $["x-ms-client-name"] = "authenticationTag"
 ```

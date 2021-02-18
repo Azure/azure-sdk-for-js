@@ -213,8 +213,8 @@ export const additionalAuthenticatedData: OperationParameter = {
   mapper: KeyOperationsParametersMapper
 };
 
-export const tag: OperationParameter = {
-  parameterPath: ["options", "tag"],
+export const authenticationTag: OperationParameter = {
+  parameterPath: ["options", "authenticationTag"],
   mapper: KeyOperationsParametersMapper
 };
 

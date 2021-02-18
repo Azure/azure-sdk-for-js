@@ -58,11 +58,16 @@ export class CryptographyClient {
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     constructor(key: JsonWebKey);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
-    encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
+    // Warning: (ae-forgotten-export) The symbol "DecryptParameters" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    decrypt(decryptParameters: DecryptParameters, options?: DecryptOptions): Promise<DecryptResult>;
     // Warning: (ae-forgotten-export) The symbol "EncryptParameters" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    encrypt(encryptParameters: EncryptParameters, options?: CryptographyOptions): Promise<EncryptResult>;
+    encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
+    encrypt(algorithm: EncryptionAlgorithm, // ask: consider refining without an object...
+    plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     get keyId(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
@@ -118,7 +123,10 @@ export interface EncryptOptions extends KeyOperationsOptions {
 
 // @public
 export interface EncryptResult {
+    additionalAuthenticatedData?: Uint8Array;
     algorithm: EncryptionAlgorithm;
+    authenticationTag?: Uint8Array;
+    iv?: Uint8Array;
     keyID?: string;
     result: Uint8Array;
 }
@@ -198,9 +206,6 @@ export type KeyOperation = string;
 
 // @public
 export interface KeyOperationsOptions extends CryptographyOptions {
-    readonly additionalAuthenticatedData?: Uint8Array;
-    iv?: Uint8Array;
-    tag?: Uint8Array;
 }
 
 // @public
@@ -265,20 +270,35 @@ export const enum KnownDeletionRecoveryLevel {
 
 // @public
 export const enum KnownEncryptionAlgorithms {
+    // (undocumented)
     A128CBC = "A128CBC",
+    // (undocumented)
     A128Cbcpad = "A128CBCPAD",
+    // (undocumented)
     A128GCM = "A128GCM",
+    // (undocumented)
     A128KW = "A128KW",
+    // (undocumented)
     A192CBC = "A192CBC",
+    // (undocumented)
     A192Cbcpad = "A192CBCPAD",
+    // (undocumented)
     A192GCM = "A192GCM",
+    // (undocumented)
     A192KW = "A192KW",
+    // (undocumented)
     A256CBC = "A256CBC",
+    // (undocumented)
     A256Cbcpad = "A256CBCPAD",
+    // (undocumented)
     A256GCM = "A256GCM",
+    // (undocumented)
     A256KW = "A256KW",
+    // (undocumented)
     RSA15 = "RSA1_5",
+    // (undocumented)
     RSAOaep = "RSA-OAEP",
+    // (undocumented)
     RSAOaep256 = "RSA-OAEP-256"
 }
 
@@ -292,13 +312,19 @@ export const enum KnownKeyCurveNames {
 
 // @public
 export const enum KnownKeyOperations {
+    // (undocumented)
     Decrypt = "decrypt",
+    // (undocumented)
     Encrypt = "encrypt",
-    Export = "export",
+    // (undocumented)
     Import = "import",
+    // (undocumented)
     Sign = "sign",
+    // (undocumented)
     UnwrapKey = "unwrapKey",
+    // (undocumented)
     Verify = "verify",
+    // (undocumented)
     WrapKey = "wrapKey"
 }
 

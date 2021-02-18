@@ -26,7 +26,6 @@ import {
 } from "./cryptographyClientModels";
 import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
-import { CryptographyOptions } from ".";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -113,6 +112,10 @@ export class CryptographyClient {
     return false;
   }
 
+  public async encrypt(
+    encryptParameters: EncryptParameters,
+    options?: EncryptOptions
+  ): Promise<EncryptResult>;
   /**
    * Encrypts the given plaintext with the specified cryptography algorithm
    *
@@ -132,49 +135,37 @@ export class CryptographyClient {
     options?: EncryptOptions
   ): Promise<EncryptResult>;
   public async encrypt(
-    encryptParameters: EncryptParameters,
-    options?: CryptographyOptions
-  ): Promise<EncryptResult>;
-  public async encrypt(
-    algorithmOrParameters: EncryptionAlgorithm | EncryptParameters,
-    ...plainTextOrOptions: [CryptographyOptions?] | [Uint8Array, EncryptOptions?] // todo: what version of TS is required vs what we support...
+    ...args:
+      | [EncryptParameters, EncryptOptions?]
+      | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
-    const { algorithm, plaintext, options } = this.disambiguateEncryptArguments(
-      algorithmOrParameters,
-      plainTextOrOptions
-    );
+    const [parameters, options] = this.disambiguateEncryptArguments(args);
 
     if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.encrypt(algorithm, plaintext, options);
+      return this.concreteClient.client.encrypt(parameters, options);
     } else {
-      if (!isLocallySupported(algorithm)) {
-        throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
+      if (!isLocallySupported(parameters.algorithm)) {
+        throw new Error(
+          `Algorithm ${parameters.algorithm} is not supported for a local JsonWebKey.`
+        );
       }
-      return this.concreteClient.client.encrypt(
-        algorithm as LocalSupportedAlgorithmName,
-        plaintext,
-        options
-      );
+      return this.concreteClient.client.encrypt(parameters, options);
     }
   }
 
   private disambiguateEncryptArguments(
-    algorithmOrParameters: EncryptionAlgorithm | EncryptParameters,
-    plainTextOrOptions: [CryptographyOptions?] | [Uint8Array, EncryptOptions?]
-  ) {
-    if (typeof algorithmOrParameters === "string") {
-      return {
-        algorithm: algorithmOrParameters,
-        plaintext: plainTextOrOptions[0] as Uint8Array,
-        options: plainTextOrOptions[1] as EncryptOptions
-      };
+    args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?]
+  ): [EncryptParameters, EncryptOptions?] {
+    if (typeof args[0] === "string") {
+      return [
+        {
+          algorithm: args[0],
+          plaintext: args[1]
+        } as EncryptParameters,
+        args[2]
+      ];
     } else {
-      const { algorithm, plaintext, ...rest } = algorithmOrParameters;
-      return {
-        algorithm,
-        plaintext,
-        options: Object.assign({}, plainTextOrOptions[0] || {}, rest) as EncryptOptions // {...plainTextOrOptions[0], ...rest}
-      };
+      return [args[0], args[1] as EncryptOptions];
     }
   }
 
@@ -190,7 +181,6 @@ export class CryptographyClient {
    * @param ciphertext - The text to decrypt.
    * @param options - Additional options.
    */
-
   public async decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
@@ -198,43 +188,34 @@ export class CryptographyClient {
   ): Promise<DecryptResult>;
   public async decrypt(
     decryptParameters: DecryptParameters,
-    options?: CryptographyOptions
+    options?: DecryptOptions
   ): Promise<DecryptResult>;
   public async decrypt(
-    algorithmOrParameters: EncryptionAlgorithm | DecryptParameters,
-    ...cipherTextOrOptions: [CryptographyOptions?] | [Uint8Array, DecryptOptions?]
+    ...args:
+      | [DecryptParameters, DecryptOptions?]
+      | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
-    const { algorithm, ciphertext, options } = this.disambiguateDecryptArguments(
-      algorithmOrParameters,
-      cipherTextOrOptions
-    );
+    const [parameters, options] = this.disambiguateDecryptArguments(args);
     if (this.concreteClient.kind === "remote") {
-      console.log("algorithm", algorithm);
-      console.log("ciphertext", ciphertext);
-      console.log("options", options);
-      return this.concreteClient.client.decrypt(algorithm, ciphertext, options);
+      return this.concreteClient.client.decrypt(parameters, options);
     } else {
       throw new Error("Decrypting using a local JsonWebKey is not supported.");
     }
   }
 
   private disambiguateDecryptArguments(
-    algorithmOrParameters: EncryptionAlgorithm | DecryptParameters,
-    cipherTextOrOptions: [CryptographyOptions?] | [Uint8Array, DecryptOptions?]
-  ) {
-    if (typeof algorithmOrParameters === "string") {
-      return {
-        algorithm: algorithmOrParameters,
-        ciphertext: cipherTextOrOptions[0] as Uint8Array,
-        options: cipherTextOrOptions[1] as EncryptOptions
-      };
+    args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?]
+  ): [DecryptParameters, DecryptOptions?] {
+    if (typeof args[0] === "string") {
+      return [
+        {
+          algorithm: args[0],
+          ciphertext: args[1]
+        } as DecryptParameters,
+        args[2]
+      ];
     } else {
-      const { algorithm, ciphertext, ...rest } = algorithmOrParameters;
-      return {
-        algorithm,
-        ciphertext,
-        options: Object.assign({}, cipherTextOrOptions[0] || {}, rest) as EncryptOptions
-      };
+      return [args[0], args[1] as DecryptOptions];
     }
   }
 

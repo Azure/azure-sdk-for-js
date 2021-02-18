@@ -51,18 +51,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   // The tests follow
 
-  it("returns the additional parameters in encryptResult", async function() {
-    const text = stringToUint8Array(this.test!.title);
-    const encryptResult = await cryptoClient.encrypt("RSA1_5", text, {
-      additionalAuthenticatedData: text,
-      tag: text,
-      iv: text
-    });
-    assert.equal(encryptResult.additionalAuthenticatedData, text);
-    assert.equal(encryptResult.iv, text);
-    assert.equal(encryptResult.tag, text);
-  });
-
   if (isRecordMode()) {
     it("encrypt & decrypt with RSA1_5", async function() {
       const text = this.test!.title;
@@ -149,7 +137,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         algorithm: "A128GCM",
         ciphertext: encryptResult.result,
         iv: encryptResult.iv!,
-        tag: encryptResult.tag!,
+        authenticationTag: encryptResult.authenticationTag!,
         additionalAuthenticatedData: encryptResult.additionalAuthenticatedData
       });
       const decryptedText = uint8ArrayToString(decryptResult.result);
@@ -219,7 +207,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       await testClient.flushKey(hsmKeyName);
     });
 
-    it.only("encrypt & decrypt with an AES key", async function() {
+    it("encrypt & decrypt with an AES key", async function() {
       const hsmKeyName = keyName + "2";
       const hsmKey = await client.createKey(hsmKeyName, "AES", { keySize: 256 });
       const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
@@ -233,11 +221,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       console.log("encryptResult", encryptResult);
       const decryptResult = await hsmCryptoClient.decrypt({
         algorithm: "A256GCM",
-        tag: encryptResult.tag,
+        authenticationTag: encryptResult.authenticationTag,
         ciphertext: encryptResult.result,
         iv: encryptResult.iv,
         additionalAuthenticatedData: encryptResult.additionalAuthenticatedData
       });
+
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
       await testClient.flushKey(hsmKeyName);

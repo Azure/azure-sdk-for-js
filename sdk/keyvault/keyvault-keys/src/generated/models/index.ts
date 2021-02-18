@@ -199,7 +199,7 @@ export interface KeyOperationsParameters {
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
   additionalAuthenticatedData?: Uint8Array;
   /** The tag to authenticate when performing decryption with an authenticated algorithm. */
-  tag?: Uint8Array;
+  authenticationTag?: Uint8Array;
 }
 
 /** The key operation result. */
@@ -701,7 +701,7 @@ export interface KeyVaultClientEncryptOptionalParams
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
   additionalAuthenticatedData?: Uint8Array;
   /** The tag to authenticate when performing decryption with an authenticated algorithm. */
-  tag?: Uint8Array;
+  authenticationTag?: Uint8Array;
 }
 
 /** Contains response data for the encrypt operation. */
@@ -724,7 +724,7 @@ export interface KeyVaultClientDecryptOptionalParams
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
   additionalAuthenticatedData?: Uint8Array;
   /** The tag to authenticate when performing decryption with an authenticated algorithm. */
-  tag?: Uint8Array;
+  authenticationTag?: Uint8Array;
 }
 
 /** Contains response data for the decrypt operation. */
@@ -771,7 +771,7 @@ export interface KeyVaultClientWrapKeyOptionalParams
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
   additionalAuthenticatedData?: Uint8Array;
   /** The tag to authenticate when performing decryption with an authenticated algorithm. */
-  tag?: Uint8Array;
+  authenticationTag?: Uint8Array;
 }
 
 /** Contains response data for the wrapKey operation. */
@@ -794,7 +794,7 @@ export interface KeyVaultClientUnwrapKeyOptionalParams
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
   additionalAuthenticatedData?: Uint8Array;
   /** The tag to authenticate when performing decryption with an authenticated algorithm. */
-  tag?: Uint8Array;
+  authenticationTag?: Uint8Array;
 }
 
 /** Contains response data for the unwrapKey operation. */
