@@ -116,10 +116,10 @@ export class BatchingReceiver extends MessageReceiver {
       );
 
       const messages = await this._batchingReceiverLite.receiveMessages({
+        ...options,
         maxMessageCount,
         maxWaitTimeInMs,
-        maxTimeAfterFirstMessageInMs,
-        ...options
+        maxTimeAfterFirstMessageInMs
       });
 
       if (this._lockRenewer) {

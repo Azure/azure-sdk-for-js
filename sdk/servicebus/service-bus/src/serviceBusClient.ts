@@ -302,10 +302,10 @@ export class ServiceBusClient {
       entityPath,
       sessionId,
       {
-        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
-        receiveMode,
         ...this._clientOptions,
-        ...options
+        ...options,
+        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
+        receiveMode
       }
     );
 
@@ -384,10 +384,10 @@ export class ServiceBusClient {
       entityPath,
       undefined,
       {
-        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
-        receiveMode,
         ...this._clientOptions,
-        ...options
+        ...options,
+        maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
+        receiveMode
       }
     );
 

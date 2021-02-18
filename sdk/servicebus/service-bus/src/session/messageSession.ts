@@ -199,9 +199,9 @@ export class MessageSession extends LinkEntity<Receiver> {
           this.sessionLockedUntilUtc = await this._context
             .getManagementClient(this.entityPath)
             .renewSessionLock(this.sessionId, {
+              ...operationOptions,
               associatedLinkName: this.name,
-              timeoutInMs: 10000,
-              ...operationOptions
+              timeoutInMs: 10000
             });
           logger.verbose(
             "%s Successfully renewed the session lock for MessageSession '%s' " + "with name '%s'.",
@@ -746,10 +746,10 @@ export class MessageSession extends LinkEntity<Receiver> {
   ): Promise<ServiceBusMessageImpl[]> {
     try {
       return await this._batchingReceiverLite.receiveMessages({
+        ...options,
         maxMessageCount,
         maxWaitTimeInMs,
-        maxTimeAfterFirstMessageInMs,
-        ...options
+        maxTimeAfterFirstMessageInMs
       });
     } catch (error) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);

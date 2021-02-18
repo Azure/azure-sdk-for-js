@@ -448,10 +448,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
 
     await this._streamingReceiver.init({
-      connectionId: this._context.connectionId,
-      useNewName: false,
       ...getOperationOptionsBase(this._clientOptions),
-      ...options
+      ...options,
+      connectionId: this._context.connectionId,
+      useNewName: false
     });
 
     return this._streamingReceiver;
@@ -482,11 +482,11 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     const receiveMessages = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const receiveOptions: ReceiveOptions = {
+          ...getOperationOptionsBase(this._clientOptions),
+          ...options,
           maxConcurrentCalls: 0,
           receiveMode: this.receiveMode,
-          lockRenewer: this._lockRenewer,
-          ...getOperationOptionsBase(this._clientOptions),
-          ...options
+          lockRenewer: this._lockRenewer
         };
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
@@ -721,9 +721,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return this._context
       .getManagementClient(this.entityPath)
       .renewLock(message.lockToken!, {
-        associatedLinkName,
         ...getOperationOptionsBase(this._clientOptions),
-        ...operationOptions
+        ...operationOptions,
+        associatedLinkName
       })
       .then((lockedUntil) => {
         message.lockedUntilUtc = lockedUntil;
