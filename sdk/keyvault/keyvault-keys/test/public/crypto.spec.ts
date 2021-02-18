@@ -14,7 +14,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
-describe.only("CryptographyClient (all decrypts happen remotely)", () => {
+describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
@@ -60,7 +60,7 @@ describe.only("CryptographyClient (all decrypts happen remotely)", () => {
       assert.equal(text, decryptedText);
     });
 
-    it.only("encrypt with additional parameters returns them", async function() {
+    it("encrypt with additional parameters returns them", async function() {
       const text = this.test!.title;
       const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text), {
         iv: stringToUint8Array("iv"),
