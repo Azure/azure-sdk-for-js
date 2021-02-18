@@ -20,6 +20,7 @@ import { getOperationOptionsBase } from "../../../src/util/utils";
 import { getEnvVars } from "../../public/utils/envVarUtils";
 import { recreateQueue } from "../../public/utils/managementUtils";
 import { TestMessage } from "../../public/utils/testUtils";
+import { getPromiseResolverForTest } from "../unit/unittestUtils";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -41,10 +42,10 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
   ) {
     let verifiedOperationOptions = false;
     let actualOptions: OperationOptionsBase = {};
-    let getTokenInvocationDone: Function;
-    const waitUntilGetTokenIsInvoked = new Promise((resolve) => {
-      getTokenInvocationDone = resolve;
-    });
+    const {
+      promise: waitUntilGetTokenIsInvoked,
+      resolve: getTokenInvocationDone
+    } = getPromiseResolverForTest();
 
     context.tokenCredential.getToken = async (_scopes: string, options: GetTokenOptions) => {
       actualOptions = getOperationOptionsBase(options);
