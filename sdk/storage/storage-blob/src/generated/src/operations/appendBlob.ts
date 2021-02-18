@@ -100,7 +100,7 @@ export class AppendBlob {
 const serializer = createSerializer(Mappers, true);
 const createOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -146,7 +146,7 @@ const createOperationSpec: OperationSpec = {
 
 const appendBlockOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -199,7 +199,7 @@ const appendBlockOperationSpec: OperationSpec = {
 
 const appendBlockFromUrlOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -248,7 +248,7 @@ const appendBlockFromUrlOperationSpec: OperationSpec = {
 
 const sealOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],

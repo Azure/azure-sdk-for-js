@@ -406,7 +406,7 @@ export class Blob {
 const serializer = createSerializer(Mappers, true);
 const downloadOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -461,7 +461,7 @@ const downloadOperationSpec: OperationSpec = {
 
 const getPropertiesOperationSpec: OperationSpec = {
   httpMethod: "HEAD",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -498,7 +498,7 @@ const getPropertiesOperationSpec: OperationSpec = {
 
 const deleteMethodOperationSpec: OperationSpec = {
   httpMethod: "DELETE",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -649,7 +649,7 @@ const renameOperationSpec: OperationSpec = {
 
 const undeleteOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -676,7 +676,7 @@ const undeleteOperationSpec: OperationSpec = {
 
 const setExpiryOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -705,7 +705,7 @@ const setExpiryOperationSpec: OperationSpec = {
 
 const setHTTPHeadersOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -744,7 +744,7 @@ const setHTTPHeadersOperationSpec: OperationSpec = {
 
 const setMetadataOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -782,7 +782,7 @@ const setMetadataOperationSpec: OperationSpec = {
 
 const acquireLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -817,7 +817,7 @@ const acquireLeaseOperationSpec: OperationSpec = {
 
 const releaseLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -851,7 +851,7 @@ const releaseLeaseOperationSpec: OperationSpec = {
 
 const renewLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -885,7 +885,7 @@ const renewLeaseOperationSpec: OperationSpec = {
 
 const changeLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -920,7 +920,7 @@ const changeLeaseOperationSpec: OperationSpec = {
 
 const breakLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -954,7 +954,7 @@ const breakLeaseOperationSpec: OperationSpec = {
 
 const createSnapshotOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -992,7 +992,7 @@ const createSnapshotOperationSpec: OperationSpec = {
 
 const startCopyFromURLOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -1035,7 +1035,7 @@ const startCopyFromURLOperationSpec: OperationSpec = {
 
 const copyFromURLOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -1077,7 +1077,7 @@ const copyFromURLOperationSpec: OperationSpec = {
 
 const abortCopyFromURLOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -1107,7 +1107,7 @@ const abortCopyFromURLOperationSpec: OperationSpec = {
 
 const setTierOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -1143,7 +1143,7 @@ const setTierOperationSpec: OperationSpec = {
 
 const getAccountInfoOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -1169,7 +1169,7 @@ const getAccountInfoOperationSpec: OperationSpec = {
 
 const queryOperationSpec: OperationSpec = {
   httpMethod: "POST",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -1229,7 +1229,7 @@ const queryOperationSpec: OperationSpec = {
 
 const getTagsOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -1261,7 +1261,7 @@ const getTagsOperationSpec: OperationSpec = {
 
 const setTagsOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],

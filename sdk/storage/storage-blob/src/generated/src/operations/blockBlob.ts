@@ -159,7 +159,7 @@ export class BlockBlob {
 const serializer = createSerializer(Mappers, true);
 const uploadOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -218,7 +218,7 @@ const uploadOperationSpec: OperationSpec = {
 
 const putBlobFromUrlOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -274,7 +274,7 @@ const putBlobFromUrlOperationSpec: OperationSpec = {
 
 const stageBlockOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -321,7 +321,7 @@ const stageBlockOperationSpec: OperationSpec = {
 
 const stageBlockFromURLOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -363,7 +363,7 @@ const stageBlockFromURLOperationSpec: OperationSpec = {
 
 const commitBlockListOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -419,7 +419,7 @@ const commitBlockListOperationSpec: OperationSpec = {
 
 const getBlockListOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],

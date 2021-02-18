@@ -287,7 +287,7 @@ export class Container {
 const serializer = createSerializer(Mappers, true);
 const createOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -318,7 +318,7 @@ const createOperationSpec: OperationSpec = {
 
 const getPropertiesOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -346,7 +346,7 @@ const getPropertiesOperationSpec: OperationSpec = {
 
 const deleteMethodOperationSpec: OperationSpec = {
   httpMethod: "DELETE",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -376,7 +376,7 @@ const deleteMethodOperationSpec: OperationSpec = {
 
 const setMetadataOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -407,7 +407,7 @@ const setMetadataOperationSpec: OperationSpec = {
 
 const getAccessPolicyOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -449,7 +449,7 @@ const getAccessPolicyOperationSpec: OperationSpec = {
 
 const setAccessPolicyOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -502,7 +502,7 @@ const setAccessPolicyOperationSpec: OperationSpec = {
 
 const restoreOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -532,7 +532,7 @@ const restoreOperationSpec: OperationSpec = {
 
 const renameOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -562,7 +562,7 @@ const renameOperationSpec: OperationSpec = {
 
 const submitBatchOperationSpec: OperationSpec = {
   httpMethod: "POST",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -609,7 +609,7 @@ const submitBatchOperationSpec: OperationSpec = {
 
 const acquireLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -642,7 +642,7 @@ const acquireLeaseOperationSpec: OperationSpec = {
 
 const releaseLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -674,7 +674,7 @@ const releaseLeaseOperationSpec: OperationSpec = {
 
 const renewLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -706,7 +706,7 @@ const renewLeaseOperationSpec: OperationSpec = {
 
 const breakLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -738,7 +738,7 @@ const breakLeaseOperationSpec: OperationSpec = {
 
 const changeLeaseOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -771,7 +771,7 @@ const changeLeaseOperationSpec: OperationSpec = {
 
 const listBlobFlatSegmentOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -804,7 +804,7 @@ const listBlobFlatSegmentOperationSpec: OperationSpec = {
 
 const listBlobHierarchySegmentOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -838,7 +838,7 @@ const listBlobHierarchySegmentOperationSpec: OperationSpec = {
 
 const getAccountInfoOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],

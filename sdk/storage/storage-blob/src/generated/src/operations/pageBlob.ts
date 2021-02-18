@@ -189,7 +189,7 @@ export class PageBlob {
 const serializer = createSerializer(Mappers, true);
 const createOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -238,7 +238,7 @@ const createOperationSpec: OperationSpec = {
 
 const uploadPagesOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -294,7 +294,7 @@ const uploadPagesOperationSpec: OperationSpec = {
 
 const clearPagesOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -337,7 +337,7 @@ const clearPagesOperationSpec: OperationSpec = {
 
 const uploadPagesFromURLOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -388,7 +388,7 @@ const uploadPagesFromURLOperationSpec: OperationSpec = {
 
 const getPageRangesOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -424,7 +424,7 @@ const getPageRangesOperationSpec: OperationSpec = {
 
 const getPageRangesDiffOperationSpec: OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -462,7 +462,7 @@ const getPageRangesDiffOperationSpec: OperationSpec = {
 
 const resizeOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -500,7 +500,7 @@ const resizeOperationSpec: OperationSpec = {
 
 const updateSequenceNumberOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],
@@ -535,7 +535,7 @@ const updateSequenceNumberOperationSpec: OperationSpec = {
 
 const copyIncrementalOperationSpec: OperationSpec = {
   httpMethod: "PUT",
-  path: "{containerName}/{blob}",
+  path: undefined,
   urlParameters: [
     Parameters.url
   ],

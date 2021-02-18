@@ -222,6 +222,7 @@ export function newPipeline(
 
   factories.addPolicy(storageBrowserPolicy());
   factories.addPolicy(storageRetryPolicy(pipelineOptions.retryOptions));
+
   if (isTokenCredential(credential)) {
     factories.addPolicy(
       attachCredential(
