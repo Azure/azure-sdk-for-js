@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DiagLogLevel } from "@opentelemetry/api";
 import {
   DEFAULT_BREEZE_API_VERSION,
   DEFAULT_BREEZE_ENDPOINT,
@@ -24,12 +23,10 @@ export interface AzureExporterInternalConfig {
   maxConsecutiveFailuresBeforeWarning: number;
   endpointUrl: string;
   apiVersion: ServiceApiVersion;
-  logLevel: DiagLogLevel;
 }
 
 export const DEFAULT_EXPORTER_CONFIG: AzureExporterInternalConfig = {
   instrumentationKey: "",
-  logLevel: DiagLogLevel.WARN,
   endpointUrl: DEFAULT_BREEZE_ENDPOINT,
   batchSendRetryIntervalMs: DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS,
   maxConsecutiveFailuresBeforeWarning: DEFAULT_MAX_CONSECUTIVE_FAILURES_BEFORE_WARNING,
