@@ -17,7 +17,10 @@ import {
   UpdateNumberCapabilitiesResponse
 } from "../../src";
 
-export const createMockHttpClient = <T = {}>(status: number = 200, parsedBody?: T): HttpClient => {
+export const createMockHttpClient = <T = Record<string, unknown>>(
+  status: number = 200,
+  parsedBody?: T
+): HttpClient => {
   return {
     async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
       return {

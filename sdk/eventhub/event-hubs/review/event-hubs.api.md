@@ -27,10 +27,10 @@ export interface Checkpoint {
 
 // @public
 export interface CheckpointStore {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+    claimOwnership(partitionOwnership: PartitionOwnership[], options?: OperationOptions): Promise<PartitionOwnership[]>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint, options?: OperationOptions): Promise<void>;
 }
 
 // @public

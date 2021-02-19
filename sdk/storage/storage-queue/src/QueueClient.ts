@@ -54,156 +54,108 @@ import { SASProtocol } from "./SASQueryParameters";
 
 /**
  * Options to configure {@link QueueClient.create} operation
- *
- * @export
- * @interface QueueCreateOptions
  */
 export interface QueueCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the queue object.
    * The keys need to be lower-case.
-   *
-   * @type {Metadata}
-   * @memberof QueueCreateOptions
    */
   metadata?: Metadata;
 }
 
 /**
  * Options to configure {@link QueueClient.exists} operation
- *
- * @export
- * @interface QueueExistsOptions
  */
 export interface QueueExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueExistsOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueClient.getProperties} operation
- *
- * @export
- * @interface QueueGetPropertiesOptions
  */
 export interface QueueGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueClient.delete} operation
- *
- * @export
- * @interface QueueDeleteOptions
  */
 export interface QueueDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueDeleteOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueClient.getAccessPolicy} operation
- *
- * @export
- * @interface QueueGetAccessPolicyOptions
  */
 export interface QueueGetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueGetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueClient.setAccessPolicy} operation
- *
- * @export
- * @interface QueueSetAccessPolicyOptions
  */
 export interface QueueSetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueSetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueClient.setMetadata} operation
- *
- * @export
- * @interface QueueSetMetadataOptions
  */
 export interface QueueSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Signed identifier.
- *
- * @export
- * @interface SignedIdentifier
  */
 export interface SignedIdentifier {
   /**
-   * @member {string} id a unique id
+   * a unique id
    */
   id: string;
   /**
-   * @member {AccessPolicy} accessPolicy
+   * Access Policy
    */
   accessPolicy: {
     /**
-     * @member {Date} startsOn the date-time the policy is active.
+     * the date-time the policy is active.
      */
     startsOn?: Date;
     /**
-     * @member {string} expiresOn the date-time the policy expires.
+     * the date-time the policy expires.
      */
     expiresOn?: Date;
     /**
-     * @member {string} permission the permissions for the acl policy
+     * the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
     permissions?: string;
@@ -237,45 +189,27 @@ export declare type QueueGetAccessPolicyResponse = {
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
- *
- * @export
- * @interface QueueClearMessagesOptions
  */
 export interface QueueClearMessagesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueClearMessagesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueClient.sendMessage} operation
- *
- * @export
- * @interface QueueSendMessageOptions
- * @extends {MessagesEnqueueOptionalParams}
  */
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
 
 /**
  * Options to configure {@link QueueClient.receiveMessages} operation
- *
- * @export
- * @interface QueueReceiveMessageOptions
- * @extends {MessagesDequeueOptionalParams}
  */
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
 
 /**
  * Options to configure {@link QueueClient.peekMessages} operation
- *
- * @export
- * @interface QueuePeekMessagesOptions
- * @extends {MessagesPeekOptionalParams}
  */
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
@@ -284,27 +218,27 @@ export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, Co
  */
 export declare type QueueSendMessageResponse = {
   /**
-   * @member {string} messageId The ID of the sent Message.
+   * The ID of the sent Message.
    */
   messageId: string;
   /**
-   * @member {string} popReceipt This value is required to delete the Message.
+   * This value is required to delete the Message.
    * If deletion fails using this popreceipt then the message has been received
    * by another client.
    */
   popReceipt: string;
   /**
-   * @member {Date} insertedOn The time that the message was inserted into the
+   * The time that the message was inserted into the
    * Queue.
    */
   insertedOn: Date;
   /**
-   * @member {Date} expiresOn The time that the message will expire and be
+   * The time that the message will expire and be
    * automatically deleted.
    */
   expiresOn: Date;
   /**
-   * @member {Date} nextVisibleOn The time that the message will again become
+   * The time that the message will again become
    * visible in the Queue.
    */
   nextVisibleOn: Date;
@@ -387,17 +321,11 @@ export declare type QueuePeekMessagesResponse = {
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
- *
- * @export
- * @interface QueueDeleteMessageOptions
  */
 export interface QueueDeleteMessageOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueDeleteMessageOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -419,107 +347,68 @@ export declare type QueueClearMessagesResponse = MessagesClearResponse;
 
 /**
  * Options to configure {@link QueueClient.updateMessage} operation
- *
- * @export
- * @interface QueueUpdateMessageOptions
  */
 export interface QueueUpdateMessageOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof QueueUpdateMessageOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Contains response data for the {@link QueueClient.createIfNotExists} operation.
- *
- * @export
- * @interface QueueCreateIfNotExistsResponse
  */
 export interface QueueCreateIfNotExistsResponse extends QueueCreateResponse {
   /**
    * Indicate whether the queue is successfully created. Is false when the queue is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof QueueCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link QueueClient.deleteIfExists} operation.
- *
- * @export
- * @interface QueueDeleteIfExistsResponse
  */
 export interface QueueDeleteIfExistsResponse extends QueueDeleteResponse {
   /**
    * Indicate whether the queue is successfully deleted. Is false if the queue does not exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof QueueDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Options to configure {@link QueueClient.generateSasUrl} operation.
- *
- * @export
- * @interface QueueGenerateSasUrlOptions
  */
 export interface QueueGenerateSasUrlOptions {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof QueueGenerateSasUrlOptions
    */
   version?: string;
 
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof QueueGenerateSasUrlOptions
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof QueueGenerateSasUrlOptions
    */
   startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof QueueGenerateSasUrlOptions
    */
   expiresOn?: Date;
 
   /**
    * Optional only when identifier is provided.
    * Please refer to {@link QueueSASPermissions} for help constructing the permissions string.
-   *
-   * @type {QueueSASPermissions}
-   * @memberof QueueGenerateSasUrlOptions
    */
   permissions?: QueueSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof QueueGenerateSasUrlOptions
    */
   ipRange?: SasIPRange;
 
@@ -527,34 +416,20 @@ export interface QueueGenerateSasUrlOptions {
    * Optional. The name of the access policy on the queue this SAS references if any.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof QueueGenerateSasUrlOptions
    */
   identifier?: string;
 }
 
 /**
  * A QueueClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
- *
- * @export
- * @class QueueClient
  */
 export class QueueClient extends StorageClient {
   /**
    * messagesContext provided by protocol layer.
-   *
-   * @private
-   * @type {Messages}
-   * @memberof QueueClient
    */
   private messagesContext: Messages;
   /**
    * queueContext provided by protocol layer.
-   *
-   * @private
-   * @type {Queue}
-   * @memberof QueueClient
    */
   private queueContext: Queue;
   private _name: string;
@@ -570,27 +445,25 @@ export class QueueClient extends StorageClient {
   /**
    * Creates an instance of QueueClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} queueName Queue name.
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
-   * @memberof QueueClient
+   * @param queueName - Queue name.
+   * @param options - Options to configure the HTTP pipeline.
    */
   constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage queue, such as
+   * @param url - A URL string pointing to Azure Storage queue, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
-   * @memberof QueueClient
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Options to configure the HTTP pipeline.
    */
   constructor(
     url: string,
@@ -600,13 +473,12 @@ export class QueueClient extends StorageClient {
   /**
    * Creates an instance of QueueClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage queue, such as
+   * @param url - A URL string pointing to Azure Storage queue, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof QueueClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -701,9 +573,8 @@ export class QueueClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} [options] Options to Queue create operation.
-   * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
-   * @memberof QueueClient
+   * @param options - Options to Queue create operation.
+   * @returns Response data for the Queue create operation.
    *
    * Example usage:
    *
@@ -736,9 +607,7 @@ export class QueueClient extends StorageClient {
    * If the queue already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} [options]
-   * @returns {Promise<QueueCreateIfNotExistsResponse>}
-   * @memberof QueueClient
+   * @param options -
    */
   public async createIfNotExists(
     options: QueueCreateOptions = {}
@@ -793,9 +662,7 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently if it exists.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} [options]
-   * @returns {Promise<QueueDeleteIfExistsResponse>}
-   * @memberof QueueClient
+   * @param options -
    */
   public async deleteIfExists(
     options: QueueDeleteOptions = {}
@@ -836,9 +703,8 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
-   * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
-   * @memberof QueueClient
+   * @param options - Options to Queue delete operation.
+   * @returns Response data for the Queue delete operation.
    *
    * Example usage:
    *
@@ -874,9 +740,7 @@ export class QueueClient extends StorageClient {
    * applications. Vice versa new queues might be added by other clients or applications after this
    * function completes.
    *
-   * @param {QueueExistsOptions} [options] options to Exists operation.
-   * @returns {Promise<boolean>}
-   * @memberof QueueClient
+   * @param options - options to Exists operation.
    */
   public async exists(options: QueueExistsOptions = {}): Promise<boolean> {
     const { span, spanOptions } = createSpan("QueueClient-exists", options.tracingOptions);
@@ -914,9 +778,8 @@ export class QueueClient extends StorageClient {
    * the `listQueues` method of {@link QueueServiceClient} using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
-   * @returns {Promise<QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
-   * @memberof QueueClient
+   * @param options - Options to Queue get properties operation.
+   * @returns Response data for the Queue get properties operation.
    */
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
@@ -945,10 +808,9 @@ export class QueueClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
-   * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
-   * @param {QueueSetMetadataOptions} [options] Options to Queue set metadata operation.
-   * @returns {Promise<QueueSetMetadataResponse>} Response data for the Queue set metadata operation.
-   * @memberof QueueClient
+   * @param metadata - If no metadata provided, all existing metadata will be removed.
+   * @param options - Options to Queue set metadata operation.
+   * @returns Response data for the Queue set metadata operation.
    */
   public async setMetadata(
     metadata?: Metadata,
@@ -980,9 +842,8 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
-   * @param {QueueGetAccessPolicyOptions} [options] Options to Queue get access policy operation.
-   * @returns {Promise<QueueGetAccessPolicyResponse>} Response data for the Queue get access policy operation.
-   * @memberof QueueClient
+   * @param options - Options to Queue get access policy operation.
+   * @returns Response data for the Queue get access policy operation.
    */
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
@@ -1042,10 +903,9 @@ export class QueueClient extends StorageClient {
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
-   * @param {SignedIdentifier[]} [queueAcl]
-   * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
-   * @returns {Promise<QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
-   * @memberof QueueClient
+   * @param queueAcl -
+   * @param options - Options to Queue set access policy operation.
+   * @returns Response data for the Queue set access policy operation.
    */
   public async setAccessPolicy(
     queueAcl?: SignedIdentifier[],
@@ -1089,9 +949,8 @@ export class QueueClient extends StorageClient {
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
-   * @param {QueueClearMessagesOptions} [options] Options to clear messages operation.
-   * @returns {Promise<QueueClearMessagesResponse>} Response data for the clear messages operation.
-   * @memberof QueueClient
+   * @param options - Options to clear messages operation.
+   * @returns Response data for the clear messages operation.
    */
   public async clearMessages(
     options: QueueClearMessagesOptions = {}
@@ -1120,10 +979,9 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
-   * @param {string} messageText Text of the message to send
-   * @param {QueueSendMessageOptions} [options] Options to send messages operation.
-   * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
-   * @memberof QueueClient
+   * @param messageText - Text of the message to send
+   * @param options - Options to send messages operation.
+   * @returns Response data for the send messages operation.
    *
    * Example usage:
    *
@@ -1180,9 +1038,8 @@ export class QueueClient extends StorageClient {
    * receiveMessages retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
-   * @param {QueueReceiveMessageOptions} [options] Options to receive messages operation.
-   * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
-   * @memberof QueueClient
+   * @param options - Options to receive messages operation.
+   * @returns Response data for the receive messages operation.
    *
    * Example usage:
    *
@@ -1243,9 +1100,8 @@ export class QueueClient extends StorageClient {
    * peekMessages retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
-   * @param {QueuePeekMessagesOptions} [options] Options to peek messages operation.
-   * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
-   * @memberof QueueClient
+   * @param options - Options to peek messages operation.
+   * @returns Response data for the peek messages operation.
    *
    * Example usage:
    *
@@ -1295,11 +1151,10 @@ export class QueueClient extends StorageClient {
    * deleteMessage permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
-   * @param {string} messageId Id of the message.
-   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
-   * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
-   * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
-   * @memberof QueueClient
+   * @param messageId - Id of the message.
+   * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
+   * @param options - Options to delete message operation.
+   * @returns Response data for the delete message operation.
    */
   public async deleteMessage(
     messageId: string,
@@ -1329,17 +1184,16 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
-   * @param {string} messageId Id of the message
-   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
-   * @param {string} message Message to update. If this parameter is undefined, then the content of the message won't be updated.
-   * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
+   * @param messageId - Id of the message
+   * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
+   * @param message - Message to update. If this parameter is undefined, then the content of the message won't be updated.
+   * @param visibilityTimeout - Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {QueueUpdateMessageOptions} [options] Options to update message operation.
-   * @returns {Promise<QueueUpdateMessageResponse>} Response data for the update message operation.
-   * @memberof QueueClient
+   * @param options - Options to update message operation.
+   * @returns Response data for the update message operation.
    */
   public async updateMessage(
     messageId: string,
@@ -1415,9 +1269,8 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {QueueGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof QueueClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: QueueGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {

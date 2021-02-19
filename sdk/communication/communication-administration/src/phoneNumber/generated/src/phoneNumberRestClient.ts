@@ -15,8 +15,8 @@ import { PhoneNumberRestClientOptionalParams } from "./models";
 class PhoneNumberRestClient extends PhoneNumberRestClientContext {
   /**
    * Initializes a new instance of the PhoneNumberRestClient class.
-   * @param endpoint - The endpoint of the Azure Communication resource.
-   * @param options - The parameter options
+   * @param endpoint The endpoint of the Azure Communication resource.
+   * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumberRestClientOptionalParams) {
     super(endpoint, options);

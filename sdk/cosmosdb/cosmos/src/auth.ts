@@ -24,12 +24,6 @@ export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 /**
  * @hidden
- * @param clientOptions
- * @param verb
- * @param path
- * @param resourceId
- * @param resourceType
- * @param headers
  */
 export async function setAuthorizationHeader(
   clientOptions: CosmosClientOptions,
@@ -102,9 +96,6 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
 
 /**
  * @hidden
- * @param resourceTokens
- * @param path
- * @param resourceId
  */
 // TODO: Resource tokens
 export function getAuthorizationTokenUsingResourceTokens(

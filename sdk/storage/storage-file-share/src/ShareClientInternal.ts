@@ -8,9 +8,6 @@ import { Share } from "./generated/src/operations";
 
 /**
  * ShareClientInternal is the thin wrapper for Share which contains internal helper methods.
- *
- * @export
- * @class ShareClientInternal
  */
 export class ShareClientInternal extends StorageClient {
   private context: Share;

@@ -107,10 +107,12 @@ export class ReservePhoneNumbersPollOperation extends PhoneNumberReservationPoll
         state.result = await this.getReservation(state.reservationId, this.requestOptions);
         state.isCompleted = isComplete(state.result, "Reserved");
       }
+
+      return this;
     } catch (error) {
       state.error = error;
       state.isCompleted = true;
-    } finally {
+
       return this;
     }
   }

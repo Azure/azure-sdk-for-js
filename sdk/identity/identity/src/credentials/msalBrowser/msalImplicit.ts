@@ -42,7 +42,7 @@ export class MSALImplicit implements IMSALBrowserFlow {
         // If the users picked redirect as their login style,
         // but they didn't provide a redirectUri,
         // we can try to use the current page we're in as a default value.
-        redirectUri: options.redirectUri || window.location.origin,
+        redirectUri: options.redirectUri || self.location.origin,
         postLogoutRedirectUri: options.postLogoutRedirectUri
       },
       cache: {
@@ -98,7 +98,7 @@ export class MSALImplicit implements IMSALBrowserFlow {
     if (this.redirectPromise) {
       return this.redirectPromise;
     }
-    if (!window.location.hash) {
+    if (!self.location.hash) {
       return;
     }
     this.redirectPromise = new Promise((resolve, reject) => {

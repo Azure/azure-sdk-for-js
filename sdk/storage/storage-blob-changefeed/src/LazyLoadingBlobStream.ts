@@ -14,9 +14,6 @@ export interface LazyLoadingBlobStreamOptions extends ReadableOptions, CommonOpt
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof LazyLoadingBlobStreamOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -25,35 +22,21 @@ interface LazyLoadingBlobStreamDownloadBlockOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof LazyLoadingBlobStreamDownloadBlockOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * This class generates a readable stream from a blobClient's data.
- *
- * @export
- * @class LazyLoadingBlobStream
  */
 export class LazyLoadingBlobStream extends Readable {
   /**
    * BlobClient to make download calls with.
-   *
-   * @private
-   * @type {BlobClient}
-   * @memberof LazyLoadingBlobStream
    */
   private readonly blobClient: BlobClient;
 
   /**
    * The offset within the blob of the next block we will download.
-   *
-   * @private
-   * @type {number}
-   * @memberof LazyLoadingBlobStream
    */
   private offset: number;
 
@@ -70,8 +53,7 @@ export class LazyLoadingBlobStream extends Readable {
   /**
    * Creates an instance of LazyLoadingBlobStream.
    *
-   * @param {number} byteLength The total length of data contained in the buffers
-   * @memberof LazyLoadingBlobStream
+   * @param byteLength - The total length of data contained in the buffers
    */
   constructor(
     blobClient: BlobClient,
@@ -129,8 +111,7 @@ export class LazyLoadingBlobStream extends Readable {
   /**
    * Internal _read() that will be called when the stream wants to pull more data in.
    *
-   * @param {number} size Optional. The size of data to be read
-   * @memberof LazyLoadingBlobStream
+   * @param size - Optional. The size of data to be read
    */
   public async _read(size?: number) {
     const { span, spanOptions } = createSpan(

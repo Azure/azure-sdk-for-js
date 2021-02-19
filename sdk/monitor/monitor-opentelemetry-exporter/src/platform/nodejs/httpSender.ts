@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Logger } from "@opentelemetry/api";
-import { ConsoleLogger, LogLevel } from "@opentelemetry/core";
+import { diag } from "@opentelemetry/api";
 import { Sender, SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
@@ -12,13 +11,10 @@ import {
 import { AzureExporterInternalConfig } from "../../config";
 
 export class HttpSender implements Sender {
-  private readonly _logger: Logger;
-
   private readonly _appInsightsClient: ApplicationInsightsClient;
   private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(private _exporterOptions: Partial<AzureExporterInternalConfig>) {
-    this._logger = this._exporterOptions.logger || new ConsoleLogger(LogLevel.ERROR);
+  constructor(private _exporterOptions: AzureExporterInternalConfig) {
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {
       host: this._exporterOptions.endpointUrl
@@ -39,6 +35,6 @@ export class HttpSender implements Sender {
   }
 
   async shutdown(): Promise<void> {
-    this._logger.info("HttpSender shutting down");
+    diag.info("HttpSender shutting down");
   }
 }

@@ -6,19 +6,12 @@ import { BaseRequestPolicy, HttpOperationResponse, WebResource } from "@azure/co
 /**
  * Credential policy used to sign HTTP(S) requests before sending. This is an
  * abstract class.
- *
- * @export
- * @abstract
- * @class CredentialPolicy
- * @extends {BaseRequestPolicy}
  */
 export abstract class CredentialPolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
-   * @memberof CredentialPolicy
+   * @param request -
    */
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(this.signRequest(request));
@@ -28,11 +21,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
    * Child classes must implement this method with request signing. This method
    * will be executed in {@link sendRequest}.
    *
-   * @protected
-   * @abstract
-   * @param {WebResource} request
-   * @returns {WebResource}
-   * @memberof CredentialPolicy
+   * @param request -
    */
   protected signRequest(request: WebResource): WebResource {
     // Child classes must override this method with request signing. This method
