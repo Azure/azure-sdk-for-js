@@ -46,7 +46,7 @@ describe("SmsClient", async () => {
     const toNumber = process.env["AZURE_PHONE_NUMBER"] as string;
 
     const smsClient = new SmsClient(connectionString);
-    
+
     const request: SendRequest = {
       from: fromNumber,
       to: [toNumber],
@@ -57,7 +57,7 @@ describe("SmsClient", async () => {
       enableDeliveryReport: true,
       tag: "SMS_LIVE_TEST"
     };
-    
+
     const results = await smsClient.send(request, options);
     assert.lengthOf(results, 1);
     for (const result of results) {

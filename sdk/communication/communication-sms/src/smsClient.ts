@@ -18,11 +18,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
-import {
-  SmsSendResult,
-  SendMessageRequest,
-  SmsRecipient
-} from "./generated/src/models";
+import { SmsSendResult, SendMessageRequest, SmsRecipient } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
