@@ -7,5 +7,5 @@
  * @internal
  */
 export function checkNetworkConnection(): Promise<boolean> {
-  return Promise.resolve(window.navigator.onLine);
+  return Promise.resolve(self.navigator.onLine);
 }
