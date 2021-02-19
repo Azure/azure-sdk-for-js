@@ -73,7 +73,7 @@ export function bearerTokenAuthenticationPolicy(
   }
 
   async function getToken(tokenOptions: GetTokenOptions): Promise<string | undefined> {
-    if (!refreshPromise && tokenCache.readyToRefresh()) {
+    if (!refreshPromise && tokenCache.isReadyToRefresh()) {
       refreshPromise = refresher(tokenOptions);
     }
 
