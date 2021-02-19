@@ -88,7 +88,7 @@ export class StorageRetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates an instance of StorageRetryPolicyFactory.
-   * @param {StorageRetryOptions} [retryOptions]
+   * @param retryOptions -
    * @memberof StorageRetryPolicyFactory
    */
   constructor(retryOptions?: StorageRetryOptions) {
@@ -98,9 +98,9 @@ export class StorageRetryPolicyFactory implements RequestPolicyFactory {
   /**
    * Creates a StorageRetryPolicy object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {StorageRetryPolicy}
+   * @param nextPolicy -
+   * @param options -
+   *
    * @memberof StorageRetryPolicyFactory
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy {

@@ -19,8 +19,8 @@ export class FileSASPermissions {
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
-   * @param {string} permissions
-   * @returns {FileSASPermissions}
+   * @param permissions -
+   *
    * @memberof FileSASPermissions
    */
   public static parse(permissions: string): FileSASPermissions {
@@ -84,7 +84,7 @@ export class FileSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returns {string} A string which represents the FileSASPermissions
+   * @returns A string which represents the FileSASPermissions
    * @memberof FileSASPermissions
    */
   public toString(): string {

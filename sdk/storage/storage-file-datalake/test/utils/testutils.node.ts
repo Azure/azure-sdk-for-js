@@ -11,9 +11,9 @@ import * as fs from "fs";
  * ReadableStream or the fs.WriteStream.
  *
  * @export
- * @param {NodeJS.ReadableStream} rs The read stream.
- * @param {string} file Destination file path.
- * @returns {Promise<void>}
+ * @param rs - The read stream.
+ * @param file - Destination file path.
+ *
  */
 export async function readStreamToLocalFileWithLogs(
   rs: NodeJS.ReadableStream,

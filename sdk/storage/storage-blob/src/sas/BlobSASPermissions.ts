@@ -19,8 +19,8 @@ export class BlobSASPermissions {
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
-   * @param {string} permissions
-   * @returns {BlobSASPermissions}
+   * @param permissions -
+   *
    * @memberof BlobSASPermissions
    */
   public static parse(permissions: string): BlobSASPermissions {
@@ -68,8 +68,8 @@ export class BlobSASPermissions {
    * and boolean values for them.
    *
    * @static
-   * @param {BlobSASPermissionsLike} permissionLike
-   * @returns {BlobSASPermissions}
+   * @param permissionLike -
+   *
    * @memberof BlobSASPermissions
    */
   public static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions {
@@ -180,7 +180,7 @@ export class BlobSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returns {string} A string which represents the BlobSASPermissions
+   * @returns A string which represents the BlobSASPermissions
    * @memberof BlobSASPermissions
    */
   public toString(): string {

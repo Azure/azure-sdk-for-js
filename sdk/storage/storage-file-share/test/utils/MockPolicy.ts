@@ -20,8 +20,8 @@ export class MockPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of MockPolicy.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param nextPolicy -
+   * @param options -
    * @memberof MockPolicy
    */
   public constructor(
@@ -36,8 +36,8 @@ export class MockPolicy extends BaseRequestPolicy {
   /**
    * Sends request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
+   * @param request -
+   *
    * @memberof InjectorPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {

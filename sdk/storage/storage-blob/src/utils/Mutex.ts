@@ -20,8 +20,8 @@ export class Mutex {
    * will wait until getting the lock.
    *
    * @static
-   * @param {string} key lock key
-   * @returns {Promise<void>}
+   * @param key - lock key
+   *
    * @memberof Mutex
    */
   public static async lock(key: string): Promise<void> {
@@ -42,8 +42,8 @@ export class Mutex {
    * Unlock a key.
    *
    * @static
-   * @param {string} key
-   * @returns {Promise<void>}
+   * @param key -
+   *
    * @memberof Mutex
    */
   public static async unlock(key: string): Promise<void> {

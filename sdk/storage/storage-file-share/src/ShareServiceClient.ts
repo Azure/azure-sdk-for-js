@@ -311,14 +311,14 @@ export class ShareServiceClient extends StorageClient {
    *
    * Creates an instance of ShareServiceClient from connection string.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
-   * @returns {ShareServiceClient} A new ShareServiceClient from the given connection string.
+   * @param options - Options to configure the HTTP pipeline.
+   * @returns A new ShareServiceClient from the given connection string.
    * @memberof ShareServiceClient
    */
   public static fromConnectionString(
@@ -350,22 +350,22 @@ export class ShareServiceClient extends StorageClient {
   /**
    * Creates an instance of ShareServiceClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file service, such as
+   * @param url - A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
+   * @param credential - Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof ShareServiceClient
    */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareServiceClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file service, such as
+   * @param url - A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareServiceClient
    */
@@ -393,7 +393,7 @@ export class ShareServiceClient extends StorageClient {
    * Creates a ShareClient object.
    *
    * @param shareName Name of a share.
-   * @returns {ShareClient} The ShareClient object for the given share name.
+   * @returns The ShareClient object for the given share name.
    * @memberof ShareServiceClient
    *
    * Example usage:
@@ -411,9 +411,9 @@ export class ShareServiceClient extends StorageClient {
   /**
    * Creates a Share.
    *
-   * @param {string} shareName
-   * @param {ShareCreateOptions} [options]
-   * @returns {Promise<{ shareCreateResponse: ShareCreateResponse, shareClient: ShareClient }>} Share creation response and the corresponding share client.
+   * @param shareName -
+   * @param options -
+   * @returns Share creation response and the corresponding share client.
    * @memberof ShareServiceClient
    */
   public async createShare(
@@ -448,9 +448,9 @@ export class ShareServiceClient extends StorageClient {
   /**
    * Deletes a Share.
    *
-   * @param {string} shareName
-   * @param {ShareDeleteMethodOptions} [options]
-   * @returns {Promise<ShareDeleteResponse>} Share deletion response and the corresponding share client.
+   * @param shareName -
+   * @param options -
+   * @returns Share deletion response and the corresponding share client.
    * @memberof ShareServiceClient
    */
   public async deleteShare(
@@ -483,8 +483,8 @@ export class ShareServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties}
    *
-   * @param {ServiceGetPropertiesOptions} [options={}] Options to Get Properties operation.
-   * @returns {Promise<ServiceGetPropertiesResponse>} Response data for the Get Properties operation.
+   * @param options - Options to Get Properties operation.
+   * @returns Response data for the Get Properties operation.
    * @memberof ShareServiceClient
    */
   public async getProperties(
@@ -515,9 +515,9 @@ export class ShareServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties}
    *
-   * @param {FileServiceProperties} properties
-   * @param {ServiceSetPropertiesOptions} [options={}] Options to Set Properties operation.
-   * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
+   * @param properties -
+   * @param options - Options to Set Properties operation.
+   * @returns Response data for the Set Properties operation.
    * @memberof ShareServiceClient
    */
   public async setProperties(
@@ -548,15 +548,15 @@ export class ShareServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for {@link ServiceListSharesSegmentResponse} objects
    *
    * @private
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param marker - A string value that identifies the portion of
    *                          the list of shares to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all shares remaining to be listed
    *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
-   * @returns {AsyncIterableIterator<ServiceListSharesSegmentResponse>}
+   * @param options - Options to list shares operation.
+   *
    * @memberof ShareServiceClient
    */
   private async *listSegments(
@@ -579,8 +579,8 @@ export class ShareServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for share items
    *
    * @private
-   * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
-   * @returns {AsyncIterableIterator<ServiceListSharesSegmentResponse>}
+   * @param options - Options to list shares operation.
+   *
    * @memberof ShareServiceClient
    */
   private async *listItems(
@@ -668,9 +668,9 @@ export class ShareServiceClient extends StorageClient {
    * }
    * ```
    *
-   * @param {ServiceListSharesOptions} [options] Options to list shares operation.
+   * @param options - Options to list shares operation.
    * @memberof ShareServiceClient
-   * @returns {PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>}
+   *
    * An asyncIterableIterator that supports paging.
    */
   public listShares(
@@ -727,14 +727,14 @@ export class ShareServiceClient extends StorageClient {
    * Gets the properties of a storage account's File service, including properties for Storage
    * Analytics metrics and CORS (Cross-Origin Resource Sharing) rules.
    *
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param marker - A string value that identifies the portion of
    *                          the list to be returned with the next list operation. The operation
    *                          returns a marker value within the response body if the list returned was
    *                          not complete. The marker value may then be used in a subsequent call to
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
-   * @param {ServiceListSharesSegmentOptions} [options={}] Options to List Shares Segment operation.
-   * @returns {Promise<ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
+   * @param options - Options to List Shares Segment operation.
+   * @returns Response data for the List Shares Segment operation.
    * @memberof ShareServiceClient
    */
   private async listSharesSegment(
@@ -784,8 +784,8 @@ export class ShareServiceClient extends StorageClient {
    *
    * @param deletedShareName The name of the previously deleted share.
    * @param deletedShareVersion The version of the previously deleted share.
-   * @param {ShareUndeleteOptions} [options] Options to Share undelete operation.
-   * @returns {Promise<ShareClient>} Restored share.
+   * @param options - Options to Share undelete operation.
+   * @returns Restored share.
    * @memberof ShareServiceClient
    */
   public async undeleteShare(
@@ -825,11 +825,11 @@ export class ShareServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
-   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
-   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
-   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
-   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
-   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param permissions - Specifies the list of permissions to be associated with the SAS.
+   * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+   * @param options - Optional parameters.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof ShareServiceClient
    */
   public generateAccountSasUrl(
