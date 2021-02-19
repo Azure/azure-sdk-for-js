@@ -303,7 +303,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
     maxAutoRenewLockDurationInMs: number,
-    clientOptions: ServiceBusClientOptions = {}
+    clientOptions: ServiceBusClientOptions
   ) {
     throwErrorIfConnectionClosed(_context);
     this._clientOptions = clientOptions;

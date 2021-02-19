@@ -67,7 +67,7 @@ export function createConnectionContext(
  */
 export function createConnectionContextForConnectionString(
   connectionString: string,
-  options: ServiceBusClientOptions = {}
+  options: ServiceBusClientOptions
 ): ConnectionContext {
   const credential = SharedKeyCredential.fromConnectionString(connectionString);
   return createConnectionContext(connectionString, credential, options);
@@ -80,7 +80,7 @@ export function createConnectionContextForConnectionString(
 export function createConnectionContextForTokenCredential(
   credential: TokenCredential,
   host: string,
-  options: ServiceBusClientOptions = {}
+  options: ServiceBusClientOptions
 ): ConnectionContext {
   if (typeof host !== "string") {
     throw new TypeError("`host` parameter is not a string");
