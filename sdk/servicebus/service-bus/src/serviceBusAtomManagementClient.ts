@@ -1879,10 +1879,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<RuleProperties>> {
-    const { span, updatedOptions } = createSpan(
-      "ServiceBusAdministrationClient-getRules",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ServiceBusAdministrationClient-getRules", options);
     try {
       logger.verbose(`Performing management operation - getRules() with options: %j`, options);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
@@ -2200,12 +2197,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-      const response = await executeAtomXmlOperation(
-        this,
-        webResource,
-        serializer,
-        updatedOptions
-      );
+      const response = await executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
       if (
         response.parsedBody == undefined ||
         (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
@@ -2327,7 +2319,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (error) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
-        error
+          error
       );
     }
   }
