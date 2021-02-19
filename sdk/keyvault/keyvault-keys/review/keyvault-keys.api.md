@@ -13,6 +13,36 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
+export interface AesCbcDecryptParameters {
+    algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+    ciphertext: Uint8Array;
+    iv?: Uint8Array;
+}
+
+// @public
+export interface AesCbcEncryptParameters {
+    algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+    iv?: Uint8Array;
+    plaintext: Uint8Array;
+}
+
+// @public
+export interface AesGcmDecryptParameters {
+    additionalAuthenticatedData?: Uint8Array;
+    algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+    authenticationTag?: Uint8Array;
+    ciphertext: Uint8Array;
+    iv?: Uint8Array;
+}
+
+// @public
+export interface AesGcmEncryptParameters {
+    additionalAuthenticatedData?: Uint8Array;
+    algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+    plaintext: Uint8Array;
+}
+
+// @public
 export interface BackupKeyOptions extends coreHttp.OperationOptions {
 }
 
@@ -57,17 +87,12 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 export class CryptographyClient {
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     constructor(key: JsonWebKey);
-    decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
-    // Warning: (ae-forgotten-export) The symbol "DecryptParameters" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     decrypt(decryptParameters: DecryptParameters, options?: DecryptOptions): Promise<DecryptResult>;
-    // Warning: (ae-forgotten-export) The symbol "EncryptParameters" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
+    // @deprecated
+    decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
-    encrypt(algorithm: EncryptionAlgorithm, // ask: consider refining without an object...
-    plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
+    // @deprecated
+    encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     get keyId(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
@@ -89,6 +114,9 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {
 // @public
 export interface DecryptOptions extends KeyOperationsOptions {
 }
+
+// @public
+export type DecryptParameters = RsaDecryptParameters | AesGcmDecryptParameters | AesCbcDecryptParameters;
 
 // @public
 export interface DecryptResult {
@@ -120,6 +148,9 @@ export type EncryptionAlgorithm = string;
 // @public
 export interface EncryptOptions extends KeyOperationsOptions {
 }
+
+// @public
+export type EncryptParameters = RsaEncryptParameters | AesGcmEncryptParameters | AesCbcEncryptParameters;
 
 // @public
 export interface EncryptResult {
@@ -270,35 +301,20 @@ export const enum KnownDeletionRecoveryLevel {
 
 // @public
 export const enum KnownEncryptionAlgorithms {
-    // (undocumented)
     A128CBC = "A128CBC",
-    // (undocumented)
     A128Cbcpad = "A128CBCPAD",
-    // (undocumented)
     A128GCM = "A128GCM",
-    // (undocumented)
     A128KW = "A128KW",
-    // (undocumented)
     A192CBC = "A192CBC",
-    // (undocumented)
     A192Cbcpad = "A192CBCPAD",
-    // (undocumented)
     A192GCM = "A192GCM",
-    // (undocumented)
     A192KW = "A192KW",
-    // (undocumented)
     A256CBC = "A256CBC",
-    // (undocumented)
     A256Cbcpad = "A256CBCPAD",
-    // (undocumented)
     A256GCM = "A256GCM",
-    // (undocumented)
     A256KW = "A256KW",
-    // (undocumented)
     RSA15 = "RSA1_5",
-    // (undocumented)
     RSAOaep = "RSA-OAEP",
-    // (undocumented)
     RSAOaep256 = "RSA-OAEP-256"
 }
 
@@ -312,19 +328,12 @@ export const enum KnownKeyCurveNames {
 
 // @public
 export const enum KnownKeyOperations {
-    // (undocumented)
     Decrypt = "decrypt",
-    // (undocumented)
     Encrypt = "encrypt",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
     Sign = "sign",
-    // (undocumented)
     UnwrapKey = "unwrapKey",
-    // (undocumented)
     Verify = "verify",
-    // (undocumented)
     WrapKey = "wrapKey"
 }
 
@@ -387,6 +396,18 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface RsaDecryptParameters {
+    algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+    ciphertext: Uint8Array;
+}
+
+// @public
+export interface RsaEncryptParameters {
+    algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+    plaintext: Uint8Array;
 }
 
 // @public

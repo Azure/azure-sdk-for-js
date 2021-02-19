@@ -183,65 +183,129 @@ export interface WrapKeyOptions extends KeyOperationsOptions {}
  */
 export interface UnwrapKeyOptions extends KeyOperationsOptions {}
 
-interface BaseEncryptionParameters {
+/**
+ * Encryption parameters for RSA encryption algorithms.
+ */
+export interface RsaEncryptParameters {
   /**
-   *
+   * The encryption algorithm to use.
+   */
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  /**
+   * The plain text to encrypt.
    */
   plaintext: Uint8Array;
 }
 
-export interface RsaEncryptionParameters extends BaseEncryptionParameters {
-  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
-}
-
-export interface AesGcmEncryptionParameters extends BaseEncryptionParameters {
+/**
+ * Encryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
   algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
   additionalAuthenticatedData?: Uint8Array;
 }
 
-export interface AesCbcEncryptionParameters extends BaseEncryptionParameters {
-  algorithm: "A128CBC" | "A192CBC" | "A256CBC";
+/**
+ * Encryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * Optional initialization vector. If omitted, the service will generate and return a secure nonce in {@see EncryptResult}.
+   */
   iv?: Uint8Array;
 }
 
-export interface AesCbcPadEncryptionParameters extends BaseEncryptionParameters {
-  algorithm: "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
-  iv?: Uint8Array;
-}
-
+/**
+ * A type representing all currently supported encryption parameters as they apply to different encryption algorithms.
+ */
 export type EncryptParameters =
-  | RsaEncryptionParameters
-  | AesGcmEncryptionParameters
-  | AesCbcEncryptionParameters
-  | AesCbcPadEncryptionParameters;
+  | RsaEncryptParameters
+  | AesGcmEncryptParameters
+  | AesCbcEncryptParameters;
 
-interface BaseDecryptionParameters {
+/**
+ * Decryption parameters for RSA encryption algorithms.
+ */
+export interface RsaDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  /**
+   * The ciphertext to decrypt.
+   */
   ciphertext: Uint8Array;
 }
 
-export interface RsaDecryptionParameters extends BaseDecryptionParameters {
-  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
-}
-
-export interface AesGcmDecryptionParameters extends BaseDecryptionParameters {
+/**
+ * Decryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
   algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector (or nonce) generated during encryption.
+   */
   iv?: Uint8Array;
+  /**
+   * The authentication tag generated during encryption.
+   */
   authenticationTag?: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
   additionalAuthenticatedData?: Uint8Array;
 }
 
-export interface AesCbcDecryptionParameters extends BaseDecryptionParameters {
-  algorithm: "A128CBC" | "A192CBC" | "A256CBC";
+/**
+ * Decryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  /**
+   * The initialization vector used during encryption.
+   */
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector generated during encryption.
+   */
   iv?: Uint8Array;
 }
 
-export interface AesCbcPadDecryptionParameters extends BaseDecryptionParameters {
-  algorithm: "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
-  iv?: Uint8Array;
-}
-
+/**
+ * A type representing all currently supported decryption parameters as they apply to different encryption algorithms.
+ */
 export type DecryptParameters =
-  | RsaDecryptionParameters
-  | AesGcmDecryptionParameters
-  | AesCbcDecryptionParameters
-  | AesCbcPadDecryptionParameters;
+  | RsaDecryptParameters
+  | AesGcmDecryptParameters
+  | AesCbcDecryptParameters;
