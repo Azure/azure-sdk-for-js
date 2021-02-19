@@ -100,3 +100,15 @@ export abstract class StorageClient {
     }
   }
 }
+
+// The following type is introduced to avoid a breaking change during the
+// migration of V6 SDK generator. Can be removed later when a really
+// breaking change is released.
+
+/**
+ * Defines values for ListQueuesIncludeType.
+ * Possible values include: 'metadata'
+ * @readonly
+ * @enum {string}
+ */
+export type ListQueuesIncludeType = "metadata";

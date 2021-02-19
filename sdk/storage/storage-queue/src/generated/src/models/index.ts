@@ -1018,11 +1018,3 @@ export interface StorageClientOptionalParams
   /** Overrides client endpoint. */
   endpoint?: string;
 }
-
-/**
- * Defines values for ListQueuesIncludeType.
- * Possible values include: 'metadata'
- * @readonly
- * @enum {string}
- */
-export type ListQueuesIncludeType = 'metadata';
