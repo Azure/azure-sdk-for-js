@@ -56,7 +56,6 @@ export {
   PartnerTopicType,
   PrivateEndpoint,
   PrivateEndpointConnection,
-  PrivateEndpointConnectionListResult,
   Resource,
   ResourceSku,
   RetryPolicy,
