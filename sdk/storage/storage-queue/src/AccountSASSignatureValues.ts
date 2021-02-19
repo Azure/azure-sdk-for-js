@@ -24,75 +24,48 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  *
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  * for descriptions of the parameters, including which are required
- *
- * @export
- * @class AccountSASSignatureValues
  */
 export interface AccountSASSignatureValues {
   /**
    * If not provided, this defaults to the service version targeted by this version of the library.
-   *
-   * @type {string}
-   * @memberof AccountSASSignatureValues
    */
   version?: string;
 
   /**
    * Optional. SAS protocols allowed.
-   *
-   * @type {SASProtocol}
-   * @memberof AccountSASSignatureValues
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof AccountSASSignatureValues
    */
   startsOn?: Date;
 
   /**
    * The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof AccountSASSignatureValues
    */
   expiresOn: Date;
 
   /**
    * Specifies which operations the SAS user may perform. Please refer to {@link AccountSASPermissions} for help
    * constructing the permissions string.
-   *
-   * @type {AccountSASPermissions}
-   * @memberof AccountSASSignatureValues
    */
   permissions: AccountSASPermissions;
 
   /**
    * Optional. IP range allowed.
-   *
-   * @type {SasIPRange}
-   * @memberof AccountSASSignatureValues
    */
   ipRange?: SasIPRange;
 
   /**
    * The values that indicate the services accessible with this SAS. Please refer to {@link AccountSASServices} to
    * construct this value.
-   *
-   * @type {string}
-   * @memberof AccountSASSignatureValues
    */
   services: string;
 
   /**
    * The values that indicate the resource types accessible with this SAS. Please refer
    * to {@link AccountSASResourceTypes} to construct this value.
-   *
-   * @type {string}
-   * @memberof AccountSASSignatureValues
    */
   resourceTypes: string;
 }
@@ -105,10 +78,8 @@ export interface AccountSASSignatureValues {
  *
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
- * @param {AccountSASSignatureValues} accountSASSignatureValues SAS Signature values of the account
- * @param {StorageSharedKeyCredential} sharedKeyCredential Shared key credential.
- * @returns {SASQueryParameters}
- * @memberof AccountSASSignatureValues
+ * @param accountSASSignatureValues - SAS Signature values of the account
+ * @param sharedKeyCredential - Shared key credential.
  */
 export function generateAccountSASQueryParameters(
   accountSASSignatureValues: AccountSASSignatureValues,

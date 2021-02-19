@@ -4,8 +4,8 @@
 import * as os from "os";
 import * as fs from "fs";
 import * as path from "path";
-import { Logger } from "@opentelemetry/api";
-import { ConsoleLogger, LogLevel, SDK_INFO } from "@opentelemetry/core";
+import { diag } from "@opentelemetry/api";
+import { SDK_INFO } from "@opentelemetry/core";
 
 import { ContextTagKeys } from "../../../generated";
 import { Tags } from "../../../types";
@@ -40,7 +40,6 @@ export class Context {
   private static readonly ROOT_PATH = "../../../../";
 
   constructor(
-    private _logger: Logger = new ConsoleLogger(LogLevel.WARN),
     /**
      * Path to this module's `package.json` relative to
      * `Context.ROOT_PATH`
@@ -85,7 +84,7 @@ export class Context {
         try {
           packageJson = JSON.parse(fs.readFileSync(packageJsonPathTsNode, "utf8")) as PackageJson;
         } catch (exception) {
-          this._logger.warn("Failed to load Application version", exception);
+          diag.warn("Failed to load Application version", exception);
         }
       }
 
@@ -134,7 +133,7 @@ export class Context {
         try {
           packageJson = JSON.parse(fs.readFileSync(packageJsonPathTsNode, "utf8")) as PackageJson;
         } catch (exception) {
-          this._logger.warn("Failed to load Exporter version", exception);
+          diag.warn("Failed to load Exporter version", exception);
           throw exception;
         }
       }
@@ -154,9 +153,9 @@ export class Context {
  * Singleton Context instance.
  * @internal
  */
-export function getInstance(logger?: Logger, exporterPrefix?: string, appPrefix?: string): Context {
+export function getInstance(exporterPrefix?: string, appPrefix?: string): Context {
   if (!instance) {
-    instance = new Context(logger, exporterPrefix, appPrefix);
+    instance = new Context(exporterPrefix, appPrefix);
   }
   return instance;
 }

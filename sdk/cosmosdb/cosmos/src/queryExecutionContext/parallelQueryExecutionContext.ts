@@ -13,11 +13,10 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
    * Provides the ParallelQueryExecutionContext.
    * This class is capable of handling parallelized queries and dervives from ParallelQueryExecutionContextBase.
    *
-   * @constructor ParallelQueryExecutionContext
-   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
-   * @param {string} collectionLink                - The Collection Link
-   * @param {FeedOptions} [options]                - Represents the feed options.
-   * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
+   * @param clientContext - The service endpoint to use to create the client.
+   * @param collectionLink - The Collection Link
+   * @param options - Represents the feed options.
+   * @param partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
    * @hidden
    */
   constructor(
@@ -35,7 +34,7 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts
   /**
    * Provides a Comparator for document producers using the min value of the corresponding target partition.
-   * @returns {object}        - Comparator Function
+   * @returns Comparator Function
    * @hidden
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {

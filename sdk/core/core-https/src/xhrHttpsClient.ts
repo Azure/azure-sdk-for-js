@@ -20,8 +20,9 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 
 /**
  * A HttpsClient implementation that uses XMLHttpRequest to send HTTPS requests.
+ * @internal
  */
-export class XhrHttpsClient implements HttpsClient {
+class XhrHttpsClient implements HttpsClient {
   /**
    * Makes a request over an underlying transport layer and returns the response.
    * @param request - The request to be made.
@@ -187,4 +188,11 @@ function rejectOnTerminalEvent(
   const abortError = new AbortError("The operation was aborted.");
   xhr.addEventListener("abort", () => reject(abortError));
   xhr.addEventListener("timeout", () => reject(abortError));
+}
+
+/**
+ * Create a new HttpsClient instance for the browser environment.
+ */
+export function createXhrHttpsClient(): HttpsClient {
+  return new XhrHttpsClient();
 }

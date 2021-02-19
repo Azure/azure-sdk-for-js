@@ -90,10 +90,12 @@ export class PurchaseReservationPollOperation extends PhoneNumberReservationPoll
         const result = await this.getReservation(reservationId, this.requestOptions);
         state.isCompleted = isComplete(result, "Success");
       }
+
+      return this;
     } catch (error) {
       state.error = error;
       state.isCompleted = true;
-    } finally {
+
       return this;
     }
   }

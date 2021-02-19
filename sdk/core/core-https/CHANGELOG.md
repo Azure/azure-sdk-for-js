@@ -2,6 +2,8 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
+- Changed from exposing `DefaultHttpsClient` as a class directly, to providing `createDefaultHttpsClient()` to instantiate the appropriate runtime class.
+
 ## 1.0.0-beta.1 (2021-02-04)
 
 - Changes from `core-http`:

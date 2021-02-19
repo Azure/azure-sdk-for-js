@@ -31,6 +31,7 @@ export interface AccessTokenCache {
  * Provides an AccessTokenCache implementation which clears
  * the cached AccessToken's after the expiresOnTimestamp has
  * passed.
+ * @internal
  */
 export class ExpiringAccessTokenCache implements AccessTokenCache {
   private tokenRefreshBufferMs: number;

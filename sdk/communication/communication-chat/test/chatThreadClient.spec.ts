@@ -57,7 +57,7 @@ describe("ChatThreadClient", function() {
     const result = await chatThreadClient.sendMessage(request);
 
     assert.isNotNull(result.id);
-    messageId = result.id!!;
+    messageId = result.id!;
   });
 
   it("successfully sends typing notification", async function() {
