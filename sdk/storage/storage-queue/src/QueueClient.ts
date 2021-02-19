@@ -143,6 +143,7 @@ export interface SignedIdentifier {
    */
   id: string;
   /**
+   * Access Policy
    */
   accessPolicy: {
     /**
