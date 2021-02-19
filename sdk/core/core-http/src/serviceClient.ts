@@ -100,8 +100,8 @@ export interface ServiceClientOptions {
    * the requestPolicyFactories that will be used.
    */
   requestPolicyFactories?:
-    | RequestPolicyFactory[]
-    | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
+  | RequestPolicyFactory[]
+  | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
   /**
    * The HttpClient that will be used to send HTTP requests.
    */
@@ -459,7 +459,7 @@ export class ServiceClient {
             } else {
               httpRequest.headers.set(
                 headerParameter.mapper.serializedName ||
-                  getPathStringFromParameter(headerParameter),
+                getPathStringFromParameter(headerParameter),
                 headerValue
               );
             }
@@ -520,7 +520,7 @@ export class ServiceClient {
           sendRequestError.details = flattenResponse(
             sendRequestError.response,
             operationSpec.responses[sendRequestError.statusCode] ||
-              operationSpec.responses["default"]
+            operationSpec.responses["default"]
           );
         }
         result = Promise.reject(sendRequestError);

@@ -11,6 +11,7 @@ import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Span } from '@opentelemetry/api';
+import { SpanConfig as SpanConfig_2 } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -157,8 +158,8 @@ export const Constants: {
 // @public (undocumented)
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
-// @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+// @public (undocumented)
+export function createSpanFunction(spanConfig: SpanConfig): <T extends OperationOptions | undefined>(operationName: string, operationOptions: T) => {
     span: Span;
     updatedOptions: T;
 };
@@ -798,10 +799,8 @@ export interface SimpleMapperType {
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
-// @public
-export interface SpanConfig {
-    namespace: string;
-    packagePrefix: string;
+// @public (undocumented)
+export interface SpanConfig extends SpanConfig_2 {
 }
 
 // @public
