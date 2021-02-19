@@ -18,8 +18,8 @@ export class InjectorPolicy implements PipelinePolicy {
   /**
    * Creates an instance of InjectorPolicy.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param nextPolicy -
+   * @param options -
    * @memberof InjectorPolicy
    */
   public constructor(injector: Injector) {

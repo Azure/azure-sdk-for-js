@@ -11,9 +11,9 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { versionsToTest } from "@azure/test-utils-multi-version";
 
-const serviceApiVersions = ["7.0", "7.1"] as const;
+const serviceApiVersions = ["7.0", "7.1", "7.2"] as const;
 versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
-  onVersions(["7.0", "7.1"]).describe("Keys client - list keys in various ways", () => {
+  onVersions(["7.0", "7.1", "7.2"]).describe("Keys client - list keys in various ways", () => {
     const keyPrefix = `list${env.KEY_NAME || "KeyName"}`;
     let keySuffix: string;
     let client: KeyClient;

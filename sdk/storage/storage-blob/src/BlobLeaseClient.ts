@@ -129,8 +129,8 @@ export class BlobLeaseClient {
 
   /**
    * Creates an instance of BlobLeaseClient.
-   * @param {(ContainerClient | BlobClient)} client The client to make the lease operation requests.
-   * @param {string} leaseId Initial proposed lease id.
+   * @param client - The client to make the lease operation requests.
+   * @param leaseId - Initial proposed lease id.
    * @memberof BlobLeaseClient
    */
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
@@ -162,9 +162,9 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
-   * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
+   * @param duration - Must be between 15 to 60 seconds, or infinite (-1)
+   * @param options - option to configure lease management operations.
+   * @returns Response data for acquire lease operation.
    * @memberof BlobLeaseClient
    */
   public async acquireLease(
@@ -215,9 +215,9 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {string} proposedLeaseId the proposed new lease Id.
-   * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
+   * @param proposedLeaseId - the proposed new lease Id.
+   * @param options - option to configure lease management operations.
+   * @returns Response data for change lease operation.
    * @memberof BlobLeaseClient
    */
   public async changeLease(
@@ -270,8 +270,8 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
+   * @param options - option to configure lease management operations.
+   * @returns Response data for release lease operation.
    * @memberof BlobLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
@@ -317,8 +317,8 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {LeaseOperationOptions} [options={}] Optional option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for renew lease operation.
+   * @param options - Optional option to configure lease management operations.
+   * @returns Response data for renew lease operation.
    * @memberof BlobLeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
@@ -363,9 +363,9 @@ export class BlobLeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @static
-   * @param {number} breakPeriod Break period
-   * @param {LeaseOperationOptions} [options={}] Optional options to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.
+   * @param breakPeriod - Break period
+   * @param options - Optional options to configure lease management operations.
+   * @returns Response data for break lease operation.
    * @memberof BlobLeaseClient
    */
   public async breakLease(

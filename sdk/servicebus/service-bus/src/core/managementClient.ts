@@ -349,7 +349,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Closes the AMQP management session to the ServiceBus namespace for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @returns Promise<void>
    */
   async close(): Promise<void> {
     try {
@@ -380,7 +379,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * also fetch even Deferred messages (but not Deadlettered message).
    *
    * @param messageCount - The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(
     messageCount: number,
@@ -406,7 +404,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - The sessionId from which messages need to be peeked.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedMessageInfo[]>
    */
   async peekMessagesBySession(
     sessionId: string,
@@ -428,7 +425,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param fromSequenceNumber - The sequence number from where to read the message.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @param sessionId - The sessionId from which messages need to be peeked.
-   * @returns Promise<ReceivedMessageInfo[]>
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
@@ -527,7 +523,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param lockToken - Lock token of the message
    * @param options - Options that can be set while sending the request.
-   * @returns Promise<Date> New lock token expiry date and time in UTC format.
+   * @returns New lock token expiry date and time in UTC format.
    */
   async renewLock(lockToken: string, options?: SendManagementRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context);
@@ -579,7 +575,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - An array of messages that needs to be scheduled.
-   * @returns Promise<number> The sequence numbers of messages that were scheduled.
+   * @returns The sequence numbers of messages that were scheduled.
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
@@ -672,7 +668,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Cancels an array of messages that were scheduled.
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
-   * @returns Promise<void>
    */
   async cancelScheduledMessages(
     sequenceNumbers: Long[],
@@ -739,9 +734,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sequenceNumbers - A list containing the sequence numbers to receive.
    * @param receiveMode - The mode in which the receiver was created.
-   * @returns Promise<ServiceBusMessage[]>
-   * - Returns a list of messages identified by the given sequenceNumbers.
-   * - Returns an empty list if no messages are found.
+   * @returns a list of messages identified by the given sequenceNumbers or an empty list if no messages are found.
    * - Throws an error if the messages have not been deferred.
    */
   async receiveDeferredMessages(
@@ -833,8 +826,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param lockTokens - Message lock tokens to update disposition status.
    * @param dispositionStatus - The disposition status to be set
    * @param options - Optional parameters that can be provided while updating the disposition status.
-   *
-   * @returns Promise<void>
    */
   async updateDispositionStatus(
     lockToken: string,
@@ -901,7 +892,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - Id of the session for which the lock needs to be renewed
    * @param options - Options that can be set while sending the request.
-   * @returns Promise<Date> New lock token expiry date and time in UTC format.
+   * @returns New lock token expiry date and time in UTC format.
    */
   async renewSessionLock(
     sessionId: string,
@@ -951,7 +942,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - The session for which the state needs to be set
    * @param state - The state that needs to be set.
-   * @returns Promise<void>
    */
   async setSessionState(
     sessionId: string,
@@ -995,7 +985,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * Gets the state of the specified session.
    *
    * @param sessionId - The session for which the state needs to be retrieved.
-   * @returns Promise<any> The state of that session
+   * @returns The state of that session
    */
   async getSessionState(
     sessionId: string,
@@ -1040,7 +1030,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param lastUpdateTime - Filter to include only sessions updated after a given time.
    * @param skip - The number of sessions to skip
    * @param top - Maximum numer of sessions.
-   * @returns Promise<string[]> A list of session ids.
+   * @returns A list of session ids.
    */
   async listMessageSessions(
     skip: number,
@@ -1095,7 +1085,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
   /**
    * Get all the rules on the Subscription.
-   * @returns Promise<RuleDescription[]> A list of rules.
+   * @returns A list of rules.
    */
   async getRules(
     options?: OperationOptionsBase & SendManagementRequestOptions

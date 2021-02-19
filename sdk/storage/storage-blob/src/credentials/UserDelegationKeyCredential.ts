@@ -41,8 +41,8 @@ export class UserDelegationKeyCredential {
 
   /**
    * Creates an instance of UserDelegationKeyCredential.
-   * @param {string} accountName
-   * @param {UserDelegationKey} userDelegationKey
+   * @param accountName -
+   * @param userDelegationKey -
    * @memberof UserDelegationKeyCredential
    */
   constructor(accountName: string, userDelegationKey: UserDelegationKey) {
@@ -54,8 +54,8 @@ export class UserDelegationKeyCredential {
   /**
    * Generates a hash signature for an HTTP request or for a SAS.
    *
-   * @param {string} stringToSign
-   * @returns {string}
+   * @param stringToSign -
+   *
    * @memberof UserDelegationKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {

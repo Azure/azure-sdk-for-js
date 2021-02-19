@@ -538,9 +538,6 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
 export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
 
 // @public
-export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
-
-// @public
 export interface TextAnalyticsSuccessResult {
     readonly error?: undefined;
     readonly id: string;

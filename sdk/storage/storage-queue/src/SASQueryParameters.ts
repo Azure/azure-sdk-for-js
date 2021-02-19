@@ -149,17 +149,17 @@ export class SASQueryParameters {
   /**
    * Creates an instance of SASQueryParameters.
    *
-   * @param {string} version Representing the storage version
-   * @param {string} signature Representing the signature for the SAS token
-   * @param {string} [permissions] Representing the storage permissions
-   * @param {string} [services] Representing the storage services being accessed (only for Account SAS)
-   * @param {string} [resourceTypes] Representing the storage resource types being accessed (only for Account SAS)
-   * @param {SASProtocol} [protocol] Representing the allowed HTTP protocol(s)
-   * @param {Date} [startsOn] Representing the start time for this SAS token
-   * @param {Date} [expiresOn] Representing the expiry time for this SAS token
-   * @param {SasIPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
-   * @param {string} [identifier] Representing the signed identifier (only for Service SAS)
-   * @param {string} [resource] Representing the storage queue (only for Service SAS)
+   * @param version - Representing the storage version
+   * @param signature - Representing the signature for the SAS token
+   * @param permissions - Representing the storage permissions
+   * @param services - Representing the storage services being accessed (only for Account SAS)
+   * @param resourceTypes - Representing the storage resource types being accessed (only for Account SAS)
+   * @param protocol - Representing the allowed HTTP protocol(s)
+   * @param startsOn - Representing the start time for this SAS token
+   * @param expiresOn - Representing the expiry time for this SAS token
+   * @param ipRange - Representing the range of valid IP addresses for this SAS token
+   * @param identifier - Representing the signed identifier (only for Service SAS)
+   * @param resource - Representing the storage queue (only for Service SAS)
    */
   constructor(
     version: string,
@@ -190,7 +190,7 @@ export class SASQueryParameters {
   /**
    * Encodes all SAS query parameters into a string that can be appended to a URL.
    *
-   * @returns {string}
+   *
    * @memberof SASQueryParameters
    */
   public toString(): string {
@@ -253,10 +253,10 @@ export class SASQueryParameters {
    * A private helper method used to filter and append query key/value pairs into an array.
    *
    * @private
-   * @param {string[]} queries
-   * @param {string} key
-   * @param {string} [value]
-   * @returns {void}
+   * @param queries -
+   * @param key -
+   * @param value -
+   *
    * @memberof SASQueryParameters
    */
   private tryAppendQueryParameter(queries: string[], key: string, value?: string): void {

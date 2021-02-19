@@ -4,61 +4,107 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { InteractiveBrowserCredential, BrowserLoginStyle } from "@azure/identity";
-import { KeyClient, KeyVaultKey } from "@azure/keyvault-keys";
-
-const getRandomKeyName = () => `key${Math.random()}`.replace(/\./g, "");
+import {
+  InteractiveBrowserCredential,
+  BrowserLoginStyle,
+  InteractiveBrowserAuthenticationFlow,
+} from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
 
 interface ClientDetails {
-  tenantId: string,
-  clientId: string,
-  loginStyle: BrowserLoginStyle,
-  keyName: string,
+  tenantId: string;
+  clientId: string;
+  queueName: string;
+  loginStyle: BrowserLoginStyle;
+  flow: InteractiveBrowserAuthenticationFlow;
+  numberOfExecutions: number;
+  cacheCredential: boolean;
+  parallel: boolean;
+  serviceBusEndpoint: string;
+  output: string;
 }
 
 interface ClientDetailsEditorProps {
-  clientDetails: ClientDetails,
-  onSetClientDetails: React.Dispatch<React.SetStateAction<ClientDetails>>
+  clientDetails: ClientDetails;
+  onSetClientDetails: React.Dispatch<React.SetStateAction<ClientDetails>>;
 }
 
 function storeClientDetails(clientDetails: ClientDetails) {
-  localStorage.setItem('clientDetails', JSON.stringify(clientDetails));
+  localStorage.setItem("clientDetails", JSON.stringify(clientDetails));
 }
 
 function readClientDetails(): ClientDetails {
-  const detailsJson = localStorage.getItem('clientDetails')
+  const detailsJson = localStorage.getItem("clientDetails");
   if (detailsJson) {
-    const details = JSON.parse(detailsJson)
+    const details = JSON.parse(detailsJson);
     details.credential = undefined;
     return details;
   }
-
   return undefined;
 }
 
-function getCredential(clientDetails: ClientDetails): InteractiveBrowserCredential | undefined {
-  return clientDetails.tenantId.length > 0 && clientDetails.clientId.length > 0 ? new InteractiveBrowserCredential(clientDetails) : undefined;
+function Radio(options: {
+  values: string[];
+  checkedValue: string;
+  onChange: (value: string) => void;
+}) {
+  const { values, checkedValue, onChange } = options;
+  return (
+    <React.Fragment>
+      {values.map((value) => (
+        <label>
+          <input
+            type="radio"
+            value={value}
+            checked={checkedValue === value}
+            onChange={({ target }) => onChange(target.value)}
+          />
+          {value}
+        </label>
+      ))}
+    </React.Fragment>
+  );
+}
+
+let lastLoginStyle: BrowserLoginStyle | undefined;
+let cachedCredential: InteractiveBrowserCredential | undefined;
+function getCredential(
+  clientDetails: ClientDetails,
+  cacheCredential: boolean
+): InteractiveBrowserCredential | undefined {
+  if (!cacheCredential) {
+    cachedCredential = undefined;
+    lastLoginStyle = undefined;
+  }
+  if (cachedCredential && clientDetails.loginStyle === lastLoginStyle) return cachedCredential;
+
+  const { tenantId, clientId, loginStyle, flow } = clientDetails;
+
+  if (tenantId && clientId && loginStyle && flow) {
+    cachedCredential = new InteractiveBrowserCredential({
+      tenantId,
+      clientId,
+      loginStyle,
+      flow,
+    });
+    lastLoginStyle = clientDetails.loginStyle;
+    return cachedCredential;
+  }
 }
 
 function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetailsEditorProps) {
   const handleDetailsChange = (newDetails: ClientDetails) => {
-    storeClientDetails(newDetails)
-    onSetClientDetails(newDetails)
+    storeClientDetails(newDetails);
+    onSetClientDetails(newDetails);
   };
 
-  const setLoginStyle = (loginStyle: BrowserLoginStyle) => {
+  const setDetail = (name: keyof ClientDetails, changeValue?: (v: string) => any) => (
+    value: string
+  ) =>
     handleDetailsChange({
       ...clientDetails,
-      loginStyle
+      [name]: changeValue ? changeValue(value) : value,
     });
-  }
-
-  const setKeyName = (keyName: string) => {
-    handleDetailsChange({
-      ...clientDetails,
-      keyName
-    });
-  }
 
   return (
     <div>
@@ -66,143 +112,245 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
       <form>
         <label>
           Tenant Id:
-          <input type="text" value={clientDetails.tenantId} onChange={({ target }) => handleDetailsChange({ ...clientDetails, tenantId: target.value })} />
+          <input
+            type="text"
+            value={clientDetails.tenantId}
+            onChange={({ target }) =>
+              handleDetailsChange({ ...clientDetails, tenantId: target.value })
+            }
+          />
         </label>
         <br />
         <label>
           Client Id:
-          <input type="text" value={clientDetails.clientId} onChange={({ target }) => handleDetailsChange({ ...clientDetails, clientId: target.value })} />
+          <input
+            type="text"
+            value={clientDetails.clientId}
+            onChange={({ target }) =>
+              handleDetailsChange({ ...clientDetails, clientId: target.value })
+            }
+          />
         </label>
         <br />
         <label>
-          Fill to create a new key with this name:
-          <input type="text" value={getRandomKeyName()} onChange={({ target }) => setKeyName(target.value)} />
+          Queue Name:
+          <input
+            type="text"
+            value={clientDetails.queueName}
+            onChange={({ target }) =>
+              handleDetailsChange({ ...clientDetails, queueName: target.value })
+            }
+          />
         </label>
-        <h4>Login Flow Style</h4>
-        <div>
-          <label>
-            <input type="radio" value="popup" checked={clientDetails.loginStyle === "popup"} onChange={({ target }) => setLoginStyle(target.value as BrowserLoginStyle)} />
-            Popup
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="radio" value="redirect" checked={clientDetails.loginStyle === "redirect"} onChange={({ target }) => setLoginStyle(target.value as BrowserLoginStyle)} />
-            Redirect
-          </label>
-        </div>
+        <br />
+        <label>
+          Service Bus hostname:
+          <input
+            type="text"
+            placeholder="yournamespace.servicebus.windows.net"
+            value={clientDetails.serviceBusEndpoint}
+            onChange={({ target }) =>
+              handleDetailsChange({ ...clientDetails, serviceBusEndpoint: target.value })
+            }
+          />
+        </label>
+        <br />
+        <h4>Login Style</h4>
+        <Radio
+          values={["popup", "redirect"]}
+          checkedValue={clientDetails.loginStyle}
+          onChange={setDetail("loginStyle")}
+        />
+        <br />
+        <h4>Authentication flow</h4>
+        <Radio
+          values={["implicit-grant", "auth-code"]}
+          checkedValue={clientDetails.flow}
+          onChange={setDetail("flow")}
+        />
+        <br />
+        <h4>Number of executions</h4>
+        <Radio
+          values={["1", "2", "3"]}
+          checkedValue={clientDetails.numberOfExecutions.toString()}
+          onChange={setDetail("numberOfExecutions", (x) => Number(x))}
+        />
+        <br />
+        <h4>Re-use Credential?</h4>
+        <Radio
+          values={["yes", "no"]}
+          checkedValue={clientDetails.cacheCredential ? "yes" : "no"}
+          onChange={setDetail("cacheCredential", (x) => x === "yes")}
+        />
+        <br />
+        {clientDetails.numberOfExecutions > 1 ? (
+          <React.Fragment>
+            <h4>Run in parallel?</h4>
+            <Radio
+              values={["yes", "no"]}
+              checkedValue={clientDetails.parallel ? "yes" : "no"}
+              onChange={setDetail("parallel", (x) => x === "yes")}
+            />
+            <small>
+              Running in parallel the first time the authentication happens will cause errors. We're
+              allowing this behavior in the app for testing purposes.
+            </small>
+            <br />
+          </React.Fragment>
+        ) : null}
       </form>
     </div>
   );
 }
 
-function useKeyVaultKeys(vaultName: string, clientDetails: ClientDetails) {
-  const [running, setRunning] = React.useState(false)
-  const [keys, setKeys] = React.useState<KeyVaultKey[]>(undefined)
-  const [error, setErrorInner] = React.useState(undefined);
-  const url = `https://${vaultName}.vault.azure.net`;
+async function sendMessage(
+  serviceBusEndpoint: string,
+  clientDetails: ClientDetails
+): Promise<string | undefined> {
+  const credential = getCredential(clientDetails, clientDetails.cacheCredential);
+  const queueName = clientDetails.queueName;
 
-  const setError = (err) => {
-    setRunning(false)
-    setErrorInner(err)
+  if (credential === undefined) {
+    throw new Error("You must enter client details.");
   }
 
-  React.useEffect(() => {
-    const credential = getCredential(clientDetails);
-    if (vaultName.trim().length === 0) {
-      setError("You must enter a vault name to fetch keys.")
-    } else if (credential === undefined) {
-      setError("You must enter client details to fetch keys.")
-    } else if (running) {
-      // Kick off the request asynchronously.  The setKeys call will
-      // propagate the key list back to the UI state.
-      const keyClient = new KeyClient(url, credential);
-      (async () => {
-        const keyResult = [];
-        setKeys(keyResult);
+  console.log("Working with", serviceBusEndpoint, clientDetails);
 
-        if (clientDetails.keyName) {
-          try {
-            await keyClient.createKey(clientDetails.keyName, "RSA");
-          } catch (e) {
-            console.info(e);
+  const client = new ServiceBusClient(serviceBusEndpoint, credential);
+
+  try {
+    const sender = client.createSender(queueName);
+    const cleanDetails = {
+      ...clientDetails,
+    };
+    delete cleanDetails.output;
+    const body = [
+      "--- Message ---",
+      `Sent at: ${new Date()}`,
+      "Body:",
+      JSON.stringify(cleanDetails),
+      "--- Message End ---",
+    ].join("\n");
+    console.log("Attempting to send a message...");
+    await sender.sendMessages({ body });
+    console.log("Message sent successfully!");
+    await sender.close();
+    const receiver = client.createReceiver(queueName);
+    const messages = await receiver.receiveMessages(10);
+    for (let message of messages) {
+      await receiver.completeMessage(message);
+    }
+    await receiver.close();
+    const output = `Received messages:\n${messages.map((m) => m.body.toString()).join("\n")}`;
+    console.log(output);
+    clientDetails.output = output;
+
+    // Scrolling to the bottom of the page.
+    window.scrollTo(0, document.body.scrollHeight);
+    return output;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  } finally {
+    await client.close();
+  }
+}
+
+function useServiceBus(clientDetails: ClientDetails) {
+  const [running, setRunning] = React.useState(false);
+  const [error, setErrorInner] = React.useState(undefined);
+  const [output, setOutput] = React.useState<string>(undefined);
+
+  const setError = (err: string) => {
+    setRunning(false);
+    setErrorInner(err);
+  };
+
+  React.useEffect(() => {
+    if (clientDetails.serviceBusEndpoint.trim().length === 0) {
+      setError("You must enter a service bus endpoint to send a message.");
+    } else if (running) {
+      (async () => {
+        for (let i = 0; i < clientDetails.numberOfExecutions; i++) {
+          const promise = sendMessage(clientDetails.serviceBusEndpoint, clientDetails);
+          if (clientDetails.parallel) {
+            promise.then(setOutput);
+          } else {
+            setOutput(await promise);
           }
         }
-
-        for await (const keyProperties of keyClient.listPropertiesOfKeys()) {
-          keyResult.push(await keyClient.getKey(keyProperties.name))
-        }
-
-        setKeys(keyResult);
-        setRunning(false)
-      })().catch(err => setError(err.toString()));
+        setRunning(false);
+      })().catch((err) => setError(err.toString()));
     } else {
-      setError("")
+      setError("");
     }
-  }, [vaultName, clientDetails, running])
+  }, [clientDetails.serviceBusEndpoint, clientDetails, running]);
 
-  return { keys, fetchKeys: () => setRunning(true), error }
+  // Triggering a first send if the redirection hash is present.
+  if (window.location.hash) {
+    setTimeout(() => setRunning(true), 1000);
+  }
+
+  return { output, sendMessage: () => setRunning(true), error };
 }
 
-interface KeyVaultTestProps {
-  storedVaultName?: string,
-  clientDetails: ClientDetails
+interface ServiceBusTestProps {
+  storedServiceBusEndpoint?: string;
+  clientDetails: ClientDetails;
 }
 
-const KeyVaultTest = ({ storedVaultName, clientDetails }: KeyVaultTestProps) => {
-  const [vaultName, setVaultName] = React.useState(storedVaultName || "");
-  const { keys, fetchKeys, error } = useKeyVaultKeys(vaultName, clientDetails);
-
-  const handleVaultNameChange = (newVaultName) => {
-    localStorage.setItem('keyVaultName', newVaultName);
-    setVaultName(newVaultName);
-  };
+const ServiceBusTest = ({ clientDetails }: ServiceBusTestProps) => {
+  const { sendMessage, output, error } = useServiceBus(clientDetails);
 
   return (
     <div>
-      <h3>List Key Vault Keys</h3>
-      <form onSubmit={e => { fetchKeys(); e.preventDefault(); }}>
-        <label>
-          Vault Name:
-          <input type="text" value={vaultName} onChange={({ target }) => handleVaultNameChange(target.value)} />
-        </label>
-        <input type="submit" value="Get Keys" />
+      <h3>Send Service Bus Endpoint</h3>
+      <form
+        onSubmit={(e) => {
+          sendMessage();
+          e.preventDefault();
+        }}
+      >
+        <input type="submit" value="Send Message" />
       </form>
       {!error ? null : <h3 style={{ color: "red" }}>{error}</h3>}
-      {!keys ? null :
-        (
-          <table>
-            <thead>
-              <tr>
-                <th>Key Name</th>
-                <th>Enabled</th>
-                <th>Expires</th>
-              </tr>
-            </thead>
-            <tbody>
-              {keys.map(key => <tr key={key.name}><td>{key.name}</td><td>{key.properties.enabled.toString()}</td><td>{key.properties.expiresOn && key.properties.expiresOn.toDateString()}</td></tr>)}
-            </tbody>
-          </table>
-        )
-      }
+      <br />
+      <h3>
+        Messages
+        <br />
+        (each one with the serialized "clientDetails"):
+      </h3>
+      <pre>
+        <code>{output || clientDetails.output}</code>
+      </pre>
     </div>
   );
-}
+};
 
 function TestPage() {
-  const storedVaultName = localStorage.getItem('keyVaultName');
-  const [clientDetails, setClientDetails] = React.useState<ClientDetails>(readClientDetails() || { tenantId: "", clientId: "", loginStyle: "popup", keyName: "" })
+  const [clientDetails, setClientDetails] = React.useState<ClientDetails>(
+    readClientDetails() || {
+      tenantId: "",
+      clientId: "",
+      queueName: "queue-identity-test",
+      loginStyle: "popup",
+      flow: "auth-code",
+      numberOfExecutions: 1,
+      cacheCredential: true,
+      parallel: false,
+      serviceBusEndpoint: "",
+      output: "",
+    }
+  );
+
   return (
     <div>
       <h1>Azure SDK Browser Manual Tests</h1>
       <hr />
       <ClientDetailsEditor clientDetails={clientDetails} onSetClientDetails={setClientDetails} />
-      <KeyVaultTest storedVaultName={storedVaultName} clientDetails={clientDetails} />
+      <ServiceBusTest clientDetails={clientDetails} />
     </div>
   );
 }
 
-ReactDOM.render(
-  <TestPage />,
-  document.getElementById("app")
-);
+ReactDOM.render(<TestPage />, document.getElementById("app"));

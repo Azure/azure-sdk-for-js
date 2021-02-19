@@ -559,11 +559,11 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   /**
    * Creates an instance of BlobDownloadResponse.
    *
-   * @param {BlobDownloadResponseParsed} originalResponse
-   * @param {ReadableStreamGetter} getter
-   * @param {number} offset
-   * @param {number} count
-   * @param {RetriableReadableStreamOptions} [options={}]
+   * @param originalResponse -
+   * @param getter -
+   * @param offset -
+   * @param count -
+   * @param options -
    * @memberof BlobDownloadResponse
    */
   public constructor(

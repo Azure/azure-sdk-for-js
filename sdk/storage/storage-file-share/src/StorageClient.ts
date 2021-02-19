@@ -67,8 +67,8 @@ export abstract class StorageClient {
 
   /**
    * Creates an instance of StorageClient.
-   * @param {string} url
-   * @param {Pipeline} pipeline
+   * @param url -
+   * @param pipeline -
    * @memberof StorageClient
    */
   protected constructor(url: string, pipeline: Pipeline) {

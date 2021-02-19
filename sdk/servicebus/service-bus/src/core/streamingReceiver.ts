@@ -114,11 +114,11 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
-   * @param context - The client entity context.
+   * @param connectionContext - The client entity context.
    * @param options - Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(context, entityPath, "streaming", options);
+  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
+    super(connectionContext, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -448,7 +448,6 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Will reconnect the receiver link if necessary.
    * @param receiverError - The receiver error or connection error, if any.
-   * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);

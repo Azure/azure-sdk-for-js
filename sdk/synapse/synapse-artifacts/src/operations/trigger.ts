@@ -27,7 +27,7 @@ export class Trigger {
 
   /**
    * Initialize a new instance of the class Trigger class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +35,7 @@ export class Trigger {
 
   /**
    * Lists triggers.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listTriggersByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,7 +77,7 @@ export class Trigger {
 
   /**
    * Lists triggers.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getTriggersByWorkspace(
     options?: coreHttp.OperationOptions
@@ -108,9 +108,9 @@ export class Trigger {
 
   /**
    * Creates or updates a trigger.
-   * @param triggerName - The trigger name.
-   * @param trigger - Trigger resource definition.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param trigger Trigger resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateTrigger(
     triggerName: string,
@@ -158,8 +158,8 @@ export class Trigger {
 
   /**
    * Gets a trigger.
-   * @param triggerName - The trigger name.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param options The options parameters.
    */
   async getTrigger(
     triggerName: string,
@@ -192,8 +192,8 @@ export class Trigger {
 
   /**
    * Deletes a trigger.
-   * @param triggerName - The trigger name.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param options The options parameters.
    */
   async deleteTrigger(
     triggerName: string,
@@ -239,8 +239,8 @@ export class Trigger {
 
   /**
    * Subscribe event trigger to events.
-   * @param triggerName - The trigger name.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param options The options parameters.
    */
   async subscribeTriggerToEvents(
     triggerName: string,
@@ -286,8 +286,8 @@ export class Trigger {
 
   /**
    * Get a trigger's event subscription status.
-   * @param triggerName - The trigger name.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param options The options parameters.
    */
   async getEventSubscriptionStatus(
     triggerName: string,
@@ -320,8 +320,8 @@ export class Trigger {
 
   /**
    * Unsubscribe event trigger from events.
-   * @param triggerName - The trigger name.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param options The options parameters.
    */
   async unsubscribeTriggerFromEvents(
     triggerName: string,
@@ -367,8 +367,8 @@ export class Trigger {
 
   /**
    * Starts a trigger.
-   * @param triggerName - The trigger name.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param options The options parameters.
    */
   async startTrigger(
     triggerName: string,
@@ -414,8 +414,8 @@ export class Trigger {
 
   /**
    * Stops a trigger.
-   * @param triggerName - The trigger name.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param options The options parameters.
    */
   async stopTrigger(
     triggerName: string,
@@ -461,8 +461,8 @@ export class Trigger {
 
   /**
    * GetTriggersByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetTriggersByWorkspace method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetTriggersByWorkspace method.
+   * @param options The options parameters.
    */
   private async _getTriggersByWorkspaceNext(
     nextLink: string,

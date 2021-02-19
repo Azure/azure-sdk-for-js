@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 

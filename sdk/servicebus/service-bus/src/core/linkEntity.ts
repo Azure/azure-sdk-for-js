@@ -186,7 +186,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Determines whether the AMQP link is open. If open then returns true else returns false.
-   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this._link ? this._link.isOpen() : false;
@@ -199,7 +198,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * is implemented by child classes.
    *
    * @returns A Promise that resolves when the link has been properly initialized
-   * @throws {AbortError} if the link has been closed via 'close'
+   * @throws `AbortError` if the link has been closed via 'close'
    */
   async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
@@ -365,7 +364,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   /**
    * Negotiates the cbs claim for the ClientEntity.
    * @param setTokenRenewal - Set the token renewal timer. Default false.
-   * @returns Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     this._logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
@@ -468,7 +466,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
-   * @returns {void}
    */
   private _ensureTokenRenewal(): void {
     if (!this._tokenTimeout) {

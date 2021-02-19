@@ -17,8 +17,8 @@ export class ContainerSASPermissions {
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
-   * @param {string} permissions
-   * @returns {ContainerSASPermissions}
+   * @param permissions -
+   *
    * @memberof ContainerSASPermissions
    */
   public static parse(permissions: string) {
@@ -69,8 +69,8 @@ export class ContainerSASPermissions {
    * and boolean values for them.
    *
    * @static
-   * @param {ContainerSASPermissionsLike} permissionLike
-   * @returns {ContainerSASPermissions}
+   * @param permissionLike -
+   *
    * @memberof ContainerSASPermissions
    */
   public static from(permissionLike: ContainerSASPermissionsLike): ContainerSASPermissions {
@@ -195,7 +195,7 @@ export class ContainerSASPermissions {
    * The order of the characters should be as specified here to ensure correctness.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @returns {string}
+   *
    * @memberof ContainerSASPermissions
    */
   public toString(): string {

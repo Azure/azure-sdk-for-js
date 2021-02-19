@@ -37,8 +37,8 @@ export class StorageSharedKeyCredential extends Credential {
 
   /**
    * Creates an instance of StorageSharedKeyCredential.
-   * @param {string} accountName
-   * @param {string} accountKey
+   * @param accountName -
+   * @param accountKey -
    * @memberof StorageSharedKeyCredential
    */
   constructor(accountName: string, accountKey: string) {
@@ -50,8 +50,8 @@ export class StorageSharedKeyCredential extends Credential {
   /**
    * Generates a hash signature for an HTTP request or for a SAS.
    *
-   * @param {string} stringToSign
-   * @returns {string}
+   * @param stringToSign -
+   *
    * @memberof StorageSharedKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {

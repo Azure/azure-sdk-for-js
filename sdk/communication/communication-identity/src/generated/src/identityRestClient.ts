@@ -15,8 +15,8 @@ import { IdentityRestClientOptionalParams } from "./models";
 class IdentityRestClient extends IdentityRestClientContext {
   /**
    * Initializes a new instance of the IdentityRestClient class.
-   * @param endpoint - The communication resource, for example https://my-resource.communication.azure.com
-   * @param options - The parameter options
+   * @param endpoint The communication resource, for example https://my-resource.communication.azure.com
+   * @param options The parameter options
    */
   constructor(endpoint: string, options?: IdentityRestClientOptionalParams) {
     super(endpoint, options);
