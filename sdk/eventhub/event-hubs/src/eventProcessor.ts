@@ -13,6 +13,7 @@ import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { ConnectionContext } from "./connectionContext";
 import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
+import { OperationOptions } from "./util/operationOptions";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
@@ -73,28 +74,41 @@ export interface CheckpointStore {
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName - The event hub name.
    * @param consumerGroup - The consumer group name.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
    * @returns A list of partition ownership details of all the partitions that have/had an owner.
    */
   listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
+    options?: OperationOptions
   ): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
    * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
    * @returns A list of partitions this instance successfully claimed ownership.
    */
-  claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+  claimOwnership(
+    partitionOwnership: PartitionOwnership[],
+    options?: OperationOptions
+  ): Promise<PartitionOwnership[]>;
 
   /**
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint - The checkpoint.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
    */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+  updateCheckpoint(checkpoint: Checkpoint, options?: OperationOptions): Promise<void>;
 
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
@@ -103,11 +117,16 @@ export interface CheckpointStore {
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName - The event hub name.
    * @param consumerGroup - The consumer group name.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
+   * @returns A list of checkpoints for a given namespace, eventhub, and consumer group.
    */
   listCheckpoints(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
+    options?: OperationOptions
   ): Promise<Checkpoint[]>;
 }
 
