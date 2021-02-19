@@ -174,7 +174,7 @@ export const enum KnownGeoReplicationStatusType {
 }
 
 // @public
-export type ListQueuesIncludeType = 'metadata';
+export type ListQueuesIncludeType = "metadata";
 
 // @public
 export interface ListQueuesSegmentResponse {
