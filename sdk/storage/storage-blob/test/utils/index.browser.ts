@@ -22,8 +22,8 @@ export function getGenericBSU(
 
   let accountName: string | undefined;
   let accountSAS: string | undefined;
-  accountName = (window as any).__env__[accountNameEnvVar];
-  accountSAS = (window as any).__env__[accountSASEnvVar];
+  accountName = (self as any).__env__[accountNameEnvVar];
+  accountSAS = (self as any).__env__[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
     throw new Error(
@@ -48,7 +48,7 @@ export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
   let accountToken: string | undefined;
 
-  accountToken = (window as any).__env__[accountTokenEnvVar];
+  accountToken = (self as any).__env__[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -62,7 +62,7 @@ export function getTokenBSU(): BlobServiceClient {
 
   let accountName: string | undefined;
 
-  accountName = (window as any).__env__[accountNameEnvVar];
+  accountName = (self as any).__env__[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
@@ -144,7 +144,7 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
 }
 
 export function isIE(): boolean {
-  const sAgent = window.navigator.userAgent;
+  const sAgent = self.navigator.userAgent;
   const Idx = sAgent.indexOf("MSIE");
 
   // If IE, return version number.
@@ -174,6 +174,6 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const env = (window as any).__env__;
+  const env = (self as any).__env__;
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }

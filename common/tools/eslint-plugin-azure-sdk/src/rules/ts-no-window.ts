@@ -17,8 +17,6 @@ export = {
   meta: getRuleMetaData("ts-no-window", "forbid usage of window", "code"),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
     ({
-      // callback functions
-
       // report on any window identifiers
       "Identifier[name=window]": (node: any): void => {
         context.report({
