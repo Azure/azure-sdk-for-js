@@ -251,7 +251,7 @@ export default leafCommand(commandInfo, async (options) => {
   const containerWorkspace = "/workspace";
   const containerLogFilePath = options["log-in-file"] ? `${containerWorkspace}/log.txt` : undefined;
   const useExistingDockerContainer = options["use-existing-docker-containers"];
-  const keepDockerContainers = options["keep-docker-container"];
+  const keepDockerContainers = options["keep-docker-containers"];
   const keepDockerImages = options["keep-docker-images"];
   const stdoutListener = (chunk: Buffer | string) => log.info(chunk.toString());
   const stderrListener = (chunk: Buffer | string) => log.error(chunk.toString());
