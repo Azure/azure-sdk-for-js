@@ -11,7 +11,7 @@ import { authenticate } from "../utils/testAuthentication";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import TestClient from "../utils/testClient";
 
-describe.only("CryptographyClient for managed HSM (all decrypts happen remotely)", () => {
+describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)", () => {
   let hsmClient: KeyClient;
   let testClient: TestClient;
   let cryptoClient: CryptographyClient;
@@ -39,9 +39,7 @@ describe.only("CryptographyClient for managed HSM (all decrypts happen remotely)
   });
 
   afterEach(async function() {
-    if (!this.currentTest?.isPending()) {
-      await testClient?.flushKey(keyName);
-    }
+    await testClient?.flushKey(keyName);
     await recorder.stop();
   });
 

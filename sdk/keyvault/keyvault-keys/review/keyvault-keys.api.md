@@ -16,13 +16,13 @@ import { TokenCredential } from '@azure/core-http';
 export interface AesCbcDecryptParameters {
     algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
     ciphertext: Uint8Array;
-    iv?: Uint8Array;
+    iv: Uint8Array;
 }
 
 // @public
 export interface AesCbcEncryptParameters {
     algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
-    iv?: Uint8Array;
+    iv: Uint8Array;
     plaintext: Uint8Array;
 }
 
@@ -32,7 +32,7 @@ export interface AesGcmDecryptParameters {
     algorithm: "A128GCM" | "A192GCM" | "A256GCM";
     authenticationTag?: Uint8Array;
     ciphertext: Uint8Array;
-    iv?: Uint8Array;
+    iv: Uint8Array;
 }
 
 // @public
