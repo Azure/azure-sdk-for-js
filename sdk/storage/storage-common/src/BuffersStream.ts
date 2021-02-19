@@ -46,8 +46,8 @@ export class BuffersStream extends Readable {
    * Creates an instance of BuffersStream that will emit the data
    * contained in the array of buffers.
    *
-   * @param {Buffer[]} buffers Array of buffers containing the data
-   * @param {number} byteLength The total length of data contained in the buffers
+   * @param buffers - Array of buffers containing the data
+   * @param byteLength - The total length of data contained in the buffers
    * @memberof BuffersStream
    */
   constructor(
@@ -73,7 +73,7 @@ export class BuffersStream extends Readable {
   /**
    * Internal _read() that will be called when the stream wants to pull more data in.
    *
-   * @param {number} size Optional. The size of data to be read
+   * @param size - Optional. The size of data to be read
    * @memberof BuffersStream
    */
   public _read(size?: number) {

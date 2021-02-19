@@ -4,6 +4,7 @@
 import AsyncLock from "async-lock";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
+import { isDefined } from "./typeGuards";
 
 export { AsyncLock };
 /**
@@ -69,11 +70,11 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  *
  * Connection strings have the following syntax:
  *
- * ConnectionString ::= Part { ";" Part } [ ";" ] [ WhiteSpace ]
+ * ConnectionString ::= `Part { ";" Part } [ ";" ] [ WhiteSpace ]`
  * Part             ::= [ PartLiteral [ "=" PartLiteral ] ]
  * PartLiteral      ::= [ WhiteSpace ] Literal [ WhiteSpace ]
  * Literal          ::= ? any sequence of characters except ; or = or WhiteSpace ?
- * WhiteSpace       ::= ? all whitespace characters including \r and \n ?
+ * WhiteSpace       ::= ? all whitespace characters including `\r` and `\n` ?
  *
  * @param connectionString - The connection string to be parsed.
  * @returns ParsedOutput<T>.
@@ -157,7 +158,7 @@ export class Timeout {
     return Promise.race([wrappedPromise, timer]);
   }
 
-  private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
+  private _promiseFinally<T>(promise: Promise<T>, fn: (...args: any[]) => void): Promise<T> {
     const success = (result: T): T => {
       fn();
       return result;
@@ -193,6 +194,9 @@ export function delay<T>(
   value?: T
 ): Promise<T | void> {
   return new Promise((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+    let onAborted: (() => void) | undefined = undefined;
+
     const rejectOnAbort = (): void => {
       return reject(
         new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
@@ -200,13 +204,15 @@ export function delay<T>(
     };
 
     const removeListeners = (): void => {
-      if (abortSignal) {
+      if (abortSignal && onAborted) {
         abortSignal.removeEventListener("abort", onAborted);
       }
     };
 
-    const onAborted = (): void => {
-      clearTimeout(timer);
+    onAborted = (): void => {
+      if (isDefined(timer)) {
+        clearTimeout(timer);
+      }
       removeListeners();
       return rejectOnAbort();
     };
@@ -215,7 +221,7 @@ export function delay<T>(
       return rejectOnAbort();
     }
 
-    const timer = setTimeout(() => {
+    timer = setTimeout(() => {
       removeListeners();
       resolve(value);
     }, delayInMs);

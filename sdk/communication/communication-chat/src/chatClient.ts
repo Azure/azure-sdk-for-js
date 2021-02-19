@@ -71,7 +71,7 @@ export class ChatClient {
    * Creates an instance of the ChatClient for a given resource and user.
    *
    * @param url - The url of the Communication Services resouce.
-   * @param credential - The token credential. Use AzureCommunicationTokenCredential from @azure/communication-common to create a credential.
+   * @param credential - The token credential. Use AzureCommunicationTokenCredential from \@azure/communication-common to create a credential.
    * @param options - Additional client options.
    */
   constructor(
@@ -354,22 +354,22 @@ export class ChatClient {
 
   /**
    * Subscribe function for chatThreadCreated.
-   * @param event The ChatThreadCreatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadCreatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
 
   /**
    * Subscribe function for chatThreadDeleted.
-   * @param event The ChatThreadDeletedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadDeletedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
 
   /**
    * Subscribe function for chatThreadPropertiesUpdated.
-   * @param event The ChatThreadPropertiesUpdatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadPropertiesUpdatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(
     event: "chatThreadPropertiesUpdated",
@@ -378,15 +378,15 @@ export class ChatClient {
 
   /**
    * Subscribe function for participantsAdded.
-   * @param event The ParticipantsAddedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsAddedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
 
   /**
    * Subscribe function for participantsRemoved.
-   * @param event The ParticipantsRemovedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsRemovedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 
@@ -444,22 +444,22 @@ export class ChatClient {
 
   /**
    *  Unsubscribe from chatThreadCreated.
-   * @param event The ChatThreadCreatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadCreatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
 
   /**
    *  Unsubscribe from chatThreadDeleted.
-   * @param event The ChatThreadDeletedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadDeletedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
 
   /**
    * Unsubscribe from chatThreadPropertiesUpdated.
-   * @param event The ChatThreadPropertiesUpdatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadPropertiesUpdatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(
     event: "chatThreadPropertiesUpdated",
@@ -468,15 +468,15 @@ export class ChatClient {
 
   /**
    * Unsubscribe from participantsAdded.
-   * @param event The ParticipantsAddedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsAddedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
 
   /**
    * Unsubscribe from participantsRemoved.
-   * @param event The ParticipantsRemovedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsRemovedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 

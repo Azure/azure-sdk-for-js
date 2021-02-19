@@ -32,8 +32,8 @@ export interface SasIPRange {
  * "8.8.8.8" or "1.1.1.1-255.255.255.255"
  *
  * @export
- * @param {SasIPRange} ipRange A range of IP addresses.
- * @returns {string} string representation of the IP range.
+ * @param ipRange - A range of IP addresses.
+ * @returns string representation of the IP range.
  */
 export function ipRangeToString(ipRange: SasIPRange): string {
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;

@@ -30,9 +30,9 @@ export class TelemetryPolicy extends BaseRequestPolicy {
 
   /**
    * Creates an instance of TelemetryPolicy.
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @param {TelemetryOptions} [telemetry]
+   * @param nextPolicy -
+   * @param options -
+   * @param telemetry -
    * @memberof TelemetryPolicy
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, telemetry: string) {
@@ -43,8 +43,8 @@ export class TelemetryPolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
+   * @param request -
+   *
    * @memberof TelemetryPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {

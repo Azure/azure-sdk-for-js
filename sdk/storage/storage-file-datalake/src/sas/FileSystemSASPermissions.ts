@@ -17,8 +17,8 @@ export class FileSystemSASPermissions {
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
-   * @param {string} permissions
-   * @returns {FileSystemSASPermissions}
+   * @param permissions -
+   *
    * @memberof FileSystemSASPermissions
    */
   public static parse(permissions: string) {
@@ -154,7 +154,7 @@ export class FileSystemSASPermissions {
    * The order of the characters should be as specified here to ensure correctness.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @returns {string}
+   *
    * @memberof FileSystemSASPermissions
    */
   public toString(): string {

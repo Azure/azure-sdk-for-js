@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, RequestPolicyFactory } from "@azure/core-http";
 import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAccessKeyCredentialPolicy";

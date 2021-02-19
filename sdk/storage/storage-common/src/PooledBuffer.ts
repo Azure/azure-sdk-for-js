@@ -63,7 +63,7 @@ export class PooledBuffer {
    * Users may call the {@link PooledBuffer.fill} method to fill this
    * pooled buffer with data.
    *
-   * @param {number} capacity Total capacity of the internal buffers
+   * @param capacity - Total capacity of the internal buffers
    * @memberof PooledBuffer
    */
   constructor(capacity: number);
@@ -73,9 +73,9 @@ export class PooledBuffer {
    * Internal buffers are allocated and filled with data in the input buffers serially
    * with respect to the total length.
    *
-   * @param {number} capacity Total capacity of the internal buffers
-   * @param {Buffer[]} buffers Input buffers containing the data to be filled in the pooled buffer
-   * @param {number} totalLength Total length of the data to be filled in.
+   * @param capacity - Total capacity of the internal buffers
+   * @param buffers - Input buffers containing the data to be filled in the pooled buffer
+   * @param totalLength - Total length of the data to be filled in.
    * @memberof PooledBuffer
    */
   constructor(capacity: number, buffers: Buffer[], totalLength: number);
@@ -103,10 +103,10 @@ export class PooledBuffer {
    * with respect to the total length and the total capacity of the internal buffers.
    * Data copied will be shift out of the input buffers.
    *
-   * @param {Buffer[]} buffers Input buffers containing the data to be filled in the pooled buffer
-   * @param {number} totalLength Total length of the data to be filled in.
+   * @param buffers - Input buffers containing the data to be filled in the pooled buffer
+   * @param totalLength - Total length of the data to be filled in.
    *
-   * @returns {void}
+   *
    * @memberof PooledBuffer
    */
   public fill(buffers: Buffer[], totalLength: number) {
@@ -145,7 +145,7 @@ export class PooledBuffer {
   /**
    * Get the readable stream assembled from all the data in the internal buffers.
    *
-   * @returns {Readable}
+   *
    * @memberof PooledBuffer
    */
   public getReadableStream(): Readable {

@@ -53,8 +53,8 @@ export class BlobQuickQueryStream extends Readable {
   /**
    * Creates an instance of BlobQuickQueryStream.
    *
-   * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
-   * @param {BlobQuickQueryStreamOptions} [options={}]
+   * @param source - The current ReadableStream returned from getter
+   * @param options -
    * @memberof BlobQuickQueryStream
    */
   public constructor(source: NodeJS.ReadableStream, options: BlobQuickQueryStreamOptions = {}) {
