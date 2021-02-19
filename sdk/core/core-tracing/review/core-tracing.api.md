@@ -16,8 +16,6 @@ import { TimeInput } from '@opentelemetry/api';
 import { Tracer } from '@opentelemetry/api';
 import { TracerBase } from '@opencensus/web-types';
 
-// Warning: (ae-forgotten-export) The symbol "SpanConfig" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends {
     tracingOptions?: OperationTracingOptionsLike | undefined;
@@ -100,6 +98,12 @@ export { OTSpanOptions }
 
 // @public
 export function setTracer(tracer: Tracer): void;
+
+// @public
+export interface SpanConfig {
+    namespace: string;
+    packagePrefix: string;
+}
 
 // @public
 export interface SpanContext {
