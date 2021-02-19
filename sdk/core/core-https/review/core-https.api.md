@@ -29,6 +29,22 @@ export interface BearerTokenAuthenticationPolicyOptions {
     scopes: string | string[];
 }
 
+// @public (undocumented)
+export function challengeAuthenticationPolicy(options: ChallengeAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public (undocumented)
+export const challengeAuthenticationPolicyName = "challengeAuthenticationPolicy";
+
+// @public (undocumented)
+export interface ChallengeAuthenticationPolicyOptions {
+    // (undocumented)
+    getChallenge?(response: PipelineResponse): string | undefined;
+    // (undocumented)
+    prepareRequest?(request: PipelineRequest): Promise<void>;
+    // (undocumented)
+    processChallenge?(request: PipelineRequest, challenge?: string): Promise<boolean>;
+}
+
 // @public
 export function createDefaultHttpsClient(): HttpsClient;
 
@@ -153,6 +169,8 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
+    // Warning: (ae-forgotten-export) The symbol "AuthenticationOptions" needs to be exported by the entry point index.d.ts
+    authenticationOptions?: AuthenticationOptions;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers: HttpHeaders;

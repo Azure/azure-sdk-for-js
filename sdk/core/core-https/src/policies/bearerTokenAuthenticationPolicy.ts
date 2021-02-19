@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  AuthenticationOptions
+} from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "../accessTokenCache";
@@ -34,10 +39,15 @@ export function bearerTokenAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
+
+  let authenticationOptions: AuthenticationOptions | undefined;
+
   async function getToken(tokenOptions: GetTokenOptions): Promise<string | undefined> {
     let accessToken = tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      accessToken = (await credential.getToken(scopes, tokenOptions)) || undefined;
+      accessToken =
+        (await credential.getToken(authenticationOptions?.scope || scopes, tokenOptions)) ||
+        undefined;
       tokenCache.setCachedToken(accessToken);
     }
 
@@ -46,12 +56,16 @@ export function bearerTokenAuthenticationPolicy(
   return {
     name: bearerTokenAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      authenticationOptions = request.authenticationOptions;
+
       const token = await getToken({
         abortSignal: request.abortSignal,
         tracingOptions: {
           spanOptions: request.spanOptions
-        }
+        },
+        claims: request.authenticationOptions?.claims
       });
+
       request.headers.set("Authorization", `Bearer ${token}`);
       return next(request);
     }

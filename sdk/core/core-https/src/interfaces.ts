@@ -82,6 +82,20 @@ export type RequestBodyType =
   | null;
 
 /**
+ * Authentication options
+ */
+export interface AuthenticationOptions {
+  /**
+   * Scopes to overwrite during the get token request.
+   */
+  scope?: string;
+  /**
+   * Claims
+   */
+  claims?: string;
+}
+
+/**
  * Metadata about a request being made by the pipeline.
  */
 export interface PipelineRequest {
@@ -152,6 +166,11 @@ export interface PipelineRequest {
    * Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Authentication options
+   */
+  authenticationOptions?: AuthenticationOptions;
 
   /**
    * Callback which fires upon upload progress.
