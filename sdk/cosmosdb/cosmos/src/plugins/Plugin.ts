@@ -57,6 +57,8 @@ export type Plugin<T> = (context: RequestContext, next: Next<T>) => Promise<Resp
  */
 export type Next<T> = (context: RequestContext) => Promise<Response<T>>;
 
+const emptyPromise = () => Promise.resolve({ headers: {} });
+
 /**
  * @internal
  */
@@ -66,12 +68,12 @@ export async function executePlugins(
   on: PluginOn
 ): Promise<Response<any>> {
   if (!requestContext.plugins) {
-    return next(requestContext, undefined);
+    return next(requestContext, emptyPromise);
   }
   let level = 0;
   const _: Next<any> = (inner: RequestContext): Promise<Response<any>> => {
     if (++level >= inner.plugins.length) {
-      return next(requestContext, undefined);
+      return next(requestContext, emptyPromise);
     } else if (inner.plugins[level].on !== on) {
       return _(requestContext);
     } else {
