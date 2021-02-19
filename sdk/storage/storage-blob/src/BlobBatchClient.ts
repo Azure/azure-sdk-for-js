@@ -26,9 +26,6 @@ import { getURLPath } from "./utils/utils.common";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
- *
- * @export
- * @interface BlobBatchSubmitBatchOptionalParams
  */
 export interface BlobBatchSubmitBatchOptionalParams
   extends ServiceSubmitBatchOptionalParamsModel,
@@ -36,9 +33,6 @@ export interface BlobBatchSubmitBatchOptionalParams
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobBatchSubmitBatchOptionalParams
    */
   abortSignal?: AbortSignalLike;
 }
@@ -83,9 +77,8 @@ export class BlobBatchClient {
    * @param url - A url pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Options to configure the HTTP pipeline.
-   * @memberof BlobBatchClient
    */
   constructor(
     url: string,
@@ -100,7 +93,6 @@ export class BlobBatchClient {
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof BlobBatchClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -149,10 +141,8 @@ export class BlobBatchClient {
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param urls - The urls of the blob resources to delete.
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options -
-   *
-   * @memberof BlobBatchClient
    */
   public async deleteBlobs(
     urls: string[],
@@ -169,8 +159,6 @@ export class BlobBatchClient {
    *
    * @param blobClients - The BlobClients for the blobs to delete.
    * @param options -
-   *
-   * @memberof BlobBatchClient
    */
   public async deleteBlobs(
     blobClients: BlobClient[],
@@ -210,11 +198,9 @@ export class BlobBatchClient {
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param urls - The urls of the blob resource to delete.
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param tier -
    * @param options -
-   *
-   * @memberof BlobBatchClient
    */
   public async setBlobsAccessTier(
     urls: string[],
@@ -237,8 +223,6 @@ export class BlobBatchClient {
    * @param blobClients - The BlobClients for the blobs which should have a new tier set.
    * @param tier -
    * @param options -
-   *
-   * @memberof BlobBatchClient
    */
   public async setBlobsAccessTier(
     blobClients: BlobClient[],
@@ -310,8 +294,6 @@ export class BlobBatchClient {
    *
    * @param batchRequest - A set of Delete or SetTier operations.
    * @param options -
-   *
-   * @memberof BlobBatchClient
    */
   public async submitBatch(
     batchRequest: BlobBatch,

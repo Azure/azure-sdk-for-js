@@ -80,8 +80,8 @@ export class SimpleTokenCredential implements TokenCredential {
   /**
    * Retrieves the token stored in this RawTokenCredential.
    *
-   * @param _scopes Ignored since token is already known.
-   * @param _options Ignored since token is already known.
+   * @param _scopes - Ignored since token is already known.
+   * @param _options - Ignored since token is already known.
    * @returns The access token details.
    */
   async getToken(
@@ -120,8 +120,8 @@ type BlobMetadata = { [propertyName: string]: string };
 /**
  * Validate if m1 is super set of m2.
  *
- * @param m1 BlobMetadata
- * @param m2 BlobMetadata
+ * @param m1 - BlobMetadata
+ * @param m2 - BlobMetadata
  */
 export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   if (!m1 || !m2) {
@@ -140,9 +140,7 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
 /**
  * Sleep for seconds.
  *
- * @export
  * @param seconds -
- *
  */
 export function sleep(seconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -153,11 +151,9 @@ export function sleep(seconds: number): Promise<void> {
 /**
  * String.prototype.padStart()
  *
- * @export
  * @param currentString -
  * @param targetLength -
- * @param [padString=" - "]
- *
+ * @param padString -
  */
 export function padStart(
   currentString: string,

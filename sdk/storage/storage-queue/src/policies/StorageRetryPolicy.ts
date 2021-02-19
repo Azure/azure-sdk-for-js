@@ -22,9 +22,7 @@ import { logger } from "../log";
 /**
  * A factory method used to generated a RetryPolicy factory.
  *
- * @export
  * @param retryOptions -
- *
  */
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory {
   return {
@@ -36,9 +34,6 @@ export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): Reque
 
 /**
  * RetryPolicy types.
- *
- * @export
- * @enum {number}
  */
 export enum StorageRetryPolicyType {
   /**
@@ -65,17 +60,10 @@ const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
- *
- * @class RetryPolicy
- * @extends {BaseRequestPolicy}
  */
 export class StorageRetryPolicy extends BaseRequestPolicy {
   /**
    * RetryOptions.
-   *
-   * @private
-   * @type {RetryOptions}
-   * @memberof StorageRetryPolicy
    */
   private readonly retryOptions: StorageRetryOptions;
 
@@ -85,7 +73,6 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * @param nextPolicy -
    * @param options -
    * @param retryOptions -
-   * @memberof StorageRetryPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -135,8 +122,6 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * Sends request.
    *
    * @param request -
-   *
-   * @memberof StorageRetryPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     return this.attemptSendRequest(request, false, 1);
@@ -145,7 +130,6 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   /**
    * Decide and perform next retry. Won't mutate request parameter.
    *
-   * @protected
    * @param request -
    * @param response -
    * @param secondaryHas404 -  If attempt was against the secondary & it returned a StatusNotFound (404), then
@@ -153,8 +137,6 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    *                                   case, we'll never try the secondary again for this operation.
    * @param attempt -           How many retries has been attempted to performed, starting from 1, which includes
    *                                   the attempt will be performed by this method call.
-   *
-   * @memberof StorageRetryPolicy
    */
   protected async attemptSendRequest(
     request: WebResource,
@@ -203,13 +185,10 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   /**
    * Decide whether to retry according to last HTTP response and retry counters.
    *
-   * @protected
    * @param isPrimaryRetry -
    * @param attempt -
    * @param response -
    * @param err -
-   *
-   * @memberof StorageRetryPolicy
    */
   protected shouldRetry(
     isPrimaryRetry: boolean,
@@ -281,11 +260,9 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   /**
    * Delay a calculated time between retries.
    *
-   * @private
    * @param isPrimaryRetry -
    * @param attempt -
    * @param abortSignal -
-   * @memberof StorageRetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {
     let delayTimeInMs: number = 0;
