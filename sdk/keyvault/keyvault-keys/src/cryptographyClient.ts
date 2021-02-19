@@ -112,6 +112,19 @@ export class CryptographyClient {
     return false;
   }
 
+  /**
+   * Encrypts the given plaintext with the specified encryption parameters.
+   * Depending on the algorithm set in the encryption parameters, the set of possible encryption parameters will change.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(keyVaultKey, credentials);
+   * let result = await client.encrypt({ algorithm: "RSA1_5", plaintext: Buffer.from("My Message")});
+   * let result = await client.encrypt({ algorithm: "A256GCM", plaintext: Buffer.from("My Message"), additionalAuthenticatedData: Buffer.from("My authenticated data")});
+   * ```
+   * @param encryptParameters - The encryption parameters, keyed on the encryption algorithm chosen.
+   * @param options - Additional options.
+   */
   public async encrypt(
     encryptParameters: EncryptParameters,
     options?: EncryptOptions
@@ -127,6 +140,7 @@ export class CryptographyClient {
    * @param algorithm - The algorithm to use.
    * @param plaintext - The text to encrypt.
    * @param options - Additional options.
+   * @deprecated Use `encrypt({ algorithm, plaintext }, options)` instead.
    */
   public async encrypt(
     // consider @deprecate and possibly reorder?
@@ -157,6 +171,7 @@ export class CryptographyClient {
     args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?]
   ): [EncryptParameters, EncryptOptions?] {
     if (typeof args[0] === "string") {
+      // Sample shape: ["RSA1_5", buffer, options]
       return [
         {
           algorithm: args[0],
@@ -165,10 +180,28 @@ export class CryptographyClient {
         args[2]
       ];
     } else {
+      // Sample shape: [{ algorithm: "RSA1_5", plaintext: buffer }, options]
       return [args[0], args[1] as EncryptOptions];
     }
   }
 
+  /**
+   * Decrypts the given ciphertext with the specified decryption parameters.
+   * Depending on the algorithm used in the decryption parameters, the set of possible decryption parameters will change.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(keyVaultKey, credentials);
+   * let result = await client.decrypt({ algorithm: "RSA1_5", ciphertext: encryptedBuffer });
+   * let result = await client.decrypt({ algorithm: "A256GCM", iv: ivFromEncryptResult, authenticationTag: tagFromEncryptResult });
+   * ```
+   * @param decryptParameters - The decryption parameters.
+   * @param options - Additional options.
+   */
+  public async decrypt(
+    decryptParameters: DecryptParameters,
+    options?: DecryptOptions
+  ): Promise<DecryptResult>;
   /**
    * Decrypts the given ciphertext with the specified cryptography algorithm
    *
@@ -180,14 +213,11 @@ export class CryptographyClient {
    * @param algorithm - The algorithm to use.
    * @param ciphertext - The text to decrypt.
    * @param options - Additional options.
+   * @deprecated Use `decrypt({ algorithm, ciphertext }, options) instead.
    */
   public async decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
-    options?: DecryptOptions
-  ): Promise<DecryptResult>;
-  public async decrypt(
-    decryptParameters: DecryptParameters,
     options?: DecryptOptions
   ): Promise<DecryptResult>;
   public async decrypt(
@@ -207,6 +237,7 @@ export class CryptographyClient {
     args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?]
   ): [DecryptParameters, DecryptOptions?] {
     if (typeof args[0] === "string") {
+      // Sample shape: ["RSA1_5", encryptedBuffer, options]
       return [
         {
           algorithm: args[0],
@@ -215,6 +246,7 @@ export class CryptographyClient {
         args[2]
       ];
     } else {
+      // Sample shape: [{ algorithm: "RSA1_5", ciphertext: encryptedBuffer }, options]
       return [args[0], args[1] as DecryptOptions];
     }
   }
