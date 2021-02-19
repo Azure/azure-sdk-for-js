@@ -18,7 +18,8 @@ export async function authenticate(that: Context, version?: string): Promise<any
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net"
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net",
+      AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -45,5 +46,10 @@ export async function authenticate(that: Context, version?: string): Promise<any
   });
   const testClient = new TestClient(client);
 
-  return { recorder, client, credential, testClient, keySuffix };
+  let hsmClient: KeyClient | undefined = undefined;
+  if (env.AZURE_MANAGEDHSM_URI) {
+    hsmClient = new KeyClient(env.AZURE_MANAGEDHSM_URI, credential);
+  }
+
+  return { recorder, client, credential, testClient, hsmClient, keySuffix };
 }

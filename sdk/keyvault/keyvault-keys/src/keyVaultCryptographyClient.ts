@@ -191,7 +191,6 @@ export class KeyVaultCryptographyClient {
   ): Promise<DecryptResult> {
     const { algorithm, ciphertext, ...params } = decryptParameters;
     const requestOptions = { ...operationOptionsToRequestOptionsBase(options), ...params };
-    console.log("requestOptions", requestOptions);
     const span = this.createSpan("decrypt", requestOptions);
 
     await this.checkPermissions("decrypt");

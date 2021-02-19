@@ -54,8 +54,14 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   if (isRecordMode()) {
     it("encrypt & decrypt with RSA1_5", async function() {
       const text = this.test!.title;
-      const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
-      const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
+      const encryptResult = await cryptoClient.encrypt({
+        algorithm: "RSA1_5",
+        plaintext: stringToUint8Array(text)
+      });
+      const decryptResult = await cryptoClient.decrypt({
+        algorithm: "RSA1_5",
+        ciphertext: encryptResult.result
+      });
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
@@ -65,15 +71,24 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
       const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
       const encrypted = publicEncrypt(padded, Buffer.from(text));
-      const decryptResult = await cryptoClient.decrypt("RSA1_5", encrypted);
+      const decryptResult = await cryptoClient.decrypt({
+        algorithm: "RSA1_5",
+        ciphertext: encrypted
+      });
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
 
     it("encrypt & decrypt with RSA-OAEP", async function() {
       const text = this.test!.title;
-      const encryptResult = await cryptoClient.encrypt("RSA-OAEP", stringToUint8Array(text));
-      const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encryptResult.result);
+      const encryptResult = await cryptoClient.encrypt({
+        algorithm: "RSA-OAEP",
+        plaintext: stringToUint8Array(text)
+      });
+      const decryptResult = await cryptoClient.decrypt({
+        algorithm: "RSA-OAEP",
+        ciphertext: encryptResult.result
+      });
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
@@ -83,7 +98,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       // Encrypting outside the client since the client will intentionally
       const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
       const encrypted = publicEncrypt(keyPEM, Buffer.from(text));
-      const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
+      const decryptResult = await cryptoClient.decrypt({
+        algorithm: "RSA-OAEP",
+        ciphertext: encrypted
+      });
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
@@ -94,25 +112,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
 
       const text = this.test!.title;
-      const encryptResult = await cryptoClientFromKey.encrypt("RSA1_5", stringToUint8Array(text));
-      const decryptResult = await cryptoClientFromKey.decrypt("RSA1_5", encryptResult.result);
-      const decryptedText = uint8ArrayToString(decryptResult.result);
-      assert.equal(text, decryptedText);
-    });
-  }
-
-  describe.skip("algorithm specific encryption parameters", async function() {
-    it("defines encryption and decryption parameters for RSA keys", async function() {
-      const customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-      const customKeyVaultKey = await client.createKey(customKeyName, "RSA", { keySize: 128 });
-      const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
-
-      const text = this.test!.title;
       const encryptResult = await cryptoClientFromKey.encrypt({
         algorithm: "RSA1_5",
         plaintext: stringToUint8Array(text)
       });
-      console.log("encryptResult", encryptResult);
       const decryptResult = await cryptoClientFromKey.decrypt({
         algorithm: "RSA1_5",
         ciphertext: encryptResult.result
@@ -120,30 +123,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
-
-    it("defines encryption and decryption parameters for AES keys", async function() {
-      const customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-      const customKeyVaultKey = await client.createKey(customKeyName, "AES", { keySize: 128 });
-      const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
-
-      const text = this.test!.title;
-      const encryptResult = await cryptoClientFromKey.encrypt({
-        algorithm: "A128GCM",
-        plaintext: stringToUint8Array(text),
-        additionalAuthenticatedData: stringToUint8Array(text)
-      });
-      console.log("encryptResult", encryptResult);
-      const decryptResult = await cryptoClientFromKey.decrypt({
-        algorithm: "A128GCM",
-        ciphertext: encryptResult.result,
-        iv: encryptResult.iv!,
-        authenticationTag: encryptResult.authenticationTag!,
-        additionalAuthenticatedData: encryptResult.additionalAuthenticatedData
-      });
-      const decryptedText = uint8ArrayToString(decryptResult.result);
-      assert.equal(text, decryptedText);
-    });
-  });
+  }
 
   // Local encryption is only supported in NodeJS.
   it("sign and verify with RS256", async function(): Promise<void> {
@@ -223,7 +203,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         algorithm: "A256GCM",
         authenticationTag: encryptResult.authenticationTag,
         ciphertext: encryptResult.result,
-        iv: encryptResult.iv,
+        iv: encryptResult.iv!,
         additionalAuthenticatedData: encryptResult.additionalAuthenticatedData
       });
 

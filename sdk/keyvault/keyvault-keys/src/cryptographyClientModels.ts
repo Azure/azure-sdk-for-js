@@ -228,9 +228,9 @@ export interface AesCbcEncryptParameters {
    */
   plaintext: Uint8Array;
   /**
-   * Optional initialization vector. If omitted, the service will generate and return a secure nonce in {@see EncryptResult}.
+   * The initialization vector used for encryption.
    */
-  iv?: Uint8Array;
+  iv: Uint8Array;
 }
 
 /**
@@ -270,7 +270,7 @@ export interface AesGcmDecryptParameters {
   /**
    * The initialization vector (or nonce) generated during encryption.
    */
-  iv?: Uint8Array;
+  iv: Uint8Array;
   /**
    * The authentication tag generated during encryption.
    */
@@ -299,7 +299,7 @@ export interface AesCbcDecryptParameters {
   /**
    * The initialization vector generated during encryption.
    */
-  iv?: Uint8Array;
+  iv: Uint8Array;
 }
 
 /**
