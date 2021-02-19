@@ -299,7 +299,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       if (!options) {
         options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
       }
-      await this.initLink(options, operationOptions || {});
+      await this.initLink(options, operationOptions);
     } catch (err) {
       err = translateServiceBusError(err);
       logger.logError(err, `${this.logPrefix} An error occurred while creating the sender`);
