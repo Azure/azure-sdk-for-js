@@ -173,8 +173,9 @@ async function runDockerContainer(
   log.info(`Started running the docker container ${dockerContainerName}`);
   dockerContainerRunProcess.stdout.on("data", stdoutListener);
   dockerContainerRunProcess.stderr.on("data", stderrListener);
-  const exitCode = await new Promise((resolve, _reject) => {
+  const exitCode = await new Promise((resolve, reject) => {
     dockerContainerRunProcess.on("exit", resolve);
+    dockerContainerRunProcess.on("error", reject);
   });
   if (exitCode === 0) {
     log.info(`Docker container ${dockerContainerName} finished running`);
@@ -227,7 +228,7 @@ export const commandInfo = makeCommandInfo(
       description: "Boolean to indicate whether to keep docker containers",
       default: false
     },
-    "keep-docker-image": {
+    "keep-docker-images": {
       kind: "boolean",
       description: "Boolean to indicate whether to keep the downloaded docker images",
       default: false
@@ -251,7 +252,7 @@ export default leafCommand(commandInfo, async (options) => {
   const containerLogFilePath = options["log-in-file"] ? `${containerWorkspace}/log.txt` : undefined;
   const useExistingDockerContainer = options["use-existing-docker-container"];
   const keepDockerContainers = options["keep-docker-container"];
-  const keepDockerImages = options["keep-docker-image"];
+  const keepDockerImages = options["keep-docker-images"];
   const stdoutListener = (chunk: Buffer | string) => log.info(chunk.toString());
   const stderrListener = (chunk: Buffer | string) => log.error(chunk.toString());
   async function cleanupBefore(): Promise<void> {
