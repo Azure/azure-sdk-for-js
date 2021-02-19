@@ -91,7 +91,7 @@ export class BasicScenario implements Scenario {
           version: 1,
           name: "BasicScenario.Root",
           duration: msToTimeSpan(600),
-          responseCode: StatusCode.OK.toString(),
+          responseCode: SpanStatusCode.OK.toString(),
           success: true,
           properties: {
             foo: "bar"
@@ -108,7 +108,7 @@ export class BasicScenario implements Scenario {
               name: "BasicScenario.Child.1",
               duration: msToTimeSpan(100),
               success: true,
-              resultCode: StatusCode.OK.toString(),
+              resultCode: SpanStatusCode.OK.toString(),
               properties: {
                 numbers: "123"
               }
@@ -125,7 +125,7 @@ export class BasicScenario implements Scenario {
               name: "BasicScenario.Child.2",
               duration: msToTimeSpan(100),
               success: true,
-              resultCode: StatusCode.OK.toString(),
+              resultCode: SpanStatusCode.OK.toString(),
               properties: {
                 numbers: "1234"
               }
