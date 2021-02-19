@@ -32,6 +32,7 @@ dependencies:
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/identity': file:projects/identity.tgz
+  '@rush-temp/iot-plugandplay-models-repo-tool': file:projects/iot-plugandplay-models-repo-tool.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz
   '@rush-temp/keyvault-common': file:projects/keyvault-common.tgz
@@ -9274,6 +9275,50 @@ packages:
       integrity: sha512-RkgNLuiYgllsKZCWqAgG5YWRjgD/90RbafjKLQa/t0BYJLbvR3k/c9UVNGZDSh6ScpnSCmQ8eCr0+FGM3eB2yg==
       tarball: file:projects/identity.tgz
     version: 0.0.0
+  file:projects/iot-plugandplay-models-repo-tool.tgz:
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@types/chai': 4.2.14
+      '@types/chai-as-promised': 7.1.3
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.3.0
+      chai-as-promised: 7.1.1_chai@4.3.0
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      eslint: 7.19.0
+      events: 3.2.0
+      inherits: 2.0.4
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@5.2.3
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@5.2.3
+      karma-json-preprocessor: 0.3.3_karma@5.2.3
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@5.2.3
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@5.2.3
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      tslib: 2.1.0
+      typedoc: 0.15.2
+      typescript: 4.1.2
+      util: 0.12.3
+    dev: false
+    name: '@rush-temp/iot-plugandplay-models-repo-tool'
+    resolution:
+      integrity: sha512-o0sIVRXu073jlfUkqFeSv55+qmoyArKGH4V75WbtIGomYY/YTsgnJf5FlNAmER6bGnwLrgcIBm2yNmaAWoSjxw==
+      tarball: file:projects/iot-plugandplay-models-repo-tool.tgz
+    version: 0.0.0
   file:projects/keyvault-admin.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
@@ -9561,6 +9606,9 @@ packages:
   file:projects/mock-hub.tgz:
     dependencies:
       '@types/node': 8.10.66
+      dotenv: 8.2.0
+      eslint: 7.19.0
+      prettier: 1.19.1
       rhea: 1.0.24
       rimraf: 3.0.2
       tslib: 2.1.0
@@ -9568,7 +9616,7 @@ packages:
     dev: false
     name: '@rush-temp/mock-hub'
     resolution:
-      integrity: sha512-2MtOIpVJk5Or798q7DCa4gKG3rSE+X+nk0lGPUDlbyXCNt4QDyxHMvrjSO02T6Bvv/KzfJNwIzsFLlgRAgmwQw==
+      integrity: sha512-Lro7rFcnDNWYuWUIr9czVrfJjSIadiaDU6I945N80JjHUW4RnMZ2WZY9Dr8v+iA1jlMEF7p6Sw0pzIpllGzQqA==
       tarball: file:projects/mock-hub.tgz
     version: 0.0.0
   file:projects/monitor-opentelemetry-exporter.tgz:
@@ -10546,6 +10594,7 @@ specifiers:
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:./projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/identity': file:./projects/identity.tgz
+  '@rush-temp/iot-plugandplay-models-repo-tool': file:./projects/iot-plugandplay-models-repo-tool.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:./projects/keyvault-certificates.tgz
   '@rush-temp/keyvault-common': file:./projects/keyvault-common.tgz

@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/samples/javascript/example.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "type": "pwa-node"
+        },
+        {
+            "name": "temp-unit-test",
+            "request": "launch",
+            "runtimeArgs": [
+                "run",
+                "temp-unit-test"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "externalTerminal",
+            "type": "pwa-node"
+        },
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach Karma Chrome",
+            "address": "localhost",
+            "port": 9876,
+            "pathMapping": {
+                "/": "${workspaceRoot}/",
+                "/base/": "${workspaceRoot}/"
+            }
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Launch Test",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\test\\node\\index.spec.ts",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ]
+        }
+    ]
+}

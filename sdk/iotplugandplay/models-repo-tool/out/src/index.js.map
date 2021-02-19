@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/index.ts"],"names":[],"mappings":";AAAA,uCAAuC;AACvC,kCAAkC;;;AAElC,6BAA6B;AAC7B,qDAA0B","sourcesContent":["// Copyright (c) Microsoft Corporation.\r\n// Licensed under the MIT license.\r\n\r\n// exporting the resolver api\r\nexport * from './resolver'\r\n"]}
