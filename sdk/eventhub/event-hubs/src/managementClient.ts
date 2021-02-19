@@ -27,13 +27,14 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { OperationNames } from "./models/private";
 import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -389,97 +390,77 @@ export class ManagementClient extends LinkEntity {
     try {
       const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
-      const sendOperationPromise = (): Promise<Message> =>
-        new Promise<Message>(async (resolve, reject) => {
-          let count = 0;
+      const sendOperationPromise = async (): Promise<Message> => {
+        let count = 0;
 
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-          let timeTakenByInit = 0;
+        const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+        let timeTakenByInit = 0;
 
-          const rejectOnAbort = (): void => {
-            const requestName = options.requestName;
-            const desc: string =
-              `[${this._context.connectionId}] The request "${requestName}" ` +
-              `to has been cancelled by the user.`;
-            // Cancellation is user-intended behavior, so log to info instead of warning.
-            logger.info(desc);
-            const error = new AbortError(
-              `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-            );
+        if (!this._isMgmtRequestResponseLinkOpen()) {
+          logger.verbose(
+            "[%s] Acquiring lock to get the management req res link.",
+            this._context.connectionId
+          );
 
-            reject(error);
-          };
-
-          if (abortSignal) {
-            if (abortSignal.aborted) {
-              return rejectOnAbort();
-            }
-          }
-
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            logger.verbose(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = (): void => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
-          }
-
-          const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-          const sendRequestOptions: SendRequestOptions = {
-            abortSignal: options.abortSignal,
-            requestName: options.requestName,
-            timeoutInMs: remainingOperationTimeoutInMs
-          };
-
-          count++;
-          if (count !== 1) {
-            // Generate a new message_id every time after the first attempt
-            request.message_id = generate_uuid();
-          } else if (!request.message_id) {
-            // Set the message_id in the first attempt only if it is not set
-            request.message_id = generate_uuid();
-          }
+          const initOperationStartTime = Date.now();
 
           try {
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            resolve(result);
+            await waitForTimeoutOrAbortOrResolve({
+              actionFn: () => {
+                return defaultLock.acquire(this.managementLock, () => {
+                  return this._init();
+                });
+              },
+              abortSignal: options?.abortSignal,
+              timeoutMs: retryTimeoutInMs,
+              timeoutMessage: `The request with message_id "${request.message_id}" timed out. Please try again later.`
+            });
           } catch (err) {
             const translatedError = translate(err);
             logger.warning(
-              "[%s] An error occurred during send on management request-response link with address '%s': %s",
+              "[%s] An error occurred while creating the management link %s: %s",
               this._context.connectionId,
-              this.address,
+              this.name,
               `${translatedError?.name}: ${translatedError?.message}`
             );
             logErrorStackTrace(translatedError);
-            reject(translatedError);
+            throw translatedError;
           }
-        });
+          timeTakenByInit = Date.now() - initOperationStartTime;
+        }
+
+        const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+        const sendRequestOptions: SendRequestOptions = {
+          abortSignal: options.abortSignal,
+          requestName: options.requestName,
+          timeoutInMs: remainingOperationTimeoutInMs
+        };
+
+        count++;
+        if (count !== 1) {
+          // Generate a new message_id every time after the first attempt
+          request.message_id = generate_uuid();
+        } else if (!request.message_id) {
+          // Set the message_id in the first attempt only if it is not set
+          request.message_id = generate_uuid();
+        }
+
+        try {
+          const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+          return result;
+        } catch (err) {
+          const translatedError = translate(err);
+          logger.warning(
+            "[%s] An error occurred during send on management request-response link with address '%s': %s",
+            this._context.connectionId,
+            this.address,
+            `${translatedError?.name}: ${translatedError?.message}`
+          );
+          logErrorStackTrace(translatedError);
+          throw translatedError;
+        }
+      };
 
       const config: RetryConfig<Message> = {
         operation: sendOperationPromise,

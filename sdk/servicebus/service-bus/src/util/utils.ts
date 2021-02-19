@@ -535,6 +535,8 @@ export type EntityAvailabilityStatus =
  */
 export const StandardAbortMessage = "The operation was aborted.";
 
+type setTimeoutArgs = (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+
 /**
  * An executor for a function that returns a Promise that obeys both a timeout and an
  * optional AbortSignal.
@@ -553,7 +555,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   abortSignal?: AbortSignalLike;
   // these are optional and only here for testing.
   timeoutFunctions?: {
-    setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+    setTimeoutFn: setTimeoutArgs;
     clearTimeoutFn: (timeoutId: any) => void;
   };
 }): Promise<T> {
@@ -604,7 +606,9 @@ export function checkAndRegisterWithAbortSignal(
   abortSignal?: AbortSignalLike
 ): () => void {
   if (abortSignal == null) {
-    return () => {};
+    return () => {
+      /** Nothing to do here, no abort signal */
+    };
   }
 
   if (abortSignal.aborted) {
