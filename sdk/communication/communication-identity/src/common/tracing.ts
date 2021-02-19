@@ -11,4 +11,3 @@ export const createSpan = createSpanFunction({
   packagePrefix: "Azure.Communication",
   namespace: "Microsoft.Communication"
 });
-
