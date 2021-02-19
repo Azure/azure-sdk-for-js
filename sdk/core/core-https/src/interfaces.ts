@@ -288,11 +288,6 @@ export interface ProxySettings {
    * Headers for proxy server
    */
   headers?: { [key: string]: unknown };
-
-  /**
-   * Local interface
-   */
-  localAddress?: string;
 }
 
 /**

@@ -210,8 +210,7 @@ export class NodeHttpsClient implements HttpsClient {
           ca: proxySettings.ca,
           cert: proxySettings.cert,
           key: proxySettings.key,
-          servername: proxySettings.servername,
-          localAddress: proxySettings.localAddress
+          servername: proxySettings.servername
         };
         if (proxySettings.username && proxySettings.password) {
           proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
