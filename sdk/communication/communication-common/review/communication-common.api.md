@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/core-http';
 import { AccessToken } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
+import { PipelineOptions } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -69,7 +70,7 @@ export const getIdentifierKind: (identifier: CommunicationIdentifier) => Communi
 export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
 
 // @public
-export const isKeyCredential: (credential: any) => credential is KeyCredential;
+export const isKeyCredential: (credential?: KeyCredential | TokenCredential | PipelineOptions | undefined) => credential is KeyCredential;
 
 // @public
 export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsUserIdentifier;
@@ -93,7 +94,7 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 }
 
 // @public
-export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
+export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: KeyCredential | TokenCredential | PipelineOptions | undefined) => UrlWithCredential;
 
 // @public
 export const parseConnectionString: (connectionString: string) => EndpointCredential;
