@@ -67,7 +67,7 @@ export class StorageSharedKeyCredential extends Credential {
   getCanonicalizedHeadersString(request: PipelineRequest): string {
     let headersArray = [];
     for (const [name, value] of request.headers) {
-      if (value.toLowerCase().startsWith(HeaderConstants.PREFIX_FOR_STORAGE)) {
+      if (name.toLowerCase().startsWith(HeaderConstants.PREFIX_FOR_STORAGE)) {
         headersArray.push({ name, value });
       }
     }
