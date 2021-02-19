@@ -105,7 +105,8 @@ describe("Receiver unit tests", () => {
         }),
         "fakeEntityPath",
         "peekLock",
-        0
+        0,
+        {}
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -134,7 +135,8 @@ describe("Receiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        {}
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -172,7 +174,8 @@ describe("Receiver unit tests", () => {
         }),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        {}
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -203,7 +206,8 @@ describe("Receiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        {}
       );
 
       const abortSignal = {
@@ -268,7 +272,8 @@ describe("Receiver unit tests", () => {
         createConnectionContextForTests(),
         "entity path",
         "peekLock",
-        1
+        1,
+        {}
       );
 
       const abortSignal = createAbortSignalForTest(true);
@@ -330,7 +335,7 @@ describe("Receiver unit tests", () => {
 
     it("create() with an existing _streamingReceiver", async () => {
       const context = createConnectionContextForTests();
-      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
+      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1, {});
 
       let initWasCalled = false;
       const expectedAbortSignal = createAbortSignalForTest();
@@ -382,7 +387,7 @@ describe("Receiver unit tests", () => {
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
       const context = createConnectionContextForTests();
 
-      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
+      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1, {});
 
       await impl["_createStreamingReceiver"]({
         lockRenewer: undefined,

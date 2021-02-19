@@ -13,7 +13,7 @@ import { CanonicalCode, Span, SpanKind, SpanOptions as OTSpanOptions } from "@op
  */
 export function createSpan(
   operationName: string,
-  operationOptions: OperationOptions
+  operationOptions: OperationOptions = {}
 ): { span: Span; updatedOperationOptions: OperationOptions } {
   const tracer = getTracer();
   const spanOptions: OTSpanOptions = {

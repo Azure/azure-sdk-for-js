@@ -56,7 +56,8 @@ describe("BatchingReceiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        {}
       );
       let wasCalled = false;
 

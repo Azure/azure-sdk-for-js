@@ -112,7 +112,8 @@ describe("Tracing tests", () => {
       createConnectionContextForTests(),
       "entity path",
       "peekLock",
-      1
+      1,
+      {}
     );
 
     const testData = stubCreateProcessingSpan(receiver);
@@ -227,7 +228,7 @@ describe("Tracing tests", () => {
    * to validate tracing.
    */
   [
-    new ServiceBusReceiverImpl(createConnectionContextForTests(), "entity path", "peekLock", 1),
+    new ServiceBusReceiverImpl(createConnectionContextForTests(), "entity path", "peekLock", 1, {}),
     new ServiceBusSessionReceiverImpl(
       {} as MessageSession,
       createConnectionContextForTests(),

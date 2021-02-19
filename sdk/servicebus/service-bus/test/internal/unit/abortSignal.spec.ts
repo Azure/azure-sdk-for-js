@@ -382,7 +382,8 @@ describe("AbortSignal", () => {
         createConnectionContextForTests(),
         "entityPath",
         "peekLock",
-        1
+        1,
+        {}
       );
 
       try {
