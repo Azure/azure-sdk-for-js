@@ -97,7 +97,9 @@ import {
   SignOptions,
   UnwrapKeyOptions,
   VerifyOptions,
-  WrapKeyOptions
+  WrapKeyOptions,
+  EncryptParameters,
+  DecryptParameters
 } from "./cryptographyClientModels";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
@@ -115,11 +117,13 @@ export {
   CreateOctKeyOptions,
   CryptographyClient,
   CryptographyOptions,
+  DecryptParameters,
   DecryptOptions,
   DecryptResult,
   DeletedKey,
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
+  EncryptParameters,
   EncryptOptions,
   EncryptResult,
   GetDeletedKeyOptions,

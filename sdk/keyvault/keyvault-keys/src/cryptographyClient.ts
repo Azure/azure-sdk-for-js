@@ -143,8 +143,7 @@ export class CryptographyClient {
    * @deprecated Use `encrypt({ algorithm, plaintext }, options)` instead.
    */
   public async encrypt(
-    // consider @deprecate and possibly reorder?
-    algorithm: EncryptionAlgorithm, // ask: consider refining without an object...
+    algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
     options?: EncryptOptions
   ): Promise<EncryptResult>;

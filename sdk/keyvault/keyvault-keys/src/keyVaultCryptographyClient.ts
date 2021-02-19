@@ -172,16 +172,16 @@ export class KeyVaultCryptographyClient {
       span.end();
     }
 
-    // Todo: figure out how to get iv, aad, and tag if present in params...
     return {
       algorithm: encryptParameters.algorithm,
       result: result.result!,
       keyID: this.getKeyID(),
+      // TODO: Should we be passing back aad, tag, iv if the service didnt return them but the user passed them in?
       additionalAuthenticatedData:
         result.additionalAuthenticatedData ||
         (encryptParameters as any).additionalAuthenticatedData,
-      authenticationTag: result.authenticationTag,
-      iv: result.iv
+      authenticationTag: result.authenticationTag || (encryptParameters as any).authenticationTag,
+      iv: result.iv || (encryptParameters as any).iv
     };
   }
 
