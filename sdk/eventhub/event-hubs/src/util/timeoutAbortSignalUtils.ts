@@ -61,6 +61,9 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   }
 }
 
+/**
+ * @internal
+ */
 export function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
   abortSignal?: AbortSignalLike
