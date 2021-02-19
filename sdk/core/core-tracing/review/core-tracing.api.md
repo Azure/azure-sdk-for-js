@@ -16,6 +16,16 @@ import { TimeInput } from '@opentelemetry/api';
 import { Tracer } from '@opentelemetry/api';
 import { TracerBase } from '@opencensus/web-types';
 
+// Warning: (ae-forgotten-export) The symbol "SpanConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends {
+    tracingOptions?: OperationTracingOptionsLike | undefined;
+}>(operationName: string, operationOptions: T) => {
+    span: Span;
+    updatedOptions: T;
+};
+
 // @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
 
@@ -77,6 +87,11 @@ export class OpenCensusTracerWrapper implements Tracer {
 // @public
 export interface OperationTracingOptions {
     spanOptions?: SpanOptions;
+}
+
+// @public
+export interface OperationTracingOptionsLike {
+    spanOptions?: OTSpanOptions;
 }
 
 export { OTSpanContext }

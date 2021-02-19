@@ -2,13 +2,22 @@
 // Licensed under the MIT license.
 
 import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
-import { getTracer } from "@azure/core-tracing";
-import { OperationOptions } from "./coreHttp";
+import { getTracer } from "../src/tracerProxy";
 
-type OperationTracingOptions = OperationOptions["tracingOptions"];
+/**
+ * Tracing options to set on an operation.
+ * @hidden
+ */
+export interface OperationTracingOptionsLike {
+  /**
+   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
+   */
+  spanOptions?: SpanOptions;
+}
 
 /**
  * Configuration for creating a new Tracing Span
+ * @hidden
  */
 export interface SpanConfig {
   /**
@@ -28,7 +37,7 @@ export interface SpanConfig {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-  return function<T extends OperationOptions>(
+  return function<T extends { tracingOptions?: OperationTracingOptionsLike }>(
     operationName: string,
     operationOptions: T
   ): { span: Span; updatedOptions: T } {
@@ -55,9 +64,10 @@ export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
       };
     }
 
-    const newTracingOptions: OperationTracingOptions = {
+    const newTracingOptions: OperationTracingOptionsLike = {
       ...tracingOptions,
       spanOptions: newSpanOptions
+      // TODO: .context soon.
     };
 
     const newOperationOptions: T = {
