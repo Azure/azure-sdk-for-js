@@ -446,20 +446,7 @@ export class ManagementClient extends LinkEntity {
           request.message_id = generate_uuid();
         }
 
-        try {
-          const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-          return result;
-        } catch (err) {
-          const translatedError = translate(err);
-          logger.warning(
-            "[%s] An error occurred during send on management request-response link with address '%s': %s",
-            this._context.connectionId,
-            this.address,
-            `${translatedError?.name}: ${translatedError?.message}`
-          );
-          logErrorStackTrace(translatedError);
-          throw translatedError;
-        }
+        return this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
       };
 
       const config: RetryConfig<Message> = {
@@ -473,7 +460,10 @@ export class ManagementClient extends LinkEntity {
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        `An error occurred while making the request to $management endpoint: ${translatedError?.name}: ${translatedError?.message}`
+        "[%s] An error occurred during send on management request-response link with address '%s': %s",
+        this._context.connectionId,
+        this.address,
+        `${translatedError?.name}: ${translatedError?.message}`
       );
       logErrorStackTrace(translatedError);
       throw translatedError;

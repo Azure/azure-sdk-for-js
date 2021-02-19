@@ -217,52 +217,7 @@ export class EventHubSender extends LinkEntity {
       abortSignal?: AbortSignalLike;
     } = {}
   ): Promise<number> {
-    if (this.isOpen()) {
-      return this._sender!.maxMessageSize;
-    }
-
-    const retryOptions = options.retryOptions || {};
-    const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-    retryOptions.timeoutInMs = timeoutInMs;
-    const senderOptions = this._createSenderOptions(timeoutInMs);
-
-    const createLinkPromise = async (): Promise<void> => {
-      try {
-        await waitForTimeoutOrAbortOrResolve({
-          actionFn: () => {
-            return defaultLock.acquire(this.senderLock, () => {
-              return this._init(senderOptions);
-            });
-          },
-          abortSignal: options?.abortSignal,
-          timeoutMs: timeoutInMs,
-          timeoutMessage:
-            `[${this._context.connectionId}] Sender "${this.name}" ` +
-            `with address "${this.address}", cannot be created right now, due ` +
-            `to operation timeout.`
-        });
-      } catch (err) {
-        const translatedError = translate(err);
-        logger.warning(
-          "[%s] An error occurred while creating the sender %s: %s",
-          this._context.connectionId,
-          this.name,
-          `${translatedError?.name}: ${translatedError?.message}`
-        );
-        logErrorStackTrace(translatedError);
-        throw translatedError;
-      }
-    };
-
-    const config: RetryConfig<void> = {
-      operation: createLinkPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.senderLink,
-      abortSignal: options?.abortSignal,
-      retryOptions: retryOptions
-    };
-
-    await retry<void>(config);
+    await this._createLinkIfNotOpen(options);
 
     return this._sender!.maxMessageSize;
   }
@@ -376,7 +331,7 @@ export class EventHubSender extends LinkEntity {
    * @param rheaMessage - The message to be sent to EventHub.
    * @returns Promise<void>
    */
-  private _trySendBatch(
+  private async _trySendBatch(
     rheaMessage: RheaMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
@@ -384,38 +339,12 @@ export class EventHubSender extends LinkEntity {
     const retryOptions = options.retryOptions || {};
     const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     retryOptions.timeoutInMs = timeoutInMs;
-    const sendEventPromise = async (): Promise<void> => {
-      const initStartTime = Date.now();
-      if (!this.isOpen()) {
-        const senderOptions = this._createSenderOptions(timeoutInMs);
-        try {
-          await waitForTimeoutOrAbortOrResolve({
-            actionFn: () => {
-              return defaultLock.acquire(this.senderLock, () => {
-                return this._init(senderOptions);
-              });
-            },
-            abortSignal: options?.abortSignal,
-            timeoutMs: timeoutInMs,
-            timeoutMessage:
-              `[${this._context.connectionId}] Sender "${this.name}" ` +
-              `with address "${this.address}", was not able to send the message right now, due ` +
-              `to operation timeout.`
-          });
-        } catch (err) {
-          const translatedError = translate(err);
-          logger.warning(
-            "[%s] An error occurred while creating the sender %s: %s",
-            this._context.connectionId,
-            this.name,
-            `${translatedError?.name}: ${translatedError?.message}`
-          );
-          logErrorStackTrace(translatedError);
-          throw translatedError;
-        }
-      }
-      const timeTakenByInit = Date.now() - initStartTime;
 
+    const initStartTime = Date.now();
+    await this._createLinkIfNotOpen(options);
+    const timeTakenByInit = Date.now() - initStartTime;
+
+    const sendEventPromise = async (): Promise<void> => {
       logger.verbose(
         "[%s] Sender '%s', credit: %d available: %d",
         this._context.connectionId,
@@ -472,8 +401,9 @@ export class EventHubSender extends LinkEntity {
         };
         throw translate(e);
       }
+
+      this._sender!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
       try {
-        this._sender!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
         const delivery = await this._sender!.send(rheaMessage, undefined, 0x80013700, {
           abortSignal
         });
@@ -484,15 +414,7 @@ export class EventHubSender extends LinkEntity {
           delivery.id
         );
       } catch (err) {
-        const translatedError = translate(err.innerError || err);
-        logger.warning(
-          "[%s] Sender '%s', An error occurred while sending the message %s",
-          this._context.connectionId,
-          this.name,
-          `${translatedError?.name}: ${translatedError?.message}`
-        );
-        logErrorStackTrace(translatedError);
-        throw translatedError;
+        throw err.innerError || err;
       }
     };
 
@@ -503,7 +425,73 @@ export class EventHubSender extends LinkEntity {
       abortSignal: abortSignal,
       retryOptions: retryOptions
     };
-    return retry<void>(config);
+
+    try {
+      await retry<void>(config);
+    } catch (err) {
+      const translatedError = translate(err);
+      logger.warning(
+        "[%s] Sender '%s', An error occurred while sending the message %s",
+        this._context.connectionId,
+        this.name,
+        `${translatedError?.name}: ${translatedError?.message}`
+      );
+      logErrorStackTrace(translatedError);
+      throw translatedError;
+    }
+  }
+
+  private async _createLinkIfNotOpen(
+    options: {
+      retryOptions?: RetryOptions;
+      abortSignal?: AbortSignalLike;
+    } = {}
+  ): Promise<void> {
+    if (this.isOpen()) {
+      return;
+    }
+    const retryOptions = options.retryOptions || {};
+    const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+    retryOptions.timeoutInMs = timeoutInMs;
+    const senderOptions = this._createSenderOptions(timeoutInMs);
+
+    const createLinkPromise = async (): Promise<void> => {
+      return waitForTimeoutOrAbortOrResolve({
+        actionFn: () => {
+          return defaultLock.acquire(this.senderLock, () => {
+            return this._init(senderOptions);
+          });
+        },
+        abortSignal: options?.abortSignal,
+        timeoutMs: timeoutInMs,
+        timeoutMessage:
+          `[${this._context.connectionId}] Sender "${this.name}" ` +
+          `with address "${this.address}", cannot be created right now, due ` +
+          `to operation timeout.`
+      });
+    };
+
+    const config: RetryConfig<void> = {
+      operation: createLinkPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.senderLink,
+      abortSignal: options.abortSignal,
+      retryOptions: retryOptions
+    };
+
+    try {
+      await retry<void>(config);
+    } catch (err) {
+      const translatedError = translate(err);
+      logger.warning(
+        "[%s] An error occurred while creating the sender %s: %s",
+        this._context.connectionId,
+        this.name,
+        `${translatedError?.name}: ${translatedError?.message}`
+      );
+      logErrorStackTrace(translatedError);
+      throw translatedError;
+    }
   }
 
   /**
