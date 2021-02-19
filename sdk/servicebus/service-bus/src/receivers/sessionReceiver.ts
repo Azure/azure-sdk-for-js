@@ -442,7 +442,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
-        const span = this._createProcessingSpan(message, this, this._context.config, options);
+        const span = this._createProcessingSpan(message, this, this._context.config, options || {});
         return trace(() => handlers.processMessage(message), span);
       },
       processError,
@@ -539,7 +539,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify, {
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify || {}, {
       ...getOperationOptionsBase(this._clientOptions),
       ...operationOptions
     });
@@ -553,7 +553,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify, {
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify || {}, {
       ...getOperationOptionsBase(this._clientOptions),
       ...operationOptions
     });
@@ -567,7 +567,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deadLetterMessage(msgImpl, this._context, this.entityPath, properties, {
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, properties || {}, {
       ...getOperationOptionsBase(this._clientOptions),
       ...operationOptions
     });

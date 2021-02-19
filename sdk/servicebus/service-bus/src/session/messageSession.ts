@@ -20,6 +20,7 @@ import { throwErrorIfConnectionClosed } from "../util/errors";
 import {
   calculateRenewAfterDuration,
   convertTicksToDate,
+  getOperationOptionsBase,
   StandardAbortMessage
 } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
@@ -647,7 +648,13 @@ export class MessageSession extends LinkEntity<Receiver> {
                 this.logPrefix,
                 bMessage.messageId
               );
-              await abandonMessage(bMessage, this._context, this.entityPath);
+              await abandonMessage(
+                bMessage,
+                this._context,
+                this.entityPath,
+                {},
+                getOperationOptionsBase(options)
+              );
             } catch (abandonError) {
               const translatedError = translateServiceBusError(abandonError);
               logger.logError(
@@ -684,7 +691,12 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            await completeMessage(bMessage, this._context, this.entityPath);
+            await completeMessage(
+              bMessage,
+              this._context,
+              this.entityPath,
+              getOperationOptionsBase(options)
+            );
           } catch (completeError) {
             const translatedError = translateServiceBusError(completeError);
             logger.logError(

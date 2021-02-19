@@ -243,7 +243,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options?: DispositionStatusOptions
+    options: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};

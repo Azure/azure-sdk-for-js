@@ -162,7 +162,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
   const allReceivedMessages = [];
 
   try {
-    for await (const m of getMessageIterator(receiver)) {
+    for await (const m of getMessageIterator(receiver, {})) {
       allReceivedMessages.push(m);
     }
     assert.fail("Should throw");

@@ -98,7 +98,7 @@ export function createProcessingSpan(
   // what we want for tracing.
   receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
-  options?: OperationOptionsBase
+  options: OperationOptionsBase
 ): Span {
   const links: Link[] = [];
 
@@ -143,7 +143,7 @@ export function createAndEndProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
   receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
-  options?: OperationOptionsBase
+  options: OperationOptionsBase
 ): void {
   const span = createProcessingSpan(receivedMessages, receiver, connectionConfig, options);
   span.setStatus({ code: CanonicalCode.OK });

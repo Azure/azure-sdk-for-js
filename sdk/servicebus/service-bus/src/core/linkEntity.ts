@@ -370,8 +370,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @param setTokenRenewal - Set the token renewal timer. Default false.
    */
   private async _negotiateClaim(
-    setTokenRenewal?: boolean,
-    operationOptions?: OperationOptionsBase
+    setTokenRenewal: boolean = false,
+    operationOptions: OperationOptionsBase
   ): Promise<void> {
     this._logger.verbose(`${this._logPrefix} _negotiateClaim() has been called`);
 
@@ -479,7 +479,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
    */
-  private _ensureTokenRenewal(operationOptions?: OperationOptionsBase): void {
+  private _ensureTokenRenewal(operationOptions: OperationOptionsBase): void {
     if (!this._tokenTimeout) {
       return;
     }

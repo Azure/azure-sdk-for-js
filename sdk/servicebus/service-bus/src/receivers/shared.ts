@@ -37,7 +37,7 @@ export function assertValidMessageHandlers(handlers: any) {
  */
 export async function* getMessageIterator(
   receiver: Pick<ServiceBusReceiver, "receiveMessages">,
-  options?: OperationOptionsBase
+  options: OperationOptionsBase
 ): AsyncIterableIterator<ServiceBusReceivedMessage> {
   while (true) {
     const messages = await receiver.receiveMessages(1, options);
@@ -75,7 +75,7 @@ export function completeMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  operationOptions?: OperationOptionsBase
+  operationOptions: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Completing the message with id '%s'.",
@@ -93,8 +93,8 @@ export function abandonMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify?: { [key: string]: any },
-  operationOptions?: OperationOptionsBase
+  propertiesToModify: { [key: string]: any },
+  operationOptions: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Abandoning the message with id '%s'.",
@@ -115,8 +115,8 @@ export function deferMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify?: { [key: string]: any },
-  operationOptions?: OperationOptionsBase
+  propertiesToModify: { [key: string]: any },
+  operationOptions: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deferring the message with id '%s'.",
@@ -137,8 +137,8 @@ export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify?: Partial<DeadLetterOptions> & { [key: string]: any },
-  operationOptions?: OperationOptionsBase
+  propertiesToModify: Partial<DeadLetterOptions> & { [key: string]: any },
+  operationOptions: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deadlettering the message with id '%s'.",
@@ -175,7 +175,7 @@ function settleMessage(
   operation: DispositionType,
   context: ConnectionContext,
   entityPath: string,
-  options?: DispositionStatusOptions
+  options: DispositionStatusOptions
 ): Promise<void> {
   const isDeferredMessage = !message.delivery.link;
   const receiver = isDeferredMessage

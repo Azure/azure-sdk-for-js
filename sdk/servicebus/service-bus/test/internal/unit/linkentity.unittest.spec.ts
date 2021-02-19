@@ -147,7 +147,7 @@ describe("LinkEntity unit tests", () => {
         try {
           const old = linkEntity["_negotiateClaim"];
           linkEntity["_negotiateClaim"] = async () => {
-            await old.apply(linkEntity);
+            await old.apply(linkEntity, [undefined, {}]);
             connectionContext["isConnectionClosing"] = () => true;
           };
 

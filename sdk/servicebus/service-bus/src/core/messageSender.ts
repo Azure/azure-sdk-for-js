@@ -490,7 +490,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     return this.link!.maxMessageSize;
   }
 
-  async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createBatch(options: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context);
     let maxMessageSize = await this.getMaxMessageSize({
       ...options,

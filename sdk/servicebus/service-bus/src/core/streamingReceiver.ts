@@ -28,6 +28,7 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
 import { ReceiverHandlers } from "./shared";
+import { getOperationOptionsBase } from "../util/utils";
 
 /**
  * @internal
@@ -275,7 +276,13 @@ export class StreamingReceiver extends MessageReceiver {
               this.name,
               error
             );
-            await abandonMessage(bMessage, this._context, entityPath);
+            await abandonMessage(
+              bMessage,
+              this._context,
+              entityPath,
+              {},
+              getOperationOptionsBase(options)
+            );
           } catch (abandonError) {
             const translatedError = translateServiceBusError(abandonError);
             logger.logError(
@@ -312,7 +319,12 @@ export class StreamingReceiver extends MessageReceiver {
             this.logPrefix,
             bMessage.messageId
           );
-          await completeMessage(bMessage, this._context, entityPath);
+          await completeMessage(
+            bMessage,
+            this._context,
+            entityPath,
+            getOperationOptionsBase(options)
+          );
         } catch (completeError) {
           const translatedError = translateServiceBusError(completeError);
           logger.logError(
