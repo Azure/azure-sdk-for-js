@@ -13,6 +13,7 @@ import {
   BlobServiceClient
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline as CoreHttpsPipeline } from "@azure/core-https";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
@@ -35,7 +36,7 @@ describe("ContainerClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it.only("getAccessPolicy", async () => {
+  it("getAccessPolicy", async () => {
     const result = await containerClient.getAccessPolicy();
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
@@ -94,8 +95,11 @@ describe("ContainerClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (containerClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((containerClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -112,8 +116,11 @@ describe("ContainerClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (containerClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((containerClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -146,8 +153,11 @@ describe("ContainerClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (containerClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((containerClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ContainerClient(containerClient.url, pipeline);
 

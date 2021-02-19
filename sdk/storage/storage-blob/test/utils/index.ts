@@ -20,6 +20,7 @@ import {
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline as CoreHttpsPipeline } from "@azure/core-https";
 import { env } from "@azure/test-utils-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -255,8 +256,11 @@ export function getSASConnectionStringFromEnvironment(): string {
   tmr.setDate(tmr.getDate() + 1);
   const queueServiceClient = getBSU();
   // By default, credential is always the last element of pipeline factories
-  const factories = (queueServiceClient as any).pipeline.factories;
-  const sharedKeyCredential = factories[factories.length - 1];
+  const factories = ((queueServiceClient as any).pipeline
+    .factories as CoreHttpsPipeline).getOrderedPolicies();
+  const sharedKeyCredential = factories.filter(
+    (f) => f.name === "storageSharedKeyCredential"
+  )[0] as StorageSharedKeyCredential;
 
   const sas = generateAccountSASQueryParameters(
     {

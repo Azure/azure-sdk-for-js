@@ -9,6 +9,7 @@ import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, BlobServiceClient } from "../src";
 import { newPipeline, Pipeline } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
+import { Pipeline as CoreHttpsPipeline } from "@azure/core-https";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { InjectorPolicy } from "./utils/InjectorPolicy";
 
@@ -46,8 +47,8 @@ describe("RetryPolicy", () => {
       }
       return;
     });
-    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
+    const factories = ((containerClient as any).pipeline.factories as CoreHttpsPipeline).clone(); // clone factories array
+    factories.addPolicy(injector);
     const pipeline = new Pipeline(factories);
     const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
@@ -76,8 +77,8 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
+    const factories = ((containerClient as any).pipeline.factories as CoreHttpsPipeline).clone(); // clone factories array
+    factories.addPolicy(injector);
     const pipeline = new Pipeline(factories);
     const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
@@ -186,8 +187,8 @@ describe("RetryPolicy", () => {
       }
       return;
     });
-    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
+    const factories = ((containerClient as any).pipeline.factories as CoreHttpsPipeline).clone(); // clone factories array
+    factories.addPolicy(injector);
     const pipeline = new Pipeline(factories);
     const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 

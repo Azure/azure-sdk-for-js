@@ -22,6 +22,7 @@ import {
   BlobSASPermissions
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline as CoreHttpsPipeline } from "@azure/core-https";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
@@ -84,8 +85,11 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((blockBlobClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
 
     const body: string = recorder.getUniqueName("randomstring");
@@ -95,8 +99,11 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((blockBlobClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -122,8 +129,11 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((blockBlobClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
 

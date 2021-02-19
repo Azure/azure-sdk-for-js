@@ -605,7 +605,7 @@ describe("BlobBatch", () => {
     try {
       await batchSetTierRequest.setBlobAccessTier("invalidurl", credential, "Cool");
     } catch (err) {
-      if (err instanceof RangeError && err.message.indexOf("Invalid url for sub request: ") != -1) {
+      if (err instanceof TypeError && err.message.indexOf("Invalid URL: invalidurl") != -1) {
         exceptionCaught = true;
       }
     }

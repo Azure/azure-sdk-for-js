@@ -8,7 +8,7 @@ import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
 import { TokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-https";
+import { isNode, Pipeline as CoreHttpsPipeline } from "@azure/core-https";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
 import {
@@ -212,8 +212,11 @@ describe("BlobClient Node.js only", () => {
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
 
-    const factories = (containerClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((blobServiceClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
 
     const sas = generateBlobSASQueryParameters(
       {
@@ -270,8 +273,11 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((blobServiceClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential);
 
     const metadata = {
@@ -284,8 +290,11 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((blobServiceClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -314,8 +323,11 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const factories = ((blobServiceClient as any).pipeline
+      .factories as CoreHttpsPipeline).getOrderedPolicies();
+    const credential = factories.filter(
+      (f) => f.name === "storageSharedKeyCredential"
+    )[0] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobClient(blobClient.url, pipeline);
 
