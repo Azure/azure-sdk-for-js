@@ -49,18 +49,18 @@ export class ExpiringAccessTokenCache implements AccessTokenCache {
   }
 
   readyToRefresh(): boolean {
-    return (
-      !this.cachedToken ||
-      Date.now() + this.tokenRefreshBufferMs >= this.cachedToken.expiresOnTimestamp
+    return Boolean(
+      this.cachedToken &&
+        Date.now() + this.tokenRefreshBufferMs >= this.cachedToken.expiresOnTimestamp
     );
   }
 
-  isExpired(): boolean {
-    return Boolean(this.cachedToken && Date.now() >= this.cachedToken?.expiresOnTimestamp);
+  isTokenValid(): boolean {
+    return Boolean(this.cachedToken && Date.now() < this.cachedToken.expiresOnTimestamp);
   }
 
   getCachedToken(): AccessToken | undefined {
-    if (this.isExpired()) {
+    if (!this.isTokenValid()) {
       this.cachedToken = undefined;
     }
 

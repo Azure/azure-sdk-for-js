@@ -25,14 +25,19 @@ export interface BearerTokenAuthenticationPolicyOptions {
    */
   scopes: string | string[];
   /**
-   * Number of milliseconds before the token expire from which we start triggering refreshes.
+   * Number of milliseconds before the token expires, during which we start triggering refreshes.
    */
-  tokenRefreshBufferMs?: number;
+  beforeTokenExpiresInMs?: number;
   /**
-   * To avoid too many refresh requests, we make new refresh requests only after this time. Defaults to 30 seconds.
+   * Interval between token refreshes until the token expires. Defaults to 30 seconds.
    */
-  refreshAttemptsBufferMs?: number;
+  tokenRefreshIntervalInMs?: number;
 }
+
+/**
+ * Default interval between token refreshes until the token expires.
+ */
+export const DefaultTokenRefreshIntervalInMs = 30000;
 
 /**
  * A policy that can request a token from a TokenCredential implementation and
@@ -43,43 +48,47 @@ export function bearerTokenAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes } = options;
   const tokenCache: ExpiringAccessTokenCache = new ExpiringAccessTokenCache(
-    options.tokenRefreshBufferMs
+    options.beforeTokenExpiresInMs
   );
 
-  let refreshPromise: Promise<AccessToken | null> | undefined;
+  let refreshPromise: Promise<AccessToken | undefined> | undefined;
 
-  let refreshAttemptsBufferMs = options.refreshAttemptsBufferMs ?? 30000;
+  let refreshAttemptsBufferMs = options.tokenRefreshIntervalInMs ?? DefaultTokenRefreshIntervalInMs;
 
   // When the refresh buffer is hit, we trigger this refresher
   // which tries to update the token every so often.
   // The delay of the refreshes is defined by the `refreshAttemptsBufferMs`
-  async function refresher(tokenOptions: GetTokenOptions): Promise<AccessToken | null> {
+  async function refresher(tokenOptions: GetTokenOptions): Promise<AccessToken | undefined> {
     // If the cached token expired, we should stop refreshing the token.
-    while (!tokenCache.isExpired()) {
+    while (tokenCache.isTokenValid()) {
       const token = await credential.getToken(scopes, tokenOptions);
       if (token) {
+        refreshPromise = undefined;
         return token;
       }
       await delay(refreshAttemptsBufferMs);
     }
-    return null;
+    refreshPromise = undefined;
+    return;
   }
 
   async function getToken(tokenOptions: GetTokenOptions): Promise<string | undefined> {
-    if (tokenCache.readyToRefresh()) {
+    if (!refreshPromise && tokenCache.readyToRefresh()) {
       refreshPromise = refresher(tokenOptions);
     }
+
     let accessToken = tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      if (!refreshPromise) {
-        refreshPromise = credential.getToken(scopes, tokenOptions);
+      if (refreshPromise) {
+        accessToken = await refreshPromise;
+      } else {
+        accessToken = (await credential.getToken(scopes, tokenOptions)) || undefined;
       }
-      accessToken = (await refreshPromise) || undefined;
       tokenCache.setCachedToken(accessToken);
     }
-
     return accessToken ? accessToken.token : undefined;
   }
+
   return {
     name: bearerTokenAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
