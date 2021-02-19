@@ -36,8 +36,7 @@ export class User {
   }
   /**
    * @hidden
-   * @param database The parent {@link Database}.
-   * @param id
+   * @param database - The parent {@link Database}.
    */
   constructor(
     public readonly database: Database,
@@ -51,7 +50,6 @@ export class User {
    * Operations to read, replace, or delete a specific Permission by id.
    *
    * See `client.permissions` for creating, upserting, querying, or reading all operations.
-   * @param id
    */
   public permission(id: string): Permission {
     return new Permission(this, id, this.clientContext);
@@ -59,7 +57,6 @@ export class User {
 
   /**
    * Read the {@link UserDefinition} for the given {@link User}.
-   * @param options
    */
   public async read(options?: RequestOptions): Promise<UserResponse> {
     const path = getPathFromLink(this.url);
@@ -75,8 +72,7 @@ export class User {
 
   /**
    * Replace the given {@link User}'s definition with the specified {@link UserDefinition}.
-   * @param body The specified {@link UserDefinition} to replace the definition.
-   * @param options
+   * @param body - The specified {@link UserDefinition} to replace the definition.
    */
   public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     const err = {};
@@ -99,7 +95,6 @@ export class User {
 
   /**
    * Delete the given {@link User}.
-   * @param options
    */
   public async delete(options?: RequestOptions): Promise<UserResponse> {
     const path = getPathFromLink(this.url);
