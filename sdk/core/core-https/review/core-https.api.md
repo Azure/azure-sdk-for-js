@@ -209,9 +209,16 @@ export const proxyPolicyName = "proxyPolicy";
 
 // @public
 export interface ProxySettings {
+    ca?: Buffer[];
+    cert?: Buffer;
+    headers?: {
+        [key: string]: unknown;
+    };
     host: string;
+    key?: Buffer;
     password?: string;
     port: number;
+    servername?: string;
     username?: string;
 }
 
