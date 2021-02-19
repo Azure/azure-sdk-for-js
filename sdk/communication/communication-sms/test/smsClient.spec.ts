@@ -37,7 +37,7 @@ describe("SmsClient", async () => {
     }
   });
 
-  it("sends a SMS message to multiple numbers", async () => {
+  it("sends a SMS message", async () => {
     const connectionString = process.env[
       "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING"
     ] as string;
@@ -46,47 +46,27 @@ describe("SmsClient", async () => {
     const toNumber = process.env["AZURE_PHONE_NUMBER"] as string;
 
     const smsClient = new SmsClient(connectionString);
-    const sendRequest: SendRequest = {
+    
+    const request: SendRequest = {
       from: fromNumber,
       to: [toNumber],
       message: "test message"
     };
+
     const options: SendOptions = {
       enableDeliveryReport: true,
-      tag: "LIVE_TEST"
-    }; //hmm, how do we test this in event grid?
-    const sendResponse = await smsClient.send(sendRequest, options);
-    const sendResults = sendResponse.value;
-    for (const sendResult of sendResults) {
-      assert.equal(sendResult.httpStatusCode, 202);
-      assert.isString(sendResult.messageId);
-    }
-  });
-
-  it("sends a SMS message with a tag", async () => {
-    const connectionString = process.env[
-      "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING"
-    ] as string;
-
-    const fromNumber = process.env["AZURE_PHONE_NUMBER"] as string;
-    const toNumber = process.env["AZURE_PHONE_NUMBER"] as string;
-
-    const smsClient = new SmsClient(connectionString);
-    const sendRequest: SendRequest = {
-      from: fromNumber,
-      to: [toNumber],
-      message: "test message"
+      tag: "SMS_LIVE_TEST"
     };
-    const options: SendOptions = {
-      enableDeliveryReport: true,
-      tag: "LIVE_TEST"
-    };
-
-    const sendResponse = await smsClient.send(sendRequest, options);
-    const sendResults = sendResponse.value;
-    for (const sendResult of sendResults) {
-      assert.equal(sendResult.httpStatusCode, 202);
-      assert.isString(sendResult.messageId);
+    
+    const results = await smsClient.send(request, options);
+    assert.lengthOf(results, 1);
+    for (const result of results) {
+      assert.equal(result.httpStatusCode, 202);
+      assert.equal(result.to, toNumber);
+      assert.isString(result.messageId);
+      assert.equal(result.repeatabilityResult, "accepted");
+      assert.isTrue(result.successful);
+      assert.isNull(result.errorMessage);
     }
   });
 });

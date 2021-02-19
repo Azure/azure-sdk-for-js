@@ -21,8 +21,7 @@ import { SmsApiClient } from "./generated/src/smsApiClient";
 import {
   SmsSendResult,
   SendMessageRequest,
-  SmsRecipient,
-  SmsSendResponse
+  SmsRecipient
 } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
@@ -152,7 +151,7 @@ export class SmsClient {
   public async send(
     _sendRequest: SendRequest,
     _options: SendOptions = { enableDeliveryReport: false }
-  ): Promise<SmsSendResponse> {
+  ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(_options);
     const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);
 
@@ -167,7 +166,7 @@ export class SmsClient {
 
     const sendRequest: SendMessageRequest = {
       from: _sendRequest.from,
-      smsRecipient: recipients,
+      smsRecipients: recipients,
       message: _sendRequest.message,
       smsSendOptions: restOptions
     };
@@ -177,7 +176,7 @@ export class SmsClient {
         sendRequest,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return response;
+      return response.value;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

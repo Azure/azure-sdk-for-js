@@ -27,8 +27,7 @@ export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "SmsSendResponse" needs to be exported by the entry point index.d.ts
-    send(_sendRequest: SendRequest, _options?: SendOptions): Promise<SmsSendResponse>;
+    send(_sendRequest: SendRequest, _options?: SendOptions): Promise<SmsSendResult[]>;
 }
 
 // @public
