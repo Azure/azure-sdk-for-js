@@ -220,19 +220,27 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   [regex]$pattern = "azure-"
   $pkgName = $pattern.replace($packageName, "", 1)
   $packageDir = Join-Path $artifactDir $pkgName "temp"
-  Write-Host "Searching for *.api.json in path $($packageDir)"
-  $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
-  if (!$files)
+  if (Test-Path $packageDir)
   {
-    Write-Host "$($packageDir) does not have api review json for package"
-    return $null
+    Write-Host "Searching for *.api.json in path $($packageDir)"
+    $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
+    if (!$files)
+    {
+      Write-Host "$($packageDir) does not have api review json for package"
+      return $null
+    }
+    elseif ($files.Count -ne 1)
+    {
+      Write-Host "$($packageDir) should contain only one api review for $($packageName)"
+      Write-Host "No of Packages $($files.Count)"
+      return $null
+    }
   }
-  elseif ($files.Count -ne 1)
+  else
   {
-    Write-Host "$($packageDir) should contain only one api review for $($packageName)"
-    Write-Host "No of Packages $($files.Count)"
+    Write-Host "$($pkgName) does not have api review json"
     return $null
-  }
+  }  
 
   $packages = @{
     $files[0].Name = $files[0].FullName
