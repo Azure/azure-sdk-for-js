@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Logger } from "@opentelemetry/api";
 import {
   DEFAULT_BREEZE_API_VERSION,
   DEFAULT_BREEZE_ENDPOINT,
@@ -20,18 +19,9 @@ export interface AzureExporterConfig {
 
 export interface AzureExporterInternalConfig {
   instrumentationKey: string;
-
-  // Exporter
-  logger?: Logger;
-
-  // Channel
   batchSendRetryIntervalMs: number;
-
-  // Sender
   maxConsecutiveFailuresBeforeWarning: number;
-
   endpointUrl: string;
-
   apiVersion: ServiceApiVersion;
 }
 
