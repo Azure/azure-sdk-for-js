@@ -218,12 +218,12 @@ export const commandInfo = makeCommandInfo(
         "Boolean to indicate whether to save the the stdout and sterr for npm commands to the log.txt log file",
       default: true
     },
-    "use-existing-docker-container": {
+    "use-existing-docker-containers": {
       kind: "boolean",
       description: "Boolean to indicate whether to use existing docker containers if any",
       default: false
     },
-    "keep-docker-container": {
+    "keep-docker-containers": {
       kind: "boolean",
       description: "Boolean to indicate whether to keep docker containers",
       default: false
@@ -250,7 +250,7 @@ export default leafCommand(commandInfo, async (options) => {
   const dockerContainerNames = nodeVersions.map((version: string) => `${version}-container`);
   const containerWorkspace = "/workspace";
   const containerLogFilePath = options["log-in-file"] ? `${containerWorkspace}/log.txt` : undefined;
-  const useExistingDockerContainer = options["use-existing-docker-container"];
+  const useExistingDockerContainer = options["use-existing-docker-containers"];
   const keepDockerContainers = options["keep-docker-container"];
   const keepDockerImages = options["keep-docker-images"];
   const stdoutListener = (chunk: Buffer | string) => log.info(chunk.toString());
