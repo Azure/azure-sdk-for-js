@@ -198,9 +198,11 @@ class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
+        const parsedUrl = new URL(proxySettings.host);
         const proxyAgentOptions: HttpsProxyAgentOptions = {
-          host: proxySettings.host,
+          host: parsedUrl.host,
           port: proxySettings.port,
+          protocol: parsedUrl.protocol,
           headers: request.headers.toJSON()
         };
         if (proxySettings.username && proxySettings.password) {
