@@ -23,8 +23,8 @@ export class DataLakeStorageClientContext extends msRestAzure.AzureServiceClient
 
   /**
    * Initializes a new instance of the DataLakeStorageClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
-   * @param accountName The Azure Storage account name.
+   * @param credentials - Credentials needed for the client to connect to Azure.
+   * @param accountName - The Azure Storage account name.
    * @param options - The parameter options
    */
   constructor(

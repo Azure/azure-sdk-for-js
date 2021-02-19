@@ -6,8 +6,8 @@ import { getTracer, SpanOptions, OperationTracingOptions } from "@azure/core-tra
 
 /**
  * Creates a span using the global tracer.
- * @param name The name of the operation being performed.
- * @param tracingOptions The tracingOptions for the underlying http request.
+ * @param name - The name of the operation being performed.
+ * @param tracingOptions - The tracingOptions for the underlying http request.
  */
 export function createSpan(
   operationName: string,

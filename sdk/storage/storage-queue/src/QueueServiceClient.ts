@@ -42,51 +42,33 @@ import { SasIPRange } from "./SasIPRange";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
- *
- * @export
- * @interface ServiceGetPropertiesOptions
  */
 export interface ServiceGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueServiceClient.setProperties} operation
- *
- * @export
- * @interface ServiceSetPropertiesOptions
  */
 export interface ServiceSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceSetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueServiceClient.getStatistics} operation
- *
- * @export
- * @interface ServiceGetStatisticsOptions
  */
 export interface ServiceGetStatisticsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceGetStatisticsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -98,16 +80,11 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
  * - {@link QueueServiceClient.listSegments}
  * - {@link QueueServiceClient.listQueuesSegment}
  * - {@link QueueServiceClient.listItems}
- *
- * @interface ServiceListQueuesSegmentOptions
  */
 interface ServiceListQueuesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceListQueuesSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -135,17 +112,11 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
 
 /**
  * Options to configure {@link QueueServiceClient.listQueues} operation
- *
- * @export
- * @interface ServiceListQueuesOptions
  */
 export interface ServiceListQueuesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceListQueuesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -162,40 +133,25 @@ export interface ServiceListQueuesOptions extends CommonOptions {
 
 /**
  * Options to configure {@link QueueServiceClient.generateAccountSasUrl} operation.
- *
- * @export
- * @interface ServiceGenerateAccountSasUrlOptions
  */
 export interface ServiceGenerateAccountSasUrlOptions {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   version?: string;
 
   /**
    * Optional. SAS protocols allowed.
-   *
-   * @type {SASProtocol}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   startsOn?: Date;
   /**
    * Optional. IP range allowed.
-   *
-   * @type {SasIPRange}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   ipRange?: SasIPRange;
 }
@@ -203,9 +159,6 @@ export interface ServiceGenerateAccountSasUrlOptions {
 /**
  * A QueueServiceClient represents a URL to the Azure Storage Queue service allowing you
  * to manipulate queues.
- *
- * @export
- * @class QueueServiceClient
  */
 export class QueueServiceClient extends StorageClient {
   /**
@@ -219,7 +172,6 @@ export class QueueServiceClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param options - Options to configure the HTTP pipeline.
    * @returns A new QueueServiceClient object from the given connection string.
-   * @memberof QueueServiceClient
    */
   public static fromConnectionString(
     connectionString: string,
@@ -251,10 +203,6 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * serviceContext provided by protocol layer.
-   *
-   * @private
-   * @type {Service}
-   * @memberof QueueServiceClient
    */
   private serviceContext: Service;
 
@@ -264,9 +212,8 @@ export class QueueServiceClient extends StorageClient {
    * @param url - A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Options to configure the HTTP pipeline.
-   * @memberof QueueServiceClient
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
@@ -311,7 +258,6 @@ export class QueueServiceClient extends StorageClient {
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof QueueServiceClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -345,7 +291,6 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param queueName -
    * @returns a new QueueClient
-   * @memberof QueueServiceClient
    *
    * Example usage:
    *
@@ -371,7 +316,6 @@ export class QueueServiceClient extends StorageClient {
    *                        items. The marker value is opaque to the client.
    * @param options - Options to list queues operation.
    * @returns Response data for the list queues segment operation.
-   * @memberof QueueServiceClient
    */
   private async listQueuesSegment(
     marker?: string,
@@ -409,7 +353,6 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for {@link ServiceListQueuesSegmentResponse} objects
    *
-   * @private
    * @param marker - A string value that identifies the portion of
    *                        the list of queues to be returned with the next listing operation. The
    *                        operation returns the continuationToken value within the response body if the
@@ -418,8 +361,6 @@ export class QueueServiceClient extends StorageClient {
    *                        the marker parameter in a subsequent call to request the next page of list
    *                        items. The marker value is opaque to the client.
    * @param options - Options to list queues operation.
-   *
-   * @memberof QueueServiceClient
    */
   private async *listSegments(
     marker?: string,
@@ -440,10 +381,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for {@link QueueItem} objects
    *
-   * @private
    * @param options - Options to list queues operation.
-   *
-   * @memberof QueueServiceClient
    */
   private async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
@@ -535,7 +473,6 @@ export class QueueServiceClient extends StorageClient {
    * ```
    *
    * @param options - Options to list queues operation.
-   * @memberof QueueServiceClient
    * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
@@ -554,19 +491,19 @@ export class QueueServiceClient extends StorageClient {
     const iter = this.listItems(updatedOptions);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
@@ -584,7 +521,6 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param options - Options to get properties operation.
    * @returns Response data including the queue service properties.
-   * @memberof QueueServiceClient
    */
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
@@ -617,7 +553,6 @@ export class QueueServiceClient extends StorageClient {
    * @param properties -
    * @param options - Options to set properties operation.
    * @returns Response data for the Set Properties operation.
-   * @memberof QueueServiceClient
    */
   public async setProperties(
     properties: QueueServiceProperties,
@@ -651,7 +586,6 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param options - Options to get statistics operation.
    * @returns Response data for get statistics the operation.
-   * @memberof QueueServiceClient
    */
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
@@ -683,7 +617,6 @@ export class QueueServiceClient extends StorageClient {
    * @param queueName - name of the queue to create
    * @param options - Options to Queue create operation.
    * @returns Response data for the Queue create operation.
-   * @memberof QueueServiceClient
    */
   public async createQueue(
     queueName: string,
@@ -716,7 +649,6 @@ export class QueueServiceClient extends StorageClient {
    * @param queueName - name of the queue to delete.
    * @param options - Options to Queue delete operation.
    * @returns Response data for the Queue delete operation.
-   * @memberof QueueServiceClient
    */
   public async deleteQueue(
     queueName: string,
@@ -755,7 +687,6 @@ export class QueueServiceClient extends StorageClient {
    * @param resourceTypes - Specifies the resource types associated with the shared access signature.
    * @param options - Optional parameters.
    * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof QueueServiceClient
    */
   public generateAccountSasUrl(
     expiresOn?: Date,

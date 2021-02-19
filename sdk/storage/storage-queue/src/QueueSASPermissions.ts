@@ -9,19 +9,13 @@
  * the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link QueueSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
- *
- * @export
- * @class QueueSASPermissions
  */
 export class QueueSASPermissions {
   /**
    * Creates a {@link QueueSASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
-   * @static
    * @param permissions -
-   *
-   * @memberof QueueSASPermissions
    */
   public static parse(permissions: string): QueueSASPermissions {
     const queueSASPermissions = new QueueSASPermissions();
@@ -50,33 +44,21 @@ export class QueueSASPermissions {
 
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof QueueSASPermissions
    */
   public read: boolean = false;
 
   /**
    * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof QueueSASPermissions
    */
   public add: boolean = false;
 
   /**
    * Specifies Update access granted.
-   *
-   * @type {boolean}
-   * @memberof QueueSASPermissions
    */
   public update: boolean = false;
 
   /**
    * Specifies Process access granted.
-   *
-   * @type {boolean}
-   * @memberof QueueSASPermissions
    */
   public process: boolean = false;
 
@@ -85,7 +67,6 @@ export class QueueSASPermissions {
    * order accepted by the service.
    *
    * @returns A string which represents the QueueSASPermissions
-   * @memberof QueueSASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];

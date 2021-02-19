@@ -13,41 +13,26 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * QueueSASSignatureValues is used to help generating Queue service SAS tokens for queues.
- *
- * @export
- * @class QueueSASSignatureValues
  */
 export interface QueueSASSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof QueueSASSignatureValues
    */
   version?: string;
 
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof QueueSASSignatureValues
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof QueueSASSignatureValues
    */
   startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof QueueSASSignatureValues
    */
   expiresOn?: Date;
 
@@ -55,25 +40,16 @@ export interface QueueSASSignatureValues {
    * Optional only when identifier is provided.
    * Please refer to {@link QueueSASPermissions}
    * being accessed for help constructing the permissions string.
-   *
-   * @type {QueueSASPermissions}
-   * @memberof QueueSASSignatureValues
    */
   permissions?: QueueSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof QueueSASSignatureValues
    */
   ipRange?: SasIPRange;
 
   /**
    * The name of the queue the SAS user may access.
-   *
-   * @type {string}
-   * @memberof QueueSASSignatureValues
    */
   queueName: string;
 
@@ -81,9 +57,6 @@ export interface QueueSASSignatureValues {
    * Optional. The name of the access policy on the queue this SAS references if any.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof QueueSASSignatureValues
    */
   identifier?: string;
 }
@@ -100,10 +73,8 @@ export interface QueueSASSignatureValues {
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @export
  * @param queueSASSignatureValues -
  * @param sharedKeyCredential -
- *
  */
 export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,

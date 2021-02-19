@@ -7,13 +7,11 @@ import * as util from "util";
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
  *
- * @export
  * @param stream - A Node.js Readable stream
- * @param buffer - Buffer to be filled, length must >= offset
+ * @param buffer - Buffer to be filled, length must greater than or equal to offset
  * @param offset - From which position in the buffer to be filled, inclusive
  * @param end - To which position in the buffer to be filled, exclusive
  * @param encoding - Encoding of the Readable stream
- *
  */
 export async function streamToBuffer(
   stream: NodeJS.ReadableStream,
@@ -65,12 +63,11 @@ export async function streamToBuffer(
 /**
  * Reads a readable stream into buffer entirely.
  *
- * @export
  * @param stream - A Node.js Readable stream
- * @param buffer - Buffer to be filled, length must >= offset
+ * @param buffer - Buffer to be filled, length must greater than or equal to offset
  * @param encoding - Encoding of the Readable stream
  * @returns with the count of bytes read.
- * @throws {RangeError} If buffer size is not big enough.
+ * @throws `RangeError` If buffer size is not big enough.
  */
 export async function streamToBuffer2(
   stream: NodeJS.ReadableStream,
@@ -110,7 +107,6 @@ export async function streamToBuffer2(
 /**
  * Reads a readable stream into a buffer.
  *
- * @export
  * @param stream - A Node.js Readable stream
  * @param encoding - Encoding of the Readable stream
  * @returns with the count of bytes read.
@@ -136,10 +132,8 @@ export async function streamToBuffer3(
  *
  * Writes the content of a readstream to a local file. Returns a Promise which is completed after the file handle is closed.
  *
- * @export
  * @param rs - The read stream.
  * @param file - Destination file path.
- *
  */
 export async function readStreamToLocalFile(
   rs: NodeJS.ReadableStream,

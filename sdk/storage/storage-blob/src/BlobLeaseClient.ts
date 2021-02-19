@@ -81,33 +81,21 @@ export type LeaseOperationResponse = Lease & {
 
 /**
  * Configures lease operations.
- *
- * @export
- * @interface LeaseOperationOptions
  */
 export interface LeaseOperationOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof LeaseOperationOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when changing the lease.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof LeaseOperationOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * A client that manages leases for a {@link ContainerClient} or a {@link BlobClient}.
- *
- * @export
- * @class BlobLeaseClient
  */
 export class BlobLeaseClient {
   private _leaseId: string;
@@ -119,8 +107,6 @@ export class BlobLeaseClient {
    * Gets the lease Id.
    *
    * @readonly
-   * @memberof BlobLeaseClient
-   * @type {string}
    */
   public get leaseId(): string {
     return this._leaseId;
@@ -130,8 +116,6 @@ export class BlobLeaseClient {
    * Gets the url.
    *
    * @readonly
-   * @memberof BlobLeaseClient
-   * @type {string}
    */
   public get url(): string {
     return this._url;
@@ -141,7 +125,6 @@ export class BlobLeaseClient {
    * Creates an instance of BlobLeaseClient.
    * @param client - The client to make the lease operation requests.
    * @param leaseId - Initial proposed lease id.
-   * @memberof BlobLeaseClient
    */
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
@@ -175,7 +158,6 @@ export class BlobLeaseClient {
    * @param duration - Must be between 15 to 60 seconds, or infinite (-1)
    * @param options - option to configure lease management operations.
    * @returns Response data for acquire lease operation.
-   * @memberof BlobLeaseClient
    */
   public async acquireLease(
     duration: number,
@@ -228,7 +210,6 @@ export class BlobLeaseClient {
    * @param proposedLeaseId - the proposed new lease Id.
    * @param options - option to configure lease management operations.
    * @returns Response data for change lease operation.
-   * @memberof BlobLeaseClient
    */
   public async changeLease(
     proposedLeaseId: string,
@@ -282,7 +263,6 @@ export class BlobLeaseClient {
    *
    * @param options - option to configure lease management operations.
    * @returns Response data for release lease operation.
-   * @memberof BlobLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan(
@@ -329,7 +309,6 @@ export class BlobLeaseClient {
    *
    * @param options - Optional option to configure lease management operations.
    * @returns Response data for renew lease operation.
-   * @memberof BlobLeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
     const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.tracingOptions);
@@ -372,11 +351,9 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @static
    * @param breakPeriod - Break period
    * @param options - Optional options to configure lease management operations.
    * @returns Response data for break lease operation.
-   * @memberof BlobLeaseClient
    */
   public async breakLease(
     breakPeriod: number,

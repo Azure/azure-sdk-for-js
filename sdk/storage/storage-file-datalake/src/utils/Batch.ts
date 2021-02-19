@@ -12,8 +12,6 @@ export declare type Operation = () => Promise<any>;
 
 /**
  * States for Batch.
- *
- * @enum {number}
  */
 enum BatchStates {
   Good,
@@ -24,78 +22,47 @@ enum BatchStates {
  * Batch provides basic parallel execution with concurrency limits.
  * Will stop execute left operations when one of the executed operation throws an error.
  * But Batch cannot cancel ongoing operations, you need to cancel them by yourself.
- *
- * @export
- * @class Batch
  */
 export class Batch {
   /**
    * Concurrency. Must be lager than 0.
-   *
-   * @type {number}
-   * @memberof Batch
    */
   private concurrency: number;
 
   /**
    * Number of active operations under execution.
-   *
-   * @private
-   * @type {number}
-   * @memberof Batch
    */
   private actives: number = 0;
 
   /**
    * Number of completed operations under execution.
-   *
-   * @private
-   * @type {number}
-   * @memberof Batch
    */
   private completed: number = 0;
 
   /**
    * Offset of next operation to be executed.
-   *
-   * @private
-   * @type {number}
-   * @memberof Batch
    */
   private offset: number = 0;
 
   /**
    * Operation array to be executed.
-   *
-   * @private
-   * @type {Operation[]}
-   * @memberof Batch
    */
   private operations: Operation[] = [];
 
   /**
    * States of Batch. When an error happens, state will turn into error.
    * Batch will stop execute left operations.
-   *
-   * @private
-   * @type {BatchStates}
-   * @memberof Batch
    */
   private state: BatchStates = BatchStates.Good;
 
   /**
    * A private emitter used to pass events inside this class.
-   *
-   * @private
-   * @type {EventEmitter}
-   * @memberof Batch
    */
   private emitter: EventEmitter;
 
   /**
    * Creates an instance of Batch.
    * @param concurrency -
-   * @memberof Batch
    */
   public constructor(concurrency: number = 5) {
     if (concurrency < 1) {
@@ -109,7 +76,6 @@ export class Batch {
    * Add a operation into queue.
    *
    * @param operation -
-   * @memberof Batch
    */
   public addOperation(operation: Operation): void {
     this.operations.push(async () => {
@@ -128,8 +94,6 @@ export class Batch {
   /**
    * Start execute operations in the queue.
    *
-   *
-   * @memberof Batch
    */
   public async do(): Promise<void> {
     if (this.operations.length === 0) {
@@ -150,9 +114,6 @@ export class Batch {
   /**
    * Get next operation to be executed. Return null when reaching ends.
    *
-   * @private
-   *
-   * @memberof Batch
    */
   private nextOperation(): Operation | null {
     if (this.offset < this.operations.length) {
@@ -165,9 +126,6 @@ export class Batch {
    * Start execute operations. One one the most important difference between
    * this method with do() is that do() wraps as an sync method.
    *
-   * @private
-   *
-   * @memberof Batch
    */
   private parallelExecute(): void {
     if (this.state === BatchStates.Error) {

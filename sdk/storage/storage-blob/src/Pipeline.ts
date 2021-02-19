@@ -60,16 +60,10 @@ export {
 
 /**
  * Option interface for Pipeline constructor.
- *
- * @export
- * @interface PipelineOptions
  */
 export interface PipelineOptions {
   /**
    * Optional. Configures the HTTP client to send requests and receive responses.
-   *
-   * @type {IHttpClient}
-   * @memberof PipelineOptions
    */
   httpClient?: IHttpClient;
 }
@@ -81,23 +75,14 @@ export interface PipelineOptions {
  *
  * Refer to {@link newPipeline} and provided policies before implementing your
  * customized Pipeline.
- *
- * @export
- * @class Pipeline
  */
 export class Pipeline {
   /**
    * A list of chained request policy factories.
-   *
-   * @type {RequestPolicyFactory[]}
-   * @memberof Pipeline
    */
   public readonly factories: RequestPolicyFactory[];
   /**
    * Configures pipeline logger and HTTP client.
-   *
-   * @type {PipelineOptions}
-   * @memberof Pipeline
    */
   public readonly options: PipelineOptions;
 
@@ -106,7 +91,6 @@ export class Pipeline {
    *
    * @param factories -
    * @param options -
-   * @memberof Pipeline
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     this.factories = factories;
@@ -123,7 +107,6 @@ export class Pipeline {
    * ServiceClient constructor.
    *
    * @returns The ServiceClientOptions object from this Pipeline.
-   * @memberof Pipeline
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
@@ -135,9 +118,6 @@ export class Pipeline {
 
 /**
  * Options interface for the {@link newPipeline} function.
- *
- * @export
- * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
   /**
@@ -146,31 +126,19 @@ export interface StoragePipelineOptions {
   proxyOptions?: ProxyOptions;
   /**
    * Options for adding user agent details to outgoing requests.
-   *
-   * @type {UserAgentOptions}
-   * @memberof StoragePipelineOptions
    */
   userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
-   *
-   * @type {StorageRetryOptions}
-   * @memberof StoragePipelineOptions
    */
   retryOptions?: StorageRetryOptions;
   /**
    * Keep alive configurations. Default keep-alive is enabled.
-   *
-   * @type {KeepAliveOptions}
-   * @memberof StoragePipelineOptions
    */
   keepAliveOptions?: KeepAliveOptions;
 
   /**
    * Configures the HTTP client to send requests and receive responses.
-   *
-   * @type {IHttpClient}
-   * @memberof StoragePipelineOptions
    */
   httpClient?: IHttpClient;
 }
@@ -178,8 +146,7 @@ export interface StoragePipelineOptions {
 /**
  * Creates a new Pipeline object with Credential provided.
  *
- * @export
- * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+ * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
  * @param pipelineOptions - Optional. Options.
  * @returns A new Pipeline object.
  */
