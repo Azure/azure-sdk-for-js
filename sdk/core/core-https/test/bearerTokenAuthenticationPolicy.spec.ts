@@ -99,14 +99,14 @@ describe("BearerTokenAuthenticationPolicy", function () {
     // The token is cached and remains cached for a bit.
     await policy.sendRequest(request, next);
     await policy.sendRequest(request, next);
-    assert.strictEqual(credential.authCount, 1);
+    assert.strictEqual(credential.authCount, 1, "The first authentication should have happened");
 
     // The token will remain cached until tokenExpiration - testTokenRefreshBufferMs, so in (5000 - 1000) milliseconds.
 
     // For safe measure, we test the token is still cached a second earlier than the refresh expectation.
     clock.tick(expireDelayMs - beforeTokenExpiresInMs - 1000);
     await policy.sendRequest(request, next);
-    assert.strictEqual(credential.authCount, 1);
+    assert.strictEqual(credential.authCount, 1, "before the refresh period, only one authentication should have happened");
 
     // The new token will last 5 seconds again.
     tokenExpiration = Date.now() + expireDelayMs;
@@ -115,7 +115,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     // Now we wait until it starts refreshing:
     clock.tick(1000);
     await policy.sendRequest(request, next);
-    assert.strictEqual(credential.authCount, 2);
+    assert.strictEqual(credential.authCount, 2, "after the refresh, a second authentication should have happened");
   });
 
   it("access token refresher should prevent refreshers to happen too fast", async () => {
@@ -137,7 +137,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const policy = createBearerTokenPolicy("test-scope", credential);
 
     await policy.sendRequest(request, next);
-    assert.strictEqual(credential.authCount, 1, "Expected authCount to be initially called");
+    assert.strictEqual(credential.authCount, 1, "The first authentication should have happened");
 
     clock.tick(expireDelayMs - beforeTokenExpiresInMs); // Until we start refreshing the token
 
