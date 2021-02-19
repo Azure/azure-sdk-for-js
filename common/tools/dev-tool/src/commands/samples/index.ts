@@ -10,5 +10,5 @@ export default subCommand(commandInfo, {
   prep: () => import("./prep"),
   run: () => import("./run"),
   "ts-to-js": () => import("./tsToJs"),
-  checkNodesVers: () => import("./checkNodeVers")
+  "check-node-versions": () => import("./checkNodeVersions")
 });
