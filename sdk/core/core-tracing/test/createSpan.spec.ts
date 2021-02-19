@@ -46,12 +46,12 @@ describe("createSpan", () => {
       context: { someContext: "some Context" },
       spanOptions: {
         attributes: {
-          'az.namespace': 'Microsoft.Test'
+          "az.namespace": "Microsoft.Test"
         },
         parent: {
-          spanId: '',
+          spanId: "",
           traceFlags: 0,
-          traceId: ''
+          traceId: ""
         }
       }
     });
