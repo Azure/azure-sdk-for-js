@@ -12,6 +12,53 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * An interface representing ManagedServiceIdentityUserAssignedIdentitiesValue.
+ */
+export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal id of the system assigned identity. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes
+   * both an implicitly created identity and a set of user assigned identities. The type 'None'
+   * will remove any identities from the service. Possible values include: 'SystemAssigned',
+   * 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with resource. The user identity dictionary key
+   * references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue };
+}
+
+/**
  * IpAddressOrRange object
  */
 export interface IpAddressOrRange {
@@ -147,14 +194,14 @@ export interface PrivateLinkServiceConnectionStateProperty {
    */
   status?: string;
   /**
+   * The private link service connection description.
+   */
+  description?: string;
+  /**
    * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly actionsRequired?: string;
-  /**
-   * The private link service connection description.
-   */
-  description?: string;
 }
 
 /**
@@ -216,7 +263,8 @@ export interface PrivateEndpointConnection extends ProxyResource {
  */
 export interface ApiProperties {
   /**
-   * Describes the ServerVersion of an a MongoDB account. Possible values include: '3.2', '3.6'
+   * Describes the ServerVersion of an a MongoDB account. Possible values include: '3.2', '3.6',
+   * '4.0'
    */
   serverVersion?: ServerVersion;
 }
@@ -299,6 +347,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * 'GlobalDocumentDB'.
    */
   kind?: DatabaseAccountKind;
+  identity?: ManagedServiceIdentity;
   provisioningState?: string;
   /**
    * The connection endpoint for the Cosmos DB database account.
@@ -409,6 +458,15 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * The CORS policy for the Cosmos DB database account.
    */
   cors?: CorsPolicy[];
+  /**
+   * Indicates what services are allowed to bypass firewall checks. Possible values include:
+   * 'None', 'AzureServices'
+   */
+  networkAclBypass?: NetworkAclBypass;
+  /**
+   * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
+   */
+  networkAclBypassResourceIds?: string[];
 }
 
 /**
@@ -530,7 +588,7 @@ export interface CompositePath {
    */
   path?: string;
   /**
-   * Sort order for composite paths. Possible values include: 'Ascending', 'Descending'
+   * Sort order for composite paths. Possible values include: 'ascending', 'descending'
    */
   order?: CompositePathSortOrder;
 }
@@ -559,8 +617,8 @@ export interface IndexingPolicy {
    */
   automatic?: boolean;
   /**
-   * Indicates the indexing mode. Possible values include: 'Consistent', 'Lazy', 'None'. Default
-   * value: 'Consistent'.
+   * Indicates the indexing mode. Possible values include: 'consistent', 'lazy', 'none'. Default
+   * value: 'consistent'.
    */
   indexingMode?: IndexingMode;
   /**
@@ -590,14 +648,20 @@ export interface ContainerPartitionKey {
    */
   paths?: string[];
   /**
-   * Indicates the kind of algorithm used for partitioning. Possible values include: 'Hash',
-   * 'Range'. Default value: 'Hash'.
+   * Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys
+   * (upto three maximum) are supported for container create. Possible values include: 'Hash',
+   * 'Range', 'MultiHash'. Default value: 'Hash'.
    */
   kind?: PartitionKind;
   /**
    * Indicates the version of the partition key definition
    */
   version?: number;
+  /**
+   * Indicates if the container is using a system generated partition key
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemKey?: boolean;
 }
 
 /**
@@ -1440,6 +1504,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * 'GlobalDocumentDB'.
    */
   kind?: DatabaseAccountKind;
+  identity?: ManagedServiceIdentity;
   /**
    * The consistency policy for the Cosmos DB account.
    */
@@ -1517,6 +1582,15 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * The CORS policy for the Cosmos DB database account.
    */
   cors?: CorsPolicy[];
+  /**
+   * Indicates what services are allowed to bypass firewall checks. Possible values include:
+   * 'None', 'AzureServices'
+   */
+  networkAclBypass?: NetworkAclBypass;
+  /**
+   * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
+   */
+  networkAclBypassResourceIds?: string[];
 }
 
 /**
@@ -1528,6 +1602,7 @@ export interface DatabaseAccountUpdateParameters {
    * The location of the resource group to which the resource belongs.
    */
   location?: string;
+  identity?: ManagedServiceIdentity;
   /**
    * The consistency policy for the Cosmos DB account.
    */
@@ -1605,6 +1680,15 @@ export interface DatabaseAccountUpdateParameters {
    * The CORS policy for the Cosmos DB database account.
    */
   cors?: CorsPolicy[];
+  /**
+   * Indicates what services are allowed to bypass firewall checks. Possible values include:
+   * 'None', 'AzureServices'
+   */
+  networkAclBypass?: NetworkAclBypass;
+  /**
+   * An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
+   */
+  networkAclBypassResourceIds?: string[];
 }
 
 /**
@@ -2820,6 +2904,14 @@ export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpoi
 export type DatabaseAccountKind = 'GlobalDocumentDB' | 'MongoDB' | 'Parse';
 
 /**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned' | 'None';
+
+/**
  * Defines values for DatabaseAccountOfferType.
  * Possible values include: 'Standard'
  * @readonly
@@ -2853,19 +2945,27 @@ export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ServerVersion.
- * Possible values include: '3.2', '3.6'
+ * Possible values include: '3.2', '3.6', '4.0'
  * @readonly
  * @enum {string}
  */
-export type ServerVersion = '3.2' | '3.6';
+export type ServerVersion = '3.2' | '3.6' | '4.0';
+
+/**
+ * Defines values for NetworkAclBypass.
+ * Possible values include: 'None', 'AzureServices'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkAclBypass = 'None' | 'AzureServices';
 
 /**
  * Defines values for IndexingMode.
- * Possible values include: 'Consistent', 'Lazy', 'None'
+ * Possible values include: 'consistent', 'lazy', 'none'
  * @readonly
  * @enum {string}
  */
-export type IndexingMode = 'Consistent' | 'Lazy' | 'None';
+export type IndexingMode = 'consistent' | 'lazy' | 'none';
 
 /**
  * Defines values for DataType.
@@ -2885,11 +2985,11 @@ export type IndexKind = 'Hash' | 'Range' | 'Spatial';
 
 /**
  * Defines values for CompositePathSortOrder.
- * Possible values include: 'Ascending', 'Descending'
+ * Possible values include: 'ascending', 'descending'
  * @readonly
  * @enum {string}
  */
-export type CompositePathSortOrder = 'Ascending' | 'Descending';
+export type CompositePathSortOrder = 'ascending' | 'descending';
 
 /**
  * Defines values for SpatialType.
@@ -2901,11 +3001,11 @@ export type SpatialType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon';
 
 /**
  * Defines values for PartitionKind.
- * Possible values include: 'Hash', 'Range'
+ * Possible values include: 'Hash', 'Range', 'MultiHash'
  * @readonly
  * @enum {string}
  */
-export type PartitionKind = 'Hash' | 'Range';
+export type PartitionKind = 'Hash' | 'Range' | 'MultiHash';
 
 /**
  * Defines values for ConflictResolutionMode.

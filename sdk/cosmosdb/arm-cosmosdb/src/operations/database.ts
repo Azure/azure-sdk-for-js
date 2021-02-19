@@ -157,7 +157,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseRid
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter0
   ],
   headerParameters: [
@@ -184,7 +184,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.databaseRid
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter1
   ],
   headerParameters: [
@@ -211,7 +211,7 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseRid
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
