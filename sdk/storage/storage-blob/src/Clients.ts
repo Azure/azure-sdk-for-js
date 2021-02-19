@@ -126,24 +126,16 @@ import { BlobLeaseClient } from "./BlobLeaseClient";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
- *
- * @export
- * @interface BlobBeginCopyFromURLOptions
  */
 export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
   /**
    * The amount of time in milliseconds the poller should wait between
    * calls to the service to determine the status of the Blob copy.
    * Defaults to 15 seconds.
-   *
-   * @type {number}
-   * @memberof BlobBeginCopyFromURLOptions
    */
   intervalInMs?: number;
   /**
    * Callback to receive the state of the copy progress.
-   *
-   * @memberof BlobBeginCopyFromURLOptions
    */
   onProgress?: (state: BlobBeginCopyFromUrlPollState) => void;
   /**
@@ -153,40 +145,26 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
    *
    * To get serialized poller state, call `poller.toString()` on an existing
    * poller.
-   *
-   * @memberof BlobBeginCopyFromURLOptions
    */
   resumeFrom?: string;
 }
 
 /**
  * Contains response data for the {@link BlobClient.beginCopyFromURL} operation.
- *
- * @export
- * @interface BlobBeginCopyFromURLResponse
  */
 export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
- *
- * @export
- * @interface BlobDownloadOptions
  */
 export interface BlobDownloadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobDownloadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * An opaque DateTime string value that, when present, specifies the blob snapshot to retrieve.
-   *
-   * @type {string}
-   * @memberof BlobDownloadOptions
    */
   snapshot?: string;
   /**
@@ -194,9 +172,6 @@ export interface BlobDownloadOptions extends CommonOptions {
    * as long as the range is less than or equal to 4 MB in size.
    *
    * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
-   *
-   * @type {boolean}
-   * @memberof BlobDownloadOptions
    */
   rangeGetContentMD5?: boolean;
   /**
@@ -204,23 +179,14 @@ export interface BlobDownloadOptions extends CommonOptions {
    * as long as the range is less than or equal to 4 MB in size.
    *
    * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
-   *
-   * @type {boolean}
-   * @memberof BlobDownloadOptions
    */
   rangeGetContentCrc64?: boolean;
   /**
    * Conditions to meet when downloading blobs.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobDownloadOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Call back to receive events on the progress of download operation.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlobDownloadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
@@ -235,204 +201,126 @@ export interface BlobDownloadOptions extends CommonOptions {
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
    *
    * Default value is 5, please set a larger value when loading large files in poor network.
-   *
-   * @type {number}
-   * @memberof BlobDownloadOptions
    */
   maxRetryRequests?: number;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobDownloadOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
  * Options to configure the {@link BlobClient.exists} operation.
- *
- * @export
- * @interface BlobExistsOptions
  */
 export interface BlobExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobExistsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobExistsOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
    * Conditions to meet.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobExistsOptions
    */
   conditions?: BlobRequestConditions;
 }
 
 /**
  * Options to configure the {@link BlobClient.getProperties} operation.
- *
- * @export
- * @interface BlobGetPropertiesOptions
  */
 export interface BlobGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when getting blob properties.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobGetPropertiesOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobGetPropertiesOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
  * Options to configure the {@link BlobClient.delete} operation.
- *
- * @export
- * @interface BlobDeleteOptions
  */
 export interface BlobDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobDeleteOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when deleting blobs.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobDeleteOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Specifies options to delete blobs that have associated snapshots.
    * - `include`: Delete the base blob and all of its snapshots.
    * - `only`: Delete only the blob's snapshots and not the blob itself.
-   *
-   * @type {DeleteSnapshotsOptionType}
-   * @memberof BlobDeleteOptions
    */
   deleteSnapshots?: DeleteSnapshotsOptionType;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobDeleteOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
  * Options to configure the {@link BlobClient.undelete} operation.
- *
- * @export
- * @interface BlobUndeleteOptions
  */
 export interface BlobUndeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobUndeleteOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobUndeleteOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
  * Options to configure the {@link BlobClient.setHTTPHeaders} operation.
- *
- * @export
- * @interface BlobSetHTTPHeadersOptions
  */
 export interface BlobSetHTTPHeadersOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobSetHTTPHeadersOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when setting blob HTTP headers.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobSetHTTPHeadersOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobSetHTTPHeadersOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
  * Options to configure the {@link BlobClient.setMetadata} operation.
- *
- * @export
- * @interface BlobSetMetadataOptions
  */
 export interface BlobSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when setting blob metadata.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobSetMetadataOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobSetMetadataOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -440,57 +328,36 @@ export interface BlobSetMetadataOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlobSetMetadataOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure the {@link BlobClient.setTags} operation.
- *
- * @export
- * @interface BlobSetTagsOptions
  */
 export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobSetTagsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet for the blob to perform this operation.
-   *
-   * @type {TagConditions & LeaseAccessConditions}
-   * @memberof BlobSetTagsOptions
    */
   conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link BlobClient.getTags} operation.
- *
- * @export
- * @interface BlobGetTagsOptions
  */
 export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobGetTagsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet for the blob to perform this operation.
-   *
-   * @type {TagConditions & LeaseAccessConditions}
-   * @memberof BlobGetTagsOptions
    */
   conditions?: TagConditions & LeaseAccessConditions;
 }
@@ -502,158 +369,98 @@ export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders;
 
 /**
  * Options to configure Blob - Acquire Lease operation.
- *
- * @export
- * @interface BlobAcquireLeaseOptions
  */
 export interface BlobAcquireLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobAcquireLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when acquiring the lease of a blob.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof BlobAcquireLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Blob - Release Lease operation.
- *
- * @export
- * @interface BlobReleaseLeaseOptions
  */
 export interface BlobReleaseLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobReleaseLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when releasing the lease of a blob.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof BlobReleaseLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Blob - Renew Lease operation.
- *
- * @export
- * @interface BlobRenewLeaseOptions
  */
 export interface BlobRenewLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobRenewLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when renewing the lease of a blob.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof BlobRenewLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Blob - Change Lease operation.
- *
- * @export
- * @interface BlobChangeLeaseOptions
  */
 export interface BlobChangeLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobChangeLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when changing the lease of a blob.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof BlobChangeLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Blob - Break Lease operation.
- *
- * @export
- * @interface BlobBreakLeaseOptions
  */
 export interface BlobBreakLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobBreakLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when breaking the lease of a blob.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof BlobBreakLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure the {@link BlobClient.createSnapshot} operation.
- *
- * @export
- * @interface BlobCreateSnapshotOptions
  */
 export interface BlobCreateSnapshotOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobCreateSnapshotOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the snapshot.
-   *
-   * @type {Metadata}
-   * @memberof BlobCreateSnapshotOptions
    */
   metadata?: Metadata;
   /**
    * Conditions to meet when creating blob snapshots.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobCreateSnapshotOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobCreateSnapshotOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -661,214 +468,133 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlobCreateSnapshotOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
- *
- * @export
- * @interface BlobStartCopyFromURLOptions
  */
 export interface BlobStartCopyFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobStartCopyFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the blob that are being copied.
-   *
-   * @type {Metadata}
-   * @memberof BlobStartCopyFromURLOptions
    */
   metadata?: Metadata;
   /**
    * Conditions to meet for the destination blob when copying from a URL to the blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobStartCopyFromURLOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof BlobStartCopyFromURLOptions
    */
   sourceConditions?: ModifiedAccessConditions;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {BlockBlobTier | PremiumPageBlobTier | string}
-   * @memberof BlobStartCopyFromURLOptions
    */
   tier?: BlockBlobTier | PremiumPageBlobTier | string;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
-   *
-   * @type {RehydratePriority}
-   * @memberof BlobStartCopyFromURLOptions
    */
   rehydratePriority?: RehydratePriority;
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof BlobStartCopyFromURLOptions
    */
   tags?: Tags;
   /**
    * Overrides the sealed state of the destination blob. Default true.
-   *
-   * @type {boolean}
-   * @memberof BlobStartCopyFromURLOptions
    */
   sealBlob?: boolean;
 }
 
 /**
  * Options to configure the {@link BlobClient.abortCopyFromURL} operation.
- *
- * @export
- * @interface BlobAbortCopyFromURLOptions
  */
 export interface BlobAbortCopyFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobAbortCopyFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof BlobAbortCopyFromURLOptions
    */
   conditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link BlobClient.syncCopyFromURL} operation.
- *
- * @export
- * @interface BlobSyncCopyFromURLOptions
  */
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobSyncCopyFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the snapshot.
-   *
-   * @type {Metadata}
-   * @memberof BlobSyncCopyFromURLOptions
    */
   metadata?: Metadata;
   /**
    * Conditions to meet for the destination blob when copying from a URL to the blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobSyncCopyFromURLOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
-   *
-   * @type {MatchConditions & ModificationConditions}
-   * @memberof BlobSyncCopyFromURLOptions
    */
   sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * Specify the md5 calculated for the range of bytes that must be read from the copy source.
-   *
-   * @type {Uint8Array}
-   * @memberof BlobSyncCopyFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof BlobSyncCopyFromURLOptions
    */
   tags?: Tags;
 }
 
 /**
  * Options to configure the {@link BlobClient.setAccessTier} operation.
- *
- * @export
- * @interface BlobSetTierOptions
  */
 export interface BlobSetTierOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobSetTierOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {LeaseAccessConditions & TagConditions}
-   * @memberof BlobSetTierOptions
    */
   conditions?: LeaseAccessConditions & TagConditions;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
-   *
-   * @type {RehydratePriority}
-   * @memberof BlobSetTierOptions
    */
   rehydratePriority?: RehydratePriority;
 }
 
 /**
  * Option interface for the {@link BlobClient.downloadToBuffer} operation.
- *
- * @export
- * @interface BlobDownloadToBufferOptions
  */
 export interface BlobDownloadToBufferOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobDownloadToBufferOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * blockSize is the data every request trying to download.
-   * Must be >= 0, if set to 0 or undefined, blockSize will automatically calculated according
-   * to the blob size.
-   *
-   * @type {number}
-   * @memberof BlobDownloadToBufferOptions
+   * Must be greater than or equal to 0.
+   * If set to 0 or undefined, blockSize will automatically calculated according to the blob size.
    */
   blockSize?: number;
 
@@ -884,129 +610,81 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * maxRetryRequestsPerBlock is reached.
    *
    * Default value is 5, please set a larger value when in poor network.
-   *
-   * @type {number}
-   * @memberof BlobDownloadToBufferOptions
    */
   maxRetryRequestsPerBlock?: number;
 
   /**
    * Progress updater.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlobDownloadToBufferOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Access conditions headers.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlobDownloadToBufferOptions
    */
   conditions?: BlobRequestConditions;
 
   /**
    * Concurrency of parallel download.
-   *
-   * @type {number}
-   * @memberof BlobDownloadToBufferOptions
    */
   concurrency?: number;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlobDownloadToBufferOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
  * Contains response data for the {@link BlobClient.deleteIfExists} operation.
- *
- * @export
- * @interface BlobDeleteIfExistsResponse
  */
 export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
   /**
    * Indicate whether the blob is successfully deleted. Is false if the blob does not exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof BlobDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link BlobClient.getProperties} operation.
- *
- * @export
- * @interface BlobGetPropertiesResponse
  */
 export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
   /**
    * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
-   *
-   * @type {ObjectReplicationPolicy[]}
-   * @memberof BlobGetPropertiesResponse
    */
   objectReplicationSourceProperties?: ObjectReplicationPolicy[];
 
   /**
    * Object Replication Policy Id of the destination blob.
-   *
-   * @type {string}
-   * @memberof BlobGetPropertiesResponse
    */
   objectReplicationDestinationPolicyId?: string;
 }
 
 /**
  * Common options of {@link BlobGenerateSasUrlOptions} and {@link ContainerGenerateSasUrlOptions}.
- *
- * @export
- * @interface CommonGenerateSasUrlOptions
  */
 export interface CommonGenerateSasUrlOptions {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   version?: string;
 
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof CommonGenerateSasUrlOptions
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof CommonGenerateSasUrlOptions
    */
   startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof CommonGenerateSasUrlOptions
    */
   expiresOn?: Date;
 
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof CommonGenerateSasUrlOptions
    */
   ipRange?: SasIPRange;
 
@@ -1014,65 +692,41 @@ export interface CommonGenerateSasUrlOptions {
    * Optional. The name of the access policy on the container this SAS references if any.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   identifier?: string;
 
   /**
    * Optional. The cache-control header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   cacheControl?: string;
 
   /**
    * Optional. The content-disposition header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentDisposition?: string;
 
   /**
    * Optional. The content-encoding header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentEncoding?: string;
 
   /**
    * Optional. The content-language header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentLanguage?: string;
 
   /**
    * Optional. The content-type header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentType?: string;
 }
 
 /**
  * Options to configure {@link BlobClient.generateSasUrl} operation.
- *
- * @export
- * @interface BlobGenerateSasUrlOptions
  */
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   /**
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
-   *
-   * @type {BlobSASPermissions}
-   * @memberof BlobGenerateSasUrlOptions
    */
   permissions?: BlobSASPermissions;
 }
@@ -1080,17 +734,10 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 /**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
- *
- * @export
- * @class BlobClient
  */
 export class BlobClient extends StorageClient {
   /**
    * blobContext provided by protocol layer.
-   *
-   * @private
-   * @type {Blobs}
-   * @memberof BlobClient
    */
   private blobContext: StorageBlob;
 
@@ -1127,7 +774,6 @@ export class BlobClient extends StorageClient {
    * @param containerName - Container name.
    * @param blobName - Blob name.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof BlobClient
    */
   constructor(
     connectionString: string,
@@ -1144,9 +790,8 @@ export class BlobClient extends StorageClient {
    * @param url - A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof BlobClient
    */
   constructor(
     url: string,
@@ -1169,7 +814,6 @@ export class BlobClient extends StorageClient {
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof BlobClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -1269,7 +913,6 @@ export class BlobClient extends StorageClient {
    *
    * @param snapshot - The snapshot timestamp.
    * @returns A new BlobClient object identical to the source but with the specified snapshot timestamp
-   * @memberof BlobClient
    */
   public withSnapshot(snapshot: string): BlobClient {
     return new BlobClient(
@@ -1288,7 +931,6 @@ export class BlobClient extends StorageClient {
    *
    * @param versionId - The versionId.
    * @returns A new BlobClient object pointing to the version of this blob.
-   * @memberof BlobClient
    */
   public withVersion(versionId: string): BlobClient {
     return new BlobClient(
@@ -1304,8 +946,6 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a AppendBlobClient object.
    *
-   *
-   * @memberof BlobClient
    */
   public getAppendBlobClient(): AppendBlobClient {
     return new AppendBlobClient(this.url, this.pipeline);
@@ -1314,8 +954,6 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a BlockBlobClient object.
    *
-   *
-   * @memberof BlobClient
    */
   public getBlockBlobClient(): BlockBlobClient {
     return new BlockBlobClient(this.url, this.pipeline);
@@ -1324,8 +962,6 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a PageBlobClient object.
    *
-   *
-   * @memberof BlobClient
    */
   public getPageBlobClient(): PageBlobClient {
     return new PageBlobClient(this.url, this.pipeline);
@@ -1340,11 +976,10 @@ export class BlobClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
-   * @param offset - From which position of the blob to download, >= 0
-   * @param count - How much data to be downloaded, > 0. Will download to the end when undefined
+   * @param offset - From which position of the blob to download, greater than or equal to 0
+   * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
    * @param options - Optional options to Blob Download operation.
    *
-   * @memberof BlobClient
    *
    * Example usage (Node.js):
    *
@@ -1511,8 +1146,6 @@ export class BlobClient extends StorageClient {
    * function completes.
    *
    * @param options - options to Exists operation.
-   *
-   * @memberof BlobClient
    */
   public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
     const { span, spanOptions } = createSpan("BlobClient-exists", options.tracingOptions);
@@ -1554,8 +1187,6 @@ export class BlobClient extends StorageClient {
    * will retain their original casing.
    *
    * @param options - Optional options to Get Properties operation.
-   *
-   * @memberof BlobClient
    */
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
@@ -1599,8 +1230,6 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param options - Optional options to Blob Delete operation.
-   *
-   * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
     const { span, spanOptions } = createSpan("BlobClient-delete", options.tracingOptions);
@@ -1635,8 +1264,6 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param options - Optional options to Blob Delete operation.
-   *
-   * @memberof BlobClient
    */
   public async deleteIfExists(
     options: BlobDeleteOptions = {}
@@ -1679,8 +1306,6 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
    * @param options - Optional options to Blob Undelete operation.
-   *
-   * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
     const { span, spanOptions } = createSpan("BlobClient-undelete", options.tracingOptions);
@@ -1711,8 +1336,6 @@ export class BlobClient extends StorageClient {
    *                                                   the specified blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
    * @param options - Optional options to Blob Set HTTP Headers operation.
-   *
-   * @memberof BlobClient
    */
   public async setHTTPHeaders(
     blobHTTPHeaders?: BlobHTTPHeaders,
@@ -1754,8 +1377,6 @@ export class BlobClient extends StorageClient {
    * @param metadata - Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
    * @param options - Optional options to Set Metadata operation.
-   *
-   * @memberof BlobClient
    */
   public async setMetadata(
     metadata?: Metadata,
@@ -1796,8 +1417,6 @@ export class BlobClient extends StorageClient {
    *
    * @param tags -
    * @param options -
-   *
-   * @memberof BlobClient
    */
   public async setTags(tags: Tags, options: BlobSetTagsOptions = {}): Promise<BlobSetTagsResponse> {
     const { span, spanOptions } = createSpan("BlobClient-setTags", options.tracingOptions);
@@ -1827,8 +1446,6 @@ export class BlobClient extends StorageClient {
    * Gets the tags associated with the underlying blob.
    *
    * @param options -
-   *
-   * @memberof BlobClient
    */
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
     const { span, spanOptions } = createSpan("BlobClient-getTags", options.tracingOptions);
@@ -1863,7 +1480,6 @@ export class BlobClient extends StorageClient {
    *
    * @param proposeLeaseId - Initial proposed lease Id.
    * @returns A new BlobLeaseClient object for managing leases on the blob.
-   * @memberof BlobClient
    */
   public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
     return new BlobLeaseClient(this, proposeLeaseId);
@@ -1874,8 +1490,6 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
    * @param options - Optional options to the Blob Create Snapshot operation.
-   *
-   * @memberof BlobClient
    */
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
@@ -2013,8 +1627,6 @@ export class BlobClient extends StorageClient {
    *
    * @param copyId - Id of the Copy From URL operation.
    * @param options - Optional options to the Blob Abort Copy From URL operation.
-   *
-   * @memberof BlobClient
    */
   public async abortCopyFromURL(
     copyId: string,
@@ -2045,8 +1657,6 @@ export class BlobClient extends StorageClient {
    *
    * @param copySource - The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
    * @param options -
-   *
-   * @memberof BlobClient
    */
   public async syncCopyFromURL(
     copySource: string,
@@ -2096,8 +1706,6 @@ export class BlobClient extends StorageClient {
    *
    * @param tier - The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
    * @param options - Optional options to the Blob Set Tier operation.
-   *
-   * @memberof BlobClient
    */
   public async setAccessTier(
     tier: BlockBlobTier | PremiumPageBlobTier | string,
@@ -2138,11 +1746,9 @@ export class BlobClient extends StorageClient {
    * gigabytes on 64-bit systems due to limitations of Node.js/V8. For blobs larger than this size,
    * consider {@link downloadToFile}.
    *
-   * @export
    * @param offset - From which position of the block blob to download(in bytes)
    * @param count - How much data(in bytes) to be downloaded. Will download to the end when passing undefined
    * @param options - BlobDownloadToBufferOptions
-   *
    */
   public async downloadToBuffer(
     offset?: number,
@@ -2160,12 +1766,10 @@ export class BlobClient extends StorageClient {
    * gigabytes on 64-bit systems due to limitations of Node.js/V8. For blobs larger than this size,
    * consider {@link downloadToFile}.
    *
-   * @export
    * @param buffer - Buffer to be fill, must have length larger than count
    * @param offset - From which position of the block blob to download(in bytes)
    * @param count - How much data(in bytes) to be downloaded. Will download to the end when passing undefined
    * @param options - BlobDownloadToBufferOptions
-   *
    */
   public async downloadToBuffer(
     buffer: Buffer,
@@ -2211,7 +1815,7 @@ export class BlobClient extends StorageClient {
       }
 
       if (count && count <= 0) {
-        throw new RangeError("count option must be > 0");
+        throw new RangeError("count option must be greater than 0");
       }
 
       if (!options.conditions) {
@@ -2308,7 +1912,6 @@ export class BlobClient extends StorageClient {
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
-   * @memberof BlobClient
    */
   public async downloadToFile(
     filePath: string,
@@ -2407,8 +2010,6 @@ export class BlobClient extends StorageClient {
    *
    * @param copySource - url to the source Azure Blob/File.
    * @param options - Optional options to the Blob Start Copy From URL operation.
-   *
-   * @memberof BlobClient
    */
   private async startCopyFromURL(
     copySource: string,
@@ -2461,7 +2062,6 @@ export class BlobClient extends StorageClient {
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof BlobClient
    */
   public generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {
@@ -2489,46 +2089,28 @@ export class BlobClient extends StorageClient {
 
 /**
  * Options to configure {@link AppendBlobClient.create} operation.
- *
- * @export
- * @interface AppendBlobCreateOptions
  */
 export interface AppendBlobCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Conditions to meet when creating append blobs.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof AppendBlobCreateOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when creating append blobs.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof AppendBlobCreateOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
-   *
-   * @type {Metadata}
-   * @memberof AppendBlobCreateOptions
    */
   metadata?: Metadata;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof AppendBlobCreateOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -2536,54 +2118,33 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof AppendBlobCreateOptions
    */
   encryptionScope?: string;
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof AppendBlobCreateOptions
    */
   tags?: Tags;
 }
 
 /**
  * Options to configure {@link AppendBlobClient.createIfNotExists} operation.
- *
- * @export
- * @interface AppendBlobCreateIfNotExistsOptions
  */
 export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateIfNotExistsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * HTTP headers to set when creating append blobs.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof AppendBlobCreateIfNotExistsOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
-   *
-   * @type {Metadata}
-   * @memberof AppendBlobCreateIfNotExistsOptions
    */
   metadata?: Metadata;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof AppendBlobCreateIfNotExistsOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -2591,65 +2152,40 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof AppendBlobCreateIfNotExistsOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure {@link AppendBlobClient.seal} operation.
- *
- * @export
- * @interface AppendBlobSealOptions
- * @extends {CommonOptions}
  */
 export interface AppendBlobSealOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AppendBlobAppendBlockOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet.
-   *
-   * @type {AppendBlobRequestConditions}
-   * @memberof AppendBlobAppendBlockOptions
    */
   conditions?: AppendBlobRequestConditions;
 }
 
 /**
  * Options to configure the {@link AppendBlobClient.appendBlock} operation.
- *
- * @export
- * @interface AppendBlobAppendBlockOptions
  */
 export interface AppendBlobAppendBlockOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AppendBlobAppendBlockOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when appending append blob blocks.
-   *
-   * @type {AppendBlobRequestConditions}
-   * @memberof AppendBlobAppendBlockOptions
    */
   conditions?: AppendBlobRequestConditions;
   /**
    * Callback to receive events on the progress of append block operation.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof AppendBlobAppendBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
@@ -2657,9 +2193,6 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
    *
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof AppendBlobAppendBlockOptions
    */
   transactionalContentMD5?: Uint8Array;
   /**
@@ -2667,16 +2200,10 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
    *
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof AppendBlobAppendBlockOptions
    */
   transactionalContentCrc64?: Uint8Array;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof AppendBlobAppendBlockOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -2684,40 +2211,25 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof AppendBlobAppendBlockOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure the {@link AppendBlobClient.appendBlockFromURL} operation.
- *
- * @export
- * @interface AppendBlobAppendBlockFromURLOptions
  */
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when appending append blob blocks.
-   *
-   * @type {AppendBlobRequestConditions}
-   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   conditions?: AppendBlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
-   *
-   * @type {MatchConditions & ModificationConditions}
-   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   sourceConditions?: MatchConditions & ModificationConditions;
   /**
@@ -2726,9 +2238,6 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
    *
    * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
   /**
@@ -2737,16 +2246,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
    *
    * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   sourceContentCrc64?: Uint8Array;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -2754,43 +2257,26 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Contains response data for the {@link appendBlobClient.createIfNotExists} operation.
- *
- * @export
- * @interface AppendBlobCreateIfNotExistsResponse
  */
 export interface AppendBlobCreateIfNotExistsResponse extends AppendBlobCreateResponse {
   /**
    * Indicate whether the blob is successfully created. Is false when the blob is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof AppendBlobCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * AppendBlobClient defines a set of operations applicable to append blobs.
- *
- * @export
- * @class AppendBlobClient
- * @extends {BlobClient}
  */
 export class AppendBlobClient extends BlobClient {
   /**
    * appendBlobsContext provided by protocol layer.
-   *
-   * @private
-   * @type {AppendBlob}
-   * @memberof AppendBlobClient
    */
   private appendBlobContext: AppendBlob;
 
@@ -2807,7 +2293,6 @@ export class AppendBlobClient extends BlobClient {
    * @param containerName - Container name.
    * @param blobName - Blob name.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof AppendBlobClient
    */
   constructor(
     connectionString: string,
@@ -2829,9 +2314,8 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof AppendBlobClient
    */
   constructor(
     url: string,
@@ -2854,7 +2338,6 @@ export class AppendBlobClient extends BlobClient {
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof AppendBlobClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -2948,7 +2431,6 @@ export class AppendBlobClient extends BlobClient {
    *
    * @param snapshot - The snapshot timestamp.
    * @returns A new AppendBlobClient object identical to the source but with the specified snapshot timestamp.
-   * @memberof AppendBlobClient
    */
   public withSnapshot(snapshot: string): AppendBlobClient {
     return new AppendBlobClient(
@@ -2967,7 +2449,6 @@ export class AppendBlobClient extends BlobClient {
    *
    * @param options - Options to the Append Block Create operation.
    *
-   * @memberof AppendBlobClient
    *
    * Example usage:
    *
@@ -3013,8 +2494,6 @@ export class AppendBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param options -
-   *
-   * @memberof AppendBlobClient
    */
   public async createIfNotExists(
     options: AppendBlobCreateIfNotExistsOptions = {}
@@ -3060,8 +2539,6 @@ export class AppendBlobClient extends BlobClient {
    * Seals the append blob, making it read only.
    *
    * @param options -
-   *
-   * @memberof AppendBlobClient
    */
   public async seal(options: AppendBlobSealOptions = {}): Promise<AppendBlobAppendBlockResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-seal", options.tracingOptions);
@@ -3096,7 +2573,6 @@ export class AppendBlobClient extends BlobClient {
    * @param contentLength - Length of the body in bytes.
    * @param options - Options to the Append Block operation.
    *
-   * @memberof AppendBlobClient
    *
    * Example usage:
    *
@@ -3167,8 +2643,6 @@ export class AppendBlobClient extends BlobClient {
    * @param sourceOffset - Offset in source to be appended
    * @param count - Number of bytes to be appended as a block
    * @param options -
-   *
-   * @memberof AppendBlobClient
    */
   public async appendBlockFromURL(
     sourceURL: string,
@@ -3220,52 +2694,31 @@ export class AppendBlobClient extends BlobClient {
 
 /**
  * Options to configure {@link BlockBlobClient.upload} operation.
- *
- * @export
- * @interface BlockBlobUploadOptions
  */
 export interface BlockBlobUploadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobUploadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when uploading to the block blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobUploadOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when uploading to a block blob.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobUploadOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when uploading to a block blob.
-   *
-   * @type {Metadata}
-   * @memberof BlockBlobUploadOptions
    */
   metadata?: Metadata;
   /**
    * Callback to receive events on the progress of upload operation.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -3273,48 +2726,31 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlockBlobUploadOptions
    */
   encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {BlockBlobTier | string}
-   * @memberof BlockBlobUploadOptions
    */
   tier?: BlockBlobTier | string;
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof BlockBlobUploadOptions
    */
   tags?: Tags;
 }
 
 /**
  * Options to configure {@link BlockBlobClient.syncUploadFromURL} operation.
- *
- * @export
- * @interface BlockBlobSyncUploadFromURLOptions
  */
 export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
   /**
    * Server timeout in seconds.
    * For more information, @see https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
-   * @type {number}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   timeoutInSeconds?: number;
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -3325,9 +2761,6 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules
    * for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more
    * information.
-   *
-   * @type {Metadata}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   metadata?: Metadata;
   /**
@@ -3335,231 +2768,139 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {BlockBlobTier | string}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   tier?: BlockBlobTier | string;
   /**
    * Specify the md5 calculated for the range of bytes that must be read from the copy source.
-   * @type {Uint8Array}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   tags?: Tags;
   /**
    * Optional, default is true.  Indicates if properties from the source blob should be copied.
-   *
-   * @type {boolean}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   copySourceBlobProperties?: boolean;
   /**
    * HTTP headers to set when uploading to a block blob.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * Conditions to meet for the destination Azure Blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
    * Optional. Conditions to meet for the source Azure Blob.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof BlockBlobSyncUploadFromURLOptions
    */
   sourceConditions?: ModifiedAccessConditions;
 }
 
 /**
  * Blob query error type.
- *
- * @export
- * @interface BlobQueryError
  */
 export interface BlobQueryError {
   /**
    * Whether error is fatal. Fatal error will stop query.
-   *
-   * @type {boolean}
-   * @memberof BlobQueryError
    */
   isFatal: boolean;
   /**
    * Error name.
-   *
-   * @type {string}
-   * @memberof BlobQueryError
    */
   name: string;
   /**
    * Position in bytes of the query.
-   *
-   * @type {number}
-   * @memberof BlobQueryError
    */
   position: number;
   /**
    * Error description.
-   *
-   * @type {string}
-   * @memberof BlobQueryError
    */
   description: string;
 }
 
 /**
  * Options to query blob with JSON format.
- *
- * @export
- * @interface BlobQueryJsonTextConfiguration
  */
 export interface BlobQueryJsonTextConfiguration {
   /**
    * Record separator.
-   *
-   * @type {string}
-   * @memberof BlobQueryJsonTextConfiguration
    */
   recordSeparator: string;
   /**
    * Query for a JSON format blob.
-   *
-   * @type {"json"}
-   * @memberof BlobQueryJsonTextConfiguration
    */
   kind: "json";
 }
 
 /**
  * Options to query blob with CSV format.
- *
- * @export
- * @interface BlobQueryCsvTextConfiguration
  */
 export interface BlobQueryCsvTextConfiguration {
   /**
    * Record separator.
-   *
-   * @type {string}
-   * @memberof BlobQueryCsvTextConfiguration
    */
   recordSeparator: string;
   /**
    * Query for a CSV format blob.
-   *
-   * @type {"csv"}
-   * @memberof BlobQueryCsvTextConfiguration
    */
   kind: "csv";
   /**
    * Column separator. Default is ",".
-   *
-   * @type {string}
-   * @memberof BlobQueryCsvTextConfiguration
    */
   columnSeparator?: string;
   /**
    * Field quote.
-   *
-   * @type {string}
-   * @memberof BlobQueryCsvTextConfiguration
    */
   fieldQuote?: string;
   /**
    * Escape character.
-   *
-   * @type {string}
-   * @memberof BlobQueryCsvTextConfiguration
    */
   escapeCharacter?: string;
   /**
    * Has headers. Default is false.
-   *
-   * @type {boolean}
-   * @memberof BlobQueryCsvTextConfiguration
    */
   hasHeaders?: boolean;
 }
 
 /**
  * Options to query blob with Apache Arrow format. Only valid for {@link BlockBlobQueryOptions.outputTextConfiguration}.
- *
- * @export
- * @interface BlobQueryArrowConfiguration
  */
 export interface BlobQueryArrowConfiguration {
   /**
    * Kind.
-   *
-   * @type {"arrow"}
-   * @memberof BlobQueryArrowConfiguration
    */
   kind: "arrow";
 
   /**
    * List of {@link BlobQueryArrowField} describing the schema of the data.
-   *
-   * @type {BlobQueryArrowField[]}
-   * @memberof BlobQueryArrowConfiguration
    */
   schema: BlobQueryArrowField[];
 }
 
 /**
  * Options to configure {@link BlockBlobClient.query} operation.
- *
- * @export
- * @interface BlockBlobQueryOptions
  */
 export interface BlockBlobQueryOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobQueryOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Configurations for the query input.
-   *
-   * @type {BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration}
-   * @memberof BlockBlobQueryOptions
    */
   inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
   /**
    * Configurations for the query output.
-   *
-   * @type {BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration| BlobQueryArrowConfiguration}
-   * @memberof BlockBlobQueryOptions
    */
   outputTextConfiguration?:
     | BlobQueryJsonTextConfiguration
@@ -3567,61 +2908,38 @@ export interface BlockBlobQueryOptions extends CommonOptions {
     | BlobQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobQueryOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Callback to receive error events during the query operaiton.
-   *
-   * @memberof BlockBlobQueryOptions
    */
   onError?: (error: BlobQueryError) => void;
   /**
    * Conditions to meet when uploading to the block blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobQueryOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlockBlobQueryOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
  * Options to configure {@link BlockBlobClient.stageBlock} operation.
- *
- * @export
- * @interface BlockBlobStageBlockOptions
  */
 export interface BlockBlobStageBlockOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobStageBlockOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof BlockBlobStageBlockOptions
    */
   conditions?: LeaseAccessConditions;
   /**
    * Callback to receive events on the progress of stage block operation.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobStageBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
@@ -3629,9 +2947,6 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
    *
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof BlockBlobStageBlockOptions
    */
   transactionalContentMD5?: Uint8Array;
 
@@ -3640,16 +2955,10 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
    *
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof BlockBlobStageBlockOptions
    */
   transactionalContentCrc64?: Uint8Array;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -3657,42 +2966,27 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlockBlobStageBlockOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure {@link BlockBlobClient.stageBlockFromURL} operation.
- *
- * @export
- * @interface BlockBlobStageBlockFromURLOptions
  */
 export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobStageBlockFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Specifies the bytes of the source Blob/File to upload.
    * If not specified, the entire content is uploaded as a single block.
-   *
-   * @type {Range}
-   * @memberof BlockBlobStageBlockFromURLOptions
    */
   range?: Range;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof BlockBlobStageBlockFromURLOptions
    */
   conditions?: LeaseAccessConditions;
   /**
@@ -3701,9 +2995,6 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
    *
    * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof BlockBlobStageBlockFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
   /**
@@ -3712,15 +3003,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
    *
    * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
-   * @type {Uint8Array}
-   * @memberof BlockBlobStageBlockFromURLOptions
    */
   sourceContentCrc64?: Uint8Array;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlockBlobStageBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -3728,54 +3014,33 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlockBlobStageBlockFromURLOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure {@link BlockBlobClient.commitBlockList} operation.
- *
- * @export
- * @interface BlockBlobCommitBlockListOptions
  */
 export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when committing the block list.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when committing block list.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when committing block list.
-   *
-   * @type {Metadata}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   metadata?: Metadata;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -3783,99 +3048,63 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {BlockBlobTier | string}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   tier?: BlockBlobTier | string;
 
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof BlockBlobCommitBlockListOptions
    */
   tags?: Tags;
 }
 
 /**
  * Options to configure {@link BlockBlobClient.getBlockList} operation.
- *
- * @export
- * @interface BlockBlobGetBlockListOptions
  */
 export interface BlockBlobGetBlockListOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobGetBlockListOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {LeaseAccessConditions & TagConditions}
-   * @memberof BlockBlobGetBlockListOptions
    */
   conditions?: LeaseAccessConditions & TagConditions;
 }
 
 /**
  * Option interface for the {@link BlockBlobClient.uploadStream} operation.
- *
- * @export
- * @interface BlockBlobUploadStreamOptions
  */
 export interface BlockBlobUploadStreamOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobUploadStreamOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Blob HTTP Headers.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobUploadStreamOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
   /**
    * Metadata of block blob.
-   *
-   * @type {{ [propertyName: string]: string }}
-   * @memberof BlockBlobUploadStreamOptions
    */
   metadata?: { [propertyName: string]: string };
 
   /**
    * Access conditions headers.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobUploadStreamOptions
    */
   conditions?: BlobRequestConditions;
 
   /**
    * Progress updater.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
@@ -3884,50 +3113,32 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlockBlobUploadStreamOptions
    */
   encryptionScope?: string;
 
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof BlockBlobUploadStreamOptions
    */
   tags?: Tags;
 
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {BlockBlobTier | string}
-   * @memberof BlockBlobUploadStreamOptions
    */
   tier?: BlockBlobTier | string;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
- *
- * @export
- * @interface BlockBlobParallelUploadOptions
  */
 export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlockBlobParallelUploadOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Destination block blob size in bytes.
-   *
-   * @type {number}
-   * @memberof BlockBlobParallelUploadOptions
    */
   blockSize?: number;
 
@@ -3936,49 +3147,31 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * Default value is 256MB, blob size less than this option will
    * be uploaded via one I/O operation without concurrency.
    * You can customize a value less equal than the default value.
-   *
-   * @type {number}
-   * @memberof BlockBlobParallelUploadOptions
    */
   maxSingleShotSize?: number;
 
   /**
    * Progress updater.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobParallelUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Blob HTTP Headers.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof BlockBlobParallelUploadOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
   /**
    * Metadata of block blob.
-   *
-   * @type {{ [propertyName: string]: string }}
-   * @memberof BlockBlobParallelUploadOptions
    */
   metadata?: { [propertyName: string]: string };
 
   /**
    * Access conditions headers.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobParallelUploadOptions
    */
   conditions?: BlobRequestConditions;
 
   /**
-   * Concurrency of parallel uploading. Must be >= 0.
-   *
-   * @type {number}
-   * @memberof BlockBlobParallelUploadOptions
+   * Concurrency of parallel uploading. Must be greater than or equal to 0.
    */
   concurrency?: number;
 
@@ -3987,26 +3180,17 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof BlockBlobParallelUploadOptions
    */
   encryptionScope?: string;
 
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof BlockBlobParallelUploadOptions
    */
   tags?: Tags;
 
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {BlockBlobTier | string}
-   * @memberof BlockBlobParallelUploadOptions
    */
   tier?: BlockBlobTier | string;
 }
@@ -4014,17 +3198,11 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 /**
  * Response type for {@link BlockBlobClient.uploadFile}, {@link BlockBlobClient.uploadStream}, and
  * {@link BlockBlobClient.uploadBrowserDate}.
- *
- * @export
  */
 export type BlobUploadCommonResponse = BlockBlobUploadHeaders;
 
 /**
  * BlockBlobClient defines a set of operations applicable to block blobs.
- *
- * @export
- * @class BlockBlobClient
- * @extends {BlobClient}
  */
 export class BlockBlobClient extends BlobClient {
   /**
@@ -4032,19 +3210,11 @@ export class BlockBlobClient extends BlobClient {
    *
    * Note. Ideally BlobClient should set BlobClient.blobContext to protected. However, API
    * extractor has issue blocking that. Here we redecelare _blobContext in BlockBlobClient.
-   *
-   * @private
-   * @type {Blobs}
-   * @memberof BlobClient
    */
   private _blobContext: StorageBlob;
 
   /**
    * blockBlobContext provided by protocol layer.
-   *
-   * @private
-   * @type {BlockBlobs}
-   * @memberof BlockBlobClient
    */
   private blockBlobContext: BlockBlob;
 
@@ -4061,7 +3231,6 @@ export class BlockBlobClient extends BlobClient {
    * @param containerName - Container name.
    * @param blobName - Blob name.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof BlockBlobClient
    */
   constructor(
     connectionString: string,
@@ -4083,9 +3252,8 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof BlockBlobClient
    */
   constructor(
     url: string,
@@ -4108,7 +3276,6 @@ export class BlockBlobClient extends BlobClient {
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof BlockBlobClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -4203,7 +3370,6 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param snapshot - The snapshot timestamp.
    * @returns A new BlockBlobClient object identical to the source but with the specified snapshot timestamp.
-   * @memberof BlockBlobClient
    */
   public withSnapshot(snapshot: string): BlockBlobClient {
     return new BlockBlobClient(
@@ -4245,8 +3411,6 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param query -
    * @param options -
-   *
-   * @memberof BlockBlobClient
    */
   public async query(
     query: string,
@@ -4310,7 +3474,6 @@ export class BlockBlobClient extends BlobClient {
    *                               string including non non-Base64/Hex-encoded characters.
    * @param options - Options to the Block Blob Upload operation.
    * @returns Response data for the Block Blob Upload operation.
-   * @memberof BlockBlobClient
    *
    * Example usage:
    *
@@ -4374,8 +3537,6 @@ export class BlockBlobClient extends BlobClient {
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param options - Optional parameters.
-   * @returns Promise<Models.BlockBlobPutBlobFromUrlResponse>
-   * @memberof BlockBlobClient
    */
 
   public async syncUploadFromURL(
@@ -4429,7 +3590,6 @@ export class BlockBlobClient extends BlobClient {
    * @param contentLength - Number of bytes to upload.
    * @param options - Options to the Block Blob Stage Block operation.
    * @returns Response data for the Block Blob Stage Block operation.
-   * @memberof BlockBlobClient
    */
   public async stageBlock(
     blockId: string,
@@ -4479,11 +3639,10 @@ export class BlockBlobClient extends BlobClient {
    *                           to perform the operation. Here are some examples of source object URLs:
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param offset - From which position of the blob to download, >= 0
-   * @param count - How much data to be downloaded, > 0. Will download to the end when undefined
+   * @param offset - From which position of the blob to download, greater than or equal to 0
+   * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
    * @param options - Options to the Block Blob Stage Block From URL operation.
    * @returns Response data for the Block Blob Stage Block From URL operation.
-   * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
     blockId: string,
@@ -4530,7 +3689,6 @@ export class BlockBlobClient extends BlobClient {
    * @param blocks -  Array of 64-byte value that is base64-encoded
    * @param options - Options to the Block Blob Commit Block List operation.
    * @returns Response data for the Block Blob Commit Block List operation.
-   * @memberof BlockBlobClient
    */
   public async commitBlockList(
     blocks: string[],
@@ -4581,7 +3739,6 @@ export class BlockBlobClient extends BlobClient {
    *                                        the list of uncommitted blocks, or both lists together.
    * @param options - Options to the Block Blob Get Block List operation.
    * @returns Response data for the Block Blob Get Block List operation.
-   * @memberof BlockBlobClient
    */
   public async getBlockList(
     listType: BlockListType,
@@ -4632,11 +3789,8 @@ export class BlockBlobClient extends BlobClient {
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
-   * @export
    * @param data - Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
    * @param options -
-   *
-   * @memberof BlockBlobClient
    */
   public async uploadData(
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
@@ -4687,17 +3841,15 @@ export class BlockBlobClient extends BlobClient {
    *
    * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob.
    *
-   * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
+   * When buffer length lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
    * {@link commitBlockList} to commit the block list.
    *
    * @deprecated Use {@link uploadData} instead.
    *
-   * @export
    * @param browserData - Blob, File, ArrayBuffer or ArrayBufferView
    * @param options - Options to upload browser data.
    * @returns Response data for the Blob Upload operation.
-   * @memberof BlockBlobClient
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
@@ -4739,7 +3891,6 @@ export class BlockBlobClient extends BlobClient {
    * @param size - size of the data to upload.
    * @param options - Options to Upload to Block Blob operation.
    * @returns Response data for the Blob Upload operation.
-   * @memberof BlockBlobClient
    */
   private async uploadSeekableInternal(
     bodyFactory: (offset: number, size: number) => RequestBodyType,
@@ -4858,14 +4009,13 @@ export class BlockBlobClient extends BlobClient {
    *
    * Uploads a local file in blocks to a block blob.
    *
-   * When file size <= 256MB, this method will use 1 upload call to finish the upload.
+   * When file size lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
    * to commit the block list.
    *
    * @param filePath - Full path of local file
    * @param options - Options to Upload to Block Blob operation.
    * @returns Response data for the Blob Upload operation.
-   * @memberof BlockBlobClient
    */
   public async uploadFile(
     filePath: string,
@@ -4911,7 +4061,6 @@ export class BlockBlobClient extends BlobClient {
    *                                 positive correlation with max uploading concurrency. Default value is 5
    * @param options - Options to Upload Stream to Block Blob operation.
    * @returns Response data for the Blob Upload operation.
-   * @memberof BlockBlobClient
    */
   public async uploadStream(
     stream: Readable,
@@ -4984,53 +4133,32 @@ export class BlockBlobClient extends BlobClient {
 
 /**
  * Options to configure the {@link PageBlobClient.create} operation.
- *
- * @export
- * @interface PageBlobCreateOptions
  */
 export interface PageBlobCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when creating a page blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof PageBlobCreateOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * A user-controlled value that can be used to track requests.
    * The value must be between 0 and 2^63 - 1. The default value is 0.
-   *
-   * @type {number}
-   * @memberof PageBlobCreateOptions
    */
   blobSequenceNumber?: number;
   /**
    * HTTP headers to set when creating a page blob.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof PageBlobCreateOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
-   *
-   * @type {Metadata}
-   * @memberof PageBlobCreateOptions
    */
   metadata?: Metadata;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof PageBlobCreateOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -5038,70 +4166,43 @@ export interface PageBlobCreateOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof PageBlobCreateOptions
    */
   encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {PremiumPageBlobTier | string}
-   * @memberof PageBlobCreateOptions
    */
   tier?: PremiumPageBlobTier | string;
   /**
    * Blob tags.
-   *
-   * @type {Tags}
-   * @memberof PageBlobCreateOptions
    */
   tags?: Tags;
 }
 
 /**
  * Options to configure the {@link PageBlobClient.createIfNotExists} operation.
- *
- * @export
- * @interface PageBlobCreateIfNotExistsOptions
  */
 export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobCreateIfNotExistsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A user-controlled value that can be used to track requests.
    * The value must be between 0 and 2^63 - 1. The default value is 0.
-   *
-   * @type {number}
-   * @memberof PageBlobCreateIfNotExistsOptions
    */
   blobSequenceNumber?: number;
   /**
    * HTTP headers to set when creating a page blob.
-   *
-   * @type {BlobHTTPHeaders}
-   * @memberof PageBlobCreateIfNotExistsOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
-   *
-   * @type {Metadata}
-   * @memberof PageBlobCreateIfNotExistsOptions
    */
   metadata?: Metadata;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof PageBlobCreateIfNotExistsOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -5109,48 +4210,30 @@ export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof PageBlobCreateIfNotExistsOptions
    */
   encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
-   *
-   * @type {PremiumPageBlobTier | string}
-   * @memberof PageBlobCreateIfNotExistsOptions
    */
   tier?: PremiumPageBlobTier | string;
 }
 
 /**
  * Options to configure the {@link PageBlobClient.uploadPages} operation.
- *
- * @export
- * @interface PageBlobUploadPagesOptions
  */
 export interface PageBlobUploadPagesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobUploadPagesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when uploading pages.
-   *
-   * @type {PageBlobRequestConditions}
-   * @memberof PageBlobUploadPagesOptions
    */
   conditions?: PageBlobRequestConditions;
   /**
    * Callback to receive events on the progress of upload pages operation.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof PageBlobUploadPagesOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
@@ -5158,9 +4241,6 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
    *
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof PageBlobUploadPagesOptions
    */
   transactionalContentMD5?: Uint8Array;
   /**
@@ -5168,16 +4248,10 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
    *
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof PageBlobUploadPagesOptions
    */
   transactionalContentCrc64?: Uint8Array;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof PageBlobUploadPagesOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -5185,40 +4259,25 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof PageBlobUploadPagesOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure the {@link PageBlobClient.clearPages} operation.
- *
- * @export
- * @interface PageBlobClearPagesOptions
  */
 export interface PageBlobClearPagesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobClearPagesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when clearing pages.
-   *
-   * @type {PageBlobRequestConditions}
-   * @memberof PageBlobClearPagesOptions
    */
   conditions?: PageBlobRequestConditions;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof PageBlobClearPagesOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -5226,88 +4285,55 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof PageBlobClearPagesOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure the {@link PageBlobClient.getPageRanges} operation.
- *
- * @export
- * @interface PageBlobGetPageRangesOptions
  */
 export interface PageBlobGetPageRangesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobGetPageRangesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when getting page ranges.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof PageBlobGetPageRangesOptions
    */
   conditions?: BlobRequestConditions;
 }
 
 /**
  * Options to configure the {@link PageBlobClient.getRangesDiff} operation.
- *
- * @export
- * @interface PageBlobGetPageRangesDiffOptions
  */
 export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobGetPageRangesDiffOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when getting page ranges diff.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof PageBlobGetPageRangesDiffOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * (unused)
-   *
-   * @type {string}
-   * @memberof PageBlobGetPageRangesDiffOptions
    */
   range?: string;
 }
 
 /**
  * Options to configure {@link PageBlobClient.resize} operation.
- *
- * @export
- * @interface PageBlobResizeOptions
  */
 export interface PageBlobResizeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobResizeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when resizing a page blob.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof PageBlobResizeOptions
    */
   conditions?: BlobRequestConditions;
   /**
@@ -5315,88 +4341,55 @@ export interface PageBlobResizeOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof PageBlobResizeOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Options to configure {@link PageBlobClient.updateSequenceNumber} operation.
- *
- * @export
- * @interface PageBlobUpdateSequenceNumberOptions
  */
 export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobUpdateSequenceNumberOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when updating sequence number.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof PageBlobUpdateSequenceNumberOptions
    */
   conditions?: BlobRequestConditions;
 }
 
 /**
  * Options to configure {@link PageBlobClient.startCopyIncremental} operation.
- *
- * @export
- * @interface PageBlobStartCopyIncrementalOptions
  */
 export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobStartCopyIncrementalOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when starting a copy incremental operation.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof PageBlobStartCopyIncrementalOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure {@link PageBlobClient.uploadPagesFromURL} operation.
- *
- * @export
- * @interface PageBlobUploadPagesFromURLOptions
  */
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PageBlobUploadPagesFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when updating sequence number.
-   *
-   * @type {PageBlobRequestConditions}
-   * @memberof PageBlobUploadPagesFromURLOptions
    */
   conditions?: PageBlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
-   *
-   * @type {MatchConditions & ModificationConditions}
-   * @memberof PageBlobUploadPagesFromURLOptions
    */
   sourceConditions?: MatchConditions & ModificationConditions;
   /**
@@ -5405,9 +4398,6 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
    *
    * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof PageBlobUploadPagesFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
   /**
@@ -5416,16 +4406,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
    *
    * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
-   *
-   * @type {Uint8Array}
-   * @memberof PageBlobUploadPagesFromURLOptions
    */
   sourceContentCrc64?: Uint8Array;
   /**
    * Customer Provided Key Info.
-   *
-   * @type {CpkInfo}
-   * @memberof PageBlobUploadPagesFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
   /**
@@ -5433,43 +4417,26 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * encrypt the data provided in the request. If not specified, encryption is performed with the
    * default account encryption scope.  For more information, see Encryption at Rest for Azure
    * Storage Services.
-   *
-   * @type {string}
-   * @memberof PageBlobUploadPagesFromURLOptions
    */
   encryptionScope?: string;
 }
 
 /**
  * Contains response data for the {@link PageBlobClient.createIfNotExists} operation.
- *
- * @export
- * @interface PageBlobCreateIfNotExistsResponse
  */
 export interface PageBlobCreateIfNotExistsResponse extends PageBlobCreateResponse {
   /**
    * Indicate whether the blob is successfully created. Is false when the blob is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof PageBlobCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * PageBlobClient defines a set of operations applicable to page blobs.
- *
- * @export
- * @class PageBlobClient
- * @extends {BlobClient}
  */
 export class PageBlobClient extends BlobClient {
   /**
    * pageBlobsContext provided by protocol layer.
-   *
-   * @private
-   * @type {PageBlobs}
-   * @memberof PageBlobClient
    */
   private pageBlobContext: PageBlob;
 
@@ -5486,7 +4453,6 @@ export class PageBlobClient extends BlobClient {
    * @param containerName - Container name.
    * @param blobName - Blob name.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof PageBlobClient
    */
   constructor(
     connectionString: string,
@@ -5503,9 +4469,8 @@ export class PageBlobClient extends BlobClient {
    * @param url - A Client string pointing to Azure Storage page blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
-   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof PageBlobClient
    */
   constructor(
     url: string,
@@ -5525,7 +4490,6 @@ export class PageBlobClient extends BlobClient {
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof PageBlobClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -5619,7 +4583,6 @@ export class PageBlobClient extends BlobClient {
    *
    * @param snapshot - The snapshot timestamp.
    * @returns A new PageBlobClient object identical to the source but with the specified snapshot timestamp.
-   * @memberof PageBlobClient
    */
   public withSnapshot(snapshot: string): PageBlobClient {
     return new PageBlobClient(
@@ -5640,7 +4603,6 @@ export class PageBlobClient extends BlobClient {
    * @param size - size of the page blob.
    * @param options - Options to the Page Blob Create operation.
    * @returns Response data for the Page Blob Create operation.
-   * @memberof PageBlobClient
    */
   public async create(
     size: number,
@@ -5685,8 +4647,6 @@ export class PageBlobClient extends BlobClient {
    *
    * @param size - size of the page blob.
    * @param options -
-   *
-   * @memberof PageBlobClient
    */
   public async createIfNotExists(
     size: number,
@@ -5738,7 +4698,6 @@ export class PageBlobClient extends BlobClient {
    * @param count - Content length of the body, also number of bytes to be uploaded
    * @param options - Options to the Page Blob Upload Pages operation.
    * @returns Response data for the Page Blob Upload Pages operation.
-   * @memberof PageBlobClient
    */
   public async uploadPages(
     body: RequestBodyType,
@@ -5789,8 +4748,6 @@ export class PageBlobClient extends BlobClient {
    * @param destOffset - Offset of destination page blob
    * @param count - Number of bytes to be uploaded from source page blob
    * @param options -
-   *
-   * @memberof PageBlobClient
    */
   public async uploadPagesFromURL(
     sourceURL: string,
@@ -5852,7 +4809,6 @@ export class PageBlobClient extends BlobClient {
    * @param count - Number of bytes to clear.
    * @param options - Options to the Page Blob Clear Pages operation.
    * @returns Response data for the Page Blob Clear Pages operation.
-   * @memberof PageBlobClient
    */
   public async clearPages(
     offset: number = 0,
@@ -5894,7 +4850,6 @@ export class PageBlobClient extends BlobClient {
    * @param count - Number of bytes to get.
    * @param options - Options to the Page Blob Get Ranges operation.
    * @returns Response data for the Page Blob Get Ranges operation.
-   * @memberof PageBlobClient
    */
   public async getPageRanges(
     offset: number = 0,
@@ -5939,7 +4894,6 @@ export class PageBlobClient extends BlobClient {
    * @param prevSnapshot - Timestamp of snapshot to retrieve the difference.
    * @param options - Options to the Page Blob Get Page Ranges Diff operation.
    * @returns Response data for the Page Blob Get Page Range Diff operation.
-   * @memberof PageBlobClient
    */
   public async getPageRangesDiff(
     offset: number,
@@ -5987,7 +4941,6 @@ export class PageBlobClient extends BlobClient {
    * @param prevSnapshotUrl - URL of snapshot to retrieve the difference.
    * @param options - Options to the Page Blob Get Page Ranges Diff operation.
    * @returns Response data for the Page Blob Get Page Range Diff operation.
-   * @memberof PageBlobClient
    */
   public async getPageRangesDiffForManagedDisks(
     offset: number,
@@ -6033,7 +4986,6 @@ export class PageBlobClient extends BlobClient {
    * @param size - Target size
    * @param options - Options to the Page Blob Resize operation.
    * @returns Response data for the Page Blob Resize operation.
-   * @memberof PageBlobClient
    */
   public async resize(
     size: number,
@@ -6071,7 +5023,6 @@ export class PageBlobClient extends BlobClient {
    * @param sequenceNumber - Required if sequenceNumberAction is max or update
    * @param options - Options to the Page Blob Update Sequence Number operation.
    * @returns Response data for the Page Blob Update Sequence Number operation.
-   * @memberof PageBlobClient
    */
   public async updateSequenceNumber(
     sequenceNumberAction: SequenceNumberActionType,
@@ -6117,7 +5068,6 @@ export class PageBlobClient extends BlobClient {
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param options - Options to the Page Blob Copy Incremental operation.
    * @returns Response data for the Page Blob Copy Incremental operation.
-   * @memberof PageBlobClient
    */
   public async startCopyIncremental(
     copySource: string,

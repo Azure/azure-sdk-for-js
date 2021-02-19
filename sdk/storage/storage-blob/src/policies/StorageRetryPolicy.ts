@@ -11,9 +11,6 @@ import { logger } from "../log";
 
 /**
  * RetryPolicy types.
- *
- * @export
- * @enum {number}
  */
 export enum StorageRetryPolicyType {
   /**
@@ -67,9 +64,6 @@ export interface StorageRetryOptions {
   /**
    * Optional. Specifies the maximum delay allowed before retrying an operation (default is 120s or 120 * 1000ms).
    * If you specify 0, then you must also specify 0 for retryDelayInMs.
-   *
-   * @type {number}
-   * @memberof StorageRetryOptions
    */
   readonly maxRetryDelayInMs?: number;
 

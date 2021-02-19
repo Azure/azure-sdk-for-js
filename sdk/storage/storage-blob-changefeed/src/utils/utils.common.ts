@@ -25,9 +25,7 @@ export function floorToNearestHour(date: Date | undefined): Date | undefined {
 /**
  * Get host from an URL string.
  *
- * @export
  * @param url - Source URL string
- *
  */
 export function getHost(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -37,9 +35,7 @@ export function getHost(url: string): string | undefined {
 /**
  * Get URI from an URL string.
  *
- * @export
  * @param url - Source URL string
- *
  */
 export function getURI(url: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -58,17 +54,11 @@ export function hashString(str: string): number {
 
 /**
  * Options to configure {@link getYearsPaths} operation.
- *
- * @export
- * @interface GetYearsPathsOptions
  */
 export interface GetYearsPathsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof GetYearsPathsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -105,17 +95,11 @@ export async function getYearsPaths(
 
 /**
  * Options to configure {@link getSegmentsInYear} operation.
- *
- * @export
- * @interface GetSegmentsInYearOptions
  */
 export interface GetSegmentsInYearOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof GetSegmentsInYearOptions
    */
   abortSignal?: AbortSignalLike;
 }

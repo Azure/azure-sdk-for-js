@@ -32,6 +32,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export function createDefaultHttpsClient(): HttpsClient;
+
+// @public
 export function createEmptyPipeline(): Pipeline;
 
 // @public
@@ -48,11 +51,6 @@ export function decompressResponsePolicy(): PipelinePolicy;
 
 // @public
 export const decompressResponsePolicyName = "decompressResponsePolicy";
-
-// @public
-export class DefaultHttpsClient implements HttpsClient {
-    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-}
 
 // @public
 export function delay<T>(t: number, value?: T): Promise<T | void>;

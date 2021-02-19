@@ -100,41 +100,26 @@ import { fsCreateReadStream, fsStat } from "./utils/utils.node";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
- *
- * @export
- * @class DataLakePathClient
- * @extends {StorageClient}
  */
 export class DataLakePathClient extends StorageClient {
   /**
    * pathContext provided by protocol layer.
-   *
-   * @private
-   * @type {PathOperations}
-   * @memberof DataLakePathClient
    */
   private pathContext: PathOperations;
 
   /**
-   * blobClient provided by @azure/storage-blob package.
-   *
-   * @private
-   * @type {BlobClient}
-   * @memberof DataLakePathClient
+   * blobClient provided by `@azure/storage-blob` package.
    */
   private blobClient: BlobClient;
 
   /**
    * SetAccessControlRecursiveInternal operation sets the Access Control on a path and sub paths.
    *
-   * @private
    * @param mode - Mode \"set\" sets POSIX access control rights on files and directories,
    *                                                 Mode \"modify\" modifies one or more POSIX access control rights that pre-exist on files and directories,
    *                                                 Mode \"remove\" removes one or more POSIX access control rights that were present earlier on files and directories.
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
-   *
-   * @memberof DataLakePathClient
    */
   private async setAccessControlRecursiveInternal(
     mode: PathSetAccessControlRecursiveMode,
@@ -228,9 +213,8 @@ export class DataLakePathClient extends StorageClient {
    * @param url - A Client string pointing to Azure Storage data lake path (directory or file), such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem/directory" or "https://myaccount.dfs.core.windows.net/filesystem/file".
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory?sasString".
-   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof DataLakePathClient
    */
   public constructor(
     url: string,
@@ -246,7 +230,6 @@ export class DataLakePathClient extends StorageClient {
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory?sasString".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DataLakePathClient
    */
   public constructor(url: string, pipeline: Pipeline);
 
@@ -281,8 +264,6 @@ export class DataLakePathClient extends StorageClient {
    * Name of current file system.
    *
    * @readonly
-   * @type {string}
-   * @memberof DataLakePathClient
    */
   public get fileSystemName(): string {
     return this.blobClient.containerName;
@@ -292,8 +273,6 @@ export class DataLakePathClient extends StorageClient {
    * Name of current path (directory or file).
    *
    * @readonly
-   * @type {string}
-   * @memberof DataLakePathClient
    */
   public get name(): string {
     return this.blobClient.name;
@@ -302,8 +281,6 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Convert current DataLakePathClient to DataLakeDirectoryClient if current path is a directory.
    *
-   *
-   * @memberof DataLakePathClient
    */
   public toDirectoryClient(): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(this.dfsEndpointUrl, this.pipeline);
@@ -312,8 +289,6 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Convert current DataLakePathClient to DataLakeFileClient if current path is a file.
    *
-   *
-   * @memberof DataLakePathClient
    */
   public toFileClient(): DataLakeFileClient {
     return new DataLakeFileClient(this.dfsEndpointUrl, this.pipeline);
@@ -323,8 +298,6 @@ export class DataLakePathClient extends StorageClient {
    * Get a {@link DataLakeLeaseClient} that manages leases on the path (directory or file).
    *
    * @param proposeLeaseId - Optional. Initial proposed lease Id.
-   *
-   * @memberof DataLakePathClient
    */
   public getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient {
     return new DataLakeLeaseClient(this.blobClient.getBlobLeaseClient(proposeLeaseId));
@@ -337,8 +310,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param resourceType - Resource type, "directory" or "file".
    * @param options - Optional. Options when creating path.
-   *
-   * @memberof DataLakePathClient
    */
   public async create(
     resourceType: PathResourceTypeModel,
@@ -373,8 +344,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param resourceType - Resource type, "directory" or "file".
    * @param options -
-   *
-   * @memberof DataLakePathClient
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
@@ -425,8 +394,6 @@ export class DataLakePathClient extends StorageClient {
    * function completes.
    *
    * @param options - options to Exists operation.
-   *
-   * @memberof DataLakePathClient
    */
   public async exists(options: PathExistsOptions = {}): Promise<boolean> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-exists", options.tracingOptions);
@@ -453,8 +420,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
    * @param options - Optional. Options when deleting path.
-   *
-   * @memberof DataLakePathClient
    */
   public async delete(
     recursive?: boolean,
@@ -498,8 +463,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
    * @param options -
-   *
-   * @memberof DataLakePathClient
    */
   public async deleteIfExists(
     recursive?: boolean,
@@ -547,8 +510,6 @@ export class DataLakePathClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/getproperties
    *
    * @param options - Optional. Options when getting file access control.
-   *
-   * @memberof DataLakePathClient
    */
   public async getAccessControl(
     options: PathGetAccessControlOptions = {}
@@ -586,8 +547,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options when setting path access control.
-   *
-   * @memberof DataLakePathClient
    */
   public async setAccessControl(
     acl: PathAccessControlItem[],
@@ -624,8 +583,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
-   *
-   * @memberof DataLakePathClient
    */
   public async setAccessControlRecursive(
     acl: PathAccessControlItem[],
@@ -658,8 +615,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
-   *
-   * @memberof DataLakePathClient
    */
   public async updateAccessControlRecursive(
     acl: PathAccessControlItem[],
@@ -692,8 +647,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
-   *
-   * @memberof DataLakePathClient
    */
   public async removeAccessControlRecursive(
     acl: RemovePathAccessControlItem[],
@@ -726,8 +679,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param permissions - The POSIX access permissions for the file owner, the file owning group, and others.
    * @param options - Optional. Options when setting path permissions.
-   *
-   * @memberof DataLakePathClient
    */
   public async setPermissions(
     permissions: PathPermissions,
@@ -769,8 +720,6 @@ export class DataLakePathClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
    * @param options - Optional. Options when getting path properties.
-   *
-   * @memberof DataLakePathClient
    */
   public async getProperties(
     options: PathGetPropertiesOptions = {}
@@ -805,8 +754,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param httpHeaders -
    * @param options -
-   *
-   * @memberof DataLakePathClient
    */
   public async setHttpHeaders(
     httpHeaders: PathHttpHeaders,
@@ -853,8 +800,6 @@ export class DataLakePathClient extends StorageClient {
    * @param metadata - Optional. Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
    * @param options - Optional. Options when setting path metadata.
-   *
-   * @memberof DataLakePathClient
    */
   public async setMetadata(
     metadata?: Metadata,
@@ -889,8 +834,6 @@ export class DataLakePathClient extends StorageClient {
    * @param destinationPath - Destination directory path like "directory" or file path "directory/file".
    *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
    * @param options - Optional. Options when moving directory or file.
-   *
-   * @memberof DataLakePathClient
    */
   public async move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
 
@@ -903,8 +846,6 @@ export class DataLakePathClient extends StorageClient {
    * @param destinationPath - Destination directory path like "directory" or file path "directory/file"
    *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
    * @param options - Optional. Options when moving directory or file.
-   *
-   * @memberof DataLakePathClient
    */
   public async move(
     destinationFileSystem: string,
@@ -980,10 +921,6 @@ export class DataLakePathClient extends StorageClient {
 
 /**
  * A DataLakeDirectoryClient represents a URL to the Azure Storage directory.
- *
- * @export
- * @class DataLakeDirectoryClient
- * @extends {DataLakePathClient}
  */
 export class DataLakeDirectoryClient extends DataLakePathClient {
   // https://stackoverflow.com/questions/50729485/override-method-with-different-argument-types-in-extended-class-typescript
@@ -994,8 +931,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param options - Optional. Options when creating directory.
-   *
-   * @memberof DataLakeDirectoryClient
    */
   public async create(
     resourceType: PathResourceTypeModel,
@@ -1008,8 +943,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating directory.
-   *
-   * @memberof DataLakeDirectoryClient
    */
   public async create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
 
@@ -1059,8 +992,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param options -
-   *
-   * @memberof DataLakeDirectoryClient
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
@@ -1073,8 +1004,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options -
-   *
-   * @memberof DataLakeDirectoryClient
    */
   public async createIfNotExists(
     options?: DirectoryCreateIfNotExistsOptions
@@ -1121,8 +1050,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * Creates a {@link DataLakeDirectoryClient} object under current directory.
    *
    * @param subdirectoryName - Subdirectory name.
-   *
-   * @memberof DataLakeDirectoryClient
    */
   public getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
@@ -1135,8 +1062,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * Creates a {@link DataLakeFileClient} object under current directory.
    *
    * @param fileName -
-   *
-   * @memberof DataLakeDirectoryClient
    */
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
@@ -1155,7 +1080,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeDirectoryClient
    */
   public generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {
@@ -1182,36 +1106,20 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 /**
  * A DataLakeFileClient represents a URL to the Azure Storage file.
- *
- * @export
- * @class DataLakeFileClient
- * @extends {DataLakePathClient}
  */
 export class DataLakeFileClient extends DataLakePathClient {
   /**
    * pathContextInternal provided by protocol layer.
-   *
-   * @private
-   * @type {PathOperations}
-   * @memberof DataLakeFileClient
    */
   private pathContextInternal: PathOperations;
 
   /**
    * pathContextInternal provided by protocol layer, with its url pointing to the Blob endpoint.
-   *
-   * @private
-   * @type {PathOperations}
-   * @memberof DataLakeFileClient
    */
   private pathContextInternalToBlobEndpoint: PathOperations;
 
   /**
-   * blockBlobClientInternal provided by @azure/storage-blob package.
-   *
-   * @private
-   * @type {BlockBlobClient}
-   * @memberof DataLakeFileClient
+   * blockBlobClientInternal provided by `@azure/storage-blob` package.
    */
   private blockBlobClientInternal: BlockBlobClient;
 
@@ -1221,9 +1129,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param url - A Client string pointing to Azure Storage data lake file, such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem/file".
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory/file?sasString".
-   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
-   * @memberof DataLakeFileClient
    */
   public constructor(
     url: string,
@@ -1239,7 +1146,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory/file?sasString".
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DataLakeFileClient
    */
   public constructor(url: string, pipeline: Pipeline);
 
@@ -1280,8 +1186,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
    * @param options - Optional. Options when creating file.
-   *
-   * @memberof DataLakeFileClient
    */
   public async create(
     resourceType: PathResourceTypeModel,
@@ -1294,8 +1198,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating file.
-   *
-   * @memberof DataLakeFileClient
    */
   public async create(options?: FileCreateOptions): Promise<FileCreateResponse>;
 
@@ -1342,8 +1244,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
@@ -1356,8 +1256,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating file.
-   *
-   * @memberof DataLakeFileClient
    */
   public async createIfNotExists(
     options?: FileCreateIfNotExistsOptions
@@ -1453,8 +1351,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param offset - Optional. Offset to read file, default value is 0.
    * @param count - Optional. How many bytes to read, default will read from offset to the end.
    * @param options - Optional. Options when reading file.
-   *
-   * @memberof DataLakeFileClient
    */
   public async read(
     offset: number = 0,
@@ -1500,8 +1396,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param offset - Append offset in bytes.
    * @param length - Length of content to append in bytes.
    * @param options - Optional. Options when appending data.
-   *
-   * @memberof DataLakeFileClient
    */
   public async append(
     body: HttpRequestBody,
@@ -1545,8 +1439,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *                          equal to the length of the file after all data has been written, and there must not be a request entity body included
    *                          with the request.
    * @param options - Optional. Options when flushing data.
-   *
-   * @memberof DataLakeFileClient
    */
   public async flush(position: number, options: FileFlushOptions = {}): Promise<FileFlushResponse> {
     options.conditions = options.conditions || {};
@@ -1580,8 +1472,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param filePath - Full path of the local file
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async uploadFile(
     filePath: string,
@@ -1621,8 +1511,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param data - Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async upload(
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
@@ -1813,8 +1701,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param stream - Node.js Readable stream.
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async uploadStream(
     stream: Readable,
@@ -1910,8 +1796,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param offset - From which position of the Data Lake file to read
    * @param count - How much data to be read. Will read to the end when passing undefined
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async readToBuffer(
     buffer: Buffer,
@@ -1933,8 +1817,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param offset - From which position of the Data Lake file to read(in bytes)
    * @param count - How much data(in bytes) to be read. Will read to the end when passing undefined
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async readToBuffer(
     offset?: number,
@@ -2007,7 +1889,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *                                      but with readableStreamBody set to undefined since its
    *                                      content is already read and written into a local file
    *                                      at the specified path.
-   * @memberof DataLakeFileClient
    */
   public async readToFile(
     filePath: string,
@@ -2062,8 +1943,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param query -
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async query(query: string, options: FileQueryOptions = {}): Promise<FileReadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-query", options.tracingOptions);
@@ -2099,8 +1978,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param mode -
    * @param options -
-   *
-   * @memberof DataLakeFileClient
    */
   public async setExpiry(
     mode: FileExpiryMode,
@@ -2159,7 +2036,6 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeFileClient
    */
   public generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {

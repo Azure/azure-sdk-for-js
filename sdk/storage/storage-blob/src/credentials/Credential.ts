@@ -6,10 +6,6 @@ import { PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest } from "
 /**
  * Credential is an abstract class for Azure Storage HTTP requests signing. This
  * class will host an credentialPolicyCreator factory which generates CredentialPolicy.
- *
- * @export
- * @abstract
- * @class Credential
  */
 export abstract class Credential implements PipelinePolicy {
   public abstract name: string;

@@ -89,8 +89,8 @@ export function getAlternateBSU(): BlobServiceClient {
  * Read body from downloading operation methods to string.
  * Works in both Node.js and browsers.
  *
- * @param response Convenience layer methods response with downloaded body
- * @param length Length of Readable stream, needed for Node.js environment
+ * @param response - Convenience layer methods response with downloaded body
+ * @param length - Length of Readable stream, needed for Node.js environment
  */
 export async function bodyToString(
   response: {

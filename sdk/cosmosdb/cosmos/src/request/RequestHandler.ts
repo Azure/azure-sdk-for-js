@@ -23,7 +23,6 @@ async function executeRequest(requestContext: RequestContext) {
 
 /**
  * @hidden
- * @param requestContext
  */
 async function httpRequest(requestContext: RequestContext) {
   const controller = new AbortController();
@@ -135,7 +134,6 @@ async function httpRequest(requestContext: RequestContext) {
 
 /**
  * @hidden
- * @param requestContext
  */
 export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
   if (requestContext.body) {

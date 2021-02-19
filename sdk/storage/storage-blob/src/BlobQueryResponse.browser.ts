@@ -18,10 +18,6 @@ import { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
  *
  * BlobQueryResponse implements BlobDownloadResponseModel interface, and in browser runtime it will
  * parse avor data returned by blob query.
- *
- * @export
- * @class BlobQueryResponse
- * @implements {BlobDownloadResponseModel}
  */
 export class BlobQueryResponse implements BlobDownloadResponseModel {
   /**
@@ -29,8 +25,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * requests for partial file content.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get acceptRanges(): string | undefined {
     return this.originalResponse.acceptRanges;
@@ -41,8 +35,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * for the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get cacheControl(): string | undefined {
     return this.originalResponse.cacheControl;
@@ -54,8 +46,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * response.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentDisposition(): string | undefined {
     return this.originalResponse.contentDisposition;
@@ -66,8 +56,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * for the Content-Encoding request header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentEncoding(): string | undefined {
     return this.originalResponse.contentEncoding;
@@ -78,8 +66,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * for the Content-Language request header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentLanguage(): string | undefined {
     return this.originalResponse.contentLanguage;
@@ -90,8 +76,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * page blob. This header is not returned for block blobs or append blobs.
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get blobSequenceNumber(): number | undefined {
     return this.originalResponse.blobSequenceNumber;
@@ -102,8 +86,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * 'BlockBlob', 'PageBlob', 'AppendBlob'.
    *
    * @readonly
-   * @type {(BlobType | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get blobType(): BlobType | undefined {
     return this.originalResponse.blobType;
@@ -114,8 +96,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * response body.
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentLength(): number | undefined {
     return this.originalResponse.contentLength;
@@ -132,8 +112,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * header.
    *
    * @readonly
-   * @type {(Uint8Array | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentMD5(): Uint8Array | undefined {
     return this.originalResponse.contentMD5;
@@ -145,8 +123,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentRange(): string | undefined {
     return this.originalResponse.contentRange;
@@ -157,8 +133,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * The default content type is 'application/octet-stream'
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentType(): string | undefined {
     return this.originalResponse.contentType;
@@ -170,8 +144,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * can specify the time of a completed, aborted, or failed copy attempt.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get copyCompletedOn(): Date | undefined {
     return undefined;
@@ -182,8 +154,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * File operation where this file was the destination file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get copyId(): string | undefined {
     return this.originalResponse.copyId;
@@ -196,8 +166,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * Content-Length bytes copied.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get copyProgress(): string | undefined {
     return this.originalResponse.copyProgress;
@@ -209,8 +177,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * was the destination file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get copySource(): string | undefined {
     return this.originalResponse.copySource;
@@ -222,8 +188,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * 'success', 'aborted', 'failed'
    *
    * @readonly
-   * @type {(CopyStatusType | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get copyStatus(): CopyStatusType | undefined {
     return this.originalResponse.copyStatus;
@@ -235,8 +199,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * non-fatal copy operation failure.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get copyStatusDescription(): string | undefined {
     return this.originalResponse.copyStatusDescription;
@@ -248,8 +210,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * values include: 'infinite', 'fixed'.
    *
    * @readonly
-   * @type {(LeaseDurationType | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get leaseDuration(): LeaseDurationType | undefined {
     return this.originalResponse.leaseDuration;
@@ -260,8 +220,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * values include: 'available', 'leased', 'expired', 'breaking', 'broken'.
    *
    * @readonly
-   * @type {(LeaseStateType | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get leaseState(): LeaseStateType | undefined {
     return this.originalResponse.leaseState;
@@ -272,8 +230,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * blob. Possible values include: 'locked', 'unlocked'.
    *
    * @readonly
-   * @type {(LeaseStatusType | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get leaseStatus(): LeaseStatusType | undefined {
     return this.originalResponse.leaseStatus;
@@ -284,8 +240,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * indicates the time at which the response was initiated.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get date(): Date | undefined {
     return this.originalResponse.date;
@@ -296,8 +250,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * present in the blob. This header is returned only for append blobs.
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get blobCommittedBlockCount(): number | undefined {
     return this.originalResponse.blobCommittedBlockCount;
@@ -308,8 +260,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * perform operations conditionally, in quotes.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get etag(): string | undefined {
     return this.originalResponse.etag;
@@ -319,8 +269,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * The error code.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get errorCode(): string | undefined {
     return this.originalResponse.errorCode;
@@ -334,8 +282,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * are encrypted).
    *
    * @readonly
-   * @type {(boolean | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get isServerEncrypted(): boolean | undefined {
     return this.originalResponse.isServerEncrypted;
@@ -349,8 +295,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * latter calculated from the requested range.
    *
    * @readonly
-   * @type {(Uint8Array | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get blobContentMD5(): Uint8Array | undefined {
     return this.originalResponse.blobContentMD5;
@@ -362,8 +306,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * the last modified time.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get lastModified(): Date | undefined {
     return this.originalResponse.lastModified;
@@ -374,8 +316,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * to associate with a file storage object.
    *
    * @readonly
-   * @type {(Metadata | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get metadata(): Metadata | undefined {
     return this.originalResponse.metadata;
@@ -386,8 +326,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * that was made and can be used for troubleshooting the request.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get requestId(): string | undefined {
     return this.originalResponse.requestId;
@@ -398,8 +336,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * response with the same value.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get clientRequestId(): string | undefined {
     return this.originalResponse.clientRequestId;
@@ -410,8 +346,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * to execute the request.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get version(): string | undefined {
     return this.originalResponse.version;
@@ -422,8 +356,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * when the blob was encrypted with a customer-provided key.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get encryptionKeySha256(): string | undefined {
     return this.originalResponse.encryptionKeySha256;
@@ -434,9 +366,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * true, then the request returns a crc64 for the range, as long as the range size is less than
    * or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is
    * specified in the same request, it will fail with 400(Bad Request)
-   *
-   * @type {(Uint8Array | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get contentCrc64(): Uint8Array | undefined {
     return this.originalResponse.contentCrc64;
@@ -447,8 +376,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * Always undefined in node.js.
    *
    * @readonly
-   * @type {(Promise<Blob> | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get blobBody(): Promise<Blob> | undefined {
     throw Error(`Quick query in browser is not supported yet.`);
@@ -459,8 +386,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * Always undefined in the browser.
    *
    * @readonly
-   * @type {(NodeJS.ReadableStream | undefined)}
-   * @memberof BlobQueryResponse
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
     return undefined;
@@ -473,7 +398,6 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    *
    * @param originalResponse -
    * @param options -
-   * @memberof BlobQueryResponse
    */
   public constructor(
     originalResponse: BlobQueryResponseModel,

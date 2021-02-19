@@ -20,7 +20,6 @@ export class InjectorPolicy implements PipelinePolicy {
    *
    * @param nextPolicy -
    * @param options -
-   * @memberof InjectorPolicy
    */
   public constructor(injector: Injector) {
     this.injector = injector;
@@ -28,6 +27,8 @@ export class InjectorPolicy implements PipelinePolicy {
 
   /**
    * Sends request.
+   *
+   * @param request -
    */
   public async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
     const error = this.injector();
