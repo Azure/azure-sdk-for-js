@@ -1,59 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
-import { getTracer } from "@azure/core-tracing";
-import { OperationOptions, SpanConfig } from "./interfaces";
+import {
+  SpanConfig as coreTracingSpanConfig,
+  createSpanFunction as coreTracingCreateSpanFunction
+} from "@azure/core-tracing";
+import { Span } from "@opentelemetry/api";
+import { OperationOptions } from "./interfaces";
 
-type OperationTracingOptions = OperationOptions["tracingOptions"];
+export interface SpanConfig extends coreTracingSpanConfig { }
 
-/**
- * Creates a function called createSpan to create spans using the global tracer.
- * @hidden
- * @param spanConfig - The name of the operation being performed.
- * @param tracingOptions - The options for the underlying http request.
- */
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-  return function<T extends OperationOptions>(
+export function createSpanFunction(
+  spanConfig: SpanConfig
+): <T extends OperationOptions | undefined>(
     operationName: string,
     operationOptions: T
-  ): { span: Span; updatedOptions: T } {
-    const tracer = getTracer();
-    const tracingOptions = operationOptions.tracingOptions || {};
-    const spanOptions: SpanOptions = {
-      ...tracingOptions.spanOptions,
-      kind: SpanKind.INTERNAL
-    };
-
-    const span = tracer.startSpan(`${packagePrefix}.${operationName}`, spanOptions);
-
-    span.setAttribute("az.namespace", namespace);
-
-    let newSpanOptions = tracingOptions.spanOptions || {};
-    if (span.isRecording()) {
-      newSpanOptions = {
-        ...tracingOptions.spanOptions,
-        parent: span.context(),
-        attributes: {
-          ...spanOptions.attributes,
-          "az.namespace": namespace
-        }
-      };
-    }
-
-    const newTracingOptions: OperationTracingOptions = {
-      ...tracingOptions,
-      spanOptions: newSpanOptions
-    };
-
-    const newOperationOptions: T = {
-      ...operationOptions,
-      tracingOptions: newTracingOptions
-    };
-
-    return {
-      span,
-      updatedOptions: newOperationOptions
-    };
-  };
+  ) => {
+    span: Span;
+    updatedOptions: T;
+  } {
+  return coreTracingCreateSpanFunction(spanConfig);
 }

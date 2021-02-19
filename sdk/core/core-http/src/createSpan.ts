@@ -8,28 +8,16 @@ import {
 import { Span } from "@opentelemetry/api";
 import { OperationOptions } from "./operationOptions";
 
-export interface SpanConfig extends coreTracingSpanConfig {}
-
-// export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-//   return function <T extends OperationOptions>(
-//     operationName: string,
-//     operationOptions: T
-//   ): { span: Span; updatedOptions: T } {
+export interface SpanConfig extends coreTracingSpanConfig { }
 
 export function createSpanFunction(
   spanConfig: SpanConfig
 ): <T extends OperationOptions | undefined>(
-  operationName: string,
-  operationOptions: T
-) => {
-  span: Span;
-  updatedOptions: T;
-} {
+    operationName: string,
+    operationOptions: T
+  ) => {
+    span: Span;
+    updatedOptions: T;
+  } {
   return coreTracingCreateSpanFunction(spanConfig);
 }
-
-// export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-//   return function <T extends OperationOptions>(
-//     operationName: string,
-//     operationOptions: T
-//   ): { span: Span; updatedOptions: T } {
