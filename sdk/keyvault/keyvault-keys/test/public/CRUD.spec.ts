@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 
 import {
   KeyClient,
@@ -16,7 +16,6 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { CreateOctKeyOptions } from "../../src/keysModels";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
@@ -158,21 +157,6 @@ describe("Keys client - create, read, update and delete operations", () => {
         }
       });
     });
-  });
-
-  it("can create an OCT key with options", async function() {
-    if (!isPlaybackMode()) {
-      // oct key types are only supported in HSM instances, so avoid running this in a live setting until KeyVault supports them as well.
-      this.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const options: CreateOctKeyOptions = {
-      hsm: true
-    };
-    const result = await client.createOctKey(keyName, options);
-    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
-    assert.equal(result.keyType, "oct-HSM");
-    await testClient.flushKey(keyName);
   });
 
   it("can create a disabled key", async function() {

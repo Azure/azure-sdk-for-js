@@ -8,7 +8,7 @@ import { CryptographyClient } from "../../src";
 import { checkKeyValidity } from "../../src/keyVaultCryptographyClient";
 import { stringToUint8Array } from "../utils/crypto";
 
-describe.only("internal crypto tests", () => {
+describe("internal crypto tests", () => {
   describe("checkKeyValidity", () => {
     it("Checking that the key's notBefore is respected", async function() {
       const keyBundle = {

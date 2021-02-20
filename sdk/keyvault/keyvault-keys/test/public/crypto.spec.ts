@@ -186,31 +186,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       assert.equal(text, decryptedText);
       await testClient.flushKey(hsmKeyName);
     });
-
-    it("encrypt & decrypt with an AES key", async function() {
-      const hsmKeyName = keyName + "2";
-      const hsmKey = await client.createKey(hsmKeyName, "AES", { keySize: 256 });
-      const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
-      const text = this.test!.title;
-      const encryptResult = await hsmCryptoClient.encrypt({
-        algorithm: "A256GCM",
-        plaintext: stringToUint8Array(text),
-        additionalAuthenticatedData: stringToUint8Array(text)
-      });
-      assert.exists(encryptResult.iv);
-      console.log("encryptResult", encryptResult);
-      const decryptResult = await hsmCryptoClient.decrypt({
-        algorithm: "A256GCM",
-        authenticationTag: encryptResult.authenticationTag,
-        ciphertext: encryptResult.result,
-        iv: encryptResult.iv!,
-        additionalAuthenticatedData: encryptResult.additionalAuthenticatedData
-      });
-
-      const decryptedText = uint8ArrayToString(decryptResult.result);
-      assert.equal(text, decryptedText);
-      await testClient.flushKey(hsmKeyName);
-    });
   }
 
   it("wrap and unwrap with RSA-OAEP on a RSA-HSM key", async function() {
