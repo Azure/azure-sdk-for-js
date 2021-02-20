@@ -1311,7 +1311,11 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileReadResponse> {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-read", options);
     try {
-      const rawResponse = await this.blockBlobClientInternal.download(offset, count, updatedOptions);
+      const rawResponse = await this.blockBlobClientInternal.download(
+        offset,
+        count,
+        updatedOptions
+      );
 
       const response = rawResponse as FileReadResponse;
       if (!isNode && !response.contentAsBlob) {
@@ -1581,7 +1585,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The data's size is too big or the chunkSize is too small;` +
-          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
