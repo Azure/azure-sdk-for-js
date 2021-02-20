@@ -8,7 +8,8 @@ import { SpanKind, TraceFlags } from "@opentelemetry/api";
 import { setTracer } from "../src/tracerProxy";
 import { TestTracer } from "../src/tracers/test/testTracer";
 import { TestSpan } from "../src/tracers/test/testSpan";
-import { createSpanFunction, OperationTracingOptionsLike } from "../src/createSpan";
+import { createSpanFunction } from "../src/createSpan";
+import { OperationTracingOptions } from "../src/interfaces";
 
 const createSpan = createSpanFunction({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
 
@@ -30,7 +31,7 @@ describe("createSpan", () => {
         // validate that we dumbly just copy any fields (this makes future upgrades easier)
         someOtherField: "someOtherFieldValue",
         context: { someContext: "some Context" }
-      } as OperationTracingOptionsLike) as any
+      } as OperationTracingOptions) as any
     });
     assert.strictEqual(span, testSpan, "Should return mocked span");
     assert.ok(startSpanStub.calledOnce);
@@ -58,11 +59,11 @@ describe("createSpan", () => {
   });
 
   it("returns updated SpanOptions", () => {
-    const options: { tracingOptions?: OperationTracingOptionsLike } = {};
+    const options: { tracingOptions?: OperationTracingOptions } = {};
     const { span, updatedOptions } = createSpan("testMethod", options);
     assert.deepStrictEqual(options, {}, "original options should not be modified");
     assert.notStrictEqual(updatedOptions, options, "should return new object");
-    const expected: { tracingOptions?: OperationTracingOptionsLike } = {
+    const expected: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),
@@ -76,7 +77,7 @@ describe("createSpan", () => {
   });
 
   it("preserves existing attributes", () => {
-    const options: { tracingOptions?: OperationTracingOptionsLike } = {
+    const options: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
           attributes: {
@@ -87,7 +88,7 @@ describe("createSpan", () => {
     };
     const { span, updatedOptions } = createSpan("testMethod", options);
     assert.notStrictEqual(updatedOptions, options, "should return new object");
-    const expected: { tracingOptions?: OperationTracingOptionsLike } = {
+    const expected: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),

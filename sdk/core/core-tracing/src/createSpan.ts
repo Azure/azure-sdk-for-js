@@ -3,17 +3,7 @@
 
 import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
 import { getTracer } from "../src/tracerProxy";
-
-/**
- * Tracing options to set on an operation.
- * @hidden
- */
-export interface OperationTracingOptionsLike {
-  /**
-   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
-}
+import { OperationTracingOptions } from "./interfaces";
 
 /**
  * Configuration for creating a new Tracing Span
@@ -37,7 +27,7 @@ export interface SpanConfig {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-  return function<T extends { tracingOptions?: OperationTracingOptionsLike } | undefined>(
+  return function <T extends { tracingOptions?: OperationTracingOptions } | undefined>(
     operationName: string,
     operationOptions: T
   ): { span: Span; updatedOptions: T } {
@@ -64,7 +54,7 @@ export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
       };
     }
 
-    const newTracingOptions: OperationTracingOptionsLike = {
+    const newTracingOptions: OperationTracingOptions = {
       ...tracingOptions,
       spanOptions: newSpanOptions
       // TODO: .context soon.
