@@ -75,7 +75,7 @@ export const imdsMsi: MSI = {
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = identityClient.createWebResource(request);
-      webResource.timeout = (updatedOptions?.requestOptions?.timeout) || 500;
+      webResource.timeout = updatedOptions?.requestOptions?.timeout || 500;
 
       try {
         logger.info(`Pinging IMDS endpoint`);

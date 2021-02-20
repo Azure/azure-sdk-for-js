@@ -114,10 +114,7 @@ export class ClientCertificateCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions } = createSpan(
-      "ClientCertificateCredential-getToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ClientCertificateCredential-getToken", options);
     try {
       const tokenId = uuidV4();
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);

@@ -67,10 +67,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions } = createSpan(
-      "UsernamePasswordCredential-getToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("UsernamePasswordCredential-getToken", options);
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
       const webResource = this.identityClient.createWebResource({
