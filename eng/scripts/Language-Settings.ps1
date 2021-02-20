@@ -227,6 +227,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
     if (!$files)
     {
       Write-Host "$($packageDir) does not have api review json for package"
+      Write-Host "API Extractor must be enabled for $($packageName). Please ensure api-extractor.json is present in package directory and api extract script included in build script"
       return $null
     }
     elseif ($files.Count -ne 1)
