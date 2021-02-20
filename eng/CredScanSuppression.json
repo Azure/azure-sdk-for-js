@@ -26,6 +26,30 @@
       "_justification": "Secret used by test code"
     },
     {
+      "hash": "UyIHw8OdxjE4j2ChZgotLVNB7fRelDvB2QGJC4Ywhgg=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash": "YAxfEQdwUdxTNTXg4jsXQcFv6TBmft6LmbYBUhwoKz8=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash": "/BZ/xBh93a5O2c/lIPHrrLu7nMa9LETWpduQoKWadNE=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash": "V9v2uvdQB54nMVGYhYcYCtt2sdnrekGoNAwGpbaVaaA=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash": "RuIWpo8CDHW0BzAIh4FtOzyYw2rFAaH4IFmrESiT/3U=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash": "u3Zk70ksUgF5bUQNhsaRYbOlhPstSbhAQ48ZABeaOzY=",
+      "_justification": "Secret used by test code"
+    },
+    {
       "placeholder": [
         "`$`{NPM_TOKEN`}",
         "azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
@@ -42,7 +66,10 @@
         "liilef#$DdRGSa_ewkjh",
         "kt#_gahr!@aGERDXA",
         "goose",
-        "_password"
+        "_password",
+        "Abcdef",
+        "Abc",
+        "azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default"
       ],
       "_justification": "Secret used by test code, it is fake."
     },
