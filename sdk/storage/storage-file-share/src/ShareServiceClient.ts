@@ -335,10 +335,7 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareCreateOptions = {}
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
-    const { span, updatedOptions } = createSpan(
-      "ShareServiceClient-createShare",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareServiceClient-createShare", options);
     try {
       const shareClient = this.getShareClient(shareName);
       const shareCreateResponse = await shareClient.create(updatedOptions);
@@ -368,10 +365,7 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareServiceClient-deleteShare",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareServiceClient-deleteShare", options);
     try {
       const shareClient = this.getShareClient(shareName);
       return await shareClient.delete(updatedOptions);
@@ -397,10 +391,7 @@ export class ShareServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareServiceClient-getProperties",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareServiceClient-getProperties", options);
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
@@ -430,10 +421,7 @@ export class ShareServiceClient extends StorageClient {
     properties: FileServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareServiceClient-setProperties",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareServiceClient-setProperties", options);
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
@@ -639,10 +627,7 @@ export class ShareServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<ServiceListSharesSegmentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareServiceClient-listSharesSegment",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareServiceClient-listSharesSegment", options);
 
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -690,10 +675,7 @@ export class ShareServiceClient extends StorageClient {
     deletedShareVersion: string,
     options: ServiceUndeleteShareOptions = {}
   ): Promise<ShareClient> {
-    const { span, updatedOptions } = createSpan(
-      "ShareServiceClient-undeleteShare",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareServiceClient-undeleteShare", options);
     try {
       const shareClient = this.getShareClient(deletedShareName);
       await new ShareClientInternal(shareClient.url, this.pipeline).restore({

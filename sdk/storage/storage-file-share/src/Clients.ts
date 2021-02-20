@@ -338,24 +338,24 @@ export interface SignedIdentifier {
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & ShareGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: ShareGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignedIdentifierModel[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignedIdentifierModel[];
+    };
   };
-};
 
 /**
  * Options to configure the {@link ShareClient.createSnapshot} operation.
@@ -673,10 +673,7 @@ export class ShareClient extends StorageClient {
   public async createIfNotExists(
     options: ShareCreateOptions = {}
   ): Promise<ShareCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareClient-createIfNotExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareClient-createIfNotExists", options);
     try {
       const res = await this.create(updatedOptions);
       return {
@@ -1279,10 +1276,7 @@ export class ShareClient extends StorageClient {
     filePermission: string,
     options: ShareCreatePermissionOptions = {}
   ): Promise<ShareCreatePermissionResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareClient-createPermission",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareClient-createPermission", options);
     try {
       return await this.context.createPermission(
         {
@@ -1380,7 +1374,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 
 export interface DirectoryProperties
   extends FileAndDirectorySetPropertiesCommonOptions,
-  CommonOptions {
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -1751,10 +1745,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async createIfNotExists(
     options: DirectoryCreateOptions = {}
   ): Promise<DirectoryCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-createIfNotExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-createIfNotExists", options);
     try {
       const res = await this.create(updatedOptions);
       return {
@@ -1793,10 +1784,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async setProperties(
     properties: DirectoryProperties = {}
   ): Promise<DirectorySetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-setProperties",
-      properties
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-setProperties", properties);
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
@@ -1858,10 +1846,7 @@ export class ShareDirectoryClient extends StorageClient {
     directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-createSubdirectory",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-createSubdirectory", options);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
       const directoryCreateResponse = await directoryClient.create(updatedOptions);
@@ -1893,10 +1878,7 @@ export class ShareDirectoryClient extends StorageClient {
     directoryName: string,
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-deleteSubdirectory",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-deleteSubdirectory", options);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
       return await directoryClient.delete(updatedOptions);
@@ -1925,10 +1907,7 @@ export class ShareDirectoryClient extends StorageClient {
     size: number,
     options: FileCreateOptions = {}
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-createFile",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-createFile", options);
     try {
       const fileClient = this.getFileClient(fileName);
       const fileCreateResponse = await fileClient.create(size, updatedOptions);
@@ -1969,10 +1948,7 @@ export class ShareDirectoryClient extends StorageClient {
     fileName: string,
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-deleteFile",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-deleteFile", options);
     try {
       const fileClient = this.getFileClient(fileName);
       return await fileClient.delete(updatedOptions);
@@ -2064,10 +2040,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async getProperties(
     options: DirectoryGetPropertiesOptions = {}
   ): Promise<DirectoryGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-getProperties",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-getProperties", options);
     try {
       return await this.context.getProperties({
         abortSignal: options.abortSignal,
@@ -2120,10 +2093,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async deleteIfExists(
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-deleteIfExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-deleteIfExists", options);
     try {
       const res = await this.delete(updatedOptions);
       return {
@@ -2167,10 +2137,7 @@ export class ShareDirectoryClient extends StorageClient {
     metadata?: Metadata,
     options: DirectorySetMetadataOptions = {}
   ): Promise<DirectorySetMetadataResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-setMetadata",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-setMetadata", options);
     try {
       return await this.context.setMetadata({
         abortSignal: options.abortSignal,
@@ -2573,10 +2540,7 @@ export class ShareDirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListHandlesSegmentOptions = {}
   ): Promise<DirectoryListHandlesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-listHandlesSegment",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-listHandlesSegment", options);
     try {
       marker = marker === "" ? undefined : marker;
       const response = await this.context.listHandles({
@@ -2697,10 +2661,7 @@ export class ShareDirectoryClient extends StorageClient {
     handleId: string,
     options: DirectoryForceCloseHandlesOptions = {}
   ): Promise<DirectoryForceCloseHandlesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareDirectoryClient-forceCloseHandle",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-forceCloseHandle", options);
     try {
       if (handleId === "*") {
         throw new RangeError(
@@ -2768,7 +2729,7 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
-export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse { }
+export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {}
 
 /**
  * Options to configure the {@link ShareFileClient.delete} operation.
@@ -3039,7 +3000,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
  */
 export interface FileSetHttpHeadersOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-  CommonOptions {
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3071,7 +3032,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
  */
 export interface FileResizeOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-  CommonOptions {
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3693,10 +3654,7 @@ export class ShareFileClient extends StorageClient {
   public async getProperties(
     options: FileGetPropertiesOptions = {}
   ): Promise<FileGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-getProperties",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-getProperties", options);
     try {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
@@ -3724,10 +3682,7 @@ export class ShareFileClient extends StorageClient {
    *                                       existing values will be preserved.
    */
   public async setProperties(properties: FileProperties = {}): Promise<SetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-setProperties",
-      properties
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-setProperties", properties);
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
@@ -3812,10 +3767,7 @@ export class ShareFileClient extends StorageClient {
   public async deleteIfExists(
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-deleteIfExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-deleteIfExists", options);
     try {
       const res = await this.delete(updatedOptions);
       return {
@@ -3863,10 +3815,7 @@ export class ShareFileClient extends StorageClient {
     fileHttpHeaders: FileHttpHeaders = {},
     options: FileSetHttpHeadersOptions = {}
   ): Promise<FileSetHTTPHeadersResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-setHTTPHeaders",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-setHTTPHeaders", options);
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
@@ -4063,10 +4012,7 @@ export class ShareFileClient extends StorageClient {
     count: number,
     options: FileUploadRangeFromURLOptions = {}
   ): Promise<FileUploadRangeFromURLResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-uploadRangeFromURL",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadRangeFromURL", options);
     try {
       if (sourceOffset < 0 || destOffset < 0) {
         throw new RangeError(`sourceOffset and destOffset must be >= 0`);
@@ -4146,10 +4092,7 @@ export class ShareFileClient extends StorageClient {
   public async getRangeList(
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-getRangeList",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-getRangeList", options);
     try {
       const originalResponse = await this.context.getRangeList({
         abortSignal: options.abortSignal,
@@ -4188,10 +4131,7 @@ export class ShareFileClient extends StorageClient {
     prevShareSnapshot: string,
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListDiffResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-getRangeListDiff",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-getRangeListDiff", options);
     try {
       return await this.context.getRangeList({
         prevsharesnapshot: prevShareSnapshot,
@@ -4226,10 +4166,7 @@ export class ShareFileClient extends StorageClient {
     copySource: string,
     options: FileStartCopyOptions = {}
   ): Promise<FileStartCopyResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-startCopyFromURL",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-startCopyFromURL", options);
     try {
       return await this.context.startCopy(copySource, {
         abortSignal: options.abortSignal,
@@ -4263,10 +4200,7 @@ export class ShareFileClient extends StorageClient {
     copyId: string,
     options: FileAbortCopyFromURLOptions = {}
   ): Promise<FileAbortCopyResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-abortCopyFromURL",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-abortCopyFromURL", options);
     try {
       return await this.context.abortCopy(copyId, {
         abortSignal: options.abortSignal,
@@ -4348,10 +4282,7 @@ export class ShareFileClient extends StorageClient {
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-UploadSeekableBlob",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-UploadSeekableBlob", options);
     try {
       return this.uploadSeekableInternal(blobFactory, size, updatedOptions);
     } catch (e) {
@@ -4422,10 +4353,7 @@ export class ShareFileClient extends StorageClient {
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-uploadResetableStream",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadResetableStream", options);
     try {
       return await this.uploadSeekableInternal(
         (offset: number, count?: number) => {
@@ -4457,10 +4385,7 @@ export class ShareFileClient extends StorageClient {
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-uploadSeekableInternal",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadSeekableInternal", options);
     try {
       if (!options.rangeSize) {
         options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
@@ -4587,10 +4512,7 @@ export class ShareFileClient extends StorageClient {
       options = (countOrOptions as FileDownloadToBufferOptions) || {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-downloadToBuffer",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-downloadToBuffer", options);
 
     try {
       if (!options.rangeSize) {
@@ -4636,8 +4558,8 @@ export class ShareFileClient extends StorageClient {
         } catch (error) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
-            'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
-            `\t ${error.message}`
+              'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
+              `\t ${error.message}`
           );
         }
       }
@@ -4715,10 +4637,7 @@ export class ShareFileClient extends StorageClient {
     maxBuffers: number,
     options: FileUploadStreamOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-uploadStream",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadStream", options);
     try {
       if (!options.fileHttpHeaders) {
         options.fileHttpHeaders = {};
@@ -4750,7 +4669,7 @@ export class ShareFileClient extends StorageClient {
           if (transferProgress + buffer.length > size) {
             throw new RangeError(
               `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-              `Please make sure stream length is less or equal than file size.`
+                `Please make sure stream length is less or equal than file size.`
             );
           }
 
@@ -4806,10 +4725,7 @@ export class ShareFileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<FileDownloadResponseModel> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-downloadToFile",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-downloadToFile", options);
     try {
       const response = await this.download(offset, count, updatedOptions);
       if (response.readableStreamBody) {
@@ -4845,10 +4761,7 @@ export class ShareFileClient extends StorageClient {
     marker?: string,
     options: FileListHandlesSegmentOptions = {}
   ): Promise<FileListHandlesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-listHandlesSegment",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-listHandlesSegment", options);
     try {
       marker = marker === "" ? undefined : marker;
       const response = await this.context.listHandles({
@@ -5007,10 +4920,7 @@ export class ShareFileClient extends StorageClient {
   public async forceCloseAllHandles(
     options: FileForceCloseHandlesOptions = {}
   ): Promise<CloseHandlesInfo> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-forceCloseAllHandles",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-forceCloseAllHandles", options);
     try {
       let handlesClosed = 0;
       let numberOfHandlesFailedToClose = 0;
@@ -5053,10 +4963,7 @@ export class ShareFileClient extends StorageClient {
     handleId: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<FileForceCloseHandlesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareFileClient-forceCloseHandle",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-forceCloseHandle", options);
     try {
       if (handleId === "*") {
         throw new RangeError(
@@ -5260,10 +5167,7 @@ export class ShareLeaseClient {
     duration: number = -1,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareLeaseClient-acquireLease",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-acquireLease", options);
     try {
       return await this.fileOrShare.acquireLease({
         abortSignal: options.abortSignal,
@@ -5293,10 +5197,7 @@ export class ShareLeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareLeaseClient-changeLease",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-changeLease", options);
     try {
       const response = await this.fileOrShare.changeLease(this._leaseId, {
         proposedLeaseId,
@@ -5324,10 +5225,7 @@ export class ShareLeaseClient {
    * @returns Response data for release lease operation.
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ShareLeaseClient-releaseLease",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-releaseLease", options);
     try {
       return await this.fileOrShare.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
