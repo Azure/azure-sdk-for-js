@@ -46,7 +46,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date } from "./utils/utils.common";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Tags } from "./models";
@@ -536,16 +536,13 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerCreateResponse: ContainerCreateResponse;
   }> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-createContainer",
-      options.tracingOptions
+      options
     );
     try {
       const containerClient = this.getContainerClient(containerName);
-      const containerCreateResponse = await containerClient.create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const containerCreateResponse = await containerClient.create(updatedOptions);
       return {
         containerClient,
         containerCreateResponse
@@ -572,16 +569,13 @@ export class BlobServiceClient extends StorageClient {
     containerName: string,
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-deleteContainer",
-      options.tracingOptions
+      options
     );
     try {
       const containerClient = this.getContainerClient(containerName);
-      return await containerClient.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await containerClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -610,9 +604,9 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerUndeleteResponse: ContainerUndeleteResponse;
   }> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-undeleteContainer",
-      options.tracingOptions
+      options
     );
     try {
       const containerClient = this.getContainerClient(
@@ -623,8 +617,7 @@ export class BlobServiceClient extends StorageClient {
       const containerUndeleteResponse = await containerContext.restore({
         deletedContainerName,
         deletedContainerVersion,
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        ...updatedOptions,
       });
       return { containerClient, containerUndeleteResponse };
     } catch (e) {
@@ -654,18 +647,17 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerRenameResponse: ContainerRenameResponse;
   }> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-renameContainer",
-      options.tracingOptions
+      options
     );
     try {
       const containerClient = this.getContainerClient(destinationContainerName);
       // Hack to access a protected member.
       const containerContext = new Container(containerClient["storageClientContext"]);
       const containerRenameResponse = await containerContext.rename(sourceContainerName, {
-        ...options,
+        ...updatedOptions,
         sourceLeaseId: options.sourceCondition?.leaseId,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
       });
       return { containerClient, containerRenameResponse };
     } catch (e) {
@@ -690,14 +682,14 @@ export class BlobServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-getProperties",
-      options.tracingOptions
+      options
     );
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -723,14 +715,14 @@ export class BlobServiceClient extends StorageClient {
     properties: BlobServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-setProperties",
-      options.tracingOptions
+      options
     );
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -755,14 +747,14 @@ export class BlobServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<ServiceGetStatisticsResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-getStatistics",
-      options.tracingOptions
+      options
     );
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -788,14 +780,14 @@ export class BlobServiceClient extends StorageClient {
   public async getAccountInfo(
     options: ServiceGetAccountInfoOptions = {}
   ): Promise<ServiceGetAccountInfoResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-getAccountInfo",
-      options.tracingOptions
+      options
     );
     try {
       return await this.serviceContext.getAccountInfo({
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -826,9 +818,9 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): Promise<ServiceListContainersSegmentResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-listContainersSegment",
-      options.tracingOptions
+      options
     );
 
     try {
@@ -837,7 +829,7 @@ export class BlobServiceClient extends StorageClient {
         marker,
         ...options,
         include: typeof options.include === "string" ? [options.include] : options.include,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -873,9 +865,9 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceFindBlobsByTagsSegmentOptions = {}
   ): Promise<ServiceFindBlobsByTagsSegmentResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-findBlobsByTagsSegment",
-      options.tracingOptions
+      options
     );
 
     try {
@@ -884,7 +876,7 @@ export class BlobServiceClient extends StorageClient {
         where: tagFilterSqlExpression,
         marker,
         maxPageSize: options.maxPageSize,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
@@ -1258,9 +1250,9 @@ export class BlobServiceClient extends StorageClient {
     expiresOn: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobServiceClient-getUserDelegationKey",
-      options.tracingOptions
+      options
     );
     try {
       const response = await this.serviceContext.getUserDelegationKey(
@@ -1270,7 +1262,7 @@ export class BlobServiceClient extends StorageClient {
         },
         {
           abortSignal: options.abortSignal,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
 

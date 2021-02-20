@@ -9,7 +9,7 @@ import { Blob as StorageBlob, Container } from "./generated/src/operations";
 import { ModifiedAccessConditions } from "./models";
 import { CommonOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { BlobClient } from "./Clients";
 import { ContainerClient } from "./ContainerClient";
 
@@ -163,9 +163,9 @@ export class BlobLeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobLeaseClient-acquireLease",
-      options.tracingOptions
+      options
     );
 
     if (
@@ -188,7 +188,7 @@ export class BlobLeaseClient {
           ifTags: options.conditions?.tagConditions
         },
         proposedLeaseId: this._leaseId,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -215,7 +215,7 @@ export class BlobLeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-changeLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-changeLease", options);
 
     if (
       this._isContainer &&
@@ -238,7 +238,7 @@ export class BlobLeaseClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions
           },
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
       this._leaseId = proposedLeaseId;
@@ -265,9 +265,9 @@ export class BlobLeaseClient {
    * @returns Response data for release lease operation.
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BlobLeaseClient-releaseLease",
-      options.tracingOptions
+      options
     );
 
     if (
@@ -288,7 +288,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -311,7 +311,7 @@ export class BlobLeaseClient {
    * @returns Response data for renew lease operation.
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-renewLease", options);
 
     if (
       this._isContainer &&
@@ -331,7 +331,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -359,7 +359,7 @@ export class BlobLeaseClient {
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-breakLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-breakLease", options);
 
     if (
       this._isContainer &&
@@ -380,7 +380,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
     } catch (e) {

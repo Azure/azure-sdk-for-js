@@ -184,9 +184,9 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BatchDeleteRequest-addSubRequest",
-      options.tracingOptions
+      options
     );
 
     try {
@@ -197,10 +197,7 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete({
-            ...options,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          });
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(updatedOptions);
         }
       );
     } catch (e) {
@@ -303,9 +300,9 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "BatchSetTierRequest-addSubRequest",
-      options.tracingOptions
+      options
     );
 
     try {
@@ -318,10 +315,7 @@ export class BlobBatch {
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
             tier,
-            {
-              ...options,
-              tracingOptions: { ...options!.tracingOptions, spanOptions }
-            }
+            updatedOptions
           );
         }
       );
@@ -389,9 +383,9 @@ class InnerBatchRequest {
     if (!isAnonymousCreds) {
       factories[2] = isTokenCredential(credential)
         ? attachCredential(
-            bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
-            credential
-          )
+          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          credential
+        )
         : credential;
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
@@ -513,7 +507,7 @@ class BatchHeaderFilterPolicy extends BaseRequestPolicy {
 }
 
 class BatchHeaderFilterPolicyFactory implements RequestPolicyFactory {
-  constructor() {}
+  constructor() { }
 
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BatchHeaderFilterPolicy {
     return new BatchHeaderFilterPolicy(nextPolicy, options);
