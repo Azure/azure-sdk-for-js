@@ -212,7 +212,7 @@ export class CryptographyClient {
    * @param algorithm - The algorithm to use.
    * @param ciphertext - The text to decrypt.
    * @param options - Additional options.
-   * @deprecated Use `decrypt({ algorithm, ciphertext }, options) instead.
+   * @deprecated Use `decrypt({ algorithm, ciphertext }, options)` instead.
    */
   public async decrypt(
     algorithm: EncryptionAlgorithm,
