@@ -21,11 +21,11 @@ export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> 
     this.sbClient = sbClient;
   }
 
-  public async globalSetup() {
+  public async globalSetup(): Promise<void> {
     await ServiceBusTest.sbAdminClient.createQueue(ServiceBusTest.queueName);
   }
 
-  public async globalCleanup() {
+  public async globalCleanup(): Promise<void> {
     await ServiceBusTest.sbAdminClient.deleteQueue(ServiceBusTest.queueName);
     await this.sbClient.close();
   }

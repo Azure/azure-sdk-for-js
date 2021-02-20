@@ -331,7 +331,7 @@ export class ServiceBusTestHelpers {
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return await this.acceptSessionWithPeekLock(entityNames, TestMessage.sessionId, options);
+      return this.acceptSessionWithPeekLock(entityNames, TestMessage.sessionId, options);
     }
 
     return this.addToCleanup(
