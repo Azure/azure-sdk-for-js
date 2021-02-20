@@ -114,7 +114,7 @@ export class ClientCertificateCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ClientCertificateCredential-getToken",
       options
     );
@@ -172,7 +172,7 @@ export class ClientCertificateCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+        spanOptions: updatedOptions?.tracingOptions?.spanOptions
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
