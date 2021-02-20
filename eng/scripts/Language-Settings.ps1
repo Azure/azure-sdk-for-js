@@ -6,25 +6,21 @@ $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
-function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
+function Get-javascript-PackageInfoFromRepo ($pkgDirectoryPath, $serviceDirectoryName)
 {
-  $projectPath = Join-Path $pkgPath "package.json"
+  $projectPath = Join-Path $pkgDirectoryPath "package.json"
   if (Test-Path $projectPath)
   {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
-    $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
-    if ($pkgName -eq "$jsStylePkgName")
+    $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgDirectoryPath, $serviceDirectoryName)
+    $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+    if ($projectJson.name.StartsWith("@azure/arm"))
     {
-      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
-      $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
-      if ($projectJson.name.StartsWith("@azure/arm"))
-      {
-        $pkgProp.SdkType = "mgmt"
-      }
-      $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
-      $pkgProp.ArtifactName = $pkgName  # pkgName variable actually stores artifact name
-      return $pkgProp
+      $pkgProp.SdkType = "mgmt"
     }
+    $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+    $pkgProp.ArtifactName = $projectJson.name.Replace("@", "").Replace("/", "-")
+    return $pkgProp
   }
   return $null
 }
