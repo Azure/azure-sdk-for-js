@@ -98,7 +98,7 @@ export class ChangeFeedFactory {
       const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
       const blobDownloadRes = await blobClient.download(undefined, undefined, {
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       const lastConsumable = new Date(
         (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
@@ -107,7 +107,7 @@ export class ChangeFeedFactory {
       // Get year paths
       const years: number[] = await getYearsPaths(containerClient, {
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       // Dequeue any years that occur before start time.
@@ -130,7 +130,7 @@ export class ChangeFeedFactory {
           minDate(lastConsumable, options.end),
           {
             abortSignal: options.abortSignal,
-            tracingOptions: { ...options.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           }
         );
       }
@@ -143,7 +143,7 @@ export class ChangeFeedFactory {
         cursor?.CurrentSegmentCursor,
         {
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         }
       );
 

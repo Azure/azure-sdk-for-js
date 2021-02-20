@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { createSpanFunction } from "@azure/core-tracing";
 
 /**
