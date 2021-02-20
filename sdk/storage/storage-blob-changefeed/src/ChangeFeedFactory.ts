@@ -61,7 +61,7 @@ export class ChangeFeedFactory {
     continuationToken?: string,
     options: BlobChangeFeedListChangesOptions = {}
   ): Promise<ChangeFeed> {
-    const { span, spanOptions } = createSpan("ChangeFeedFactory-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ChangeFeedFactory-create", options);
 
     try {
       const containerClient = blobServiceClient.getContainerClient(CHANGE_FEED_CONTAINER_NAME);
@@ -82,7 +82,7 @@ export class ChangeFeedFactory {
       // Check if Change Feed has been enabled for this account.
       const changeFeedContainerExists = await containerClient.exists({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       if (!changeFeedContainerExists) {
         throw new Error(
