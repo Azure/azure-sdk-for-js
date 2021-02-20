@@ -57,7 +57,6 @@ export class LocalCryptographyClient {
       result,
       algorithm: encryptParameters.algorithm as EncryptionAlgorithm,
       keyID,
-      // TODO: is this right? Doesn't feel right since we don't support the AES crypto algorithms locally anyway
       additionalAuthenticatedData: (encryptParameters as any).additionalAuthenticatedData,
       authenticationTag: (encryptParameters as any).authenticationTag,
       iv: (encryptParameters as any).iv

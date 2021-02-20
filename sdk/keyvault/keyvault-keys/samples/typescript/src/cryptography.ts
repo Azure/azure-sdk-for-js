@@ -3,7 +3,7 @@
 
 import { createHash } from "crypto";
 
-import { KeyClient, CryptographyClient } from "../../../";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

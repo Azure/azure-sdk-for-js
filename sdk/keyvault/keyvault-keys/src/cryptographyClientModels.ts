@@ -61,7 +61,6 @@ export interface EncryptResult {
    */
   additionalAuthenticatedData?: Uint8Array;
 }
-// TODO: test the additional values set above
 
 /**
  * Result of the {@link wrap} operation.

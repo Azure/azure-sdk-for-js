@@ -145,7 +145,7 @@ export class KeyVaultCryptographyClient {
     const localCryptographyClient = await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
-    if (localCryptographyClient && isLocallySupported(encryptParameters.algorithm)) {
+    if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
         return localCryptographyClient.encrypt(encryptParameters, options);
       } catch (e) {
@@ -176,7 +176,6 @@ export class KeyVaultCryptographyClient {
       algorithm: encryptParameters.algorithm,
       result: result.result!,
       keyID: this.getKeyID(),
-      // TODO: Should we be passing back aad, tag, iv if the service didnt return them but the user passed them in?
       additionalAuthenticatedData:
         result.additionalAuthenticatedData ||
         (encryptParameters as any).additionalAuthenticatedData,
