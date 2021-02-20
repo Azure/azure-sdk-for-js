@@ -50,8 +50,10 @@ describe("internal crypto tests", () => {
   describe("Parameter passing to encrypt / decrypt", function() {
     let client: CryptographyClient;
     let mockConcreteClient: sinon.SinonMock;
+    let mockCredential;
 
     beforeEach(() => {
+      mockCredential = sinon.createStubInstance(DefaultAzureCredential);
       client = new CryptographyClient(
         {
           name: "keyName",
@@ -63,7 +65,7 @@ describe("internal crypto tests", () => {
             vaultUrl: "https://keyvault.vault.azure.net"
           }
         },
-        new DefaultAzureCredential()
+        mockCredential
       );
       mockConcreteClient = sinon.mock(client["concreteClient"].client);
     });
