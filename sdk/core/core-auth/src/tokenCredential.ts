@@ -26,6 +26,10 @@ export interface TokenCredential {
  */
 export interface GetTokenOptions {
   /**
+   * Challenge claims
+   */
+  claims?: string;
+  /**
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignalLike;
