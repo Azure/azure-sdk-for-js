@@ -88,9 +88,9 @@ export class Shard {
     return this.currentChunk === undefined
       ? undefined
       : {
-        CurrentChunkPath: this.currentChunk.chunkPath,
-        BlockOffset: this.currentChunk.blockOffset,
-        EventIndex: this.currentChunk.eventIndex
-      };
+          CurrentChunkPath: this.currentChunk.chunkPath,
+          BlockOffset: this.currentChunk.blockOffset,
+          EventIndex: this.currentChunk.eventIndex
+        };
   }
 }

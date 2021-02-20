@@ -80,10 +80,7 @@ export class ChangeFeed {
   }
 
   private async advanceSegmentIfNecessary(options: ChangeFeedGetChangeOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "ChangeFeed-advanceSegmentIfNecessary",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ChangeFeed-advanceSegmentIfNecessary", options);
     try {
       if (!this.currentSegment) {
         throw new Error("Empty Change Feed shouldn't call this function.");

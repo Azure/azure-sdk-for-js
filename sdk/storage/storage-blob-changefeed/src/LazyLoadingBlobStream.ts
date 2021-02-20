@@ -71,10 +71,7 @@ export class LazyLoadingBlobStream extends Readable {
   }
 
   private async downloadBlock(options: LazyLoadingBlobStreamDownloadBlockOptions = {}) {
-    const { span, updatedOptions } = createSpan(
-      "LazyLoadingBlobStream-downloadBlock",
-      options
-    );
+    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-downloadBlock", options);
     try {
       const properties = await this.blobClient.getProperties({
         abortSignal: options.abortSignal,
@@ -114,10 +111,7 @@ export class LazyLoadingBlobStream extends Readable {
    * @param size - Optional. The size of data to be read
    */
   public async _read(size?: number) {
-    const { span, updatedOptions } = createSpan(
-      "LazyLoadingBlobStream-read",
-      this.options
-    );
+    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-read", this.options);
 
     try {
       if (!size) {
