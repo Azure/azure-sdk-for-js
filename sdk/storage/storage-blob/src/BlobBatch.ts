@@ -184,10 +184,7 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "BatchDeleteRequest-addSubRequest",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BatchDeleteRequest-addSubRequest", options);
 
     try {
       this.setBatchType("delete");
@@ -197,7 +194,9 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(updatedOptions);
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(
+            updatedOptions
+          );
         }
       );
     } catch (e) {
@@ -300,10 +299,7 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "BatchSetTierRequest-addSubRequest",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BatchSetTierRequest-addSubRequest", options);
 
     try {
       this.setBatchType("setAccessTier");
@@ -383,9 +379,9 @@ class InnerBatchRequest {
     if (!isAnonymousCreds) {
       factories[2] = isTokenCredential(credential)
         ? attachCredential(
-          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
-          credential
-        )
+            bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+            credential
+          )
         : credential;
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
@@ -507,7 +503,7 @@ class BatchHeaderFilterPolicy extends BaseRequestPolicy {
 }
 
 class BatchHeaderFilterPolicyFactory implements RequestPolicyFactory {
-  constructor() { }
+  constructor() {}
 
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BatchHeaderFilterPolicy {
     return new BatchHeaderFilterPolicy(nextPolicy, options);

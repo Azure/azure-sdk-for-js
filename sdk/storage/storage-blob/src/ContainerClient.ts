@@ -202,24 +202,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: ContainerGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignedIdentifierModel[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignedIdentifierModel[];
+    };
   };
-};
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.
@@ -729,10 +729,7 @@ export class ContainerClient extends StorageClient {
   public async createIfNotExists(
     options: ContainerCreateOptions = {}
   ): Promise<ContainerCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-createIfNotExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-createIfNotExists", options);
     try {
       const res = await this.create(updatedOptions);
       return {
@@ -873,10 +870,7 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-getProperties",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-getProperties", options);
     try {
       return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
@@ -937,10 +931,7 @@ export class ContainerClient extends StorageClient {
   public async deleteIfExists(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-deleteIfExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-deleteIfExists", options);
 
     try {
       const res = await this.delete(updatedOptions);
@@ -1036,10 +1027,7 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-getAccessPolicy",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-getAccessPolicy", options);
 
     try {
       const response = await this.containerContext.getAccessPolicy({
@@ -1118,10 +1106,7 @@ export class ContainerClient extends StorageClient {
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<ContainerSetAccessPolicyResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-setAccessPolicy",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-setAccessPolicy", options);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of containerAcl || []) {
@@ -1196,10 +1181,7 @@ export class ContainerClient extends StorageClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-uploadBlockBlob",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-uploadBlockBlob", options);
     try {
       const blockBlobClient = this.getBlockBlobClient(blobName);
       const response = await blockBlobClient.upload(body, contentLength, updatedOptions);
@@ -1265,10 +1247,7 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobFlatSegmentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-listBlobFlatSegment",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-listBlobFlatSegment", options);
     try {
       const response = await this.containerContext.listBlobFlatSegment({
         marker,
@@ -1371,7 +1350,7 @@ export class ContainerClient extends StorageClient {
    *                          items. The marker value is opaque to the client.
    * @param options - Options to list blobs operation.
    */
-  private async * listSegments(
+  private async *listSegments(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<ContainerListBlobFlatSegmentResponse> {
@@ -1390,7 +1369,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param options - Options to list blobs operation.
    */
-  private async * listItems(
+  private async *listItems(
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<BlobItem> {
     let marker: string | undefined;
@@ -1543,7 +1522,7 @@ export class ContainerClient extends StorageClient {
    *                          items. The marker value is opaque to the client.
    * @param options - Options to list blobs operation.
    */
-  private async * listHierarchySegments(
+  private async *listHierarchySegments(
     delimiter: string,
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
@@ -1568,7 +1547,7 @@ export class ContainerClient extends StorageClient {
    * @param delimiter - The character or string used to define the virtual hierarchy
    * @param options - Options to list blobs operation.
    */
-  private async * listItemsByHierarchy(
+  private async *listItemsByHierarchy(
     delimiter: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem)> {
@@ -1582,7 +1561,8 @@ export class ContainerClient extends StorageClient {
       if (segment.blobPrefixes) {
         for (const prefix of segment.blobPrefixes) {
           yield {
-            kind: "prefix", ...prefix
+            kind: "prefix",
+            ...prefix
           };
         }
       }

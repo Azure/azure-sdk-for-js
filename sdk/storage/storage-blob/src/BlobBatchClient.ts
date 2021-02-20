@@ -29,7 +29,7 @@ import { getURLPath } from "./utils/utils.common";
  */
 export interface BlobBatchSubmitBatchOptionalParams
   extends ServiceSubmitBatchOptionalParamsModel,
-  CommonOptions {
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.

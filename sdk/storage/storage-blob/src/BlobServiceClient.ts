@@ -536,10 +536,7 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerCreateResponse: ContainerCreateResponse;
   }> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-createContainer",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-createContainer", options);
     try {
       const containerClient = this.getContainerClient(containerName);
       const containerCreateResponse = await containerClient.create(updatedOptions);
@@ -569,10 +566,7 @@ export class BlobServiceClient extends StorageClient {
     containerName: string,
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-deleteContainer",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-deleteContainer", options);
     try {
       const containerClient = this.getContainerClient(containerName);
       return await containerClient.delete(updatedOptions);
@@ -604,10 +598,7 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerUndeleteResponse: ContainerUndeleteResponse;
   }> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-undeleteContainer",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-undeleteContainer", options);
     try {
       const containerClient = this.getContainerClient(
         options.destinationContainerName || deletedContainerName
@@ -617,7 +608,7 @@ export class BlobServiceClient extends StorageClient {
       const containerUndeleteResponse = await containerContext.restore({
         deletedContainerName,
         deletedContainerVersion,
-        ...updatedOptions,
+        ...updatedOptions
       });
       return { containerClient, containerUndeleteResponse };
     } catch (e) {
@@ -647,17 +638,14 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerRenameResponse: ContainerRenameResponse;
   }> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-renameContainer",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-renameContainer", options);
     try {
       const containerClient = this.getContainerClient(destinationContainerName);
       // Hack to access a protected member.
       const containerContext = new Container(containerClient["storageClientContext"]);
       const containerRenameResponse = await containerContext.rename(sourceContainerName, {
         ...updatedOptions,
-        sourceLeaseId: options.sourceCondition?.leaseId,
+        sourceLeaseId: options.sourceCondition?.leaseId
       });
       return { containerClient, containerRenameResponse };
     } catch (e) {
@@ -682,10 +670,7 @@ export class BlobServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-getProperties",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-getProperties", options);
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
@@ -715,10 +700,7 @@ export class BlobServiceClient extends StorageClient {
     properties: BlobServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-setProperties",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-setProperties", options);
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
@@ -747,10 +729,7 @@ export class BlobServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<ServiceGetStatisticsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-getStatistics",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-getStatistics", options);
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
@@ -780,10 +759,7 @@ export class BlobServiceClient extends StorageClient {
   public async getAccountInfo(
     options: ServiceGetAccountInfoOptions = {}
   ): Promise<ServiceGetAccountInfoResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-getAccountInfo",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-getAccountInfo", options);
     try {
       return await this.serviceContext.getAccountInfo({
         abortSignal: options.abortSignal,
@@ -818,10 +794,7 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): Promise<ServiceListContainersSegmentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-listContainersSegment",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-listContainersSegment", options);
 
     try {
       return await this.serviceContext.listContainersSegment({
@@ -1250,10 +1223,7 @@ export class BlobServiceClient extends StorageClient {
     expiresOn: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobServiceClient-getUserDelegationKey",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobServiceClient-getUserDelegationKey", options);
     try {
       const response = await this.serviceContext.getUserDelegationKey(
         {

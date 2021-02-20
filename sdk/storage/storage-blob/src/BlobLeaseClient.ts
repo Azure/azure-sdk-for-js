@@ -163,10 +163,7 @@ export class BlobLeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobLeaseClient-acquireLease",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-acquireLease", options);
 
     if (
       this._isContainer &&
@@ -265,10 +262,7 @@ export class BlobLeaseClient {
    * @returns Response data for release lease operation.
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlobLeaseClient-releaseLease",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-releaseLease", options);
 
     if (
       this._isContainer &&

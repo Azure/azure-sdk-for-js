@@ -160,7 +160,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
 /**
  * Contains response data for the {@link BlobClient.beginCopyFromURL} operation.
  */
-export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse { }
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
@@ -374,26 +374,26 @@ export interface BlobGetTagsOptions extends CommonOptions {
  * Contains response data for the {@link BlobClient.getTags} operation.
  */
 export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: BlobGetTagsHeaders;
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetTagsHeaders;
 
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobTags;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobTags;
+    };
   };
-};
 
 /**
  * Options to configure Blob - Acquire Lease operation.
@@ -2529,10 +2529,7 @@ export class AppendBlobClient extends BlobClient {
   public async createIfNotExists(
     options: AppendBlobCreateIfNotExistsOptions = {}
   ): Promise<AppendBlobCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AppendBlobClient-createIfNotExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("AppendBlobClient-createIfNotExists", options);
     const conditions = { ifNoneMatch: ETagAny };
     try {
       const res = await this.create({
@@ -2626,10 +2623,7 @@ export class AppendBlobClient extends BlobClient {
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<AppendBlobAppendBlockResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AppendBlobClient-appendBlock",
-      options
-    );
+    const { span, updatedOptions } = createSpan("AppendBlobClient-appendBlock", options);
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -2680,10 +2674,7 @@ export class AppendBlobClient extends BlobClient {
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
   ): Promise<AppendBlobAppendBlockFromUrlResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AppendBlobClient-appendBlockFromURL",
-      options
-    );
+    const { span, updatedOptions } = createSpan("AppendBlobClient-appendBlockFromURL", options);
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
     try {
@@ -2933,9 +2924,9 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Configurations for the query output.
    */
   outputTextConfiguration?:
-  | BlobQueryJsonTextConfiguration
-  | BlobQueryCsvTextConfiguration
-  | BlobQueryArrowConfiguration;
+    | BlobQueryJsonTextConfiguration
+    | BlobQueryCsvTextConfiguration
+    | BlobQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    */
@@ -3577,10 +3568,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobSyncUploadFromURLOptions = {}
   ): Promise<BlockBlobPutBlobFromUrlResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan(
-      "BlockBlobClient-syncUploadFromURL",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlockBlobClient-syncUploadFromURL", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
@@ -3682,10 +3670,7 @@ export class BlockBlobClient extends BlobClient {
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<BlockBlobStageBlockFromURLResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlockBlobClient-stageBlockFromURL",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlockBlobClient-stageBlockFromURL", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
@@ -3726,10 +3711,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<BlockBlobCommitBlockListResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan(
-      "BlockBlobClient-commitBlockList",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlockBlobClient-commitBlockList", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.blockBlobContext.commitBlockList(
@@ -3775,10 +3757,7 @@ export class BlockBlobClient extends BlobClient {
     listType: BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<BlockBlobGetBlockListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlockBlobClient-getBlockList",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlockBlobClient-getBlockList", options);
     try {
       const res = await this.blockBlobContext.getBlockList(listType, {
         abortSignal: options.abortSignal,
@@ -3883,10 +3862,7 @@ export class BlockBlobClient extends BlobClient {
     browserData: Blob | ArrayBuffer | ArrayBufferView,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    const { span, updatedOptions } = createSpan(
-      "BlockBlobClient-uploadBrowserData",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadBrowserData", options);
     try {
       const browserBlob = new Blob([browserData]);
       return await this.uploadSeekableInternal(
@@ -3964,10 +3940,7 @@ export class BlockBlobClient extends BlobClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "BlockBlobClient-uploadSeekableInternal",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadSeekableInternal", options);
 
     try {
       if (size <= options.maxSingleShotSize) {
@@ -3978,7 +3951,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -4056,7 +4029,13 @@ export class BlockBlobClient extends BlobClient {
             });
         },
         size,
-        { ...options, tracingOptions: { ...options!.tracingOptions, ...convertTracingToRequestOptionsBase(updatedOptions) } }
+        {
+          ...options,
+          tracingOptions: {
+            ...options!.tracingOptions,
+            ...convertTracingToRequestOptionsBase(updatedOptions)
+          }
+        }
       );
     } catch (e) {
       span.setStatus({
@@ -4098,10 +4077,7 @@ export class BlockBlobClient extends BlobClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "BlockBlobClient-uploadStream",
-      options
-    );
+    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadStream", options);
 
     try {
       let blockNum = 0;
@@ -4140,7 +4116,10 @@ export class BlockBlobClient extends BlobClient {
 
       return await this.commitBlockList(blockList, {
         ...options,
-        tracingOptions: { ...options!.tracingOptions, ...convertTracingToRequestOptionsBase(updatedOptions) }
+        tracingOptions: {
+          ...options!.tracingOptions,
+          ...convertTracingToRequestOptionsBase(updatedOptions)
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -4675,10 +4654,7 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobCreateIfNotExistsOptions = {}
   ): Promise<PageBlobCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PageBlobClient-createIfNotExists",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PageBlobClient-createIfNotExists", options);
     try {
       const conditions = { ifNoneMatch: ETagAny };
       const res = await this.create(size, {
@@ -4781,10 +4757,7 @@ export class PageBlobClient extends BlobClient {
   ): Promise<PageBlobUploadPagesFromURLResponse> {
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
-    const { span, updatedOptions } = createSpan(
-      "PageBlobClient-uploadPagesFromURL",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PageBlobClient-uploadPagesFromURL", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.pageBlobContext.uploadPagesFromURL(
@@ -4880,10 +4853,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<PageBlobGetPageRangesResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan(
-      "PageBlobClient-getPageRanges",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRanges", options);
     try {
       return await this.pageBlobContext
         .getPageRanges({
@@ -4925,10 +4895,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<PageBlobGetPageRangesDiffResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan(
-      "PageBlobClient-getPageRangesDiff",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesDiff", options);
 
     try {
       return await this.pageBlobContext
@@ -5053,10 +5020,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<PageBlobUpdateSequenceNumberResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan(
-      "PageBlobClient-updateSequenceNumber",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PageBlobClient-updateSequenceNumber", options);
     try {
       return await this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
         abortSignal: options.abortSignal,
@@ -5096,10 +5060,7 @@ export class PageBlobClient extends BlobClient {
     copySource: string,
     options: PageBlobStartCopyIncrementalOptions = {}
   ): Promise<PageBlobCopyIncrementalResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PageBlobClient-startCopyIncremental",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PageBlobClient-startCopyIncremental", options);
     try {
       return await this.pageBlobContext.copyIncremental(copySource, {
         abortSignal: options.abortSignal,
