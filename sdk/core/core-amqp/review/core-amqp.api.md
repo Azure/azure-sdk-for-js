@@ -393,7 +393,7 @@ export enum ErrorNameConditionMapper {
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
-export function isSystemError(err: any): err is NetworkSystemError;
+export function isSystemError(err: unknown): err is NetworkSystemError;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;

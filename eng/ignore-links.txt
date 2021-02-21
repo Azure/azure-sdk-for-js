@@ -8,4 +8,3 @@ https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-c
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/test/
 https://github.com/Azure/azure-digital-twins/blob/private-preview/Documentation/how-to-manage-routes.md
-https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md

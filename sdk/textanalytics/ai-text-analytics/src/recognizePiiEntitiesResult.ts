@@ -7,7 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import { Entity, TextAnalyticsError } from "./generated/models";
+import { Entity, PiiDocumentEntities, TextAnalyticsError } from "./generated/models";
 
 /**
  * An entity from PII recognition with information about the kind of PII
@@ -42,8 +42,11 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
  */
 export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
+/**
+ * @internal
+ */
 export function makeRecognizePiiEntitiesResult(
-  document: RecognizePiiEntitiesSuccessResult
+  document: PiiDocumentEntities
 ): RecognizePiiEntitiesSuccessResult {
   const { id, entities, warnings, statistics, redactedText } = document;
   return {
@@ -53,6 +56,9 @@ export function makeRecognizePiiEntitiesResult(
   };
 }
 
+/**
+ * @internal
+ */
 export function makeRecognizePiiEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError

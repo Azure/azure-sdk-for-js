@@ -30,6 +30,9 @@ import { createSpan } from "../../tracing";
 import { logger } from "../../logger";
 export { State };
 
+/**
+ * @internal
+ */
 interface AnalyzeResultsWithPagination {
   result: AnalyzeBatchActionsResult;
   top?: number;
@@ -37,7 +40,7 @@ interface AnalyzeResultsWithPagination {
 }
 
 /**
- * The metadata for beginAnalyzeBatchActionsoperations.
+ * The metadata for beginAnalyzeBatchActions operations.
  */
 export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata {
   /**
@@ -58,6 +61,9 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
   displayName?: string;
 }
 
+/**
+ * @internal
+ */
 interface AnalyzeBatchActionsOperationStatus {
   done: boolean;
   /**
@@ -69,6 +75,9 @@ interface AnalyzeBatchActionsOperationStatus {
   operationMetdata?: AnalyzeBatchActionsOperationMetadata;
 }
 
+/**
+ * @internal
+ */
 interface BeginAnalyzeInternalOptions extends OperationOptions {
   displayName?: string;
 }
@@ -105,6 +114,7 @@ export interface AnalyzeBatchActionsOperationState
 /**
  * Class that represents a poller that waits for results of the analyze
  * operation.
+ * @internal
  */
 export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperation<
   AnalyzeBatchActionsOperationState,

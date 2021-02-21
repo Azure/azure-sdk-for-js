@@ -22,7 +22,7 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
  * using the interactive login flow, either via browser redirects or a popup
- * window.  This credential is not currently supported in Node.js.
+ * window.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
   private redirectUri: string;
@@ -189,7 +189,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const app = http.createServer(requestListener);
 
       const listen = app.listen(this.port, this.hostname, () =>
-        logger.info(`Msal Node Auth Code Sample app listening on port ${this.port}!`)
+        logger.info(`InteractiveBrowerCredential listening on port ${this.port}!`)
       );
       app.on("connection", (socket) => (socketToDestroy = socket));
       const server = stoppable(app);

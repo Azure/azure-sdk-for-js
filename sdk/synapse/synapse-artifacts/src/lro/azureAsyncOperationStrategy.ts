@@ -128,7 +128,7 @@ export function createAzureAsyncOperationStrategy<TResult extends BaseResult>(
  * these intermediate responses are not described in the swagger so we need to
  * pass custom mappers at runtime.
  * This function replaces all the existing mappers to be able to deserialize a status object
- * @param responses - Original set of responses defined in the operation
+ * @param responses Original set of responses defined in the operation
  */
 function getCompositeMappers(responses: {
   [responseCode: string]: OperationResponse;
@@ -194,7 +194,7 @@ async function sendFinalGet<TResult extends BaseResult>(
     ...(path && { path })
   };
 
-  const operationArgs: OperationArguments = initialOperation.args;
+  let operationArgs: OperationArguments = initialOperation.args;
   if (operationArgs.options) {
     operationArgs.options.shouldDeserialize = true;
   }

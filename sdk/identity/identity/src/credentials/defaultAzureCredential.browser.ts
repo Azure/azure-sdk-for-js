@@ -3,18 +3,14 @@
 
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-import { EnvironmentCredential } from "./environmentCredential";
-import { ManagedIdentityCredential } from "./managedIdentityCredential";
-import { AzureCliCredential } from "./azureCliCredential";
-import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
+import { InteractiveBrowserCredential } from "./interactiveBrowserCredential";
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration for
  * applications that will be deployed to Azure.  The following credential
  * types will be tried, in order:
  *
- * - {@link EnvironmentCredential}
- * - {@link ManagedIdentityCredential}
+ * - {@link InteractiveBrowserCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
@@ -26,12 +22,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    const credentials = [];
-    credentials.push(new EnvironmentCredential(tokenCredentialOptions));
-    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
-    credentials.push(new AzureCliCredential());
-    credentials.push(new VisualStudioCodeCredential(tokenCredentialOptions));
-
-    super(...credentials);
+    super(new InteractiveBrowserCredential(tokenCredentialOptions));
   }
 }

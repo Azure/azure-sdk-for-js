@@ -232,7 +232,7 @@ export interface SparkStatementCancellationResult {
 }
 
 /** Known values of {@link SparkJobType} that the service accepts. */
-export enum KnownSparkJobType {
+export const enum KnownSparkJobType {
   SparkBatch = "SparkBatch",
   SparkSession = "SparkSession"
 }
@@ -248,7 +248,7 @@ export enum KnownSparkJobType {
 export type SparkJobType = string;
 
 /** Known values of {@link SparkBatchJobResultType} that the service accepts. */
-export enum KnownSparkBatchJobResultType {
+export const enum KnownSparkBatchJobResultType {
   Uncertain = "Uncertain",
   Succeeded = "Succeeded",
   Failed = "Failed",
@@ -268,7 +268,7 @@ export enum KnownSparkBatchJobResultType {
 export type SparkBatchJobResultType = string;
 
 /** Known values of {@link SchedulerCurrentState} that the service accepts. */
-export enum KnownSchedulerCurrentState {
+export const enum KnownSchedulerCurrentState {
   Queued = "Queued",
   Scheduled = "Scheduled",
   Ended = "Ended"
@@ -286,7 +286,7 @@ export enum KnownSchedulerCurrentState {
 export type SchedulerCurrentState = string;
 
 /** Known values of {@link PluginCurrentState} that the service accepts. */
-export enum KnownPluginCurrentState {
+export const enum KnownPluginCurrentState {
   Preparation = "Preparation",
   ResourceAcquisition = "ResourceAcquisition",
   Queued = "Queued",
@@ -312,7 +312,7 @@ export enum KnownPluginCurrentState {
 export type PluginCurrentState = string;
 
 /** Known values of {@link SparkErrorSource} that the service accepts. */
-export enum KnownSparkErrorSource {
+export const enum KnownSparkErrorSource {
   System = "System",
   User = "User",
   Unknown = "Unknown",
@@ -332,7 +332,7 @@ export enum KnownSparkErrorSource {
 export type SparkErrorSource = string;
 
 /** Known values of {@link SparkSessionResultType} that the service accepts. */
-export enum KnownSparkSessionResultType {
+export const enum KnownSparkSessionResultType {
   Uncertain = "Uncertain",
   Succeeded = "Succeeded",
   Failed = "Failed",
@@ -352,7 +352,7 @@ export enum KnownSparkSessionResultType {
 export type SparkSessionResultType = string;
 
 /** Known values of {@link SparkStatementLanguageType} that the service accepts. */
-export enum KnownSparkStatementLanguageType {
+export const enum KnownSparkStatementLanguageType {
   Spark = "spark",
   PySpark = "pyspark",
   DotNetSpark = "dotnetspark",

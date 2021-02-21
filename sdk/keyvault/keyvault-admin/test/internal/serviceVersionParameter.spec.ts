@@ -11,7 +11,7 @@ import { env } from "@azure/test-utils-recorder";
 import { URL } from "url";
 
 // Adding this to the source would change the public API.
-type ApIVersions = "7.2-preview";
+type ApIVersions = "7.2";
 
 describe("The keyvault-admin clients should set the serviceVersion", () => {
   function makeHTTPMock(path: string, status = 200): HttpClient {
@@ -68,7 +68,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
-      const serviceVersion = "7.2-preview";
+      const serviceVersion = "7.2";
       const client = new KeyVaultAccessControlClient(env.KEYVAULT_URI, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
@@ -101,7 +101,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
-      const serviceVersion = "7.2-preview";
+      const serviceVersion = "7.2";
       const client = new KeyVaultBackupClient(env.KEYVAULT_URI, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient

@@ -25,7 +25,7 @@ export class Dataset {
 
   /**
    * Initialize a new instance of the class Dataset class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -33,7 +33,7 @@ export class Dataset {
 
   /**
    * Lists datasets.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listDatasetsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -75,7 +75,7 @@ export class Dataset {
 
   /**
    * Lists datasets.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getDatasetsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -106,9 +106,9 @@ export class Dataset {
 
   /**
    * Creates or updates a dataset.
-   * @param datasetName - The dataset name.
-   * @param dataset - Dataset resource definition.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param dataset Dataset resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateDataset(
     datasetName: string,
@@ -156,8 +156,8 @@ export class Dataset {
 
   /**
    * Gets a dataset.
-   * @param datasetName - The dataset name.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
    */
   async getDataset(
     datasetName: string,
@@ -190,8 +190,8 @@ export class Dataset {
 
   /**
    * Deletes a dataset.
-   * @param datasetName - The dataset name.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
    */
   async deleteDataset(
     datasetName: string,
@@ -237,9 +237,9 @@ export class Dataset {
 
   /**
    * Renames a dataset.
-   * @param datasetName - The dataset name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renameDataset(
     datasetName: string,
@@ -287,8 +287,8 @@ export class Dataset {
 
   /**
    * GetDatasetsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetDatasetsByWorkspace method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetDatasetsByWorkspace method.
+   * @param options The options parameters.
    */
   private async _getDatasetsByWorkspaceNext(
     nextLink: string,

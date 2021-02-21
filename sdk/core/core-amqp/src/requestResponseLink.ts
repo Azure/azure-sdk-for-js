@@ -18,6 +18,7 @@ import {
 } from "rhea-promise";
 import { ConditionStatusMapper, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
+import { isDefined } from "./util/typeGuards";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -114,6 +115,8 @@ export class RequestResponseLink implements ReqResLink {
     }
 
     return new Promise<RheaMessage>((resolve: any, reject: any) => {
+      let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+
       const rejectOnAbort = (): void => {
         this._responsesMap.delete(request.message_id as string);
         const address = this.receiver.address || "address";
@@ -132,7 +135,9 @@ export class RequestResponseLink implements ReqResLink {
 
       const onAbort = (): void => {
         // safe to clear the timeout if it hasn't already occurred.
-        clearTimeout(timer);
+        if (isDefined(timer)) {
+          clearTimeout(timer);
+        }
         aborter!.removeEventListener("abort", onAbort);
 
         rejectOnAbort();
@@ -147,7 +152,7 @@ export class RequestResponseLink implements ReqResLink {
         aborter.addEventListener("abort", onAbort);
       }
 
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         this._responsesMap.delete(request.message_id as string);
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
@@ -168,7 +173,9 @@ export class RequestResponseLink implements ReqResLink {
         reject: reject,
         cleanupBeforeResolveOrReject: () => {
           if (aborter) aborter.removeEventListener("abort", onAbort);
-          clearTimeout(timer);
+          if (isDefined(timer)) {
+            clearTimeout(timer);
+          }
         }
       });
 
@@ -241,8 +248,9 @@ type NormalizedInfo = {
  *
  * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
  */
-export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
-  if (!props) props = {};
+export const getCodeDescriptionAndError = (
+  props: { [key: string]: string | number | undefined } = {}
+): NormalizedInfo => {
   return {
     statusCode: (props[Constants.statusCode] || props.statusCode) as number,
     statusDescription: (props[Constants.statusDescription] || props.statusDescription) as string,

@@ -31,9 +31,9 @@ export const main = async () => {
   console.log("Issuing Tokens");
 
   // Issue tokens
-  const { token: token1 } = await client.issueToken(user, ["chat"]);
-  const { token: token2 } = await client.issueToken(user, ["voip"]);
-  const { token: token3 } = await client.issueToken(user, ["voip"]);
+  const { token: token1 } = await client.getToken(user, ["chat"]);
+  const { token: token2 } = await client.getToken(user, ["voip"]);
+  const { token: token3 } = await client.getToken(user, ["voip"]);
 
   console.log("Issued tokens:");
   console.log(token1);

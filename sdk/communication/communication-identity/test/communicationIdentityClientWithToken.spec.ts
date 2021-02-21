@@ -27,24 +27,24 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
     }
   });
 
-  it("successfully issues a token for a user [single scope]", async function() {
+  it("successfully gets a token for a user [single scope]", async function() {
     if (shouldSkip) {
       this.skip();
     }
 
     const user = await client.createUser();
-    const { token, expiresOn } = await client.issueToken(user, ["chat"]);
+    const { token, expiresOn } = await client.getToken(user, ["chat"]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
   });
 
-  it("successfully issues a token for a user [multiple scopes]", async function() {
+  it("successfully gets a token for a user [multiple scopes]", async function() {
     if (shouldSkip) {
       this.skip();
     }
 
     const user = await client.createUser();
-    const { token, expiresOn } = await client.issueToken(user, ["chat", "voip"]);
+    const { token, expiresOn } = await client.getToken(user, ["chat", "voip"]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
   });
