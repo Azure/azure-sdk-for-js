@@ -168,6 +168,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
               );
             }
             cleanup();
+            return;
           })
           .catch(() => {
             const errorMessage = formatError(
