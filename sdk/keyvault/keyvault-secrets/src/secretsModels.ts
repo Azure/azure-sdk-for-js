@@ -89,7 +89,7 @@ export interface SecretProperties {
 
   /**
    * If this is a secret backing a KV certificate, then
-   * this field specifies the corresponding key backing the KV certificate.
+   * this field specifies the identifier of the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
