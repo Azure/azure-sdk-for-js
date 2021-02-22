@@ -348,6 +348,12 @@ export type CertificatePolicy = CertificatePolicyProperties &
   RequireAtLeastOne<PolicySubjectProperties>;
 
 /**
+ * A type representing a certificate's policy for import which does not require a SAN or a Subject
+ */
+export type ImportCertificatePolicy = CertificatePolicyProperties &
+  Partial<PolicySubjectProperties>;
+
+/**
  * The DefaultCertificatePolicy exports values that
  * are useful as default parameters to methods that
  * modify the certificate's policy.
@@ -537,7 +543,7 @@ export interface ImportCertificateOptions extends coreHttp.OperationOptions {
   /**
    * The management policy.
    */
-  policy?: CertificatePolicy;
+  policy?: ImportCertificatePolicy;
   /**
    * Application specific
    * metadata in the form of key-value pairs.

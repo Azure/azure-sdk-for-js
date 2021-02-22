@@ -142,9 +142,9 @@ export const ConnectionContextBase = {
 
     if (
       parameters.config.webSocket ||
-      (!isNode && typeof window !== "undefined" && (window as any).WebSocket)
+      (!isNode && typeof self !== "undefined" && (self as any).WebSocket)
     ) {
-      const socket = parameters.config.webSocket || (window as any).WebSocket;
+      const socket = parameters.config.webSocket || (self as any).WebSocket;
       const host = parameters.config.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};

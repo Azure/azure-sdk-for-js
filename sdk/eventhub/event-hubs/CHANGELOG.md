@@ -1,7 +1,10 @@
 # Release History
 
-## 5.4.1 (Unreleased)
+## 5.5.0 (Unreleased)
 
+- Updates the methods on the `CheckpointStore` interface to accept
+  an optional `options` parameter that can be used to pass in an
+  `abortSignal` and `tracingOptions`.
 
 ## 5.4.0 (2021-02-09)
 

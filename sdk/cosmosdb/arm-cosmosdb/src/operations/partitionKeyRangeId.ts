@@ -94,7 +94,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.partitionKeyRangeId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.filter0
   ],
   headerParameters: [
