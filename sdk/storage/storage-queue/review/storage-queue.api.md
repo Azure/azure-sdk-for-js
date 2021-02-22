@@ -17,6 +17,7 @@ import { KeepAliveOptions } from '@azure/core-http';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
+import { RequestOptionsBase } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
@@ -264,7 +265,7 @@ export interface MessagesDequeueHeaders {
 }
 
 // @public
-export interface MessagesDequeueOptionalParams extends coreHttp.OperationOptions {
+export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
     numberOfMessages?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -281,7 +282,7 @@ export interface MessagesEnqueueHeaders {
 }
 
 // @public
-export interface MessagesEnqueueOptionalParams extends coreHttp.OperationOptions {
+export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
     messageTimeToLive?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -298,7 +299,7 @@ export interface MessagesPeekHeaders {
 }
 
 // @public
-export interface MessagesPeekOptionalParams extends coreHttp.OperationOptions {
+export interface MessagesPeekOptionalParams extends RequestOptionsBase {
     numberOfMessages?: number;
     requestId?: string;
     timeoutInSeconds?: number;
