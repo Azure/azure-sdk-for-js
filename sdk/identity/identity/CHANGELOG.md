@@ -5,6 +5,7 @@
 ## 1.2.4-beta.2 (Unreleased)
 
 - Breaking change: `DefaultAzureCredential` now only uses `InteractiveBrowserCredential` in the browser since it's the only credential intended to be used to authenticate within browsers.
+- Bug fix: `ManagedIdentityCredential` now also properly handles `EHOSTUNREACH` errors. Fixes issue [13894](https://github.com/Azure/azure-sdk-for-js/issues/13894).
 
 ## 1.2.4-beta.1 (2021-02-12)
 

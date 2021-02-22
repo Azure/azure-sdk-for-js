@@ -28,7 +28,7 @@ export interface MockAuthHttpClientOptions {
 
 export class MockAuthHttpClient implements HttpClient {
   private authResponses: MockAuthResponse[] = [];
-  private currentResponse: number = 0;
+  private currentResponseIndex: number = 0;
   private mockTimeout: boolean;
 
   public tokenCredentialOptions: ClientCertificateCredentialOptions;
@@ -77,10 +77,10 @@ export class MockAuthHttpClient implements HttpClient {
       throw new Error("The number of requests has exceeded the number of authResponses");
     }
 
-    const authResponse = this.authResponses[this.currentResponse];
+    const authResponse = this.authResponses[this.currentResponseIndex];
 
     if (authResponse.error) {
-      this.currentResponse++;
+      this.currentResponseIndex++;
       throw authResponse.error;
     }
 
@@ -92,7 +92,7 @@ export class MockAuthHttpClient implements HttpClient {
       bodyAsText: authResponse.bodyAsText
     };
 
-    this.currentResponse++;
+    this.currentResponseIndex++;
     return response;
   }
 }
