@@ -15,7 +15,8 @@ const DEFAULT_MAX_CONSECUTIVE_FAILURES_BEFORE_WARNING = 10;
  */
 export interface AzureExporterConfig {
   /**
-   * Azure Connection String.
+   * Azure Monitor Connection String, if not provided the exporter will try to use environment variable APPLICATIONINSIGHTS_CONNECTION_STRING
+   * Ex: "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://dc.services.visualstudio.com"
    */
   connectionString?: string;
   /**
