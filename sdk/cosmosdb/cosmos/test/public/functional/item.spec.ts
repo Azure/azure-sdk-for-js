@@ -349,7 +349,7 @@ describe("bulk item operations", function() {
         {
           operationType: BulkOperationType.Upsert,
           partitionKey: "U",
-          resourceBody: { id: addEntropy("doc2"), name: "other", key: "U" }
+          resourceBody: { name: "other", key: "U" }
         },
         {
           operationType: BulkOperationType.Read,
