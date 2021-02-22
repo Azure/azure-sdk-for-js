@@ -68,3 +68,4 @@ export {
   bearerTokenAuthenticationPolicyName
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
+import "@azure/core-asynciterator-polyfill";

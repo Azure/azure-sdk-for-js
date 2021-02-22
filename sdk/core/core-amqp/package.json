@@ -83,7 +83,8 @@
     "rhea-promise": "^1.1.0",
     "tslib": "^2.0.0",
     "url": "^0.11.0",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "@azure/core-asynciterator-polyfill": "^1.0.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

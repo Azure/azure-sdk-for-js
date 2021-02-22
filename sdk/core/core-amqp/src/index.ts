@@ -39,3 +39,4 @@ export {
 } from "./util/utils";
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { logger } from "./log";
+import "@azure/core-asynciterator-polyfill";
