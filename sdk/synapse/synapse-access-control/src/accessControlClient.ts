@@ -86,10 +86,7 @@ export class AccessControlClient extends AccessControlClientContext {
   private async _getRoleDefinitions(
     options?: coreHttp.OperationOptions
   ): Promise<AccessControlClientGetRoleDefinitionsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-_getRoleDefinitions",
-      options
-    );
+    const { span, updatedOptions } = createSpan("AccessControlClient-_getRoleDefinitions", options);
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
@@ -185,10 +182,7 @@ export class AccessControlClient extends AccessControlClientContext {
   async getRoleAssignments(
     options?: AccessControlClientGetRoleAssignmentsOptionalParams
   ): Promise<AccessControlClientGetRoleAssignmentsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-getRoleAssignments",
-      options
-    );
+    const { span, updatedOptions } = createSpan("AccessControlClient-getRoleAssignments", options);
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
