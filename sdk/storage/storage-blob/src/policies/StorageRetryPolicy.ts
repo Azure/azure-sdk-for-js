@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { RestError } from "@azure/core-https";
+import { URL, RestError } from "@azure/core-https";
 import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
 
 import { URLConstants } from "../utils/constants";
