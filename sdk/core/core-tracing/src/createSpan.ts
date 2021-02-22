@@ -27,7 +27,7 @@ export interface SpanConfig {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-  return function <T extends { tracingOptions?: OperationTracingOptions }>(
+  return function<T extends { tracingOptions?: OperationTracingOptions }>(
     operationName: string,
     operationOptions: T
   ): { span: Span; updatedOptions: T } {
