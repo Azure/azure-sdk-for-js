@@ -73,12 +73,16 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
         plaintext: stringToUint8Array(text),
         iv: stringToUint8Array(text)
       });
-      assert.exists(encryptResult.iv);
+      // There is a service-level issue where `iv` is not returned
+      // from the service as part of the result. Until it's resolved
+      // we have to pend this and just pass the same iv
+      // back to decrypt for now.
+      // assert.exists(encryptResult.iv);
 
       const decryptResult = await cryptoClient.decrypt({
         algorithm: "A256CBCPAD",
         ciphertext: encryptResult.result!,
-        iv: encryptResult.iv!
+        iv: stringToUint8Array(text) // Replace with `encryptResult.iv!` once ADO 9361749 is resolved.
       });
       assert.equal(uint8ArrayToString(decryptResult.result), text);
     });
