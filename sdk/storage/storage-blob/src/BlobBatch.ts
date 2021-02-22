@@ -392,8 +392,7 @@ class InnerBatchRequest {
           attachCredential(
             bearerTokenAuthenticationPolicy({
               credential,
-              scopes:
-                typeof StorageOAuthScopes === "string" ? [StorageOAuthScopes] : StorageOAuthScopes
+              scopes: StorageOAuthScopes
             }),
             credential
           )

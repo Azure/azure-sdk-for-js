@@ -198,7 +198,7 @@ export function newPipeline(
       attachCredential(
         bearerTokenAuthenticationPolicy({
           credential,
-          scopes: typeof StorageOAuthScopes === "string" ? [StorageOAuthScopes] : StorageOAuthScopes
+          scopes: StorageOAuthScopes
         }),
         credential
       )
