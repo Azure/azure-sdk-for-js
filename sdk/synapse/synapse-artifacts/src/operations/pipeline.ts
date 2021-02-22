@@ -84,10 +84,10 @@ export class Pipeline {
   ): Promise<PipelineGetPipelinesByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getPipelinesByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -119,12 +119,12 @@ export class Pipeline {
   ): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdatePipeline",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       pipeline,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -167,11 +167,11 @@ export class Pipeline {
   ): Promise<PipelineGetPipelineResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-getPipeline",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -201,11 +201,11 @@ export class Pipeline {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deletePipeline",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -250,12 +250,12 @@ export class Pipeline {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-renamePipeline",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -298,11 +298,11 @@ export class Pipeline {
   ): Promise<PipelineCreatePipelineRunResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createPipelineRun",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -333,11 +333,11 @@ export class Pipeline {
   ): Promise<PipelineGetPipelinesByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getPipelinesByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

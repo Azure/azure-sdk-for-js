@@ -82,10 +82,10 @@ export class LinkedService {
   ): Promise<LinkedServiceGetLinkedServicesByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getLinkedServicesByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -117,12 +117,12 @@ export class LinkedService {
   ): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateLinkedService",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       linkedService,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -165,11 +165,11 @@ export class LinkedService {
   ): Promise<LinkedServiceGetLinkedServiceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-getLinkedService",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -199,11 +199,11 @@ export class LinkedService {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteLinkedService",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -248,12 +248,12 @@ export class LinkedService {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-renameLinkedService",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -297,11 +297,11 @@ export class LinkedService {
   ): Promise<LinkedServiceGetLinkedServicesByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getLinkedServicesByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

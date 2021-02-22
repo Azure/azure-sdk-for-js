@@ -37,11 +37,11 @@ export class PipelineRun {
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-queryPipelineRunsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       filterParameters,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -71,11 +71,11 @@ export class PipelineRun {
   ): Promise<PipelineRunGetPipelineRunResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-getPipelineRun",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       runId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -109,13 +109,13 @@ export class PipelineRun {
   ): Promise<PipelineRunQueryActivityRunsResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-queryActivityRuns",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       runId,
       filterParameters,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -145,11 +145,11 @@ export class PipelineRun {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-cancelPipelineRun",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       runId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

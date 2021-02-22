@@ -27,10 +27,10 @@ export class Workspace {
   async get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);

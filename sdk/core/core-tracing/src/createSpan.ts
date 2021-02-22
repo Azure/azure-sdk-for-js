@@ -27,10 +27,10 @@ export interface SpanConfig {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-  return function<T extends { tracingOptions?: OperationTracingOptions }>(
+  return function <T extends ({ tracingOptions?: OperationTracingOptions }) | undefined>(
     operationName: string,
     operationOptions: T
-  ): { span: Span; updatedOptions: T } {
+  ): { span: Span; updatedOptions: NonNullable<T> } {
     const tracer = getTracer();
     const tracingOptions = operationOptions?.tracingOptions || {};
     const spanOptions: SpanOptions = {
@@ -60,10 +60,10 @@ export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
       // TODO: .context soon.
     };
 
-    const newOperationOptions: T = {
+    const newOperationOptions: NonNullable<T> = {
       ...operationOptions,
       tracingOptions: newTracingOptions
-    };
+    } as NonNullable<T>;
 
     return {
       span,

@@ -82,10 +82,10 @@ export class Dataset {
   ): Promise<DatasetGetDatasetsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getDatasetsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -117,12 +117,12 @@ export class Dataset {
   ): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateDataset",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       dataset,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -165,11 +165,11 @@ export class Dataset {
   ): Promise<DatasetGetDatasetResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-getDataset",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -199,11 +199,11 @@ export class Dataset {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteDataset",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -248,12 +248,12 @@ export class Dataset {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-renameDataset",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -296,11 +296,11 @@ export class Dataset {
   ): Promise<DatasetGetDatasetsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getDatasetsByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
