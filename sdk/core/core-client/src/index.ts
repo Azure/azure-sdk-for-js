@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 export { createSerializer, MapperTypeNames } from "./serializer";
-export { createSpanFunction } from "./createSpan";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export { createClientPipeline, ClientPipelineOptions } from "./pipeline";
 export {

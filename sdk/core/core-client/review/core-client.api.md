@@ -13,8 +13,6 @@ import { Pipeline } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
 import { PipelineRequest } from '@azure/core-https';
 import { PipelineResponse } from '@azure/core-https';
-import { Span } from '@opentelemetry/api';
-import { SpanConfig as SpanConfig_3 } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-https';
 
@@ -77,14 +75,6 @@ export function createClientPipeline(options?: ClientPipelineOptions): Pipeline;
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
-
-// Warning: (ae-forgotten-export) The symbol "SpanConfig" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function createSpanFunction(spanConfig: SpanConfig_2): <T extends OperationOptions | undefined>(operationName: string, operationOptions: T) => {
-    span: Span;
-    updatedOptions: T;
-};
 
 // @public
 export interface DeserializationContentTypes {
