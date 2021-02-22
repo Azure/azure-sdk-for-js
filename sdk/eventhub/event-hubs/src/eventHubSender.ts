@@ -353,14 +353,15 @@ export class EventHubSender extends LinkEntity {
         this._sender!.session.outgoing.available()
       );
 
-      if (!this._sender!.sendable()) {
+      let waitTimeForSendable = 1000;
+      if (!this._sender!.sendable() && timeoutInMs - timeTakenByInit > waitTimeForSendable) {
         logger.verbose(
           "%s Sender '%s', waiting for 1 second for sender to become sendable",
           this._context.connectionId,
           this.name
         );
 
-        await delay(1000);
+        await delay(waitTimeForSendable);
 
         logger.verbose(
           "%s Sender '%s' after waiting for a second, credit: %d available: %d",
@@ -369,6 +370,8 @@ export class EventHubSender extends LinkEntity {
           this._sender!.credit,
           this._sender!.session?.outgoing?.available()
         );
+      } else {
+        waitTimeForSendable = 0;
       }
 
       if (!this._sender!.sendable()) {
@@ -389,7 +392,7 @@ export class EventHubSender extends LinkEntity {
         this._context.connectionId,
         this.name
       );
-      if (timeoutInMs <= timeTakenByInit) {
+      if (timeoutInMs <= timeTakenByInit + waitTimeForSendable) {
         const desc: string =
           `${this._context.connectionId} Sender "${this.name}" ` +
           `with address "${this.address}", was not able to send the message right now, due ` +
@@ -402,7 +405,8 @@ export class EventHubSender extends LinkEntity {
         throw translate(e);
       }
 
-      this._sender!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
+      this._sender!.sendTimeoutInSeconds =
+        (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
       try {
         const delivery = await this._sender!.send(rheaMessage, undefined, 0x80013700, {
           abortSignal
