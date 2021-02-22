@@ -4,8 +4,17 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage, delay, ProcessErrorArgs, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
-import { getAlreadyReceivingErrorMsg, InvalidOperationForPeekedMessage } from "../../src/util/errors";
+import {
+  ServiceBusMessage,
+  delay,
+  ProcessErrorArgs,
+  ServiceBusSender,
+  ServiceBusReceivedMessage
+} from "../../src";
+import {
+  getAlreadyReceivingErrorMsg,
+  InvalidOperationForPeekedMessage
+} from "../../src/util/errors";
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import {
@@ -19,6 +28,10 @@ import {
 } from "../public/utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
+import {
+  ServiceBusSessionReceiver,
+  ServiceBusSessionReceiverImpl
+} from "../../src/receivers/sessionReceiver";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -923,7 +936,7 @@ describe("Batching Receiver", () => {
       await sender.sendMessages(TestMessage.getSample());
 
       // wait for the 2nd message to be received.
-      const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1);
+      const messages2 = await receiver.receiveMessages(1);
       for (const message of messages2) {
         await receiver.completeMessage(message);
         settledMessageCount++;
@@ -1145,6 +1158,84 @@ describe("Batching Receiver", () => {
       const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
       messages.length.should.equal(1, "Unexpected number of messages received.");
+    });
+  });
+
+  describe(withSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
+    let serviceBusClient: ServiceBusClientForTests;
+    let sender: ServiceBusSender;
+    let receiver: ServiceBusSessionReceiver;
+
+    async function beforeEachTest(
+      receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
+    ): Promise<void> {
+      serviceBusClient = createServiceBusClientForTests();
+      const entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
+      if (receiveMode == "receiveAndDelete") {
+        receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
+          entityNames
+        )) as ServiceBusSessionReceiver;
+      } else {
+        receiver = (await serviceBusClient.test.createPeekLockReceiver(
+          entityNames
+        )) as ServiceBusSessionReceiver;
+      }
+
+      sender = serviceBusClient.test.addToCleanup(
+        serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      );
+    }
+
+    afterEach(async () => {
+      if (serviceBusClient) {
+        await serviceBusClient.test.afterEach();
+        await serviceBusClient.test.after();
+      }
+    });
+
+    it.only(`throws "session lock has expired" after a disconnect`, async function(): Promise<
+      void
+    > {
+      // Create the sender and receiver.
+      await beforeEachTest();
+
+      // Send a message so we can be sure when the receiver is open and active.
+      const message = TestMessage.getSessionSample();
+      await sender.sendMessages(message);
+
+      let settledMessageCount = 0;
+
+      const messages1 = await receiver.receiveMessages(1);
+      for (const message of messages1) {
+        await receiver.completeMessage(message);
+        settledMessageCount++;
+      }
+
+      settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
+
+      const connectionContext = (receiver as any)["_context"];
+      const refreshConnection = connectionContext.refreshConnection;
+      let refreshConnectionCalled = 0;
+      connectionContext.refreshConnection = function(...args: any) {
+        refreshConnectionCalled++;
+        refreshConnection.apply(this, args);
+      };
+
+      // Simulate a disconnect being called with a non-retryable error.
+      (receiver as ServiceBusSessionReceiverImpl)["_context"].connection["_connection"].idle();
+
+      // send a second message to trigger the message handler again.
+      await sender.sendMessages(TestMessage.getSessionSample());
+      try {
+        await receiver.receiveMessages(1);
+        assert.fail("receiveMessages should have failed");
+      } catch (error) {
+        should.equal(
+          error.message,
+          `The session lock has expired on the session with id ${message.sessionId}`
+        );
+      }
+      refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
     });
   });
 });
