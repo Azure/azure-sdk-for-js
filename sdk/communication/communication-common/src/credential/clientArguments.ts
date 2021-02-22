@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PipelineOptions, URLBuilder } from "@azure/core-http";
+import { URLBuilder } from "@azure/core-http";
 import { parseConnectionString } from "./connectionString";
 
 const isValidEndpoint = (host: string): boolean => {
@@ -27,14 +27,16 @@ const assertValidEndpoint = (host: string): void => {
  *
  * @param credential - The credential being checked.
  */
-export const isKeyCredential = (
-  credential?: KeyCredential | PipelineOptions | TokenCredential
-): credential is KeyCredential => {
-  if (credential === undefined) {
-    return false;
-  }
-
-  return credential && (credential as KeyCredential).key !== undefined;
+export const isKeyCredential = (credential: unknown): credential is KeyCredential => {
+  const castCredential = credential as {
+    key: unknown;
+    getToken: unknown;
+  };
+  return (
+    castCredential &&
+    typeof castCredential.key === "string" &&
+    castCredential.getToken === undefined
+  );
 };
 
 /**
@@ -50,7 +52,7 @@ export type UrlWithCredential = {
  */
 export const parseClientArguments = (
   connectionStringOrUrl: string,
-  credentialOrOptions?: KeyCredential | PipelineOptions | TokenCredential
+  credentialOrOptions?: unknown
 ): UrlWithCredential => {
   if (isKeyCredential(credentialOrOptions) || isTokenCredential(credentialOrOptions)) {
     assertValidEndpoint(connectionStringOrUrl);
