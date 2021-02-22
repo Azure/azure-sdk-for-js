@@ -85,7 +85,7 @@ export interface SecretProperties {
    * the server.**
    * @deprecated Please use {@link SecretProperties.certificateKeyId} instead. This field will always be undefined.
    */
-  readonly keyId?: unknown;
+  readonly keyId?: any;
 
   /**
    * If this is a secret backing a KV certificate, then
