@@ -89,7 +89,6 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
