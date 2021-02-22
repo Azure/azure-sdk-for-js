@@ -186,7 +186,7 @@ describe("Streaming with sessions", () => {
         true,
         receivedMsgs.length !== 1
           ? `Expected 1, received ${receivedMsgs.length} messages`
-          : "Message didnt get auto-completed in time"
+          : "Message didn't get auto-completed in time"
       );
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
@@ -559,7 +559,7 @@ describe("Streaming with sessions", () => {
           true,
           receivedMsgs.length !== 1
             ? `Expected 1, received ${receivedMsgs.length} messages`
-            : "Message didnt get auto-completed in time"
+            : "Message didn't get auto-completed in time"
         );
         should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
