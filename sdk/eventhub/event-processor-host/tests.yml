@@ -8,3 +8,4 @@ stages:
       TimeoutInMinutes: 90
       MatrixFilters:
         - TestType=node
+        - DependencyVersion=^$

@@ -7,3 +7,4 @@ stages:
       ServiceDirectory: eventgrid
       MatrixFilters:
         - TestType=node|browser
+        - DependencyVersion=^$

@@ -6,7 +6,6 @@ stages:
       PackageName: "@azure/ai-text-analytics"
       ServiceDirectory: textanalytics
       MatrixFilters:
-        - TestType=node|browser|sample
         - DependencyVersion=^$|min|max
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)

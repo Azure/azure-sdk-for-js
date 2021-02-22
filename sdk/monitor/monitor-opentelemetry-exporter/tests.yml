@@ -8,4 +8,5 @@ stages:
       ServiceDirectory: monitor
       MatrixFilters:
         - TestType=node|browser
+        - DependencyVersion=^$
       PostIntegrationSteps: monitor-additional-steps

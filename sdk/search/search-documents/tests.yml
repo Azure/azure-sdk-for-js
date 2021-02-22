@@ -6,5 +6,4 @@ stages:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
       MatrixFilters:
-        - TestType=node|browser|sample
         - DependencyVersion=^$|min|max

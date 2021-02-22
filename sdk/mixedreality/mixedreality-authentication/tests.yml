@@ -6,6 +6,5 @@ stages:
       PackageName: "@azure/mixedreality-authentication"
       ServiceDirectory: mixedreality
       MatrixFilters:
-        - TestType=node|browser|sample
         - DependencyVersion=^$|min|max
       Location: eastus2

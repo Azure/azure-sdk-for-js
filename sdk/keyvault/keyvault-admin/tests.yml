@@ -10,8 +10,6 @@ stages:
       # instance per region per subscription) so we're only running
       # live tests against a single instance.
       Location: eastus2
-      MatrixFilters:
-        - TestType=node
       MatrixConfigs:
         - Name: Keyvault_live_test_base
           Path: sdk/keyvault/keyvault-admin/platform-matrix.json

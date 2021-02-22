@@ -12,7 +12,6 @@ stages:
       # live tests against a single instance.
       Location: eastus2
       MatrixFilters:
-        - TestType=node|browser|sample
         - DependencyVersion=^$|min|max
       AdditionalMatrixConfigs:
         - Name: Keyvault_live_test_base

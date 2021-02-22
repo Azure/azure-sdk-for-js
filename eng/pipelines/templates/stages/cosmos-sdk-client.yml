@@ -29,6 +29,7 @@ stages:
       PackageName: "@azure/cosmos"
       MatrixFilters:
         - TestType=node
+        - DependencyVersion=^$
         - NodeTestVersion=8.x
         - Pool=.*mms-win-2019.*
       PreSteps:

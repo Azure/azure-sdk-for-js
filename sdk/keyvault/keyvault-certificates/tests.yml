@@ -7,7 +7,6 @@ stages:
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
       MatrixFilters:
-        - TestType=node|browser|sample
         - DependencyVersion=^$|min|max
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
