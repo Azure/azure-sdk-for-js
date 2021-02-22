@@ -64,7 +64,6 @@ async function main(argv) {
 
   await versionUtils.updatePackageConstants(targetPackagePath, packageJsonContents, newVersion);
   const updateStatus = versionUtils.updateChangelog(
-    targetPackagePath,
     artifactName,
     repoRoot,
     newVersion,

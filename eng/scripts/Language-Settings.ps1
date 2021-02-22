@@ -236,15 +236,22 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   return $packages
 }
 
-function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $ReleaseDate, $BuildType = $null, $GroupId = $null)
+function SetPackageVersion ($ArtifactName, $Version, $ServiceDirectory = $null, $ReleaseDate, $BuildType = $null, $GroupId = $null)
 {
   if ($null -eq $ReleaseDate)
   {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
   Push-Location "$EngDir/tools/versioning"
+
+  if ((Get-Command npm | Measure-Object).Count -eq 0 ) 
+  {
+    LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
+    exit 1
+  }
+
   npm install
-  node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
+  node ./set-version.js --artifact-name $ArtifactName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
   Pop-Location
 }
 

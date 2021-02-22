@@ -33,31 +33,25 @@ function buildSemverRegex(prefix) {
 }
 
 function updateChangelog(
-  targetPackagePath,
-  packageName,
+  artifactName,
   repoRoot,
   newVersion,
   unreleased,
   replaceLatestVersionTitle,
   releaseDate = null
 ) {
-  const service = path.basename(path.dirname(targetPackagePath));
   const updateChangelogPath = path.resolve(
     path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1")
   );
   let args = [
     updateChangelogPath,
-    "--Version",
-    newVersion,
-    "--ServiceDirectory",
-    service,
-    "--PackageName",
-    packageName,
+    "--Version:" + newVersion,
+    "--ArtifactName:" + artifactName,
     "--Unreleased:$" + unreleased,
     "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle
   ];
   if (releaseDate != null) {
-    args.push(releaseDate);
+    args.push("--ReleaseDate:" + releaseDate);
   }
   child = spawnSync("pwsh", args);
   console.log("Powershell Data: " + child.stdout);
