@@ -131,6 +131,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
+    "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
@@ -144,8 +145,7 @@
     "tslib": "^2.0.0",
     "tunnel": "^0.0.6",
     "uuid": "^8.3.0",
-    "xml2js": "^0.4.19",
-    "@azure/core-asynciterator-polyfill": "^1.0.0"
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

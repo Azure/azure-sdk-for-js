@@ -89,6 +89,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
+    "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
@@ -96,8 +97,7 @@
     "form-data": "^3.0.0",
     "tslib": "^2.0.0",
     "https-proxy-agent": "^5.0.0",
-    "uuid": "^8.3.0",
-    "@azure/core-asynciterator-polyfill": "^1.0.0"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
