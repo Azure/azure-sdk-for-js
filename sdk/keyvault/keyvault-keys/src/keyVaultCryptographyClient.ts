@@ -176,11 +176,9 @@ export class KeyVaultCryptographyClient {
       algorithm: encryptParameters.algorithm,
       result: result.result!,
       keyID: this.getKeyID(),
-      additionalAuthenticatedData:
-        result.additionalAuthenticatedData ||
-        (encryptParameters as any).additionalAuthenticatedData,
-      authenticationTag: result.authenticationTag || (encryptParameters as any).authenticationTag,
-      iv: result.iv || (encryptParameters as any).iv
+      additionalAuthenticatedData: result.additionalAuthenticatedData,
+      authenticationTag: result.authenticationTag,
+      iv: result.iv
     };
   }
 
