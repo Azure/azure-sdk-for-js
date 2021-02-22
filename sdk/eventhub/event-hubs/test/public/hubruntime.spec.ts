@@ -75,7 +75,7 @@ describe("RuntimeInformation", function(): void {
         });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -88,7 +88,7 @@ describe("RuntimeInformation", function(): void {
         });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -201,7 +201,7 @@ describe("RuntimeInformation", function(): void {
         });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -216,7 +216,7 @@ describe("RuntimeInformation", function(): void {
         });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -413,7 +413,7 @@ describe("RuntimeInformation", function(): void {
         });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -428,7 +428,7 @@ describe("RuntimeInformation", function(): void {
         });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
