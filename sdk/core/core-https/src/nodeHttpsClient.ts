@@ -198,9 +198,15 @@ class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
-        const parsedUrl = new URL(proxySettings.host);
+        let parsedUrl: URL;
+        try {
+          parsedUrl = new URL(proxySettings.host);
+        } catch (_error) {
+          throw new RangeError("Expecting a valid host string in proxy settings.");
+        }
+
         const proxyAgentOptions: HttpsProxyAgentOptions = {
-          host: parsedUrl.host,
+          hostname: parsedUrl.hostname,
           port: proxySettings.port,
           protocol: parsedUrl.protocol,
           headers: request.headers.toJSON()

@@ -3,7 +3,7 @@
 ## 1.0.0-beta.2 (Unreleased)
 
 - Changed from exposing `DefaultHttpsClient` as a class directly, to providing `createDefaultHttpsClient()` to instantiate the appropriate runtime class.
-- Fix an issue when passing in proxy hosts. There's some difference between the previous `tunnel.HttpsOverHttpsOptions` and `HttpsProxyAgentOptions`, in particular the former's `host` property includes both the protocol and the host parts, while the later have separate `host` and `protocol` properties.
+- Fix an issue when passing in proxy hosts. [PR 13911](https://github.com/Azure/azure-sdk-for-js/pull/13911)
 
 ## 1.0.0-beta.1 (2021-02-04)
 
