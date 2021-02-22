@@ -3,6 +3,7 @@
 ## 4.2.0-beta.3 (Unreleased)
 
 - Updated the Latest service version to 7.2.
+- Added a `certificateKeyId?: string` certificate property to use instead of the deprecated `keyId?: URL` and removed `"lib": ["dom"]` from `tsconfig.json`
 
 ## 4.2.0-beta.2 (2021-02-09)
 
