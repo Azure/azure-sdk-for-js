@@ -263,7 +263,7 @@ describe("Tracing tests", () => {
   });
 
   function stubCreateProcessingSpan(
-    receiver: any
+    receiverToStub: any
   ): {
     span?: TestSpan;
   } {
@@ -286,7 +286,7 @@ describe("Tracing tests", () => {
       return data.span;
     };
 
-    receiver["_createProcessingSpan"] = fakeCreateProcessingSpan;
+    receiverToStub["_createProcessingSpan"] = fakeCreateProcessingSpan;
     return data;
   }
 
@@ -363,7 +363,6 @@ describe("Tracing tests", () => {
     });
 
     it("trace - normal", async () => {
-      const tracer = new TestTracer();
       const span = tracer.startSpan("whatever");
 
       await trace(async () => {
@@ -375,7 +374,6 @@ describe("Tracing tests", () => {
     });
 
     it("trace - throws", async () => {
-      const tracer = new TestTracer();
       const span = tracer.startSpan("whatever");
 
       await trace(async () => {
