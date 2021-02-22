@@ -42,10 +42,10 @@ export class SparkSession {
   ): Promise<SparkSessionGetSparkSessionsResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-getSparkSessions",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -75,11 +75,11 @@ export class SparkSession {
   ): Promise<SparkSessionCreateSparkSessionResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-createSparkSession",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkSessionOptions,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -109,11 +109,11 @@ export class SparkSession {
   ): Promise<SparkSessionGetSparkSessionResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-getSparkSession",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -143,11 +143,11 @@ export class SparkSession {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-cancelSparkSession",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -177,11 +177,11 @@ export class SparkSession {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-resetSparkSessionTimeout",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -211,11 +211,11 @@ export class SparkSession {
   ): Promise<SparkSessionGetSparkStatementsResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-getSparkStatements",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -247,12 +247,12 @@ export class SparkSession {
   ): Promise<SparkSessionCreateSparkStatementResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-createSparkStatement",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
       sparkStatementOptions,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -284,12 +284,12 @@ export class SparkSession {
   ): Promise<SparkSessionGetSparkStatementResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-getSparkStatement",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
       statementId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -321,12 +321,12 @@ export class SparkSession {
   ): Promise<SparkSessionCancelSparkStatementResponse> {
     const { span, updatedOptions } = createSpan(
       "SparkClient-cancelSparkStatement",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
       statementId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
