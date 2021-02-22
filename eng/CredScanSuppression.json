@@ -38,8 +38,20 @@
       "_justification": "Secret used by test code"
     },
     {
-      "placeholder": "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",
-      "_justification": "Test certificate secret"
+      "hash":"V9v2uvdQB54nMVGYhYcYCtt2sdnrekGoNAwGpbaVaaA=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash":"uwbV2GzWqXrdKu4G8Mfn2uxM0ufPEHS875fKam0oSlw=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash":"u3Zk70ksUgF5bUQNhsaRYbOlhPstSbhAQ48ZABeaOzY=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash":"RuIWpo8CDHW0BzAIh4FtOzyYw2rFAaH4IFmrESiT/3U=",
+      "_justification": "Secret used by test code"
     },
     {
       "placeholder": [
@@ -61,7 +73,7 @@
         "_password",
         "Abcdef",
         "Abc",
-        "azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default"
+        "azure_client_secret"
       ],
       "_justification": "Secret used by test code, it is fake."
     },
