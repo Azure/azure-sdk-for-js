@@ -28,7 +28,7 @@ describe("Keys client - create, read, update and delete operations for managed H
 
     hsmClient = authentication.hsmClient;
     keySuffix = authentication.keySuffix;
-    testClient = new TestClient(hsmClient);
+    testClient = new TestClient(authentication.hsmClient);
   });
 
   afterEach(async function() {

@@ -32,7 +32,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
     }
 
     hsmClient = authentication.hsmClient;
-    testClient = new TestClient(hsmClient);
+    testClient = new TestClient(authentication.hsmClient);
     credential = authentication.credential;
     keySuffix = authentication.keySuffix;
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
