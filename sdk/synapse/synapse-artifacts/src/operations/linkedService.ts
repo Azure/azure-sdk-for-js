@@ -163,10 +163,7 @@ export class LinkedService {
     linkedServiceName: string,
     options?: LinkedServiceGetLinkedServiceOptionalParams
   ): Promise<LinkedServiceGetLinkedServiceResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getLinkedService",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getLinkedService", options);
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -197,10 +194,7 @@ export class LinkedService {
     linkedServiceName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteLinkedService",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteLinkedService", options);
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -246,10 +240,7 @@ export class LinkedService {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameLinkedService",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameLinkedService", options);
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       request,

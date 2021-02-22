@@ -84,10 +84,7 @@ export class DataFlow {
     dataFlow: DataFlowResource,
     options?: DataFlowCreateOrUpdateDataFlowOptionalParams
   ): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateDataFlow",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       dataFlow,
@@ -132,10 +129,7 @@ export class DataFlow {
     dataFlowName: string,
     options?: DataFlowGetDataFlowOptionalParams
   ): Promise<DataFlowGetDataFlowResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getDataFlow",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -166,10 +160,7 @@ export class DataFlow {
     dataFlowName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteDataFlow",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -215,10 +206,7 @@ export class DataFlow {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameDataFlow",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       request,

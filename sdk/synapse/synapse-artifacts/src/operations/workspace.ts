@@ -25,10 +25,7 @@ export class Workspace {
    * @param options The options parameters.
    */
   async get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };

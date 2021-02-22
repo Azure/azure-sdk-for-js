@@ -33,10 +33,7 @@ export class WorkspaceGitRepoManagement {
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
     options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getGitHubAccessToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getGitHubAccessToken", options);
     const operationArguments: coreHttp.OperationArguments = {
       gitHubAccessTokenRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)

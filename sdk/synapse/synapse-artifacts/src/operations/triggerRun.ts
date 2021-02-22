@@ -31,10 +31,7 @@ export class TriggerRun {
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-rerunTriggerInstance",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-rerunTriggerInstance", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
@@ -68,10 +65,7 @@ export class TriggerRun {
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-cancelTriggerInstance",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelTriggerInstance", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,

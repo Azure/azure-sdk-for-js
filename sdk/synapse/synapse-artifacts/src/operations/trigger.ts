@@ -82,10 +82,7 @@ export class Trigger {
   private async _getTriggersByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<TriggerGetTriggersByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_getTriggersByWorkspace",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_getTriggersByWorkspace", options);
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
@@ -117,10 +114,7 @@ export class Trigger {
     trigger: TriggerResource,
     options?: TriggerCreateOrUpdateTriggerOptionalParams
   ): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateTrigger",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateTrigger", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       trigger,
@@ -165,10 +159,7 @@ export class Trigger {
     triggerName: string,
     options?: TriggerGetTriggerOptionalParams
   ): Promise<TriggerGetTriggerResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getTrigger",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getTrigger", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -199,10 +190,7 @@ export class Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteTrigger",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteTrigger", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -374,10 +362,7 @@ export class Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-startTrigger",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-startTrigger", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -421,10 +406,7 @@ export class Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-stopTrigger",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-stopTrigger", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")

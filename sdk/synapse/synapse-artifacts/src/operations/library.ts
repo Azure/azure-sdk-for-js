@@ -74,10 +74,7 @@ export class Library {
    * @param options The options parameters.
    */
   private async _list(options?: coreHttp.OperationOptions): Promise<LibraryListOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_list",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_list", options);
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
@@ -105,10 +102,7 @@ export class Library {
     libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-flush",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-flush", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -149,10 +143,7 @@ export class Library {
     operationId: string,
     options?: coreHttp.OperationOptions
   ): Promise<LibraryGetOperationResultResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getOperationResult",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getOperationResult", options);
     const operationArguments: coreHttp.OperationArguments = {
       operationId,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -184,10 +175,7 @@ export class Library {
     libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-delete",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-delete", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -226,10 +214,7 @@ export class Library {
    * @param options The options parameters.
    */
   async get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -261,10 +246,7 @@ export class Library {
     content: coreHttp.HttpRequestBody,
     options?: LibraryCreateOrAppendOptionalParams
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrAppend",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrAppend", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       content,
@@ -309,10 +291,7 @@ export class Library {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<LibraryListNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_listNext",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_listNext", options);
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)

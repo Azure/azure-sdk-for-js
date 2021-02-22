@@ -69,10 +69,7 @@ export class PipelineRun {
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<PipelineRunGetPipelineRunResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getPipelineRun",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipelineRun", options);
     const operationArguments: coreHttp.OperationArguments = {
       runId,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -107,10 +104,7 @@ export class PipelineRun {
     filterParameters: RunFilterParameters,
     options?: coreHttp.OperationOptions
   ): Promise<PipelineRunQueryActivityRunsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-queryActivityRuns",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-queryActivityRuns", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       runId,
@@ -143,10 +137,7 @@ export class PipelineRun {
     runId: string,
     options?: PipelineRunCancelPipelineRunOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-cancelPipelineRun",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelPipelineRun", options);
     const operationArguments: coreHttp.OperationArguments = {
       runId,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)

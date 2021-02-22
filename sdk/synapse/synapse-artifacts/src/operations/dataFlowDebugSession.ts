@@ -162,10 +162,7 @@ export class DataFlowDebugSession {
     request: DataFlowDebugPackage,
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-addDataFlow",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-addDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       request,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -230,10 +227,7 @@ export class DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-executeCommand",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-executeCommand", options);
     const operationArguments: coreHttp.OperationArguments = {
       request,
       options: this.getOperationOptions(updatedOptions, "undefined")

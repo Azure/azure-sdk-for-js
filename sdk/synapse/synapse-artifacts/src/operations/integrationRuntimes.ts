@@ -25,10 +25,7 @@ export class IntegrationRuntimes {
    * @param options The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-list",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options);
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
@@ -55,10 +52,7 @@ export class IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: coreHttp.OperationOptions
   ): Promise<IntegrationRuntimesGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       integrationRuntimeName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)

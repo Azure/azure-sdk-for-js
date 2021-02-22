@@ -190,10 +190,7 @@ export class Notebook {
     notebook: NotebookResource,
     options?: NotebookCreateOrUpdateNotebookOptionalParams
   ): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateNotebook",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       notebook,
@@ -238,10 +235,7 @@ export class Notebook {
     notebookName: string,
     options?: NotebookGetNotebookOptionalParams
   ): Promise<NotebookGetNotebookResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getNotebook",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -272,10 +266,7 @@ export class Notebook {
     notebookName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteNotebook",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -321,10 +312,7 @@ export class Notebook {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameNotebook",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       request,

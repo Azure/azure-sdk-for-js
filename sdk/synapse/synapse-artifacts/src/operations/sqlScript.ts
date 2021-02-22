@@ -115,10 +115,7 @@ export class SqlScript {
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
   ): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateSqlScript",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       sqlScript,
@@ -163,10 +160,7 @@ export class SqlScript {
     sqlScriptName: string,
     options?: SqlScriptGetSqlScriptOptionalParams
   ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getSqlScript",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -197,10 +191,7 @@ export class SqlScript {
     sqlScriptName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteSqlScript",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -246,10 +237,7 @@ export class SqlScript {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameSqlScript",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       request,

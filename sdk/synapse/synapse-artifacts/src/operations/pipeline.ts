@@ -117,10 +117,7 @@ export class Pipeline {
     pipeline: PipelineResource,
     options?: PipelineCreateOrUpdatePipelineOptionalParams
   ): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdatePipeline",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdatePipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       pipeline,
@@ -165,10 +162,7 @@ export class Pipeline {
     pipelineName: string,
     options?: PipelineGetPipelineOptionalParams
   ): Promise<PipelineGetPipelineResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getPipeline",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -199,10 +193,7 @@ export class Pipeline {
     pipelineName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deletePipeline",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deletePipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -248,10 +239,7 @@ export class Pipeline {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renamePipeline",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renamePipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       request,
@@ -296,10 +284,7 @@ export class Pipeline {
     pipelineName: string,
     options?: PipelineCreatePipelineRunOptionalParams
   ): Promise<PipelineCreatePipelineRunResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createPipelineRun",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createPipelineRun", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
