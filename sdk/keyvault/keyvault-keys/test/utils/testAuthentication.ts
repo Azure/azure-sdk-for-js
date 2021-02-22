@@ -3,7 +3,7 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "../../src";
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
@@ -11,16 +11,7 @@ import { Context } from "mocha";
 // Adding this to the source would change the public API.
 type ApiVersions = "7.0" | "7.1" | "7.2";
 
-export interface TestHelpers {
-  recorder: Recorder;
-  client: KeyClient;
-  credential: ClientSecretCredential;
-  testClient: TestClient;
-  hsmClient?: KeyClient;
-  keySuffix: string;
-}
-
-export async function authenticate(that: Context, version?: string): Promise<TestHelpers> {
+export async function authenticate(that: Context, version?: string): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
