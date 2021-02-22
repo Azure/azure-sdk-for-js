@@ -83,8 +83,18 @@ export interface SecretProperties {
    * this field specifies the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
+   * @deprecated Please use {@see SecretProperties.certificateKeyId} instead. This field will always be undefined.
    */
   readonly keyId?: URL;
+
+  /**
+   * If this is a secret backing a KV certificate, then
+   * this field specifies the corresponding key backing the KV certificate.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly certificateKeyId?: string;
+
   /**
    * True if the secret's lifetime is managed by
    * key vault. If this is a secret backing a certificate, then managed will be

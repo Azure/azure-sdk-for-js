@@ -137,11 +137,13 @@ export interface SecretPollerOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface SecretProperties {
+    readonly certificateKeyId?: string;
     contentType?: string;
     readonly createdOn?: Date;
     enabled?: boolean;
     readonly expiresOn?: Date;
     id?: string;
+    // @deprecated
     readonly keyId?: URL;
     readonly managed?: boolean;
     name: string;
