@@ -34,10 +34,10 @@ export class Monitoring {
   ): Promise<MonitoringGetSparkJobListResponse> {
     const { span, updatedOptions } = createSpan(
       "MonitoringClient-getSparkJobList",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -65,10 +65,10 @@ export class Monitoring {
   ): Promise<MonitoringGetSqlJobQueryStringResponse> {
     const { span, updatedOptions } = createSpan(
       "MonitoringClient-getSqlJobQueryString",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
