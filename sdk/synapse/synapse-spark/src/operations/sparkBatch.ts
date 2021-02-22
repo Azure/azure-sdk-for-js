@@ -35,10 +35,7 @@ export class SparkBatch {
   async getSparkBatchJobs(
     options?: SparkBatchGetSparkBatchJobsOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-getSparkBatchJobs",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-getSparkBatchJobs", options);
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
@@ -68,10 +65,7 @@ export class SparkBatch {
     sparkBatchJobOptions: SparkBatchJobOptions,
     options?: SparkBatchCreateSparkBatchJobOptionalParams
   ): Promise<SparkBatchCreateSparkBatchJobResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-createSparkBatchJob",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-createSparkBatchJob", options);
     const operationArguments: coreHttp.OperationArguments = {
       sparkBatchJobOptions,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -102,10 +96,7 @@ export class SparkBatch {
     batchId: number,
     options?: SparkBatchGetSparkBatchJobOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-getSparkBatchJob",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-getSparkBatchJob", options);
     const operationArguments: coreHttp.OperationArguments = {
       batchId,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
@@ -136,10 +127,7 @@ export class SparkBatch {
     batchId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-cancelSparkBatchJob",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-cancelSparkBatchJob", options);
     const operationArguments: coreHttp.OperationArguments = {
       batchId,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
