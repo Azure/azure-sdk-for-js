@@ -518,12 +518,71 @@ describe("subpartitioned container item CRUD", async function() {
     container = response.container;
   });
 
-  it.only("create subpartitioned items", async () => {
+  it("create subpartitioned items", async () => {
+    const itemId = "subpartition-create";
     const itemBody = {
-      id: "subpartitionId",
+      id: itemId,
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    const response = await container.items.create(itemBody);
+    const item: ItemDefinition = response.item;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+  });
+
+  it("replaces subpartitioned items", async () => {
+    const itemId = "subpartition-replace";
+    const itemBody = {
+      id: itemId,
+      birthYear: 2010,
       topLevel: "A",
       lowerLevel: "B"
     };
     await container.items.create(itemBody);
+    const response = await container.item(itemId).replace(itemBody);
+    const item: ItemDefinition = response.item;
+    const resource = response.resource;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+    assert.equal(resource.birthYear, 2010);
+  });
+
+  it("reads subpartitioned items", async () => {
+    const itemId = "subpartition-read";
+    const itemBody = {
+      id: itemId,
+      birthYear: 2010,
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    await container.items.create(itemBody);
+    const response = await container.item(itemId, ["A", "B"]).read();
+    const resource = response.resource;
+    const item: ItemDefinition = response.item;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+    assert.equal(resource.birthYear, 2010);
+  });
+
+  it("deletes subpartitioned items", async () => {
+    const itemId = "subpartition-delete";
+    const itemBody = {
+      id: itemId,
+      birthYear: 2010,
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    await container.items.create(itemBody);
+    const response = await container.item(itemId, ["A", "B"]).delete();
+    const resource = response.resource;
+    const item: ItemDefinition = response.item;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+    assert.equal(resource, null);
   });
 });

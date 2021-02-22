@@ -82,6 +82,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
     let response: Response<T & Resource>;
+    console.log(this.partitionKey);
     try {
       response = await this.clientContext.read<T>({
         path,

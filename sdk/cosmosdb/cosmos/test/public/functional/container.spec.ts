@@ -485,7 +485,7 @@ describe("container.create", function() {
     };
     assertThrowsAsync(() => database.containers.create(containerRequest));
   });
-  it.only("can create subpartitioned container", async function() {
+  it("can create subpartitioned container", async function() {
     const containerRequest: ContainerRequest = {
       id: "subpartition sample",
       partitionKey: ["/topLevel", "/lowerLevel"]
