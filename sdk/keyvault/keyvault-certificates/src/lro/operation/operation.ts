@@ -20,7 +20,7 @@ import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle
 } from "../../transformations";
-import { setParentSpan, createSpan } from "../../../../keyvault-common";
+import { createSpan } from "../../tracing";
 import {
   KeyVaultClientGetCertificateOperationResponse,
   KeyVaultClientGetCertificateResponse,
@@ -62,8 +62,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: CancelCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.cancelCertificateOperation", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.cancelCertificateOperation", options);
 
     let result: KeyVaultClientUpdateCertificateOperationResponse;
     try {
@@ -71,7 +70,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
         this.vaultUrl,
         certificateName,
         true,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -91,8 +90,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getCertificate", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getCertificate", options);
 
     let result: KeyVaultClientGetCertificateResponse;
 
@@ -101,7 +99,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
         this.vaultUrl,
         certificateName,
         "",
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -117,7 +115,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options?: GetPlainCertificateOperationOptions
   ): Promise<CertificateOperation> {
-    const span = createSpan("generatedClient.getPlainCertificateOperation", options);
+    const { span, updatedOptions } = createSpan("generatedClient.getPlainCertificateOperation", options);
 
     let result: KeyVaultClientGetCertificateOperationResponse;
 
@@ -125,7 +123,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       result = await this.client.getCertificateOperation(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, options)
+        updatedOptions
       );
     } finally {
       span.end();

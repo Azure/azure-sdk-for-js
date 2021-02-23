@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
-import { createSpan, setParentSpan } from "../../../../keyvault-common";
+import { RequestOptionsBase } from "@azure/core-http";
+import { createSpan } from "../../tracing";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
@@ -52,8 +52,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getCertificate", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getCertificate", options);
 
     let result: KeyVaultClientGetCertificateResponse;
 
@@ -62,7 +61,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
         this.vaultUrl,
         certificateName,
         "",
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -79,8 +78,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.recoverDeletedCertificate", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.recoverDeletedCertificate", options);
 
     let result: KeyVaultClientRecoverDeletedCertificateResponse;
 
@@ -88,7 +86,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
       result = await this.client.recoverDeletedCertificate(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();

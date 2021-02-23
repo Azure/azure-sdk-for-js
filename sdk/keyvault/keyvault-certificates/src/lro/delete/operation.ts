@@ -18,7 +18,7 @@ import {
   KeyVaultClientDeleteCertificateResponse,
   KeyVaultClientGetDeletedCertificateResponse
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common";
+import { createSpan } from "../../tracing";
 
 /**
  * The public representation of the DeleteCertificatePoller operation state.
@@ -29,7 +29,7 @@ export type DeleteCertificateState = KeyVaultCertificatePollOperationState<Delet
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
+  extends KeyVaultCertificatePollOperationState<DeletedCertificate> { }
 
 /**
  * An interface representing a delete certificate's poll operation
@@ -55,16 +55,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: DeleteCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
-    const span = createSpan("generatedClient.deleteCertificate", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.deleteCertificate", options);
 
     let response: KeyVaultClientDeleteCertificateResponse;
     try {
       response = await this.client.deleteCertificate(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -81,15 +79,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: GetDeletedCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getDeletedCertificate", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getDeletedCertificate", options);
 
     let result: KeyVaultClientGetDeletedCertificateResponse;
     try {
       result = await this.client.getDeletedCertificate(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
