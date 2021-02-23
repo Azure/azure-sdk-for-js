@@ -20,7 +20,7 @@ import { RestoreResult } from "../../backupClientModels";
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> { }
+export interface RestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.

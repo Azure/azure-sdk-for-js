@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  OperationOptions,
-  RequestOptionsBase
-} from "@azure/core-http";
+import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientRestoreStatusResponse,
@@ -24,7 +21,7 @@ import { RestoreResult } from "../../backupClientModels";
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
 export interface SelectiveRestoreOperationState
-  extends KeyVaultAdminPollOperationState<RestoreResult> { }
+  extends KeyVaultAdminPollOperationState<RestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
@@ -74,11 +71,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
     const { span, updatedOptions } = createSpan("generatedClient.selectiveRestore", options);
     try {
-      return await this.client.selectiveKeyRestoreOperation(
-        this.vaultUrl,
-        keyName,
-        updatedOptions
-      );
+      return await this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions);
     } finally {
       span.end();
     }
