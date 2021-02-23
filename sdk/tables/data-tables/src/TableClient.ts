@@ -50,7 +50,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
-import { parseXML } from "@azure/core-xml";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -161,6 +161,9 @@ export class TableClient {
           },
           deserializationOptions: {
             parseXML
+          },
+          serializationOptions: {
+            stringifyXML
           }
         }
       };

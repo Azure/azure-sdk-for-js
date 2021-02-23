@@ -38,7 +38,7 @@ import { InternalClientPipelineOptions } from "@azure/core-client";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
 import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
-import { parseXML } from "@azure/core-xml";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -126,6 +126,9 @@ export class TableServiceClient {
         },
         deserializationOptions: {
           parseXML
+        },
+        serializationOptions: {
+          stringifyXML
         }
       }
     };
