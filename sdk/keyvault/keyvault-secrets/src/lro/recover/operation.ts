@@ -22,7 +22,7 @@ import { getSecretFromSecretBundle } from "../../transformations";
  * An interface representing the state of a delete secret's poll operation
  */
 export interface RecoverDeletedSecretPollOperationState
-  extends KeyVaultSecretPollOperationState<SecretProperties> { }
+  extends KeyVaultSecretPollOperationState<SecretProperties> {}
 
 /**
  * An interface representing a delete secret's poll operation
@@ -74,11 +74,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
 
     let response: KeyVaultClientGetSecretResponse;
     try {
-      response = await this.client.recoverDeletedSecret(
-        this.vaultUrl,
-        name,
-        updatedOptions
-      );
+      response = await this.client.recoverDeletedSecret(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }
