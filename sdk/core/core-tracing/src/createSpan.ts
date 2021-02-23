@@ -41,7 +41,7 @@ export interface CreateSpanFunctionArgs {
  * @param args - allows configuration of the prefix for each span as well as the az.namespace field.
  */
 export function createSpanFunction(args: CreateSpanFunctionArgs) {
-  return function <T extends { tracingOptions?: OperationTracingOptions }>(
+  return function<T extends { tracingOptions?: OperationTracingOptions }>(
     operationName: string,
     operationOptions: T | undefined
   ): { span: Span; updatedOptions: T } {
@@ -77,7 +77,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     const newOperationOptions = {
       ...operationOptions,
       tracingOptions: newTracingOptions
-    }
+    };
 
     return {
       span,
