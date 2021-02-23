@@ -4,11 +4,8 @@
 
 ## 1.2.4-beta.2 (Unreleased)
 
-<<<<<<< HEAD
 - Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
-=======
 - Breaking change: `DefaultAzureCredential` now only uses `InteractiveBrowserCredential` in the browser since it's the only credential intended to be used to authenticate within browsers.
->>>>>>> 1827d69a042da834f813c9f78b8be0b3bd8aa6f1
 
 ## 1.2.4-beta.1 (2021-02-12)
 

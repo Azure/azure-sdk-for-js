@@ -116,11 +116,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
     await open(response);
   }
 
-  private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
-    // eslint-disable-next-line
+  private acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
     return new Promise<AccessToken | null>(async (resolve, reject) => {
-      // eslint-disable-next-line
-      let socketToDestroy: Socket | undefined;
+      let socketToDestroy: Socket[] = [];
 
       const requestListener = (req: http.IncomingMessage, res: http.ServerResponse) => {
         if (!req.url) {
@@ -131,7 +129,17 @@ export class InteractiveBrowserCredential implements TokenCredential {
           );
           return;
         }
-        const url = new URL(req.url, this.redirectUri);
+        let url: URL;
+        try {
+          url = new URL(req.url, this.redirectUri);
+        } catch (e) {
+          reject(
+            new Error(
+              `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
+            )
+          );
+          return;
+        }
         const tokenRequest: AuthorizationCodeRequest = {
           code: url.searchParams.get("code")!,
           redirectUri: this.redirectUri,
@@ -192,22 +200,21 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const listen = app.listen(this.port, this.hostname, () =>
         logger.info(`InteractiveBrowerCredential listening on port ${this.port}!`)
       );
-      app.on("connection", (socket) => (socketToDestroy = socket));
+      app.on("connection", (socket) => (socketToDestroy.push(socket)));
       const server = stoppable(app);
 
-      try {
-        await this.openAuthCodeUrl(scopeArray);
-      } catch (e) {
-        cleanup();
-        throw e;
-      }
+      this.openAuthCodeUrl(scopeArray).catch(e => {
+          cleanup();
+          reject(e);
+      });
 
       function cleanup(): void {
         if (listen) {
           listen.close();
         }
-        if (socketToDestroy) {
-          socketToDestroy.destroy();
+
+        for (let socket of socketToDestroy) {
+          socket.destroy();
         }
 
         if (server) {
