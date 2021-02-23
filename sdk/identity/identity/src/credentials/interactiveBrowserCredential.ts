@@ -200,12 +200,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const listen = app.listen(this.port, this.hostname, () =>
         logger.info(`InteractiveBrowerCredential listening on port ${this.port}!`)
       );
-      app.on("connection", (socket) => (socketToDestroy.push(socket)));
+      app.on("connection", (socket) => socketToDestroy.push(socket));
       const server = stoppable(app);
 
-      this.openAuthCodeUrl(scopeArray).catch(e => {
-          cleanup();
-          reject(e);
+      this.openAuthCodeUrl(scopeArray).catch((e) => {
+        cleanup();
+        reject(e);
       });
 
       function cleanup(): void {
