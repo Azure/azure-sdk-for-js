@@ -2,9 +2,7 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
-### Breaking Changes:
-
-- Removed `createSpanFunction` and `SpanConfig`. These have been moved into
+- [Breaking] Removed `createSpanFunction` and `SpanConfig`. These have been moved into
   `@azure/core-tracing`.
 
 ## 1.0.0-beta.1 (2021-02-04)
