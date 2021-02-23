@@ -6,30 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChatApiClient } from "../chatApiClient";
 import {
+  ChatMessageReadReceipt,
+  ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsOptionalParams,
+  ChatMessage,
+  ChatThreadListChatMessagesNextOptionalParams,
+  ChatThreadListChatMessagesOptionalParams,
+  ChatParticipant,
+  ChatThreadListChatParticipantsNextOptionalParams,
+  ChatThreadListChatParticipantsOptionalParams,
   ChatThreadListChatReadReceiptsResponse,
   SendReadReceiptRequest,
   SendChatMessageRequest,
   ChatThreadSendChatMessageResponse,
-  ChatThreadListChatMessagesOptionalParams,
   ChatThreadListChatMessagesResponse,
   ChatThreadGetChatMessageResponse,
   UpdateChatMessageRequest,
-  ChatThreadListChatParticipantsOptionalParams,
   ChatThreadListChatParticipantsResponse,
+  CommunicationIdentifierModel,
   AddChatParticipantsRequest,
   ChatThreadAddChatParticipantsResponse,
   UpdateChatThreadRequest,
-  ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
-  ChatThreadListChatMessagesNextOptionalParams,
   ChatThreadListChatMessagesNextResponse,
-  ChatThreadListChatParticipantsNextOptionalParams,
   ChatThreadListChatParticipantsNextResponse
 } from "../models";
 
@@ -50,7 +55,145 @@ export class ChatThread {
    * @param chatThreadId Thread id to get the chat message read receipts for.
    * @param options The options parameters.
    */
-  listChatReadReceipts(
+  public listChatReadReceipts(
+    chatThreadId: string,
+    options?: ChatThreadListChatReadReceiptsOptionalParams
+  ): PagedAsyncIterableIterator<ChatMessageReadReceipt> {
+    const iter = this.listChatReadReceiptsPagingAll(chatThreadId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listChatReadReceiptsPagingPage(chatThreadId, options);
+      }
+    };
+  }
+
+  private async *listChatReadReceiptsPagingPage(
+    chatThreadId: string,
+    options?: ChatThreadListChatReadReceiptsOptionalParams
+  ): AsyncIterableIterator<ChatMessageReadReceipt[]> {
+    let result = await this._listChatReadReceipts(chatThreadId, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listChatReadReceiptsNext(chatThreadId, continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listChatReadReceiptsPagingAll(
+    chatThreadId: string,
+    options?: ChatThreadListChatReadReceiptsOptionalParams
+  ): AsyncIterableIterator<ChatMessageReadReceipt> {
+    for await (const page of this.listChatReadReceiptsPagingPage(chatThreadId, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets a list of messages from a thread.
+   * @param chatThreadId The thread id of the message.
+   * @param options The options parameters.
+   */
+  public listChatMessages(
+    chatThreadId: string,
+    options?: ChatThreadListChatMessagesOptionalParams
+  ): PagedAsyncIterableIterator<ChatMessage> {
+    const iter = this.listChatMessagesPagingAll(chatThreadId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listChatMessagesPagingPage(chatThreadId, options);
+      }
+    };
+  }
+
+  private async *listChatMessagesPagingPage(
+    chatThreadId: string,
+    options?: ChatThreadListChatMessagesOptionalParams
+  ): AsyncIterableIterator<ChatMessage[]> {
+    let result = await this._listChatMessages(chatThreadId, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listChatMessagesNext(chatThreadId, continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listChatMessagesPagingAll(
+    chatThreadId: string,
+    options?: ChatThreadListChatMessagesOptionalParams
+  ): AsyncIterableIterator<ChatMessage> {
+    for await (const page of this.listChatMessagesPagingPage(chatThreadId, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the participants of a thread.
+   * @param chatThreadId Thread id to get participants for.
+   * @param options The options parameters.
+   */
+  public listChatParticipants(
+    chatThreadId: string,
+    options?: ChatThreadListChatParticipantsOptionalParams
+  ): PagedAsyncIterableIterator<ChatParticipant> {
+    const iter = this.listChatParticipantsPagingAll(chatThreadId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listChatParticipantsPagingPage(chatThreadId, options);
+      }
+    };
+  }
+
+  private async *listChatParticipantsPagingPage(
+    chatThreadId: string,
+    options?: ChatThreadListChatParticipantsOptionalParams
+  ): AsyncIterableIterator<ChatParticipant[]> {
+    let result = await this._listChatParticipants(chatThreadId, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listChatParticipantsNext(chatThreadId, continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listChatParticipantsPagingAll(
+    chatThreadId: string,
+    options?: ChatThreadListChatParticipantsOptionalParams
+  ): AsyncIterableIterator<ChatParticipant> {
+    for await (const page of this.listChatParticipantsPagingPage(chatThreadId, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets chat message read receipts for a thread.
+   * @param chatThreadId Thread id to get the chat message read receipts for.
+   * @param options The options parameters.
+   */
+  private _listChatReadReceipts(
     chatThreadId: string,
     options?: ChatThreadListChatReadReceiptsOptionalParams
   ): Promise<ChatThreadListChatReadReceiptsResponse> {
@@ -113,7 +256,7 @@ export class ChatThread {
    * @param chatThreadId The thread id of the message.
    * @param options The options parameters.
    */
-  listChatMessages(
+  private _listChatMessages(
     chatThreadId: string,
     options?: ChatThreadListChatMessagesOptionalParams
   ): Promise<ChatThreadListChatMessagesResponse> {
@@ -220,7 +363,7 @@ export class ChatThread {
    * @param chatThreadId Thread id to get participants for.
    * @param options The options parameters.
    */
-  listChatParticipants(
+  private _listChatParticipants(
     chatThreadId: string,
     options?: ChatThreadListChatParticipantsOptionalParams
   ): Promise<ChatThreadListChatParticipantsResponse> {
@@ -237,22 +380,22 @@ export class ChatThread {
   /**
    * Remove a participant from a thread.
    * @param chatThreadId Thread id to remove the participant from.
-   * @param chatParticipantId Id of the thread participant to remove from the thread.
+   * @param participantCommunicationIdentifier Id of the thread participant to remove from the thread.
    * @param options The options parameters.
    */
-  removeChatParticipantById(
+  removeChatParticipant(
     chatThreadId: string,
-    chatParticipantId: string,
+    participantCommunicationIdentifier: CommunicationIdentifierModel,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       chatThreadId,
-      chatParticipantId,
+      participantCommunicationIdentifier,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      removeChatParticipantByIdOperationSpec
+      removeChatParticipantOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -306,7 +449,7 @@ export class ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatReadReceipts method.
    * @param options The options parameters.
    */
-  listChatReadReceiptsNext(
+  private _listChatReadReceiptsNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatReadReceiptsNextOptionalParams
@@ -328,7 +471,7 @@ export class ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatMessages method.
    * @param options The options parameters.
    */
-  listChatMessagesNext(
+  private _listChatMessagesNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatMessagesNextOptionalParams
@@ -350,7 +493,7 @@ export class ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatParticipants method.
    * @param options The options parameters.
    */
-  listChatParticipantsNext(
+  private _listChatParticipantsNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatParticipantsNextOptionalParams
@@ -628,9 +771,9 @@ const listChatParticipantsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const removeChatParticipantByIdOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/participants/{chatParticipantId}",
-  httpMethod: "DELETE",
+const removeChatParticipantOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/participants/:remove",
+  httpMethod: "POST",
   responses: {
     204: {},
     401: {
@@ -650,9 +793,11 @@ const removeChatParticipantByIdOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
+  requestBody: Parameters.participantCommunicationIdentifier,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatParticipantId],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const addChatParticipantsOperationSpec: coreHttp.OperationSpec = {

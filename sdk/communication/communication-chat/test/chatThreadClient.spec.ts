@@ -4,8 +4,8 @@
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
-import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { createTestUser, createRecorder, createChatClient, getCommunicationIdentifier } from './utils/recordedClient';
+import { CreateChatThreadRequest, CommunicationIdentifierModel } from '../src/generated/src/models/index';
 
 describe("ChatThreadClient", function() {
   let messageId: string;
@@ -14,9 +14,9 @@ describe("ChatThreadClient", function() {
   let chatThreadClient: ChatThreadClient;
   let threadId: string;
 
-  let testUser: CommunicationUserIdentifier;
-  let testUser2: CommunicationUserIdentifier;
-  let testUser3: CommunicationUserIdentifier;
+  let testUser: CommunicationIdentifierModel;
+  let testUser2: CommunicationIdentifierModel;
+  let testUser3: CommunicationIdentifierModel;
 
   beforeEach(async function() {
     recorder = createRecorder(this);
@@ -36,13 +36,13 @@ describe("ChatThreadClient", function() {
     const communicationUserToken = await createTestUser();
     chatClient = createChatClient(communicationUserToken.token);
 
-    testUser = communicationUserToken.user;
-    testUser2 = (await createTestUser()).user;
+    testUser = getCommunicationIdentifier(communicationUserToken.user);
+    testUser2 = getCommunicationIdentifier((await createTestUser()).user);
 
     // Create a thread
-    const threadRequest = {
+    const threadRequest: CreateChatThreadRequest = {
       topic: "test topic",
-      participants: [{ user: testUser }, { user: testUser2 }]
+      participants: [{communicationIdentifier: testUser}, { communicationIdentifier: testUser2}]
     };
 
     const chatThreadResult = await chatClient.createChatThread(threadRequest);
@@ -97,23 +97,21 @@ describe("ChatThreadClient", function() {
   });
 
   it("successfully adds participants", async function() {
-    testUser3 = (await createTestUser()).user;
+    testUser3 = getCommunicationIdentifier((await createTestUser()).user);
 
-    const request = { participants: [{ user: testUser3 }] };
+    const request = { participants: [{ communicationIdentifier: testUser3 }] };
     await chatThreadClient.addParticipants(request);
   });
 
   it("successfully lists participants", async function() {
     const list: string[] = [];
     for await (const participant of chatThreadClient.listParticipants()) {
-      list.push(participant.user.communicationUserId!);
+      list.push(participant.communicationIdentifier.communicationUser?.id!);
     }
   });
 
   it("successfully remove a participant", async function() {
-    await chatThreadClient.removeParticipant({
-      communicationUserId: testUser2.communicationUserId
-    });
+    await chatThreadClient.removeParticipant(testUser2);
   });
 
   it("successfully lists read receipts", async function() {

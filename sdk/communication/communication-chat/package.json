@@ -8,7 +8,7 @@
   "types": "types/communication-chat.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --version=3.0.6267 --v3 --disable-async-iterators=true --package-version=1.0.0-beta.5 && rushx format",
+    "build:autorest": "autorest ./swagger/README.md --typescript --version=3.0.6267 --v3 --package-version=1.0.0-beta.5 && rushx format",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Skipped.",

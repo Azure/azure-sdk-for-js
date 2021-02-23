@@ -6,18 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChatApiClient } from "../chatApiClient";
 import {
+  ChatThreadInfo,
+  ChatListChatThreadsNextOptionalParams,
+  ChatListChatThreadsOptionalParams,
   CreateChatThreadRequest,
   ChatCreateChatThreadOptionalParams,
   ChatCreateChatThreadResponse,
-  ChatListChatThreadsOptionalParams,
   ChatListChatThreadsResponse,
   ChatGetChatThreadResponse,
-  ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse
 } from "../models";
 
@@ -31,6 +33,48 @@ export class Chat {
    */
   constructor(client: ChatApiClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets the list of chat threads of a user.
+   * @param options The options parameters.
+   */
+  public listChatThreads(
+    options?: ChatListChatThreadsOptionalParams
+  ): PagedAsyncIterableIterator<ChatThreadInfo> {
+    const iter = this.listChatThreadsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listChatThreadsPagingPage(options);
+      }
+    };
+  }
+
+  private async *listChatThreadsPagingPage(
+    options?: ChatListChatThreadsOptionalParams
+  ): AsyncIterableIterator<ChatThreadInfo[]> {
+    let result = await this._listChatThreads(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listChatThreadsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listChatThreadsPagingAll(
+    options?: ChatListChatThreadsOptionalParams
+  ): AsyncIterableIterator<ChatThreadInfo> {
+    for await (const page of this.listChatThreadsPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -56,7 +100,7 @@ export class Chat {
    * Gets the list of chat threads of a user.
    * @param options The options parameters.
    */
-  listChatThreads(
+  private _listChatThreads(
     options?: ChatListChatThreadsOptionalParams
   ): Promise<ChatListChatThreadsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
@@ -111,7 +155,7 @@ export class Chat {
    * @param nextLink The nextLink from the previous successful call to the ListChatThreads method.
    * @param options The options parameters.
    */
-  listChatThreadsNext(
+  private _listChatThreadsNext(
     nextLink: string,
     options?: ChatListChatThreadsNextOptionalParams
   ): Promise<ChatListChatThreadsNextResponse> {
@@ -155,7 +199,7 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.createChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.repeatabilityRequestID],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.repeatabilityRequestId],
   mediaType: "json",
   serializer
 };

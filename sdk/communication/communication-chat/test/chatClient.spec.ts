@@ -3,9 +3,8 @@
 
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient } from "../src";
-import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { ChatClient, ChatThreadClient, CommunicationIdentifierModel } from "../src";
+import { createTestUser, createRecorder, createChatClient, getCommunicationIdentifier } from "./utils/recordedClient";
 
 describe("ChatClient", function() {
   let threadId: string;
@@ -13,8 +12,8 @@ describe("ChatClient", function() {
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
 
-  let testUser: CommunicationUserIdentifier;
-  let testUser2: CommunicationUserIdentifier;
+  let testUser: CommunicationIdentifierModel;
+  let testUser2: CommunicationIdentifierModel;
 
   this.afterAll(async function() {
     // await deleteTestUser(testUser);
@@ -34,15 +33,15 @@ describe("ChatClient", function() {
 
   it("successfully creates a thread", async function() {
     const communicationUserToken = await createTestUser();
-
-    testUser = communicationUserToken.user;
     chatClient = createChatClient(communicationUserToken.token);
 
-    testUser2 = (await createTestUser()).user;
+    testUser = getCommunicationIdentifier(communicationUserToken.user);
+    testUser2 = getCommunicationIdentifier((await createTestUser()).user);
 
+    // Create a thread
     const request = {
       topic: "test topic",
-      participants: [{ user: testUser }, { user: testUser2 }]
+      participants: [{communicationIdentifier: testUser}, { communicationIdentifier: testUser2}]
     };
 
     const chatThreadResult = await chatClient.createChatThread(request);

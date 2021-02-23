@@ -41,19 +41,12 @@ import {
 import {
   CreateChatThreadResponse,
   GetChatThreadResponse,
-  ListPageSettings,
   OperationResponse
 } from "./models/models";
-import {
-  mapToChatThreadSdkModel,
-  attachHttpResponse,
-  mapToChatParticipantRestModel
-} from "./models/mappers";
-import { ChatThreadInfo, ChatApiClient } from "./generated/src";
-import { CreateChatThreadRequest } from "./models/requests";
+import { ChatThreadInfo, ChatApiClient, CreateChatThreadRequest } from "./generated/src";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
-export { ChatThreadInfo } from "./generated/src";
+export { ChatThreadInfo, CreateChatThreadRequest } from "./generated/src";
 
 /**
  * The client to do chat operations
@@ -116,8 +109,8 @@ export class ChatClient {
    * Returns ChatThreadClient with the specific thread id.
    * @param threadId - Thread ID for the ChatThreadClient
    */
-  public async getChatThreadClient(threadId: string): Promise<ChatThreadClient> {
-    return new ChatThreadClient(threadId, this.url, this.tokenCredential, this.clientOptions);
+  public getChatThreadClient(threadId: string): ChatThreadClient {
+    return new ChatThreadClient(this.url, threadId, this.tokenCredential, this.clientOptions);
   }
 
   /**
@@ -134,12 +127,7 @@ export class ChatClient {
 
     try {
       return await this.client.chat.createChatThread(
-        {
-          topic: request.topic,
-          participants: request.participants?.map((participant) =>
-            mapToChatParticipantRestModel(participant)
-          )
-        },
+        request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -166,12 +154,10 @@ export class ChatClient {
     const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
 
     try {
-      const response = await this.client.chat.getChatThread(
+      return await this.client.chat.getChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const thread = mapToChatThreadSdkModel(response);
-      return attachHttpResponse(thread, response._response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -180,41 +166,6 @@ export class ChatClient {
       throw e;
     } finally {
       span.end();
-    }
-  }
-
-  private async *listChatThreadsPage(
-    continuationState: ListPageSettings,
-    options: ListChatThreadsOptions = {}
-  ): AsyncIterableIterator<ChatThreadInfo[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.chat.listChatThreads(requestOptions);
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.chat.listChatThreadsNext(
-        continuationState.continuationToken,
-        requestOptions
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listChatThreadsAll(
-    options: ListChatThreadsOptions
-  ): AsyncIterableIterator<ChatThreadInfo> {
-    for await (const page of this.listChatThreadsPage({}, options)) {
-      yield* page;
     }
   }
 
@@ -227,18 +178,7 @@ export class ChatClient {
   ): PagedAsyncIterableIterator<ChatThreadInfo> {
     const { span, updatedOptions } = createSpan("ChatClient-ListChatThreads", options);
     try {
-      const iter = this.listChatThreadsAll(updatedOptions);
-      return {
-        next() {
-          return iter.next();
-        },
-        [Symbol.asyncIterator]() {
-          return this;
-        },
-        byPage: (settings: ListPageSettings = {}) => {
-          return this.listChatThreadsPage(settings, updatedOptions);
-        }
-      };
+      return this.client.chat.listChatThreads(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
