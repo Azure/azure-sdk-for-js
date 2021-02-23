@@ -957,24 +957,15 @@ describe("Batching Receiver", () => {
       // Send a message so we have something to receive.
       await sender.sendMessages(TestMessage.getSample());
 
-      // Since the receiver has already been initialized,
-      // the `receiver_drained` handler is attached as soon
-      // as receiveMessages is invoked.
-      // We remove the `receiver_drained` timeout after `receiveMessages`
-      // does it's initial setup by wrapping it in a `setTimeout`.
-      // This triggers the `receiver_drained` handler removal on the next
-      // tick of the event loop; after the handler has been attached.
-      setTimeout(() => {
-        // remove `receiver_drained` event
-        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
-      }, 0);
-
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
       const addCredit = batchingReceiver["link"]!.addCredit;
       batchingReceiver["link"]!.addCredit = function(credits) {
+        // This makes sure the receiveMessages doesn't end because of draining before the disconnect is triggered
+        // Meaning.. the "resolving the messages" can only happen through the onDetached triggered by disconnect
+        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
         addCredit.call(this, credits);
         if (batchingReceiver["link"]!.drain) {
           didRequestDrain = true;
