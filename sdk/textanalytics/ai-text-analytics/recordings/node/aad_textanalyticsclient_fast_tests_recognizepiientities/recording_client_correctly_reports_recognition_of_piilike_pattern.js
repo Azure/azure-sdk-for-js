@@ -5,12 +5,14 @@ module.exports.hash = "4ea23e2ae9763bda04a09e42e2ff4aec";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,25 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0c893477-4f30-430b-96cd-dccedea57600',
+  '55dc7d21-babb-40f4-9a6c-9b443ee36f00',
   'x-ms-ests-server',
-  '2.1.11328.14 - EUS ProdSlices',
+  '2.1.11513.13 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=ArZbPPiPS-FHv5DFWZpFyZNz_bg1AQAAAAWwftcOAAAA; expires=Fri, 29-Jan-2021 17:29:42 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoskbHw9f_VIuMWAfB4u6atz_bg1CwAAAMVixtcOAAAA; expires=Thu, 25-Mar-2021 02:43:30 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 30 Dec 2020 17:29:42 GMT',
-  'Content-Length',
-  '1331'
+  'Tue, 23 Feb 2021 02:43:30 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.3/entities/recognition/pii', {"documents":[{"id":"0","text":"Your Social Security Number is 859-98-0987.","language":"en"}]})
+  .post('/text/analytics/v3.1-preview.4/entities/recognition/pii', {"documents":[{"id":"0","text":"Your Social Security Number is 859-98-0987.","language":"en"}]})
   .query(true)
-  .reply(200, {"documents":[{"redactedText":"Your Social Security Number is ***********.","id":"0","entities":[{"text":"859-98-0987","category":"U.S. Social Security Number (SSN)","offset":31,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
+  .reply(200, {"documents":[{"redactedText":"Your Social Security Number is ***********.","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":31,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '84',
+  '78',
   'apim-request-id',
-  'a667941a-ec1e-41c2-a009-a3d1d0cf6d60',
+  '11f89925-dd0f-4eec-8ca3-55bef4e1220f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 30 Dec 2020 17:29:41 GMT'
+  'Tue, 23 Feb 2021 02:43:30 GMT'
 ]);

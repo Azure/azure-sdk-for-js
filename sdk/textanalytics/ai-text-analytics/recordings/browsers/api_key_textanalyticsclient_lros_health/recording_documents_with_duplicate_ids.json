@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,13 +10,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Request contains duplicated Ids. Make sure each document has a unique Id.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "f128bd66-d650-4043-b609-e197b6def3b4",
+    "apim-request-id": "2bd57868-c0a4-414b-b84d-99ac1460d59d",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 17:54:33 GMT",
+    "date": "Tue, 23 Feb 2021 04:25:06 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "27"
+    "x-envoy-upstream-service-time": "4"
    }
   }
  ],
@@ -24,5 +24,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "5638daeed88ed72c309151c6acd1f580"
+ "hash": "66b87c04f78d88d00755882a97beea2f"
 }

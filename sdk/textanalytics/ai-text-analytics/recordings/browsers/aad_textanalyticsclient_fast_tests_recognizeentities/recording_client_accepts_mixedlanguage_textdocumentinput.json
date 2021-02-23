@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -11,35 +11,35 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 17:54:44 GMT",
+    "date": "Tue, 23 Feb 2021 04:25:21 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "c3feadce-e7ee-416b-895d-0321a9e67400"
+    "x-ms-ests-server": "2.1.11513.13 - SCUS ProdSlices",
+    "x-ms-request-id": "e69ae6bc-dd2a-4969-bdb3-3ceca7be0f00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/recognition/general",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/recognition/general",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"5\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":0.76},{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"2\",\"category\":\"Quantity\",\"subcategory\":\"Number\",\"offset\":78,\"length\":1,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":50,\"length\":7,\"confidenceScore\":0.74}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"text\":\"Monte Rainier\",\"category\":\"Location\",\"offset\":29,\"length\":13,\"confidenceScore\":0.7}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[{\"text\":\"ayer\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":60,\"length\":4,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
+   "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":0.98},{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"Space Needle\",\"category\":\"Location\",\"offset\":65,\"length\":12,\"confidenceScore\":0.73},{\"text\":\"2\",\"category\":\"Quantity\",\"subcategory\":\"Number\",\"offset\":78,\"length\":1,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":50,\"length\":7,\"confidenceScore\":0.99}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"text\":\"Monte Rainier\",\"category\":\"Location\",\"offset\":29,\"length\":13,\"confidenceScore\":0.92}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[{\"text\":\"carretera\",\"category\":\"Location\",\"offset\":3,\"length\":9,\"confidenceScore\":0.68},{\"text\":\"ayer\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":60,\"length\":4,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "564b65d2-fdb2-44d5-8049-25d63723c0ff",
+    "apim-request-id": "e7055d3f-418a-460d-907f-7f82a2a04179",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5",
-    "date": "Wed, 30 Dec 2020 17:54:44 GMT",
+    "date": "Tue, 23 Feb 2021 04:25:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "140"
+    "x-envoy-upstream-service-time": "560"
    }
   }
  ],

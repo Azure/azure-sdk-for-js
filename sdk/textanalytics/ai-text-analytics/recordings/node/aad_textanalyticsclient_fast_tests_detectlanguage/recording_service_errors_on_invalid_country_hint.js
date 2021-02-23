@@ -5,7 +5,7 @@ module.exports.hash = "9f0b8fbcb12634c8a28db7dd2756a690";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -22,36 +22,36 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f62288ab-ab3f-47b4-998c-98a264136f00',
+  '368aa02b-f487-4860-b012-8b90d0dc0d00',
   'x-ms-ests-server',
-  '2.1.11328.14 - EUS ProdSlices',
+  '2.1.11513.13 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ai-uIzhuJ-VCi-DJF1SIGtBz_bg1AQAAAP-vftcOAAAA; expires=Fri, 29-Jan-2021 17:29:36 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoskbHw9f_VIuMWAfB4u6atz_bg1CQAAAMVixtcOAAAA; expires=Thu, 25-Mar-2021 02:43:26 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 30 Dec 2020 17:29:35 GMT',
+  'Tue, 23 Feb 2021 02:43:26 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.3/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2020-09-01"}, [
+  .post('/text/analytics/v3.1-preview.4/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2021-01-05"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '3',
+  '2',
   'apim-request-id',
-  '84b8c5a2-765e-49fa-b1a1-6d64402dd291',
+  '5964d47d-e0de-42c9-be8c-b4d555eb3b41',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 30 Dec 2020 17:29:35 GMT'
+  'Tue, 23 Feb 2021 02:43:26 GMT'
 ]);

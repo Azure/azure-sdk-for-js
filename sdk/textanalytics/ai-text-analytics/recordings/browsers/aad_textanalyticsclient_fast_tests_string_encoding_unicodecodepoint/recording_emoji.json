@@ -1,51 +1,8 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 19:31:56 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
-    "x-ms-request-id": "05193b57-e187-4c74-a7a5-9110126d7100"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/recognition/pii",
-   "query": {
-    "stringIndexType": "UnicodeCodePoint"
-   },
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"👩 SSN: 859-98-0987\",\"language\":\"en\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"👩 SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"U.S. Social Security Number (SSN)\",\"offset\":7,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
-   "responseHeaders": {
-    "apim-request-id": "ab90afcd-cb77-4325-ae48-91f1e156107c",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 30 Dec 2020 19:31:56 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "94"
-   }
-  }
- ],
+ "recordings": [],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c82b2b79775b8ca67047170237fabbc7"
+ "hash": "6d249ab9f7ad65e90d3dd71ad9e6b629"
 }

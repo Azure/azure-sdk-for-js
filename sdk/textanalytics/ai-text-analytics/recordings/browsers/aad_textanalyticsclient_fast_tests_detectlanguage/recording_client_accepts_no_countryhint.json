@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -11,33 +11,33 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 17:54:41 GMT",
+    "date": "Tue, 23 Feb 2021 04:25:17 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
-    "x-ms-request-id": "3a9c6a3d-3910-4e34-91d3-4072a8eb7100"
+    "x-ms-ests-server": "2.1.11513.13 - SCUS ProdSlices",
+    "x-ms-request-id": "e69ae6bc-dd2a-4969-bdb3-3cec55be0f00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/languages",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"countryHint\":\"us\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"countryHint\":\"us\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"countryHint\":\"us\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"countryHint\":\"us\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-09-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-05\"}",
    "responseHeaders": {
-    "apim-request-id": "77c23498-e881-4b92-b53c-1a8b0c160f02",
+    "apim-request-id": "e6cde205-7622-44ca-870f-7237964be1e0",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Wed, 30 Dec 2020 17:54:42 GMT",
+    "date": "Tue, 23 Feb 2021 04:25:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "26"
+    "x-envoy-upstream-service-time": "768"
    }
   }
  ],

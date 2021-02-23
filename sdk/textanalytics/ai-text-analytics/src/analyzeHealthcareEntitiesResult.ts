@@ -8,7 +8,8 @@ import {
   HealthcareRelation,
   TextDocumentBatchStatistics,
   HealthcareEntity as GeneratedHealthcareEntity,
-  TextAnalyticsError
+  TextAnalyticsError,
+  HealthcareAssertion
 } from "./generated/models";
 import {
   makeTextAnalyticsErrorResult,
@@ -17,63 +18,6 @@ import {
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
 import { parseHealthcareEntityIndex } from "./util";
-
-/**
- * The type of different relationships between any two healthcare entities.
- */
-export type HealthcareEntityRelationType =
-  | "DirectionOfBodyStructure"
-  | "DirectionOfExamination"
-  | "RelationOfExamination"
-  | "TimeOfExamination"
-  | "UnitOfExamination"
-  | "ValueOfExamination"
-  | "DirectionOfCondition"
-  | "QualifierOfCondition"
-  | "TimeOfCondition"
-  | "UnitOfCondition"
-  | "ValueOfCondition"
-  | "DosageOfMedication"
-  | "FormOfMedication"
-  | "FrequencyOfMedication"
-  | "RouteOfMedication"
-  | "TimeOfMedication"
-  | "DirectionOfTreatment"
-  | "TimeOfTreatment"
-  | "FrequencyOfTreatment";
-
-/**
- * a type predicate for the healthcare entity relation type
- * @param relation - a healthcare entity relation type
- * @internal
- */
-function isHealthcareEntityRelationType(
-  relation: string
-): relation is HealthcareEntityRelationType {
-  const relationsList = [
-    "DirectionOfBodyStructure",
-    "DirectionOfExamination",
-    "RelationOfExamination",
-    "TimeOfExamination",
-    "UnitOfExamination",
-    "ValueOfExamination",
-    "DirectionOfCondition",
-    "QualifierOfCondition",
-    "TimeOfCondition",
-    "UnitOfCondition",
-    "ValueOfCondition",
-    "DosageOfMedication",
-    "FormOfMedication",
-    "FrequencyOfMedication",
-    "RouteOfMedication",
-    "TimeOfMedication",
-    "DirectionOfTreatment",
-    "TimeOfMedication",
-    "FrequencyOfTreatment"
-  ];
-  const relations = new Set(relationsList);
-  return relations.has(relation);
-}
 
 /**
  * A type representing a reference for the healthcare entity into a specific
@@ -98,7 +42,7 @@ export interface HealthcareEntity extends Entity {
   /**
    * Whether the entity is negated.
    */
-  isNegated: boolean;
+  assertion?: HealthcareAssertion;
   /**
    * Entity references in known data sources.
    */
@@ -108,7 +52,7 @@ export interface HealthcareEntity extends Entity {
    * relationship where the current entity is the source and the entities in
    * the map are the target.
    */
-  relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+  relatedEntities: Map<HealthcareEntity, string>;
 }
 
 /**
@@ -177,11 +121,11 @@ export interface PagedAnalyzeHealthcareEntitiesResult
 function makeHealthcareEntitiesWithoutNeighbors(
   entity: GeneratedHealthcareEntity
 ): HealthcareEntity {
-  const { category, confidenceScore, isNegated, offset, text, links, subCategory, length } = entity;
+  const { category, confidenceScore, assertion, offset, text, links, subCategory, length } = entity;
   return {
     category,
     confidenceScore,
-    isNegated,
+    assertion,
     offset,
     length,
     text,
@@ -207,19 +151,26 @@ function makeHealthcareEntitiesGraph(
   relations: HealthcareRelation[]
 ): void {
   for (const relation of relations) {
-    const relationType = relation.relationType;
-    const sourceIndex = parseHealthcareEntityIndex(relation.source);
-    const targetIndex = parseHealthcareEntityIndex(relation.target);
-    const sourceEntity = entities[sourceIndex];
-    const targetEntity = entities[targetIndex];
-    if (isHealthcareEntityRelationType(relationType)) {
-      sourceEntity.relatedEntities.set(targetEntity, relationType);
-      if (relation.bidirectional) {
-        targetEntity.relatedEntities.set(sourceEntity, relationType);
+    let attributeEntities: HealthcareEntity[] = [];
+    let targetEntities: HealthcareEntity[] = [];
+    for (const entity of relation.entities) {
+      const index = parseHealthcareEntityIndex(entity.ref);
+      if (entity.role === "Attribute") {
+        attributeEntities.push(entities[index]);
+      } else {
+        targetEntities.push(entities[index]);
       }
-    } else {
-      throw new Error(`Unrecognized healthcare entity relation type: ${relationType}`);
     }
+    // Entities with the role Attribute are the source of the relation (causation)
+    // and other entities in the relation are caused by them.
+    // For example: "High blood sugar leads to high blood pressure" – In this
+    // case two symptoms are related to one another, but one is an attribute
+    // (or causation) that leads to another.
+    targetEntities.map((targetEntity: HealthcareEntity) => {
+      attributeEntities.map((attributeEntity: HealthcareEntity) => {
+        attributeEntity.relatedEntities.set(targetEntity, relation.relationType);
+      });
+    });
   }
 }
 

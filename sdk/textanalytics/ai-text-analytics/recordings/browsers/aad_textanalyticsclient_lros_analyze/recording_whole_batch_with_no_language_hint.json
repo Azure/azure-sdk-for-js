@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -11,66 +11,66 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:18 GMT",
+    "date": "Tue, 23 Feb 2021 04:34:38 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
-    "x-ms-request-id": "39b3a632-43ec-4f7d-a6ba-7d76a33b7000"
+    "x-ms-ests-server": "2.1.11513.13 - EUS ProdSlices",
+    "x-ms-request-id": "21b3b77b-baa4-45b2-bfc5-90ebc9f80e00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze",
    "query": {},
    "requestBody": "{\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"This was the best day of my life.\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"I did not like the hotel we stayed at. It was too expensive.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"The restaurant was not as good as I hoped.\",\"language\":\"en\"}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "3a8f4288-d0d2-4ed8-99b6-06287a6ba6ed",
-    "date": "Wed, 30 Dec 2020 18:07:18 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+    "apim-request-id": "19d52ae7-b340-4de1-a0e5-a1996721a5c9",
+    "date": "Tue, 23 Feb 2021 04:34:39 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "522"
+    "x-envoy-upstream-service-time": "317"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:19Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:19Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:38Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:38Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "89a30c84-9b7f-403b-bdfb-ca4c65dec77b",
+    "apim-request-id": "1eb51291-b1e9-4e5d-9028-6a655734fc20",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:18 GMT",
+    "date": "Tue, 23 Feb 2021 04:34:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
+    "x-envoy-upstream-service-time": "10"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:19Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:19Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:38Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:38Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "f12c1730-7051-4700-be5c-b904ab00e80b",
+    "apim-request-id": "f7bd0200-8504-443b-8b45-f4ee69464d38",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:18 GMT",
+    "date": "Tue, 23 Feb 2021 04:34:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -79,74 +79,226 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:38Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:38Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "d8caa794-8106-4800-a520-cd5f6bad78c5",
+    "apim-request-id": "d702df9f-bf35-46ca-b7d8-79c6d25f90f0",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:20 GMT",
+    "date": "Tue, 23 Feb 2021 04:34:41 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "112"
+    "x-envoy-upstream-service-time": "10"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "f52aa09e-e612-459e-8f36-7857f74ae0d1",
+    "apim-request-id": "177d4fc7-acdc-4357-897f-8e779f5a1936",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:23 GMT",
+    "date": "Tue, 23 Feb 2021 04:34:43 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "159"
+    "x-envoy-upstream-service-time": "167"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "878d34be-8919-4e32-93db-0257b529d2bb",
+    "apim-request-id": "92871de5-eb30-415a-8f70-8f9092431cd3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:25 GMT",
+    "date": "Tue, 23 Feb 2021 04:34:45 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "152"
+    "x-envoy-upstream-service-time": "181"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "ea839c74-e947-4d6b-a283-113822af7831",
+    "apim-request-id": "c506642f-aff9-4db7-a6fa-9ee5150b7cd3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:28 GMT",
+    "date": "Tue, 23 Feb 2021 04:34:47 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "197"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "411e7c77-51be-42c4-aacd-ab1763a5a50c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:34:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "127"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "2fd9b870-f6da-4a6f-967c-b33119402c29",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:34:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "197"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "749bf202-4841-4d9a-86b1-ccccaf2ffb2b",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:34:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "145"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9c56ffba-dcf2-4d34-bddd-fa0ec13880ac",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:34:56 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "144"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "6c19e5ae-f78e-43ef-9bec-87a9ac207266",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:34:58 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "dab84161-826b-41a5-b131-1c3b6ffeeec7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:35:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "161"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e26c05ef-593a-45c4-baa8-2a4d1d832976",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:35:03 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "121"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "7b748485-b74a-4c8d-834c-13ef1f456710",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:35:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -155,112 +307,153 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "4ef068e5-c443-4817-8d1f-976c3448a053",
+    "apim-request-id": "56778b6c-1bac-4087-89b1-271868f1f51f",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:30 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:06 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "194"
+    "x-envoy-upstream-service-time": "136"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:35:09 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11513.13 - SCUS ProdSlices",
+    "x-ms-request-id": "fae4c0f5-23ba-4524-a6ee-0e90fd2b1100"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "b481dc60-3b56-47af-b0c5-519cd3fa254a",
+    "apim-request-id": "c2796333-00cf-426c-a402-f4f4ce2159f4",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:32 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "149"
+    "x-envoy-upstream-service-time": "181"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "af876644-6a69-4320-84e7-fc2e50b75df4",
+    "apim-request-id": "e0268101-679b-45f7-b758-854353beed0a",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:34 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:11 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "147"
+    "x-envoy-upstream-service-time": "175"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "e4c6b979-7399-43bb-bb80-54f040d628d7",
+    "apim-request-id": "3272723c-5c6e-40d9-b1b1-edae19bab0c0",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:36 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "157"
+    "x-envoy-upstream-service-time": "112"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "4c938378-5bc3-43f8-9e09-c0cc7b0434b2",
+    "apim-request-id": "1882c3f7-088a-497d-a0dc-5c16446c3957",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:39 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "229"
+    "x-envoy-upstream-service-time": "143"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "86389d20-aae5-4c6e-a1e4-bbb995b39e25",
+    "apim-request-id": "d6101c41-f37d-4ee6-981e-6250c8c0b6b3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:41 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "152"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "5fd4db3c-6a3c-4f66-9712-6475f05bc167",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:35:20 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -269,172 +462,74 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "d8bc7f4c-786b-4537-8668-fbdf94a1102f",
+    "apim-request-id": "8e17e550-b40d-44a7-972e-87cbdc6e5ec2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:43 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:22 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "200"
+    "x-envoy-upstream-service-time": "189"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "0883a23b-60a6-4583-8e68-a07e2fa6eaa3",
+    "apim-request-id": "10452028-a1de-43ae-8c29-225eaffcc059",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:45 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:25 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "157"
+    "x-envoy-upstream-service-time": "161"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "ab8f2be1-9c2c-435a-acf8-652e38837c09",
+    "apim-request-id": "8e6e4255-e942-4308-a64b-1daba4d23c07",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:47 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:27 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "145"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:50 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "c3feadce-e7ee-416b-895d-032168c67500"
+    "x-envoy-upstream-service-time": "142"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "b0fa3e78-5c3c-4c4b-84f7-f27314ec13b3",
+    "apim-request-id": "137bb277-791c-4a85-8752-221239c5c9ba",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:50 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "162"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "42ad1785-710e-47c6-9c5e-ec60fe26308b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:52 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "186"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "5b594ce2-99de-4168-bc1c-27e449c9bd94",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:54 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "155"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "ba49619e-8d49-43f6-982b-5b15d849b831",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:56 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "136"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f247b222-a9c6-4a1c-806e-dc18457adc88",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:07:58 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:29 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -443,131 +538,74 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "7c361227-c1a4-4562-8133-b9104b400d2c",
+    "apim-request-id": "805b8599-f75a-493f-a851-8513def271f8",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:00 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "130"
+    "x-envoy-upstream-service-time": "187"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "b9588be9-674a-4032-a5f3-c35342428be8",
+    "apim-request-id": "ef67213b-0940-4157-bcec-15a7778bdf43",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:03 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "123"
+    "x-envoy-upstream-service-time": "145"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "c4173bd1-5459-448f-bcf4-5795656a0b1f",
+    "apim-request-id": "727fe08e-91e2-4acd-935f-9b4b5bbfcd63",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:05 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:36 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "186"
+    "x-envoy-upstream-service-time": "176"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "99400020-0bcb-4ec6-9d03-bbdf23933c0c",
+    "apim-request-id": "a16900c2-5071-4160-a67d-f72ebac7ef16",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:08 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "152"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "7a61dc4b-41b0-4d4a-af18-5b791149fe87",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:10 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "182"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "db5a4a63-bcc0-4b6c-9484-29eb1869858f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:12 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "125"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "3bc01044-894f-4068-853d-c5273585f49f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:14 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:38 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -575,46 +613,8 @@
    }
   },
   {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "d97b94bb-ca74-457d-8995-a60f718abbf8",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:16 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "158"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "ce6626b7-7b05-4676-b2ab-6c5438dbc479",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:18 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "177"
-   }
-  },
-  {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -623,144 +623,527 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:20 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:39 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
-    "x-ms-request-id": "39b3a632-43ec-4f7d-a6ba-7d76104c7000"
+    "x-ms-ests-server": "2.1.11513.13 - EUS ProdSlices",
+    "x-ms-request-id": "21b3b77b-baa4-45b2-bfc5-90eb4cff0e00"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "390e1355-4523-4ede-b735-7ca1103585d0",
+    "apim-request-id": "feb20373-9e56-4886-a074-902e04b5eca5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:21 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "147"
+    "x-envoy-upstream-service-time": "166"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "818169ef-ae21-49f1-b443-39eaa1147606",
+    "apim-request-id": "266f252e-d41d-433f-a9db-571aadb5f151",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:23 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:42 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "150"
+    "x-envoy-upstream-service-time": "128"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "aaf25e4c-7b0e-4b92-b67e-16835c95097c",
+    "apim-request-id": "bd8ca8fb-0ffd-4482-97c2-086959dd07da",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:25 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:44 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "514"
+    "x-envoy-upstream-service-time": "164"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "92d397d8-6dbb-4637-8087-fd18c071efbe",
+    "apim-request-id": "f2471304-8cc4-4a15-9e76-26ec9e8bf511",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:28 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:47 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "510"
+    "x-envoy-upstream-service-time": "166"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "bb8821c0-e21b-4895-b0cb-7bc5cd3d2611",
+    "apim-request-id": "a7ae93f0-5c75-43c4-98b6-06b6c4cd5c46",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:30 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "199"
+    "x-envoy-upstream-service-time": "223"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "b1691100-754b-403a-8d93-e1c4b03372bf",
+    "apim-request-id": "537f8e9e-4371-42b8-b449-a92392156f55",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:32 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "188"
+    "x-envoy-upstream-service-time": "185"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "e34be60e-6a01-4024-83b5-6a9fc9a594c0",
+    "apim-request-id": "155c8c88-627c-4919-808e-5cae05ab0df1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:34 GMT",
+    "date": "Tue, 23 Feb 2021 04:35:53 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "230"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "0ccf19ef-60af-4b57-a576-b04bd9841c2c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:35:55 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "274"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8e9723a3-725a-41d9-b0e4-7e5173fde605",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:35:58 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "181"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9a76e506-488d-4abf-9dd1-ea195245c843",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:01 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "214"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d9230840-3166-4251-8757-ef932e4f8b2e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:03 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "248"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c8deab63-a8c4-400a-aa72-9b91906a3011",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "203"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "28aea852-da31-4cfc-b09f-e2fe40aafb56",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:07 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "225"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "de035f9f-9df5-47a5-b3b7-42d5daebc720",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "156"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:12 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11513.13 - WUS2 ProdSlices",
+    "x-ms-request-id": "cee6e5eb-086f-474c-b4bc-97a11dcd7500"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "aa77e851-bf55-41f1-8d78-4a95dc7f33c5",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "172"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d575c2dd-0f9d-48af-aec8-7a400081e768",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:14 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "205"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "56c142bd-8214-4c10-84c9-90c1bb24d30c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:16 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "270"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c8ddc21b-f7fc-4bb7-8db1-5bb3770e3a71",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:19 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "249"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "57d0d1f7-bbeb-4680-9767-fbdad7507a14",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "164"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e49682c0-2aaf-4e1f-bf10-998d79d79706",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:23 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "218"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c132869f-8519-4a25-8d2e-628dd416a844",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:25 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "192"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "2ee03a79-03e0-43a3-bbf6-ed3d622ea082",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:27 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d7c9df29-da84-4173-b0fc-87858223122b",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:29 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "343"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c4f64ada-abf6-4e22-89d9-ee18418abbcd",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "253"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "42b98eee-ce1c-41f0-94b6-cdf5aa5c1e69",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:34 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "197"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9b710ead-8680-443e-b621-3e974dd57628",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:36:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -769,140 +1152,45 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "398b4212-fc28-4ffa-8654-cfe400347801",
+    "apim-request-id": "fcb51d52-9967-4441-b682-9c4c3d5a423a",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:37 GMT",
+    "date": "Tue, 23 Feb 2021 04:36:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "162"
+    "x-envoy-upstream-service-time": "218"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "0d460b78-c0d1-40df-bba0-c6f7eb648fbe",
+    "apim-request-id": "564e1a27-6ee7-47d7-a2ed-bdf3fb05df93",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:39 GMT",
+    "date": "Tue, 23 Feb 2021 04:36:41 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "201"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "ff3f1c49-615b-41b7-a63e-2f2dd67d20c5",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:41 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "190"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "2d5553dd-4b6e-41a2-98e3-1e3d2d2cea15",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:43 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "177"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "231ae579-6f85-4743-b5cc-818dd10c3efa",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:45 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "289"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f37a74e6-e9b8-4981-ac23-4ebe52904268",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:48 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "200"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "1da84666-994b-46a1-ba3f-7508e1f03c58",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:50 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "167"
+    "x-envoy-upstream-service-time": "192"
    }
   },
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -911,360 +1199,72 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:52 GMT",
+    "date": "Tue, 23 Feb 2021 04:36:43 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "6b0f333d-2c6f-4f08-8fd0-12d227d27100"
+    "x-ms-ests-server": "2.1.11513.13 - WUS2 ProdSlices",
+    "x-ms-request-id": "cee6e5eb-086f-474c-b4bc-97a19dd07500"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "334d35c9-46d1-4d24-894f-800698519257",
+    "apim-request-id": "95869c81-e3d7-4a32-9825-e4ea37fb01c3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:52 GMT",
+    "date": "Tue, 23 Feb 2021 04:36:43 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "217"
+    "x-envoy-upstream-service-time": "178"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "2f0805f4-ca31-4550-bb71-76834e661bbb",
+    "apim-request-id": "7447f20f-7092-42a9-aacf-4b88ab59179f",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:54 GMT",
+    "date": "Tue, 23 Feb 2021 04:36:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "216"
+    "x-envoy-upstream-service-time": "317"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/81ef2178-c796-4905-be4c-827049373ce4",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"81ef2178-c796-4905-be4c-827049373ce4\",\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\",\"createdDateTime\":\"2021-02-23T04:34:38Z\",\"expirationDateTime\":\"2021-02-24T04:34:38Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:34:41Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:34:41.5860473Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "d1d8345e-994e-4b34-af6b-d119a277b859",
+    "apim-request-id": "2e141f17-c81f-4d1c-b4a5-1bd150c29991",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:08:58 GMT",
+    "date": "Tue, 23 Feb 2021 04:36:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "233"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "3b528600-4f5c-4d41-a67b-a30783c6cf17",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:00 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "219"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "95cbc6c7-5d83-4ede-9721-3725429f0193",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:02 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "199"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "5e7d3195-3952-448e-9732-47c8d454510f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:04 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "243"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "0a8aca79-a740-4fa1-b994-59b3acaffb01",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:06 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "168"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "6722c0a5-34eb-408a-88a5-66259bba4258",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:09 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "211"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "cf98c689-b1cd-42c5-ac40-3e73af04f1fe",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:11 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "162"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "2a6fac0f-02aa-475c-843a-b2060a2ed51a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:13 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "200"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "ad9db960-8106-4de8-b39f-0dfb3b2dded3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:15 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "217"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "13c827f2-a409-400e-8d39-4be0f8f3b401",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:17 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "171"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "28be1ee7-77a1-417d-9c11-20cca57d14bb",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:20 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "202"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f65502d3-504c-4e80-bacf-4eebe1b4e166",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:22 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "181"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:24 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "2a4b8e3d-049e-488b-a08f-701e0f0d7600"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "24546bee-c825-41f3-9abc-6ae8f481acc8",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:24 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "167"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.71}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "4f20b417-ef56-41d5-92f5-ba64de21d6b5",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:26 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "212"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c5b95c7a-4373-4445-a5a4-b7bdfcd10fca_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\",\"createdDateTime\":\"2020-12-30T18:07:19Z\",\"expirationDateTime\":\"2020-12-31T18:07:19Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:07:21Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.71}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"This was the best day of my life.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at. It was too expensive.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant was not as good as I hoped.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:07:21.1786487Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"best day\",\"life\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"restaurant\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "b163ee8f-e110-4658-aa3a-a773da868c8a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:26 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "270"
+    "x-envoy-upstream-service-time": "213"
    }
   }
  ],
@@ -1272,5 +1272,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "f86e88bd125d2a8c761e908aa2eb3fb6"
+ "hash": "bd71810ef5e8978f15b082770c4204a9"
 }

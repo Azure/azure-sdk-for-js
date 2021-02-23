@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -11,66 +11,66 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:37 GMT",
+    "date": "Tue, 23 Feb 2021 04:37:58 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
-    "x-ms-request-id": "39b3a632-43ec-4f7d-a6ba-7d76c07f7000"
+    "x-ms-ests-server": "2.1.11513.13 - WUS2 ProdSlices",
+    "x-ms-request-id": "62095f2d-bef0-43c6-9a43-c4cbb17d7600"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze",
    "query": {},
    "requestBody": "{\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"},{\"id\":\"2\",\"text\":\"Este es un document escrito en Español.\"},{\"id\":\"3\",\"text\":\"猫は幸せ\"}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "5cdb8b85-d367-4a0f-b7a7-6c9851bc4cf8",
-    "date": "Wed, 30 Dec 2020 18:11:37 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+    "apim-request-id": "5771e3ab-3f1f-46e1-84c9-b429cfe0fccf",
+    "date": "Tue, 23 Feb 2021 04:37:58 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "471"
+    "x-envoy-upstream-service-time": "30"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:38Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:38Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:37:59Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:37:59Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "756e1deb-4334-484f-8976-9aea8c777703",
+    "apim-request-id": "bb74187f-398f-486c-9f54-e610917aed94",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:37 GMT",
+    "date": "Tue, 23 Feb 2021 04:37:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
+    "x-envoy-upstream-service-time": "10"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:38Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:38Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:37:59Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:37:59Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "8f02c8c8-952d-4f58-8498-4333a703ff09",
+    "apim-request-id": "b00753c8-d625-44e2-b256-766c3e4d945b",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:38 GMT",
+    "date": "Tue, 23 Feb 2021 04:37:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -79,631 +79,112 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "c84faee4-889c-4f18-882e-4de95c7d667f",
+    "apim-request-id": "b6a45d6f-4671-4d76-b36f-f01b8e2f4a62",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:40 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "112"
+    "x-envoy-upstream-service-time": "127"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "1a279074-4621-4540-978b-8ff5b997167f",
+    "apim-request-id": "b803d54e-e07c-4132-9135-023b25eba660",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:42 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:02 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "107"
+    "x-envoy-upstream-service-time": "132"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "fa8fbc66-6e5c-4c38-9d45-476e4d1c930f",
+    "apim-request-id": "ab9b8b2a-030d-4572-a464-2421b932c8bf",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:44 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "73"
+    "x-envoy-upstream-service-time": "189"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "3293c3a3-5ee4-457a-9825-4abeb82dcd82",
+    "apim-request-id": "90572c10-b786-42df-83ab-a8ac81f7d79c",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:47 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "188"
+    "x-envoy-upstream-service-time": "149"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "73e53f60-6410-4623-8190-db77ee807f54",
+    "apim-request-id": "e0de21b8-fb43-4ad3-bffb-76c49a363a21",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:49 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "128"
+    "x-envoy-upstream-service-time": "170"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "0d6267f1-4db5-4ac8-9b7d-d8882055714d",
+    "apim-request-id": "1b4b500b-aa8e-4812-94d2-830d62a4e04b",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:51 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "112"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "32404b3c-952a-4a18-a60f-d3c6cadd0a90",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:53 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "148"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "3f61aca3-1b18-4187-acdd-62c5729a8b18",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:56 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "166"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f42bad74-574b-4e29-a597-8b52b261f960",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:58 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "161"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "39c71d4f-0c25-49a0-8060-d2bfb6eed0c3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:00 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "175"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "0510c795-4695-402d-a598-c04035109584",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:02 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "134"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "0795d480-42af-43ac-9fd6-260657951d3b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:04 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "119"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a3daf6a8-03a4-4e57-ba7c-498d0114afc0",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:06 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "121"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:09 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "6b0f333d-2c6f-4f08-8fd0-12d20c087200"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "39c158a4-d82b-49c2-9e0e-47302c27403e",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:08 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "134"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a161960b-469d-448b-991a-32937fa2b81b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:11 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "169"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "4cf7feb8-f090-4499-b3a6-f44d8feaa840",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:13 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "122"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "c375fd5f-c516-4d14-9286-ae23f476fefd",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:15 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "130"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a31e556b-443c-471c-b9a1-6f3cd45a306f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:17 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "123"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "1a062443-8493-4eb1-9cc5-54ef3c3978d3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:19 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "161"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "7381a899-88a2-4733-afa6-2bed37bbb961",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:21 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "157"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "63757255-6ca4-47e8-a0fa-5e4195fec43f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:24 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "184"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "795ba680-a49d-42d1-afc7-1453da38c162",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:26 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "429"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "5a82fec0-959e-48e9-82b1-e6e765c74316",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:28 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "124"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "98911d26-de5f-415b-8588-c683bd1d4c1e",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:30 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "131"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "c657e07b-1234-4acf-848b-09d8b72ad868",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:32 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "150"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "8e5b720e-ba57-4448-be1c-64866e206163",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:35 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "171"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "4f461770-2e91-4ee8-8485-8516df94738d",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:38 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "175"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:39 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "c3feadce-e7ee-416b-895d-032154147600"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "6733415c-5648-4a2e-b686-6e442b94f85b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:40 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "147"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f5a09201-eb2b-49e5-8c4d-62f5a4e9c12a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:42 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "163"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "280e8025-b8b3-4b3f-a33b-655c2282f281",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:44 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "119"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "0460d997-19df-4a85-b834-0490a720c017",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:46 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:11 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -712,197 +193,140 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "6ac14801-10ae-4527-bf7e-ff615d3515bf",
+    "apim-request-id": "7798f712-c6d4-47fc-8f97-348162a64570",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:49 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "198"
+    "x-envoy-upstream-service-time": "121"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "78b870a9-1b9d-4230-9205-ec148868f843",
+    "apim-request-id": "319baacd-0108-4e1e-aa1a-c3d15f70b816",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:51 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:16 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "162"
+    "x-envoy-upstream-service-time": "159"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "f7dbe22c-c0ff-4ad9-933a-8ab4f61b0c72",
+    "apim-request-id": "4cfeae58-4aee-408a-94a8-3e5105af046a",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:53 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "184"
+    "x-envoy-upstream-service-time": "201"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "4de2b3d4-91eb-4c8d-a3d6-48ead71966a2",
+    "apim-request-id": "41012637-075c-4279-aef0-1a4673dba30d",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:55 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:20 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "233"
+    "x-envoy-upstream-service-time": "163"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "d5d1f8ed-eab6-495a-96bd-42a6293997d4",
+    "apim-request-id": "dcf4d900-44bd-480b-bc78-a7c44d305acd",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:12:57 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:22 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "177"
+    "x-envoy-upstream-service-time": "141"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "41768042-df98-4b09-bfa8-e7a6befd885a",
+    "apim-request-id": "c5b1b09d-c2d8-41d4-888d-649976849aac",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:00 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "179"
+    "x-envoy-upstream-service-time": "180"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "429229a0-d0da-40f2-9279-88f40408950d",
+    "apim-request-id": "1aab8097-02cd-4169-a940-820b765a622d",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:02 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:27 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "200"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f75645a3-f865-4f52-8530-15ed7361b333",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:04 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "202"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "6a007f29-c9d2-41f1-b5d8-b3e9bd58ac2a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:06 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "206"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "fb2fd883-9fdd-4723-bac9-546c9eaf5a47",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:08 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "192"
+    "x-envoy-upstream-service-time": "143"
    }
   },
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -911,258 +335,144 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:10 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:29 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "c3feadce-e7ee-416b-895d-0321ec1c7600"
+    "x-ms-ests-server": "2.1.11513.13 - SCUS ProdSlices",
+    "x-ms-request-id": "52607d11-9ad2-43aa-9ea1-fd6b473d1100"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "a584aacb-453d-452f-8766-f02c00dad558",
+    "apim-request-id": "336246b9-203b-47e7-8a82-5b8d4d6d2270",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:11 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:29 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "171"
+    "x-envoy-upstream-service-time": "155"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "551da157-2d57-4ab0-851e-4fd23f5b450c",
+    "apim-request-id": "8fec609f-287b-41c1-8e37-62f8a554ba55",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:13 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "197"
+    "x-envoy-upstream-service-time": "142"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "3160e042-c5a5-4d8f-b52f-7846146326bc",
+    "apim-request-id": "ed87327e-7cca-4fea-8aa0-fc07a87eba92",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:15 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "194"
+    "x-envoy-upstream-service-time": "143"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "760496c4-2489-4285-ab48-74a89f463b70",
+    "apim-request-id": "14e83c8f-c255-4577-b365-87e722416765",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:17 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:35 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "226"
+    "x-envoy-upstream-service-time": "140"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "bbf24858-cbf5-46cf-b56d-18989100e642",
+    "apim-request-id": "4ff54a4d-84dc-49f8-ac14-07aa8680de26",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:19 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "181"
+    "x-envoy-upstream-service-time": "132"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "6eb0f863-cd1d-4972-a38a-bd1781b6753f",
+    "apim-request-id": "202c971e-f9d6-41b6-850e-1b980761a940",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:22 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "231"
+    "x-envoy-upstream-service-time": "165"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "d6494cbc-8f2f-4982-8758-ffe52d1d410b",
+    "apim-request-id": "01429174-ba8b-4f2d-9aaa-14a6b756c067",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:25 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "162"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "ea52e7a9-cf7c-4ded-8e45-0de4dfd559d1",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:27 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "174"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "272f14ee-b5b9-4716-be53-172a90c43cdb",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:29 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "185"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "405d4b01-23eb-46c2-ad89-8b6ecd9419bf",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:31 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "202"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "144397ac-90e5-4c60-ac18-00097c88b6b3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:33 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "192"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "1512ab98-0324-4067-ac66-0c5c25e165f8",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:36 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "191"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "b9623fc1-6d5e-4738-834d-e687a9a641a8",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:38 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:42 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -1171,26 +481,140 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "26381658-a92b-4c92-aedd-85623e4b36f5",
+    "apim-request-id": "10980eed-80ad-4c0c-9cee-97fb7846e6c5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:40 GMT",
+    "date": "Tue, 23 Feb 2021 04:38:44 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "189"
+    "x-envoy-upstream-service-time": "154"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "328b2f5a-6410-496e-b796-c9d4e0d96d53",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:38:47 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "110"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "76acb2da-419b-4f24-9131-774153705430",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:38:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "162"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9ec2c82e-55a8-428d-afac-dd68732f74ba",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:38:51 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "172"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "bb2f4eb3-a1a9-48b4-9acc-0d4f8132b5f8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:38:53 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "163"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "7b3cc83d-37e1-459c-88f8-172cedb2aff2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:38:55 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "121"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "40eb8ffb-8c03-4fda-8fa7-ee453ff31f34",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:38:57 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "181"
    }
   },
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -1199,91 +623,129 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:42 GMT",
+    "date": "Tue, 23 Feb 2021 04:39:00 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "f3dd3c72-5868-4a83-abc3-aee1d8407900"
+    "x-ms-ests-server": "2.1.11513.13 - NCUS ProdSlices",
+    "x-ms-request-id": "222b1ea7-9917-458e-8859-566a6fd41100"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "7c5bac04-db4f-4560-8289-95e1fdc36d7c",
+    "apim-request-id": "42daf3a4-4000-4124-8671-cf515309ee8d",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:42 GMT",
+    "date": "Tue, 23 Feb 2021 04:39:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "174"
+    "x-envoy-upstream-service-time": "158"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "44861ea9-34eb-4ac3-9ba8-cad2e56f9459",
+    "apim-request-id": "a41ad0eb-d3d7-4d4e-a1a0-90a9801cc3ed",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:44 GMT",
+    "date": "Tue, 23 Feb 2021 04:39:02 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "176"
+    "x-envoy-upstream-service-time": "155"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"escrito en Español\",\"category\":\"Location\",\"offset\":20,\"length\":18,\"confidenceScore\":0.26}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "7b1c76a7-177c-4b0b-a44d-5e9cdf04f8fa",
+    "apim-request-id": "05d516bf-e97a-4196-8490-d7e3cdb42429",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:47 GMT",
+    "date": "Tue, 23 Feb 2021 04:39:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "799"
+    "x-envoy-upstream-service-time": "135"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"78abdb73-7eba-4a26-a0da-da3aeaf39421_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\",\"createdDateTime\":\"2020-12-30T18:11:38Z\",\"expirationDateTime\":\"2020-12-31T18:11:38Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:11:39Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"escrito en Español\",\"category\":\"Location\",\"offset\":20,\"length\":18,\"confidenceScore\":0.26}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:11:39.9112211Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "178e9850-7b43-490e-8f8e-668407b4f6d1",
+    "apim-request-id": "2f0f5492-7a82-4ba8-9d93-1db3ef716a04",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:13:47 GMT",
+    "date": "Tue, 23 Feb 2021 04:39:06 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "206"
+    "x-envoy-upstream-service-time": "222"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.95}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d49d573b-ebed-4bac-b990-7bc571034d0c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:39:08 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "205"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/9262bd98-b90c-4af3-82c7-5d327704aba3",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"9262bd98-b90c-4af3-82c7-5d327704aba3\",\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\",\"createdDateTime\":\"2021-02-23T04:37:59Z\",\"expirationDateTime\":\"2021-02-24T04:37:59Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-23T04:38:00Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.95}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Este es un document escrito en Español.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"猫は幸せ\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-23T04:38:00.1425235Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Este es\",\"document escrito en Español\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"猫は幸せ\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9fb4d7e7-1f43-429e-a94c-fe00ab087641",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 23 Feb 2021 04:39:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "221"
    }
   }
  ],
@@ -1291,5 +753,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c5aa4f9accbaa848c73fec9534a00db6"
+ "hash": "84d5f9ae13d3749eb9642b07b4d39100"
 }
