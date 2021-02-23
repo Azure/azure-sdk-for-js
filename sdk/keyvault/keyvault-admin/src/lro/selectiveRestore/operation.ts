@@ -4,7 +4,6 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   OperationOptions,
-  operationOptionsToRequestOptionsBase,
   RequestOptionsBase
 } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
@@ -14,7 +13,7 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
   RestoreOperation
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
+import { createSpan } from "../../tracing";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
@@ -25,7 +24,7 @@ import { RestoreResult } from "../../backupClientModels";
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
 export interface SelectiveRestoreOperationState
-  extends KeyVaultAdminPollOperationState<RestoreResult> {}
+  extends KeyVaultAdminPollOperationState<RestoreResult> { }
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
@@ -73,13 +72,12 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     keyName: string,
     options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.selectiveRestore", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.selectiveRestore", options);
     try {
       return await this.client.selectiveKeyRestoreOperation(
         this.vaultUrl,
         keyName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -93,10 +91,9 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.restoreStatus", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.restoreStatus", options);
     try {
-      return await this.client.restoreStatus(this.vaultUrl, jobId, options);
+      return await this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
     } finally {
       span.end();
     }
