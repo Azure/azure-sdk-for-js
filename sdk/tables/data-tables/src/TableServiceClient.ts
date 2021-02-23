@@ -34,7 +34,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
-import { createClientPipeline, ClientPipelineOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
 import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
@@ -117,7 +117,7 @@ export class TableServiceClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    const internalPipelineOptions: ClientPipelineOptions = {
+    const internalPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
       ...{
         loggingOptions: {
@@ -130,12 +130,10 @@ export class TableServiceClient {
       }
     };
 
-    const pipeline = createClientPipeline(internalPipelineOptions);
-
+    const client = new GeneratedClient(url, internalPipelineOptions);
     if (credential) {
-      pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+      client.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
     }
-    const client = new GeneratedClient(url, { pipeline });
     this.table = client.table;
     this.service = client.service;
   }
