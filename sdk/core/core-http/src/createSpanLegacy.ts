@@ -10,8 +10,8 @@ import { Span } from "@opentelemetry/api";
 import { OperationOptions } from "./operationOptions";
 
 /**
- * This function is only here for compatibility. Use createSpanFunction in core-tracing. 
- * 
+ * This function is only here for compatibility. Use createSpanFunction in core-tracing.
+ *
  * @deprecated This function is only here for compatibility. Use core-tracing instead.
  * @hidden
  */
@@ -38,8 +38,8 @@ export interface SpanConfig {
 export function createSpanFunction(
   args: SpanConfig
 ): <T extends OperationOptions>(
-    operationName: string,
-    operationOptions: T
-  ) => { span: Span; updatedOptions: T } {
+  operationName: string,
+  operationOptions: T
+) => { span: Span; updatedOptions: T } {
   return coreTracingCreateSpanFunction(args);
 }
