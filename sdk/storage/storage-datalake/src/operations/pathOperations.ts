@@ -29,10 +29,10 @@ export class PathOperations {
   /**
    * List filesystem paths and their properties.
    * @summary List Paths
-   * @param recursive If "true", all paths are listed; otherwise, only paths at the root of the
+   * @param recursive - If "true", all paths are listed; otherwise, only paths at the root of the
    * filesystem are listed.  If "directory" is specified, the list will only include paths that share
    * the same root.
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
@@ -45,14 +45,14 @@ export class PathOperations {
     options?: Models.PathListOptionalParams
   ): Promise<Models.PathListResponse>;
   /**
-   * @param recursive If "true", all paths are listed; otherwise, only paths at the root of the
+   * @param recursive - If "true", all paths are listed; otherwise, only paths at the root of the
    * filesystem are listed.  If "directory" is specified, the list will only include paths that share
    * the same root.
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param callback The callback
+   * @param callback - The callback
    */
   list(
     recursive: boolean,
@@ -60,15 +60,15 @@ export class PathOperations {
     callback: msRest.ServiceCallback<Models.PathList>
   ): void;
   /**
-   * @param recursive If "true", all paths are listed; otherwise, only paths at the root of the
+   * @param recursive - If "true", all paths are listed; otherwise, only paths at the root of the
    * filesystem are listed.  If "directory" is specified, the list will only include paths that share
    * the same root.
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   list(
     recursive: boolean,
@@ -101,8 +101,8 @@ export class PathOperations {
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * To fail if the destination already exists, use a conditional request with If-None-Match: "*".
    * @summary Create File | Create Directory | Rename File | Rename Directory
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
    * @param options - The optional parameters
    * @returns Promise<Models.PathCreateResponse>
    */
@@ -112,16 +112,16 @@ export class PathOperations {
     options?: Models.PathCreateOptionalParams
   ): Promise<Models.PathCreateResponse>;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param callback - The callback
    */
   create(filesystem: string, path: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   create(
     filesystem: string,
@@ -153,7 +153,7 @@ export class PathOperations {
    * information, see [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Append Data | Flush Data | Set Properties | Set Access Control
-   * @param action The action must be "append" to upload data to be appended to a file, "flush" to
+   * @param action - The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
    * directory, or "setAccessControl" to set the owner, group, permissions, or access control list
    * for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in
@@ -161,8 +161,8 @@ export class PathOperations {
    * for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers
    * are mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
    * 'setAccessControl'
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
    * @param options - The optional parameters
    * @returns Promise<Models.PathUpdateResponse>
    */
@@ -173,7 +173,7 @@ export class PathOperations {
     options?: Models.PathUpdateOptionalParams
   ): Promise<Models.PathUpdateResponse>;
   /**
-   * @param action The action must be "append" to upload data to be appended to a file, "flush" to
+   * @param action - The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
    * directory, or "setAccessControl" to set the owner, group, permissions, or access control list
    * for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in
@@ -181,9 +181,9 @@ export class PathOperations {
    * for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers
    * are mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
    * 'setAccessControl'
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param callback - The callback
    */
   update(
     action: Models.PathUpdateAction,
@@ -192,7 +192,7 @@ export class PathOperations {
     callback: msRest.ServiceCallback<void>
   ): void;
   /**
-   * @param action The action must be "append" to upload data to be appended to a file, "flush" to
+   * @param action - The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
    * directory, or "setAccessControl" to set the owner, group, permissions, or access control list
    * for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in
@@ -200,10 +200,10 @@ export class PathOperations {
    * for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers
    * are mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
    * 'setAccessControl'
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   update(
     action: Models.PathUpdateAction,
@@ -237,7 +237,7 @@ export class PathOperations {
    * for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Lease Path
-   * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
+   * @param xMsLeaseAction - There are five lease actions: "acquire", "break", "change", "renew", and
    * "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
    * acquire a new lease. Use "break" to break an existing lease. When a lease is broken, the lease
    * break period is allowed to elapse, during which time no lease operation except break and release
@@ -247,8 +247,8 @@ export class PathOperations {
    * ID of an active lease. Use "renew" and specify the "x-ms-lease-id" to renew an existing lease.
    * Use "release" and specify the "x-ms-lease-id" to release a lease. Possible values include:
    * 'acquire', 'break', 'change', 'renew', 'release'
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
    * @param options - The optional parameters
    * @returns Promise<Models.PathLeaseResponse>
    */
@@ -259,7 +259,7 @@ export class PathOperations {
     options?: Models.PathLeaseOptionalParams
   ): Promise<Models.PathLeaseResponse>;
   /**
-   * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
+   * @param xMsLeaseAction - There are five lease actions: "acquire", "break", "change", "renew", and
    * "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
    * acquire a new lease. Use "break" to break an existing lease. When a lease is broken, the lease
    * break period is allowed to elapse, during which time no lease operation except break and release
@@ -269,9 +269,9 @@ export class PathOperations {
    * ID of an active lease. Use "renew" and specify the "x-ms-lease-id" to renew an existing lease.
    * Use "release" and specify the "x-ms-lease-id" to release a lease. Possible values include:
    * 'acquire', 'break', 'change', 'renew', 'release'
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param callback - The callback
    */
   lease(
     xMsLeaseAction: Models.PathLeaseAction,
@@ -280,7 +280,7 @@ export class PathOperations {
     callback: msRest.ServiceCallback<void>
   ): void;
   /**
-   * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
+   * @param xMsLeaseAction - There are five lease actions: "acquire", "break", "change", "renew", and
    * "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
    * acquire a new lease. Use "break" to break an existing lease. When a lease is broken, the lease
    * break period is allowed to elapse, during which time no lease operation except break and release
@@ -290,10 +290,10 @@ export class PathOperations {
    * ID of an active lease. Use "renew" and specify the "x-ms-lease-id" to renew an existing lease.
    * Use "release" and specify the "x-ms-lease-id" to release a lease. Possible values include:
    * 'acquire', 'break', 'change', 'renew', 'release'
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   lease(
     xMsLeaseAction: Models.PathLeaseAction,
@@ -327,8 +327,8 @@ export class PathOperations {
    * for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Read File
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
    * @param options - The optional parameters
    * @returns Promise<Models.PathReadResponse>
    */
@@ -338,16 +338,16 @@ export class PathOperations {
     options?: Models.PathReadOptionalParams
   ): Promise<Models.PathReadResponse>;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param callback - The callback
    */
   read(filesystem: string, path: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   read(
     filesystem: string,
@@ -379,8 +379,8 @@ export class PathOperations {
    * [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Get Properties | Get Status | Get Access Control List
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
    * @param options - The optional parameters
    * @returns Promise<Models.PathGetPropertiesResponse>
    */
@@ -390,16 +390,16 @@ export class PathOperations {
     options?: Models.PathGetPropertiesOptionalParams
   ): Promise<Models.PathGetPropertiesResponse>;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param callback - The callback
    */
   getProperties(filesystem: string, path: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   getProperties(
     filesystem: string,
@@ -429,8 +429,8 @@ export class PathOperations {
    * information, see [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Delete File | Delete Directory
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
    * @param options - The optional parameters
    * @returns Promise<Models.PathDeleteResponse>
    */
@@ -440,16 +440,16 @@ export class PathOperations {
     options?: Models.PathDeleteMethodOptionalParams
   ): Promise<Models.PathDeleteResponse>;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param callback - The callback
    */
   deleteMethod(filesystem: string, path: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.
-   * @param path The file or directory path.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param filesystem - The filesystem identifier.
+   * @param path - The file or directory path.
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   deleteMethod(
     filesystem: string,

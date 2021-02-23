@@ -393,7 +393,7 @@ describe("ATOM Serializers", () => {
   }
 
   class MockSerializer implements AtomXmlSerializer {
-    serialize(resource: any): object {
+    serialize(resource: any): Record<string, unknown> {
       const property1 = "LockDuration";
       const property2 = "MaxSizeInMegabytes";
 

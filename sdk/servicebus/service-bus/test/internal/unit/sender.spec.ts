@@ -58,7 +58,7 @@ describe("sender unit tests", () => {
 
       try {
         await sender.sendMessages(
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           invalidValue
         );
         assert.fail("You should not be seeing this.");
@@ -82,7 +82,7 @@ describe("sender unit tests", () => {
 
       try {
         batch.tryAddMessage(
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           invalidValue
         );
         assert.fail("You should not be seeing this.");
@@ -106,7 +106,7 @@ describe("sender unit tests", () => {
 
       try {
         await sender.scheduleMessages(
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           invalidValue,
           new Date()
         );

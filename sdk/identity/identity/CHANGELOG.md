@@ -4,7 +4,9 @@
 
 ## 1.2.4-beta.2 (Unreleased)
 
-- Breaking change: `DefaultAzureCredential` now only uses `InteractiveBrowserCredential` in the browser since it's the only credential intended to be used to authenticate within browsers.
+- `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
+- Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
+- Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
 
 ## 1.2.4-beta.1 (2021-02-12)
 

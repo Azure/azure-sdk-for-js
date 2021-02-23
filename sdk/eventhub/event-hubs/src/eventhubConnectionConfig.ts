@@ -69,6 +69,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
  * different entities.
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const EventHubConnectionConfig = {
   /**
    * Creates the connection config.

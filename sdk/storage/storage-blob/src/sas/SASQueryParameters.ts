@@ -7,9 +7,6 @@ import { UserDelegationKey } from "../BlobServiceClient";
 
 /**
  * Protocols for generated SAS.
- *
- * @export
- * @enum {number}
  */
 export enum SASProtocol {
   /**
@@ -25,121 +22,73 @@ export enum SASProtocol {
 
 /**
  * Options to construct {@link SASQueryParameters}.
- *
- * @export
- * @interface SASQueryParametersOptions
  */
 export interface SASQueryParametersOptions {
   /**
    * Optional only when identifier is provided.
    * Please refer to {@link AccountSASPermissions}, {@link BlobSASPermissions}, or {@link ContainerSASPermissions} for
    * more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   permissions?: string;
   /**
    * Optional. The storage services being accessed (only for Account SAS). Please refer to {@link AccountSASServices}
    * for more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   services?: string;
   /**
    * Optional. The storage resource types being accessed (only for Account SAS). Please refer to
    * {@link AccountSASResourceTypes} for more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   resourceTypes?: string;
   /**
    * Optional. The allowed HTTP protocol(s).
-   *
-   * @type {SASProtocol}
-   * @memberof SASQueryParametersOptions
    */
   protocol?: SASProtocol;
   /**
    * Optional. The start time for this SAS token.
-   *
-   * @type {Date}
-   * @memberof SASQueryParametersOptions
    */
   startsOn?: Date;
   /**
    * Optional only when identifier is provided. The expiry time for this SAS token.
-   *
-   * @type {Date}
-   * @memberof SASQueryParametersOptions
    */
   expiresOn?: Date;
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof SASQueryParametersOptions
    */
   ipRange?: SasIPRange;
   /**
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   identifier?: string;
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
    * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   resource?: string;
   /**
    * Value for cache-control header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   cacheControl?: string;
   /**
    * Value for content-disposition header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   contentDisposition?: string;
   /**
    * Value for content-encoding header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   contentEncoding?: string;
   /**
    * Value for content-length header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   contentLanguage?: string;
   /**
    * Value for content-type header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   contentType?: string;
   /**
    * User delegation key properties.
-   *
-   * @type {UserDelegationKey}
-   * @memberof SASQueryParametersOptions
    */
   userDelegationKey?: UserDelegationKey;
   /**
@@ -148,17 +97,11 @@ export interface SASQueryParametersOptions {
    * has the required permissions before granting access but no additional permission check for the user specified in
    * this value will be performed. This cannot be used in conjuction with {@link signedUnauthorizedUserObjectId}.
    * This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   preauthorizedAgentObjectId?: string;
   /**
    * A GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
    * This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParametersOptions
    */
   correlationId?: string;
 }
@@ -171,40 +114,25 @@ export interface SASQueryParametersOptions {
  * these query parameters).
  *
  * NOTE: Instances of this class are immutable.
- *
- * @export
- * @class SASQueryParameters
  */
 export class SASQueryParameters {
   /**
    * The storage API version.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly version: string;
 
   /**
    * Optional. The allowed HTTP protocol(s).
-   *
-   * @type {SASProtocol}
-   * @memberof SASQueryParameters
    */
   public readonly protocol?: SASProtocol;
 
   /**
    * Optional. The start time for this SAS token.
-   *
-   * @type {Date}
-   * @memberof SASQueryParameters
    */
   public readonly startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The expiry time for this SAS token.
-   *
-   * @type {Date}
-   * @memberof SASQueryParameters
    */
   public readonly expiresOn?: Date;
 
@@ -212,27 +140,18 @@ export class SASQueryParameters {
    * Optional only when identifier is provided.
    * Please refer to {@link AccountSASPermissions}, {@link BlobSASPermissions}, or {@link ContainerSASPermissions} for
    * more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly permissions?: string;
 
   /**
    * Optional. The storage services being accessed (only for Account SAS). Please refer to {@link AccountSASServices}
    * for more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly services?: string;
 
   /**
    * Optional. The storage resource types being accessed (only for Account SAS). Please refer to
    * {@link AccountSASResourceTypes} for more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly resourceTypes?: string;
 
@@ -240,135 +159,83 @@ export class SASQueryParameters {
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly identifier?: string;
 
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
    * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly resource?: string;
 
   /**
    * The signature for the SAS token.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly signature: string;
 
   /**
    * Value for cache-control header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly cacheControl?: string;
 
   /**
    * Value for content-disposition header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly contentDisposition?: string;
 
   /**
    * Value for content-encoding header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly contentEncoding?: string;
 
   /**
    * Value for content-length header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly contentLanguage?: string;
 
   /**
    * Value for content-type header in Blob/File Service SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly contentType?: string;
 
   /**
    * Inner value of getter ipRange.
-   *
-   * @private
-   * @type {SasIPRange}
-   * @memberof SASQueryParameters
    */
   private readonly ipRangeInner?: SasIPRange;
 
   /**
    * The Azure Active Directory object ID in GUID format.
    * Property of user delegation key.
-   *
-   * @private
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   private readonly signedOid?: string;
 
   /**
    * The Azure Active Directory tenant ID in GUID format.
    * Property of user delegation key.
-   *
-   * @private
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   private readonly signedTenantId?: string;
 
   /**
    * The date-time the key is active.
    * Property of user delegation key.
-   *
-   * @private
-   * @type {Date}
-   * @memberof SASQueryParameters
    */
   private readonly signedStartsOn?: Date;
 
   /**
    * The date-time the key expires.
    * Property of user delegation key.
-   *
-   * @private
-   * @type {Date}
-   * @memberof SASQueryParameters
    */
   private readonly signedExpiresOn?: Date;
 
   /**
    * Abbreviation of the Azure Storage service that accepts the user delegation key.
    * Property of user delegation key.
-   *
-   * @private
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   private readonly signedService?: string;
 
   /**
    * The service version that created the user delegation key.
    * Property of user delegation key.
-   *
-   * @private
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   private readonly signedVersion?: string;
 
@@ -377,18 +244,12 @@ export class SASQueryParameters {
    * to perform the action granted by the SAS. The Azure Storage service will ensure that the owner of the user delegation key
    * has the required permissions before granting access but no additional permission check for the user specified in
    * this value will be performed. This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly preauthorizedAgentObjectId?: string;
 
   /**
    * A GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
    * This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly correlationId?: string;
 
@@ -396,8 +257,6 @@ export class SASQueryParameters {
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
-   * @type {(SasIPRange | undefined)}
-   * @memberof SASQueryParameters
    */
   public get ipRange(): SasIPRange | undefined {
     if (this.ipRangeInner) {
@@ -431,7 +290,6 @@ export class SASQueryParameters {
    * @param userDelegationKey - Representing the user delegation key properties
    * @param preauthorizedAgentObjectId - Representing the authorized AAD Object ID (only for User Delegation SAS)
    * @param correlationId - Representing the correlation ID (only for User Delegation SAS)
-   * @memberof SASQueryParameters
    */
   constructor(
     version: string,
@@ -461,7 +319,6 @@ export class SASQueryParameters {
    * @param version - Representing the storage version
    * @param signature - Representing the signature for the SAS token
    * @param options - Optional. Options to construct the SASQueryParameters.
-   * @memberof SASQueryParameters
    */
   constructor(version: string, signature: string, options?: SASQueryParametersOptions);
 
@@ -550,8 +407,6 @@ export class SASQueryParameters {
   /**
    * Encodes all SAS query parameters into a string that can be appended to a URL.
    *
-   *
-   * @memberof SASQueryParameters
    */
   public toString(): string {
     const params: string[] = [
@@ -684,12 +539,9 @@ export class SASQueryParameters {
   /**
    * A private helper method used to filter and append query key/value pairs into an array.
    *
-   * @private
    * @param queries -
    * @param key -
    * @param value -
-   *
-   * @memberof SASQueryParameters
    */
   private tryAppendQueryParameter(queries: string[], key: string, value?: string): void {
     if (!value) {

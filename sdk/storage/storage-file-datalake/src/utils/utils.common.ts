@@ -55,9 +55,7 @@ import { DevelopmentConnectionString, HeaderConstants, UrlConstants } from "./co
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
- * @export
  * @param url -
- *
  */
 export function escapeURLPath(url: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -118,7 +116,6 @@ export function getValueInConnString(
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
- * @export
  * @param connectionString - Connection string.
  * @returns String key value pairs of the storage account's url and credentials.
  */
@@ -203,7 +200,6 @@ export function extractConnectionStringParts(connectionString: string): Connecti
  * Internal escape method implemented Strategy Two mentioned in escapeURL() description.
  *
  * @param text -
- *
  */
 function escape(text: string): string {
   return encodeURIComponent(text)
@@ -217,7 +213,6 @@ function escape(text: string): string {
  * Append a string to URL path. Will remove duplicated "/" in front of the string
  * when URL path ends with a "/".
  *
- * @export
  * @param url - Source URL string
  * @param name - String to be appended to URL
  * @returns An updated URL string
@@ -235,7 +230,6 @@ export function appendToURLPath(url: string, name: string): string {
 /**
  * Append a string to URL query.
  *
- * @export
  * @param url - Source URL string.
  * @param queryParts - String to be appended to the URL query.
  * @returns An updated URL string.
@@ -258,7 +252,6 @@ export function appendToURLQuery(url: string, queryParts: string): string {
  * Set URL parameter name and value. If name exists in URL parameters, old value
  * will be replaced by name key. If not provide value, the parameter will be deleted.
  *
- * @export
  * @param url - Source URL string
  * @param name - Parameter name
  * @param value - Parameter value
@@ -273,10 +266,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
 /**
  * Get URL parameter by name.
  *
- * @export
  * @param url -
  * @param name -
- *
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -286,7 +277,6 @@ export function getURLParameter(url: string, name: string): string | string[] | 
 /**
  * Set URL host.
  *
- * @export
  * @param url - Source URL string
  * @param host - New host string
  * @returns An updated URL string
@@ -300,9 +290,7 @@ export function setURLHost(url: string, host: string): string {
 /**
  * Get URL path from an URL string.
  *
- * @export
  * @param url - Source URL string
- *
  */
 export function getURLPath(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -312,10 +300,8 @@ export function getURLPath(url: string): string | undefined {
 /**
  * Set URL path.
  *
- * @export
  * @param url -
  * @param path -
- *
  */
 export function setURLPath(url: string, path?: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -326,9 +312,7 @@ export function setURLPath(url: string, path?: string): string {
 /**
  * Get URL scheme from an URL string.
  *
- * @export
  * @param url - Source URL string
- *
  */
 export function getURLScheme(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -338,9 +322,7 @@ export function getURLScheme(url: string): string | undefined {
 /**
  * Get URL path and query from an URL string.
  *
- * @export
  * @param url - Source URL string
- *
  */
 export function getURLPathAndQuery(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -361,9 +343,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
 /**
  * Get URL query key value pairs from an URL string.
  *
- * @export
  * @param url -
- *
  */
 export function getURLQueries(url: string): { [key: string]: string } {
   let queryString = URLBuilder.parse(url).getQuery();
@@ -419,7 +399,6 @@ export function setURLQueries(url: string, queryString: string): string {
 /**
  * Rounds a date off to seconds.
  *
- * @export
  * @param date -
  * @param withMilliseconds - If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
  *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
@@ -437,9 +416,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 /**
  * Base64 encode.
  *
- * @export
  * @param content -
- *
  */
 export function base64encode(content: string): string {
   return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
@@ -448,9 +425,7 @@ export function base64encode(content: string): string {
 /**
  * Base64 decode.
  *
- * @export
  * @param encodedString -
- *
  */
 export function base64decode(encodedString: string): string {
   return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
@@ -459,9 +434,7 @@ export function base64decode(encodedString: string): string {
 /**
  * Generate a 64 bytes base64 block ID string.
  *
- * @export
  * @param blockIndex -
- *
  */
 export function generateBlockID(blockIDPrefix: string, blockIndex: number): string {
   // To generate a 64 bytes base64 string, source string should be 48
@@ -484,7 +457,6 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
 /**
  * Delay specified time interval.
  *
- * @export
  * @param timeInMs -
  * @param aborter -
  * @param abortError -
@@ -517,11 +489,9 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
 /**
  * String.prototype.padStart()
  *
- * @export
  * @param currentString -
  * @param targetLength -
- * @param [padString=" - "]
- *
+ * @param padString -
  */
 export function padStart(
   currentString: string,
@@ -572,10 +542,8 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
 /**
  * If two strings are equal when compared case insensitive.
  *
- * @export
  * @param str1 -
  * @param str2 -
- *
  */
 export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();

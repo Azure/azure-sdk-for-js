@@ -248,7 +248,7 @@ describe("Sender Tests", () => {
 
     // Wait until we are sure we have passed the schedule time
     await delay(30000);
-    await testReceivedMsgsLength(receiver, 0);
+    await testReceivedMsgsLength(0);
   }
 
   async function testCancelMultipleScheduleMessages(): Promise<void> {
@@ -268,7 +268,7 @@ describe("Sender Tests", () => {
 
     // Wait until we are sure we have passed the schedule time
     await delay(30000);
-    await testReceivedMsgsLength(receiver, 0);
+    await testReceivedMsgsLength(0);
   }
 
   it(
@@ -320,7 +320,7 @@ describe("Sender Tests", () => {
 
     function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long): void {
       should.equal(
-        sequenceNumber1.compare(sequenceNumber2) != 0,
+        sequenceNumber1.compare(sequenceNumber2) !== 0,
         true,
         "Returned sequence numbers for parallel requests are the same"
       );
@@ -333,7 +333,7 @@ describe("Sender Tests", () => {
         ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
       );
       should.equal(
-        msgWithSeqNum == undefined,
+        msgWithSeqNum === undefined,
         false,
         `Sequence number ${seqNum} is not found in the received messages!`
       );
@@ -348,10 +348,7 @@ describe("Sender Tests", () => {
     await testPeekMsgsLength(receiver, 0);
   });
 
-  async function testReceivedMsgsLength(
-    receiver: ServiceBusReceiver,
-    expectedReceivedMsgsLength: number
-  ): Promise<void> {
+  async function testReceivedMsgsLength(expectedReceivedMsgsLength: number): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {
       maxWaitTimeInMs: 5000
     });

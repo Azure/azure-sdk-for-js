@@ -50,6 +50,7 @@
     "dist-esm/src/",
     "shims-public.d.ts",
     "types/src",
+    "types/3.1",
     "README.md",
     "LICENSE"
   ],

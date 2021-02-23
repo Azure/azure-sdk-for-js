@@ -15,16 +15,10 @@ import { HeaderConstants } from "../utils/constants";
 
 /**
  * TelemetryPolicy is a policy used to tag user-agent header for every requests.
- *
- * @class TelemetryPolicy
- * @extends {BaseRequestPolicy}
  */
 export class TelemetryPolicy extends BaseRequestPolicy {
   /**
    * Telemetry string.
-   *
-   * @type {string}
-   * @memberof TelemetryPolicy
    */
   public readonly telemetry: string;
 
@@ -33,7 +27,6 @@ export class TelemetryPolicy extends BaseRequestPolicy {
    * @param nextPolicy -
    * @param options -
    * @param telemetry -
-   * @memberof TelemetryPolicy
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, telemetry: string) {
     super(nextPolicy, options);
@@ -44,8 +37,6 @@ export class TelemetryPolicy extends BaseRequestPolicy {
    * Sends out request.
    *
    * @param request -
-   *
-   * @memberof TelemetryPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (isNode) {

@@ -723,7 +723,6 @@ export class GlobalEndpointManager {
     constructor(options: CosmosClientOptions, readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
-    // (undocumented)
     enableEndpointDiscovery: boolean;
     getReadEndpoint(): Promise<string>;
     // (undocumented)

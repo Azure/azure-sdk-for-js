@@ -68,6 +68,8 @@ export {
   IndexingPolicy,
   IpAddressOrRange,
   Location,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityUserAssignedIdentitiesValue,
   Metric,
   MetricAvailability,
   MetricDefinition,

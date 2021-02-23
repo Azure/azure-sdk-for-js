@@ -12,6 +12,78 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const ManagedServiceIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+  serializedName: "ManagedServiceIdentity_userAssignedIdentitiesValue",
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentityUserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServiceIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedServiceIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned,UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ManagedServiceIdentityUserAssignedIdentitiesValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const IpAddressOrRange: msRest.CompositeMapper = {
   serializedName: "IpAddressOrRange",
   type: {
@@ -221,15 +293,15 @@ export const PrivateLinkServiceConnectionStateProperty: msRest.CompositeMapper =
           name: "String"
         }
       },
-      actionsRequired: {
-        readOnly: true,
-        serializedName: "actionsRequired",
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
       },
-      description: {
-        serializedName: "description",
+      actionsRequired: {
+        readOnly: true,
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
@@ -462,6 +534,13 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -675,6 +754,27 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "CorsPolicy"
+            }
+          }
+        }
+      },
+      networkAclBypass: {
+        serializedName: "properties.networkAclBypass",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "AzureServices"
+          ]
+        }
+      },
+      networkAclBypassResourceIds: {
+        serializedName: "properties.networkAclBypassResourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
             }
           }
         }
@@ -929,7 +1029,7 @@ export const IndexingPolicy: msRest.CompositeMapper = {
       },
       indexingMode: {
         serializedName: "indexingMode",
-        defaultValue: 'Consistent',
+        defaultValue: 'consistent',
         type: {
           name: "String"
         }
@@ -1023,6 +1123,13 @@ export const ContainerPartitionKey: msRest.CompositeMapper = {
         },
         type: {
           name: "Number"
+        }
+      },
+      systemKey: {
+        readOnly: true,
+        serializedName: "systemKey",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2487,6 +2594,13 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       consistencyPolicy: {
         serializedName: "properties.consistencyPolicy",
         type: {
@@ -2637,6 +2751,27 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      networkAclBypass: {
+        serializedName: "properties.networkAclBypass",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "AzureServices"
+          ]
+        }
+      },
+      networkAclBypassResourceIds: {
+        serializedName: "properties.networkAclBypassResourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -2663,6 +2798,13 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "location",
         type: {
           name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
         }
       },
       consistencyPolicy: {
@@ -2802,6 +2944,27 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "CorsPolicy"
+            }
+          }
+        }
+      },
+      networkAclBypass: {
+        serializedName: "properties.networkAclBypass",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "AzureServices"
+          ]
+        }
+      },
+      networkAclBypassResourceIds: {
+        serializedName: "properties.networkAclBypassResourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
             }
           }
         }

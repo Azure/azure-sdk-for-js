@@ -17,11 +17,10 @@ export class ResourceThrottleRetryPolicy {
   /** Max wait time in milliseconds to wait for a request while the retries are happening. */
   private timeoutInMs: number;
   /**
-   * @constructor ResourceThrottleRetryPolicy
-   * @param {int} maxTries - Max number of retries to be performed for a request.
-   * @param {int} fixedRetryIntervalInMs - Fixed retry interval in milliseconds to wait between each \
+   * @param maxTries - Max number of retries to be performed for a request.
+   * @param fixedRetryIntervalInMs - Fixed retry interval in milliseconds to wait between each
    * retry ignoring the retryAfter returned as part of the response.
-   * @param {int} timeoutInSeconds - Max wait time in seconds to wait for a request while the \
+   * @param timeoutInSeconds - Max wait time in seconds to wait for a request while the
    * retries are happening.
    */
   constructor(
@@ -35,7 +34,7 @@ export class ResourceThrottleRetryPolicy {
   }
   /**
    * Determines whether the request should be retried or not.
-   * @param {object} err - Error returned by the request.
+   * @param err - Error returned by the request.
    */
   public async shouldRetry(err: ErrorResponse): Promise<boolean> {
     // TODO: any custom error object

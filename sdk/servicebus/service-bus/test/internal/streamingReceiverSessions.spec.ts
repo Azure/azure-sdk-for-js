@@ -172,7 +172,6 @@ describe("Streaming with sessions", () => {
             "MessageId is different than expected"
           );
           return Promise.resolve();
-          ``;
         },
         processError
       });
@@ -295,12 +294,11 @@ describe("Streaming with sessions", () => {
       receiver.subscribe(
         {
           async processMessage(msg: ServiceBusReceivedMessage) {
-            return receiver.abandonMessage(msg).then(() => {
+            return receiver.abandonMessage(msg).then(async () => {
               abandonFlag = 1;
               if ((receiver as ServiceBusSessionReceiverImpl)["_isReceivingMessages"]()) {
                 return receiver.close();
               }
-              return Promise.resolve();
             });
           },
           processError

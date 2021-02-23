@@ -8,16 +8,10 @@ export { StorageRetryPolicyType, StorageRetryPolicy };
 
 /**
  * Storage Blob retry options interface.
- *
- * @export
- * @interface StorageRetryOptions
  */
 export interface StorageRetryOptions {
   /**
    * Optional. StorageRetryPolicyType, default is exponential retry policy.
-   *
-   * @type {StorageRetryPolicyType}
-   * @memberof StorageRetryOptions
    */
   readonly retryPolicyType?: StorageRetryPolicyType;
 
@@ -25,9 +19,6 @@ export interface StorageRetryOptions {
    * Optional. Max try number of attempts, default is 4.
    * A value of 1 means 1 try and no retries.
    * A value smaller than 1 means default retry number of attempts.
-   *
-   * @type {number}
-   * @memberof StorageRetryOptions
    */
   readonly maxTries?: number;
 
@@ -37,9 +28,6 @@ export interface StorageRetryOptions {
    * Storage server's default timeout policy will be used.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
-   *
-   * @type {number}
-   * @memberof StorageRetryOptions
    */
   readonly tryTimeoutInMs?: number;
 
@@ -47,18 +35,12 @@ export interface StorageRetryOptions {
    * Optional. Specifies the amount of delay to use before retrying an operation (default is 4s or 4 * 1000ms).
    * The delay increases (exponentially or linearly) with each retry up to a maximum specified by
    * maxRetryDelayInMs. If you specify 0, then you must also specify 0 for maxRetryDelayInMs.
-   *
-   * @type {number}
-   * @memberof StorageRetryOptions
    */
   readonly retryDelayInMs?: number;
 
   /**
    * Optional. Specifies the maximum delay allowed before retrying an operation (default is 120s or 120 * 1000ms).
    * If you specify 0, then you must also specify 0 for retryDelayInMs.
-   *
-   * @type {number}
-   * @memberof StorageRetryOptions
    */
   readonly maxRetryDelayInMs?: number;
 
@@ -69,19 +51,12 @@ export interface StorageRetryOptions {
    * NOTE: Before setting this field, make sure you understand the issues around
    * reading stale and potentially-inconsistent data at
    * {@link https://docs.microsoft.com/en-us/azure/storage/common/storage-designing-ha-apps-with-ragrs}
-   *
-   * @type {string}
-   * @memberof StorageRetryOptions
    */
   readonly secondaryHost?: string;
 }
 
 /**
  * StorageRetryPolicyFactory is a factory class helping generating {@link StorageRetryPolicy} objects.
- *
- * @export
- * @class StorageRetryPolicyFactory
- * @implements {RequestPolicyFactory}
  */
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
   private retryOptions?: StorageRetryOptions;
@@ -89,7 +64,6 @@ export class StorageRetryPolicyFactory implements RequestPolicyFactory {
   /**
    * Creates an instance of StorageRetryPolicyFactory.
    * @param retryOptions -
-   * @memberof StorageRetryPolicyFactory
    */
   constructor(retryOptions?: StorageRetryOptions) {
     this.retryOptions = retryOptions;
@@ -100,8 +74,6 @@ export class StorageRetryPolicyFactory implements RequestPolicyFactory {
    *
    * @param nextPolicy -
    * @param options -
-   *
-   * @memberof StorageRetryPolicyFactory
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy {
     return new StorageRetryPolicy(nextPolicy, options, this.retryOptions);

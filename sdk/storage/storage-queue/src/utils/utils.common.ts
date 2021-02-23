@@ -10,7 +10,6 @@ import { Pipeline } from "../Pipeline";
  * Append a string to URL path. Will remove duplicated "/" in front of the string
  * when URL path ends with a "/".
  *
- * @export
  * @param url - Source URL string
  * @param name - String to be appended to URL
  * @returns An updated URL string
@@ -29,7 +28,6 @@ export function appendToURLPath(url: string, name: string): string {
  * Set URL parameter name and value. If name exists in URL parameters, old value
  * will be replaced by name key. If not provide value, the parameter will be deleted.
  *
- * @export
  * @param url - Source URL string
  * @param name - Parameter name
  * @param value - Parameter value
@@ -44,7 +42,6 @@ export function setURLParameter(url: string, name: string, value?: string): stri
 /**
  * Get URL parameter by name.
  *
- * @export
  * @param url - URL string
  * @param name - Parameter name
  * @returns Parameter value(s) for the given parameter name.
@@ -57,7 +54,6 @@ export function getURLParameter(url: string, name: string): string | string[] | 
 /**
  * Set URL host.
  *
- * @export
  * @param url - Source URL string
  * @param host - New host string
  * @returns An updated URL string
@@ -71,7 +67,6 @@ export function setURLHost(url: string, host: string): string {
 /**
  * Gets URL path from an URL string.
  *
- * @export
  * @param url - Source URL string
  * @returns The path part of the given URL string.
  */
@@ -83,7 +78,6 @@ export function getURLPath(url: string): string | undefined {
 /**
  * Gets URL query key value pairs from an URL string.
  *
- * @export
  * @param url -
  * @returns query key value string pairs from the given URL string.
  */
@@ -169,7 +163,6 @@ export function getValueInConnString(
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
- * @export
  * @param connectionString - Connection string.
  * @returns String key value pairs of the storage account's url and credentials.
  */
@@ -253,7 +246,6 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 /**
  * Rounds a date off to seconds.
  *
- * @export
  * @param date -
  * @param withMilliseconds - If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
  *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
@@ -271,7 +263,6 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 /**
  * Delay specified time interval.
  *
- * @export
  * @param timeInMs -
  * @param aborter -
  * @param abortError -
@@ -304,11 +295,9 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
 /**
  * String.prototype.padStart()
  *
- * @export
  * @param currentString -
  * @param targetLength -
- * @param [padString=" - "]
- *
+ * @param padString -
  */
 export function padStart(
   currentString: string,
@@ -428,7 +417,6 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
 /**
  * Append a string to URL query.
  *
- * @export
  * @param url - Source URL string.
  * @param queryParts - String to be appended to the URL query.
  * @returns An updated URL string.

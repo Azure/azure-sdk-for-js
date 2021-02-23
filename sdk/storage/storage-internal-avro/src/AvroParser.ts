@@ -8,17 +8,11 @@ import { AbortSignalLike } from "@azure/abort-controller";
 /**
  * Options to configure the AvroParser read methods.
  * See {@link AvroParser.readFixedBytes}, {@link AvroParser.readMap} and etc.
- *
- * @export
- * @interface AvroParserReadOptions
  */
 interface AvroParserReadOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AvroParserReadOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -27,12 +21,9 @@ export class AvroParser {
   /**
    * Reads a fixed number of bytes from the stream.
    *
-   * @static
    * @param stream -
    * @param length -
    * @param options -
-   *
-   * @memberof AvroParser
    */
   public static async readFixedBytes(
     stream: AvroReadable,
@@ -49,11 +40,8 @@ export class AvroParser {
   /**
    * Reads a single byte from the stream.
    *
-   * @static
    * @param stream -
    * @param options -
-   *
-   * @memberof AvroParser
    */
   private static async readByte(
     stream: AvroReadable,
@@ -265,8 +253,6 @@ interface ObjectSchema {
 export abstract class AvroType {
   /**
    * Reads an object from the stream.
-   *
-   * @param stream
    */
   public abstract read(
     stream: AvroReadable,

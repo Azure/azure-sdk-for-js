@@ -11,9 +11,6 @@ import {
 
 /**
  * Mock
- *
- * @class MockPolicy
- * @extends {BaseRequestPolicy}
  */
 export class MockPolicy extends BaseRequestPolicy {
   private responseHeaders?: { [key: string]: any };
@@ -22,7 +19,6 @@ export class MockPolicy extends BaseRequestPolicy {
    *
    * @param nextPolicy -
    * @param options -
-   * @memberof MockPolicy
    */
   public constructor(
     nextPolicy: RequestPolicy,
@@ -37,8 +33,6 @@ export class MockPolicy extends BaseRequestPolicy {
    * Sends request.
    *
    * @param request -
-   *
-   * @memberof InjectorPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(request).then((res) => {
