@@ -24,7 +24,6 @@ export interface SpanConfig {
   namespace: string;
 }
 
-
 /**
  * DEPRECATED: This function is only here for compatibility. Use createSpanFunction in core-tracing.
  * @hidden
@@ -32,7 +31,9 @@ export interface SpanConfig {
  * @param spanConfig - The name of the operation being performed.
  * @param tracingOptions - The options for the underlying http request.
  */
-export function createSpanFunction(args: SpanConfig): <T extends OperationOptions>(
+export function createSpanFunction(
+  args: SpanConfig
+): <T extends OperationOptions>(
   operationName: string,
   operationOptions: T
 ) => { span: Span; updatedOptions: T } {
