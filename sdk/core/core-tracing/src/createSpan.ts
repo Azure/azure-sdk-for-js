@@ -6,9 +6,9 @@ import { getTracer } from "../src/tracerProxy";
 import { OperationTracingOptions } from "./interfaces";
 
 /**
- * Arguments for `createSpanFunction` that allow you to specify the 
+ * Arguments for `createSpanFunction` that allow you to specify the
  * prefix for each created span as well as the `az.namespace` attribute.
- * 
+ *
  * @hidden
  */
 export interface CreateSpanFunctionArgs {
@@ -26,22 +26,22 @@ export interface CreateSpanFunctionArgs {
  * Creates a function that can be used to create spans using the global tracer.
  *
  * Usage:
- * 
+ *
  * ```typescript
  * // once
  * const createSpan = createSpanFunction({ packagePrefix: "Azure.Data.AppConfiguration", namespace: "Microsoft.AppConfiguration" });
- * 
+ *
  * // in each operation
  * const span = createSpan("deleteConfigurationSetting", operationOptions);
  *    // code...
  * span.end();
  * ```
- * 
+ *
  * @hidden
  * @param args - allows configuration of the prefix for each span as well as the az.namespace field.
  */
 export function createSpanFunction(args: CreateSpanFunctionArgs) {
-  return function <T extends { tracingOptions?: OperationTracingOptions } | undefined>(
+  return function<T extends { tracingOptions?: OperationTracingOptions } | undefined>(
     operationName: string,
     operationOptions: T
   ): { span: Span; updatedOptions: NonNullable<T> } {
