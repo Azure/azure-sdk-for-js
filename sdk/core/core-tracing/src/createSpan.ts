@@ -6,10 +6,12 @@ import { getTracer } from "../src/tracerProxy";
 import { OperationTracingOptions } from "./interfaces";
 
 /**
- * Configuration for creating a new Tracing Span
+ * Arguments for `createSpanFunction` that allow you to specify the 
+ * prefix for each created span as well as the `az.namespace` attribute.
+ * 
  * @hidden
  */
-export interface SpanConfig {
+export interface CreateSpanFunctionArgs {
   /**
    * Package name prefix
    */
@@ -21,13 +23,25 @@ export interface SpanConfig {
 }
 
 /**
- * Creates a function called createSpan to create spans using the global tracer.
+ * Creates a function that can be used to create spans using the global tracer.
+ *
+ * Usage:
+ * 
+ * ```typescript
+ * // once
+ * const createSpan = createSpanFunction({ packagePrefix: "Azure.Data.AppConfiguration", namespace: "Microsoft.AppConfiguration" });
+ * 
+ * // in each operation
+ * const span = createSpan("deleteConfigurationSetting", operationOptions);
+ *    // code...
+ * span.end();
+ * ```
+ * 
  * @hidden
- * @param spanConfig - The name of the operation being performed.
- * @param tracingOptions - The options for the underlying http request.
+ * @param args - allows configuration of the prefix for each span as well as the az.namespace field.
  */
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
-  return function<T extends { tracingOptions?: OperationTracingOptions } | undefined>(
+export function createSpanFunction(args: CreateSpanFunctionArgs) {
+  return function <T extends { tracingOptions?: OperationTracingOptions } | undefined>(
     operationName: string,
     operationOptions: T
   ): { span: Span; updatedOptions: NonNullable<T> } {
@@ -38,9 +52,9 @@ export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
       kind: SpanKind.INTERNAL
     };
 
-    const span = tracer.startSpan(`${packagePrefix}.${operationName}`, spanOptions);
+    const span = tracer.startSpan(`${args.packagePrefix}.${operationName}`, spanOptions);
 
-    span.setAttribute("az.namespace", namespace);
+    span.setAttribute("az.namespace", args.namespace);
 
     let newSpanOptions = tracingOptions.spanOptions || {};
     if (span.isRecording()) {
@@ -49,7 +63,7 @@ export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
         parent: span.context(),
         attributes: {
           ...spanOptions.attributes,
-          "az.namespace": namespace
+          "az.namespace": args.namespace
         }
       };
     }
