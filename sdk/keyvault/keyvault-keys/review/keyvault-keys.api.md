@@ -88,10 +88,8 @@ export class CryptographyClient {
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     constructor(key: JsonWebKey);
     decrypt(decryptParameters: DecryptParameters, options?: DecryptOptions): Promise<DecryptResult>;
-    // @deprecated
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
-    // @deprecated
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     get keyId(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
