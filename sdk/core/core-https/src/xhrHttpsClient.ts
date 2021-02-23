@@ -192,6 +192,7 @@ function rejectOnTerminalEvent(
 
 /**
  * Create a new HttpsClient instance for the browser environment.
+ * @internal
  */
 export function createXhrHttpsClient(): HttpsClient {
   return new XhrHttpsClient();
