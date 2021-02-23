@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/sms",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"from\":\"+18331234567\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"b9c7cada-d6a9-4c37-a785-7adc66aa818e\",\"repeatabilityFirstSent\":\"Tue, 23 Feb 2021 21:51:57 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
+   "status": 400,
+   "response": "{\"From\":[\"Invalid From phone number format\"]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c80da155b752249b2952b38df4f5b730"
+}
