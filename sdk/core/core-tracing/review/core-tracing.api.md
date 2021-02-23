@@ -19,9 +19,9 @@ import { TracerBase } from '@opencensus/web-types';
 // @public
 export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
     tracingOptions?: OperationTracingOptions | undefined;
-} | undefined>(operationName: string, operationOptions: T) => {
+}>(operationName: string, operationOptions: T | undefined) => {
     span: Span;
-    updatedOptions: NonNullable<T>;
+    updatedOptions: T;
 };
 
 // @public

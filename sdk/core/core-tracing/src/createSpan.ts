@@ -41,10 +41,10 @@ export interface CreateSpanFunctionArgs {
  * @param args - allows configuration of the prefix for each span as well as the az.namespace field.
  */
 export function createSpanFunction(args: CreateSpanFunctionArgs) {
-  return function<T extends { tracingOptions?: OperationTracingOptions } | undefined>(
+  return function <T extends { tracingOptions?: OperationTracingOptions }>(
     operationName: string,
-    operationOptions: T
-  ): { span: Span; updatedOptions: NonNullable<T> } {
+    operationOptions: T | undefined
+  ): { span: Span; updatedOptions: T } {
     const tracer = getTracer();
     const tracingOptions = operationOptions?.tracingOptions || {};
     const spanOptions: SpanOptions = {
@@ -74,14 +74,14 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
       // TODO: .context soon.
     };
 
-    const newOperationOptions: NonNullable<T> = {
+    const newOperationOptions = {
       ...operationOptions,
       tracingOptions: newTracingOptions
-    } as NonNullable<T>;
+    }
 
     return {
       span,
-      updatedOptions: newOperationOptions
+      updatedOptions: newOperationOptions as T
     };
   };
 }
