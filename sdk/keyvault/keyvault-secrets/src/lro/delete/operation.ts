@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { RequestOptionsBase } from "@azure/core-http";
 import { DeletedSecret, DeleteSecretOptions, GetDeletedSecretOptions } from "../../secretsModels";
 import {
   KeyVaultSecretPollOperation,
@@ -13,14 +13,14 @@ import {
   KeyVaultClientDeleteSecretResponse,
   KeyVaultClientGetDeletedSecretResponse
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
+import { createSpan } from "../../tracing";
 import { getSecretFromSecretBundle } from "../../transformations";
 
 /**
  * An interface representing the state of a delete secret's poll operation
  */
 export interface DeleteSecretPollOperationState
-  extends KeyVaultSecretPollOperationState<DeletedSecret> {}
+  extends KeyVaultSecretPollOperationState<DeletedSecret> { }
 
 /**
  * An interface representing a delete secret's poll operation
@@ -46,15 +46,14 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     name: string,
     options: DeleteSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.deleteKey", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.deleteKey", options);
 
     let response: KeyVaultClientDeleteSecretResponse;
     try {
       response = await this.client.deleteSecret(
         this.vaultUrl,
         name,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -71,15 +70,14 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     name: string,
     options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getDeletedSecret", responseOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getDeletedSecret", options);
 
     let response: KeyVaultClientGetDeletedSecretResponse;
     try {
       response = await this.client.getDeletedSecret(
         this.vaultUrl,
         name,
-        setParentSpan(span, responseOptions)
+        updatedOptions
       );
     } finally {
       span.end();
