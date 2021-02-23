@@ -144,7 +144,7 @@ export interface SecretProperties {
     readonly expiresOn?: Date;
     id?: string;
     // @deprecated
-    readonly keyId?: any;
+    readonly keyId?: unknown;
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;
