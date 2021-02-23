@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { generateUuid } from "@azure/core-http";
+
+import { v4 as generateUuid } from "uuid";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
 import { executeParallel, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
-
 interface StorageBlobListTestOptions {
   count: number;
 }
@@ -36,7 +36,10 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     // List blobs
     let marker = undefined;
     do {
-      const segmentResponse = await this.containerClient.listBlobFlatSegment(Aborter.none, marker);
+      const segmentResponse: any = await this.containerClient.listBlobFlatSegment(
+        Aborter.none,
+        marker
+      );
       for (const _ of segmentResponse.segment.blobItems) {
       }
       marker = segmentResponse.nextMarker;

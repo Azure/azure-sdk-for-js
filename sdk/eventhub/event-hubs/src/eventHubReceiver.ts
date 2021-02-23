@@ -673,7 +673,7 @@ export class EventHubReceiver extends LinkEntity {
     const receivedEvents: ReceivedEventData[] = [];
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         // if this consumer was closed,
         // resolve the operation's promise with the events collected thus far in case
         // the promise hasn't already been resolved.

@@ -40,7 +40,9 @@ export function createConnectionContextForTests(
   let initWasCalled = false;
 
   const fakeConnectionContext = {
-    async readyToOpenLink(): Promise<void> {},
+    async readyToOpenLink(): Promise<void> {
+      /** Nothing to do here */
+    },
     isConnectionClosing(): boolean {
       return false;
     },
@@ -86,7 +88,9 @@ export function createConnectionContextForTests(
         (receiver as any).connection = { id: "connection-id" };
         return receiver;
       },
-      async close(): Promise<void> {}
+      async close(): Promise<void> {
+        /** Nothing to do here */
+      }
     },
     tokenCredential: {
       getToken() {
@@ -100,8 +104,12 @@ export function createConnectionContextForTests(
       async init() {
         initWasCalled = true;
       },
-      async negotiateClaim(): Promise<void> {},
-      async close(): Promise<void> {}
+      async negotiateClaim(): Promise<void> {
+        /** Nothing to do here */
+      },
+      async close(): Promise<void> {
+        /** Nothing to do here */
+      }
     },
     initWasCalled
   };
