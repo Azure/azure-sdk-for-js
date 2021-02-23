@@ -8,8 +8,8 @@ import {
   TokenCredential,
   createPipelineFromOptions,
   isTokenCredential,
-  operationOptionsToRequestOptionsBase,
-  signingPolicy
+  signingPolicy,
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -34,11 +34,8 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import {
-  challengeBasedAuthenticationPolicy,
-  createSpan,
-  setParentSpan
-} from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { createSpan } from "./tracing";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -265,8 +262,7 @@ export class KeyClient {
     options?: CreateKeyOptions
   ): Promise<KeyVaultKey> {
     if (options) {
-      const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
@@ -276,17 +272,12 @@ export class KeyClient {
         }
       };
 
-      const span = createSpan("createKey", unflattenedOptions);
+      const { span, updatedOptions } = createSpan("createKey", unflattenedOptions);
 
       let response: KeyVaultClientCreateKeyResponse;
 
       try {
-        response = await this.client.createKey(
-          this.vaultUrl,
-          name,
-          keyType,
-          setParentSpan(span, unflattenedOptions)
-        );
+        response = await this.client.createKey(this.vaultUrl, name, keyType, updatedOptions);
       } finally {
         span.end();
       }
@@ -313,8 +304,7 @@ export class KeyClient {
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
     if (options) {
-      const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
@@ -324,7 +314,7 @@ export class KeyClient {
         }
       };
 
-      const span = createSpan("createEcKey", unflattenedOptions);
+      const { span, updatedOptions } = createSpan("createEcKey", unflattenedOptions);
 
       let response: KeyVaultClientCreateKeyResponse;
       try {
@@ -332,7 +322,7 @@ export class KeyClient {
           this.vaultUrl,
           name,
           options.hsm ? "EC-HSM" : "EC",
-          setParentSpan(span, unflattenedOptions)
+          updatedOptions
         );
       } finally {
         span.end();
@@ -361,8 +351,7 @@ export class KeyClient {
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
     if (options) {
-      const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
@@ -372,7 +361,7 @@ export class KeyClient {
         }
       };
 
-      const span = createSpan("createRsaKey", unflattenedOptions);
+      const { span, updatedOptions } = createSpan("createRsaKey", unflattenedOptions);
 
       let response: KeyVaultClientCreateKeyResponse;
       try {
@@ -380,7 +369,7 @@ export class KeyClient {
           this.vaultUrl,
           name,
           options.hsm ? "RSA-HSM" : "RSA",
-          setParentSpan(span, unflattenedOptions)
+          updatedOptions
         );
       } finally {
         span.end();
@@ -409,8 +398,7 @@ export class KeyClient {
    */
   public async createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey> {
     if (options) {
-      const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, hsm, ...remainingOptions } = requestOptions;
+      const { enabled, notBefore, expiresOn: expires, hsm, ...remainingOptions } = options;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
@@ -420,7 +408,7 @@ export class KeyClient {
         }
       };
 
-      const span = createSpan("createOctKey", unflattenedOptions);
+      const { span, updatedOptions } = createSpan("createOctKey", unflattenedOptions);
 
       let response: KeyVaultClientCreateKeyResponse;
       try {
@@ -428,7 +416,7 @@ export class KeyClient {
           this.vaultUrl,
           name,
           hsm ? KnownJsonWebKeyType.OctHSM : KnownJsonWebKeyType.Oct,
-          setParentSpan(span, unflattenedOptions)
+          updatedOptions
         );
       } finally {
         span.end();
@@ -469,14 +457,13 @@ export class KeyClient {
     options?: ImportKeyOptions
   ): Promise<KeyVaultKey> {
     if (options) {
-      const requestOptions = operationOptionsToRequestOptionsBase(options);
       const {
         enabled,
         notBefore,
         expiresOn: expires,
         hardwareProtected: hsm,
         ...remainingOptions
-      } = requestOptions;
+      } = options;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
@@ -487,16 +474,11 @@ export class KeyClient {
         }
       };
 
-      const span = createSpan("importKey", unflattenedOptions);
+      const { span, updatedOptions } = createSpan("importKey", unflattenedOptions);
 
       let response: KeyVaultClientImportKeyResponse;
       try {
-        response = await this.client.importKey(
-          this.vaultUrl,
-          name,
-          key,
-          setParentSpan(span, unflattenedOptions)
-        );
+        response = await this.client.importKey(this.vaultUrl, name, key, updatedOptions);
       } finally {
         span.end();
       }
@@ -578,8 +560,7 @@ export class KeyClient {
     options?: UpdateKeyPropertiesOptions
   ): Promise<KeyVaultKey> {
     if (options) {
-      const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
@@ -589,17 +570,12 @@ export class KeyClient {
         }
       };
 
-      const span = createSpan("updateKeyProperties", unflattenedOptions);
+      const { span, updatedOptions } = createSpan("updateKeyProperties", unflattenedOptions);
 
       let response: KeyVaultClientUpdateKeyResponse;
 
       try {
-        response = await this.client.updateKey(
-          this.vaultUrl,
-          name,
-          keyVersion,
-          setParentSpan(span, unflattenedOptions)
-        );
+        response = await this.client.updateKey(this.vaultUrl, name, keyVersion, updatedOptions);
       } finally {
         span.end();
       }
@@ -625,8 +601,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getKey", requestOptions);
+    const { span, updatedOptions } = createSpan("getKey", options);
 
     let response: KeyVaultClientGetKeyResponse;
     try {
@@ -634,7 +609,7 @@ export class KeyClient {
         this.vaultUrl,
         name,
         options && options.version ? options.version : "",
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -660,16 +635,11 @@ export class KeyClient {
     name: string,
     options: GetDeletedKeyOptions = {}
   ): Promise<DeletedKey> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("getDeletedKey", responseOptions);
+    const { span, updatedOptions } = createSpan("getDeletedKey", options);
 
     let response: KeyVaultClientGetDeletedKeyResponse;
     try {
-      response = await this.client.getDeletedKey(
-        this.vaultUrl,
-        name,
-        setParentSpan(span, responseOptions)
-      );
+      response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }
@@ -694,11 +664,10 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async purgeDeletedKey(name: string, options: PurgeDeletedKeyOptions = {}): Promise<void> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("purgeDeletedKey", responseOptions);
+    const { span, updatedOptions } = createSpan("purgeDeletedKey", options);
 
     try {
-      await this.client.purgeDeletedKey(this.vaultUrl, name, setParentSpan(span, responseOptions));
+      await this.client.purgeDeletedKey(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }
@@ -769,16 +738,11 @@ export class KeyClient {
     name: string,
     options: BackupKeyOptions = {}
   ): Promise<Uint8Array | undefined> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("backupKey", requestOptions);
+    const { span, updatedOptions } = createSpan("backupKey", options);
 
     let response: KeyVaultClientBackupKeyResponse;
     try {
-      response = await this.client.backupKey(
-        this.vaultUrl,
-        name,
-        setParentSpan(span, requestOptions)
-      );
+      response = await this.client.backupKey(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }
@@ -805,16 +769,11 @@ export class KeyClient {
     backup: Uint8Array,
     options: RestoreKeyBackupOptions = {}
   ): Promise<KeyVaultKey> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("restoreKeyBackup", requestOptions);
+    const { span, updatedOptions } = createSpan("restoreKeyBackup", options);
 
     let response: KeyVaultClientRestoreKeyResponse;
     try {
-      response = await this.client.restoreKey(
-        this.vaultUrl,
-        backup,
-        setParentSpan(span, requestOptions)
-      );
+      response = await this.client.restoreKey(this.vaultUrl, backup, updatedOptions);
     } finally {
       span.end();
     }
@@ -904,13 +863,7 @@ export class KeyClient {
     name: string,
     options: ListPropertiesOfKeyVersionsOptions = {}
   ): PagedAsyncIterableIterator<KeyProperties> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("listPropertiesOfKeyVersions", requestOptions);
-    const updatedOptions: ListPropertiesOfKeyVersionsOptions = {
-      ...requestOptions,
-      ...setParentSpan(span, requestOptions)
-    };
-
+    const { span, updatedOptions } = createSpan("listPropertiesOfKeyVersions", options);
     const iter = this.listPropertiesOfKeyVersionsAll(name, updatedOptions);
 
     span.end();
@@ -998,13 +951,7 @@ export class KeyClient {
   public listPropertiesOfKeys(
     options: ListPropertiesOfKeysOptions = {}
   ): PagedAsyncIterableIterator<KeyProperties> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("listPropertiesOfKeys", requestOptions);
-    const updatedOptions: ListPropertiesOfKeysOptions = {
-      ...requestOptions,
-      ...setParentSpan(span, requestOptions)
-    };
-
+    const { span, updatedOptions } = createSpan("listPropertiesOfKeys", options);
     const iter = this.listPropertiesOfKeysAll(updatedOptions);
 
     span.end();
@@ -1091,14 +1038,7 @@ export class KeyClient {
   public listDeletedKeys(
     options: ListDeletedKeysOptions = {}
   ): PagedAsyncIterableIterator<DeletedKey> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("listDeletedKeys", requestOptions);
-
-    const updatedOptions: ListDeletedKeysOptions = {
-      ...options,
-      ...setParentSpan(span, requestOptions)
-    };
-
+    const { span, updatedOptions } = createSpan("listDeletedKeys", options);
     const iter = this.listDeletedKeysAll(updatedOptions);
 
     span.end();
