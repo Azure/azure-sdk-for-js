@@ -117,8 +117,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   private acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
-    return new Promise<AccessToken | null>(async (resolve, reject) => {
-      let socketToDestroy: Socket[] = [];
+    return new Promise<AccessToken | null>((resolve, reject) => {
+      const socketToDestroy: Socket[] = [];
 
       const requestListener = (req: http.IncomingMessage, res: http.ServerResponse) => {
         if (!req.url) {
@@ -213,7 +213,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           listen.close();
         }
 
-        for (let socket of socketToDestroy) {
+        for (const socket of socketToDestroy) {
           socket.destroy();
         }
 
