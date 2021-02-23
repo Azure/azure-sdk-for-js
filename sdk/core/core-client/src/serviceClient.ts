@@ -13,7 +13,6 @@ import {
   OperationArguments,
   OperationSpec,
   OperationRequest,
-  XmlOptions,
   CommonClientOptions
 } from "./interfaces";
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
@@ -50,16 +49,6 @@ export interface ServiceClientOptions extends CommonClientOptions {
    * A customized pipeline to use, otherwise a default one will be created.
    */
   pipeline?: Pipeline;
-
-  /**
-   * A method that is able to turn an XML object model into a string.
-   */
-  stringifyXML?: (obj: any, opts?: XmlOptions) => string;
-
-  /**
-   * A method that is able to parse XML.
-   */
-  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
 }
 
 /**
@@ -215,13 +204,7 @@ function createDefaultPipeline(options: ServiceClientOptions): Pipeline {
 
   return createClientPipeline({
     ...options,
-    credentialOptions,
-    deserializationOptions: {
-      parseXML: options.parseXML
-    },
-    serializationOptions: {
-      stringifyXML: options.stringifyXML
-    }
+    credentialOptions
   });
 }
 

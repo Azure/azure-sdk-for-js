@@ -360,10 +360,8 @@ export interface ServiceClientOptions extends CommonClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];
-    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;
     requestContentType?: string;
-    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
 
 // @public (undocumented)
