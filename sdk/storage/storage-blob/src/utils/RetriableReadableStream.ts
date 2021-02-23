@@ -8,17 +8,12 @@ export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableSt
 
 export interface RetriableReadableStreamOptions {
   /**
-   * Max retry count (>=0), undefined or invalid value means no retry
-   *
-   * @type {number}
-   * @memberof RetriableReadableStreamOptions
+   * Max retry count (greater than or equal to 0), undefined or invalid value means no retry
    */
   maxRetryRequests?: number;
 
   /**
    * Read progress event handler
-   *
-   * @memberof RetriableReadableStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
@@ -30,17 +25,11 @@ export interface RetriableReadableStreamOptions {
    * RetriableReadableStream will try to emit an "end" event to existing internal
    * stream to force it end and start retry from the breaking point.
    * The value will then update to "undefined", once the injection works.
-   *
-   * @type {boolean}
-   * @memberof RetriableReadableStreamOptions
    */
   doInjectErrorOnce?: boolean;
 
   /**
    * A threshold, not a limit. Dictates the amount of data that a stream buffers before it stops asking for more data.
-   *
-   * @type {number}
-   * @memberof RetriableReadableStreamOptions
    */
   highWaterMark?: number;
 }
@@ -49,9 +38,6 @@ export interface RetriableReadableStreamOptions {
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * A Node.js ReadableStream will internally retry when internal ReadableStream unexpected ends.
- *
- * @class RetriableReadableStream
- * @extends {Readable}
  */
 export class RetriableReadableStream extends Readable {
   private start: number;
@@ -73,7 +59,6 @@ export class RetriableReadableStream extends Readable {
    * @param offset - Offset position in original data source to read
    * @param count - How much data in original data source to read
    * @param options -
-   * @memberof RetriableReadableStream
    */
   public constructor(
     source: NodeJS.ReadableStream,

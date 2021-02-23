@@ -28,16 +28,16 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private port: number;
   private msalClient: MsalClient;
 
-  constructor(options?: InteractiveBrowserCredentialOptions) {
-    const tenantId = (options && options.tenantId) || DefaultTenantId;
-    const clientId = (options && options.clientId) || DeveloperSignOnClientId;
+  constructor(options: InteractiveBrowserCredentialOptions = {}) {
+    const tenantId = options.tenantId || DefaultTenantId;
+    const clientId = options.clientId || DeveloperSignOnClientId;
 
     checkTenantId(logger, tenantId);
 
     // const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
     // const authenticationRecord = options?.authenticationRecord;
 
-    if (options && options.redirectUri) {
+    if (options.redirectUri) {
       if (typeof options.redirectUri === "string") {
         this.redirectUri = options.redirectUri;
       } else {
@@ -54,7 +54,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     }
 
     let authorityHost;
-    if (options && options.authorityHost) {
+    if (options.authorityHost) {
       if (options.authorityHost.endsWith("/")) {
         authorityHost = options.authorityHost + tenantId;
       } else {

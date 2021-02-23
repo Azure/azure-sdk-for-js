@@ -4,6 +4,7 @@
 
 - Updated the Latest service version to 7.2.
 - Added a sample demonstrating how to import PFX / PEM certificates.
+- Fixed an issue where importing a certificate incorrectly required a Subject or Subject Alternative Name.
 
 ## 4.2.0-beta.2 (2021-02-09)
 

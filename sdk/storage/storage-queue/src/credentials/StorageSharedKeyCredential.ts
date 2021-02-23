@@ -11,25 +11,15 @@ import { Credential } from "./Credential";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * StorageSharedKeyCredential for account key authorization of Azure Storage service.
- *
- * @export
- * @class StorageSharedKeyCredential
- * @extends {Credential}
  */
 export class StorageSharedKeyCredential extends Credential {
   /**
    * Azure Storage account name; readonly.
-   *
-   * @type {string}
-   * @memberof StorageSharedKeyCredential
    */
   public readonly accountName: string;
 
   /**
    * Azure Storage account key; readonly.
-   *
-   * @type {Buffer}
-   * @memberof StorageSharedKeyCredential
    */
   private readonly accountKey: Buffer;
 
@@ -37,7 +27,6 @@ export class StorageSharedKeyCredential extends Credential {
    * Creates an instance of StorageSharedKeyCredential.
    * @param accountName -
    * @param accountKey -
-   * @memberof StorageSharedKeyCredential
    */
   constructor(accountName: string, accountKey: string) {
     super();
@@ -50,8 +39,6 @@ export class StorageSharedKeyCredential extends Credential {
    *
    * @param nextPolicy -
    * @param options -
-   *
-   * @memberof StorageSharedKeyCredential
    */
   public create(
     nextPolicy: RequestPolicy,
@@ -64,8 +51,6 @@ export class StorageSharedKeyCredential extends Credential {
    * Generates a hash signature for an HTTP request or for a SAS.
    *
    * @param stringToSign -
-   *
-   * @memberof StorageSharedKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {
     return createHmac("sha256", this.accountKey)

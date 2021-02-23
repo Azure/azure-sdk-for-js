@@ -13,17 +13,11 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Options to configure {@link ChangeFeed.getChange} operation.
- *
- * @export
- * @interface ChangeFeedGetChangeOptions
  */
 export interface ChangeFeedGetChangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ChangeFeedGetChangeOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -31,10 +25,6 @@ export interface ChangeFeedGetChangeOptions extends CommonOptions {
 export class ChangeFeed {
   /**
    * BlobContainerClient for making List Blob requests and creating Segments.
-   *
-   * @private
-   * @type {ContainerClient}
-   * @memberof ChangeFeed
    */
   private readonly containerClient?: ContainerClient;
 

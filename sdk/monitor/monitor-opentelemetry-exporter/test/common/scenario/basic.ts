@@ -6,7 +6,7 @@ import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
-import { StatusCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
 import { delay } from "@azure/core-http";
 import { TelemetryItem as Envelope } from "../../../src/generated";
@@ -37,41 +37,36 @@ export class BasicScenario implements Scenario {
         foo: "bar"
       }
     });
-    await opentelemetry.context.with(
-      opentelemetry.setSpan(opentelemetry.context.active(), root),
-      async () => {
-        const child1 = tracer.startSpan(`${this.constructor.name}.Child.1`, {
-          startTime: 0,
-          kind: opentelemetry.SpanKind.CLIENT,
-          attributes: {
-            numbers: "123"
-          }
-        });
-
-        const child2 = tracer.startSpan(`${this.constructor.name}.Child.2`, {
-          startTime: 0,
-          kind: opentelemetry.SpanKind.CLIENT,
-          attributes: {
-            numbers: "1234"
-          }
-        });
-
-        opentelemetry.context.with(
-          opentelemetry.setSpan(opentelemetry.context.active(), child1),
-          () => {
-            child1.setStatus({ code: StatusCode.OK });
-            child1.end(100);
-          }
-        );
-
-        await delay(0);
-        child2.setStatus({ code: StatusCode.OK });
-        child2.end(100);
-
-        root.setStatus({ code: StatusCode.OK });
-        root.end(600);
-      }
+    const ctx = opentelemetry.setSpan(opentelemetry.context.active(), root);
+    const child1 = tracer.startSpan(
+      `${this.constructor.name}.Child.1`,
+      {
+        startTime: 0,
+        kind: opentelemetry.SpanKind.CLIENT,
+        attributes: {
+          numbers: "123"
+        }
+      },
+      ctx
     );
+    const child2 = tracer.startSpan(
+      `${this.constructor.name}.Child.2`,
+      {
+        startTime: 0,
+        kind: opentelemetry.SpanKind.CLIENT,
+        attributes: {
+          numbers: "1234"
+        }
+      },
+      ctx
+    );
+    child1.setStatus({ code: SpanStatusCode.OK });
+    child1.end(100);
+    await delay(0);
+    child2.setStatus({ code: SpanStatusCode.OK });
+    child2.end(100);
+    root.setStatus({ code: SpanStatusCode.OK });
+    root.end(600);
   }
 
   cleanup(): void {
@@ -91,7 +86,7 @@ export class BasicScenario implements Scenario {
           version: 1,
           name: "BasicScenario.Root",
           duration: msToTimeSpan(600),
-          responseCode: "0",
+          responseCode: SpanStatusCode.OK.toString(),
           success: true,
           properties: {
             foo: "bar"
@@ -108,7 +103,7 @@ export class BasicScenario implements Scenario {
               name: "BasicScenario.Child.1",
               duration: msToTimeSpan(100),
               success: true,
-              resultCode: "0",
+              resultCode: SpanStatusCode.OK.toString(),
               properties: {
                 numbers: "123"
               }
@@ -125,7 +120,7 @@ export class BasicScenario implements Scenario {
               name: "BasicScenario.Child.2",
               duration: msToTimeSpan(100),
               success: true,
-              resultCode: "0",
+              resultCode: SpanStatusCode.OK.toString(),
               properties: {
                 numbers: "1234"
               }

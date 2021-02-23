@@ -13,7 +13,7 @@ import { IMSALBrowserFlow, IMSALToken, MSALOptions } from "./msalCommon";
 const logger = credentialLogger("MSAL Browser v2 - Auth Code Flow");
 
 // We keep a copy of the redirect hash.
-const redirectHash = window.location.hash;
+const redirectHash = self.location.hash;
 
 /**
  * Uses MSAL Browser 2.X for browser authentication,

@@ -17,36 +17,21 @@ const maxBufferLength = require("buffer").constants.MAX_LENGTH;
  * into the internal "buffer" serially with respect to the total length.
  * Then by calling PooledBuffer.getReadableStream(), you can get a readable stream
  * assembled from all the data in the internal "buffer".
- *
- * @export
- * @class BufferScheduler
  */
 export class PooledBuffer {
   /**
    * Internal buffers used to keep the data.
    * Each buffer has a length of the maxBufferLength except last one.
-   *
-   * @private
-   * @type {Buffer[]}
-   * @memberof PooledBuffer
    */
   private buffers: Buffer[] = [];
 
   /**
    * The total size of internal buffers.
-   *
-   * @private
-   * @type {number}
-   * @memberof PooledBuffer
    */
   private readonly capacity: number;
 
   /**
    * The total size of data contained in internal buffers.
-   *
-   * @private
-   * @type {number}
-   * @memberof PooledBuffer
    */
   private _size: number;
 
@@ -64,7 +49,6 @@ export class PooledBuffer {
    * pooled buffer with data.
    *
    * @param capacity - Total capacity of the internal buffers
-   * @memberof PooledBuffer
    */
   constructor(capacity: number);
 
@@ -76,7 +60,6 @@ export class PooledBuffer {
    * @param capacity - Total capacity of the internal buffers
    * @param buffers - Input buffers containing the data to be filled in the pooled buffer
    * @param totalLength - Total length of the data to be filled in.
-   * @memberof PooledBuffer
    */
   constructor(capacity: number, buffers: Buffer[], totalLength: number);
   constructor(capacity: number, buffers?: Buffer[], totalLength?: number) {
@@ -106,8 +89,6 @@ export class PooledBuffer {
    * @param buffers - Input buffers containing the data to be filled in the pooled buffer
    * @param totalLength - Total length of the data to be filled in.
    *
-   *
-   * @memberof PooledBuffer
    */
   public fill(buffers: Buffer[], totalLength: number) {
     this._size = Math.min(this.capacity, totalLength);
@@ -145,8 +126,6 @@ export class PooledBuffer {
   /**
    * Get the readable stream assembled from all the data in the internal buffers.
    *
-   *
-   * @memberof PooledBuffer
    */
   public getReadableStream(): Readable {
     return new BuffersStream(this.buffers, this.size);

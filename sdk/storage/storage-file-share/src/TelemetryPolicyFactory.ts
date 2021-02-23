@@ -15,22 +15,16 @@ import { SDK_VERSION } from "./utils/constants";
 
 /**
  * TelemetryPolicyFactory is a factory class helping generating {@link TelemetryPolicy} objects.
- *
- * @export
- * @class TelemetryPolicyFactory
- * @implements {RequestPolicyFactory}
  */
 export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * @internal
-   * @hidden
    */
   public readonly telemetryString: string;
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
    * @param telemetry -
-   * @memberof TelemetryPolicyFactory
    */
   constructor(telemetry?: UserAgentOptions) {
     const userAgentInfo: string[] = [];
@@ -64,8 +58,6 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
    *
    * @param nextPolicy -
    * @param options -
-   *
-   * @memberof TelemetryPolicyFactory
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy {
     return new TelemetryPolicy(nextPolicy, options, this.telemetryString);

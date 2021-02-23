@@ -4,19 +4,13 @@
 /**
  * This is a helper class to construct a string representing the NTFS attributes to a file or directory.
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file#file-system-attributes
- *
- * @export
- * @class FileSystemAttributes
  */
 export class FileSystemAttributes {
   /**
    * Creates a FileSystemAttributes from the specified attributes string. This method will throw an
    * Error if it encounters a string that does not correspond to a valid attributes.
    *
-   * @static
    * @param fileAttributes - The value of header x-ms-file-attributes.
-   *
-   * @memberof FileSystemAttributes
    */
   public static parse(fileAttributes: string): FileSystemAttributes {
     if (!fileAttributes) {
@@ -70,49 +64,31 @@ export class FileSystemAttributes {
 
   /**
    * Specifies a directory or file that is read-only.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public readonly: boolean = false;
 
   /**
    * Specifies a directory or file is hidden.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public hidden: boolean = false;
 
   /**
    * Specifies a directory or file that the operating system uses a part of, or uses exclusively.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public system: boolean = false;
 
   /**
    * Specifies a directory or file that does not have other attributes set. This attribute is valid only when used alone.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public none: boolean = false;
 
   /**
    * Specifies the handle identifies a directory.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public directory: boolean = false;
 
   /**
    * Specifies a directory or file is an archive. Applications typically use this attribute to mark files for backup or removal.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public archive: boolean = false;
 
@@ -124,17 +100,11 @@ export class FileSystemAttributes {
   /**
    * Specifies the data of a directory or file is not available immediately.
    * This file system attribute is presented primarily to provide compatibility with Windows - Azure Files does not support with offline storage options.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public offline: boolean = false;
 
   /**
    * Specifies the directory or file is not to be indexed by the content indexing service.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public notContentIndexed: boolean = false;
 
@@ -142,9 +112,6 @@ export class FileSystemAttributes {
    * Specifies the user data stream not to be read by the background data integrity scanner.
    * This file system attribute is presented primarily to provide compatibility with Windows.
    * Applicable to directory or file.
-   *
-   * @type {boolean}
-   * @memberof FileSystemAttributes
    */
   public noScrubData: boolean = false;
 
@@ -152,7 +119,6 @@ export class FileSystemAttributes {
    * Converts the given attributes to a string.
    *
    * @returns A string which represents the FileSystemAttributes
-   * @memberof FileSystemAttributes
    */
   public toString(): string {
     const attributes: string[] = [];

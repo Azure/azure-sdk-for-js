@@ -26,10 +26,6 @@ import {
  *
  * The {@link readableStreamBody} stream will retry underlayer, you can just use it as a normal Node.js
  * Readable stream.
- *
- * @export
- * @class BlobDownloadResponse
- * @implements {BlobDownloadResponseParsed}
  */
 export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   /**
@@ -37,8 +33,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * requests for partial file content.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get acceptRanges(): string | undefined {
     return this.originalResponse.acceptRanges;
@@ -49,8 +43,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * for the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get cacheControl(): string | undefined {
     return this.originalResponse.cacheControl;
@@ -62,8 +54,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * response.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentDisposition(): string | undefined {
     return this.originalResponse.contentDisposition;
@@ -74,8 +64,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * for the Content-Encoding request header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentEncoding(): string | undefined {
     return this.originalResponse.contentEncoding;
@@ -86,8 +74,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * for the Content-Language request header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentLanguage(): string | undefined {
     return this.originalResponse.contentLanguage;
@@ -98,8 +84,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * page blob. This header is not returned for block blobs or append blobs.
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get blobSequenceNumber(): number | undefined {
     return this.originalResponse.blobSequenceNumber;
@@ -110,8 +94,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * 'BlockBlob', 'PageBlob', 'AppendBlob'.
    *
    * @readonly
-   * @type {(BlobType | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get blobType(): BlobType | undefined {
     return this.originalResponse.blobType;
@@ -122,8 +104,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * response body.
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentLength(): number | undefined {
     return this.originalResponse.contentLength;
@@ -140,8 +120,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * header.
    *
    * @readonly
-   * @type {(Uint8Array | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentMD5(): Uint8Array | undefined {
     return this.originalResponse.contentMD5;
@@ -153,8 +131,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentRange(): string | undefined {
     return this.originalResponse.contentRange;
@@ -165,8 +141,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * The default content type is 'application/octet-stream'
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentType(): string | undefined {
     return this.originalResponse.contentType;
@@ -178,8 +152,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * can specify the time of a completed, aborted, or failed copy attempt.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get copyCompletedOn(): Date | undefined {
     return this.originalResponse.copyCompletedOn;
@@ -190,8 +162,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * File operation where this file was the destination file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get copyId(): string | undefined {
     return this.originalResponse.copyId;
@@ -204,8 +174,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * Content-Length bytes copied.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get copyProgress(): string | undefined {
     return this.originalResponse.copyProgress;
@@ -217,8 +185,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * was the destination file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get copySource(): string | undefined {
     return this.originalResponse.copySource;
@@ -230,8 +196,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * 'success', 'aborted', 'failed'
    *
    * @readonly
-   * @type {(CopyStatusType | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get copyStatus(): CopyStatusType | undefined {
     return this.originalResponse.copyStatus;
@@ -243,8 +207,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * non-fatal copy operation failure.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get copyStatusDescription(): string | undefined {
     return this.originalResponse.copyStatusDescription;
@@ -256,8 +218,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * values include: 'infinite', 'fixed'.
    *
    * @readonly
-   * @type {(LeaseDurationType | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get leaseDuration(): LeaseDurationType | undefined {
     return this.originalResponse.leaseDuration;
@@ -268,8 +228,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * values include: 'available', 'leased', 'expired', 'breaking', 'broken'.
    *
    * @readonly
-   * @type {(LeaseStateType | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get leaseState(): LeaseStateType | undefined {
     return this.originalResponse.leaseState;
@@ -280,8 +238,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * blob. Possible values include: 'locked', 'unlocked'.
    *
    * @readonly
-   * @type {(LeaseStatusType | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get leaseStatus(): LeaseStatusType | undefined {
     return this.originalResponse.leaseStatus;
@@ -292,8 +248,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * indicates the time at which the response was initiated.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get date(): Date | undefined {
     return this.originalResponse.date;
@@ -304,8 +258,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * present in the blob. This header is returned only for append blobs.
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get blobCommittedBlockCount(): number | undefined {
     return this.originalResponse.blobCommittedBlockCount;
@@ -316,8 +268,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * perform operations conditionally, in quotes.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get etag(): string | undefined {
     return this.originalResponse.etag;
@@ -327,8 +277,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * The number of tags associated with the blob
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get tagCount(): number | undefined {
     return this.originalResponse.tagCount;
@@ -338,8 +286,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * The error code.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get errorCode(): string | undefined {
     return this.originalResponse.errorCode;
@@ -353,8 +299,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * are encrypted).
    *
    * @readonly
-   * @type {(boolean | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get isServerEncrypted(): boolean | undefined {
     return this.originalResponse.isServerEncrypted;
@@ -368,8 +312,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * latter calculated from the requested range.
    *
    * @readonly
-   * @type {(Uint8Array | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get blobContentMD5(): Uint8Array | undefined {
     return this.originalResponse.blobContentMD5;
@@ -381,8 +323,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * the last modified time.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get lastModified(): Date | undefined {
     return this.originalResponse.lastModified;
@@ -393,8 +333,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * last read or written to.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get lastAccessed(): Date | undefined {
     return this.originalResponse.lastAccessed;
@@ -405,8 +343,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * to associate with a file storage object.
    *
    * @readonly
-   * @type {(Metadata | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get metadata(): Metadata | undefined {
     return this.originalResponse.metadata;
@@ -417,8 +353,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * that was made and can be used for troubleshooting the request.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get requestId(): string | undefined {
     return this.originalResponse.requestId;
@@ -429,8 +363,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * response with the same value.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get clientRequestId(): string | undefined {
     return this.originalResponse.clientRequestId;
@@ -441,8 +373,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * to execute the request.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get version(): string | undefined {
     return this.originalResponse.version;
@@ -452,8 +382,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * Indicates the versionId of the downloaded blob version.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get versionId(): string | undefined {
     return this.originalResponse.versionId;
@@ -463,8 +391,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * Indicates whether version of this blob is a current version.
    *
    * @readonly
-   * @type {(boolean | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get isCurrentVersion(): boolean | undefined {
     return this.originalResponse.isCurrentVersion;
@@ -475,8 +401,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * when the blob was encrypted with a customer-provided key.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get encryptionKeySha256(): string | undefined {
     return this.originalResponse.encryptionKeySha256;
@@ -487,9 +411,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * true, then the request returns a crc64 for the range, as long as the range size is less than
    * or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is
    * specified in the same request, it will fail with 400(Bad Request)
-   *
-   * @type {(Uint8Array | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentCrc64(): Uint8Array | undefined {
     return this.originalResponse.contentCrc64;
@@ -499,8 +420,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * Object Replication Policy Id of the destination blob.
    *
    * @readonly
-   * @type {(string| undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get objectReplicationDestinationPolicyId(): string | undefined {
     return this.originalResponse.objectReplicationDestinationPolicyId;
@@ -510,8 +429,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
    *
    * @readonly
-   * @type {(ObjectReplicationPolicy[] | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get objectReplicationSourceProperties(): ObjectReplicationPolicy[] | undefined {
     return this.originalResponse.objectReplicationSourceProperties;
@@ -521,8 +438,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * If this blob has been sealed.
    *
    * @readonly
-   * @type {(boolean | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get isSealed(): boolean | undefined {
     return this.originalResponse.isSealed;
@@ -533,8 +448,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * Always undefined in node.js.
    *
    * @readonly
-   * @type {(Promise<Blob> | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get contentAsBlob(): Promise<Blob> | undefined {
     return this.originalResponse.blobBody;
@@ -547,8 +460,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * It will automatically retry when internal read stream unexpected ends.
    *
    * @readonly
-   * @type {(NodeJS.ReadableStream | undefined)}
-   * @memberof BlobDownloadResponse
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
     return isNode ? this.blobDownloadStream : undefined;
@@ -556,9 +467,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
 
   /**
    * The HTTP response.
-   *
-   * @type {HttpResponse}
-   * @memberof BlobDownloadResponse
    */
   public get _response(): HttpResponse & {
     parsedHeaders: BlobDownloadHeaders;
@@ -577,7 +485,6 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * @param offset -
    * @param count -
    * @param options -
-   * @memberof BlobDownloadResponse
    */
   public constructor(
     originalResponse: BlobDownloadResponseParsed,

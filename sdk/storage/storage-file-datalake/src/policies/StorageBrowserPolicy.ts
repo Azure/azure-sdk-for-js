@@ -22,16 +22,12 @@ import { setURLParameter } from "../utils/utils.common";
  * 2. Remove cookie header for security
  *
  * 3. Remove content-length header to avoid browsers warning
- *
- * @class StorageBrowserPolicy
- * @extends {BaseRequestPolicy}
  */
 export class StorageBrowserPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of StorageBrowserPolicy.
    * @param nextPolicy -
    * @param options -
-   * @memberof StorageBrowserPolicy
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
@@ -41,8 +37,6 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
    * Sends out request.
    *
    * @param request -
-   *
-   * @memberof StorageBrowserPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (isNode) {

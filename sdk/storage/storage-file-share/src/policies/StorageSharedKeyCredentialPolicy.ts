@@ -9,17 +9,10 @@ import { CredentialPolicy } from "./CredentialPolicy";
 
 /**
  * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
- *
- * @export
- * @class StorageSharedKeyCredentialPolicy
- * @extends {CredentialPolicy}
  */
 export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   /**
    * Reference to {@link StorageSharedKeyCredential} which generates StorageSharedKeyCredentialPolicy
-   *
-   * @type {StorageSharedKeyCredential}
-   * @memberof StorageSharedKeyCredentialPolicy
    */
   private readonly factory: StorageSharedKeyCredential;
 
@@ -28,7 +21,6 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    * @param nextPolicy -
    * @param options -
    * @param factory -
-   * @memberof StorageSharedKeyCredentialPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -42,10 +34,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   /**
    * Signs request.
    *
-   * @protected
    * @param request -
-   *
-   * @memberof StorageSharedKeyCredentialPolicy
    */
   protected signRequest(request: WebResource): WebResource {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -90,11 +79,8 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    * Retrieve header value according to shared key sign rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
    *
-   * @private
    * @param request -
    * @param headerName -
-   *
-   * @memberof StorageSharedKeyCredentialPolicy
    */
   private getHeaderValueToSign(request: WebResource, headerName: string): string {
     const value = request.headers.get(headerName);
@@ -124,10 +110,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    * 6. Finally, append a new-line character to each canonicalized header in the resulting list.
    *    Construct the CanonicalizedHeaders string by concatenating all headers in this list into a single string.
    *
-   * @private
    * @param request -
-   *
-   * @memberof StorageSharedKeyCredentialPolicy
    */
   private getCanonicalizedHeadersString(request: WebResource): string {
     let headersArray = request.headers.headersArray().filter((value) => {
@@ -159,10 +142,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   /**
    * Retrieves the webResource canonicalized resource string.
    *
-   * @private
    * @param request -
-   *
-   * @memberof StorageSharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {
     const path = getURLPath(request.url) || "/";

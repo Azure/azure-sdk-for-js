@@ -40,8 +40,6 @@ export function getInitialHeader(): CosmosHeaders {
 
 /**
  * @hidden
- * @param headers
- * @param toBeMergedHeaders
  */
 // TODO: The name of this method isn't very accurate to what it does
 export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders) {
