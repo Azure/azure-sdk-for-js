@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { SmsClient, SendRequest, SendOptions } from "../src/smsClient";
-import { record, Recorder, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 
@@ -37,19 +37,19 @@ describe("SmsClient", async () => {
     }
   });
 
-  it("sends a SMS message", async () => {
-    const connectionString = process.env[
-      "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING"
-    ] as string;
+  it("sends a SMS message to multiple recipients", async () => {
+    const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string;
+    const fromNumber = env.AZURE_PHONE_NUMBER as string;
+    const validToNumber = env.AZURE_PHONE_NUMBER as string;
+    const invalidToNumber = "+18332321226444";
 
-    const fromNumber = process.env["AZURE_PHONE_NUMBER"] as string;
-    const toNumber = process.env["AZURE_PHONE_NUMBER"] as string;
+    const recipients = [validToNumber, invalidToNumber];
 
     const smsClient = new SmsClient(connectionString);
 
     const request: SendRequest = {
       from: fromNumber,
-      to: [toNumber],
+      to: recipients,
       message: "test message"
     };
 
@@ -59,14 +59,53 @@ describe("SmsClient", async () => {
     };
 
     const results = await smsClient.send(request, options);
-    assert.lengthOf(results, 1);
-    for (const result of results) {
-      assert.equal(result.httpStatusCode, 202);
-      assert.equal(result.to, toNumber);
-      assert.isString(result.messageId);
-      assert.equal(result.repeatabilityResult, "accepted");
-      assert.isTrue(result.successful);
-      assert.isNull(result.errorMessage);
+    assert.lengthOf(
+      results,
+      recipients.length,
+      "must return as many results as there were recipients"
+    );
+
+    const validNumberResult = results[0];
+    assert.equal(validNumberResult.httpStatusCode, 202);
+    assert.equal(validNumberResult.to, validToNumber);
+    assert.isString(validNumberResult.messageId);
+    assert.equal(validNumberResult.repeatabilityResult, "accepted");
+    assert.isTrue(validNumberResult.successful);
+    assert.isNull(validNumberResult.errorMessage);
+
+    const invalidNumberResult = results[1];
+    assert.equal(invalidNumberResult.httpStatusCode, 400);
+    assert.equal(invalidNumberResult.to, invalidToNumber);
+    assert.isNull(invalidNumberResult.messageId, "no message id for errors");
+    assert.notEqual(invalidNumberResult.repeatabilityResult, "accepted");
+    assert.isFalse(invalidNumberResult.successful);
+    assert.isNotNull(invalidNumberResult.errorMessage);
+  });
+
+  it("throws an exception when sending from a number you don't own", async () => {
+    const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string;
+
+    const fromNumber = "+18331234567"; //how can we ensure we don't own this? Use a number with inbound only? Is that such a thing?
+    const validToNumber = env.AZURE_PHONE_NUMBER as string;
+    const smsClient = new SmsClient(connectionString);
+
+    const request: SendRequest = {
+      from: fromNumber,
+      to: [validToNumber],
+      message: "test message"
+    };
+
+    const options: SendOptions = {
+      enableDeliveryReport: true,
+      tag: "SMS_LIVE_TEST"
+    };
+    assert.isTrue(true);
+
+    try {
+      await smsClient.send(request, options);
+      assert.fail("Should have thrown an error");
+    } catch (e) {
+      assert.equal(e.statusCode, 400);
     }
   });
 });
