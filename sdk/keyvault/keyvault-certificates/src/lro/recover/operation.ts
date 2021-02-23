@@ -57,12 +57,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     let result: KeyVaultClientGetCertificateResponse;
 
     try {
-      result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
+      result = await this.client.getCertificate(this.vaultUrl, certificateName, "", updatedOptions);
     } finally {
       span.end();
     }
@@ -78,7 +73,10 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const { span, updatedOptions } = createSpan("generatedClient.recoverDeletedCertificate", options);
+    const { span, updatedOptions } = createSpan(
+      "generatedClient.recoverDeletedCertificate",
+      options
+    );
 
     let result: KeyVaultClientRecoverDeletedCertificateResponse;
 

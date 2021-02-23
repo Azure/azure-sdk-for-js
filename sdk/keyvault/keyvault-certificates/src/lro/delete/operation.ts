@@ -29,7 +29,7 @@ export type DeleteCertificateState = KeyVaultCertificatePollOperationState<Delet
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperationState
-  extends KeyVaultCertificatePollOperationState<DeletedCertificate> { }
+  extends KeyVaultCertificatePollOperationState<DeletedCertificate> {}
 
 /**
  * An interface representing a delete certificate's poll operation

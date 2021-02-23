@@ -128,9 +128,7 @@ import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  challengeBasedAuthenticationPolicy,
-} from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { createSpan } from "./tracing";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
@@ -376,13 +374,13 @@ export class CertificateClient {
   public listPropertiesOfCertificates(
     options: ListPropertiesOfCertificatesOptions = {}
   ): PagedAsyncIterableIterator<CertificateProperties> {
-
     const { span, updatedOptions } = createSpan("listPropertiesOfCertificates", options);
     // TODO: @sadasant - there is a conversion happening here for RequestOptionsBase. In reality
     // the callers can just avoid the RequestOptionsBase conversion altogether and just pass
     // OperationOptions instead since (if you trace to the generated client) it would accept it directly.
-    const iter = this.listPropertiesOfCertificatesAll
-      (operationOptionsToRequestOptionsBase(updatedOptions));
+    const iter = this.listPropertiesOfCertificatesAll(
+      operationOptionsToRequestOptionsBase(updatedOptions)
+    );
 
     span.end();
     const result = {
@@ -474,7 +472,10 @@ export class CertificateClient {
     // TODO: @sadasant - there is a conversion happening here for RequestOptionsBase. In reality
     // the callers can just avoid the RequestOptionsBase conversion altogether and just pass
     // OperationOptions instead since (if you trace to the generated client) it would accept it directly.
-    const iter = this.listPropertiesOfCertificateVersionsAll(certificateName, operationOptionsToRequestOptionsBase(updatedOptions));
+    const iter = this.listPropertiesOfCertificateVersionsAll(
+      certificateName,
+      operationOptionsToRequestOptionsBase(updatedOptions)
+    );
 
     span.end();
     const result = {
@@ -559,16 +560,12 @@ export class CertificateClient {
   public async deleteContacts(
     options: DeleteContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
-
     const { span, updatedOptions } = createSpan("deleteContacts", options);
 
     let result: KeyVaultClientDeleteCertificateContactsResponse;
 
     try {
-      result = await this.client.deleteCertificateContacts(
-        this.vaultUrl,
-        updatedOptions
-      );
+      result = await this.client.deleteCertificateContacts(this.vaultUrl, updatedOptions);
     } finally {
       span.end();
     }
@@ -642,10 +639,7 @@ export class CertificateClient {
 
     let result: KeyVaultClientGetCertificateContactsResponse;
     try {
-      result = await this.client.getCertificateContacts(
-        this.vaultUrl,
-        updatedOptions
-      );
+      result = await this.client.getCertificateContacts(this.vaultUrl, updatedOptions);
     } finally {
       span.end();
     }
@@ -653,7 +647,7 @@ export class CertificateClient {
     return coreContactsToCertificateContacts(result);
   }
 
-  private async * listPropertiesOfIssuersPage(
+  private async *listPropertiesOfIssuersPage(
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
   ): AsyncIterableIterator<IssuerProperties[]> {
@@ -685,7 +679,7 @@ export class CertificateClient {
     }
   }
 
-  private async * listPropertiesOfIssuersAll(
+  private async *listPropertiesOfIssuersAll(
     options: RequestOptionsBase = {}
   ): AsyncIterableIterator<IssuerProperties> {
     const f = {};
@@ -784,11 +778,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }
@@ -837,7 +831,7 @@ export class CertificateClient {
     const { span, updatedOptions } = createSpan("updateIssuer", options);
 
     // TODO: @sadasant - this covers for a bug where UpdateIssuerOptions doesn't
-    // actually have a .credentials property (RequestOptionsBase is defined such that 
+    // actually have a .credentials property (RequestOptionsBase is defined such that
     // any key is okay and will come back with type 'any'). It looks like `createIssuer` does something similar but it does add a .credentials property, so maybe that same technique would apply here.
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const credentials: IssuerCredentials = requestOptions.credentials || {};
@@ -859,11 +853,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-            emailAddress: x.email,
-            phone: x.phone,
-            firstName: x.firstName,
-            lastName: x.lastName
-          }))
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
           : undefined
       };
     }
@@ -915,11 +909,7 @@ export class CertificateClient {
     let result: KeyVaultClientGetCertificateIssuerResponse;
 
     try {
-      result = await this.client.getCertificateIssuer(
-        this.vaultUrl,
-        issuerName,
-        updatedOptions
-      );
+      result = await this.client.getCertificateIssuer(this.vaultUrl, issuerName, updatedOptions);
     } finally {
       span.end();
     }
@@ -949,11 +939,7 @@ export class CertificateClient {
     let result: KeyVaultClientDeleteCertificateIssuerResponse;
 
     try {
-      result = await this.client.deleteCertificateIssuer(
-        this.vaultUrl,
-        issuerName,
-        updatedOptions
-      );
+      result = await this.client.deleteCertificateIssuer(this.vaultUrl, issuerName, updatedOptions);
     } finally {
       span.end();
     }
@@ -1044,12 +1030,7 @@ export class CertificateClient {
     let result: KeyVaultClientGetCertificateResponse;
 
     try {
-      result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
+      result = await this.client.getCertificate(this.vaultUrl, certificateName, "", updatedOptions);
     } finally {
       span.end();
     }
@@ -1134,7 +1115,6 @@ export class CertificateClient {
     certificateBytes: Uint8Array,
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-
     const { span, updatedOptions } = createSpan("importCertificate", options);
 
     const base64EncodedCertificate = parseCertificateBytes(
@@ -1432,11 +1412,7 @@ export class CertificateClient {
 
     let result: KeyVaultClientBackupCertificateResponse;
     try {
-      result = await this.client.backupCertificate(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
+      result = await this.client.backupCertificate(this.vaultUrl, certificateName, updatedOptions);
     } finally {
       span.end();
     }
@@ -1473,11 +1449,7 @@ export class CertificateClient {
     let result: KeyVaultClientRestoreCertificateResponse;
 
     try {
-      result = await this.client.restoreCertificate(
-        this.vaultUrl,
-        backup,
-        updatedOptions
-      );
+      result = await this.client.restoreCertificate(this.vaultUrl, backup, updatedOptions);
     } finally {
       span.end();
     }
@@ -1485,7 +1457,7 @@ export class CertificateClient {
     return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
   }
 
-  private async * listDeletedCertificatesPage(
+  private async *listDeletedCertificatesPage(
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
   ): AsyncIterableIterator<DeletedCertificate[]> {
@@ -1518,7 +1490,7 @@ export class CertificateClient {
     }
   }
 
-  private async * listDeletedCertificatesAll(
+  private async *listDeletedCertificatesAll(
     options: RequestOptionsBase = {}
   ): AsyncIterableIterator<DeletedCertificate> {
     const f = {};
@@ -1631,11 +1603,7 @@ export class CertificateClient {
     const { span, updatedOptions } = createSpan("purgeDeletedCertificate", options);
 
     try {
-      await this.client.purgeDeletedCertificate(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
+      await this.client.purgeDeletedCertificate(this.vaultUrl, certificateName, updatedOptions);
     } finally {
       span.end();
     }
