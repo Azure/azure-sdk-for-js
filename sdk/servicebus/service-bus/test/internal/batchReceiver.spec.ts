@@ -904,6 +904,19 @@ describe("Batching Receiver", () => {
       }
     });
 
+    it("returns messages if drain is in progress (receiveAndDelete) - non-session", async function(): Promise<
+      void
+    > {
+      // Create the sender and receiver.
+      await beforeEachTest("receiveAndDelete");
+
+      // Send a message so we can be sure when the receiver is open and active.
+      await sender.sendMessages(TestMessage.getSample());
+
+      const messages1 = await receiver.receiveMessages(1);
+      should.equal(messages1.length, 1, "Unexpected number of received messages.");
+    });
+
     it("can receive and settle messages after a disconnect", async function(): Promise<void> {
       // Create the sender and receiver.
       await beforeEachTest();
@@ -945,7 +958,7 @@ describe("Batching Receiver", () => {
       refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
     });
 
-    it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
+    it.only("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
       void
     > {
       // Create the sender and receiver.
@@ -1184,9 +1197,7 @@ describe("Batching Receiver", () => {
       }
     });
 
-    it.only(`throws "session lock has expired" after a disconnect`, async function(): Promise<
-      void
-    > {
+    it(`throws "session lock has expired" after a disconnect`, async function(): Promise<void> {
       // Create the sender and receiver.
       await beforeEachTest();
 
@@ -1228,5 +1239,26 @@ describe("Batching Receiver", () => {
       }
       refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
     });
+
+    it("returns messages if drain is in progress (receiveAndDelete) - session", async function(): Promise<
+      void
+    > {
+      // Create the sender and receiver.
+      await beforeEachTest("receiveAndDelete");
+
+      // Send a message so we can be sure when the receiver is open and active.
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      const messages1 = await receiver.receiveMessages(1);
+      should.equal(messages1.length, 1, "Unexpected number of received messages.");
+    });
+
+    it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {});
+
+    it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<
+      void
+    > {});
+
+    it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {});
   });
 });
