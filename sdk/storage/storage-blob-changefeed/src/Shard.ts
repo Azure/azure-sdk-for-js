@@ -12,17 +12,11 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Options to configure {@link Shard.getChange} operation.
- *
- * @export
- * @interface ShardGetChangeOptions
  */
 export interface ShardGetChangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShardGetChangeOptions
    */
   abortSignal?: AbortSignalLike;
 }

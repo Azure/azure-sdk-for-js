@@ -14,7 +14,6 @@ export class MinAggregator implements Aggregator {
   private comparer: OrderByDocumentProducerComparator;
   /**
    * Represents an aggregator for MIN operator.
-   * @constructor MinAggregator
    * @hidden
    */
   constructor() {
@@ -23,9 +22,6 @@ export class MinAggregator implements Aggregator {
   }
   /**
    * Add the provided item to aggregation result.
-   * @memberof MinAggregator
-   * @instance
-   * @param other
    */
   public aggregate(other: MinAggregateResult) {
     if (this.value === undefined) {
@@ -42,8 +38,6 @@ export class MinAggregator implements Aggregator {
 
   /**
    * Get the aggregation result.
-   * @memberof MinAggregator
-   * @instance
    */
   public getResult() {
     return this.value;

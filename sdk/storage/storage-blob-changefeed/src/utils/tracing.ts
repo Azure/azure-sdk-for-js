@@ -6,8 +6,8 @@ import { Span, SpanOptions as OTSpanOptions, SpanKind } from "@opentelemetry/api
 
 /**
  * Creates a span using the global tracer.
- * @param name The name of the operation being performed.
- * @param tracingOptions The options for the underlying http request.
+ * @param name - The name of the operation being performed.
+ * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpan(
   operationName: string,

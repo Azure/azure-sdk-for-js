@@ -26,10 +26,6 @@ import {
  *
  * The {@link readableStreamBody} stream will retry beneath the `ReadableStream` layer, so you can just use it as
  * a normal Node.js Readable stream.
- *
- * @export
- * @class FileDownloadResponse
- * @implements {FileDownloadResponseModel}
  */
 export class FileDownloadResponse implements FileDownloadResponseModel {
   /**
@@ -37,8 +33,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * requests for partial file content.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get acceptRanges(): string | undefined {
     return this.originalResponse.acceptRanges;
@@ -49,8 +43,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * for the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get cacheControl(): string | undefined {
     return this.originalResponse.cacheControl;
@@ -62,8 +54,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * response.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentDisposition(): string | undefined {
     return this.originalResponse.contentDisposition;
@@ -74,8 +64,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * for the Content-Encoding request header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentEncoding(): string | undefined {
     return this.originalResponse.contentEncoding;
@@ -86,8 +74,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * for the Content-Language request header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentLanguage(): string | undefined {
     return this.originalResponse.contentLanguage;
@@ -98,8 +84,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * response body.
    *
    * @readonly
-   * @type {(number | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentLength(): number | undefined {
     return this.originalResponse.contentLength;
@@ -116,8 +100,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * header.
    *
    * @readonly
-   * @type {(Uint8Array | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentMD5(): Uint8Array | undefined {
     return this.originalResponse.contentMD5;
@@ -129,8 +111,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * header.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentRange(): string | undefined {
     return this.originalResponse.contentRange;
@@ -141,8 +121,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * The default content type is 'application/octet-stream'
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentType(): string | undefined {
     return this.originalResponse.contentType;
@@ -154,8 +132,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * can specify the time of a completed, aborted, or failed copy attempt.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get copyCompletedOn(): Date | undefined {
     return this.originalResponse.copyCompletedOn;
@@ -166,8 +142,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * File operation where this file was the destination file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get copyId(): string | undefined {
     return this.originalResponse.copyId;
@@ -180,8 +154,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * Content-Length bytes copied.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get copyProgress(): string | undefined {
     return this.originalResponse.copyProgress;
@@ -193,8 +165,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * was the destination file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get copySource(): string | undefined {
     return this.originalResponse.copySource;
@@ -206,8 +176,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * 'success', 'aborted', 'failed'
    *
    * @readonly
-   * @type {(CopyStatusType | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get copyStatus(): CopyStatusType | undefined {
     return this.originalResponse.copyStatus;
@@ -219,8 +187,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * non-fatal copy operation failure.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get copyStatusDescription(): string | undefined {
     return this.originalResponse.copyStatusDescription;
@@ -231,8 +197,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * indicates the time at which the response was initiated.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get date(): Date | undefined {
     return this.originalResponse.date;
@@ -243,8 +207,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * perform operations conditionally, in quotes.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get etag(): string | undefined {
     return this.originalResponse.etag;
@@ -262,8 +224,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * latter calculated from the requested range.
    *
    * @readonly
-   * @type {(Uint8Array | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get fileContentMD5(): Uint8Array | undefined {
     return this.originalResponse.fileContentMD5;
@@ -277,8 +237,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * are encrypted).
    *
    * @readonly
-   * @type {(boolean | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get isServerEncrypted(): boolean | undefined {
     return this.originalResponse.isServerEncrypted;
@@ -290,8 +248,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * the last modified time.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get lastModified(): Date | undefined {
     return this.originalResponse.lastModified;
@@ -302,8 +258,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * to associate with a file storage object.
    *
    * @readonly
-   * @type {(Metadata | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get metadata(): Metadata | undefined {
     return this.originalResponse.metadata;
@@ -314,8 +268,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * that was made and can be used for troubleshooting the request.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get requestId(): string | undefined {
     return this.originalResponse.requestId;
@@ -326,8 +278,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * to execute the request.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get version(): string | undefined {
     return this.originalResponse.version;
@@ -337,8 +287,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * Attributes set for the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get fileAttributes(): string | undefined {
     return this.originalResponse.fileAttributes;
@@ -348,8 +296,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * Creation time for the file.
    *
    * @readonly
-   * @type {(Date | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get fileCreatedOn(): Date | undefined {
     return this.originalResponse.fileCreatedOn;
@@ -359,8 +305,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * Last write time for the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get fileLastWriteOn(): Date | undefined {
     return this.originalResponse.fileLastWriteOn;
@@ -370,8 +314,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * Change time for the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get fileChangeOn(): Date | undefined {
     return this.originalResponse.fileChangeOn;
@@ -381,8 +323,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * Key of the permission set for the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get filePermissionKey(): string | undefined {
     return this.originalResponse.filePermissionKey;
@@ -392,8 +332,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * The fileId of the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get fileId(): string | undefined {
     return this.originalResponse.fileId;
@@ -403,8 +341,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * The parent fileId of the file.
    *
    * @readonly
-   * @type {(string | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get fileParentId(): string | undefined {
     return this.originalResponse.fileParentId;
@@ -415,8 +351,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * Always undefined in node.js.
    *
    * @readonly
-   * @type {(Promise<Blob> | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get contentAsBlob(): Promise<Blob> | undefined {
     return this.originalResponse.blobBody;
@@ -452,8 +386,6 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * It will automatically retry when internal read stream unexpected ends.
    *
    * @readonly
-   * @type {(NodeJS.ReadableStream | undefined)}
-   * @memberof FileDownloadResponse
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
     return isNode ? this.fileDownloadStream : undefined;
@@ -471,12 +403,11 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
   /**
    * Creates an instance of FileDownloadResponse.
    *
-   * @param {FileDownloadResponseModel} originalResponse
-   * @param {ReadableStreamGetter} getter
-   * @param {number} offset
-   * @param {number} count
-   * @param {RetriableReadableStreamOptions} [options={}]
-   * @memberof FileDownloadResponse
+   * @param originalResponse -
+   * @param getter -
+   * @param offset -
+   * @param count -
+   * @param options -
    */
   public constructor(
     originalResponse: FileDownloadResponseModel,

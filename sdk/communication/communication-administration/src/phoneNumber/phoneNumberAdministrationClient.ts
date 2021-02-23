@@ -457,7 +457,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listSearches.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -490,7 +490,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listSearches.
    * @param options - Optional parameters for the underlying HTTP request.
    */
@@ -538,7 +538,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listReleases.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -571,7 +571,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listReleases.
    * @param options - Optional parameters for the underlying HTTP request.
    */
@@ -619,7 +619,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listSupportedCountries.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -652,7 +652,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listSupportedCountries.
    * @param options - Optional parameters for the underlying HTTP request.
    */
@@ -674,7 +674,6 @@ export class PhoneNumberAdministrationClient {
    *   console.log("country name: ", country.localizedName);
    * }
    * ```
-   * @summary List all supported countries.
    * @param options - The optional parameters.
    */
   public listSupportedCountries(
@@ -701,7 +700,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listPhoneNumbers.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -734,7 +733,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listPhoneNumbers.
    * @param options - Optional parameters for the underlying HTTP request.
    */
@@ -756,7 +755,6 @@ export class PhoneNumberAdministrationClient {
    *   console.log("phone number: ", acquired.phoneNumber);
    * }
    * ```
-   * @summary List all acquired phone numbers.
    * @param options - The optional parameters.
    */
   public listPhoneNumbers(
@@ -782,7 +780,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listPhonePlanGroups.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param countryCode - The ISO 3166-2 country code, for example "FR" or "CN".
@@ -818,7 +816,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listPhonePlanGroups.
    * @param countryCode - The ISO 3166-2 country code, for example "FR" or "CN".
    * @param options - Optional parameters for the underlying HTTP request.
@@ -842,7 +840,6 @@ export class PhoneNumberAdministrationClient {
    *   console.log("plan group id: ", phonePlanGroup.phonePlanGroupId);
    * }
    * ```
-   * @summary List all available phone plan groups for a country.
    * @param options - The optional parameters.
    */
   public listPhonePlanGroups(
@@ -870,7 +867,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listPhonePlans.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param planGroupInfo - Information need to search for plans.
@@ -911,7 +908,7 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listPhonePlans.
    * @param planGroupInfo - Information need to search for plans.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -934,7 +931,7 @@ export class PhoneNumberAdministrationClient {
    * for await (const phonePlan of client.listPhonePlanGroups(PLAN_GROUP_INFO)) {
    *   console.log("plan id: ", phonePlan.phonePlanId);
    * }
-   *
+   * ```
    * Gets all available phone plans for a given plan group.
    * @param planGroupInfo - Information need to search for plans.
    * @param options - Additional request options.

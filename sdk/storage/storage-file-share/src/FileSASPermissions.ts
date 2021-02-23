@@ -9,19 +9,13 @@
  * the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link FileSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
- *
- * @export
- * @class FileSASPermissions
  */
 export class FileSASPermissions {
   /**
    * Creates a FileSASPermissions from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
-   * @static
-   * @param {string} permissions
-   * @returns {FileSASPermissions}
-   * @memberof FileSASPermissions
+   * @param permissions -
    */
   public static parse(permissions: string): FileSASPermissions {
     const fileSASPermissions = new FileSASPermissions();
@@ -50,33 +44,21 @@ export class FileSASPermissions {
 
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof FileSASPermissions
    */
   public read: boolean = false;
 
   /**
    * Specifies Create access granted.
-   *
-   * @type {boolean}
-   * @memberof FileSASPermissions
    */
   public create: boolean = false;
 
   /**
    * Specifies Write access granted.
-   *
-   * @type {boolean}
-   * @memberof FileSASPermissions
    */
   public write: boolean = false;
 
   /**
    * Specifies Delete access granted.
-   *
-   * @type {boolean}
-   * @memberof FileSASPermissions
    */
   public delete: boolean = false;
 
@@ -84,8 +66,7 @@ export class FileSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returns {string} A string which represents the FileSASPermissions
-   * @memberof FileSASPermissions
+   * @returns A string which represents the FileSASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];

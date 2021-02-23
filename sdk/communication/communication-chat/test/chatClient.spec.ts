@@ -7,7 +7,7 @@ import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 
-describe("ChatClient", function () {
+describe("ChatClient", function() {
   let threadId: string;
   let recorder: Recorder;
   let chatClient: ChatClient;
@@ -16,23 +16,23 @@ describe("ChatClient", function () {
   let testUser: CommunicationUserIdentifier;
   let testUser2: CommunicationUserIdentifier;
 
-  this.afterAll(async function () {
+  this.afterAll(async function() {
     // await deleteTestUser(testUser);
     // await deleteTestUser(testUser2);
     // await deleteTestUser(testUser3);
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
   });
 
-  it("successfully creates a thread", async function () {
+  it("successfully creates a thread", async function() {
     const communicationUserToken = await createTestUser();
 
     testUser = communicationUserToken.user;
@@ -56,13 +56,13 @@ describe("ChatClient", function () {
     assert.isDefined(chatThread?.id);
   }).timeout(8000);
 
-  it("successfully retrieves a thread client", async function () {
+  it("successfully retrieves a thread client", async function() {
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
     assert.isNotNull(chatThreadClient);
     assert.equal(chatThreadClient.threadId, threadId);
   });
 
-  it("successfully deletes a thread", async function () {
+  it("successfully deletes a thread", async function() {
     await chatClient.deleteChatThread(threadId);
   });
 });

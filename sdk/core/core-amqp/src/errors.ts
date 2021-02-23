@@ -610,9 +610,9 @@ function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
   if (
     !isNode &&
-    window &&
+    self &&
     err.type === "error" &&
-    err.target instanceof (window as any).WebSocket
+    err.target instanceof (self as any).WebSocket
   ) {
     result = true;
   }

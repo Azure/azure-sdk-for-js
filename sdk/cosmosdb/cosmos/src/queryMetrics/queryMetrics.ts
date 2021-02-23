@@ -26,8 +26,6 @@ export class QueryMetrics {
 
   /**
    * Gets the IndexHitRatio
-   * @memberof QueryMetrics
-   * @instance
    * @hidden
    */
   public get indexHitRatio() {
@@ -93,8 +91,6 @@ export class QueryMetrics {
 
   /**
    * Output the QueryMetrics as a delimited string.
-   * @memberof QueryMetrics
-   * @instance
    * @hidden
    */
   public toDelimitedString() {
@@ -163,8 +159,6 @@ export class QueryMetrics {
 
   /**
    * Returns a new instance of the QueryMetrics class that is the aggregation of an array of query metrics.
-   * @memberof QueryMetrics
-   * @instance
    */
   public static createFromArray(queryMetricsArray: QueryMetrics[]) {
     if (!queryMetricsArray) {
@@ -176,8 +170,6 @@ export class QueryMetrics {
 
   /**
    * Returns a new instance of the QueryMetrics class this is deserialized from a delimited string.
-   * @memberof QueryMetrics
-   * @instance
    */
   public static createFromDelimitedString(
     delimitedString: string,

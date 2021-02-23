@@ -25,7 +25,7 @@ export class CommunicationIdentity {
 
   /**
    * Initialize a new instance of the class CommunicationIdentity class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: IdentityRestClient) {
     this.client = client;
@@ -33,7 +33,7 @@ export class CommunicationIdentity {
 
   /**
    * Create a new identity.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   create(
     options?: CommunicationIdentityCreateOptionalParams
@@ -49,8 +49,8 @@ export class CommunicationIdentity {
 
   /**
    * Delete the identity, revoke all tokens for the identity and delete all associated data.
-   * @param id - Identifier of the identity to be deleted.
-   * @param options - The options parameters.
+   * @param id Identifier of the identity to be deleted.
+   * @param options The options parameters.
    */
   delete(id: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
@@ -64,8 +64,8 @@ export class CommunicationIdentity {
 
   /**
    * Revoke all access tokens for the specific identity.
-   * @param id - Identifier of the identity.
-   * @param options - The options parameters.
+   * @param id Identifier of the identity.
+   * @param options The options parameters.
    */
   revokeAccessTokens(
     id: string,
@@ -82,9 +82,9 @@ export class CommunicationIdentity {
 
   /**
    * Issue a new token for an identity.
-   * @param id - Identifier of the identity to issue token for.
-   * @param body - Requesting scopes for the new token.
-   * @param options - The options parameters.
+   * @param id Identifier of the identity to issue token for.
+   * @param body Requesting scopes for the new token.
+   * @param options The options parameters.
    */
   issueAccessToken(
     id: string,

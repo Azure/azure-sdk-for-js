@@ -147,7 +147,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
     "listSubscriptionsRuntimeProperties",
     "listRules"
   ].forEach((methodName) => {
-    describe(`${methodName}`, () => {
+    describe(`${methodName}`, (): void => {
       function getIter() {
         let iterator;
         if (methodName.includes("Subscription")) {
@@ -744,9 +744,9 @@ describe("Atom management - Authentication", function(): void {
       const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
       const paramsToExclude = ["createdAt", "accessedAt", "modifiedAt"];
       for (const info of response) {
-        if (info[name] == testCase[1].alwaysBeExistingEntity) {
+        if (info[name] === testCase[1].alwaysBeExistingEntity) {
           assert.deepEqualExcluding(info, testCase[1].output, paramsToExclude);
-        } else if (info[name] == testCase[2].alwaysBeExistingEntity) {
+        } else if (info[name] === testCase[2].alwaysBeExistingEntity) {
           assert.deepEqualExcluding(info, testCase[2].output, paramsToExclude);
         }
       }
@@ -2383,7 +2383,7 @@ describe(`updateRule() using different variations to the input parameter "ruleOp
   });
 });
 
-function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
+function checkForValidErrorScenario(err: any, expectedtestOutput: any): void {
   let isErrorExpected = false;
 
   if (expectedtestOutput.testErrorMessage) {
@@ -2421,7 +2421,7 @@ async function createEntity(
   ruleOptions?: Omit<Required<CreateSubscriptionOptions>["defaultRuleOptions"], "name">
 ): Promise<any> {
   if (!overrideOptions) {
-    if (queueOptions == undefined) {
+    if (queueOptions === undefined) {
       queueOptions = {
         lockDuration: "PT1M",
         authorizationRules: [
@@ -2436,19 +2436,19 @@ async function createEntity(
       };
     }
 
-    if (topicOptions == undefined) {
+    if (topicOptions === undefined) {
       topicOptions = {
         status: "Active"
       };
     }
 
-    if (subscriptionOptions == undefined) {
+    if (subscriptionOptions === undefined) {
       subscriptionOptions = {
         lockDuration: "PT1M"
       };
     }
 
-    if (ruleOptions == undefined) {
+    if (ruleOptions === undefined) {
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
@@ -2460,17 +2460,19 @@ async function createEntity(
   }
 
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
         ...queueOptions
       });
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const topicResponse = await serviceBusAtomManagementClient.createTopic(entityPath, {
         ...topicOptions
       });
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2484,7 +2486,8 @@ async function createEntity(
         }
       );
       return subscriptionResponse;
-    case EntityType.RULE:
+    }
+    case EntityType.RULE: {
       if (!topicPath || !subscriptionPath) {
         throw new Error(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
@@ -2498,6 +2501,7 @@ async function createEntity(
         ruleOptions?.action!
       );
       return ruleResponse;
+    }
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
@@ -2509,13 +2513,15 @@ async function getEntity(
   subscriptionPath?: string
 ): Promise<any> {
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const queueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const topicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2526,7 +2532,8 @@ async function getEntity(
         entityPath
       );
       return subscriptionResponse;
-    case EntityType.RULE:
+    }
+    case EntityType.RULE: {
       if (!topicPath || !subscriptionPath) {
         throw new Error(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
@@ -2538,6 +2545,7 @@ async function getEntity(
         entityPath
       );
       return ruleResponse;
+    }
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
@@ -2548,17 +2556,19 @@ async function getEntityRuntimeProperties(
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeProperties(
         entityPath
       );
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeProperties(
         entityPath
       );
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2569,6 +2579,7 @@ async function getEntityRuntimeProperties(
         entityPath
       );
       return subscriptionResponse;
+    }
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
@@ -2578,13 +2589,15 @@ async function getEntitiesRuntimeProperties(
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const queueResponse = await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]();
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const topicResponse = await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]();
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2594,6 +2607,7 @@ async function getEntitiesRuntimeProperties(
         "getSubscriptionsRuntimeProperties"
       ](topicPath);
       return subscriptionResponse;
+    }
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
@@ -2605,13 +2619,15 @@ async function entityExists(
   subscriptionPath?: string
 ): Promise<any> {
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const queueResponse = await serviceBusAtomManagementClient.queueExists(entityPath);
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const topicResponse = await serviceBusAtomManagementClient.topicExists(entityPath);
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2622,7 +2638,8 @@ async function entityExists(
         entityPath
       );
       return subscriptionResponse;
-    case EntityType.RULE:
+    }
+    case EntityType.RULE: {
       if (!topicPath || !subscriptionPath) {
         throw new Error(
           "TestError: topic path and subscription path must be passed when invoking tests on rules"
@@ -2634,6 +2651,7 @@ async function entityExists(
         entityPath
       );
       return ruleResponse;
+    }
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
@@ -2650,7 +2668,7 @@ async function updateEntity(
   ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
-    if (queueOptions == undefined) {
+    if (queueOptions === undefined) {
       queueOptions = {
         lockDuration: "PT1M",
         authorizationRules: [
@@ -2665,19 +2683,19 @@ async function updateEntity(
       };
     }
 
-    if (topicOptions == undefined) {
+    if (topicOptions === undefined) {
       topicOptions = {
         status: "Active"
       };
     }
 
-    if (subscriptionOptions == undefined) {
+    if (subscriptionOptions === undefined) {
       subscriptionOptions = {
         lockDuration: "PT1M"
       };
     }
 
-    if (ruleOptions == undefined) {
+    if (ruleOptions === undefined) {
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
@@ -2692,21 +2710,23 @@ async function updateEntity(
   }
 
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const getQueueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       const queueResponse = await serviceBusAtomManagementClient.updateQueue({
         ...getQueueResponse,
         ...queueOptions
       });
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const getTopicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       const topicResponse = await serviceBusAtomManagementClient.updateTopic({
         ...getTopicResponse,
         ...topicOptions
       });
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2721,7 +2741,8 @@ async function updateEntity(
         ...subscriptionOptions
       });
       return subscriptionResponse;
-    case EntityType.RULE:
+    }
+    case EntityType.RULE: {
       if (!topicPath || !subscriptionPath) {
         throw new Error(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
@@ -2741,6 +2762,7 @@ async function updateEntity(
         }
       );
       return ruleResponse;
+    }
   }
 }
 
@@ -2751,13 +2773,15 @@ async function deleteEntity(
   subscriptionPath?: string
 ): Promise<any> {
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const queueResponse = await serviceBusAtomManagementClient.deleteQueue(entityPath);
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const topicResponse = await serviceBusAtomManagementClient.deleteTopic(entityPath);
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2768,7 +2792,8 @@ async function deleteEntity(
         entityPath
       );
       return subscriptionResponse;
-    case EntityType.RULE:
+    }
+    case EntityType.RULE: {
       if (!topicPath || !subscriptionPath) {
         throw new Error(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
@@ -2780,6 +2805,7 @@ async function deleteEntity(
         entityPath
       );
       return ruleResponse;
+    }
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
@@ -2792,19 +2818,21 @@ async function listEntities(
   maxCount?: number
 ): Promise<any> {
   switch (testEntityType) {
-    case EntityType.QUEUE:
+    case EntityType.QUEUE: {
       const queueResponse = await serviceBusAtomManagementClient["getQueues"]({
         skip,
         maxCount
       });
       return queueResponse;
-    case EntityType.TOPIC:
+    }
+    case EntityType.TOPIC: {
       const topicResponse = await serviceBusAtomManagementClient["getTopics"]({
         skip,
         maxCount
       });
       return topicResponse;
-    case EntityType.SUBSCRIPTION:
+    }
+    case EntityType.SUBSCRIPTION: {
       if (!topicPath) {
         throw new Error(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
@@ -2814,7 +2842,8 @@ async function listEntities(
         "getSubscriptions"
       ](topicPath, { skip, maxCount });
       return subscriptionResponse;
-    case EntityType.RULE:
+    }
+    case EntityType.RULE: {
       if (!topicPath || !subscriptionPath) {
         throw new Error(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
@@ -2826,6 +2855,7 @@ async function listEntities(
         { skip, maxCount }
       );
       return ruleResponse;
+    }
   }
   throw new Error("TestError: Unrecognized EntityType");
 }

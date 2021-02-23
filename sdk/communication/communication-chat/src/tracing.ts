@@ -9,7 +9,7 @@ type OperationTracingOptions = OperationOptions["tracingOptions"];
 
 /**
  * Creates a span using the global tracer.
- * @ignore
+ * @internal
  * @param name - The name of the operation being performed.
  * @param tracingOptions - The options for the underlying http request.
  */

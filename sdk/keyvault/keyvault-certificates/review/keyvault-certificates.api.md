@@ -285,9 +285,12 @@ export type GetPlainCertificateOperationOptions = coreHttp.OperationOptions;
 export interface ImportCertificateOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     password?: string;
-    policy?: CertificatePolicy;
+    policy?: ImportCertificatePolicy;
     tags?: CertificateTags;
 }
+
+// @public
+export type ImportCertificatePolicy = CertificatePolicyProperties & Partial<PolicySubjectProperties>;
 
 // @public
 export interface IssuerAttributes {

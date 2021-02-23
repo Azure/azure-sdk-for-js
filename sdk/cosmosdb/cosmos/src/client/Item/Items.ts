@@ -27,7 +27,6 @@ import { hashV2PartitionKey } from "../../utils/hashing/v2";
 
 /**
  * @hidden
- * @param options
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   const optionsType = typeof options;
@@ -44,7 +43,7 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
 export class Items {
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
-   * @param container The parent container.
+   * @param container - The parent container.
    * @hidden
    */
   constructor(
@@ -54,8 +53,8 @@ export class Items {
 
   /**
    * Queries all items.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
@@ -70,8 +69,8 @@ export class Items {
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all items.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
@@ -113,8 +112,6 @@ export class Items {
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
-   * @param partitionKey
-   * @param changeFeedOptions
    * @deprecated Use `changeFeed` instead.
    *
    * @example Read from the beginning of the change feed.
@@ -133,15 +130,11 @@ export class Items {
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    * @deprecated Use `changeFeed` instead.
    *
-   * @param changeFeedOptions
    */
   public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    * @deprecated Use `changeFeed` instead.
-   *
-   * @param partitionKey
-   * @param changeFeedOptions
    */
   public readChangeFeed<T>(
     partitionKey: string | number | boolean,
@@ -150,8 +143,6 @@ export class Items {
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    * @deprecated Use `changeFeed` instead.
-   *
-   * @param changeFeedOptions
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
@@ -168,9 +159,6 @@ export class Items {
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
-   * @param partitionKey
-   * @param changeFeedOptions
-   *
    * @example Read from the beginning of the change feed.
    * ```javascript
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
@@ -185,15 +173,10 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   *
-   * @param changeFeedOptions
    */
   public changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   *
-   * @param partitionKey
-   * @param changeFeedOptions
    */
   public changeFeed<T>(
     partitionKey: string | number | boolean,
@@ -201,8 +184,6 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   *
-   * @param changeFeedOptions
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
@@ -234,7 +215,7 @@ export class Items {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
    * const {body: containerList} = await items.readAll().fetchAll();
@@ -249,7 +230,7 @@ export class Items {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
    * const {body: containerList} = await items.readAll().fetchAll();
@@ -268,8 +249,8 @@ export class Items {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param body Represents the body of the item. Can contain any number of user defined properties.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @param body - Represents the body of the item. Can contain any number of user defined properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
    */
   public async create<T extends ItemDefinition = any>(
     body: T,
@@ -321,8 +302,8 @@ export class Items {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param body Represents the body of the item. Can contain any number of user defined properties.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @param body - Represents the body of the item. Can contain any number of user defined properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
    */
   public async upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
@@ -333,8 +314,8 @@ export class Items {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param body Represents the body of the item. Can contain any number of user defined properties.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @param body - Represents the body of the item. Can contain any number of user defined properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
    */
   public async upsert<T extends ItemDefinition>(
     body: T,
@@ -392,7 +373,7 @@ export class Items {
    * The choices are: Create, Upsert, Read, Replace, and Delete
    *
    * Usage example:
-   *
+   * ```typescript
    * // partitionKey is optional at the top level if present in the resourceBody
    * const operations: OperationInput[] = [
    *    {
@@ -407,9 +388,10 @@ export class Items {
    * ]
    *
    * await database.container.items.bulk(operation)
+   * ```
    *
-   * @param operations. List of operations. Limit 100
-   * @param options Used for modifying the request.
+   * @param operations - List of operations. Limit 100
+   * @param options - Used for modifying the request.
    */
   public async bulk(
     operations: OperationInput[],
