@@ -151,8 +151,8 @@ function makeHealthcareEntitiesGraph(
   relations: HealthcareRelation[]
 ): void {
   for (const relation of relations) {
-    let attributeEntities: HealthcareEntity[] = [];
-    let targetEntities: HealthcareEntity[] = [];
+    const attributeEntities: HealthcareEntity[] = [];
+    const targetEntities: HealthcareEntity[] = [];
     for (const entity of relation.entities) {
       const index = parseHealthcareEntityIndex(entity.ref);
       if (entity.role === "Attribute") {

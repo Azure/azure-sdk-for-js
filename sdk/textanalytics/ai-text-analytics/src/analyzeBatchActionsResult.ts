@@ -318,8 +318,8 @@ function categorizeActionErrors(
 
 /**
  * @internal
- * @param error the error the service sent for a task
- * @param lastUpdateDateTime the time when this task failed
+ * @param error - the error the service sent for a task
+ * @param lastUpdateDateTime - the time when this task failed
  */
 function createErredAction(
   error: TextAnalyticsActionError,
