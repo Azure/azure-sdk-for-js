@@ -1,18 +1,16 @@
 let nock = require('nock');
 
-module.exports.hash = "7c12bd2e3a4959e8779facd7c0c0047e";
+module.exports.hash = "e9e4d28818e35133b68bf236d797d9f8";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/SomeTenantId/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=SomeClientSecret&scope=https%3A%2F%2Fcommunication.azure.com%2F%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiJodHRwczovL2NvbW11bmljYXRpb24uYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJpYXQiOjE2MTExMDAzMzEsIm5iZiI6MTYxMTEwMDMzMSwiZXhwIjoxNjExMTg3MDMxLCJhaW8iOiJFMkpnWUVpUU5MZWJXUkx6YSt2eU5NVWsweDNUQVE9PSIsImFwcGlkIjoiNmM4MTgxYzctOTFhNi00ZTJlLTg0ODAtZDU0MDIxYWM0YzRiIiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3LyIsIm9pZCI6IjNlMGM3MTRmLTk3YWMtNGQ2My1hZWFmLTE0YmFhNWUwNjRjYiIsInJoIjoiMC5BUm9BdjRqNWN2R0dyMEdScXkxODBCSGJSOGVCZ1d5bWtTNU9oSURWUUNHc1RFc2FBQUEuIiwic3ViIjoiM2UwYzcxNGYtOTdhYy00ZDYzLWFlYWYtMTRiYWE1ZTA2NGNiIiwidGlkIjoiNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3IiwidXRpIjoiLVptNzJtOEJmRWUza01iXzQ2b01BUSIsInZlciI6IjEuMCJ9.Aq2dTHlrRFat88RRu8WhpuL6rGQzGaDYAPdtqpB5eZkZ7gHgrLEUM1IqH5oaEcj8euxAyaQJo_GfcgreUV7g4P1yVQTbiDP023Q-564_4UyIBfocsgWuoMPrjU9KfKjD50t8vvvp7X1xUNbeZ6oVGDVGi9BlG1BeTR7xUk98cP_fIUAaraU0RuYcHnwAD2j9_jRpGqj0jTQybvzHItsb81tQXRPqHJsrwfI4rthDPJjZvtCph7RKEHLV4hhcHT5f0Pz8xPxRlaBZckuFWoxnyU_PI7c87xTJkDffiwd_YxsavFF-wMjUrya0v1WbNK-R6hRADSSJ1fccGjTw8BfDfA"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiJodHRwczovL2NvbW11bmljYXRpb24uYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJpYXQiOjE2MTQxMDkwODUsIm5iZiI6MTYxNDEwOTA4NSwiZXhwIjoxNjE0MTk1Nzg1LCJhaW8iOiJFMlpnWUppeStHcmhwRi8ydXVJTlJZWVdENTMyQXdBPSIsImFwcGlkIjoiODQ2ODIwNWMtZjgxOC00ZTVkLWJlNTgtMWFjNjhmMjc4MzQ2IiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3LyIsIm9pZCI6ImRjNjQyOTMwLWI4OTgtNDUxMi04MWI3LWEzZDYzYjVmODkyNSIsInJoIjoiMC5BUm9BdjRqNWN2R0dyMEdScXkxODBCSGJSMXdnYUlRWS1GMU92bGdheG84bmcwWWFBQUEuIiwic3ViIjoiZGM2NDI5MzAtYjg5OC00NTEyLTgxYjctYTNkNjNiNWY4OTI1IiwidGlkIjoiNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3IiwidXRpIjoiZGx2TkN6TWUya2VWRzhUUHkyUVZBQSIsInZlciI6IjEuMCJ9.LKCFLnPkB5jy51lVDaORwM1yyt9RvKey1ijs5ytHZ9QtrWyAScfNv-6SoYXeMcCa-2snfcltwU2lyavSWWdn_6JAreCwpltUIXfsq4KYXEp31JDzl152sSrseJTXXUYu-O6XwoUDtoeJGNP_V6QtmBE7DU3A-nQbh9mkU6BMEKlcYsCdoo9ucE3lztUBD4a8h-E2fc-YL-icuqeN3kD_gjNwvtAWZDH3CSAqw7HlyMQgt56_rs1C-etBGbj1O6da-OUc_J8pQfI-dl2j7RPPdS2DRCvO-u6G1sp_4Ww_Jbp91t-j-jpJF6IefeJXeKa2NXSQcRcBrxrJcOHbr_5jkw"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1327',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,23 +22,25 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'dabb99f9-016f-477c-b790-c6ffe3aa0c01',
+  '0bcd5b76-1e33-47da-951b-c4cfcb641500',
   'x-ms-ests-server',
-  '2.1.11397.13 - EUS ProdSlices',
+  '2.1.11513.14 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AuqvfljIO2xBj3OKpGftjuhWyo4SAQAAANdomdcOAAAA; expires=Thu, 18-Feb-2021 23:57:11 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgXvuwsAKJFMoaYc0mLDK06MQo4QAQAAAMhRx9cOAAAA; expires=Thu, 25-Mar-2021 19:43:05 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 19 Jan 2021 23:57:10 GMT'
+  'Tue, 23 Feb 2021 19:43:05 GMT',
+  'Content-Length',
+  '1327'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/sms', {"from":"+18005551234","to":["+18005551234"],"message":"test message","sendSmsOptions":{}})
+  .post('/sms', {"from":"+18005551234","smsRecipients":[{"to":"+18005551234","repeatabilityRequestId":"47f3ab9c-3293-4e23-b596-051733a432bc","repeatabilityFirstSent":"Tue, 23 Feb 2021 19:43:05 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":false}})
   .query(true)
-  .reply(200, {"messageId":"Sanitized"}, [
+  .reply(202, {"value":[{"to":"+18005551234","messageId":"Sanitized","httpStatusCode":202,"errorMessage":null,"repeatabilityResult":"accepted","successful":true}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -48,11 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'vlZAyq1ZcEGOPRtMJ9JSQw.0',
+  'VnkQvw6tJkOZWN/iIzE/gA.0',
+  'api-supported-versions',
+  '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '299ms',
+  '663ms',
   'X-Azure-Ref',
-  '013EHYAAAAAAnf+mY2TkXSZOLShKPRL8MRVdSMzBFREdFMDUwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0yVo1YAAAAACxqdsxGOdVRroNAbNHvDg7WVZSMzBFREdFMDQwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 19 Jan 2021 23:57:11 GMT'
+  'Tue, 23 Feb 2021 19:43:06 GMT'
 ]);
