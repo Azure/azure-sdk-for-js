@@ -20,7 +20,10 @@ import { MessageAlreadySettled } from "../util/errors";
 /**
  * @internal
  */
-export function assertValidMessageHandlers(handlers: any) {
+export function assertValidMessageHandlers(handlers: {
+  processMessage?: unknown;
+  processError?: unknown;
+}): void {
   if (
     handlers &&
     handlers.processMessage instanceof Function &&

@@ -42,11 +42,11 @@ export async function executeAtomXmlOperation(
   operationOptions: OperationOptions
 ): Promise<HttpOperationResponse> {
   if (webResource.body) {
-    const content: object = serializer.serialize(webResource.body);
+    const content = serializer.serialize(webResource.body);
     webResource.body = stringifyXML(content, { rootName: "entry" });
   }
 
-  if (webResource.method == "PUT") {
+  if (webResource.method === "PUT") {
     webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
   }
 
@@ -116,7 +116,7 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }): vo
  * @param allowedProperties - The set of properties that are allowed by the service for the
  * associated operation(s);
  */
-export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
+export function serializeToAtomXmlRequest(resourceName: string, resource: unknown): object {
   const content: any = {};
 
   content[resourceName] = Object.assign({}, resource);
@@ -183,7 +183,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
 
   if (result) {
     if (Array.isArray(result)) {
-      result.forEach((entry: object) => {
+      result.forEach((entry) => {
         setName(entry, nameProperties);
       });
     } else {

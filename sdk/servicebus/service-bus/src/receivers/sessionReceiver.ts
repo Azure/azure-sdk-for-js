@@ -305,7 +305,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
@@ -314,7 +314,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
             managementRequestOptions
           );
       } else {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
       }

@@ -50,11 +50,15 @@ export class BatchingReceiver extends MessageReceiver {
           onSessionError: (context) => {
             lastError = context?.session?.error;
           },
-          // ignored for now - the next call will just fail so they'll get an appropriate error from somewhere else.
-          onClose: async () => {},
-          onSessionClose: async () => {},
-          // we don't add credits initially so we don't need to worry about handling any messages.
-          onMessage: async () => {}
+          onClose: async () => {
+            /** Nothing to do here - the next call will just fail so they'll get an appropriate error from somewhere else. */
+          },
+          onSessionClose: async () => {
+            /** Nothing to do here - the next call will just fail so they'll get an appropriate error from somewhere else. */
+          },
+          onMessage: async () => {
+            /** Nothing to do here -  we don't add credits initially so we don't need to worry about handling any messages.*/
+          }
         });
 
         await this._init(rcvrOptions, abortSignal);

@@ -557,8 +557,10 @@ export function fromRheaMessage(
 /**
  * @internal
  */
-export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
-  return possible != null && typeof possible === "object" && "body" in possible;
+export function isServiceBusMessage(possible: unknown): possible is ServiceBusMessage {
+  return (
+    possible != null && typeof possible === "object" && Object.hasOwnProperty.call(possible, "body")
+  );
 }
 
 /**

@@ -248,16 +248,17 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         abortSignal
       );
     } catch (err) {
-      err = translateServiceBusError(err);
+      const translatedError = translateServiceBusError(err);
       managementClientLogger.logError(
-        err,
+        translatedError,
         `${this.logPrefix} An error occurred while establishing the $management links`
       );
-      throw err;
+      throw translatedError;
     }
   }
 
   protected async createRheaLink(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: RequestResponseLinkOptions
   ): Promise<RequestResponseLink> {
     const rheaLink = await RequestResponseLink.create(
@@ -294,7 +295,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     internalLogger: ServiceBusLogger,
     sendRequestOptions: SendManagementRequestOptions = {}
   ): Promise<RheaMessage> {
-    if (request.message_id == undefined) {
+    if (request.message_id === undefined) {
       request.message_id = generate_uuid();
     }
     const retryTimeoutInMs =
@@ -333,16 +334,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
-      err = translateServiceBusError(err);
+      const translatedError = translateServiceBusError(err);
       internalLogger.logError(
-        err,
-        "%s An error occurred during send on management request-response link with address " +
-          "'%s': %O",
+        translatedError,
+        "%s An error occurred during send on management request-response link with address '%s'",
         this.logPrefix,
-        this.address,
-        err
+        this.address
       );
-      throw err;
+      throw translatedError;
     }
   }
 
@@ -525,6 +524,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param options - Options that can be set while sending the request.
    * @returns New lock token expiry date and time in UTC format.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async renewLock(lockToken: string, options?: SendManagementRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};
@@ -945,7 +945,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async setSessionState(
     sessionId: string,
-    state: any,
+    state: unknown,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -1255,7 +1255,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     if (
       typeof filter !== "boolean" &&
       typeof filter !== "string" &&
-      !correlationProperties.some((validProperty) => filter.hasOwnProperty(validProperty))
+      !correlationProperties.some((validProperty) =>
+        Object.hasOwnProperty.call(filter, validProperty)
+      )
     ) {
       throw new TypeError(
         `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`

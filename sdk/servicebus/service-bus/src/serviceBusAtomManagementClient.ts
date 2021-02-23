@@ -178,7 +178,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
       const connectionStringObj: any = parseConnectionString(connectionString);
-      if (connectionStringObj.Endpoint == undefined) {
+      if (connectionStringObj.Endpoint === undefined) {
         throw new Error("Missing Endpoint in connection string.");
       }
       try {
@@ -705,7 +705,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       try {
         await this.getQueue(queueName, updatedOperationOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
@@ -1184,7 +1184,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       try {
         await this.getTopic(topicName, updatedOperationOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
@@ -1705,7 +1705,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       try {
         await this.getSubscription(topicName, subscriptionName, updatedOperationOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
@@ -2099,7 +2099,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       try {
         await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;

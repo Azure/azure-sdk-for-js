@@ -16,7 +16,7 @@ import { getString, getStringOrUndefined } from "../util/utils";
  * Builds the rule object from the raw json object gotten after deserializing the
  * response from the service
  */
-export function buildRule(rawRule: any): RuleProperties {
+export function buildRule(rawRule: Record<string, any>): RuleProperties {
   return {
     name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),

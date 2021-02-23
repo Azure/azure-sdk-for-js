@@ -170,7 +170,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const timeoutInMs =
-      this._retryOptions.timeoutInMs == undefined
+      this._retryOptions.timeoutInMs === undefined
         ? Constants.defaultOperationTimeoutInMs
         : this._retryOptions.timeoutInMs;
 
@@ -188,14 +188,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
               `to operation timeout.`
           });
         } catch (err) {
-          err = translateServiceBusError(err);
+          const translatedError = translateServiceBusError(err);
           logger.logError(
-            err,
+            translatedError,
             "%s An error occurred while creating the sender",
             this.logPrefix,
             this.name
           );
-          throw err;
+          throw translatedError;
         }
       }
 
@@ -271,9 +271,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           delivery.id
         );
       } catch (error) {
-        error = translateServiceBusError(error.innerError || error);
-        logger.logError(error, `${this.logPrefix} An error occurred while sending the message`);
-        throw error;
+        const translatedError = translateServiceBusError(error.innerError || error);
+        logger.logError(
+          translatedError,
+          `${this.logPrefix} An error occurred while sending the message`
+        );
+        throw translatedError;
       }
     };
     const config: RetryConfig<void> = {
@@ -306,13 +309,17 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
       await this.initLink(options, abortSignal);
     } catch (err) {
-      err = translateServiceBusError(err);
-      logger.logError(err, `${this.logPrefix} An error occurred while creating the sender`);
+      const translatedError = translateServiceBusError(err);
+      logger.logError(
+        translatedError,
+        `${this.logPrefix} An error occurred while creating the sender`
+      );
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((err as MessagingError).code === "OperationTimeoutError") {
-        err.message = "Failed to create a sender within allocated time and retry attempts.";
+      if ((translatedError as MessagingError).code === "OperationTimeoutError") {
+        translatedError.message =
+          "Failed to create a sender within allocated time and retry attempts.";
       }
-      throw err;
+      throw translatedError;
     }
   }
 
