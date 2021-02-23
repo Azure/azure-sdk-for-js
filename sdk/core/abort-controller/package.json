@@ -7,7 +7,6 @@
   "module": "dist-esm/src/index.js",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:nodebrowser": "rollup -c 2>&1",
     "build:types": "downlevel-dts types/src types/3.1",
     "build:ts": "tsc -p .",
     "build:node": "build:ts && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run extract-api",
