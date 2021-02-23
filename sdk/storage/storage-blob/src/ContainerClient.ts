@@ -601,7 +601,9 @@ export class ContainerClient extends StorageClient {
         url =
           appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
           "?" +
-          extractedCreds.accountSas;
+          (extractedCreds.accountSas?.startsWith("?")
+            ? extractedCreds.accountSas!.substr(1)
+            : extractedCreds.accountSas);
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(

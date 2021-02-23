@@ -374,7 +374,14 @@ export class BlobServiceClient extends StorageClient {
       }
     } else if (extractedCreds.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
-      return new BlobServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
+      return new BlobServiceClient(
+        extractedCreds.url +
+          "?" +
+          (extractedCreds.accountSas?.startsWith("?")
+            ? extractedCreds.accountSas!.substr(1)
+            : extractedCreds.accountSas),
+        pipeline
+      );
     } else {
       throw new Error(
         "Connection string must be either an Account connection string or a SAS connection string"
