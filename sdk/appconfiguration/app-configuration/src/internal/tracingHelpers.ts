@@ -28,10 +28,7 @@ export async function trace<ReturnT>(
   fn: (options: OperationOptions, span: Span) => Promise<ReturnT>,
   createSpanFn = createSpan
 ): Promise<ReturnT> {
-  const { updatedOptions, span } = createSpanFn(
-    operationName,
-    options
-  );
+  const { updatedOptions, span } = createSpanFn(operationName, options);
 
   try {
     // NOTE: we really do need to await on this function here so we can handle any exceptions thrown and properly
@@ -39,7 +36,7 @@ export async function trace<ReturnT>(
     return await fn(updatedOptions, span);
   } catch (err) {
     span.setStatus({
-      code: CanonicalCode.INTERNAL,     // TODO: StatusCode.ERROR in otel 0.16+
+      code: CanonicalCode.INTERNAL, // TODO: StatusCode.ERROR in otel 0.16+
       message: err.message
     });
     throw err;

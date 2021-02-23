@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { createSpan, trace } from "../../src/internal/tracingHelpers";
-import {
-  Span,
-  Status,
-  CanonicalCode
-} from "@opentelemetry/api";
+import { Span, Status, CanonicalCode } from "@opentelemetry/api";
 
 import * as assert from "assert";
 import sinon from "sinon";
@@ -19,9 +15,14 @@ describe("tracingHelpers", () => {
     let setStatusStub: sinon.SinonStub<[Status], Span> | undefined;
     let endStub: sinon.SinonStub | undefined;
 
-    const fakeCreateSpan = <T extends {
-      tracingOptions?: OperationTracingOptions | undefined;
-    }>(operationName: string, operationOptions: T | undefined): {
+    const fakeCreateSpan = <
+      T extends {
+        tracingOptions?: OperationTracingOptions | undefined;
+      }
+    >(
+      operationName: string,
+      operationOptions: T | undefined
+    ): {
       span: Span;
       updatedOptions: T;
     } => {
@@ -40,7 +41,7 @@ describe("tracingHelpers", () => {
       {
         tracingOptions: {}
       },
-      async (_newOptions, _span) => { },
+      async (_newOptions, _span) => {},
       fakeCreateSpan
     );
 
@@ -66,9 +67,14 @@ describe("tracingHelpers", () => {
         async (_options: any, _span: Span) => {
           throw new Error("Purposefully thrown error");
         },
-        <T extends {
-          tracingOptions?: OperationTracingOptions | undefined;
-        }>(operationName: string, operationOptions: T | undefined): {
+        <
+          T extends {
+            tracingOptions?: OperationTracingOptions | undefined;
+          }
+        >(
+          operationName: string,
+          operationOptions: T | undefined
+        ): {
           span: Span;
           updatedOptions: T;
         } => {
