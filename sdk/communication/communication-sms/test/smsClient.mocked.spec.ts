@@ -9,7 +9,7 @@ import {
   isNode
 } from "@azure/core-http";
 
-import * as core_http from "@azure/core-http"; //this is so we can mock uuid generation
+import { Uuid } from "../src/utils/uuid";
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
@@ -74,7 +74,7 @@ describe("[mocked] SmsClient", async () => {
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
-    sinon.stub(core_http, "generateUuid").returns(mockedGuid);
+    sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
     sinon.useFakeTimers();
     const sendRequest: SendRequest = {
       from: "+18768984505651",
@@ -115,7 +115,7 @@ describe("[mocked] SmsClient", async () => {
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
-    sinon.stub(core_http, "generateUuid").returns(mockedGuid);
+    sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
     sinon.useFakeTimers();
     const sendRequest: SendRequest = {
       from: "+18768984505651",

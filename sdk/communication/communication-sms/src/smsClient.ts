@@ -13,8 +13,7 @@ import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  generateUuid
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
@@ -23,6 +22,7 @@ import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
+import { Uuid } from "./utils/uuid";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -156,7 +156,7 @@ export class SmsClient {
       return {
         to: phoneNumberStr,
         repeatabilityFirstSent: now,
-        repeatabilityRequestId: generateUuid()
+        repeatabilityRequestId: Uuid.generateUuid()
       };
     });
 
