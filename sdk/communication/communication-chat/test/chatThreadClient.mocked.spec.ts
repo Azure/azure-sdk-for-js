@@ -14,7 +14,7 @@ import {
 import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
-import { mockParticipant } from './utils/mockClient';
+import { mockParticipant } from "./utils/mockClient";
 import {
   generateHttpClient,
   createChatThreadClient,
@@ -91,7 +91,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const message  = await chatThreadClient.getMessage(mockMessage.id!);
+    const message = await chatThreadClient.getMessage(mockMessage.id!);
 
     sinon.assert.calledOnce(spy);
     assert.deepEqual(message, mockMessage);
@@ -242,10 +242,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     );
     assert.equal(request.method, "POST");
     const requestJson = JSON.parse(request.body);
-    assert.equal(
-      mockParticipant.communicationIdentifier.rawId,
-      requestJson.rawId
-    );
+    assert.equal(mockParticipant.communicationIdentifier.rawId, requestJson.rawId);
     assert.deepEqual(mockParticipant.communicationIdentifier, requestJson);
   });
 

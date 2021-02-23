@@ -60,9 +60,7 @@ describe("[Mocked] ChatClient", async () => {
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const response = await chatClient.getChatThread(
-      mockThread.id!
-    );
+    const response = await chatClient.getChatThread(mockThread.id!);
     const expected = mockThread;
 
     sinon.assert.calledOnce(spy);

@@ -3,7 +3,17 @@
 
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
-import { ChatClient, ChatParticipant, ChatThread, ChatThreadInfo, CommunicationIdentifierModel, CreateChatThreadResult, ChatMessage, ChatMessageReadReceipt, ChatThreadClient } from "../../src";
+import {
+  ChatClient,
+  ChatParticipant,
+  ChatThread,
+  ChatThreadInfo,
+  CommunicationIdentifierModel,
+  CreateChatThreadResult,
+  ChatMessage,
+  ChatMessageReadReceipt,
+  ChatThreadClient
+} from "../../src";
 import { baseUri, generateToken } from "./connectionUtils";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
@@ -28,7 +38,7 @@ export const mockCreateThreadResult: CreateChatThreadResult = {
   errors: undefined
 };
 
-export const mockThreadInfo:ChatThreadInfo = {
+export const mockThreadInfo: ChatThreadInfo = {
   id: "threadid",
   topic: "topic",
   lastMessageReceivedOn: new Date("2020-06-26T18:06:06Z")

@@ -3,9 +3,7 @@
 
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
-import {
-  CommunicationTokenCredential
-} from "@azure/communication-common";
+import { CommunicationTokenCredential } from "@azure/communication-common";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -44,14 +42,14 @@ import {
 import { GetChatMessageResponse, SendChatMessageResponse } from "./models/models";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
-export { 
+export {
   AddChatParticipantsResult,
   SendReadReceiptRequest,
   AddChatParticipantsRequest,
   ChatMessage,
   ChatMessageReadReceipt,
   ChatParticipant,
-  CommunicationIdentifierModel 
+  CommunicationIdentifierModel
 } from "./generated/src/models";
 
 const minimumTypingIntervalInMilliSeconds: number = 8000;

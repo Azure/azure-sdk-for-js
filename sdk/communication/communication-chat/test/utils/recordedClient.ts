@@ -14,7 +14,7 @@ import {
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
-import { CommunicationIdentifierModel } from '../../src/generated/src/models/index';
+import { CommunicationIdentifierModel } from "../../src/generated/src/models/index";
 
 if (isNode) {
   dotenv.config();
@@ -44,9 +44,11 @@ export async function createTestUser(): Promise<CommunicationUserToken> {
   return await identityClient.createUserWithToken(["chat"]);
 }
 
-export function getCommunicationIdentifier(user: CommunicationUserIdentifier) : CommunicationIdentifierModel{
+export function getCommunicationIdentifier(
+  user: CommunicationUserIdentifier
+): CommunicationIdentifierModel {
   return {
-    communicationUser: {id: user.communicationUserId}
+    communicationUser: { id: user.communicationUserId }
   };
 }
 

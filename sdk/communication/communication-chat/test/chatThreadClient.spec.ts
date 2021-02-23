@@ -4,8 +4,16 @@
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
-import { createTestUser, createRecorder, createChatClient, getCommunicationIdentifier } from './utils/recordedClient';
-import { CreateChatThreadRequest, CommunicationIdentifierModel } from '../src/generated/src/models/index';
+import {
+  createTestUser,
+  createRecorder,
+  createChatClient,
+  getCommunicationIdentifier
+} from "./utils/recordedClient";
+import {
+  CreateChatThreadRequest,
+  CommunicationIdentifierModel
+} from "../src/generated/src/models/index";
 
 describe("ChatThreadClient", function() {
   let messageId: string;
@@ -42,7 +50,7 @@ describe("ChatThreadClient", function() {
     // Create a thread
     const threadRequest: CreateChatThreadRequest = {
       topic: "test topic",
-      participants: [{communicationIdentifier: testUser}, { communicationIdentifier: testUser2}]
+      participants: [{ communicationIdentifier: testUser }, { communicationIdentifier: testUser2 }]
     };
 
     const chatThreadResult = await chatClient.createChatThread(threadRequest);

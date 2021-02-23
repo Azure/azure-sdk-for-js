@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  SendChatMessageRequest as RestSendMessageRequest
-} from "../generated/src/models";
+import { SendChatMessageRequest as RestSendMessageRequest } from "../generated/src/models";
 
 export { RestSendMessageRequest };
 
