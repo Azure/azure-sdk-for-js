@@ -445,7 +445,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     maxMessageCount: number,
     options?: ReceiveMessagesOptions
   ): Promise<ServiceBusReceivedMessage[]> {
-    console.log("receiver ====> receiveMessages");
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     throwTypeErrorIfParameterMissing(

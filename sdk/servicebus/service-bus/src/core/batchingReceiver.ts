@@ -108,8 +108,6 @@ export class BatchingReceiver extends MessageReceiver {
     options: OperationOptionsBase
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
-    console.log("BatchingReceiver =====> receive()");
-
     try {
       logger.verbose(
         "[%s] Receiver '%s', setting max concurrent calls to 0.",
@@ -273,7 +271,6 @@ export class BatchingReceiverLite {
    * @hidden
    */
   public async receiveMessages(args: ReceiveMessageArgs): Promise<ServiceBusMessageImpl[]> {
-    console.log("BatchingReceiverLite ====> receiveMessages");
     try {
       this.isReceivingMessages = true;
       const receiver = await this._getCurrentReceiver(args.abortSignal);
