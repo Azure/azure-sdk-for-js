@@ -128,6 +128,8 @@ jobs:
             $(SubscriptionConfiguration)
           "@ | ConvertFrom-Json -AsHashtable;
 
+          $artifactNames = "${{ join('|', parameters.Artifacts) }}"
+          Write-Host "ArtifactNames: $artifactNames"
           $packageOverrides = @()
           $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
 
@@ -153,11 +155,11 @@ jobs:
 
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Deploy Smoke Test resources and prepare samples
-        env:
-          # Pipelines yaml does not handle transferring non-string parameter types
-          # into script blocks very well, so this is the best available workaround.
-          ${{ each artifact in parameters.Artifacts }}:
-            SMOKE_PACKAGE_${{ replace(replace(replace(artifact.name, '@', ''), '/', ''), '-', '') }}: "${{ artifact.name }}"
+        # env:
+        #   # Pipelines yaml does not handle transferring non-string parameter types
+        #   # into script blocks very well, so this is the best available workaround.
+        #   ${{ each artifact in parameters.Artifacts }}:
+        #     SMOKE_PACKAGE_${{ replace(replace(replace(artifact.name, '@', ''), '/', ''), '-', '') }}: "${{ artifact.name }}"
 
       - task: Npm@1
         inputs:
