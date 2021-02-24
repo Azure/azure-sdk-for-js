@@ -8,8 +8,7 @@ import {
   isNode,
   getDefaultProxySettings,
   URLBuilder,
-  RequestOptionsBase,
-  OperationOptions
+  RequestOptionsBase
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import {
@@ -50,7 +49,6 @@ import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
 import { SasIPRange } from "./SasIPRange";
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
-import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * Options to configure {@link QueueClient.create} operation
