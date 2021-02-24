@@ -198,7 +198,13 @@ class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
-        const parsedUrl = new URL(proxySettings.host);
+        let parsedUrl: URL;
+        try {
+          parsedUrl = new URL(proxySettings.host);
+        } catch (_error) {
+          throw new Error(`Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`);
+        }
+
         const proxyAgentOptions: HttpsProxyAgentOptions = {
           hostname: parsedUrl.hostname,
           port: proxySettings.port,
@@ -312,6 +318,7 @@ function getBodyLength(body: RequestBodyType): number | null {
 
 /**
  * Create a new HttpsClient instance for the NodeJS environment.
+ * @internal
  */
 export function createNodeHttpsClient(): HttpsClient {
   return new NodeHttpsClient();
