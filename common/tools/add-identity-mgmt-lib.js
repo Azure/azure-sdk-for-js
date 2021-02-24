@@ -227,7 +227,7 @@ function main(args) {
   const packageJsonPath = p.join(path, "package.json");
   const newPackageVersion = getPackageVersion(packageJsonPath);
   rewriteFile(p.join(path, "README.md"), updateREADME);
-  rewriteFile(p.join(path, "package.json"), updatePackageJson(newPackageVersion));
+  rewriteFile(packageJsonPath, updatePackageJson(newPackageVersion));
   rewriteFile(p.join(path, getClientFilePath(path)), updateClient);
   rewriteFile(p.join(path, getClientContextFilePath(path)), updateClientContext(newPackageVersion));
 }
