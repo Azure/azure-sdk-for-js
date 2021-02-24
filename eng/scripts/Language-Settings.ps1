@@ -6,6 +6,12 @@ $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
+if ((Get-Command npm | Measure-Object).Count -eq 0 ) 
+{
+  LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
+  exit 1
+}
+
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
 {
   $projectPath = Join-Path $pkgPath "package.json"
@@ -13,18 +19,19 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgNa
   {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
-    if ($pkgName -eq "$jsStylePkgName" -or $pkgName -eq $projectJson.name)
+    if ($pkgName -and ($pkgName -ne $jsStylePkgName))
     {
-      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
-      $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
-      if ($projectJson.name.StartsWith("@azure/arm"))
-      {
-        $pkgProp.SdkType = "mgmt"
-      }
-      $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
-      $pkgProp.ArtifactName = $jsStylePkgName
-      return $pkgProp
+      return $null
     }
+    $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+    $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+    if ($projectJson.name.StartsWith("@azure/arm"))
+    {
+      $pkgProp.SdkType = "mgmt"
+    }
+    $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+    $pkgProp.ArtifactName = $jsStylePkgName
+    return $pkgProp
   }
   return $null
 }
