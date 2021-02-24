@@ -6,26 +6,63 @@ $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
-function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
+if ((Get-Command npm | Measure-Object).Count -eq 0 ) 
 {
-  $projectPath = Join-Path $pkgPath "package.json"
-  if (Test-Path $projectPath)
+  LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
+  exit 1
+}
+
+function Get-javascript-PackageInfoFromRepo
+{
+  [CmdletBinding()]
+  Param(
+    [Parameter(Position = 0)]
+    [string]$pkgDirectoryPath,
+    [Parameter(Position = 1)]
+    [string]$serviceDirectoryName,
+    $pkgPath,
+    $serviceDirectory,
+    $pkgName
+  )
+  if ($pkgName)
   {
-    $projectJson = Get-Content $projectPath | ConvertFrom-Json
-    $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
-    if ($pkgName -eq "$jsStylePkgName")
+    $projectPath = Join-Path $pkgPath "package.json"
+    if (Test-Path $projectPath)
     {
-      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+      $projectJson = Get-Content $projectPath | ConvertFrom-Json
+      $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
+      if ($pkgName -eq "$jsStylePkgName")
+      {
+        $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+        $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+        if ($projectJson.name.StartsWith("@azure/arm"))
+        {
+          $pkgProp.SdkType = "mgmt"
+        }
+        $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+        $pkgProp.ArtifactName = $pkgName  # pkgName variable actually stores artifact name
+        return $pkgProp
+      }
+    }
+  }
+  else
+  {
+    $projectPath = Join-Path $pkgDirectoryPath "package.json"
+    if (Test-Path $projectPath)
+    {
+      $projectJson = Get-Content $projectPath | ConvertFrom-Json
+      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgDirectoryPath, $serviceDirectoryName)
       $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
       if ($projectJson.name.StartsWith("@azure/arm"))
       {
         $pkgProp.SdkType = "mgmt"
       }
       $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
-      $pkgProp.ArtifactName = $pkgName  # pkgName variable actually stores artifact name
+      $pkgProp.ArtifactName = $projectJson.name.Replace("@", "").Replace("/", "-")
       return $pkgProp
     }
   }
+
   return $null
 }
 
