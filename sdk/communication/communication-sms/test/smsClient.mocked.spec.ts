@@ -15,7 +15,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
 import { apiVersion } from "../src/generated/src/models/parameters";
-import { SmsClient, SendRequest } from "../src/smsClient";
+import { SmsClient, SmsSendRequest } from "../src/smsClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 
@@ -76,7 +76,7 @@ describe("[mocked] SmsClient", async () => {
     const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
     sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
     sinon.useFakeTimers();
-    const sendRequest: SendRequest = {
+    const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
       to: ["+18768985487"],
       message: "message"
@@ -117,7 +117,7 @@ describe("[mocked] SmsClient", async () => {
     const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
     sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
     sinon.useFakeTimers();
-    const sendRequest: SendRequest = {
+    const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
       to: ["+18768985487"],
       message: "message"
@@ -155,7 +155,7 @@ describe("[mocked] SmsClient", async () => {
       httpClient: mockHttpClient
     });
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const sendRequest: SendRequest = {
+    const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
       to: ["+18768985487"],
       message: "message"
@@ -181,7 +181,7 @@ describe("[mocked] SmsClient", async () => {
       httpClient: mockFailingHttpClient
     });
     const spy = sinon.spy(mockFailingHttpClient, "sendRequest");
-    const sendRequest: SendRequest = {
+    const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
       to: ["+18768985487"],
       message: "message"

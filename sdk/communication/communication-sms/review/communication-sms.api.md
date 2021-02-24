@@ -10,28 +10,28 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface SendOptions extends OperationOptions {
+export class SmsClient {
+    constructor(connectionString: string, options?: SmsClientOptions);
+    constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
+    send(_sendRequest: SmsSendRequest, _options?: SmsSendOptions): Promise<SmsSendResult[]>;
+}
+
+// @public
+export interface SmsClientOptions extends PipelineOptions {
+}
+
+// @public
+export interface SmsSendOptions extends OperationOptions {
     enableDeliveryReport: boolean;
     tag?: string;
 }
 
 // @public
-export interface SendRequest {
+export interface SmsSendRequest {
     from: string;
     message: string;
     to: string[];
-}
-
-// @public
-export class SmsClient {
-    constructor(connectionString: string, options?: SmsClientOptions);
-    constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
-    constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    send(_sendRequest: SendRequest, _options?: SendOptions): Promise<SmsSendResult[]>;
-}
-
-// @public
-export interface SmsClientOptions extends PipelineOptions {
 }
 
 // @public (undocumented)

@@ -32,7 +32,7 @@ export interface SmsClientOptions extends PipelineOptions {}
 /**
  * Values used to configure Sms message
  */
-export interface SendRequest {
+export interface SmsSendRequest {
   /**
    * The sender's phone number in E.164 format that is owned by the authenticated account.
    */
@@ -51,7 +51,7 @@ export interface SendRequest {
 /**
  * Options to configure Sms requests
  */
-export interface SendOptions extends OperationOptions {
+export interface SmsSendOptions extends OperationOptions {
   /**
    * Enable this flag to receive a delivery report for this message on the Azure Resource
    * EventGrid. Default value: false.
@@ -166,8 +166,8 @@ export class SmsClient {
    * @param options - Additional request options
    */
   public async send(
-    _sendRequest: SendRequest,
-    _options: SendOptions = { enableDeliveryReport: false }
+    _sendRequest: SmsSendRequest,
+    _options: SmsSendOptions = { enableDeliveryReport: false }
   ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(_options);
     const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { SmsClient, SendRequest, SendOptions } from "../src/smsClient";
+import { SmsClient, SmsSendRequest, SmsSendOptions } from "../src/smsClient";
 import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
@@ -47,13 +47,13 @@ describe("SmsClient", async () => {
 
     const smsClient = new SmsClient(connectionString);
 
-    const request: SendRequest = {
+    const request: SmsSendRequest = {
       from: fromNumber,
       to: recipients,
       message: "test message"
     };
 
-    const options: SendOptions = {
+    const options: SmsSendOptions = {
       enableDeliveryReport: true,
       tag: "SMS_LIVE_TEST"
     };
@@ -87,13 +87,13 @@ describe("SmsClient", async () => {
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     const smsClient = new SmsClient(connectionString);
 
-    const request: SendRequest = {
+    const request: SmsSendRequest = {
       from: fromNumber,
       to: [validToNumber],
       message: "test message"
     };
 
-    const options: SendOptions = {
+    const options: SmsSendOptions = {
       enableDeliveryReport: true,
       tag: "SMS_LIVE_TEST"
     };

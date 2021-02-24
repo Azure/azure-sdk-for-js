@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, record, Recorder } from "@azure/test-utils-recorder";
-import { SendRequest, SmsClient } from "../src/smsClient";
+import { SmsSendRequest, SmsClient } from "../src/smsClient";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
@@ -40,7 +40,7 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
 
     const smsClient = new SmsClient(endpoint, credential);
 
-    const sendRequest: SendRequest = {
+    const sendRequest: SmsSendRequest = {
       from: fromNumber,
       to: [toNumber],
       message: "test message"
