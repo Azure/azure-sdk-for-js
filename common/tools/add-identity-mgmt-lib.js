@@ -5,7 +5,7 @@
  * Management-plane libraries currently do not support authentication using
  * the `@azure/identity` package. However, there is an adapter that can be used
  * to add support for it without introducing breaking changes. This script
- * enables this adapter in an management-plane library.
+ * enables this adapter in a management-plane library.
  */
 
 const fs = require("fs");
