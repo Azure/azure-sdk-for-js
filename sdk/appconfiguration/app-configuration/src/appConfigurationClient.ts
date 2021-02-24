@@ -245,36 +245,32 @@ export class AppConfigurationClient {
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    return await this.spanner.trace(
-      "getConfigurationSetting",
-      requestOptions,
-      async (newOptions) => {
-        const originalResponse = await this.client.getKeyValue(id.key, {
-          ...newOptions,
-          label: id.label,
-          select: formatFieldsForSelect(options.fields),
-          ...formatAcceptDateTime(options),
-          ...checkAndFormatIfAndIfNoneMatch(id, options)
-        });
+    return this.spanner.trace("getConfigurationSetting", requestOptions, async (newOptions) => {
+      const originalResponse = await this.client.getKeyValue(id.key, {
+        ...newOptions,
+        label: id.label,
+        select: formatFieldsForSelect(options.fields),
+        ...formatAcceptDateTime(options),
+        ...checkAndFormatIfAndIfNoneMatch(id, options)
+      });
 
-        const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
-          originalResponse
-        );
+      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
+        originalResponse
+      );
 
-        // 304 only comes back if the user has passed a conditional option in their
-        // request _and_ the remote object has the same etag as what the user passed.
-        if (response.statusCode === 304) {
-          // this is one of our few 'required' fields so we'll make sure it does get initialized
-          // with a value
-          response.key = id.key;
+      // 304 only comes back if the user has passed a conditional option in their
+      // request _and_ the remote object has the same etag as what the user passed.
+      if (response.statusCode === 304) {
+        // this is one of our few 'required' fields so we'll make sure it does get initialized
+        // with a value
+        response.key = id.key;
 
-          // and now we'll undefine all the other properties that are not HTTP related
-          makeConfigurationSettingEmpty(response);
-        }
-
-        return response;
+        // and now we'll undefine all the other properties that are not HTTP related
+        makeConfigurationSettingEmpty(response);
       }
-    );
+
+      return response;
+    });
   }
 
   /**
@@ -283,7 +279,7 @@ export class AppConfigurationClient {
    *
    * Example code:
    * ```ts
-   * const allSettingsWithLabel = client.listConfigurationSettings({ labels: [ "MyLabel" ] });
+   * const allSettingsWithLabel = client.listConfigurationSettings({ labelFilter: "MyLabel" });
    * ```
    * @param options - Optional parameters for the request.
    */
@@ -472,20 +468,16 @@ export class AppConfigurationClient {
   ): Promise<SetConfigurationSettingResponse> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    return await this.spanner.trace(
-      "setConfigurationSetting",
-      requestOptions,
-      async (newOptions) => {
-        const response = await this.client.putKeyValue(configurationSetting.key, {
-          ...newOptions,
-          label: configurationSetting.label,
-          entity: configurationSetting,
-          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
-        });
+    return this.spanner.trace("setConfigurationSetting", requestOptions, async (newOptions) => {
+      const response = await this.client.putKeyValue(configurationSetting.key, {
+        ...newOptions,
+        label: configurationSetting.label,
+        entity: configurationSetting,
+        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
+      });
 
-        return transformKeyValueResponse(response);
-      }
-    );
+      return transformKeyValueResponse(response);
+    });
   }
 
   /**

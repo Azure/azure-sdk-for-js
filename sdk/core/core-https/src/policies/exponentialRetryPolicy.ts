@@ -10,7 +10,7 @@ import { RestError } from "../restError";
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
  */
-export const expontentialRetryPolicyName = "exponentialRetryPolicy";
+export const exponentialRetryPolicyName = "exponentialRetryPolicy";
 
 const DEFAULT_CLIENT_RETRY_COUNT = 10;
 // intervals are in ms
@@ -54,7 +54,7 @@ export interface ExponentialRetryPolicyOptions {
 
 /**
  * A policy that attempts to retry requests while introducing an exponentially increasing delay.
- * @param options Options that configure retry logic.
+ * @param options - Options that configure retry logic.
  */
 export function exponentialRetryPolicy(
   options: ExponentialRetryPolicyOptions = {}
@@ -66,9 +66,9 @@ export function exponentialRetryPolicy(
   /**
    * Determines if the operation should be retried and how long to wait until the next retry.
    *
-   * @param statusCode The HTTP status code.
-   * @param retryData  The retry data.
-   * @return True if the operation qualifies for a retry; false otherwise.
+   * @param statusCode - The HTTP status code.
+   * @param retryData -  The retry data.
+   * @returns True if the operation qualifies for a retry; false otherwise.
    */
   function shouldRetry(statusCode: number | undefined, retryData: RetryData): boolean {
     if (
@@ -88,8 +88,8 @@ export function exponentialRetryPolicy(
   /**
    * Updates the retry data for the next attempt.
    *
-   * @param retryData  The retry data.
-   * @param err The operation's error, if any.
+   * @param retryData -  The retry data.
+   * @param err - The operation's error, if any.
    */
   function updateRetryData(retryData: RetryData, err?: RetryError): RetryData {
     if (err) {
@@ -152,7 +152,7 @@ export function exponentialRetryPolicy(
   }
 
   return {
-    name: expontentialRetryPolicyName,
+    name: exponentialRetryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const retryData = {
         retryCount: 0,

@@ -16,7 +16,7 @@ export interface AccessTokenCache {
   /**
    * Sets the cached token.
    *
-   * @param accessToken The AccessToken to be cached or null to
+   * @param accessToken - The AccessToken to be cached or null to
    *   clear the cached token.
    */
   setCachedToken(accessToken: AccessToken | undefined): void;
@@ -31,6 +31,7 @@ export interface AccessTokenCache {
  * Provides an AccessTokenCache implementation which clears
  * the cached AccessToken's after the expiresOnTimestamp has
  * passed.
+ * @internal
  */
 export class ExpiringAccessTokenCache implements AccessTokenCache {
   private tokenRefreshBufferMs: number;

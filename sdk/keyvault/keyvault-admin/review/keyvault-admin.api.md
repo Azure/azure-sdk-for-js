@@ -96,7 +96,7 @@ export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
     beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, RestoreResult>>;
-    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
+    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>>;
     readonly vaultUrl: string;
 }
 
@@ -148,7 +148,7 @@ export interface KeyVaultRoleDefinition {
 export type KeyVaultRoleScope = "/" | "/keys" | string;
 
 // @public
-export const LATEST_API_VERSION = "7.2-preview";
+export const LATEST_API_VERSION = "7.2";
 
 // @public
 export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
@@ -182,11 +182,11 @@ export interface RestoreResult {
 export const SDK_VERSION: string;
 
 // @public
-export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2-preview";
+export type SUPPORTED_API_VERSIONS = "7.2";
 
 // @public
 export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {

@@ -1,13 +1,20 @@
 # Release History
 
-## 4.2.0-beta.3 (Unreleased)
+## 4.2.0-beta.4 (Unreleased)
+
+- Updated the Latest service version to 7.2.
+- Added `curve` to `createKeyOptions` to be used when creating an `EC` key.
+- Deprecated the current `encrypt` and `decrypt` methods in favor of the more flexible overloads that take an `{Encrypt|Decrypt}Parameters` and allow passing in algorithm specific parameters. This enables support for the various AES algorithms used in Managed HSM. The deprecated methods continue to function and there's no timeline for their removal.
+- Added `additionalAuthenticatedData`, `iv`, and `authenticationTag` to `EncryptResult` in order to support AES encryption and decryption.
+
+## 4.2.0-beta.3 (2021-02-09)
 
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 - Updated the Key Vault Keys Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
 - Added a constructor overload to `CryptographyClient` that takes a `JsonWebKey` and allows for local-only subset of operations.
 - Added `KeyId` to the public API of CryptographyClient.
-- Removed `parseKeyVaultKeysId` from the public API and made `KeyOptionsOptions.additionalAuthenticatedData` a readonly property.
+- [Breaking] Removed `parseKeyVaultKeysId` from the public API and made `KeyOptionsOptions.additionalAuthenticatedData` a readonly property.
 - Added a `createOctKey` convenience method to create a key of type `oct` or `oct-HSM` as appropriate.
 
 ## 4.2.0-beta.2 (2020-10-06)

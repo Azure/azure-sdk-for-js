@@ -190,7 +190,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * The API returns a list of recognized entities with links to a well-known knowledge base. See the <a
+   * The API returns a list of recognized entities with links to a well known knowledge base. See the <a
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
    * languages.
    * @param input Collection of documents to analyze.
@@ -255,8 +255,8 @@ export class GeneratedClient extends GeneratedClientContext {
 
   /**
    * The API returns a detailed sentiment analysis for the input text. The analysis is done in multiple
-   * levels of granularity, start from the a document level, down to sentence and key terms (aspects) and
-   * opinions.
+   * levels of granularity, start from the a document level, down to sentence and key terms (targets and
+   * assessments).
    * @param input Collection of documents to analyze.
    * @param options The options parameters.
    */
@@ -440,7 +440,8 @@ const entitiesRecognitionPiiOperationSpec: coreHttp.OperationSpec = {
     Parameters.includeStatistics,
     Parameters.modelVersion,
     Parameters.stringIndexType,
-    Parameters.domain
+    Parameters.domain,
+    Parameters.piiCategories
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],

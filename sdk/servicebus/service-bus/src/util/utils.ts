@@ -42,7 +42,7 @@ export function getUniqueName(name: string): string {
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
  *
  * @param lockToken - The lock token whose bytes need to be reorded.
- * @returns Buffer - Buffer representing reordered bytes.
+ * @returns Buffer representing reordered bytes.
  */
 export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
   if (!lockTokenBytes || !Buffer.isBuffer(lockTokenBytes)) {
@@ -106,7 +106,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
  *   - Thus, we `divide` the value by `10000` to convert it to JS Date ticks.
  *
  * @param buf - Input as a Buffer
- * @returns Date The JS Date object.
+ * @returns The JS Date object.
  */
 export function convertTicksToDate(buf: number[]): Date {
   const epochMicroDiff: number = 621355968000000000;
@@ -311,7 +311,7 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
  * @internal
  * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
  */
-export function getXMLNSPrefix(value: any) {
+export function getXMLNSPrefix(value: any): string {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
       `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
@@ -501,7 +501,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
  * @internal
  * Helper utility to check if given string is an absolute URL
  */
-export function isAbsoluteUrl(url: string) {
+export function isAbsoluteUrl(url: string): boolean {
   const _url = url.toLowerCase();
   return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
 }
@@ -535,6 +535,8 @@ export type EntityAvailabilityStatus =
  */
 export const StandardAbortMessage = "The operation was aborted.";
 
+type setTimeoutArgs = (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+
 /**
  * An executor for a function that returns a Promise that obeys both a timeout and an
  * optional AbortSignal.
@@ -543,7 +545,6 @@ export const StandardAbortMessage = "The operation was aborted.";
  * @param abortSignal - The abortSignal associated with containing operation.
  * @param abortErrorMsg - The abort error message associated with containing operation.
  * @param value - The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} - Resolved promise
  *
  * @internal
  */
@@ -554,7 +555,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   abortSignal?: AbortSignalLike;
   // these are optional and only here for testing.
   timeoutFunctions?: {
-    setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+    setTimeoutFn: setTimeoutArgs;
     clearTimeoutFn: (timeoutId: any) => void;
   };
 }): Promise<T> {
@@ -605,7 +606,9 @@ export function checkAndRegisterWithAbortSignal(
   abortSignal?: AbortSignalLike
 ): () => void {
   if (abortSignal == null) {
-    return () => {};
+    return () => {
+      /** Nothing to do here, no abort signal */
+    };
   }
 
   if (abortSignal.aborted) {
@@ -632,8 +635,6 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
 /**
  * @internal
  * Returns the formatted prefix by removing the spaces, by appending the libInfo.
- *
- * @returns {string}
  */
 export function formatUserAgentPrefix(prefix?: string): string {
   let userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
@@ -644,7 +645,6 @@ export function formatUserAgentPrefix(prefix?: string): string {
 /**
  * @internal
  * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
- * @returns {HttpResponse}
  */
 export const getHttpResponseOnly = ({
   request,

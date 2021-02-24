@@ -182,8 +182,6 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   *
-   * @returns {Promise<void>} Promise<void>.
    */
   protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
     try {

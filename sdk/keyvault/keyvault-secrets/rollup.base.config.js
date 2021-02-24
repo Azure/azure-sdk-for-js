@@ -64,7 +64,7 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("assert", "fs", "path", "chai");
 
     baseConfig.context = "null";
 
@@ -117,7 +117,8 @@ export function browserConfig(test = false) {
       json(),
       cjs({
         namedExports: {
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
+          chai: ["assert"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "exists"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })

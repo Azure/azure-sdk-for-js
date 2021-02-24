@@ -174,6 +174,32 @@ export class SqlResources {
   }
 
   /**
+   * Migrate an Azure Cosmos DB SQL database from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>
+   */
+  migrateSqlDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse> {
+    return this.beginMigrateSqlDatabaseToAutoscale(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL database from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>
+   */
+  migrateSqlDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse> {
+    return this.beginMigrateSqlDatabaseToManualThroughput(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>;
+  }
+
+  /**
    * Lists the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -333,6 +359,34 @@ export class SqlResources {
   updateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse> {
     return this.beginUpdateSqlContainerThroughput(resourceGroupName,accountName,databaseName,containerName,updateThroughputParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesUpdateSqlContainerThroughputResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse>
+   */
+  migrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse> {
+    return this.beginMigrateSqlContainerToAutoscale(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlContainerToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse>
+   */
+  migrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse> {
+    return this.beginMigrateSqlContainerToManualThroughput(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesMigrateSqlContainerToManualThroughputResponse>;
   }
 
   /**
@@ -683,198 +737,6 @@ export class SqlResources {
   }
 
   /**
-   * Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
-   * @param roleDefinitionId The GUID for the Role Definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>
-   */
-  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
-  /**
-   * @param roleDefinitionId The GUID for the Role Definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param callback The callback
-   */
-  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): void;
-  /**
-   * @param roleDefinitionId The GUID for the Role Definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): void;
-  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>, callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        roleDefinitionId,
-        resourceGroupName,
-        accountName,
-        options
-      },
-      getSqlRoleDefinitionOperationSpec,
-      callback) as Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
-  }
-
-  /**
-   * Creates or updates an Azure Cosmos DB SQL Role Definition.
-   * @param roleDefinitionId The GUID for the Role Definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param createUpdateSqlRoleDefinitionParameters The properties required to create or update a
-   * Role Definition.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse>
-   */
-  createUpdateSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse> {
-    return this.beginCreateUpdateSqlRoleDefinition(roleDefinitionId,resourceGroupName,accountName,createUpdateSqlRoleDefinitionParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse>;
-  }
-
-  /**
-   * Deletes an existing Azure Cosmos DB SQL Role Definition.
-   * @param roleDefinitionId The GUID for the Role Definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlRoleDefinition(roleDefinitionId,resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
-   * Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>
-   */
-  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param callback The callback
-   */
-  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): void;
-  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>, callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        options
-      },
-      listSqlRoleDefinitionsOperationSpec,
-      callback) as Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
-  }
-
-  /**
-   * Retrieves the properties of an existing Azure Cosmos DB SQL Role Assignment with the given Id.
-   * @param roleAssignmentId The GUID for the Role Assignment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>
-   */
-  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
-  /**
-   * @param roleAssignmentId The GUID for the Role Assignment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param callback The callback
-   */
-  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): void;
-  /**
-   * @param roleAssignmentId The GUID for the Role Assignment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): void;
-  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>, callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse> {
-    return this.client.sendOperationRequest(
-      {
-        roleAssignmentId,
-        resourceGroupName,
-        accountName,
-        options
-      },
-      getSqlRoleAssignmentOperationSpec,
-      callback) as Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
-  }
-
-  /**
-   * Creates or updates an Azure Cosmos DB SQL Role Assignment.
-   * @param roleAssignmentId The GUID for the Role Assignment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param createUpdateSqlRoleAssignmentParameters The properties required to create or update a
-   * Role Assignment.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse>
-   */
-  createUpdateSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse> {
-    return this.beginCreateUpdateSqlRoleAssignment(roleAssignmentId,resourceGroupName,accountName,createUpdateSqlRoleAssignmentParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse>;
-  }
-
-  /**
-   * Deletes an existing Azure Cosmos DB SQL Role Assignment.
-   * @param roleAssignmentId The GUID for the Role Assignment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteSqlRoleAssignment(roleAssignmentId,resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
-   * Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>
-   */
-  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param callback The callback
-   */
-  listSqlRoleAssignments(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): void;
-  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        options
-      },
-      listSqlRoleAssignmentsOperationSpec,
-      callback) as Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
-  }
-
-  /**
    * Create or update an Azure Cosmos DB SQL database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -936,6 +798,46 @@ export class SqlResources {
         options
       },
       beginUpdateSqlDatabaseThroughputOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL database from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginMigrateSqlDatabaseToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL database from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginMigrateSqlDatabaseToManualThroughputOperationSpec,
       options);
   }
 
@@ -1008,6 +910,50 @@ export class SqlResources {
         options
       },
       beginUpdateSqlContainerThroughputOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        options
+      },
+      beginMigrateSqlContainerToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        options
+      },
+      beginMigrateSqlContainerToManualThroughputOperationSpec,
       options);
   }
 
@@ -1162,92 +1108,6 @@ export class SqlResources {
       beginDeleteSqlTriggerOperationSpec,
       options);
   }
-
-  /**
-   * Creates or updates an Azure Cosmos DB SQL Role Definition.
-   * @param roleDefinitionId The GUID for the Role Definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param createUpdateSqlRoleDefinitionParameters The properties required to create or update a
-   * Role Definition.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCreateUpdateSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        roleDefinitionId,
-        resourceGroupName,
-        accountName,
-        createUpdateSqlRoleDefinitionParameters,
-        options
-      },
-      beginCreateUpdateSqlRoleDefinitionOperationSpec,
-      options);
-  }
-
-  /**
-   * Deletes an existing Azure Cosmos DB SQL Role Definition.
-   * @param roleDefinitionId The GUID for the Role Definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginDeleteSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        roleDefinitionId,
-        resourceGroupName,
-        accountName,
-        options
-      },
-      beginDeleteSqlRoleDefinitionOperationSpec,
-      options);
-  }
-
-  /**
-   * Creates or updates an Azure Cosmos DB SQL Role Assignment.
-   * @param roleAssignmentId The GUID for the Role Assignment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param createUpdateSqlRoleAssignmentParameters The properties required to create or update a
-   * Role Assignment.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCreateUpdateSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        roleAssignmentId,
-        resourceGroupName,
-        accountName,
-        createUpdateSqlRoleAssignmentParameters,
-        options
-      },
-      beginCreateUpdateSqlRoleAssignmentOperationSpec,
-      options);
-  }
-
-  /**
-   * Deletes an existing Azure Cosmos DB SQL Role Assignment.
-   * @param roleAssignmentId The GUID for the Role Assignment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginDeleteSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        roleAssignmentId,
-        resourceGroupName,
-        accountName,
-        options
-      },
-      beginDeleteSqlRoleAssignmentOperationSpec,
-      options);
-  }
 }
 
 // Operation Specifications
@@ -1261,7 +1121,7 @@ const listSqlDatabasesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1287,7 +1147,7 @@ const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1313,7 +1173,7 @@ const getSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1339,7 +1199,7 @@ const listSqlContainersOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1366,7 +1226,7 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1393,7 +1253,7 @@ const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1420,7 +1280,7 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1430,7 +1290,7 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SqlStoredProcedureListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
     }
   },
   serializer
@@ -1448,7 +1308,7 @@ const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1475,7 +1335,7 @@ const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1503,7 +1363,7 @@ const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1530,7 +1390,7 @@ const listSqlTriggersOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1558,7 +1418,7 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1574,108 +1434,6 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
-  urlParameters: [
-    Parameters.roleDefinitionId,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlRoleDefinitionGetResults
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listSqlRoleDefinitionsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlRoleDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const getSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
-  urlParameters: [
-    Parameters.roleAssignmentId,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlRoleAssignmentGetResults
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const listSqlRoleAssignmentsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlRoleAssignmentListResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
 const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
@@ -1686,7 +1444,7 @@ const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1720,7 +1478,7 @@ const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1745,7 +1503,7 @@ const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1769,6 +1527,60 @@ const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginMigrateSqlDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+    }
+  },
+  serializer
+};
+
+const beginMigrateSqlDatabaseToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
@@ -1780,7 +1592,7 @@ const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1815,7 +1627,7 @@ const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1841,7 +1653,7 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1865,6 +1677,62 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginMigrateSqlContainerToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+    }
+  },
+  serializer
+};
+
+const beginMigrateSqlContainerToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
@@ -1877,7 +1745,7 @@ const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1913,7 +1781,7 @@ const beginDeleteSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1940,7 +1808,7 @@ const beginCreateUpdateSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1976,7 +1844,7 @@ const beginDeleteSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2003,7 +1871,7 @@ const beginCreateUpdateSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2039,7 +1907,7 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2049,126 +1917,6 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginCreateUpdateSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
-  urlParameters: [
-    Parameters.roleDefinitionId,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "createUpdateSqlRoleDefinitionParameters",
-    mapper: {
-      ...Mappers.SqlRoleDefinitionCreateUpdateParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlRoleDefinitionGetResults
-    },
-    202: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginDeleteSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
-  urlParameters: [
-    Parameters.roleDefinitionId,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginCreateUpdateSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
-  urlParameters: [
-    Parameters.roleAssignmentId,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "createUpdateSqlRoleAssignmentParameters",
-    mapper: {
-      ...Mappers.SqlRoleAssignmentCreateUpdateParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlRoleAssignmentGetResults
-    },
-    202: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginDeleteSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
-  urlParameters: [
-    Parameters.roleAssignmentId,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer

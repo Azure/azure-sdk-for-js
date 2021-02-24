@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -848,8 +851,8 @@ describe("ContainerClient", () => {
 });
 
 describe("ContainerClient - Verify Name Properties", () => {
-  let containerName = "containerName";
-  let accountName = "myAccount";
+  const containerName = "containerName";
+  const accountName = "myAccount";
 
   function verifyNameProperties(url: string) {
     const newClient = new ContainerClient(url);

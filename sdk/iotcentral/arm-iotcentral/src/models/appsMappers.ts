@@ -13,6 +13,7 @@ export {
   AppPatch,
   AppSkuInfo,
   AppTemplate,
+  AppTemplateLocations,
   AppTemplatesResult,
   BaseResource,
   CloudError,

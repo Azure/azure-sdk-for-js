@@ -25,6 +25,7 @@ omitted_paths:
   - sdk/schemaregistry/README.md
   - sdk/storage/*/test/README.md
   - sdk/storage/storage-internal-avro/*
+  - sdk/storage/perf-tests/*/README.md
   - sdk/storage/*/test/perfstress/track-1/*
   - sdk/storage/*/test/perfstress/track-2/*
   - sdk/textanalytics/*/test/README.md
@@ -120,6 +121,7 @@ known_content_issues:
   - ["sdk/eventhub/eventhubs-checkpointstore-blob/README.md",  "#1583"]
   - ["sdk/eventhub/event-processor-host/README.md",  "#1583"]
   - ["sdk/eventhub/README.md",  "#1583"]
+  - ["sdk/eventhub/mock-hub/README.md",  "#1583"]
   - ["sdk/eventhub/testhub/README.md",  "#1583"]
   - ["sdk/graphrbac/graph/README.md",  "#1583"]
   - ["sdk/keyvault/README.md",  "#1583"]

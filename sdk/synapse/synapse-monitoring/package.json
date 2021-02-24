@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-monitoring/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "sdk-type": "client",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "@opentelemetry/api": "^0.10.2",

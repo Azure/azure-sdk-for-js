@@ -34,28 +34,11 @@ export const accountName: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-06-01-preview',
-    constraints: {
-      MinLength: 1
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2019-08-01-preview',
     constraints: {
       MinLength: 1
     },
@@ -156,31 +139,11 @@ export const groupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const instanceId: msRest.OperationURLParameter = {
-  parameterPath: "instanceId",
-  mapper: {
-    required: true,
-    serializedName: "instanceId",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const keyspaceName: msRest.OperationURLParameter = {
   parameterPath: "keyspaceName",
   mapper: {
     required: true,
     serializedName: "keyspaceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const location: msRest.OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    required: true,
-    serializedName: "location",
     type: {
       name: "String"
     }
@@ -249,74 +212,6 @@ export const resourceGroupName: msRest.OperationURLParameter = {
       MinLength: 1,
       Pattern: /^[-\w\._\(\)]+$/
     },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const restorableMongodbDatabaseRid: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "restorableMongodbDatabaseRid"
-  ],
-  mapper: {
-    serializedName: "restorableMongodbDatabaseRid",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const restorableSqlDatabaseRid: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "restorableSqlDatabaseRid"
-  ],
-  mapper: {
-    serializedName: "restorableSqlDatabaseRid",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const restoreLocation: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "restoreLocation"
-  ],
-  mapper: {
-    serializedName: "restoreLocation",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const restoreTimestampInUtc: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "restoreTimestampInUtc"
-  ],
-  mapper: {
-    serializedName: "restoreTimestampInUtc",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const roleAssignmentId: msRest.OperationURLParameter = {
-  parameterPath: "roleAssignmentId",
-  mapper: {
-    required: true,
-    serializedName: "roleAssignmentId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const roleDefinitionId: msRest.OperationURLParameter = {
-  parameterPath: "roleDefinitionId",
-  mapper: {
-    required: true,
-    serializedName: "roleDefinitionId",
     type: {
       name: "String"
     }

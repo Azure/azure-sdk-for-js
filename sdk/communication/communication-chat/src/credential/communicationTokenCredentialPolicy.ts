@@ -7,7 +7,7 @@ import { RequestPolicyFactory, bearerTokenAuthenticationPolicy } from "@azure/co
 /**
  * Creates a new CommunicationTokenCredentialPolicy factory.
  *
- * @param credential The CommunicationTokenCredential implementation that can supply the user credential.
+ * @param credential - The CommunicationTokenCredential implementation that can supply the user credential.
  */
 export const createCommunicationTokenCredentialPolicy = (
   credential: CommunicationTokenCredential

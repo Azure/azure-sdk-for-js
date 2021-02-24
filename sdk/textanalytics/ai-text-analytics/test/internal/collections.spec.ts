@@ -61,7 +61,6 @@ describe("SentimentResultArray", () => {
           }
         }
       ],
-      _response: {} as any,
       modelVersion: ""
     });
 
@@ -87,9 +86,8 @@ describe("DetectLanguageResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeDetectLanguageResultArray(
-      input,
-      [
+    const result = makeDetectLanguageResultArray(input, {
+      documents: [
         {
           id: "A",
           detectedLanguage: {
@@ -109,7 +107,7 @@ describe("DetectLanguageResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -118,8 +116,8 @@ describe("DetectLanguageResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
 
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
@@ -143,9 +141,8 @@ describe("ExtractKeyPhrasesResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeExtractKeyPhrasesResultArray(
-      input,
-      [
+    const result = makeExtractKeyPhrasesResultArray(input, {
+      documents: [
         {
           id: "A",
           keyPhrases: ["test", "test2"],
@@ -157,7 +154,7 @@ describe("ExtractKeyPhrasesResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -166,8 +163,8 @@ describe("ExtractKeyPhrasesResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
 
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
@@ -191,9 +188,8 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeCategorizedEntitiesResultArray(
-      input,
-      [
+    const result = makeRecognizeCategorizedEntitiesResultArray(input, {
+      documents: [
         {
           id: "A",
           entities: [
@@ -222,7 +218,7 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -231,8 +227,8 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
 
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
@@ -256,9 +252,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeLinkedEntitiesResultArray(
-      input,
-      [
+    const result = makeRecognizeLinkedEntitiesResultArray(input, {
+      documents: [
         {
           id: "A",
           entities: [
@@ -302,7 +297,7 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -311,8 +306,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      modelVersion: ""
+    });
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
     assert.deepEqual(inputOrder, outputOrder);

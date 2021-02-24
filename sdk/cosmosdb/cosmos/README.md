@@ -32,6 +32,10 @@ Or you can create an account in the [Azure Portal](https://portal.azure.com/#cre
 
 This package is distributed via [npm][npm] which comes preinstalled with [NodeJS](https://nodejs.org/en/). You should be using Node v10 or above.
 
+#### CORS
+
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/azure/cosmos-db/how-to-configure-cross-origin-resource-sharing) rules for your Cosmos DB account if you need to develop for browsers. Follow the instructions in the linked document to create new CORS rules for your Cosmos DB.
+
 ### Install this package
 
 ```Bash

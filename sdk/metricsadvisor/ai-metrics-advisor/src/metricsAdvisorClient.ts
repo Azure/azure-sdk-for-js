@@ -11,7 +11,7 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
 import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
@@ -35,8 +35,7 @@ import {
   EnrichmentStatus,
   GetMetricSeriesDataResponse,
   MetricFeedbackPageResponse,
-  AlertQueryTimeMode,
-  CreateFeedbackResponse
+  AlertQueryTimeMode
 } from "./models";
 import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
@@ -1578,11 +1577,12 @@ export class MetricsAdvisorClient {
    *
    * @param feedback - Content of the feedback
    * @param options - The options parameter
+   * @returns Response with Feedback object
    */
   public async createFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
-  ): Promise<CreateFeedbackResponse> {
+  ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createFeedback",
       options
@@ -1597,7 +1597,7 @@ export class MetricsAdvisorClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
-      return { id: feedbackId, _response: result._response };
+      return this.getFeedback(feedbackId);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

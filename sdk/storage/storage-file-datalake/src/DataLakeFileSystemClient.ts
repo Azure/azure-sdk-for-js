@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
@@ -46,39 +46,26 @@ import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureVa
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
  * allowing you to manipulate its directories and files.
- *
- * @export
- * @class DataLakeFileSystemClient
- * @extends {StorageClient}
  */
 export class DataLakeFileSystemClient extends StorageClient {
   /**
    * fileSystemContext provided by protocol layer.
-   *
-   * @private
-   * @type {FileSystemOperations}
-   * @memberof DataLakeFileSystemClient
    */
   private fileSystemContext: FileSystemOperations;
 
   /**
-   * blobContainerClient provided by @azure/storage-blob package.
-   *
-   * @private
-   * @type {ContainerClient}
-   * @memberof DataLakeFileSystemClient
+   * blobContainerClient provided by `@azure/storage-blob` package.
    */
   private blobContainerClient: ContainerClient;
 
   /**
    * Creates an instance of DataLakeFileSystemClient from url and credential.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake file system, such as
+   * @param url - A Client string pointing to Azure Storage data lake file system, such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem?sasString".
-   * @param {(StorageSharedKeyCredential | AnonymousCredential | TokenCredential)} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof DataLakeFileSystemClient
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(
     url: string,
@@ -89,12 +76,11 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates an instance of DataLakeFileSystemClient from url and pipeline.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake file system, such as
+   * @param url - A Client string pointing to Azure Storage data lake file system, such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DataLakeFileSystemClient
    */
   constructor(url: string, pipeline: Pipeline);
 
@@ -129,8 +115,6 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Name of current file system.
    *
    * @readonly
-   * @type {string}
-   * @memberof DataLakeFileSystemClient
    */
   public get name(): string {
     return this.blobContainerClient.containerName;
@@ -139,9 +123,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates a {@link DataLakeDirectoryClient} object under current file system.
    *
-   * @param {string} directoryName
-   * @returns {DataLakeDirectoryClient}
-   * @memberof DataLakeFileSystemClient
+   * @param directoryName -
    */
   public getDirectoryClient(directoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
@@ -153,9 +135,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates a {@link DataLakeFileClient} object under current file system.
    *
-   * @param {string} fileName
-   * @returns {DataLakeFileClient}
-   * @memberof DataLakeFileSystemClient
+   * @param fileName -
    */
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
@@ -167,9 +147,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Get a {@link DataLakeLeaseClient} that manages leases on the file system.
    *
-   * @param {string} [proposeLeaseId] Optional. Initial proposed lease Id.
-   * @returns {DataLakeLeaseClient}
-   * @memberof DataLakeFileSystemClient
+   * @param proposeLeaseId - Optional. Initial proposed lease Id.
    */
   public getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient {
     return new DataLakeLeaseClient(this.blobContainerClient.getBlobLeaseClient(proposeLeaseId));
@@ -181,9 +159,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {FileSystemCreateOptions} [options={}] Optional. Options when creating file system.
-   * @returns {Promise<FileSystemCreateResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when creating file system.
    */
   public async create(options: FileSystemCreateOptions = {}): Promise<FileSystemCreateResponse> {
     const { span, spanOptions } = createSpan(
@@ -213,9 +189,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {FileSystemCreateOptions} [options={}]
-   * @returns {Promise<FileSystemCreateIfNotExistsResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options -
    */
   public async createIfNotExists(
     options: FileSystemCreateOptions = {}
@@ -248,9 +222,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * applications. Vice versa new file system with the same name might be added by other clients or
    * applications after this function completes.
    *
-   * @param {FileSystemExistsOptions} [options={}]
-   * @returns {Promise<boolean>}
-   * @memberof DataLakeFileSystemClient
+   * @param options -
    */
   public async exists(options: FileSystemExistsOptions = {}): Promise<boolean> {
     const { span, spanOptions } = createSpan(
@@ -278,9 +250,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {FileSystemDeleteOptions} [options={}] Optional. Options when deleting file system.
-   * @returns {Promise<FileSystemDeleteResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when deleting file system.
    */
   public async delete(options: FileSystemDeleteOptions = {}): Promise<FileSystemDeleteResponse> {
     const { span, spanOptions } = createSpan(
@@ -308,9 +278,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {FileSystemDeleteOptions} [options={}]
-   * @returns {Promise<FileSystemDeleteIfExistsResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options -
    */
   public async deleteIfExists(
     options: FileSystemDeleteOptions = {}
@@ -346,9 +314,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {FileSystemGetPropertiesOptions} [options={}] Optional. Options when getting file system properties.
-   * @returns {Promise<FileSystemGetPropertiesResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when getting file system properties.
    */
   public async getProperties(
     options: FileSystemGetPropertiesOptions = {}
@@ -392,11 +358,9 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
-   * @param {Metadata} [metadata] Replace existing metadata with this value.
+   * @param metadata - Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
-   * @param {FileSystemSetMetadataOptions} [options={}] Optional. Options when setting file system metadata.
-   * @returns {Promise<FileSystemSetMetadataResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when setting file system metadata.
    */
   public async setMetadata(
     metadata?: Metadata,
@@ -431,9 +395,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {FileSystemGetAccessPolicyOptions} [options={}] Optional. Options when getting file system access policy.
-   * @returns {Promise<FileSystemGetAccessPolicyResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when getting file system access policy.
    */
   public async getAccessPolicy(
     options: FileSystemGetAccessPolicyOptions = {}
@@ -479,11 +441,9 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
-   * @param {PublicAccessType} [access] Optional. The level of public access to data in the file system.
-   * @param {SignedIdentifier<AccessPolicy>[]} [fileSystemAcl] Optional. Array of elements each having a unique Id and details of the access policy.
-   * @param {FileSystemSetAccessPolicyOptions} [options={}] Optional. Options when setting file system access policy.
-   * @returns {Promise<FileSystemSetAccessPolicyResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param access - Optional. The level of public access to data in the file system.
+   * @param fileSystemAcl - Optional. Array of elements each having a unique Id and details of the access policy.
+   * @param options - Optional. Options when setting file system access policy.
    */
   public async setAccessPolicy(
     access?: PublicAccessType,
@@ -583,9 +543,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {ListPathsOptions} [options={}] Optional. Options when listing paths.
-   * @returns {PagedAsyncIterableIterator<Path, FileSystemListPathsResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when listing paths.
    */
   public listPaths(
     options: ListPathsOptions = {}
@@ -675,9 +633,8 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {FileSystemGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {

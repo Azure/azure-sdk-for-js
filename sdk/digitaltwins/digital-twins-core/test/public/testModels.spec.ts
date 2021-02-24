@@ -13,7 +13,7 @@ const should = chai.should();
 const MODEL_ID = "dtmi:samples:DTModelTestsModel;1";
 const COMPONENT_ID = "dtmi:samples:DTModelTestsComponent;1";
 
-const component = {
+const testComponent = {
   "@id": COMPONENT_ID,
   "@type": "Interface",
   "@context": "dtmi:dtdl:context;2",
@@ -32,7 +32,7 @@ const component = {
   ]
 };
 
-const model = {
+const testModel = {
   "@id": MODEL_ID,
   "@type": "Interface",
   "@context": "dtmi:dtdl:context;2",
@@ -70,7 +70,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     await recorder.stop();
   });
 
-  async function deleteModels() {
+  async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
     } catch (Exception) {}
@@ -80,12 +80,12 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     } catch (Exception) {}
   }
 
-  async function createModel() {
-    const simpleModels = [component, model];
+  async function createModel(): Promise<void> {
+    const simpleModels = [testComponent, testModel];
     await client.createModels(simpleModels);
   }
 
-  async function setUpModels() {
+  async function setUpModels(): Promise<void> {
     await deleteModels();
     await createModel();
   }
@@ -107,14 +107,18 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     await deleteModels();
 
     try {
-      const models = await client.createModels([component, model]);
+      const models = await client.createModels([testComponent, testModel]);
       assert.equal(models.length, 2, "Unexpected result from createModels().");
       assert.equal(
         models[0].id,
-        component["@id"],
+        testComponent["@id"],
         "Unexpected component in result from createModels()."
       );
-      assert.equal(models[1].id, model["@id"], "Unexpected model in result from createModels().");
+      assert.equal(
+        models[1].id,
+        testModel["@id"],
+        "Unexpected model in result from createModels()."
+      );
     } finally {
       await deleteModels();
     }
@@ -125,7 +129,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
 
     let errorWasThrown = false;
     try {
-      await client.createModels([component, model]);
+      await client.createModels([testComponent, testModel]);
     } catch (error) {
       errorWasThrown = true;
       assert.include(error.message, `Some of the model ids already exist`);
@@ -217,7 +221,11 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
 
     try {
       const model = await client.getModel(COMPONENT_ID);
-      assert.equal(model.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(
+        model.id,
+        testComponent["@id"],
+        "Unexpected component in result from getModel()."
+      );
     } finally {
       await deleteModels();
     }
@@ -228,7 +236,11 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
 
     try {
       const model = await client.getModel(COMPONENT_ID, true);
-      assert.equal(model.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(
+        model.id,
+        testComponent["@id"],
+        "Unexpected component in result from getModel()."
+      );
     } finally {
       await deleteModels();
     }
@@ -260,10 +272,10 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       let modelModelFound = false;
       let count = 0;
       for await (const model of models) {
-        if (model.id == COMPONENT_ID) {
+        if (model.id === COMPONENT_ID) {
           componentModelFound = true;
         }
-        if (model.id == MODEL_ID) {
+        if (model.id === MODEL_ID) {
           modelModelFound = true;
         }
         count++;
@@ -286,10 +298,10 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       let modelModelFound = false;
       let count = 0;
       for await (const model of models) {
-        if (model.id == COMPONENT_ID) {
+        if (model.id === COMPONENT_ID) {
           componentModelFound = true;
         }
-        if (model.id == MODEL_ID) {
+        if (model.id === MODEL_ID) {
           modelModelFound = true;
         }
         count++;
@@ -306,15 +318,23 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     await deleteModels();
 
     try {
-      await client.createModels([component]);
+      await client.createModels([testComponent]);
 
       const model1 = await client.getModel(COMPONENT_ID);
-      assert.equal(model1.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(
+        model1.id,
+        testComponent["@id"],
+        "Unexpected component in result from getModel()."
+      );
       assert.equal(model1.decommissioned, false, "Unexpected result from getModel().");
 
       await client.decomissionModel(COMPONENT_ID);
       const model2 = await client.getModel(COMPONENT_ID);
-      assert.equal(model2.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(
+        model2.id,
+        testComponent["@id"],
+        "Unexpected component in result from getModel()."
+      );
       assert.equal(model2.decommissioned, true, "Unexpected result from getModel().");
     } finally {
       await deleteModels();
@@ -344,20 +364,32 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     await deleteModels();
 
     try {
-      await client.createModels([component]);
+      await client.createModels([testComponent]);
 
       const model1 = await client.getModel(COMPONENT_ID);
-      assert.equal(model1.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(
+        model1.id,
+        testComponent["@id"],
+        "Unexpected component in result from getModel()."
+      );
       assert.equal(model1.decommissioned, false, "Unexpected result from getModel().");
 
       await client.decomissionModel(COMPONENT_ID);
       const model2 = await client.getModel(COMPONENT_ID);
-      assert.equal(model2.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(
+        model2.id,
+        testComponent["@id"],
+        "Unexpected component in result from getModel()."
+      );
       assert.equal(model2.decommissioned, true, "Unexpected result from getModel().");
 
       await client.decomissionModel(COMPONENT_ID);
       const model3 = await client.getModel(COMPONENT_ID);
-      assert.equal(model3.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(
+        model3.id,
+        testComponent["@id"],
+        "Unexpected component in result from getModel()."
+      );
       assert.equal(model3.decommissioned, true, "Unexpected result from getModel().");
     } finally {
       await deleteModels();

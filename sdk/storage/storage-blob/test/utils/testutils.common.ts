@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
@@ -84,7 +87,7 @@ export class SimpleTokenCredential implements TokenCredential {
 
   /**
    * Creates an instance of TokenCredential.
-   * @param {string} token
+   * @param token -
    */
   constructor(token: string, expiresOn?: Date) {
     this.token = token;
@@ -94,9 +97,9 @@ export class SimpleTokenCredential implements TokenCredential {
   /**
    * Retrieves the token stored in this RawTokenCredential.
    *
-   * @param _scopes Ignored since token is already known.
-   * @param _options Ignored since token is already known.
-   * @returns {AccessToken} The access token details.
+   * @param _scopes - Ignored since token is already known.
+   * @param _options - Ignored since token is already known.
+   * @returns The access token details.
    */
   async getToken(
     _scopes: string | string[],
@@ -134,15 +137,15 @@ type BlobMetadata = { [propertyName: string]: string };
 /**
  * Validate if m1 is super set of m2.
  *
- * @param m1 BlobMetadata
- * @param m2 BlobMetadata
+ * @param m1 - BlobMetadata
+ * @param m2 - BlobMetadata
  */
 export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   if (!m1 || !m2) {
     throw new RangeError("m1 or m2 is invalid");
   }
 
-  for (let p in m2) {
+  for (const p in m2) {
     if (m1[p] !== m2[p]) {
       return false;
     }
@@ -154,9 +157,7 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
 /**
  * Sleep for seconds.
  *
- * @export
- * @param {number} seconds
- * @returns {Promise<void>}
+ * @param seconds -
  */
 export function sleep(seconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -167,9 +168,7 @@ export function sleep(seconds: number): Promise<void> {
 /**
  * Generate a Uint8Array with specified byteLength and randome content.
  *
- * @export
- * @param {number} byteLength
- * @returns {Uint8Array}
+ * @param byteLength -
  */
 export function genearteRandomUint8Array(byteLength: number): Uint8Array {
   const uint8Arr = new Uint8Array(byteLength);

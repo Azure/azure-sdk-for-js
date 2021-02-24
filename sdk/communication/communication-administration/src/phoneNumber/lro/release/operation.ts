@@ -27,9 +27,9 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
   /**
    * Initializes an instance of PurchaseReservationPollOperation
    *
-   * @param {ReleasePhoneNumbersPollOperationState} state The state of the poll operation
-   * @param {PhoneNumberAdministration} client A reference to the generated client used to make requests internally.
-   * @param {OperationOptions} requestOptions Additional options for the underlying requests.
+   * @param state - The state of the poll operation
+   * @param client - A reference to the generated client used to make requests internally.
+   * @param requestOptions - Additional options for the underlying requests.
    */
   constructor(
     public state: ReleasePhoneNumbersPollOperationState,
@@ -42,8 +42,8 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
   /**
    * Request the release of a list of acquired phone numbers.
    *
-   * @param {string[]} phoneNumbers The phone numbers to be released.
-   * @param {ReleasePhoneNumbersOptions} options Additional request options.
+   * @param phoneNumbers - The phone numbers to be released.
+   * @param options - Additional request options.
    */
   private async releasePhoneNumbers(
     phoneNumbers: string[],
@@ -75,8 +75,8 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
   /**
    * Gets the release associated with a given id.
    *
-   * @param {string} releaseId The id of the release returned by releasePhoneNumbers.
-   * @param {GetReleaseOptions} options Additional request options.
+   * @param releaseId - The id of the release returned by releasePhoneNumbers.
+   * @param options - Additional request options.
    */
   private async getRelease(
     releaseId: string,
@@ -106,7 +106,7 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
   /**
    * Reaches to the service and queries the status of the operation.
    *
-   * @param {UpdatePollerOptions<ReleasePhoneNumbersPollOperationState>} [options={}] Additional options for the poll operation
+   * @param options - Additional options for the poll operation
    */
   public async update(
     options: UpdatePollerOptions<ReleasePhoneNumbersPollOperationState> = {}
@@ -129,10 +129,12 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
         state.result = await this.getRelease(state.releaseId, this.requestOptions);
         state.isCompleted = isComplete(state.result, "Complete");
       }
+
+      return this;
     } catch (error) {
       state.error = error;
       state.isCompleted = true;
-    } finally {
+
       return this;
     }
   }

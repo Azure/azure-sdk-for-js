@@ -1,10 +1,12 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { RestError } from "@azure/core-http";
 
 export * from "./BlobServiceClient";
 export * from "./Clients";
+export * from "./ContainerClient";
+export * from "./BlobLeaseClient";
 export * from "./BlobBatch";
 export * from "./BlobBatchClient";
 export * from "./BatchResponse";

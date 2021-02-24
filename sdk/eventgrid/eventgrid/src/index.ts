@@ -1,30 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureKeyCredential } from "@azure/core-auth";
+export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
-export {
-  CloudEvent,
-  CustomEventDataDeserializer,
-  EventGridEvent,
-  SendCloudEventInput,
-  SendEventGridEventInput
-} from "./models";
+export { CloudEvent, EventGridEvent, SendCloudEventInput, SendEventGridEventInput } from "./models";
 
 export {
   EventGridPublisherClient,
   EventGridPublisherClientOptions,
-  SendEventsOptions,
-  SendCloudEventsOptions,
-  SendCustomSchemaEventsOptions
+  SendOptions,
+  InputSchema,
+  InputSchemaToInputTypeMap
 } from "./eventGridClient";
 
-export {
-  SignatureCredential,
-  EventGridSharedAccessSignatureCredential
-} from "./sharedAccessSignitureCredential";
-
-export { EventGridConsumer, EventGridConsumerOptions } from "./consumer";
+export { EventGridDeserializer } from "./consumer";
 
 export {
   generateSharedAccessSignature,
@@ -139,6 +128,7 @@ export {
   StorageDirectoryCreatedEventData,
   StorageDirectoryDeletedEventData,
   StorageDirectoryRenamedEventData,
+  StorageLifecyclePolicyActionSummaryDetail,
   StorageLifecyclePolicyCompletedEventData,
   WebAppUpdatedEventData,
   WebBackupOperationStartedEventData,
@@ -174,6 +164,5 @@ export {
   DeviceTwinProperties,
   DeviceTwinMetadata,
   AppServicePlanAction,
-  KnownAppServicePlanAction,
-  StorageLifecyclePolicyActionSummaryDetail
+  KnownAppServicePlanAction
 } from "./generated/models";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortController } from "@azure/abort-controller";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -367,7 +370,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("move with shared key to authenticate source, SAS to authenticate destination", async () => {
-    let destFileName = recorder.getUniqueName("destfile");
+    const destFileName = recorder.getUniqueName("destfile");
     const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
       fileSystemName: fileSystemClient.name,
       pathName: destFileName,
@@ -380,7 +383,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("move with SAS to authenticate source, SAS to authenticate destination", async () => {
-    let destFileName = recorder.getUniqueName("destfile");
+    const destFileName = recorder.getUniqueName("destfile");
     const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
       fileSystemName: fileSystemClient.name,
       expiresOn: new Date(Date.now() + 60 * 1000),

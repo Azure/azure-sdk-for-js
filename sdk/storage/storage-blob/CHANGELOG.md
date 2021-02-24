@@ -1,5 +1,12 @@
 # Release History
 
+## 12.5.0-beta.2 (Unreleased)
+
+
+## 12.5.0-beta.1 (2021-02-09)
+
+- Now support Batch operations scoped to the Container level. You can use `ContainerClient.getBlobBatchClient()` to get such a `BlobBatchClient`.
+
 ## 12.4.1 (2021-02-03)
 
 - Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).

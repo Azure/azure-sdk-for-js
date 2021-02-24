@@ -4,6 +4,7 @@
 import AsyncLock from "async-lock";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
+import { isDefined } from "./typeGuards";
 
 export { AsyncLock };
 /**
@@ -13,20 +14,20 @@ export { AsyncLock };
  */
 export interface AsyncLockOptions {
   /**
-   * @property {number} [timeout] The max timeout. Default is: 0 (never timeout).
+   * The max timeout. Default is: 0 (never timeout).
    */
   timeout?: number;
   /**
-   * @property {number} [maxPending] Maximum pending tasks. Default is: 1000.
+   * Maximum pending tasks. Default is: 1000.
    */
   maxPending?: number;
   /**
-   * @property {boolean} [domainReentrant] Whether lock can reenter in the same domain.
+   * Whether lock can reenter in the same domain.
    * Default is: false.
    */
   domainReentrant?: boolean;
   /**
-   * @property {any} [Promise] Your implementation of the promise. Default is: global promise.
+   * Your implementation of the promise. Default is: global promise.
    */
   Promise?: any;
 }
@@ -36,7 +37,6 @@ export interface AsyncLockOptions {
  */
 export interface WebSocketOptions {
   /**
-   * @property
    * The WebSocket constructor used to create an AMQP connection over a WebSocket.
    * This option should be provided in the below scenarios:
    * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
@@ -46,7 +46,6 @@ export interface WebSocketOptions {
    */
   webSocket?: WebSocketImpl;
   /**
-   * @property
    * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
    * the WebSocket.
    */
@@ -63,7 +62,6 @@ export const isNode =
 
 /**
  * Defines an object with possible properties defined in T.
- * @type ParsedOutput<T>
  */
 export type ParsedOutput<T> = { [P in keyof T]: T[P] };
 
@@ -72,14 +70,14 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  *
  * Connection strings have the following syntax:
  *
- * ConnectionString ::= Part { ";" Part } [ ";" ] [ WhiteSpace ]
+ * ConnectionString ::= `Part { ";" Part } [ ";" ] [ WhiteSpace ]`
  * Part             ::= [ PartLiteral [ "=" PartLiteral ] ]
  * PartLiteral      ::= [ WhiteSpace ] Literal [ WhiteSpace ]
  * Literal          ::= ? any sequence of characters except ; or = or WhiteSpace ?
- * WhiteSpace       ::= ? all whitespace characters including \r and \n ?
+ * WhiteSpace       ::= ? all whitespace characters including `\r` and `\n` ?
  *
- * @param {string} connectionString The connection string to be parsed.
- * @returns {ParsedOutput<T>} ParsedOutput<T>.
+ * @param connectionString - The connection string to be parsed.
+ * @returns ParsedOutput<T>.
  */
 export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   const output: { [k: string]: string } = {};
@@ -117,15 +115,15 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
  * @internal
  *
  * Gets a new instance of the async lock with desired settings.
- * @param {AsyncLockOptions} [options] The async lock options.
- * @returns {AsyncLock} AsyncLock
+ * @param options - The async lock options.
+ * @returns AsyncLock
  */
 export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
   return new AsyncLock(options);
 }
 
 /**
- * @constant {AsyncLock} defaultLock The async lock instance with default settings.
+ * The async lock instance with default settings.
  */
 export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
@@ -134,7 +132,6 @@ export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
  *
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
  * the promise with the given value.
- * @class Timeout
  */
 export class Timeout {
   // Node and browsers return different types from setTimeout
@@ -161,7 +158,7 @@ export class Timeout {
     return Promise.race([wrappedPromise, timer]);
   }
 
-  private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
+  private _promiseFinally<T>(promise: Promise<T>, fn: (...args: any[]) => void): Promise<T> {
     const success = (result: T): T => {
       fn();
       return result;
@@ -184,11 +181,11 @@ export class Timeout {
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param {number} delayInMs - The number of milliseconds to be delayed.
- * @param {AbortSignalLike} abortSignal - The abortSignal associated with containing operation.
- * @param {string} abortErrorMsg - The abort error message associated with containing operation.
- * @param {T} value - The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} - Resolved promise
+ * @param delayInMs - The number of milliseconds to be delayed.
+ * @param abortSignal - The abortSignal associated with containing operation.
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns - Resolved promise
  */
 export function delay<T>(
   delayInMs: number,
@@ -197,6 +194,9 @@ export function delay<T>(
   value?: T
 ): Promise<T | void> {
   return new Promise((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+    let onAborted: (() => void) | undefined = undefined;
+
     const rejectOnAbort = (): void => {
       return reject(
         new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
@@ -204,13 +204,15 @@ export function delay<T>(
     };
 
     const removeListeners = (): void => {
-      if (abortSignal) {
+      if (abortSignal && onAborted) {
         abortSignal.removeEventListener("abort", onAborted);
       }
     };
 
-    const onAborted = (): void => {
-      clearTimeout(timer);
+    onAborted = (): void => {
+      if (isDefined(timer)) {
+        clearTimeout(timer);
+      }
       removeListeners();
       return rejectOnAbort();
     };
@@ -219,7 +221,7 @@ export function delay<T>(
       return rejectOnAbort();
     }
 
-    const timer = setTimeout(() => {
+    timer = setTimeout(() => {
       removeListeners();
       resolve(value);
     }, delayInMs);
@@ -234,8 +236,8 @@ export function delay<T>(
  * @internal
  *
  * Generates a random number between the given interval
- * @param {number} min Min number of the range (inclusive).
- * @param {number} max Max number of the range (inclusive).
+ * @param min - Min number of the range (inclusive).
+ * @param max - Max number of the range (inclusive).
  */
 export function randomNumberFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -255,16 +257,16 @@ export type Func<T, V> = (a: T) => V;
  * Executes an array of promises sequentially. Inspiration of this method is here:
  * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
  *
- * @param {Array} promiseFactories An array of promise factories(A function that return a promise)
+ * @param promiseFactories - An array of promise factories(A function that return a promise)
  *
- * @param {any} [kickstart] Input to the first promise that is used to kickstart the promise chain.
+ * @param kickstart - Input to the first promise that is used to kickstart the promise chain.
  * If not provided then the promise chain starts with undefined.
  *
- * @return A chain of resolved or rejected promises
+ * @returns A chain of resolved or rejected promises
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  kickstart?: any
+  kickstart?: unknown
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
@@ -277,8 +279,8 @@ export function executePromisesSequentially(
  * @internal
  *
  * Determines whether the given connection string is an iothub connection string.
- * @param {string} connectionString The connection string.
- * @return {boolean} boolean.
+ * @param connectionString - The connection string.
+ * @returns boolean.
  */
 export function isIotHubConnectionString(connectionString: string): boolean {
   connectionString = String(connectionString);
@@ -295,7 +297,7 @@ export function isIotHubConnectionString(connectionString: string): boolean {
  * @hidden
  * @internal
  */
-export function isString(s: any): s is string {
+export function isString(s: unknown): s is string {
   return typeof s === "string";
 }
 
@@ -303,6 +305,6 @@ export function isString(s: any): s is string {
  * @hidden
  * @internal
  */
-export function isNumber(n: any): n is number {
+export function isNumber(n: unknown): n is number {
   return typeof n === "number";
 }

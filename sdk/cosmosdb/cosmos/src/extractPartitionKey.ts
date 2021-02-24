@@ -5,8 +5,6 @@ import { PartitionKey, PartitionKeyDefinition } from "./documents";
 
 /**
  * @hidden
- * @param document
- * @param partitionKeyDefinition
  */
 export function extractPartitionKey(
   document: any,
@@ -38,7 +36,6 @@ export function extractPartitionKey(
 }
 /**
  * @hidden
- * @param partitionKeyDefinition
  */
 export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition) {
   if (partitionKeyDefinition.systemKey === true) {

@@ -202,7 +202,7 @@
     },
     {
       "name": "monitor",
-      "path": "sdk/monitor/opentelemetry-exporter-azure-monitor"
+      "path": "sdk/monitor/monitor-opentelemetry-exporter"
     },
     {
       "name": "test recorder",
@@ -231,6 +231,10 @@
     {
       "name": "digital-twins-core",
       "path": "sdk/digitaltwins/digital-twins-core"
+    },
+    {
+      "name": "mixedreality-authentication",
+      "path": "sdk/mixedreality/mixedreality-authentication"
     },
     {
       "name": "attestation",
@@ -264,6 +268,9 @@
     "typescript.tsdk": "core-http/node_modules/typescript/lib"
   },
   "extensions": {
-    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ]
   }
 }

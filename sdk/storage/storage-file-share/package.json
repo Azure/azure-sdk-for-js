@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.4.1",
+  "version": "12.4.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -98,7 +98,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "advanced.js",
       "anonymousCred.js",

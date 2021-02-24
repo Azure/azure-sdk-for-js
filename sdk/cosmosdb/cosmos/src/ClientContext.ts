@@ -505,7 +505,7 @@ export class ClientContext {
 
   /**
    * Gets the Database account information.
-   * @param {string} [options.urlConnection]   - The endpoint url whose database account needs to be retrieved. \
+   * @param options - `urlConnection` in the options is the endpoint url whose database account needs to be retrieved.
    * If not present, current client's url will be used.
    */
   public async getDatabaseAccount(

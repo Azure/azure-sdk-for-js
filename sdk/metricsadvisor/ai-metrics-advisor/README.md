@@ -9,7 +9,7 @@ Metrics Advisor is a part of Azure Cognitive Services that uses AI perform data 
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor) |
-[API reference documentation](https://aka.ms/azsdk/js/metricsadvisor/docs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/samples)
 
@@ -77,6 +77,7 @@ const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API k
 const client = new MetricsAdvisorClient("<endpoint>", credential);
 const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
 ```
+
 #### Using Azure Service Directory
 
 API key authorization is used in most of the examples, but you can also authenticate the client with Azure Active Directory using the Azure Identity library. To use the DefaultAzureCredential provider shown below or other credential providers provided with the Azure SDK, please install the @azure/identity package:
@@ -232,10 +233,8 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     accessMode: "Private",
     adminEmails: ["xyz@example.com"]
   };
-  const created = await adminClient.createDataFeed(dataFeed);
-  /* To get the full datafeed object, you can call the get method and pass the id of the created datafeed
-   */
-  const result = await adminClient.getDataFeed(created.id);
+  const result = await adminClient.createDataFeed(dataFeed);
+
   return result;
 }
 ```
@@ -319,12 +318,7 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  const created = await adminClient.createDetectionConfig(anomalyConfig);
-
-  /* To get the full detection config object, you can call the get method and pass the id of the created detection config
-   */
-  const result = await adminClient.getDetectionConfig(created.id);
-  return result;
+  return await adminClient.createDetectionConfig(anomalyConfig);
 }
 ```
 
@@ -365,11 +359,7 @@ async function createWebhookHook(adminClient) {
     }
   };
 
-  const created = await adminClient.createHook(hook);
-  /* To get the full hook object, you can call the get method and pass the id of the created hook
-   */
-  const result = await adminClient.getHook(created.id);
-  return result;
+  return await adminClient.createHook(hook);
 }
 ```
 
@@ -421,11 +411,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  const created = await adminClient.createAlertConfig(anomalyAlertConfig);
-  /* To get the full alert config object, you can call the get method and pass the id of the created alert config
-   */
-  const result = await adminClient.getAlertConfig(created.id);
-  return result;
+  return await adminClient.createAlertConfig(anomalyAlertConfig);
 }
 ```
 

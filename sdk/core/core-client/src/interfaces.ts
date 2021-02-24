@@ -118,7 +118,7 @@ export interface OperationOptions {
  */
 export interface OperationRequestOptions {
   /**
-   * @property {object} [customHeaders] User defined custom request headers that
+   * User defined custom request headers that
    * will be applied before the request is sent.
    */
   customHeaders?: { [key: string]: string };

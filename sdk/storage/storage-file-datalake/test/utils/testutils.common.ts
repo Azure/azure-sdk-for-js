@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
@@ -21,6 +24,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     DFS_ACCOUNT_TOKEN: `${mockAccountKey}`,
+    DFS_SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
+    DFS_SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
+    DFS_SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
     AZURE_CLIENT_ID: `${mockAccountKey}`,
     AZURE_TENANT_ID: `${mockAccountKey}`,
     AZURE_CLIENT_SECRET: `${mockAccountKey}`
@@ -67,7 +73,7 @@ export class SimpleTokenCredential implements TokenCredential {
 
   /**
    * Creates an instance of TokenCredential.
-   * @param {string} token
+   * @param token -
    */
   constructor(token: string, expiresOn?: Date) {
     this.token = token;
@@ -77,9 +83,9 @@ export class SimpleTokenCredential implements TokenCredential {
   /**
    * Retrieves the token stored in this RawTokenCredential.
    *
-   * @param _scopes Ignored since token is already known.
-   * @param _options Ignored since token is already known.
-   * @returns {AccessToken} The access token details.
+   * @param _scopes - Ignored since token is already known.
+   * @param _options - Ignored since token is already known.
+   * @returns The access token details.
    */
   async getToken(
     _scopes: string | string[],
@@ -117,15 +123,15 @@ type BlobMetadata = { [propertyName: string]: string };
 /**
  * Validate if m1 is super set of m2.
  *
- * @param m1 BlobMetadata
- * @param m2 BlobMetadata
+ * @param m1 - BlobMetadata
+ * @param m2 - BlobMetadata
  */
 export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   if (!m1 || !m2) {
     throw new RangeError("m1 or m2 is invalid");
   }
 
-  for (let p in m2) {
+  for (const p in m2) {
     if (m1[p] !== m2[p]) {
       return false;
     }

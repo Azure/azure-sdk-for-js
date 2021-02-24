@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.4.1",
+  "version": "12.5.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-blob/src/index.js",
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.4.1 --use=@microsoft.azure/autorest.typescript@5.0.1",
+    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.5.0-beta.1 --use=@microsoft.azure/autorest.typescript@5.0.1",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
@@ -101,7 +101,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "advanced.js",
       "anonymousCred.js",
@@ -129,7 +129,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@azure/core-https": "1.0.0-beta.1",
+    "@azure/core-https": "1.0.0-beta.2",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
@@ -13,42 +13,27 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * FileSASSignatureValues is used to help generating File service SAS tokens for shares or files.
- *
- * @export
- * @class FileSASSignatureValues
  */
 
 export interface FileSASSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   version?: string;
 
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof FileSASSignatureValues
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof FileSASSignatureValues
    */
   startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof FileSASSignatureValues
    */
   expiresOn?: Date;
 
@@ -56,33 +41,21 @@ export interface FileSASSignatureValues {
    * Optional only when identifier is provided.
    * Please refer to either {@link ShareSASPermissions} or {@link FileSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
-   *
-   * @type {FileSASPermissions | ShareSASPermissions}
-   * @memberof FileSASSignatureValues
    */
   permissions?: FileSASPermissions | ShareSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof FileSASSignatureValues
    */
   ipRange?: SasIPRange;
 
   /**
    * The name of the share the SAS user may access.
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   shareName: string;
 
   /**
    * Optional. The path of the file like, "directory/FileName" or "FileName".
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   filePath?: string;
 
@@ -90,49 +63,31 @@ export interface FileSASSignatureValues {
    * Optional. The name of the access policy on the share this SAS references if any.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   identifier?: string;
 
   /**
    * Optional. The cache-control header for the SAS.
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   cacheControl?: string;
 
   /**
    * Optional. The content-disposition header for the SAS.
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   contentDisposition?: string;
 
   /**
    * Optional. The content-encoding header for the SAS.
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   contentEncoding?: string;
 
   /**
    * Optional. The content-language header for the SAS.
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   contentLanguage?: string;
 
   /**
    * Optional. The content-type header for the SAS.
-   *
-   * @type {string}
-   * @memberof FileSASSignatureValues
    */
   contentType?: string;
 }
@@ -149,10 +104,8 @@ export interface FileSASSignatureValues {
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @export
- * @param {FileSASSignatureValues} fileSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param fileSASSignatureValues -
+ * @param sharedKeyCredential -
  */
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,

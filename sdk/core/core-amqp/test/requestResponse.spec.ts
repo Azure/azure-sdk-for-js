@@ -19,10 +19,11 @@ import {
   getCodeDescriptionAndError,
   onMessageReceived
 } from "../src/requestResponseLink";
+import { createConnectionStub } from "./utils/createConnectionStub";
 interface Window {}
 declare let self: Window & typeof globalThis;
 
-function getGlobal() {
+function getGlobal(): NodeJS.Global | (Window & typeof globalThis) {
   if (typeof global !== "undefined") {
     return global;
   } else {
@@ -33,7 +34,7 @@ function getGlobal() {
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
   expectedNumberOfItems: number
-) => {
+): void => {
   assert.equal(
     _responsesMap.size,
     expectedNumberOfItems,
@@ -42,6 +43,48 @@ const assertItemsLengthInResponsesMap = (
 };
 
 describe("RequestResponseLink", function() {
+  const TEST_FAILURE = "Test failure";
+
+  describe("#create", function() {
+    it("should create a RequestResponseLink", async function() {
+      const connectionStub = createConnectionStub();
+      const link = await RequestResponseLink.create(connectionStub, {}, {});
+      assert.isTrue(link instanceof RequestResponseLink);
+    });
+
+    it("honors already aborted abortSignal", async function() {
+      const connection = new Connection();
+
+      // Create an abort signal that will be aborted on a future tick of the event loop.
+      const controller = new AbortController();
+      const signal = controller.signal;
+      setTimeout(() => controller.abort(), 0);
+
+      try {
+        await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        assert.equal(err.name, "AbortError");
+      }
+    });
+
+    it("honors abortSignal", async function() {
+      const connection = new Connection();
+
+      // Create an abort signal that is already aborted.
+      const controller = new AbortController();
+      controller.abort();
+      const signal = controller.signal;
+
+      try {
+        await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        assert.equal(err.name, "AbortError");
+      }
+    });
+  });
+
   it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
@@ -189,7 +232,7 @@ describe("RequestResponseLink", function() {
       });
     } catch (error) {
       assert.equal(
-        request1.message_id == undefined,
+        request1.message_id === undefined,
         false,
         "`message_id` on the request is undefined."
       );
@@ -690,7 +733,9 @@ describe("RequestResponseLink", function() {
         createReceiver: () => {
           return Promise.resolve({
             close: fake(),
-            on: () => {}
+            on: () => {
+              /** Empty function on purpose for the sake of mocking */
+            }
           });
         }
       } as any);
@@ -853,9 +898,15 @@ describe("RequestResponseLink", function() {
     it("deletes the only the single matched id from the map for the success case - (status code > 199 and < 300)", () => {
       assertItemsLengthInResponsesMap(responsesMap, 1);
       responsesMap.set(`${generate_uuid()}`, {
-        resolve: () => {},
-        reject: () => {},
-        cleanupBeforeResolveOrReject: () => {}
+        resolve: () => {
+          /** Empty function on purpose for the sake of mocking */
+        },
+        reject: () => {
+          /** Empty function on purpose for the sake of mocking */
+        },
+        cleanupBeforeResolveOrReject: () => {
+          /** Empty function on purpose for the sake of mocking */
+        }
       });
       // Map has more elements
       assertItemsLengthInResponsesMap(responsesMap, 2);

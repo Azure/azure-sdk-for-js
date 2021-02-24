@@ -11,17 +11,11 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Options to configure {@link Segment.getChange} operation.
- *
- * @export
- * @interface SegmentGetChangeOptions
  */
 export interface SegmentGetChangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof SegmentGetChangeOptions
    */
   abortSignal?: AbortSignalLike;
 }

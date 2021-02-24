@@ -67,10 +67,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _onSessionClose: OnAmqpEvent;
   private _retryOptions: RetryOptions;
 
-  constructor(context: ConnectionContext, entityPath: string, retryOptions: RetryOptions) {
-    super(entityPath, entityPath, context, "sender", logger, {
+  constructor(
+    connectionContext: ConnectionContext,
+    entityPath: string,
+    retryOptions: RetryOptions
+  ) {
+    super(entityPath, entityPath, connectionContext, "sender", logger, {
       address: entityPath,
-      audience: `${context.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`
     });
     this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
@@ -158,7 +162,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *
    * @param encodedMessage - The encoded message to be sent to ServiceBus.
    * @param sendBatch - Boolean indicating whether the encoded message represents a batch of messages or not
-   * @returns Promise<Delivery>
    */
   private _trySend(
     encodedMessage: Buffer,
@@ -171,112 +174,108 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         ? Constants.defaultOperationTimeoutInMs
         : this._retryOptions.timeoutInMs;
 
-    const sendEventPromise = () =>
-      new Promise<void>(async (resolve, reject) => {
-        const initStartTime = Date.now();
-        if (!this.isOpen()) {
-          try {
-            await waitForTimeoutOrAbortOrResolve({
-              actionFn: () => this.open(undefined, options?.abortSignal),
-              abortSignal: options?.abortSignal,
-              timeoutMs: timeoutInMs,
-              timeoutMessage:
-                `[${this._context.connectionId}] Sender "${this.name}" ` +
-                `with address "${this.address}", was not able to send the message right now, due ` +
-                `to operation timeout.`
-            });
-          } catch (err) {
-            err = translateServiceBusError(err);
-            logger.logError(
-              err,
-              "%s An error occurred while creating the sender",
-              this.logPrefix,
-              this.name
-            );
-            return reject(err);
-          }
-        }
-
+    const sendEventPromise = async (): Promise<void> => {
+      const initStartTime = Date.now();
+      if (!this.isOpen()) {
         try {
-          const timeTakenByInit = Date.now() - initStartTime;
-
-          logger.verbose(
-            "%s Sender '%s', credit: %d available: %d",
-            this.logPrefix,
-            this.name,
-            this.link?.credit,
-            this.link?.session?.outgoing?.available()
-          );
-
-          if (!this.link?.sendable()) {
-            logger.verbose(
-              "%s Sender '%s', waiting for 1 second for sender to become sendable",
-              this.logPrefix,
-              this.name
-            );
-
-            await delay(1000);
-
-            logger.verbose(
-              "%s Sender '%s' after waiting for a second, credit: %d available: %d",
-              this.logPrefix,
-              this.name,
-              this.link?.credit,
-              this.link?.session?.outgoing?.available()
-            );
-          }
-          if (this.link?.sendable()) {
-            if (timeoutInMs <= timeTakenByInit) {
-              const desc: string =
-                `${this.logPrefix} Sender "${this.name}" ` +
-                `with address "${this.address}", was not able to send the message right now, due ` +
-                `to operation timeout.`;
-              logger.warning(desc);
-              const e: AmqpError = {
-                condition: ErrorNameConditionMapper.ServiceUnavailableError,
-                description: desc
-              };
-              return reject(translateServiceBusError(e));
-            }
-            try {
-              this.link.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
-              const delivery = await this.link!.send(
-                encodedMessage,
-                undefined,
-                sendBatch ? 0x80013700 : 0
-              );
-              logger.verbose(
-                "%s Sender '%s', sent message with delivery id: %d",
-                this.logPrefix,
-                this.name,
-                delivery.id
-              );
-              return resolve();
-            } catch (error) {
-              error = translateServiceBusError(error.innerError || error);
-              logger.logError(
-                error,
-                `${this.logPrefix} An error occurred while sending the message`
-              );
-              return reject(error);
-            }
-          } else {
-            // let us retry to send the message after some time.
-            const msg =
-              `[${this.logPrefix}] Sender "${this.name}", ` +
-              `cannot send the message right now. Please try later.`;
-            logger.warning(msg);
-            const amqpError: AmqpError = {
-              condition: ErrorNameConditionMapper.SenderBusyError,
-              description: msg
-            };
-            reject(translateServiceBusError(amqpError));
-          }
+          await waitForTimeoutOrAbortOrResolve({
+            actionFn: () => this.open(undefined, options?.abortSignal),
+            abortSignal: options?.abortSignal,
+            timeoutMs: timeoutInMs,
+            timeoutMessage:
+              `[${this._context.connectionId}] Sender "${this.name}" ` +
+              `with address "${this.address}", was not able to send the message right now, due ` +
+              `to operation timeout.`
+          });
         } catch (err) {
-          reject(err);
+          err = translateServiceBusError(err);
+          logger.logError(
+            err,
+            "%s An error occurred while creating the sender",
+            this.logPrefix,
+            this.name
+          );
+          throw err;
         }
-      });
+      }
 
+      const timeTakenByInit = Date.now() - initStartTime;
+
+      logger.verbose(
+        "%s Sender '%s', credit: %d available: %d",
+        this.logPrefix,
+        this.name,
+        this.link?.credit,
+        this.link?.session?.outgoing?.available()
+      );
+
+      let waitTimeForSendable = 1000;
+      if (!this.link?.sendable() && timeoutInMs - timeTakenByInit > waitTimeForSendable) {
+        logger.verbose(
+          "%s Sender '%s', waiting for 1 second for sender to become sendable",
+          this.logPrefix,
+          this.name
+        );
+
+        await delay(waitTimeForSendable);
+
+        logger.verbose(
+          "%s Sender '%s' after waiting for a second, credit: %d available: %d",
+          this.logPrefix,
+          this.name,
+          this.link?.credit,
+          this.link?.session?.outgoing?.available()
+        );
+      } else {
+        waitTimeForSendable = 0;
+      }
+
+      if (!this.link?.sendable()) {
+        // let us retry to send the message after some time.
+        const msg =
+          `[${this.logPrefix}] Sender "${this.name}", ` +
+          `cannot send the message right now. Please try later.`;
+        logger.warning(msg);
+        const amqpError: AmqpError = {
+          condition: ErrorNameConditionMapper.SenderBusyError,
+          description: msg
+        };
+        throw translateServiceBusError(amqpError);
+      }
+
+      if (timeoutInMs <= timeTakenByInit + waitTimeForSendable) {
+        const desc: string =
+          `${this.logPrefix} Sender "${this.name}" ` +
+          `with address "${this.address}", was not able to send the message right now, due ` +
+          `to operation timeout.`;
+        logger.warning(desc);
+        const e: AmqpError = {
+          condition: ErrorNameConditionMapper.ServiceUnavailableError,
+          description: desc
+        };
+        throw translateServiceBusError(e);
+      }
+
+      try {
+        this.link.sendTimeoutInSeconds =
+          (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
+        const delivery = await this.link!.send(
+          encodedMessage,
+          undefined,
+          sendBatch ? 0x80013700 : 0
+        );
+        logger.verbose(
+          "%s Sender '%s', sent message with delivery id: %d",
+          this.logPrefix,
+          this.name,
+          delivery.id
+        );
+      } catch (error) {
+        error = translateServiceBusError(error.innerError || error);
+        logger.logError(error, `${this.logPrefix} An error occurred while sending the message`);
+        throw error;
+      }
+    };
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.connectionId!,
@@ -320,7 +319,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
    * Closes the rhea link.
    * To be called when connection is disconnected, onAmqpClose and onSessionClose events.
-   * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(): Promise<void> {
     // Clears the token renewal timer. Closes the link and its session if they are open.
@@ -330,7 +328,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this.link == null ? false : this.link.isOpen();
@@ -348,7 +345,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Sends the given message, with the given options on this link
    *
    * @param data - Message to send. Will be sent as UTF8-encoded JSON string.
-   * @returns {Promise<void>}
    */
   async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -390,7 +386,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * of the envelope (batch message).
    * @param inputMessages - An array of Message objects to be sent in a
    * Batch message.
-   * @returns {Promise<void>}
    */
   async sendMessages(
     inputMessages: ServiceBusMessage[],
@@ -476,7 +471,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
    * }
    * ```
-   * @returns {Promise<number>}
    */
   async getMaxMessageSize(
     options: {
@@ -487,23 +481,18 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     if (this.isOpen()) {
       return this.link!.maxMessageSize;
     }
-    return new Promise<number>(async (resolve, reject) => {
-      try {
-        const config: RetryConfig<void> = {
-          operation: () => this.open(undefined, options?.abortSignal),
-          connectionId: this._context.connectionId,
-          operationType: RetryOperationType.senderLink,
-          retryOptions: retryOptions,
-          abortSignal: options?.abortSignal
-        };
 
-        await retry<void>(config);
+    const config: RetryConfig<void> = {
+      operation: () => this.open(undefined, options?.abortSignal),
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.senderLink,
+      retryOptions: retryOptions,
+      abortSignal: options?.abortSignal
+    };
 
-        return resolve(this.link!.maxMessageSize);
-      } catch (err) {
-        reject(err);
-      }
-    });
+    await retry<void>(config);
+
+    return this.link!.maxMessageSize;
   }
 
   async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {

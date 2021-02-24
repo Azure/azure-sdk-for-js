@@ -29,7 +29,7 @@ export interface TracingPolicyOptions {
  * A simple policy to create OpenTelemetry Spans for each request made by the pipeline
  * that has SpanOptions with a parent.
  * Requests made without a parent Span will not be recorded.
- * @param options Options to configure the telemetry logged by the tracing policy.
+ * @param options - Options to configure the telemetry logged by the tracing policy.
  */
 export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
   const userAgent = getUserAgentValue(options.userAgentPrefix);

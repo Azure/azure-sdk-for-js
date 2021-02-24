@@ -24,7 +24,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template",
   "sideEffects": false,
   "dependencies": {
-    "@azure/template": "latest",
+    "@azure/template": "dev",
+    "@azure/identity": "latest",
     "dotenv": "^8.2.0"
   }
 }

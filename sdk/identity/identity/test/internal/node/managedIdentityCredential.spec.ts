@@ -9,7 +9,7 @@ import {
   imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
-import { WebResource, AccessToken, HttpHeaders } from "@azure/core-http";
+import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 
 interface AuthRequestDetails {
@@ -83,7 +83,24 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("returns error when ManagedIdentityCredential authentication failed", async function() {
+  it("returns error when no MSI is available", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const imdsError: RestError = new RestError("Request Timeout", "REQUEST_SEND_ERROR", 408);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ error: imdsError }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) => error.message.indexOf("No MSI credential available") > -1
+    );
+  });
+
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
@@ -92,7 +109,41 @@ describe("ManagedIdentityCredential", function() {
     };
 
     const mockHttpClient = new MockAuthHttpClient({
-      authResponse: [{ status: 400, parsedBody: errResponse }]
+      authResponse: [{ status: 200 }, { status: 500, parsedBody: errResponse }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) => error.message.indexOf(errResponse.error) > -1
+    );
+  });
+
+  it("returns expected error when the network was unreachable", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const netError: RestError = new RestError("Request Timeout", "ENETUNREACH", 408);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ status: 200 }, { error: netError }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) => error.message.indexOf("Network unreachable.") > -1
+    );
+  });
+
+  it("returns expected error when the host was unreachable", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const hostError: RestError = new RestError("Request Timeout", "EHOSTUNREACH", 408);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ status: 200 }, { error: hostError }]
     });
 
     const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
@@ -101,7 +152,7 @@ describe("ManagedIdentityCredential", function() {
     await assertRejects(
       credential.getToken("scopes"),
       (error: AuthenticationError) =>
-        error.errorResponse.error.indexOf("ManagedIdentityCredential authentication failed.") > -1
+        error.message.indexOf("No managed identity endpoint found.") > -1
     );
   });
 
@@ -203,6 +254,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const mockFs = require("mock-fs");
     const filePath = "path/to/file";
     const key = "challenge key";

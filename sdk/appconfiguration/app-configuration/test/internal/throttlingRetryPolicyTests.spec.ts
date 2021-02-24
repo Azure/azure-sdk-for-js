@@ -37,7 +37,7 @@ describe("ThrottlingRetryPolicy", () => {
     response: HttpOperationResponse = defaultResponse,
     nextPolicyCreator: (response: HttpOperationResponse) => RequestPolicy = (response) =>
       new PassThroughPolicy(response)
-  ) {
+  ): ThrottlingRetryPolicy {
     return new ThrottlingRetryPolicy(nextPolicyCreator(response), new RequestPolicyOptions());
   }
 

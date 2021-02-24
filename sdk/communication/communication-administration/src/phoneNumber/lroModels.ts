@@ -31,7 +31,7 @@ export interface PhoneNumberPollerOptionsBase {
 }
 
 /**
- * @ignore
+ * @internal
  * Represents the optional parameters that can be passed to phone number pollers with a required client.
  */
 export interface PhoneNumberPollerOptionsWithClient extends PhoneNumberPollerOptionsBase {
@@ -67,8 +67,8 @@ export interface BeginPurchaseReservationOptions
     OperationOptions {}
 
 /**
- * @ignore
- * The optional parameters of the poller's update method, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * @internal
+ * The optional parameters of the poller's update method, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 export interface UpdatePollerOptions<T> {
   abortSignal?: AbortSignalLike;
@@ -76,7 +76,7 @@ export interface UpdatePollerOptions<T> {
 }
 
 /**
- * @ignore
+ * @internal
  * Represents options for creating an instance of ReleasePhoneNumbersPoller
  */
 export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptionsWithClient {
@@ -92,7 +92,7 @@ export interface ReleasePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
 }
 
 /**
- * @ignore
+ * @internal
  * Represents options for creating an instance of ReservePhoneNumbersPoller
  */
 export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptionsWithClient {
@@ -113,7 +113,7 @@ export interface ReservePhoneNumbersPollerOptions extends PhoneNumberPollerOptio
 }
 
 /**
- * @ignore
+ * @internal
  * Represents options for creating an instance of PurchaseReservationPoller
  */
 export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptionsWithClient {
@@ -129,7 +129,7 @@ export interface PurchaseReservationPollerOptions extends PhoneNumberPollerOptio
 }
 
 /**
- * @ignore
+ * @internal
  * Represents the operation state of the release phone numbers poller
  */
 export interface ReleasePhoneNumbersPollOperationState
@@ -152,7 +152,7 @@ export interface ReleasePhoneNumbersPollOperationState
 }
 
 /**
- * @ignore
+ * @internal
  * Represents the operation state of the reserve phone numbers poller
  */
 export interface ReservePhoneNumbersPollOperationState
@@ -174,7 +174,7 @@ export interface ReservePhoneNumbersPollOperationState
 }
 
 /**
- * @ignore
+ * @internal
  * Represents the operation state of the purchase reservation poller
  */
 export interface PurchaseReservationPollOperationState extends PollOperationState<void> {

@@ -39,6 +39,8 @@ function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
 class ReportTransform extends Transform {
   private loadedBytes = 0;
   private progressCallback: (progress: TransferProgressEvent) => void;
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
   _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
@@ -58,14 +60,15 @@ class ReportTransform extends Transform {
 
 /**
  * A HttpsClient implementation that uses Node's "https" module to send HTTPS requests.
+ * @internal
  */
-export class NodeHttpsClient implements HttpsClient {
+class NodeHttpsClient implements HttpsClient {
   private keepAliveAgent?: https.Agent;
   private proxyAgent?: https.Agent;
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
-   * @param request The request to be made.
+   * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const abortController = new AbortController();
@@ -127,7 +130,7 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          let responseStream = getResponseStream(res, headers, shouldDecompress);
+          responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {
@@ -195,9 +198,17 @@ export class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
+        let parsedUrl: URL;
+        try {
+          parsedUrl = new URL(proxySettings.host);
+        } catch (_error) {
+          throw new Error(`Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`);
+        }
+
         const proxyAgentOptions: HttpsProxyAgentOptions = {
-          host: proxySettings.host,
+          hostname: parsedUrl.hostname,
           port: proxySettings.port,
+          protocol: parsedUrl.protocol,
           headers: request.headers.toJSON()
         };
         if (proxySettings.username && proxySettings.password) {
@@ -249,15 +260,10 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
   return headers;
 }
 
-function getResponseStream(
+function getDecodedResponseStream(
   stream: IncomingMessage,
-  headers: HttpHeaders,
-  skipDecompressResponse = false
+  headers: HttpHeaders
 ): NodeJS.ReadableStream {
-  if (skipDecompressResponse) {
-    return stream;
-  }
-
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
     const unzip = zlib.createGunzip();
@@ -308,4 +314,12 @@ function getBodyLength(body: RequestBodyType): number | null {
   } else {
     return null;
   }
+}
+
+/**
+ * Create a new HttpsClient instance for the NodeJS environment.
+ * @internal
+ */
+export function createNodeHttpsClient(): HttpsClient {
+  return new NodeHttpsClient();
 }

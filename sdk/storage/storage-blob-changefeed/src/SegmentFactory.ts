@@ -24,17 +24,11 @@ export interface SegmentManifest {
 
 /**
  * Options to configure {@link SegmentFactory.create} operation.
- *
- * @export
- * @interface CreateSegmentOptions
  */
 export interface CreateSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof CreateSegmentOptions
    */
   abortSignal?: AbortSignalLike;
 }

@@ -19,7 +19,7 @@ import { shaHash, shaHMAC } from "./cryptoUtils";
  * Creates an HTTP pipeline policy to authenticate a request
  * using an `KeyCredential`
  *
- * @param {KeyCredential} credential The key credential
+ * @param credential - The key credential
  */
 export const createCommunicationAccessKeyCredentialPolicy = (
   credential: KeyCredential
@@ -39,7 +39,7 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
   /**
    * Initializes a new instance of the CommunicationAccessKeyCredential class
    * using a base64 encoded key.
-   * @param accessKey The base64 encoded key to be used for signing.
+   * @param accessKey - The base64 encoded key to be used for signing.
    */
   constructor(
     private readonly accessKey: KeyCredential,
@@ -52,7 +52,7 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
   /**
    * Signs a request with the provided access key.
    *
-   * @param {WebResource} webResource The WebResource to be signed.
+   * @param webResource - The WebResource to be signed.
    */
   private async signRequest(webResource: WebResource): Promise<WebResource> {
     const verb = webResource.method.toUpperCase();
@@ -86,8 +86,6 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Signs the request and calls the next policy in the factory.
-   *
-   * @param {WebResourceLike} webResource
    */
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource) {

@@ -219,7 +219,7 @@ Generally speaking, the following commands are roughly equivalent:
 
 ### Documentation
 
-We care deeply about the quality of our documentation in order to make the experience of using our SDK smooth and fun. We use [TSDoc](https://tsdoc.org/pages/tags/alpha/) tags to mainly document our methods, classes, and interfaces, and we use [TypeDoc](http://typedoc.org/) to generate the documentation.
+We care deeply about the quality of our documentation in order to make the experience of using our SDK smooth and fun. We use [TSDoc](https://tsdoc.org/pages/tags/alpha/) tags to mainly document our methods, classes, and interfaces, and we use [TypeDoc](https://typedoc.org/) to generate the documentation.
 
 In the case where you do not want to generate documentation for a specific definition:
 

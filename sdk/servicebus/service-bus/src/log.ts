@@ -5,7 +5,7 @@ import { AzureLogger, createClientLogger } from "@azure/logger";
 import { AmqpError } from "rhea-promise";
 
 /**
- * The @azure/logger configuration for this package.
+ * The `@azure/logger` configuration for this package.
  * This will output logs using the `azure:service-bus` namespace prefix.
  * @internal
  */
@@ -52,7 +52,7 @@ export const managementClientLogger = createServiceBusLogger("service-bus:manage
  * @param error - Error containing a stack trace.
  * @internal
  */
-export function logErrorStackTrace(_logger: AzureLogger, error: any) {
+export function logErrorStackTrace(_logger: AzureLogger, error: any): void {
   if (error && error.stack) {
     _logger.verbose(error.stack);
   }

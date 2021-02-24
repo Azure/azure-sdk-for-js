@@ -64,7 +64,7 @@ export class Spanner<TClient> {
     return { span, newOptions };
   }
 
-  static getCanonicalCode(err: Error) {
+  static getCanonicalCode(err: Error): CanonicalCode {
     if (Spanner.isRestError(err)) {
       switch (err.statusCode) {
         case 401:

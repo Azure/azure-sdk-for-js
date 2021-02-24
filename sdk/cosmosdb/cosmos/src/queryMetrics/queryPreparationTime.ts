@@ -74,8 +74,6 @@ export class QueryPreparationTimes {
   /**
    * Returns a new instance of the QueryPreparationTimes class that is the
    * aggregation of an array of QueryPreparationTimes.
-   * @memberof QueryMetrics
-   * @instance
    */
   public static createFromArray(queryPreparationTimesArray: QueryPreparationTimes[]) {
     if (queryPreparationTimesArray == null) {
@@ -87,8 +85,6 @@ export class QueryPreparationTimes {
 
   /**
    * Returns a new instance of the QueryPreparationTimes class this is deserialized from a delimited string.
-   * @memberof QueryMetrics
-   * @instance
    */
   public static createFromDelimitedString(delimitedString: string) {
     const metrics = parseDelimitedString(delimitedString);

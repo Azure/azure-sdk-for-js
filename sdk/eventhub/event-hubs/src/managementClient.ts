@@ -27,28 +27,29 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { OperationNames } from "./models/private";
 import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
 
 /**
  * Describes the runtime information of an Event Hub.
  */
 export interface EventHubProperties {
   /**
-   * @property The name of the event hub.
+   * The name of the event hub.
    */
   name: string;
   /**
-   * @property The date and time the hub was created in UTC.
+   * The date and time the hub was created in UTC.
    */
   createdOn: Date;
   /**
-   * @property The slice of string partition identifiers.
+   * The slice of string partition identifiers.
    */
   partitionIds: string[];
 }
@@ -58,31 +59,31 @@ export interface EventHubProperties {
  */
 export interface PartitionProperties {
   /**
-   * @property The name of the Event Hub.
+   * The name of the Event Hub.
    */
   eventHubName: string;
   /**
-   * @property Identifier of the partition within the Event Hub.
+   * Identifier of the partition within the Event Hub.
    */
   partitionId: string;
   /**
-   * @property The starting sequence number of the partition's message log.
+   * The starting sequence number of the partition's message log.
    */
   beginningSequenceNumber: number;
   /**
-   * @property The last sequence number of the partition's message log.
+   * The last sequence number of the partition's message log.
    */
   lastEnqueuedSequenceNumber: number;
   /**
-   * @property The offset of the last enqueued message in the partition's message log.
+   * The offset of the last enqueued message in the partition's message log.
    */
   lastEnqueuedOffset: number;
   /**
-   * @property The time of the last enqueued message in the partition's message log in UTC.
+   * The time of the last enqueued message in the partition's message log in UTC.
    */
   lastEnqueuedOnUtc: Date;
   /**
-   * @property Indicates whether the partition is empty.
+   * Indicates whether the partition is empty.
    */
   isEmpty: boolean;
 }
@@ -96,7 +97,6 @@ export interface ManagementClientOptions {
 }
 
 /**
- * @class ManagementClient
  * @internal
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
@@ -104,12 +104,12 @@ export interface ManagementClientOptions {
 export class ManagementClient extends LinkEntity {
   readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
   /**
-   * @property entityPath - The name/path of the entity (hub name) for which the management
+   * The name/path of the entity (hub name) for which the management
    * request needs to be made.
    */
   entityPath: string;
   /**
-   * @property replyTo The reply to Guid for the management client.
+   * The reply to Guid for the management client.
    */
   replyTo: string = uuid();
   /**
@@ -119,10 +119,9 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Instantiates the management client.
-   * @constructor
    * @hidden
-   * @param context The connection context.
-   * @param [address] The address for the management endpoint. For IotHub it will be
+   * @param context - The connection context.
+   * @param address - The address for the management endpoint. For IotHub it will be
    * `/messages/events/$management`.
    */
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
@@ -137,7 +136,6 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Gets the security token for the management application properties.
-   * @hidden
    * @internal
    */
   async getSecurityToken(): Promise<AccessToken | null> {
@@ -214,7 +212,7 @@ export class ManagementClient extends LinkEntity {
   /**
    * Provides information about the specified partition.
    * @hidden
-   * @param partitionId Partition ID for which partition information is required.
+   * @param partitionId - Partition ID for which partition information is required.
    */
   async getPartitionProperties(
     partitionId: string,
@@ -377,8 +375,8 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Helper method to make the management request
-   * @param request The AMQP message to send
-   * @param options The options to use when sending a request over a $management link
+   * @param request - The AMQP message to send
+   * @param options - The options to use when sending a request over a $management link
    */
   private async _makeManagementRequest(
     request: Message,
@@ -392,97 +390,64 @@ export class ManagementClient extends LinkEntity {
     try {
       const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
-      const sendOperationPromise = (): Promise<Message> =>
-        new Promise<Message>(async (resolve, reject) => {
-          let count = 0;
+      const sendOperationPromise = async (): Promise<Message> => {
+        let count = 0;
 
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-          let timeTakenByInit = 0;
+        const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+        let timeTakenByInit = 0;
 
-          const rejectOnAbort = (): void => {
-            const requestName = options.requestName;
-            const desc: string =
-              `[${this._context.connectionId}] The request "${requestName}" ` +
-              `to has been cancelled by the user.`;
-            // Cancellation is user-intended behavior, so log to info instead of warning.
-            logger.info(desc);
-            const error = new AbortError(
-              `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-            );
+        if (!this._isMgmtRequestResponseLinkOpen()) {
+          logger.verbose(
+            "[%s] Acquiring lock to get the management req res link.",
+            this._context.connectionId
+          );
 
-            reject(error);
-          };
-
-          if (abortSignal) {
-            if (abortSignal.aborted) {
-              return rejectOnAbort();
-            }
-          }
-
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            logger.verbose(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = (): void => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
-          }
-
-          const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-          const sendRequestOptions: SendRequestOptions = {
-            abortSignal: options.abortSignal,
-            requestName: options.requestName,
-            timeoutInMs: remainingOperationTimeoutInMs
-          };
-
-          count++;
-          if (count !== 1) {
-            // Generate a new message_id every time after the first attempt
-            request.message_id = generate_uuid();
-          } else if (!request.message_id) {
-            // Set the message_id in the first attempt only if it is not set
-            request.message_id = generate_uuid();
-          }
+          const initOperationStartTime = Date.now();
 
           try {
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            resolve(result);
+            await waitForTimeoutOrAbortOrResolve({
+              actionFn: () => {
+                return defaultLock.acquire(this.managementLock, () => {
+                  return this._init();
+                });
+              },
+              abortSignal: options?.abortSignal,
+              timeoutMs: retryTimeoutInMs,
+              timeoutMessage: `The request with message_id "${request.message_id}" timed out. Please try again later.`
+            });
           } catch (err) {
             const translatedError = translate(err);
             logger.warning(
-              "[%s] An error occurred during send on management request-response link with address '%s': %s",
+              "[%s] An error occurred while creating the management link %s: %s",
               this._context.connectionId,
-              this.address,
+              this.name,
               `${translatedError?.name}: ${translatedError?.message}`
             );
             logErrorStackTrace(translatedError);
-            reject(translatedError);
+            throw translatedError;
           }
-        });
+          timeTakenByInit = Date.now() - initOperationStartTime;
+        }
+
+        const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+        const sendRequestOptions: SendRequestOptions = {
+          abortSignal: options.abortSignal,
+          requestName: options.requestName,
+          timeoutInMs: remainingOperationTimeoutInMs
+        };
+
+        count++;
+        if (count !== 1) {
+          // Generate a new message_id every time after the first attempt
+          request.message_id = generate_uuid();
+        } else if (!request.message_id) {
+          // Set the message_id in the first attempt only if it is not set
+          request.message_id = generate_uuid();
+        }
+
+        return this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+      };
 
       const config: RetryConfig<Message> = {
         operation: sendOperationPromise,
@@ -495,7 +460,10 @@ export class ManagementClient extends LinkEntity {
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        `An error occurred while making the request to $management endpoint: ${translatedError?.name}: ${translatedError?.message}`
+        "[%s] An error occurred during send on management request-response link with address '%s': %s",
+        this._context.connectionId,
+        this.address,
+        `${translatedError?.name}: ${translatedError?.message}`
       );
       logErrorStackTrace(translatedError);
       throw translatedError;

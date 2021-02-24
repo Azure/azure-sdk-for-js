@@ -20,11 +20,12 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 
 /**
  * A HttpsClient implementation that uses XMLHttpRequest to send HTTPS requests.
+ * @internal
  */
-export class XhrHttpsClient implements HttpsClient {
+class XhrHttpsClient implements HttpsClient {
   /**
    * Makes a request over an underlying transport layer and returns the response.
-   * @param request The request to be made.
+   * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const xhr = new XMLHttpRequest();
@@ -93,7 +94,7 @@ function handleBlobResponse(
   request: PipelineRequest,
   res: (value: PipelineResponse | PromiseLike<PipelineResponse>) => void,
   rej: (reason?: any) => void
-) {
+): void {
   xhr.addEventListener("readystatechange", () => {
     // Resolve as soon as headers are loaded
     if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
@@ -187,4 +188,12 @@ function rejectOnTerminalEvent(
   const abortError = new AbortError("The operation was aborted.");
   xhr.addEventListener("abort", () => reject(abortError));
   xhr.addEventListener("timeout", () => reject(abortError));
+}
+
+/**
+ * Create a new HttpsClient instance for the browser environment.
+ * @internal
+ */
+export function createXhrHttpsClient(): HttpsClient {
+  return new XhrHttpsClient();
 }

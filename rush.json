@@ -110,7 +110,7 @@
    * and set projectFolderMaxDepth to a large number.
    */
   "projectFolderMinDepth": 3,
-  "projectFolderMaxDepth": 3,
+  "projectFolderMaxDepth": 4,
   /**
    * This feature helps you to review and approve new packages before they are introduced
    * to your monorepo.  For example, you may be concerned about licensing, code quality,
@@ -458,8 +458,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/opentelemetry-exporter-azure-monitor",
-      "projectFolder": "sdk/monitor/opentelemetry-exporter-azure-monitor",
+      "packageName": "@azure/monitor-opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
       "versionPolicyName": "client"
     },
     {
@@ -486,6 +486,11 @@
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/mock-hub",
+      "projectFolder": "sdk/eventhub/mock-hub",
+      "versionPolicyName": "utility"
     },
     {
       "packageName": "testhub",
@@ -630,6 +635,16 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-storage-blob",
+      "projectFolder": "sdk/storage/perf-tests/storage-blob",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixedreality-authentication",
+      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
       "versionPolicyName": "client"
     }
   ]
