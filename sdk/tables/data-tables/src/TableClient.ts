@@ -272,7 +272,7 @@ export class TableClient {
         return this;
       },
       byPage: (settings) => {
-        const pageOptions: ListTableEntitiesOptions = {
+        const pageOptions: InternalListTableEntitiesOptions = {
           ...options,
           queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
         };
@@ -302,7 +302,7 @@ export class TableClient {
 
   private async *listEntitiesPage<T extends object>(
     tableName: string,
-    options: ListTableEntitiesOptions = {}
+    options: InternalListTableEntitiesOptions
   ): AsyncIterableIterator<ListEntitiesResponse<TableEntityResult<T>>> {
     const { span, updatedOptions } = createSpan("TableClient-listEntitiesPage", options);
 
@@ -568,6 +568,11 @@ export class TableClient {
       return new TableClient(url, tableName, clientOptions);
     }
   }
+}
+
+type InternalQueryOptions = TableEntityQueryOptions & { top?: number };
+interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
+  queryOptions?: InternalQueryOptions;
 }
 
 function isInternalClientOptions(options: any): options is InternalBatchClientOptions {

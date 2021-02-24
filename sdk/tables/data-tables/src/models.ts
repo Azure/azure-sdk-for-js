@@ -107,10 +107,6 @@ export interface TableQueryOptions {
  */
 export interface TableEntityQueryOptions {
   /**
-   * Maximum number of records to return per page
-   */
-  top?: number;
-  /**
    * OData filter expression.
    */
   filter?: string;
