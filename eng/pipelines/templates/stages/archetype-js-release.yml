@@ -13,7 +13,7 @@ parameters:
 stages:
   - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
     - ${{ each artifact in parameters.Artifacts }}:
-      - stage: Release_${{artifact.safeName}}
+      - stage:
         displayName: 'Release: ${{artifact.name}}'
         dependsOn: ${{parameters.DependsOn}}
         condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
@@ -49,15 +49,15 @@ stages:
                     - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
-                        TargetFolder: ${{artifact.safeName}}
+                        TargetFolder: ${{artifact.name}}
                         PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                     - pwsh: |
-                        Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
+                        Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.name}}
                       workingDirectory: $(Pipeline.Workspace)
                       displayName: Output Visible Artifacts
                     - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
                       parameters:
-                        ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
+                        ArtifactLocation: $(Pipeline.Workspace)/${{artifact.name}}
                         PackageRepository: Npm
                         ReleaseSha: $(Build.SourceVersion)
                         RepoId: Azure/azure-sdk-for-js
@@ -113,10 +113,10 @@ stages:
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
-                          TargetFolder: ${{artifact.safeName}}
+                          TargetFolder: ${{artifact.name}}
                           PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                       - pwsh: |
-                          Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
+                          Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.name}}
                         workingDirectory: $(Pipeline.Workspace)
                         displayName: Output Visible Artifacts
                       - template: /eng/common/pipelines/templates/steps/get-pr-owners.yml
@@ -125,7 +125,7 @@ stages:
                           ServiceDirectory: ${{parameters.ServiceDirectory}}
                       - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
                         parameters:
-                          ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
+                          ArtifactLocation: $(Pipeline.Workspace)/${{artifact.name}}
                           PackageRepository: NPM
                           ReleaseSha: $(Build.SourceVersion)
                           RepoId: Azure/azure-sdk-for-js
@@ -163,24 +163,24 @@ stages:
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
-                          TargetFolder: ${{artifact.safeName}}
+                          TargetFolder: ${{artifact.name}}
                           PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
-                          TargetFolder: ${{artifact.safeName}}/${{parameters.DocArtifact}}
+                          TargetFolder: ${{artifact.name}}/${{parameters.DocArtifact}}
                           PackageName: $(Documentation.Zip).zip
                       - pwsh: |
-                          Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
+                          Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.name}}
                         workingDirectory: $(Pipeline.Workspace)
                         displayName: Output Visible Artifacts
                       - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
                         parameters:
-                          FolderForUpload: '$(Pipeline.Workspace)/${{artifact.safeName}}'
+                          FolderForUpload: '$(Pipeline.Workspace)/${{artifact.name}}'
                           BlobSASKey: '$(azure-sdk-docs-prod-sas)'
                           BlobName: '$(azure-sdk-docs-prod-blob-name)'
                           TargetLanguage: 'javascript'
-                          ArtifactLocation: '$(Pipeline.Workspace)/${{artifact.safeName}}'
+                          ArtifactLocation: '$(Pipeline.Workspace)/${{artifact.name}}'
                           # we override the regular script path because we have cloned the build tools repo as a separate artifact.
                           ScriptPath: 'eng/common/scripts/copy-docs-to-blobstorage.ps1'
 
@@ -258,10 +258,10 @@ stages:
                 }
                 echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                 echo "##vso[task.setvariable variable=Registry]$registry"
-              displayName: Detecting package archive_${{artifact.safeName}}
+              displayName: Detecting package archive_${{artifact.name}}
 
             - task: PowerShell@2
-              displayName: "Publish_${{artifact.safeName}} to dev feed"
+              displayName: "Publish_${{artifact.name}} to dev feed"
               inputs:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"

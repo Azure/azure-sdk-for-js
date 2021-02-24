@@ -19,11 +19,10 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgNa
       $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
       if ($projectJson.name.StartsWith("@azure/arm"))
       {
-        git
         $pkgProp.SdkType = "mgmt"
       }
       $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
-      $pkgProp.ArtifactName = $pkgName  # pkgName variable actually stores artifact name
+      $pkgProp.ArtifactName = $jsStylePkgName
       return $pkgProp
     }
   }

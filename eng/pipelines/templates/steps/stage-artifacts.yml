@@ -1,6 +1,6 @@
 parameters:
   SourceFolder: '' # normally ${{parameters.ArtifactName}}
-  TargetFolder: '' # normally ${{artifact.safeName}}
+  TargetFolder: '' # normally ${{artifact.name}}
   PackageName: '' # normally ${{artifact.name}}
 
 steps:

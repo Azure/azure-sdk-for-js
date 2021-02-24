@@ -27,4 +27,3 @@ extends:
     ServiceDirectory: template
     Artifacts:
       - name: "@azure/template"
-        safeName: azuretemplate

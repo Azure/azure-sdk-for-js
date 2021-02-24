@@ -110,7 +110,7 @@ jobs:
       - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
         parameters:
           AgentImage: $(OSVmImage)
-        
+
       - template: /eng/pipelines/templates/steps/common.yml
 
       - template: /eng/pipelines/templates/steps/use-node-version.yml
@@ -157,7 +157,7 @@ jobs:
           # Pipelines yaml does not handle transferring non-string parameter types
           # into script blocks very well, so this is the best available workaround.
           ${{ each artifact in parameters.Artifacts }}:
-            SMOKE_PACKAGE_${{ artifact.safeName }}: "@azure/${{ replace(artifact.name, 'azure-', '') }}"
+            SMOKE_PACKAGE_${{ replace(replace(replace(artifact.name, '@', ''), "/", ""), "-", "") }}: "${{ artifact.name }}"
 
       - task: Npm@1
         inputs:
