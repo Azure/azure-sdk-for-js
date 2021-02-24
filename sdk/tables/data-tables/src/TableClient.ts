@@ -302,7 +302,7 @@ export class TableClient {
 
   private async *listEntitiesPage<T extends object>(
     tableName: string,
-    options: InternalListTableEntitiesOptions
+    options: InternalListTableEntitiesOptions = {}
   ): AsyncIterableIterator<ListEntitiesResponse<TableEntityResult<T>>> {
     const { span, updatedOptions } = createSpan("TableClient-listEntitiesPage", options);
 
