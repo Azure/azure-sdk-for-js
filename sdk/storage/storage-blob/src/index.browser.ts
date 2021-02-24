@@ -37,3 +37,16 @@ export {
   PageList
 } from "./PageBlobRangeResponse";
 export { logger } from "./log";
+
+export function configureFallback(
+  domParser: new () => DOMParser,
+  xmlSerializer: new () => XMLSerializer,
+  document: Document,
+  node: new () => Node
+) {
+  // TODO: any validation or let the user blindly override existing implementation?
+  self.DOMParser = domParser;
+  self.XMLSerializer = xmlSerializer;
+  (self as any).Node = node;
+  (self as any).document = document;
+}

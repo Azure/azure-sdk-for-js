@@ -4,10 +4,8 @@
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./serializer.common";
 
 // tslint:disable-next-line:no-null-keyword
-const doc = document.implementation.createDocument(null, null, null);
-
-const parser = new DOMParser();
 export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any> {
+  const parser = new DOMParser();
   try {
     const updatedOptions: Required<SerializerOptions> = {
       rootName: opts.rootName ?? "",
@@ -33,6 +31,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
 let errorNS: string | undefined;
 
 function getErrorNamespace(): string {
+  const parser = new DOMParser();
   if (errorNS === undefined) {
     try {
       errorNS =
@@ -78,7 +77,7 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
   const onlyChildTextValue: string | undefined =
     (firstChildNode &&
       childNodeCount === 1 &&
-      firstChildNode.nodeType === Node.TEXT_NODE &&
+      firstChildNode.nodeType === 3 &&
       firstChildNode.nodeValue) ||
     undefined;
 
@@ -104,7 +103,7 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
     for (let i = 0; i < childNodeCount; i++) {
       const child = node.childNodes[i];
       // Ignore leading/trailing whitespace nodes
-      if (child.nodeType !== Node.TEXT_NODE) {
+      if (child.nodeType !== 3) {
         const childObject: any = domToObject(child, options);
         if (!result[child.nodeName]) {
           result[child.nodeName] = childObject;
@@ -120,21 +119,22 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
   return result;
 }
 
-const serializer = new XMLSerializer();
-
 export function stringifyXML(content: unknown, opts: SerializerOptions = {}): string {
   const updatedOptions: Required<SerializerOptions> = {
     rootName: opts.rootName ?? "root",
     includeRoot: opts.includeRoot ?? false,
     xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
   };
+  // TODO: pass doc into buildNode instead of creating every time!
+  // In fact, only instantiate in the top-level exports and pass into local functions
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
+  const serializer = new XMLSerializer();
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
   );
 }
 
-function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
+function buildAttributes(attrs: { [key: string]: { toString(): string } }, doc: Document): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
     const attr = doc.createAttribute(key);
@@ -145,6 +145,7 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr
 }
 
 function buildNode(obj: any, elementName: string, options: Required<SerializerOptions>): Node[] {
+  const doc = document.implementation.createDocument(null, null, null);
   if (
     obj === undefined ||
     obj === null ||
@@ -167,7 +168,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     const elem = doc.createElement(elementName);
     for (const key of Object.keys(obj)) {
       if (key === XML_ATTRKEY) {
-        for (const attr of buildAttributes(obj[key])) {
+        for (const attr of buildAttributes(obj[key], doc)) {
           elem.attributes.setNamedItem(attr);
         }
       } else if (key === options.xmlCharKey) {
