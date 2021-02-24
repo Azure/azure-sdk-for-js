@@ -7,18 +7,17 @@ import {
   isTokenCredential,
   isNode,
   getDefaultProxySettings,
-  URLBuilder
+  URLBuilder,
+  RequestOptionsBase,
+  OperationOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import {
   EnqueuedMessage,
   DequeuedMessageItem,
   MessagesDequeueHeaders,
-  MessagesDequeueOptionalParams,
   MessagesEnqueueHeaders,
-  MessagesEnqueueOptionalParams,
   MessagesPeekHeaders,
-  MessagesPeekOptionalParams,
   MessageIdUpdateResponse,
   MessageIdDeleteResponse,
   MessagesClearResponse,
@@ -51,6 +50,7 @@ import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
 import { SasIPRange } from "./SasIPRange";
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
+import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -168,24 +168,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
+    parsedHeaders: QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifierModel[];
   };
+};
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
@@ -198,20 +198,54 @@ export interface QueueClearMessagesOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/** Optional parameters. */
+export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+  /** Optional. If specified, the request must be made using an x-ms-version of 2011-08-18 or later. If not specified, the default value is 0. Specifies the new visibility timeout value, in seconds, relative to server time. The new value must be larger than or equal to 0, and cannot be larger than 7 days. The visibility timeout of a message cannot be set to a value later than the expiry time. visibilitytimeout should be set to a value smaller than the time-to-live value. */
+  visibilityTimeout?: number;
+  /** Optional. Specifies the time-to-live interval for the message, in seconds. Prior to version 2017-07-29, the maximum time-to-live allowed is 7 days. For version 2017-07-29 or later, the maximum time-to-live can be any positive number, as well as -1 indicating that the message does not expire. If this parameter is omitted, the default time-to-live is 7 days. */
+  messageTimeToLive?: number;
+}
+
 /**
  * Options to configure {@link QueueClient.sendMessage} operation
  */
-export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
+export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions { }
+
+/** Optional parameters. */
+export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+  /** Optional. A nonzero integer value that specifies the number of messages to retrieve from the queue, up to a maximum of 32. If fewer are visible, the visible messages are returned. By default, a single message is retrieved from the queue with this operation. */
+  numberOfMessages?: number;
+  /** Optional. Specifies the new visibility timeout value, in seconds, relative to server time. The default value is 30 seconds. A specified value must be larger than or equal to 1 second, and cannot be larger than 7 days, or larger than 2 hours on REST protocol versions prior to version 2011-08-18. The visibility timeout of a message can be set to a value later than the expiry time. */
+  visibilityTimeout?: number;
+}
 
 /**
  * Options to configure {@link QueueClient.receiveMessages} operation
  */
-export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
+export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions { }
+
+/** Optional parameters. */
+export interface MessagesPeekOptionalParams extends RequestOptionsBase {
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+  /** Optional. A nonzero integer value that specifies the number of messages to retrieve from the queue, up to a maximum of 32. If fewer are visible, the visible messages are returned. By default, a single message is retrieved from the queue with this operation. */
+  numberOfMessages?: number;
+}
 
 /**
  * Options to configure {@link QueueClient.peekMessages} operation
  */
-export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
+export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions { }
 
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
@@ -243,24 +277,24 @@ export declare type QueueSendMessageResponse = {
    */
   nextVisibleOn: Date;
 } & MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnqueuedMessage[];
-    };
+    parsedHeaders: MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnqueuedMessage[];
   };
+};
 
 /**
  * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
@@ -275,24 +309,24 @@ export declare type ReceivedMessageItem = DequeuedMessageItem;
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReceivedMessageItem[];
-    };
+    parsedHeaders: MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReceivedMessageItem[];
   };
+};
 
 /**
  * Contains the response data for the {@link QueueClient.peekMessages} operation.
@@ -300,24 +334,24 @@ export declare type QueueReceiveMessageResponse = {
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeekedMessageItem[];
-    };
+    parsedHeaders: MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeekedMessageItem[];
   };
+};
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
@@ -587,9 +621,8 @@ export class QueueClient extends StorageClient {
     const { span, updatedOptions } = createSpan("QueueClient-create", options);
     try {
       return await this.queueContext.create({
-        ...options,
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...updatedOptions,
+        abortSignal: options.abortSignal
       });
     } catch (e) {
       span.setStatus({
@@ -709,9 +742,9 @@ export class QueueClient extends StorageClient {
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-delete", options);
     try {
-      return await this.queueContext.deleteMethod({
+      return await this.queueContext.delete({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -779,7 +812,7 @@ export class QueueClient extends StorageClient {
     try {
       return await this.queueContext.getProperties({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -812,7 +845,7 @@ export class QueueClient extends StorageClient {
       return await this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -843,7 +876,7 @@ export class QueueClient extends StorageClient {
     try {
       const response = await this.queueContext.getAccessPolicy({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       const res: QueueGetAccessPolicyResponse = {
@@ -923,7 +956,7 @@ export class QueueClient extends StorageClient {
       return await this.queueContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         queueAcl: acl,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -950,7 +983,7 @@ export class QueueClient extends StorageClient {
     try {
       return await this.messagesContext.clear({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -994,11 +1027,7 @@ export class QueueClient extends StorageClient {
         {
           messageText: messageText
         },
-        {
-          abortSignal: options.abortSignal,
-          ...options,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
+        updatedOptions
       );
       const item = response[0];
       return {
@@ -1055,11 +1084,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueReceiveMessageResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-receiveMessages", options);
     try {
-      const response = await this.messagesContext.dequeue({
-        abortSignal: options.abortSignal,
-        ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
-      });
+      const response = await this.messagesContext.dequeue(updatedOptions);
 
       const res: QueueReceiveMessageResponse = {
         _response: response._response,
@@ -1106,11 +1131,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueuePeekMessagesResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-peekMessages", options);
     try {
-      const response = await this.messagesContext.peek({
-        abortSignal: options.abortSignal,
-        ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
-      });
+      const response = await this.messagesContext.peek(updatedOptions);
 
       const res: QueuePeekMessagesResponse = {
         _response: response._response,
@@ -1154,9 +1175,9 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueDeleteMessageResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-deleteMessage", options);
     try {
-      return await this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
+      return await this.getMessageIdContext(messageId).delete(popReceipt, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -1202,7 +1223,7 @@ export class QueueClient extends StorageClient {
     try {
       return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        tracingOptions: updatedOptions.tracingOptions,
         queueMessage
       });
     } catch (e) {
@@ -1280,4 +1301,46 @@ export class QueueClient extends StorageClient {
 
     return appendToURLQuery(this.url, sas);
   }
+}
+
+/**
+ * Converts an RequestOptionsBase to a OperationOptions
+ *
+ * @param opts - RequestOptionsBase object to convert to OperationOptions
+ */
+function requestOptionsBaseToOperationOptions<T extends RequestOptionsBase>(
+  opts: T,
+  spanOptions?: SpanOptions
+): OperationOptions {
+  const {
+    abortSignal,
+    customHeaders,
+    timeout,
+    onUploadProgress,
+    onDownloadProgress,
+    shouldDeserialize,
+    ...additionalOptions
+  } = opts;
+
+  let result: OperationOptions = { ...additionalOptions };
+
+  if (abortSignal) {
+    result.abortSignal = abortSignal;
+  }
+
+  result.requestOptions = {
+    customHeaders: customHeaders ?? undefined,
+    timeout: timeout ?? undefined,
+    onUploadProgress: onUploadProgress ?? undefined,
+    onDownloadProgress: onDownloadProgress ?? undefined,
+    shouldDeserialize: shouldDeserialize ?? undefined
+  };
+
+  if (spanOptions) {
+    result.tracingOptions = {
+      spanOptions: spanOptions
+    };
+  }
+
+  return result;
 }

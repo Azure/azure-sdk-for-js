@@ -9,7 +9,6 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import {
-  ListQueuesIncludeType,
   QueueCreateResponse,
   QueueDeleteResponse,
   QueueItem,
@@ -107,7 +106,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType;
+  include?: string;
 }
 
 /**
@@ -334,7 +333,7 @@ export class QueueServiceClient extends StorageClient {
         maxPageSize: options.maxPageSize,
         prefix: options.prefix,
         include: options.include === undefined ? undefined : [options.include],
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -526,7 +525,7 @@ export class QueueServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -556,7 +555,7 @@ export class QueueServiceClient extends StorageClient {
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -585,7 +584,7 @@ export class QueueServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({

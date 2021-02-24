@@ -51,3 +51,4 @@ export {
   serializationPolicyName,
   SerializationPolicyOptions
 } from "./serializationPolicy";
+import "@azure/core-asynciterator-polyfill";
