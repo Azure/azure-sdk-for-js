@@ -29,11 +29,11 @@ All geographic phone numbers within the same country are grouped into a phone pl
 
 ### Searching and acquiring numbers
 
-Phone numbers can be searched through the search creation API by providing a phone number type (geographic or toll-free), assignment type  (person or application), calling and sms capabilities, an area code and quantity of phone numbers. The provided quantity of phone numbers will be reserved for 15 minutes. This search of phone numbers can either be cancelled or purchased. If the search is cancelled, then the phone numbers will become available to others. If the search is purchased, then the phone numbers are acquired for the Azure resource.
+Phone numbers can be searched through the search creation API by providing a phone number type (geographic or toll-free), assignment type (person or application), calling and sms capabilities, an area code and quantity of phone numbers. The provided quantity of phone numbers will be reserved for 15 minutes. This search of phone numbers can either be cancelled or purchased. If the search is cancelled, then the phone numbers will become available to others. If the search is purchased, then the phone numbers are acquired for the Azure resource.
 
 ### Configuring phone numbers
 
-Phone numbers can have a combination of capabilities. They can be configured to support inbound and/or outbound calling, or neither if you won't use the phone number for calling. The same applies to sms capabilities. 
+Phone numbers can have a combination of capabilities. They can be configured to support inbound and/or outbound calling, or neither if you won't use the phone number for calling. The same applies to sms capabilities.
 
 It is important to consider the assignment type of your phone number. Some capabilities are restricted to a particular assignment type.
 
@@ -58,7 +58,7 @@ const client = new PhoneNumbersClient(connectionString);
 
 ### Using an access key with `AzureKeyCredential`
 
-If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code: 
+If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
 
 ```typescript
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -119,10 +119,10 @@ async function main() {
       calling: "none"
     },
     quantity: 1
-  }
+  };
 
   const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
-  
+
   // The search is underway. Wait to receive searchId.
   const searchResults = searchPoller.pollUntilDone();
   console.log(`Found phone number: ${searchResults.phoneNumbers[0]}`);
@@ -134,7 +134,7 @@ main();
 
 ### Purchase phone numbers from a search
 
-Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from your search. Purchased phone numbers will be assigned to the Communication Services resource used when initiating the client. The `searchId` returned from `beginSearchAvailablePhoneNumbers` is required. 
+Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from your search. Purchased phone numbers will be assigned to the Communication Services resource used when initiating the client. The `searchId` returned from `beginSearchAvailablePhoneNumbers` is required.
 
 `beginPurchasePhoneNumbers` is a long running operation and returns a poller.
 
@@ -154,16 +154,16 @@ async function main() {
       calling: "none"
     },
     quantity: 1
-  }
+  };
 
   const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
-  
+
   // The search is underway. Wait to receive searchId.
   const { searchId, phoneNumbers } = searchPoller.pollUntilDone();
-  
+
   const purchasePoller = await client.beginPurchasePhoneNumbers(searchId);
 
-  // Purchase is underway. 
+  // Purchase is underway.
   await purchasePoller.pollUntilDone();
   console.log(`Successfully purchased ${phoneNumbers[0]}`);
 }
@@ -194,7 +194,6 @@ async function main() {
 }
 
 main();
-
 ```
 
 ### Update phone number capabilities
@@ -218,7 +217,10 @@ async function main() {
     calling: "outbound"
   };
 
-  const updatePoller = await client.beginUpdatePhoneNumberCapabilities(phoneNumberToUpdate, updateRequest);
+  const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
+    phoneNumberToUpdate,
+    updateRequest
+  );
 
   // Update is underway.
   const { capabilities } = await updatePoller.pollUntilDone();
