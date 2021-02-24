@@ -4,6 +4,7 @@
 
 ## 1.2.4-beta.2 (Unreleased)
 
+- Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
 - `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
 - Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
 - Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
