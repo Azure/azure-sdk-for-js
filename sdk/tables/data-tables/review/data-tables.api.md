@@ -312,6 +312,7 @@ export type TableEntity<T extends object> = T & {
 export interface TableEntityQueryOptions {
     filter?: string;
     select?: string[];
+    top?: number;
 }
 
 // @public

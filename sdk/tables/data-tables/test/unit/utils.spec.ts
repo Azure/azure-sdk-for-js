@@ -29,6 +29,18 @@ describe("Utility Helpers", () => {
         });
       });
 
+      it("should handle case-insensitive string without TableEndpoint", () => {
+        const validConnectionString =
+          "deFaultEndpointsPROTOcol=https;accoUNTNAme=testaccount;ACCOUNTkey=REDACTED;endPOintSuffiX=core.windows.net";
+        const result = extractConnectionStringParts(validConnectionString);
+        assert.deepEqual(result, {
+          accountName: "testaccount",
+          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          kind: "AccountConnString",
+          url: "https://testaccount.table.core.windows.net"
+        });
+      });
+
       it("should handle connection string with TableEndpoint", () => {
         const validConnectionString =
           "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=REDACTED;EndpointSuffix=core.windows.net;TableEndpoint=https://myAccount.table.core.windows.net/";

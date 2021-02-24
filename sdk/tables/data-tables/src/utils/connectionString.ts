@@ -54,11 +54,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
   tableEndpoint = tableEndpoint.endsWith("/") ? tableEndpoint.slice(0, -1) : tableEndpoint;
 
-  const isAccountConnectionString =
-    connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
-    connectionString.search("AccountKey=") !== -1;
-
-  if (isAccountConnectionString) {
+  if (isAccountConnectionString(connectionString)) {
     return getAccountConnectionString(
       getValueInConnString(connectionString, "AccountName"),
       getValueInConnString(connectionString, "AccountKey"),
@@ -69,6 +65,17 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     return getSASConnectionString(connectionString, tableEndpoint);
   }
+}
+
+/**
+ * Checks whether a connection string is an Account Connection string or not
+ */
+function isAccountConnectionString(connectionString: string) {
+  const lowercaseConnectionString = connectionString.toLowerCase();
+  return (
+    lowercaseConnectionString.search("defaultendpointsprotocol=") !== -1 &&
+    lowercaseConnectionString.search("accountkey=") !== -1
+  );
 }
 
 function getSASConnectionString(connectionString: string, tableEndpoint: string): ConnectionString {
@@ -95,10 +102,14 @@ function getValueInConnString(
     | "EndpointSuffix"
     | "SharedAccessSignature"
 ): string {
+  const searchKey = argument.toLowerCase();
   const elements = connectionString.split(";");
   for (const element of elements) {
-    if (element.trim().startsWith(argument)) {
-      return element.trim().match(argument + "=(.*)")![1];
+    const trimmedElement = element.trim();
+    const [elementKey, value] = trimmedElement.split("=");
+    const key = elementKey.toLowerCase();
+    if (key.startsWith(searchKey)) {
+      return value;
     }
   }
   return "";
