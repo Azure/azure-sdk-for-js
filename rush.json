@@ -393,6 +393,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/container-registry",
+      "projectFolder": "sdk/containerregistry/container-registry",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
       "versionPolicyName": "core"
