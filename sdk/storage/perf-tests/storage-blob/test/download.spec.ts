@@ -21,7 +21,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     }
   };
 
-  static blobName = uuidv4();
+  static blobName = generateUuid();
   blockBlobClient: BlockBlobClient;
 
   constructor() {

@@ -29,7 +29,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
     }
   };
 
-  static blobName = uuidv4();
+  static blobName = generateUuid();
   blockBlobClient: BlockBlobClient;
   blobClientFromSAS: BlobClient;
   sasUrl: string;
