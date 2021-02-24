@@ -10,6 +10,7 @@ dependencies:
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
+  '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-asynciterator-polyfill': file:projects/core-asynciterator-polyfill.tgz
@@ -8956,6 +8957,62 @@ packages:
       integrity: sha512-V+Utbh0SO/yMctv5X1tmwmBlcgLTMojVpRl3reWRSkbQgjzwa93VTuEIFyhIHY/3V/PwvJWG2ax6OysBCs7Udg==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
+  file:projects/communication-phone-numbers.tgz:
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/identity': 1.2.2
+      '@microsoft/api-documenter': 7.8.56
+      '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@types/chai': 4.2.14
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      '@types/sinon': 9.0.10
+      assert: 1.5.0
+      chai: 4.2.0
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      eslint: 7.19.0
+      events: 3.2.0
+      inherits: 2.0.4
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@5.2.3
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@5.2.3
+      karma-json-preprocessor: 0.3.3_karma@5.2.3
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@5.2.3
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@5.2.3
+      karma-remap-istanbul: 0.6.0_karma@5.2.3
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      sinon: 9.2.4
+      tslib: 2.1.0
+      typedoc: 0.15.2
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/communication-phone-numbers'
+    resolution:
+      integrity: sha512-hyGaAgbjouwhK/RQL3cFgpjvuO6RLMLW+zHhUY65hmrCQcmjmqkpL/Tp1AOWHnFggSc4ihMaAemHIbNtf+oW+w==
+      tarball: file:projects/communication-phone-numbers.tgz
+    version: 0.0.0
   file:projects/communication-sms.tgz:
     dependencies:
       '@azure/communication-common': 1.0.0-beta.5
@@ -9167,7 +9224,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client'
     resolution:
-      integrity: sha512-psMzl45hb18MrlCDJFo74ZGhySHCUfBuGzODksA6BLAplX2sGc5WFtT57/jUVsjhr4SNhYEDJm0uUu7+BN5ISg==
+      integrity: sha512-fV2a4bb/qEb1hg8B3lnAUJe+a81kl1h7EIHJpaHn7rDQZ+OQeYhDreNnTMBT9d2Ld9q1j72chDib4OitsDkdKw==
       tarball: file:projects/core-client.tgz
     version: 0.0.0
   file:projects/core-crypto.tgz:
@@ -9595,7 +9652,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-m3hHFly6ovHcHiyvPoQC8OUWj3NQxxigI1j6BwX/5zenfRzKIgcgTLqgYfC90O/s6FJ1LgrkWdN9rx9T6pScvw==
+      integrity: sha512-5n+aDbMGiOupz8kx3byGadfev0ogQc4N0h2goKCsAGO+hN+GR+uDxMc4hdgJhQpRjDqnGu2x+eAK/qDm77s9dg==
       tarball: file:projects/data-tables.tgz
     version: 0.0.0
   file:projects/dev-tool.tgz:
@@ -9904,7 +9961,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-i50r+d62Gt8OFidnqrlQpC8eN34OiPdZJDeH9DmNCq7OPjx/rJVaAxmAH18Lfr/timcPP+EwbZTo6jwG0BTQ7w==
+      integrity: sha512-yxMQjwZgF5Q0HOwVCYxzVbzi1Dws7odS1i74eAZo4i/PxCZayZzn4t8s5yyDJzlnOSuaX7jOdJvQCw6tNA6CnA==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -9964,7 +10021,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-SRFOlixCIfs+OakbeGaZ60FmRwcvAQqeRy/wxiGIrvj80+tx6rVIZP/FnMex0abF0KO3442vl3cY0HlpPvPJKw==
+      integrity: sha512-k4WvhN9aA+lhRhruze+6mx8E+JKaS3ZkakxSs0UuDsq+/v4GjnBSEBZ9Ad8P4s7ttMg0cHuj5eOGIUH2WZdQlw==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
   file:projects/identity.tgz:
@@ -10829,7 +10886,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-zHGarbMd34Fqg42CU77TwP5vjskcOUGbwABZ+jUJhOIjNtA4X+YihIKzzQmb0XCmNQ2yVt0mIgchSMdOqEMkeQ==
+      integrity: sha512-+iH3s2UvM4AuviJnJIkQP8AVIgKW2WIvmZrr04cCcGB1026XeK3QPS5NctWpU8ZE3utephA6lWaUrWGvq/aRRw==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
   file:projects/storage-file-datalake.tgz:
@@ -11342,6 +11399,7 @@ specifiers:
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
+  '@rush-temp/communication-phone-numbers': file:./projects/communication-phone-numbers.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
   '@rush-temp/core-asynciterator-polyfill': file:./projects/core-asynciterator-polyfill.tgz
