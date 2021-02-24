@@ -50,7 +50,7 @@ require("dotenv").config();
  * For example, if an @azure/template sample needs to import @azure/template,
  * this transformer will handle rewriting the imports for us.
  */
-const makeTransformers = (_program) => ({
+const makeTransformers = () => ({
   before: [
     (transformationContext) => (sourceFile) =>
       ts.visitEachChild(
@@ -61,11 +61,12 @@ const makeTransformers = (_program) => ({
           if (ts.isImportDeclaration(node) && node.moduleSpecifier.text === hostPackageName) {
             // rewrite the import to use a relative path
             const oldName = node.moduleSpecifier.text;
+            const base = sourceFile.path.includes("dist-esm") ? path.join(cwd, "dist-esm") : cwd;
             node.moduleSpecifier.text = path.relative(
               // This is marked internal in the TS API, need to make sure there's not a better way
               // to get the path from the sourceFile node
               path.dirname(sourceFile.path),
-              path.join(cwd, "dist-esm", "src", "index")
+              path.join(base, "src", "index")
             );
             console.log(
               `[dev-tool] Rewrote import of "${oldName}" to "${node.moduleSpecifier.text}".`
@@ -80,11 +81,14 @@ const makeTransformers = (_program) => ({
 
 require("ts-node").register({
   skipProject: true,
-  transpileOnly: false,
+  transpileOnly: true,
   compilerOptions: {
     target: "es6",
     module: "commonjs",
-    allowJs: true
+    allowJs: true,
+    paths: {
+      [hostPackageName]: ["./src/index"]
+    }
   },
-  transformers: makeTransformers
+  transformers: makeTransformers()
 });
