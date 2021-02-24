@@ -65,7 +65,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run build:ts && npm run build:nodebrowser && npm run build:samples && npm run extract-api",
+    "build": "npm run build:ts && npm run build:nodebrowser && api-extractor run --local",
     "build:samples": "tsc -p tsconfig.samples.json",
     "build:ts": "tsc -p .",
     "build:nodebrowser": "rollup -c 2>&1",
