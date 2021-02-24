@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import {
   Aborter,
   ContainerURL,
@@ -11,9 +11,9 @@ import {
 } from "@azure/storage-blob";
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 
-// Expects the .env file at the same level as the "test" folder
+// Expects the .env file at the same level
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../../../.env" });
+dotenv.config();
 
 export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions> {
   blobServiceClient: ServiceURL;

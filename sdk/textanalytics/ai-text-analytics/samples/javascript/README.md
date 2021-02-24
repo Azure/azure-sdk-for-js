@@ -17,7 +17,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | [alternativeDocumentInput.js][alternativedocumentinput]                   | uses object document inputs with attached metadata rather than simple strings for more flexibility |
 | [analyzeSentiment.js][analyzesentiment]                                   | analyzes the sentiment of a piece of text                                                          |
-| [analyzeSentimentWithOpinionMining.js][analyzesentimentwithopinionmining] | analyzes the sentiment of a piece of text and mine opinions about different aspects                |
+| [analyzeSentimentWithOpinionMining.js][analyzesentimentwithopinionmining] | analyzes the sentiment of a piece of text and mine opinions about different targets                |
 | [detectLanguage.js][detectlanguages]                                      | detects the language of a piece of text                                                            |
 | [extractKeyPhrases.js][extractkeyphrases]                                 | extracts key phrases from a piece of text                                                          |
 | [recognizePii.js][recognizepii]                                           | detects personally-identifiable information                                                        |
