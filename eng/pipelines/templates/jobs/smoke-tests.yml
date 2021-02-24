@@ -157,7 +157,7 @@ jobs:
           # Pipelines yaml does not handle transferring non-string parameter types
           # into script blocks very well, so this is the best available workaround.
           ${{ each artifact in parameters.Artifacts }}:
-            SMOKE_PACKAGE_${{ replace(replace(replace(artifact.name, '@', ''), "/", ""), "-", "") }}: "${{ artifact.name }}"
+            SMOKE_PACKAGE_${{ replace(replace(replace(artifact.name, '@', ''), '/', ''), '-', '') }}: "${{ artifact.name }}"
 
       - task: Npm@1
         inputs:
