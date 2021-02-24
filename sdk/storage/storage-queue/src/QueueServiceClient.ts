@@ -31,7 +31,7 @@ import {
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";

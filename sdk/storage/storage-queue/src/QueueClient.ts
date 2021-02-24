@@ -168,24 +168,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: QueueGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignedIdentifierModel[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: QueueGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignedIdentifierModel[];
+    };
   };
-};
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
@@ -213,7 +213,7 @@ export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
 /**
  * Options to configure {@link QueueClient.sendMessage} operation
  */
-export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions { }
+export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
 
 /** Optional parameters. */
 export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
@@ -230,7 +230,7 @@ export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
 /**
  * Options to configure {@link QueueClient.receiveMessages} operation
  */
-export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions { }
+export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
 
 /** Optional parameters. */
 export interface MessagesPeekOptionalParams extends RequestOptionsBase {
@@ -245,7 +245,7 @@ export interface MessagesPeekOptionalParams extends RequestOptionsBase {
 /**
  * Options to configure {@link QueueClient.peekMessages} operation
  */
-export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions { }
+export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
@@ -277,24 +277,24 @@ export declare type QueueSendMessageResponse = {
    */
   nextVisibleOn: Date;
 } & MessagesEnqueueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: MessagesEnqueueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EnqueuedMessage[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: MessagesEnqueueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EnqueuedMessage[];
+    };
   };
-};
 
 /**
  * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
@@ -309,24 +309,24 @@ export declare type ReceivedMessageItem = DequeuedMessageItem;
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: MessagesDequeueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReceivedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: MessagesDequeueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReceivedMessageItem[];
+    };
   };
-};
 
 /**
  * Contains the response data for the {@link QueueClient.peekMessages} operation.
@@ -334,24 +334,24 @@ export declare type QueueReceiveMessageResponse = {
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: MessagesPeekHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PeekedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: MessagesPeekHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeekedMessageItem[];
+    };
   };
-};
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
@@ -1301,46 +1301,4 @@ export class QueueClient extends StorageClient {
 
     return appendToURLQuery(this.url, sas);
   }
-}
-
-/**
- * Converts an RequestOptionsBase to a OperationOptions
- *
- * @param opts - RequestOptionsBase object to convert to OperationOptions
- */
-function requestOptionsBaseToOperationOptions<T extends RequestOptionsBase>(
-  opts: T,
-  spanOptions?: SpanOptions
-): OperationOptions {
-  const {
-    abortSignal,
-    customHeaders,
-    timeout,
-    onUploadProgress,
-    onDownloadProgress,
-    shouldDeserialize,
-    ...additionalOptions
-  } = opts;
-
-  let result: OperationOptions = { ...additionalOptions };
-
-  if (abortSignal) {
-    result.abortSignal = abortSignal;
-  }
-
-  result.requestOptions = {
-    customHeaders: customHeaders ?? undefined,
-    timeout: timeout ?? undefined,
-    onUploadProgress: onUploadProgress ?? undefined,
-    onDownloadProgress: onDownloadProgress ?? undefined,
-    shouldDeserialize: shouldDeserialize ?? undefined
-  };
-
-  if (spanOptions) {
-    result.tracingOptions = {
-      spanOptions: spanOptions
-    };
-  }
-
-  return result;
 }
