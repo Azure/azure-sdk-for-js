@@ -5,7 +5,7 @@
  * Management-plane libraries currently do not support authentication using
  * the `@azure/identity` package. However, there is an adapter that can be used
  * to add support for it without introducing breaking changes. This script
- * enables this adapter in an management-plane library.
+ * enables this adapter in a management-plane library.
  */
 
 const fs = require("fs");
@@ -22,26 +22,27 @@ function rewriteFile(path, f) {
 }
 
 function getMatch(matches, search, location) {
-  if (matches.length < 2) {
+  if (!matches || matches.length < 2) {
     throw new Error(`Could not find ${search} in ${location}`);
   } else {
     return matches[1];
   }
 }
 
-function updateREADME(content) {
-  const pkgName = getMatch(
-    content.match(/.+?npm install (@azure\/.+?)$.*/ms),
-    "package name",
-    "README file"
-  );
-  const clientName = getMatch(
-    content.match(/## Azure (.+?) SDK for JavaScript$.*/ms),
-    "client name",
-    "README file"
-  );
+function updateREADME(mainModule, relativePath, namespace) {
+  return function(content) {
+    const pkgName = getMatch(
+      content.match(/.+?npm install (@azure\/.+?)$.*/ms),
+      "package name",
+      "README file"
+    );
+    const clientName = getMatch(
+      content.match(/## Azure (.+?) SDK for JavaScript$.*/ms),
+      "client name",
+      "README file"
+    );
 
-  return `## Azure ${clientName} SDK for JavaScript
+    return `## Azure ${clientName} SDK for JavaScript
 
 This package contains an isomorphic SDK (runs both in node.js and in browsers) for ${clientName}.
 
@@ -76,13 +77,13 @@ Most of the credentials would require you to [create an Azure App Registration](
 
 \`\`\`javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { IotCentralClient } = require("@azure/arm-iotcentral");
+const { ${clientName} } = require("${pkgName}");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 // Create credentials using the \`@azure/identity\` package.
 // Please note that you can also use credentials from the \`@azure/ms-rest-nodeauth\` package instead.
 const creds = new DefaultAzureCredential();
-const client = new IotCentralClient(creds, subscriptionId);
+const client = new ${clientName}(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const resourceName = "testresourceName";
 client.apps.get(resourceGroupName, resourceName).then((result) => {
@@ -107,10 +108,10 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-iotcentral sample</title>
+    <title>${pkgName} sample</title>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/identity/dist/index.js"></script>
-    <script src="node_modules/@azure/arm-iotcentral/dist/arm-iotcentral.js"></script>
+    <script src="node_modules/${pkgName}/${mainModule}"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       // Create credentials using the \`@azure/identity\` package.
@@ -120,7 +121,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmIotcentral.IotCentralClient(creds, subscriptionId);
+      const client = new ${namespace}.${clientName}(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName";
       client.apps.get(resourceGroupName, resourceName).then((result) => {
@@ -140,8 +141,9 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/iotcentral/arm-iotcentral/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/${relativePath}/README.png)
 `;
+  };
 }
 
 function updatePackageJson(newPackageVersion) {
@@ -211,10 +213,29 @@ function updateClientContext(newPackageVersion) {
   };
 }
 
-function getPackageVersion(packageJsonPath) {
-  const data = fs.readFileSync(packageJsonPath, "utf-8");
-  const versionMatch = data.match(/"version": "(\d+).(\d+).\d+",/ms);
+function getPackageVersion(content) {
+  const versionMatch = content.match(/"version": "(\d+).(\d+).\d+",/ms);
+  if (versionMatch.length != 3) {
+    throw new Error("Could not parse the version in package.json");
+  }
   return `${versionMatch[1]}.${(parseInt(versionMatch[2]) + 1).toString()}.0`;
+}
+
+function getMainModule(content) {
+  return getMatch(content.match(/"main": "(?:\.\/)(.+?)",/ms), "main module", "package.json");
+}
+
+function getPackageInfo(packageJsonPath) {
+  const content = fs.readFileSync(packageJsonPath, "utf-8");
+  return {
+    newPackageVersion: getPackageVersion(content),
+    mainModule: getMainModule(content)
+  };
+}
+
+function getNamespace(rollupConfigPath) {
+  const content = fs.readFileSync(rollupConfigPath, "utf-8");
+  return getMatch(content.match(/name: "(.+?)",/ms), "namespace", "rollup.config.js");
 }
 
 function main(args) {
@@ -225,8 +246,14 @@ function main(args) {
   }
   const path = args[2];
   const packageJsonPath = p.join(path, "package.json");
-  const newPackageVersion = getPackageVersion(packageJsonPath);
-  rewriteFile(p.join(path, "README.md"), updateREADME);
+  const { newPackageVersion, mainModule } = getPackageInfo(packageJsonPath);
+  const relativePkgPath = path
+    .replace(/\/$/, "")
+    .split("/")
+    .slice(-3)
+    .join("/");
+  const namespace = getNamespace(p.join(path, "rollup.config.js"));
+  rewriteFile(p.join(path, "README.md"), updateREADME(mainModule, relativePkgPath, namespace));
   rewriteFile(packageJsonPath, updatePackageJson(newPackageVersion));
   rewriteFile(p.join(path, getClientFilePath(path)), updateClient);
   rewriteFile(p.join(path, getClientContextFilePath(path)), updateClientContext(newPackageVersion));
