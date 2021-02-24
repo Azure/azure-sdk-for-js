@@ -7662,6 +7662,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
+  /yaml/1.10.0:
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-yr2icI4glYaNG+KWONODapy2/jDdMSDnrONSjblABjD9B4Z5LgiircSt8m8sRZFNi08kG9Sm0uSHtEmP3zaEGg==
   /yargs-parser/13.1.2:
     dependencies:
       camelcase: 5.3.1
@@ -8985,7 +8991,9 @@ packages:
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       chalk: 3.0.0
+      dotenv: 8.2.0
       eslint: 7.19.0
+      esm: 3.2.25
       fs-extra: 8.1.0
       minimist: 1.2.5
       mocha: 7.2.0
@@ -8997,10 +9005,11 @@ packages:
       ts-node: 8.10.2_typescript@4.1.2
       typedoc: 0.15.2
       typescript: 4.1.2
+      yaml: 1.10.0
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-S3WDkxotlIQoQrW4rQosXC1EdpsvvCE3Z06fv1w4tAcaVwfY+aO/nzRDhye/48C2xNEyvOQwZ2dMU2N2lsx89g==
+      integrity: sha512-6GyRqnw1pOMFXN7VOHFVYiVB6KDc/RhSF8t0TO7TyFukYKGlXSdZG/jnCAHZrIchoM4nt9H3ZttDwP6vLUOJbA==
       tarball: file:projects/dev-tool.tgz
     version: 0.0.0
   file:projects/digital-twins-core.tgz:
@@ -10495,6 +10504,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.19.0
+      esm: 3.2.25
       events: 3.2.0
       inherits: 2.0.4
       karma: 5.2.3
@@ -10523,7 +10533,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-Uw0mPGIwdlVnEEr61oMjgeBbcpZP0XDI8b8Mf/A5mxiMe8IlYfn3a2RGd1uN32YBqNxLDbd3lSR40SW23apJ2Q==
+      integrity: sha512-Kh5rywVzMmceGhygA/GxK4oP5LNvg4Dwkv5arK1VtCH1z1OnTi1HVzeibD83y3ZhuhAo02ca6mSW/KU2MaRRiw==
       tarball: file:projects/template.tgz
     version: 0.0.0
   file:projects/test-utils-multi-version.tgz:

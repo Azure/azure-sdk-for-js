@@ -9,7 +9,7 @@ import { createPrinter } from "./printer";
 const { debug } = createPrinter("resolve-project");
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type PackageJson = any;
+export type PackageJson = any;
 
 /**
  * Information about an Azure SDK for JS package
@@ -88,6 +88,12 @@ export async function resolveProject(workingDirectory: string): Promise<ProjectI
   }
 
   const [path, packageJson] = await findAzSDKPackageJson(workingDirectory);
+
+  if (!packageJson.name || !packageJson.version) {
+    throw new Error(
+      `Malformed package (did not have a name or version): ${path}, name="${packageJson.name}", version="${packageJson.version}"`
+    );
+  }
 
   return {
     name: packageJson.name,

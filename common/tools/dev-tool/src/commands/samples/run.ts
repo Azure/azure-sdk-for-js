@@ -8,13 +8,11 @@ import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
-import { SampleConfiguration } from "../../util/shouldSkip";
+import { getSampleConfiguration } from "../../util/shouldSkip";
 
 const log = createPrinter("run-samples");
 
 const IGNORE = ["node_modules"];
-
-const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
 
 export const commandInfo = makeCommandInfo(
   "run",
@@ -61,13 +59,18 @@ export default leafCommand(commandInfo, async (options) => {
 
   log.debug("Resolving samples metadata to:", packageLocation);
 
-  const sampleConfiguration = packageJson[SAMPLE_CONFIGURATION_KEY] as
-    | SampleConfiguration
-    | undefined;
+  const sampleConfiguration = getSampleConfiguration(packageJson);
 
-  const skips = sampleConfiguration?.skip ?? [];
+  const skips = sampleConfiguration.skip ?? [];
 
   log.debug("Skipping the following samples:", skips);
+
+  if (sampleConfiguration.skipFolder) {
+    log.warn(
+      "`skipFolder` is specified in the sample configuration, but it is ignored in this context."
+    );
+    log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
+  }
 
   const samples = options.args.map((dir) => path.resolve(dir));
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { FileInfo } from "./findMatchingFiles";
+import { PackageJson } from "./resolveProject";
 
 /**
  * An interface for the sample configuration metadata within an Azure SDK for
@@ -9,10 +10,32 @@ import { FileInfo } from "./findMatchingFiles";
  */
 export interface SampleConfiguration {
   /**
+   * If specified as true, should skip the entire folder for CI/Smoke Tests
+   */
+  skipFolder?: boolean;
+  /**
    * The names of sample files to skip (if a file extension is provided, it
    * will be ignored)
    */
-  skip: string[];
+  skip?: string[];
+  /**
+   * Optionally override the default method of generating a product name.
+   */
+  productName?: string;
+  /**
+   * Product slugs to use on docs.microsoft.com in addition to "azure".
+   */
+  productSlugs?: string[];
+  /**
+   * Disable generation of docs.microsoft.com publication metadata.
+   */
+  disableDocsMs?: boolean;
+}
+
+export const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
+
+export function getSampleConfiguration(packageJson: PackageJson): SampleConfiguration {
+  return packageJson[SAMPLE_CONFIGURATION_KEY] ?? {};
 }
 
 /**
