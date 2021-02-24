@@ -166,6 +166,30 @@ async function callOnDetachedOnReceivers(
     }
   }
 
+  // Message sessions batching
+  if (receiverType === "session") {
+    for (const receiverName of Object.keys(connectionContext.messageSessions)) {
+      const receiver = connectionContext.messageSessions[receiverName];
+      // TODO: Add if check for batching
+      logger.verbose(
+        "[%s] calling detached on %s receiver '%s'.",
+        connectionContext.connection.id,
+        receiverType,
+        receiver.name
+      );
+      detachCalls.push(
+        receiver.onDetached(contextOrConnectionError, "batching").catch((err) => {
+          logger.logError(
+            err,
+            "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
+            connectionContext.connection.id,
+            receiverType,
+            receiver.name
+          );
+        })
+      );
+    }
+  }
   return Promise.all(detachCalls);
 }
 
@@ -425,6 +449,14 @@ export namespace ConnectionContext {
           connectionContext,
           connectionError || contextError,
           "batching"
+        );
+
+        // TODO: merge this call with the previous batching call
+        // Call onDetached() on receivers so that sessionful batching receivers it can gracefully close any ongoing batch operation
+        await callOnDetachedOnReceivers(
+          connectionContext,
+          connectionError || contextError,
+          "session"
         );
 
         // TODO:

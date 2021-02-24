@@ -11,7 +11,7 @@ import {
   ReceiverOptions
 } from "rhea-promise";
 import { ConnectionContext } from "../connectionContext";
-import { LinkEntity } from "../core/linkEntity";
+import { LinkEntity, ReceiverType } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import { receiverLogger as logger } from "../log";
@@ -545,7 +545,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       await super.close();
 
-      await this._batchingReceiverLite.terminate();
+      this._batchingReceiverLite.terminate();
     } catch (err) {
       logger.logError(
         err,
@@ -758,6 +758,30 @@ export class MessageSession extends LinkEntity<Receiver> {
     } catch (error) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
       throw error;
+    }
+  }
+
+  /**
+   * To be called when connection is disconnected to gracefully close ongoing receive request.
+   * @param connectionError - The connection error if any.
+   */
+  async onDetached(
+    connectionError: AmqpError | Error | undefined,
+    receiverType: ReceiverType // TODO: Pick only batching/streaming from the type
+  ): Promise<void> {
+    if (receiverType === "batching") {
+      console.log("MessageSession ==========> onDetached");
+      await this.close();
+
+      if (connectionError == null) {
+        connectionError = new Error(
+          "Unknown error occurred on the AMQP connection while receiving messages."
+        );
+      }
+      this._batchingReceiverLite.terminate(connectionError);
+    } else {
+      // TODO: Come up with a plan for streaming
+      // not implemented for streaming yet
     }
   }
 
