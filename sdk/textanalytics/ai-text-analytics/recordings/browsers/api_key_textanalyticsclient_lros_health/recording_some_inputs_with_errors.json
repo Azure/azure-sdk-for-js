@@ -10,108 +10,108 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "4960160d-571b-4949-b1be-bb0c5bb331f8",
-    "date": "Wed, 24 Feb 2021 02:02:05 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/36d87b63-1c19-4433-b869-a9431e5c18ca",
+    "apim-request-id": "f76e3668-402e-44ca-866e-a3c8527f09b0",
+    "date": "Wed, 24 Feb 2021 02:16:10 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/42a91ea3-e14e-4ec3-bc87-e8f528faac39",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "148"
+    "x-envoy-upstream-service-time": "207"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/36d87b63-1c19-4433-b869-a9431e5c18ca",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/42a91ea3-e14e-4ec3-bc87-e8f528faac39",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"36d87b63-1c19-4433-b869-a9431e5c18ca\",\"lastUpdateDateTime\":\"2021-02-24T02:02:06Z\",\"createdDateTime\":\"2021-02-24T02:02:05Z\",\"expirationDateTime\":\"2021-02-25T02:02:05Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"42a91ea3-e14e-4ec3-bc87-e8f528faac39\",\"lastUpdateDateTime\":\"2021-02-24T02:16:11Z\",\"createdDateTime\":\"2021-02-24T02:16:10Z\",\"expirationDateTime\":\"2021-02-25T02:16:10Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "7d360dcc-2128-4e82-a86c-3da0ac594194",
+    "apim-request-id": "fe4e6679-bf6a-492f-bb16-15e1eb9b4463",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:02:05 GMT",
+    "date": "Wed, 24 Feb 2021 02:16:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "21"
+    "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/36d87b63-1c19-4433-b869-a9431e5c18ca",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/42a91ea3-e14e-4ec3-bc87-e8f528faac39",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"36d87b63-1c19-4433-b869-a9431e5c18ca\",\"lastUpdateDateTime\":\"2021-02-24T02:02:06Z\",\"createdDateTime\":\"2021-02-24T02:02:05Z\",\"expirationDateTime\":\"2021-02-25T02:02:05Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"42a91ea3-e14e-4ec3-bc87-e8f528faac39\",\"lastUpdateDateTime\":\"2021-02-24T02:16:11Z\",\"createdDateTime\":\"2021-02-24T02:16:10Z\",\"expirationDateTime\":\"2021-02-25T02:16:10Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "8587d97c-1fbf-44be-ab36-ed4ba069b262",
+    "apim-request-id": "d6e51a2c-be79-4def-8aa7-81775622369a",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:02:05 GMT",
+    "date": "Wed, 24 Feb 2021 02:16:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
+    "x-envoy-upstream-service-time": "6"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/36d87b63-1c19-4433-b869-a9431e5c18ca",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/42a91ea3-e14e-4ec3-bc87-e8f528faac39",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"36d87b63-1c19-4433-b869-a9431e5c18ca\",\"lastUpdateDateTime\":\"2021-02-24T02:02:07Z\",\"createdDateTime\":\"2021-02-24T02:02:05Z\",\"expirationDateTime\":\"2021-02-25T02:02:05Z\",\"status\":\"running\",\"errors\":[]}",
+   "response": "{\"jobId\":\"42a91ea3-e14e-4ec3-bc87-e8f528faac39\",\"lastUpdateDateTime\":\"2021-02-24T02:16:11Z\",\"createdDateTime\":\"2021-02-24T02:16:10Z\",\"expirationDateTime\":\"2021-02-25T02:16:10Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "698313ff-ae54-4310-80df-c1e4ad5ebb51",
+    "apim-request-id": "c909d3d8-dc89-4406-8ec4-d9fc666c4c31",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:02:08 GMT",
+    "date": "Wed, 24 Feb 2021 02:16:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
+    "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/36d87b63-1c19-4433-b869-a9431e5c18ca",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/42a91ea3-e14e-4ec3-bc87-e8f528faac39",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"36d87b63-1c19-4433-b869-a9431e5c18ca\",\"lastUpdateDateTime\":\"2021-02-24T02:02:08Z\",\"createdDateTime\":\"2021-02-24T02:02:05Z\",\"expirationDateTime\":\"2021-02-25T02:02:05Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"3\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":0.98},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/0\",\"role\":\"Attribute\"},{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"},{\"ref\":\"#/results/documents/0/entities/2\",\"role\":\"Attribute\"}]}],\"warnings\":[]}],\"errors\":[{\"id\":\"1\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}},{\"id\":\"2\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en\"}}}],\"modelVersion\":\"2021-01-11\"}}",
+   "response": "{\"jobId\":\"42a91ea3-e14e-4ec3-bc87-e8f528faac39\",\"lastUpdateDateTime\":\"2021-02-24T02:16:14Z\",\"createdDateTime\":\"2021-02-24T02:16:10Z\",\"expirationDateTime\":\"2021-02-25T02:16:10Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"3\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":0.98},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/0\",\"role\":\"Attribute\"},{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"},{\"ref\":\"#/results/documents/0/entities/2\",\"role\":\"Attribute\"}]}],\"warnings\":[]}],\"errors\":[{\"id\":\"1\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}},{\"id\":\"2\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en\"}}}],\"modelVersion\":\"2021-01-11\"}}",
    "responseHeaders": {
-    "apim-request-id": "1023c06c-802b-4e76-bcc5-cdb252e49a9f",
+    "apim-request-id": "c6ce352e-c4dd-45ab-be71-d9acfe817640",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:02:10 GMT",
+    "date": "Wed, 24 Feb 2021 02:16:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "56"
+    "x-envoy-upstream-service-time": "53"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/36d87b63-1c19-4433-b869-a9431e5c18ca",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/42a91ea3-e14e-4ec3-bc87-e8f528faac39",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"36d87b63-1c19-4433-b869-a9431e5c18ca\",\"lastUpdateDateTime\":\"2021-02-24T02:02:08Z\",\"createdDateTime\":\"2021-02-24T02:02:05Z\",\"expirationDateTime\":\"2021-02-25T02:02:05Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"3\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":0.98},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/0\",\"role\":\"Attribute\"},{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"},{\"ref\":\"#/results/documents/0/entities/2\",\"role\":\"Attribute\"}]}],\"warnings\":[]}],\"errors\":[{\"id\":\"1\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}},{\"id\":\"2\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en\"}}}],\"modelVersion\":\"2021-01-11\"}}",
+   "response": "{\"jobId\":\"42a91ea3-e14e-4ec3-bc87-e8f528faac39\",\"lastUpdateDateTime\":\"2021-02-24T02:16:14Z\",\"createdDateTime\":\"2021-02-24T02:16:10Z\",\"expirationDateTime\":\"2021-02-25T02:16:10Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"3\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":0.98},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/0\",\"role\":\"Attribute\"},{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/0/entities/1\",\"role\":\"Entity\"},{\"ref\":\"#/results/documents/0/entities/2\",\"role\":\"Attribute\"}]}],\"warnings\":[]}],\"errors\":[{\"id\":\"1\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}},{\"id\":\"2\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en\"}}}],\"modelVersion\":\"2021-01-11\"}}",
    "responseHeaders": {
-    "apim-request-id": "0f9134cf-be5d-467c-ae00-e953fbccb820",
+    "apim-request-id": "c2fe90e2-19e3-4277-8b77-fc6aa6a36549",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:02:10 GMT",
+    "date": "Wed, 24 Feb 2021 02:16:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "44"
+    "x-envoy-upstream-service-time": "49"
    }
   }
  ],
