@@ -27,7 +27,7 @@
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "dev-tool samples prep && cd dist-samples && build:ts",
     "build:test": "npm run build:ts && rollup -c 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest typings/3.1",
     "build": "npm run build:ts && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
