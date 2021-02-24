@@ -1,7 +1,8 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 1.3.0 (Unreleased)
 
+- Breaking change: Updated the `bearerTokenAuthenticationPolicy` to properly refresh tokens during a time period before the token expiration. Public API changes on `AccessTokenRefresher` and `ExpiringAccessTokenCache`, including some parameter renames and new methods, have been included to better reflect the meaning behind the refresh functionality.
 
 ## 1.2.3 (2021-02-04)
 
