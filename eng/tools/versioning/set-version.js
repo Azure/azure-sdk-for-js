@@ -42,8 +42,12 @@ async function main(argv) {
 
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
 
+  let packageName = artifactName;
+  if (!artifactName.startsWith("@")) {
+    packageName = artifactName.replace(/"?([a-z]*)"?-/i, "@$1/");
+  }
   const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
+    (packageSpec) => packageSpec.packageName == packageName
   );
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
