@@ -54,14 +54,14 @@ export const decompressResponsePolicyName = "decompressResponsePolicy";
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
 
 // @public
+export const exponentialRetryPolicyName = "exponentialRetryPolicy";
+
+// @public
 export interface ExponentialRetryPolicyOptions {
     maxRetries?: number;
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
 }
-
-// @public
-export const expontentialRetryPolicyName = "exponentialRetryPolicy";
 
 // @public
 export type FormDataMap = {
