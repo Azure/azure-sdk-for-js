@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 20:03:14 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:40 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "d68d3327-f038-4d3b-9fa4-37f5ec471900"
+    "x-ms-ests-server": "2.1.11513.14 - SCUS ProdSlices",
+    "x-ms-request-id": "eda4a4bc-ef02-4040-842e-ed6b77722300"
    }
   },
   {
@@ -29,9 +29,17 @@
     "stringIndexType": "Utf16CodeUnit"
    },
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"},{\"id\":\"5\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"6\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
-   "status": 0,
-   "response": "",
-   "responseHeaders": {}
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Batch request contains too many records. Max 5 records are permitted.\"}}}",
+   "responseHeaders": {
+    "apim-request-id": "a6481962-4f66-4a85-ba11-29a95f90f883",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:17:40 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
   }
  ],
  "uniqueTestInfo": {

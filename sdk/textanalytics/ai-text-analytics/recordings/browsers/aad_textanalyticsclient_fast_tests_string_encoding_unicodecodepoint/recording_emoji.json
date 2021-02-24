@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 20:07:52 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:47 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "9777aca2-05c3-4120-b694-6a94029a1b00"
+    "x-ms-ests-server": "2.1.11530.11 - WUS2 ProdSlices",
+    "x-ms-request-id": "e894ffaf-6bb7-474d-aff9-787266030400"
    }
   },
   {
@@ -29,9 +29,18 @@
     "stringIndexType": "UnicodeCodePoint"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"👩 SSN: 859-98-0987\",\"language\":\"en\"}]}",
-   "status": 0,
-   "response": "",
-   "responseHeaders": {}
+   "status": 200,
+   "response": "{\"documents\":[{\"redactedText\":\"👩 SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":7,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
+   "responseHeaders": {
+    "apim-request-id": "7e02e101-3ae0-48c1-8154-623199f28436",
+    "content-type": "application/json; charset=utf-8",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
+    "date": "Wed, 24 Feb 2021 02:17:46 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "54"
+   }
   }
  ],
  "uniqueTestInfo": {

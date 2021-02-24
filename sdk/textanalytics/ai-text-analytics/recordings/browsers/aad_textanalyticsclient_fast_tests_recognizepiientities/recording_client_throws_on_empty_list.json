@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 20:04:15 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:41 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "d68d3327-f038-4d3b-9fa4-37f528531900"
+    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
+    "x-ms-request-id": "74937450-6f3f-4d02-9983-c42e04f62100"
    }
   },
   {
@@ -29,9 +29,17 @@
     "stringIndexType": "Utf16CodeUnit"
    },
    "requestBody": "{\"documents\":[]}",
-   "status": 0,
-   "response": "",
-   "responseHeaders": {}
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid Request.\",\"innererror\":{\"code\":\"MissingInputRecords\",\"message\":\"Missing input records.\"}}}",
+   "responseHeaders": {
+    "apim-request-id": "042e34e6-92f5-42c9-ab27-2b4882f71804",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:17:42 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
   }
  ],
  "uniqueTestInfo": {

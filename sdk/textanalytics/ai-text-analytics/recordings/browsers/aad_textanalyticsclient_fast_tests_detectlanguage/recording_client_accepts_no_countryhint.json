@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 20:01:42 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:33 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - NCUS ProdSlices",
-    "x-ms-request-id": "60c90f07-37d6-4b17-a2b6-e07524061600"
+    "x-ms-ests-server": "2.1.11513.14 - SCUS ProdSlices",
+    "x-ms-request-id": "eda4a4bc-ef02-4040-842e-ed6b8d712300"
    }
   },
   {
@@ -27,9 +27,18 @@
    "url": "https://endpoint/text/analytics/v3.1-preview.4/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"countryHint\":\"us\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"countryHint\":\"us\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"countryHint\":\"us\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"countryHint\":\"us\"}]}",
-   "status": 0,
-   "response": "",
-   "responseHeaders": {}
+   "status": 200,
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-05\"}",
+   "responseHeaders": {
+    "apim-request-id": "1bf93aeb-ce18-4a69-a9b9-e61c7ee50177",
+    "content-type": "application/json; charset=utf-8",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
+    "date": "Wed, 24 Feb 2021 02:17:35 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "19"
+   }
   }
  ],
  "uniqueTestInfo": {

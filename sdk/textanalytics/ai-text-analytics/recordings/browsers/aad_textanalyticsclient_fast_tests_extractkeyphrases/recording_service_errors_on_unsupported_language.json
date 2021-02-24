@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 20:03:45 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:41 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
-    "x-ms-request-id": "99bd220d-2710-471f-880d-3d8958b61600"
+    "x-ms-ests-server": "2.1.11513.14 - NCUS ProdSlices",
+    "x-ms-request-id": "6f5de462-0f5e-43b3-a770-e474254b2200"
    }
   },
   {
@@ -27,9 +27,17 @@
    "url": "https://endpoint/text/analytics/v3.1-preview.4/keyPhrases",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"This is some text, but it doesn't matter.\",\"language\":\"notalanguage\"}]}",
-   "status": 0,
-   "response": "",
-   "responseHeaders": {}
+   "status": 200,
+   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: af,bg,ca,da,de,el,en,es,et,fi,fr,hr,hu,id,it,ja,ko,lv,nl,no,pl,pt-BR,pt-PT,ro,ru,sk,sl,sv,tr\"}}}],\"modelVersion\":\"2020-07-01\"}",
+   "responseHeaders": {
+    "apim-request-id": "252d243e-ff65-4e1a-8ef6-8bb0bf91adb3",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:17:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "3"
+   }
   }
  ],
  "uniqueTestInfo": {
