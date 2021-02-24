@@ -691,7 +691,7 @@ describe("[AAD] TextAnalyticsClient", function() {
     describe("#String encoding", function() {
       describe("#Default encoding (utf16CodeUnit)", function() {
         it("emoji", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -702,7 +702,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("emoji with skin tone modifier", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩🏻 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -713,7 +713,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("family emoji", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩‍👩‍👧‍👧 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -724,7 +724,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -735,7 +735,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("diacritics nfc", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "año SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -746,7 +746,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("diacritics nfd", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "año SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -757,7 +757,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("korean nfc", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "아가 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -768,7 +768,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("korean nfd", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "아가 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -779,7 +779,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("zalgo", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -791,76 +791,88 @@ describe("[AAD] TextAnalyticsClient", function() {
       });
       describe("#UnicodeCodePoint", function() {
         it("emoji", async function() {
-          checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "UnicodeCodePoint", 7, 11); // offset was 8 with UTF16
+          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "UnicodeCodePoint", 7, 11); // offset was 8 with UTF16
         });
 
         it("emoji with skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11); // offset was 10 with UTF16
         });
 
         it("family emoji", async function() {
-          checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
+          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", "UnicodeCodePoint", 17, 11); // offset was 25 with UTF16
+          await checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "UnicodeCodePoint",
+            17,
+            11
+          ); // offset was 25 with UTF16
         });
 
         it("diacritics nfc", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
         });
 
         it("diacritics nfd", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 10, 11);
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 10, 11);
         });
 
         it("korean nfc", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
         });
 
         it("korean nfd", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
         });
 
         it("zalgo", async function() {
-          checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
+          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
         });
       });
       describe("#TextElements_v8", function() {
         it("emoji", async function() {
-          checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElements_v8", 7, 11); // offset was 8 with UTF16
+          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElements_v8", 7, 11); // offset was 8 with UTF16
         });
 
         it("emoji with skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElements_v8", 8, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElements_v8", 8, 11); // offset was 10 with UTF16
         });
 
         it("family emoji", async function() {
-          checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElements_v8", 13, 11); // offset was 17 with UTF16
+          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElements_v8", 13, 11); // offset was 17 with UTF16
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", "TextElements_v8", 17, 11); // offset was 25 with UTF16
+          await checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "TextElements_v8",
+            17,
+            11
+          ); // offset was 25 with UTF16
         });
 
         it("diacritics nfc", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11);
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11);
         });
 
         it("diacritics nfd", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 10 with UTF16
         });
 
         it("korean nfc", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
         });
 
         it("korean nfd", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
         });
 
         it("zalgo", async function() {
-          checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 121 with UTF16
+          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 121 with UTF16
         });
       });
     });

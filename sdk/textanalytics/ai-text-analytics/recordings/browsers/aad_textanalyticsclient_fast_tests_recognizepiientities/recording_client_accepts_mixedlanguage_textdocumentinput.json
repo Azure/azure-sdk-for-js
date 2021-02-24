@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 04:25:24 GMT",
+    "date": "Tue, 23 Feb 2021 20:05:05 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.13 - EUS ProdSlices",
-    "x-ms-request-id": "35318265-913d-46d5-a04f-3b6390cb0e00"
+    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
+    "x-ms-request-id": "480a701d-2380-487b-a8ba-a74fc2061400"
    }
   },
   {
@@ -29,18 +29,9 @@
     "stringIndexType": "Utf16CodeUnit"
    },
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"5\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.\",\"id\":\"3\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"Date\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"redactedText\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"id\":\"4\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"La carretera estaba atascada. Había mucho tráfico el día de ****.\",\"id\":\"5\",\"entities\":[{\"text\":\"ayer\",\"category\":\"Date\",\"subcategory\":\"Date\",\"offset\":60,\"length\":4,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
-   "responseHeaders": {
-    "apim-request-id": "e15967a0-d782-4622-be07-9c50b9b89d0d",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5",
-    "date": "Tue, 23 Feb 2021 04:25:24 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "62"
-   }
+   "status": 0,
+   "response": "",
+   "responseHeaders": {}
   }
  ],
  "uniqueTestInfo": {

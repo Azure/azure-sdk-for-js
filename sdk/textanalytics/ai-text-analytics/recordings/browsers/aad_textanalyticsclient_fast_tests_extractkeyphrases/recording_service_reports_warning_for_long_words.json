@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 04:25:23 GMT",
+    "date": "Tue, 23 Feb 2021 20:03:55 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.13 - WUS2 ProdSlices",
-    "x-ms-request-id": "218ddd05-1bce-4e47-9533-e72e07bd7100"
+    "x-ms-ests-server": "2.1.11513.14 - NCUS ProdSlices",
+    "x-ms-request-id": "f70c142d-01f8-4ba1-9df0-f7cd3f6d1600"
    }
   },
   {
@@ -27,18 +27,9 @@
    "url": "https://endpoint/text/analytics/v3.1-preview.4/keyPhrases",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters.\",\"language\":\"en\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"world\",\"thisisanextremelymassivesequenceoflettersthatislongerthansixtyfo\"],\"warnings\":[{\"code\":\"LongWordsInDocument\",\"message\":\"The document contains very long words (longer than 64 characters). These words will be truncated and may result in unreliable model predictions.\"}]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
-   "responseHeaders": {
-    "apim-request-id": "5c464999-1bc9-4447-8192-654822f43491",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 23 Feb 2021 04:25:23 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
-   }
+   "status": 0,
+   "response": "",
+   "responseHeaders": {}
   }
  ],
  "uniqueTestInfo": {

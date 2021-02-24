@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 04:25:24 GMT",
+    "date": "Tue, 23 Feb 2021 20:05:16 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.13 - SCUS ProdSlices",
-    "x-ms-request-id": "e69ae6bc-dd2a-4969-bdb3-3cec1abf0f00"
+    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
+    "x-ms-request-id": "99bd220d-2710-471f-880d-3d8972c81600"
    }
   },
   {
@@ -30,18 +30,9 @@
     "domain": "PHI"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I work at Microsoft and my phone number is 333-333-3333\",\"language\":\"en\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"I work at ********* and my phone number is ************\",\"id\":\"0\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":10,\"length\":9,\"confidenceScore\":0.95},{\"text\":\"333-333-3333\",\"category\":\"PhoneNumber\",\"offset\":43,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
-   "responseHeaders": {
-    "apim-request-id": "9b649d36-9f43-4e04-8105-7b7d783013e3",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 23 Feb 2021 04:25:24 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "105"
-   }
+   "status": 0,
+   "response": "",
+   "responseHeaders": {}
   }
  ],
  "uniqueTestInfo": {

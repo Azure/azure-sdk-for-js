@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 04:25:20 GMT",
+    "date": "Tue, 23 Feb 2021 20:02:19 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.13 - EUS ProdSlices",
-    "x-ms-request-id": "74ce6e1e-24d2-4f31-9b7d-ae86007b0e00"
+    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
+    "x-ms-request-id": "65c88429-88dc-4f3d-b1b3-40b56b161300"
    }
   },
   {
@@ -27,17 +27,9 @@
    "url": "https://endpoint/text/analytics/v3.1-preview.4/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"hello\",\"countryHint\":\"invalidcountry\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Country Hint.\",\"innererror\":{\"code\":\"InvalidCountryHint\",\"message\":\"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code.\"}}}],\"modelVersion\":\"2021-01-05\"}",
-   "responseHeaders": {
-    "apim-request-id": "374b8ef6-8c8b-4d6e-a7b3-5e5610227969",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 04:25:20 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "2"
-   }
+   "status": 0,
+   "response": "",
+   "responseHeaders": {}
   }
  ],
  "uniqueTestInfo": {

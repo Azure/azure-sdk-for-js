@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 04:25:24 GMT",
+    "date": "Tue, 23 Feb 2021 20:04:35 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.13 - EUS ProdSlices",
-    "x-ms-request-id": "74ce6e1e-24d2-4f31-9b7d-ae86717b0e00"
+    "x-ms-ests-server": "2.1.11513.14 - WUS2 ProdSlices",
+    "x-ms-request-id": "d067f382-9ef4-4be6-8f10-2c5f8eda1b00"
    }
   },
   {
@@ -29,18 +29,9 @@
     "stringIndexType": "Utf16CodeUnit"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.\",\"id\":\"2\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"Date\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"redactedText\":\"I didn't like the last book I read at all.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
-   "responseHeaders": {
-    "apim-request-id": "ddda8b57-2f97-475f-bd50-0caf27690004",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Tue, 23 Feb 2021 04:25:24 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "115"
-   }
+   "status": 0,
+   "response": "",
+   "responseHeaders": {}
   }
  ],
  "uniqueTestInfo": {

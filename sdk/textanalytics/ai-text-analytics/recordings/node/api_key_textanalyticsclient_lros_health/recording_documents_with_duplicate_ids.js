@@ -15,11 +15,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '6',
   'apim-request-id',
-  '53119821-0bcc-4895-851b-65b4f92e2094',
+  'f47c68c0-d55d-4362-b258-ba5040821ebf',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 23 Feb 2021 02:43:02 GMT'
+  'Tue, 23 Feb 2021 19:35:43 GMT'
 ]);
