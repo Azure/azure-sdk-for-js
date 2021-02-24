@@ -310,6 +310,7 @@ function getBodyLength(body: RequestBodyType): number | null {
 
 /**
  * Create a new HttpsClient instance for the NodeJS environment.
+ * @internal
  */
 export function createNodeHttpsClient(): HttpsClient {
   return new NodeHttpsClient();

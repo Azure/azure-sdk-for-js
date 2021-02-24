@@ -14,6 +14,10 @@ type PackageJson = { version: string };
 
 let instance: Context | null = null;
 
+/**
+ * Azure Telemetry context.
+ * @internal
+ */
 export class Context {
   public tags: Tags;
 
@@ -145,6 +149,10 @@ export class Context {
   }
 }
 
+/**
+ * Singleton Context instance.
+ * @internal
+ */
 export function getInstance(exporterPrefix?: string, appPrefix?: string): Context {
   if (!instance) {
     instance = new Context(exporterPrefix, appPrefix);

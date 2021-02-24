@@ -1,7 +1,7 @@
 {
   "name": "@azure/abort-controller",
   "sdk-type": "client",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -50,6 +50,7 @@
     "dist-esm/src/",
     "shims-public.d.ts",
     "types/src",
+    "types/3.1",
     "README.md",
     "LICENSE"
   ],

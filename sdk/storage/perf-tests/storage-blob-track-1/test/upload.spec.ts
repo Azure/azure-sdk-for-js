@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
 import { StorageBlobTest } from "./storageTest.spec";
-dotenv.config({ path: "../../../.env" });
-
 interface StorageBlobUploadTestOptions {
   size: number;
 }

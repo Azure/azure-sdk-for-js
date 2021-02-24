@@ -12,6 +12,7 @@ const mkdirAsync = promisify(fs.mkdir);
 
 /**
  * Computes the size (in bytes) of all files in a directory at the root level. Asynchronously.
+ * @internal
  */
 export const getShallowDirectorySize = async (directory: string): Promise<number> => {
   // Get the directory listing
@@ -30,6 +31,10 @@ export const getShallowDirectorySize = async (directory: string): Promise<number
   return totalSize;
 };
 
+/**
+ * Validate directory exists.
+ * @internal
+ */
 export const confirmDirExists = async (directory: string): Promise<void> => {
   try {
     const stats = await lstatAsync(directory);

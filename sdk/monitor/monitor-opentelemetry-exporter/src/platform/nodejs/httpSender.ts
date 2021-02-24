@@ -10,6 +10,10 @@ import {
 } from "../../generated";
 import { AzureExporterInternalConfig } from "../../config";
 
+/**
+ * Exporter HTTP sender class
+ * @internal
+ */
 export class HttpSender implements Sender {
   private readonly _appInsightsClient: ApplicationInsightsClient;
   private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
@@ -25,6 +29,10 @@ export class HttpSender implements Sender {
     });
   }
 
+  /**
+   * Send Azure envelopes
+   * @internal
+   */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
     try {
       const { _response: res } = await this._appInsightsClient.track(envelopes);
@@ -34,6 +42,10 @@ export class HttpSender implements Sender {
     }
   }
 
+  /**
+   * Shutdown sender
+   * @internal
+   */
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
   }

@@ -196,7 +196,20 @@ export class ManagedIdentityCredential implements TokenCredential {
         message: err.message
       });
 
+      // If either the network is unreachable,
+      // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
+        const error = new CredentialUnavailable(
+          "ManagedIdentityCredential is unavailable. Network unreachable."
+        );
+
+        logger.getToken.info(formatError(scopes, error));
+        throw error;
+      }
+
+      // If either the host was unreachable,
+      // we can safely assume the credential is unavailable.
+      if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailable(
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
@@ -213,6 +226,15 @@ export class ManagedIdentityCredential implements TokenCredential {
         );
       }
 
+      // If the error has no status code, we can assume there was no available identity.
+      // This will throw silently during any ChainedTokenCredential.
+      if (err.statusCode === undefined) {
+        throw new CredentialUnavailable(
+          `ManagedIdentityCredential authentication failed. Message ${err.message}`
+        );
+      }
+
+      // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
         error: "ManagedIdentityCredential authentication failed.",
         error_description: err.message

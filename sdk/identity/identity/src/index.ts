@@ -20,6 +20,8 @@ export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { AuthenticationRecord } from "./client/msalClient";
 export {
   InteractiveBrowserCredentialOptions,
+  InteractiveBrowserCredentialBrowserOptions,
+  InteractiveBrowserCredentialCommonOptions,
   BrowserLoginStyle,
   InteractiveBrowserAuthenticationFlow
 } from "./credentials/interactiveBrowserCredentialOptions";
