@@ -148,11 +148,17 @@ function updatePackageJson(newPackageVersion) {
   return function(content) {
     return content
       .replace(/"version": "\d+.\d+.\d+",/ms, `"version": "${newPackageVersion}",`)
-      .replace(/"@azure\/ms-rest-azure-js": ".+?"/ms, '"@azure/ms-rest-azure-js": "^2.1.0"')
-      .replace(
-        /"@azure\/ms-rest-js": ".+?"/ms,
-        '"@azure/ms-rest-js": "^2.2.0",\n    "@azure/core-auth": "^1.1.4"'
-      )
+      .replace(/"@azure\/ms-rest-azure-js": "\^?(\d+).\d+.\d+"/ms, function(match, major) {
+        return major === "1"
+          ? '"@azure/ms-rest-azure-js": "^1.4.0"'
+          : '"@azure/ms-rest-azure-js": "^2.1.0"';
+      })
+      .replace(/"@azure\/ms-rest-js": "\^?(\d+).\d+.\d+"/ms, function(match, major) {
+        return (
+          (major === "1" ? '"@azure/ms-rest-js": "^1.11.0"' : '"@azure/ms-rest-js": "^2.2.0"') +
+          ',\n    "@azure/core-auth": "^1.1.4"'
+        );
+      })
       .replace(/"typescript": ".+?"/ms, '"typescript": "^3.6.0"');
   };
 }
