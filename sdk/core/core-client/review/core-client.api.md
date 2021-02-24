@@ -10,6 +10,7 @@ import { HttpsClient } from '@azure/core-https';
 import { InternalPipelineOptions } from '@azure/core-https';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-https';
+import { PipelineOptions } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
 import { PipelineRequest } from '@azure/core-https';
 import { PipelineResponse } from '@azure/core-https';
@@ -36,13 +37,8 @@ export interface BaseMapper {
 }
 
 // @public
-export interface ClientPipelineOptions extends InternalPipelineOptions {
-    credentialOptions?: {
-        credentialScopes: string | string[];
-        credential: TokenCredential;
-    };
-    deserializationOptions?: DeserializationPolicyOptions;
-    serializationOptions?: SerializationPolicyOptions;
+export interface CommonClientOptions extends PipelineOptions {
+    httpsClient?: HttpsClient;
 }
 
 // @public (undocumented)
@@ -70,7 +66,7 @@ export interface CompositeMapperType {
 }
 
 // @public
-export function createClientPipeline(options?: ClientPipelineOptions): Pipeline;
+export function createClientPipeline(options?: InternalClientPipelineOptions): Pipeline;
 
 // @public
 export function createSerializer(modelMappers?: {
@@ -139,6 +135,16 @@ export interface FullOperationResponse extends PipelineResponse {
         [key: string]: unknown;
     };
     request: OperationRequest;
+}
+
+// @public
+export interface InternalClientPipelineOptions extends InternalPipelineOptions {
+    credentialOptions?: {
+        credentialScopes: string | string[];
+        credential: TokenCredential;
+    };
+    deserializationOptions?: DeserializationPolicyOptions;
+    serializationOptions?: SerializationPolicyOptions;
 }
 
 // @public (undocumented)
@@ -344,20 +350,18 @@ export interface SerializerOptions {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
+    readonly pipeline: Pipeline;
     sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
 
 // @public
-export interface ServiceClientOptions {
+export interface ServiceClientOptions extends CommonClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];
-    httpsClient?: HttpsClient;
-    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;
     requestContentType?: string;
-    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
 
 // @public (undocumented)
