@@ -25,6 +25,7 @@ import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
+import { StandardAbortMessage } from "../../src/util/timeoutAbortSignalUtils";
 const env = getEnvVars();
 
 describe("EventHub Sender", function(): void {
@@ -483,7 +484,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The create batch operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
 
@@ -497,7 +498,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The create batch operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
   });
@@ -976,7 +977,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The send operation has been cancelled by the user.");
+        err.message.should.equal("Send request has been cancelled.");
       }
     });
 
@@ -996,7 +997,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The send operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
 

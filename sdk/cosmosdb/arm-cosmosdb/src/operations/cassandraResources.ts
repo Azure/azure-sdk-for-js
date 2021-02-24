@@ -626,7 +626,7 @@ const listCassandraKeyspacesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -652,7 +652,7 @@ const getCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -678,7 +678,7 @@ const getCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -704,7 +704,7 @@ const listCassandraTablesOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -731,7 +731,7 @@ const getCassandraTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -758,7 +758,7 @@ const getCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -784,7 +784,7 @@ const beginCreateUpdateCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -818,7 +818,7 @@ const beginDeleteCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -843,7 +843,7 @@ const beginUpdateCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec 
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -877,7 +877,7 @@ const beginMigrateCassandraKeyspaceToAutoscaleOperationSpec: msRest.OperationSpe
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -904,7 +904,7 @@ const beginMigrateCassandraKeyspaceToManualThroughputOperationSpec: msRest.Opera
     Parameters.keyspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -932,7 +932,7 @@ const beginCreateUpdateCassandraTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -967,7 +967,7 @@ const beginDeleteCassandraTableOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -993,7 +993,7 @@ const beginUpdateCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1028,7 +1028,7 @@ const beginMigrateCassandraTableToAutoscaleOperationSpec: msRest.OperationSpec =
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1056,7 +1056,7 @@ const beginMigrateCassandraTableToManualThroughputOperationSpec: msRest.Operatio
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

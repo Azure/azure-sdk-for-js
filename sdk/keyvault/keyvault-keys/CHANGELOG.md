@@ -2,6 +2,11 @@
 
 ## 4.2.0-beta.4 (Unreleased)
 
+- Updated the Latest service version to 7.2.
+- Added `curve` to `createKeyOptions` to be used when creating an `EC` key.
+- Deprecated the current `encrypt` and `decrypt` methods in favor of the more flexible overloads that take an `{Encrypt|Decrypt}Parameters` and allow passing in algorithm specific parameters. This enables support for the various AES algorithms used in Managed HSM. The deprecated methods continue to function and there's no timeline for their removal.
+- Added `additionalAuthenticatedData`, `iv`, and `authenticationTag` to `EncryptResult` in order to support AES encryption and decryption.
+
 ## 4.2.0-beta.3 (2021-02-09)
 
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).

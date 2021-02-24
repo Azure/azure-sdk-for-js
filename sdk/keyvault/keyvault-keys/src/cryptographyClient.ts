@@ -19,8 +19,10 @@ import {
   DecryptOptions,
   WrapKeyOptions,
   UnwrapKeyOptions,
+  EncryptParameters,
   SignOptions,
-  VerifyOptions
+  VerifyOptions,
+  DecryptParameters
 } from "./cryptographyClientModels";
 import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
@@ -111,6 +113,23 @@ export class CryptographyClient {
   }
 
   /**
+   * Encrypts the given plaintext with the specified encryption parameters.
+   * Depending on the algorithm set in the encryption parameters, the set of possible encryption parameters will change.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(keyVaultKey, credentials);
+   * let result = await client.encrypt({ algorithm: "RSA1_5", plaintext: Buffer.from("My Message")});
+   * let result = await client.encrypt({ algorithm: "A256GCM", plaintext: Buffer.from("My Message"), additionalAuthenticatedData: Buffer.from("My authenticated data")});
+   * ```
+   * @param encryptParameters - The encryption parameters, keyed on the encryption algorithm chosen.
+   * @param options - Additional options.
+   */
+  public async encrypt(
+    encryptParameters: EncryptParameters,
+    options?: EncryptOptions
+  ): Promise<EncryptResult>;
+  /**
    * Encrypts the given plaintext with the specified cryptography algorithm
    *
    * Example usage:
@@ -121,25 +140,67 @@ export class CryptographyClient {
    * @param algorithm - The algorithm to use.
    * @param plaintext - The text to encrypt.
    * @param options - Additional options.
+   * @deprecated Use `encrypt({ algorithm, plaintext }, options)` instead.
    */
   public async encrypt(
     algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
-    options: EncryptOptions = {}
+    options?: EncryptOptions
+  ): Promise<EncryptResult>;
+  public async encrypt(
+    ...args:
+      | [EncryptParameters, EncryptOptions?]
+      | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
+    const [parameters, options] = this.disambiguateEncryptArguments(args);
+
     if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.encrypt(algorithm, plaintext, options);
+      return this.concreteClient.client.encrypt(parameters, options);
     } else {
-      if (!isLocallySupported(algorithm)) {
-        throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
+      if (!isLocallySupported(parameters.algorithm)) {
+        throw new Error(
+          `Algorithm ${parameters.algorithm} is not supported for a local JsonWebKey.`
+        );
       }
-      return this.concreteClient.client.encrypt(
-        algorithm as LocalSupportedAlgorithmName,
-        plaintext
-      );
+      return this.concreteClient.client.encrypt(parameters, options);
     }
   }
 
+  private disambiguateEncryptArguments(
+    args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?]
+  ): [EncryptParameters, EncryptOptions?] {
+    if (typeof args[0] === "string") {
+      // Sample shape: ["RSA1_5", buffer, options]
+      return [
+        {
+          algorithm: args[0],
+          plaintext: args[1]
+        } as EncryptParameters,
+        args[2]
+      ];
+    } else {
+      // Sample shape: [{ algorithm: "RSA1_5", plaintext: buffer }, options]
+      return [args[0], args[1] as EncryptOptions];
+    }
+  }
+
+  /**
+   * Decrypts the given ciphertext with the specified decryption parameters.
+   * Depending on the algorithm used in the decryption parameters, the set of possible decryption parameters will change.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(keyVaultKey, credentials);
+   * let result = await client.decrypt({ algorithm: "RSA1_5", ciphertext: encryptedBuffer });
+   * let result = await client.decrypt({ algorithm: "A256GCM", iv: ivFromEncryptResult, authenticationTag: tagFromEncryptResult });
+   * ```
+   * @param decryptParameters - The decryption parameters.
+   * @param options - Additional options.
+   */
+  public async decrypt(
+    decryptParameters: DecryptParameters,
+    options?: DecryptOptions
+  ): Promise<DecryptResult>;
   /**
    * Decrypts the given ciphertext with the specified cryptography algorithm
    *
@@ -151,17 +212,41 @@ export class CryptographyClient {
    * @param algorithm - The algorithm to use.
    * @param ciphertext - The text to decrypt.
    * @param options - Additional options.
+   * @deprecated Use `decrypt({ algorithm, ciphertext }, options)` instead.
    */
-
   public async decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
-    options: DecryptOptions = {}
+    options?: DecryptOptions
+  ): Promise<DecryptResult>;
+  public async decrypt(
+    ...args:
+      | [DecryptParameters, DecryptOptions?]
+      | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
+    const [parameters, options] = this.disambiguateDecryptArguments(args);
     if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.decrypt(algorithm, ciphertext, options);
+      return this.concreteClient.client.decrypt(parameters, options);
     } else {
       throw new Error("Decrypting using a local JsonWebKey is not supported.");
+    }
+  }
+
+  private disambiguateDecryptArguments(
+    args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?]
+  ): [DecryptParameters, DecryptOptions?] {
+    if (typeof args[0] === "string") {
+      // Sample shape: ["RSA1_5", encryptedBuffer, options]
+      return [
+        {
+          algorithm: args[0],
+          ciphertext: args[1]
+        } as DecryptParameters,
+        args[2]
+      ];
+    } else {
+      // Sample shape: [{ algorithm: "RSA1_5", ciphertext: encryptedBuffer }, options]
+      return [args[0], args[1] as DecryptOptions];
     }
   }
 

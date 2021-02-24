@@ -111,7 +111,6 @@ export class Database {
 
   /**
    * Gets offer on database. If none exists, returns an OfferResponse with undefined.
-   * @param options
    */
   public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
     const { resource: record } = await this.read();

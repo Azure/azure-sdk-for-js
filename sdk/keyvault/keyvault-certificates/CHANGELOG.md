@@ -2,6 +2,10 @@
 
 ## 4.2.0-beta.3 (Unreleased)
 
+- Updated the Latest service version to 7.2.
+- Added a sample demonstrating how to import PFX / PEM certificates.
+- Fixed an issue where importing a certificate incorrectly required a Subject or Subject Alternative Name.
+
 ## 4.2.0-beta.2 (2021-02-09)
 
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).

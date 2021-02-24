@@ -9,7 +9,7 @@ Metrics Advisor is a part of Azure Cognitive Services that uses AI perform data 
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-metrics-advisor) |
-[API reference documentation](https://aka.ms/azsdk/js/metricsadvisor/docs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/samples)
 
@@ -77,6 +77,7 @@ const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API k
 const client = new MetricsAdvisorClient("<endpoint>", credential);
 const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
 ```
+
 #### Using Azure Service Directory
 
 API key authorization is used in most of the examples, but you can also authenticate the client with Azure Active Directory using the Azure Identity library. To use the DefaultAzureCredential provider shown below or other credential providers provided with the Azure SDK, please install the @azure/identity package:

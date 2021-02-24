@@ -73,7 +73,11 @@ See [Credential Classes](#credential-classes).
 
 ### DefaultAzureCredential
 
-The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud. This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed, with credentials used to authenticate in a development environment. The `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order.
+The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud. This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed with credentials used to authenticate in a development environment.
+
+> Note: `DefaultAzureCredential` is intended to simplify getting started with the SDK by handling common scenarios with reasonable default behaviors. Developers who want more control or whose scenario isn't served by the default settings should use other credential types.
+
+If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order:
 
 ![DefaultAzureCredential authentication flow][defaultauthflow_image]
 
@@ -81,6 +85,8 @@ The `DefaultAzureCredential` is appropriate for most scenarios where the applica
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
 - Visual Studio Code - If the developer has authenticated via the Visual Studio Code Azure Account plugin, the `DefaultAzureCredential` will authenticate with that account.
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
+
+If the `DefaultAzureCredential` is used from a browser, it will only use the `InteractiveBrowserCredential`.
 
 ## Environment Variables
 

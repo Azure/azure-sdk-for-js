@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isNode } from "@azure/core-http";
 
 export const baseUri = "https://contoso.api.fake:443";

@@ -626,7 +626,7 @@ const listMongoDBDatabasesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -652,7 +652,7 @@ const getMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -678,7 +678,7 @@ const getMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -704,7 +704,7 @@ const listMongoDBCollectionsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -731,7 +731,7 @@ const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -758,7 +758,7 @@ const getMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -784,7 +784,7 @@ const beginCreateUpdateMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -818,7 +818,7 @@ const beginDeleteMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -843,7 +843,7 @@ const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = 
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -877,7 +877,7 @@ const beginMigrateMongoDBDatabaseToAutoscaleOperationSpec: msRest.OperationSpec 
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -904,7 +904,7 @@ const beginMigrateMongoDBDatabaseToManualThroughputOperationSpec: msRest.Operati
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -932,7 +932,7 @@ const beginCreateUpdateMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -967,7 +967,7 @@ const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -993,7 +993,7 @@ const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec 
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1028,7 +1028,7 @@ const beginMigrateMongoDBCollectionToAutoscaleOperationSpec: msRest.OperationSpe
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1056,7 +1056,7 @@ const beginMigrateMongoDBCollectionToManualThroughputOperationSpec: msRest.Opera
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

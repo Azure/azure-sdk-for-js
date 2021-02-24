@@ -18,7 +18,7 @@ import { StoredProcedureResponse } from "./StoredProcedureResponse";
  */
 export class StoredProcedures {
   /**
-   * @param container The parent {@link Container}.
+   * @param container - The parent {@link Container}.
    * @hidden
    */
   constructor(
@@ -28,8 +28,7 @@ export class StoredProcedures {
 
   /**
    * Query all Stored Procedures.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @example Read all stored procedures to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
@@ -44,8 +43,7 @@ export class StoredProcedures {
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Query all Stored Procedures.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @example Read all stored procedures to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
@@ -76,7 +74,6 @@ export class StoredProcedures {
 
   /**
    * Read all stored procedures.
-   * @param options
    * @example Read all stored procedures to array.
    * ```typescript
    * const {body: sprocList} = await containers.storedProcedures.readAll().fetchAll();

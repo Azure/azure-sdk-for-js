@@ -122,8 +122,6 @@ function needsRetry(operationType: OperationType, code: number | string) {
 
 /**
  * This class implements the default connection retry policy for requests.
- * @property {int} currentRetryAttemptCount           - Current retry attempt count.
- * @hidden
  * @hidden
  */
 export class DefaultRetryPolicy implements RetryPolicy {
@@ -134,7 +132,7 @@ export class DefaultRetryPolicy implements RetryPolicy {
   constructor(private operationType: OperationType) {}
   /**
    * Determines whether the request should be retried or not.
-   * @param {object} err - Error returned by the request.
+   * @param err - Error returned by the request.
    */
   public async shouldRetry(err: ErrorResponse): Promise<boolean> {
     if (err) {

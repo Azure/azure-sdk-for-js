@@ -163,7 +163,7 @@ export class ChatThreadClient {
 
   /**
    * Gets a chat message identified by messageId.
-   * Returns the specific message.\
+   * Returns the specific message.
    * @param messageId - The message id of the message.
    * @param options - Operation options.
    */
