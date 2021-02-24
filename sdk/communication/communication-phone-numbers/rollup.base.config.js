@@ -7,6 +7,7 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
 import shim from "rollup-plugin-shim";
+import json from "@rollup/plugin-json";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -22,6 +23,7 @@ export function nodeConfig(test = false) {
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [
+      json(),
       sourcemaps(),
       replace({
         delimiters: ["", ""],
@@ -71,6 +73,7 @@ export function browserConfig(test = false) {
     },
     preserveSymlinks: false,
     plugins: [
+      json(),
       sourcemaps(),
       replace({
         delimiters: ["", ""],
