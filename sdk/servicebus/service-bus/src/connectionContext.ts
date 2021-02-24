@@ -139,7 +139,7 @@ type ConnectionContextMethods = Omit<
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
-  receiverType: ReceiverType
+  receiverType: Extract<ReceiverType, "batching" | "streaming">
 ): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
@@ -167,12 +167,11 @@ async function callOnDetachedOnReceivers(
   }
 
   // Message sessions batching
-  if (receiverType === "session") {
+  if (receiverType === "batching") {
     for (const receiverName of Object.keys(connectionContext.messageSessions)) {
       const receiver = connectionContext.messageSessions[receiverName];
-      // TODO: Add if check for batching
       logger.verbose(
-        "[%s] calling detached on %s receiver '%s'.",
+        "[%s] calling detached on %s receiver(sessions) '%s'.",
         connectionContext.connection.id,
         receiverType,
         receiver.name
@@ -451,17 +450,12 @@ export namespace ConnectionContext {
           "batching"
         );
 
-        // TODO: merge this call with the previous batching call
-        // Call onDetached() on receivers so that sessionful batching receivers it can gracefully close any ongoing batch operation
-        await callOnDetachedOnReceivers(
-          connectionContext,
-          connectionError || contextError,
-          "session"
-        );
-
         // TODO:
         //  `callOnDetachedOnReceivers` handles "connectionContext.messageReceivers".
         //  ...What to do for sessions (connectionContext.messageSessions) ??
+        // Answer:
+        // batchingReceiver for sessions will be handled the same way the normal batching receiver is handled
+        // What's left? Streaming
       }
 
       await refreshConnection(connectionContext);
