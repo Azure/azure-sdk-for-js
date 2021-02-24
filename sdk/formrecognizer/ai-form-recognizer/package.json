@@ -51,7 +51,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "npm run build:ts && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "npm run build:ts && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && build:ts",
+    "build:samples": "dev-tool samples prep && cd dist-samples && npm run build:ts",
     "build:test": "npm run build:ts && rollup -c 2>&1",
     "build": "npm run build:ts && rollup -c 2>&1 && api-extractor run --local",
     "build:ts": "tsc -p .",

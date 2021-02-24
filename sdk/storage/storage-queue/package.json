@@ -30,7 +30,7 @@
     "build:nodebrowser": "rollup -c 2>&1",
     "build:node": "npm run build:ts && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:browser": "npm run build:ts && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && build:ts",
+    "build:samples": "dev-tool samples prep && cd dist-samples && npm run build:ts",
     "build:test": "npm run build:ts && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",
     "build": "npm run build:ts && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
