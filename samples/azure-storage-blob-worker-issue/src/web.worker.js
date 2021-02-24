@@ -6,7 +6,7 @@ configureFallback(
   DOMParser,
   XMLSerializer,
   {
-    implementation: new DOMImplementation(),
+    implementation: new DOMImplementation()
   },
   Node
 );
