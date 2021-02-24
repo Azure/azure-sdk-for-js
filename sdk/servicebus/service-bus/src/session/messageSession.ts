@@ -770,7 +770,6 @@ export class MessageSession extends LinkEntity<Receiver> {
     receiverType: ReceiverType // TODO: Pick only batching/streaming from the type
   ): Promise<void> {
     if (receiverType === "batching") {
-      console.log("MessageSession ==========> onDetached");
       await this.close();
 
       if (connectionError == null) {
