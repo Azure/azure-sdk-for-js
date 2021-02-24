@@ -309,7 +309,6 @@ export class BatchingReceiverLite {
     origResolve: (messages: ServiceBusMessageImpl[]) => void,
     origReject: (err: Error | AmqpError) => void
   ): void {
-    console.log("BatchingReceiverLite ====> _receiveMessagesImpl");
     const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
       args.maxWaitTimeInMs,
       args.maxTimeAfterFirstMessageInMs
@@ -360,7 +359,6 @@ export class BatchingReceiverLite {
     };
 
     this._closeHandler = (error?: AmqpError | Error): void => {
-      console.log("================> this._closeHandler");
       if (
         // no error, just closing. Go ahead and return what we have.
         error == null ||
@@ -442,7 +440,6 @@ export class BatchingReceiverLite {
         reject(errObj);
       }
       if (brokeredMessages.length === args.maxMessageCount) {
-        console.log("onReceiveMessage =====> calling finalAction");
         finalAction();
       }
     };
@@ -458,7 +455,6 @@ export class BatchingReceiverLite {
 
     // Action to be performed on the "receiver_drained" event.
     const onReceiveDrain: OnAmqpEvent = () => {
-      console.log("onReceiveDrain");
       receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
       receiver.drain = false;
 
