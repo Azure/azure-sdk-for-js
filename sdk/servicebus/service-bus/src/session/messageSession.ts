@@ -767,7 +767,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   async onDetached(
     connectionError: AmqpError | Error | undefined,
-    receiverType: ReceiverType // TODO: Pick only batching/streaming from the type
+    receiverType: Extract<ReceiverType, "batching" | "streaming">
   ): Promise<void> {
     if (receiverType === "batching") {
       await this.close();
