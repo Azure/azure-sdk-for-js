@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 23 Feb 2021 20:13:36 GMT",
+    "date": "Wed, 24 Feb 2021 02:37:29 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "71437af2-1349-4f1b-b14b-0a049af41a00"
+    "x-ms-ests-server": "2.1.11513.14 - NCUS ProdSlices",
+    "x-ms-request-id": "9723ea02-7033-456f-8b48-6abc35c82300"
    }
   },
   {
@@ -27,9 +27,707 @@
    "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze",
    "query": {},
    "requestBody": "{\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"bad\",\"stringIndexType\":\"Utf16CodeUnit\"}},{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}},{\"parameters\":{\"model-version\":\"bad\",\"stringIndexType\":\"TextElements_v8\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"}]}}",
-   "status": 0,
+   "status": 202,
    "response": "",
-   "responseHeaders": {}
+   "responseHeaders": {
+    "apim-request-id": "d445c999-fa19-474b-84f5-ac5634bdac9a",
+    "date": "Wed, 24 Feb 2021 02:37:29 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "265"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:29Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:29Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "responseHeaders": {
+    "apim-request-id": "f4597c7d-27c3-4d61-b04d-53bc99589fd8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:29 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "13"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:29Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:29Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "responseHeaders": {
+    "apim-request-id": "79c83e69-9b75-412a-9394-500459889d1e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:29 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8048b5cf-e459-447d-93cf-34cd94978b23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "64"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "89fa3d73-6119-4c65-87a4-2689e4c81d77",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:34 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "219"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e8e7a33d-948b-4c68-adc6-1772ff7c6422",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:36 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "72"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8ebcf1fd-9760-41e2-83c5-158a0942dcc2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:38 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "35"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c4ad003b-0a00-497b-bfb2-b2123977fc58",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "911"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "0382aa41-17f3-450f-a04c-f7123fe3758f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:43 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "718"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "01071d19-be60-453a-9323-bda51e1eec72",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:45 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "58"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9396cf80-03f0-4b4d-a5de-5054e520ab63",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:47 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "96"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "43263df4-fabe-4f41-b28a-4a6fabb6ce6d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "39"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8b7c1762-0f31-47bb-9bed-8960fce2c9e8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:51 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "64"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "07ea74be-eacf-42e3-85f3-2e4608ef1b9f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "78"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c0447fb6-434a-4e78-a210-4718980e3356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:56 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "32"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "fe96b4b9-91e6-4541-8905-c8c67e7fa38a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:37:59 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "475"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:01 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11513.14 - SCUS ProdSlices",
+    "x-ms-request-id": "d10b05a6-be44-4eb5-9783-6d1f97e92200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "4a4817e9-ace8-4ffd-be80-d6f1edd9fe63",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:01 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "73"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "57c761e8-8006-4632-8911-ed691eb90a1c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:03 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "95"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "2014f121-6ce0-42e9-a01a-05b907e6d25e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "73"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "6ce345f3-b98f-46a2-912a-9df2b1b68c39",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:07 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "43"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "932f9ae2-7ef1-4b41-935c-bdf6613ad3c5",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:10 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "96"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "ee37f2cf-7a28-49d2-8d41-89c8d4035f42",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:12 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "798"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "5ed0f3be-0314-4657-96fc-24fdd20864ef",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:14 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "36"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "305570d7-6589-4ac3-9625-8163bd51a618",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:17 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "284"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "902cefe2-adde-42cf-9d31-60ced10c61fb",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:20 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "66"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "b9f33900-7d1f-4845-8ab0-37a7af8cd443",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:22 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "69"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "08fb581c-83bb-4015-a7f8-4dd34c256082",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "43"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9e30cf33-f8fc-463a-9c46-a91957897b10",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:26 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "39"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "11db8268-9b7e-4b67-8813-9e98a0c94328",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:28 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "58"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "4539e6dc-1a6e-4d0f-a692-9a1750718565",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "61"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:32 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11513.14 - SCUS ProdSlices",
+    "x-ms-request-id": "eda4a4bc-ef02-4040-842e-ed6b740d2400"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "69160a16-d24a-4735-80e3-e5cd60ba991c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "42"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c6a468ad-e074-4029-a8a5-5757123586a8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:34 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "49"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"running\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":0,\"failed\":2,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "fa3439aa-1176-4306-b86a-a7d538079d87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:36 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "71"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"partiallySucceeded\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":1,\"failed\":2,\"inProgress\":0,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d193a5af-f319-4d40-90c1-94e42ab4bb79",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:38 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "115"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/69ceb077-78e4-4f75-9e0d-cb1c9acee245",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"69ceb077-78e4-4f75-9e0d-cb1c9acee245\",\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\",\"createdDateTime\":\"2021-02-24T02:37:29Z\",\"expirationDateTime\":\"2021-02-25T02:37:29Z\",\"status\":\"partiallySucceeded\",\"errors\":[{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/0\"},{\"code\":\"InvalidRequest\",\"message\":\"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15.\",\"target\":\"#/tasks/entityRecognitionPiiTasks/2\"}],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:37:31Z\"},\"completed\":1,\"failed\":2,\"inProgress\":0,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}},{\"lastUpdateDateTime\":\"2021-02-24T02:37:31.1084413Z\",\"state\":\"failed\"}]}}",
+   "responseHeaders": {
+    "apim-request-id": "f2a365a3-b00c-45cc-bb83-e233632113f2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:38:38 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "63"
+   }
   }
  ],
  "uniqueTestInfo": {
