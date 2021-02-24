@@ -23,7 +23,7 @@ Use the client library to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics) |
-[API reference documentation](https://aka.ms/azsdk/js/textanalytics/docs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples)
 

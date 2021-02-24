@@ -10,37 +10,37 @@ export interface Metadata {
 
 export interface FileHttpHeaders {
   /**
-   * @member {string} [fileCacheControl] Optional. Sets the file's cache
+   * Optional. Sets the file's cache
    * control. If specified, this property is stored with the file and returned
    * with a read request.
    */
   fileCacheControl?: string;
   /**
-   * @member {string} [fileContentType] Optional. Sets the file's content type.
+   * Optional. Sets the file's content type.
    * If specified, this property is stored with the file and returned with a
    * read request.
    */
   fileContentType?: string;
   /**
-   * @member {Uint8Array} [fileContentMD5] Optional. An MD5 hash of the file
+   * Optional. An MD5 hash of the file
    * content. Note that this hash is not validated, as the hashes for the
    * individual blocks were validated when each was uploaded.
    */
   fileContentMD5?: Uint8Array;
   /**
-   * @member {string} [fileContentEncoding] Optional. Sets the file's content
+   * Optional. Sets the file's content
    * encoding. If specified, this property is stored with the file and returned
    * with a read request.
    */
   fileContentEncoding?: string;
   /**
-   * @member {string} [fileContentLanguage] Optional. Set the file's content
+   * Optional. Set the file's content
    * language. If specified, this property is stored with the file and returned
    * with a read request.
    */
   fileContentLanguage?: string;
   /**
-   * @member {string} [fileContentDisposition] Optional. Sets the file's
+   * Optional. Sets the file's
    * Content-Disposition header.
    */
   fileContentDisposition?: string;
@@ -152,9 +152,6 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
 
 /**
  * Close handles result information.
- *
- * @export
- * @interface CloseHandlesInfo
  */
 export interface CloseHandlesInfo {
   closedHandlesCount: number;
@@ -166,22 +163,14 @@ export interface CloseHandlesInfo {
 
 /**
  * Protocols to enable on the share. For now, only support SMB or NFS.
- * @export
- * @interface ShareProtocols
  */
 export interface ShareProtocols {
   /**
    * The share can be accessed by SMBv3.0, SMBv2.1 and REST.
-   *
-   * @type {boolean}
-   * @memberof ShareProtocols
    */
   smbEnabled?: boolean;
   /**
    * The share can be accessed by NFSv4.1.
-   *
-   * @type {boolean}
-   * @memberof ShareProtocols
    */
   nfsEnabled?: boolean;
 }
@@ -189,9 +178,7 @@ export interface ShareProtocols {
 /**
  * Convert protocols from joined string to ShareProtocols.
  *
- * @export
  * @param protocolsString -
- *
  */
 export function toShareProtocols(protocolsString?: string): ShareProtocols | undefined {
   if (protocolsString === undefined) {
@@ -213,9 +200,7 @@ export function toShareProtocols(protocolsString?: string): ShareProtocols | und
 /**
  * Convert ShareProtocols to joined string.
  *
- * @export
  * @param protocols -
- *
  */
 export function toShareProtocolsString(protocols: ShareProtocols = {}): string | undefined {
   let protocolStr = undefined;

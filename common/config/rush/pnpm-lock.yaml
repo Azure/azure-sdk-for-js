@@ -41,6 +41,7 @@ dependencies:
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -732,64 +733,64 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-GtpMGd6vkzDMYcpu2t9LlhEgMy/SzBwRnz48EejlRArYqZzqSzAsKmegUK7zHgl+EOIaK9mKHhnRaQu3qw20cA==
-  /@opentelemetry/api/0.16.0:
+  /@opentelemetry/api/0.17.0:
     dependencies:
-      '@opentelemetry/context-base': 0.16.0
+      '@opentelemetry/context-base': 0.17.0
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-y5mNFAiktm7Zyf0GrQ6kjsRqace/WCXk9gMo/sOOna4TtMW8NaZgJceKrsQZl3qiPY9Upu8O9VvdlETXDx4U5A==
+      integrity: sha512-Rr5NklomjXd7BqfGRs8lD78MvDM+tPeUdHNXilyRIgsUu3gKEKpl3ZgJMiI7gx5r94OqvNc5MukkwKK6xjWYfA==
   /@opentelemetry/context-base/0.10.2:
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-hZNKjKOYsckoOEgBziGMnBcX0M7EtstnCmwz5jZUOUYwlZ+/xxX6z3jPu1XVO2Jivk0eLfuP9GP+vFD49CMetw==
-  /@opentelemetry/context-base/0.16.0:
+  /@opentelemetry/context-base/0.17.0:
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-2h2s+3P40wIu8ZaJiqBF6E0rEJPeSVOErFlkx2MfRGPs9Vs9Th+i5YSpgvCW4s5LeYTFAf2BRwut39JivEyH9w==
-  /@opentelemetry/core/0.16.0:
+      integrity: sha512-q4Jy9JqTQh7/SE33YgKqcG5X2/JP9TbTpTmGoCBUYDKePK9E2uO40Rn4MjACqgnxu5sC61seG0P6xilvkpr9CQ==
+  /@opentelemetry/core/0.17.0:
     dependencies:
-      '@opentelemetry/api': 0.16.0
-      '@opentelemetry/context-base': 0.16.0
+      '@opentelemetry/api': 0.17.0
+      '@opentelemetry/context-base': 0.17.0
       semver: 7.3.4
     dev: false
     engines:
       node: '>=8.5.0'
     resolution:
-      integrity: sha512-NFZwEW5TeFIAUlNty9al0KU9AQzpEiBowem/33d3ftxYHZ7dG1JklFnyKLTVb+pAZFm/peTziVddfHoTsIY4Rg==
-  /@opentelemetry/resources/0.16.0:
+      integrity: sha512-jRM0Ydcb98a1ejrShqJIhnc2qqPJI2SJfHDRsFeWCj/q6LIlPo7yRl9msIndUQjRTHHvLdIKBGclNvqoXRyXTA==
+  /@opentelemetry/resources/0.17.0:
     dependencies:
-      '@opentelemetry/api': 0.16.0
-      '@opentelemetry/core': 0.16.0
+      '@opentelemetry/api': 0.17.0
+      '@opentelemetry/core': 0.17.0
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-HOAmcRnZGbEhcddsjqvz3Q/mEg75PyEoH/CZZ3YGqYmwTPimTiusm8iz5nXMxp1UpT8rkzlEGei/E21SQ/Zh9g==
-  /@opentelemetry/semantic-conventions/0.16.0:
+      integrity: sha512-0f+RryxBh+m+8zrZ1x36CihK21KME/1pIFcPCH9095hDx9yHiAv1h3AGrR/knWpgA5j84Icr5ymlALarmpWSbg==
+  /@opentelemetry/semantic-conventions/0.17.0:
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-RDYLf6lUtikIDTr6yVDehsUAlNb1U680eOV1QuDN0w6FDGubTnjbADlgpF41ByOow1Jp/WGmynFfOh19Ix4NWw==
-  /@opentelemetry/tracing/0.16.0:
+      integrity: sha512-WtFcpOv1IHaI0kT2BaZcA6/+fkx6pWyJspUKBljA3HeNDIQgYGB2n6nL/6eaZzWNDvDBHzFEzOKULDJdIwGRlQ==
+  /@opentelemetry/tracing/0.17.0:
     dependencies:
-      '@opentelemetry/api': 0.16.0
-      '@opentelemetry/context-base': 0.16.0
-      '@opentelemetry/core': 0.16.0
-      '@opentelemetry/resources': 0.16.0
-      '@opentelemetry/semantic-conventions': 0.16.0
+      '@opentelemetry/api': 0.17.0
+      '@opentelemetry/context-base': 0.17.0
+      '@opentelemetry/core': 0.17.0
+      '@opentelemetry/resources': 0.17.0
+      '@opentelemetry/semantic-conventions': 0.17.0
       lodash.merge: 4.6.2
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-8UrNbzO56m8fe9ge+XR0Lruwld+W6SM6aWFQT32YCU8lS+Hzz2P6TbevmgT4DzeKszJxnHqzNnqx8HziNeUjTA==
+      integrity: sha512-fnhG6PsDyxpssNGvxx90UNHlsBtPJM0Ouegq7xqQidC33JsQRCFGL0XFMoRltXbuOjT+uKnOti/0o+AxwLnuJA==
   /@rollup/plugin-commonjs/11.0.2_rollup@1.32.1:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@1.32.1
@@ -993,6 +994,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
+  /@types/dotenv/8.2.0:
+    dependencies:
+      dotenv: 8.2.0
+    deprecated: This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.
+    dev: false
+    resolution:
+      integrity: sha512-ylSC9GhfRH7m1EUXBXofhgx4lUWmFeQDINW5oLuS+gxWdfUeW4zJdeVTYVkexEW+e2VUvlZR2kGnGGipAWR7kw==
   /@types/eslint/7.2.6:
     dependencies:
       '@types/estree': 0.0.46
@@ -1178,6 +1186,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dIPoZ3g5gcx9zZEszaxLSVTvMReD3xxyyDnQUjA6IYDG9Ba2AV0otMPs+77sG9ojB4Qr2N2Vk5RnKeuA0X/0bg==
+  /@types/stoppable/1.1.0:
+    dependencies:
+      '@types/node': 10.17.51
+    dev: false
+    resolution:
+      integrity: sha512-BRR23Q9CJduH7AM6mk4JRttd8XyFkb4qIPZu4mdLF+VoP+wcjIxIWIKiBbN78NBbEuynrAyMPtzOHnIp2B/JPQ==
   /@types/tough-cookie/4.0.0:
     dev: false
     resolution:
@@ -7343,6 +7357,13 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+  /stoppable/1.1.0:
+    dev: false
+    engines:
+      node: '>=4'
+      npm: '>=6'
+    resolution:
+      integrity: sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==
   /stream-browserify/2.0.2:
     dependencies:
       inherits: 2.0.4
@@ -8784,7 +8805,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-pbE+1sWO3hSy98FxDQXdnM7DdAl74zQfJarMxAKnXVqg8yEC+WT3fK93ecRRNXfXK5NgW9SKNsFNVORsIkaELg==
+      integrity: sha512-cGtziUBhQ3TvjHjX3/qbEcKFfyHr8Ee/Ncz+QetxsaxB+GDLxHmqKoWyYI5GTr5Tn4S/BSWJOMwddHdlSiF2Xw==
       tarball: file:projects/communication-administration.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8842,7 +8863,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-wX2sL9Sd/2jLeSGnP0om/w6fFtCn1a1l/VePM6D2Nw5bz9G7wt4KCQbWrepAmZ5apO1yiOg152akArzR+Yvmbg==
+      integrity: sha512-rx4W1fAnOD80LRZby/oT9vxSvxgln2Q2Utd9QMwDX7Tcle4DQWj0/1r+pN9qUa88KTp/TAFUSmXHqbD6HiF8Tw==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8953,7 +8974,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-ocd+xJYPU1k8gTxrvOM8PqYDx0tlAfbfPoiU97icxbFkwF5oUyxDieypHyQbn5S6bzJPFY+jhVniprQaliz0Fg==
+      integrity: sha512-V+Utbh0SO/yMctv5X1tmwmBlcgLTMojVpRl3reWRSkbQgjzwa93VTuEIFyhIHY/3V/PwvJWG2ax6OysBCs7Udg==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -9008,7 +9029,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-nIxR0wwUdmv73I1aPVYpPBkSqYhHjFRhzuYbm4ueTlq0iYhWJQNK9jWYwpVW6+LP0Ts+JD/lZW5lB75QXnf9EQ==
+      integrity: sha512-JC2+L87wZ+G3UkEqQm5SlNtLc/BU9BiUI4lSQzBq8zPjnoPQXMfAokoBRE4WU2kMKuJTsPck+5TteOfZ3/ed1g==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -9029,6 +9050,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/sinon': 9.0.10
+      '@types/ws': 7.4.0
       assert: 1.5.0
       async-lock: 1.2.8
       buffer: 5.7.1
@@ -9069,7 +9091,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-FkZc5385M043S0+h/Tp2H1o7B5fyLzyOx+yMIXSA7TAiO+/7/cdLQ0EAEK2tCtjm7XnX+5G64ZF4lLTYNTLarA==
+      integrity: sha512-43+7+eHuUasAbQGsZ1Fl3f6+OcoTnS2VgBAUXf9VJj656yE+qhBvnSIeeP2bS+f4grV11O8/9uEp6bVFrWarUw==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -9984,6 +10006,7 @@ packages:
       '@types/node': 8.10.66
       '@types/qs': 6.9.5
       '@types/sinon': 9.0.10
+      '@types/stoppable': 1.1.0
       '@types/uuid': 8.3.0
       assert: 1.5.0
       axios: 0.21.1
@@ -10015,6 +10038,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
       sinon: 9.2.4
+      stoppable: 1.1.0
       tslib: 2.1.0
       typedoc: 0.15.2
       typescript: 4.1.2
@@ -10025,7 +10049,7 @@ packages:
     optionalDependencies:
       keytar: 7.3.0
     resolution:
-      integrity: sha512-tFR61LCHIZDfYb97aYITRuRpTDM7+7O4bQt+Rxuj07YPyrHQH11lmrFsSq2RwaEJUG6W9qfAkvo2ONiPK5k3fw==
+      integrity: sha512-n9Sn03tFbNDFSt+Z5Ofvd6weyUrUxgVV0KiCfg6ztX6NlRk7dRPHE7oW0zFs5dpYzF0oVqANkrCL+8j3Z3l5dA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/keyvault-admin.tgz:
@@ -10380,11 +10404,11 @@ packages:
   file:projects/monitor-opentelemetry-exporter.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@opentelemetry/api': 0.16.0
-      '@opentelemetry/core': 0.16.0
-      '@opentelemetry/resources': 0.16.0
-      '@opentelemetry/semantic-conventions': 0.16.0
-      '@opentelemetry/tracing': 0.16.0
+      '@opentelemetry/api': 0.17.0
+      '@opentelemetry/core': 0.17.0
+      '@opentelemetry/resources': 0.17.0
+      '@opentelemetry/semantic-conventions': 0.17.0
+      '@opentelemetry/tracing': 0.17.0
       '@types/mocha': 7.0.2
       '@types/node': 10.17.51
       eslint: 7.19.0
@@ -10404,8 +10428,26 @@ packages:
     dev: false
     name: '@rush-temp/monitor-opentelemetry-exporter'
     resolution:
-      integrity: sha512-PQ9TYELaQ7eyzGfdPwoqAoUxEv9WH0sHPdwuXd7iyUXNRyqT5Hjg2a30zfOrd6QHB5IX4iQq6UtthzLKfCQwmA==
+      integrity: sha512-Wfak3T6DRQr5CH2DFIOOpsHf1jWps/pkwoLUC185vsw5dO5F1BSnYBRfhBzAWWNr1ot1R60Puy+whBcK0lq8Rw==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
+    version: 0.0.0
+  file:projects/perf-storage-blob.tgz:
+    dependencies:
+      '@azure/core-https': 1.0.0-beta.1
+      '@types/dotenv': 8.2.0
+      '@types/node': 8.10.66
+      '@types/node-fetch': 2.5.8
+      '@types/uuid': 8.3.0
+      dotenv: 8.2.0
+      node-fetch: 2.6.1
+      tslib: 2.1.0
+      typescript: 4.1.2
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-storage-blob'
+    resolution:
+      integrity: sha512-jsMAAOThI7IpoBBne8HB3vAZ23Tr0eTk+yBqyvr8TrXD/6GqiqN94BnkZsPhSeksTZPc4pruN7vq/ac9Pep0JA==
+      tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
@@ -11372,6 +11414,7 @@ specifiers:
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz

@@ -5,11 +5,11 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { IdentityClient } from "../client/identityClient";
 import {
   BrowserLoginStyle,
-  InteractiveBrowserCredentialOptions
+  InteractiveBrowserCredentialBrowserOptions
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
+import { DefaultTenantId } from "../constants";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { MSALAuthCode } from "./msalBrowser/msalAuthCode";
 import { MSALImplicit } from "./msalBrowser/msalImplicit";
@@ -35,13 +35,17 @@ export class InteractiveBrowserCredential implements TokenCredential {
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: InteractiveBrowserCredentialOptions) {
-    this.tenantId = (options && options.tenantId) || DefaultTenantId;
+  constructor(options: InteractiveBrowserCredentialBrowserOptions) {
+    this.tenantId = options.tenantId || DefaultTenantId;
 
-    // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
-    // Developer Sign On application is available
-    // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/src/Constants.cs#L9
-    this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
+    if (!options?.clientId) {
+      const error = new Error(
+        "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`"
+      );
+      logger.info(formatError("", error));
+      throw error;
+    }
+    this.clientId = options.clientId;
 
     options = {
       ...IdentityClient.getDefaultOptions(),

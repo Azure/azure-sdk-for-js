@@ -19,7 +19,7 @@ import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
 export class UserDefinedFunctions {
   /**
    * @hidden
-   * @param container The parent {@link Container}.
+   * @param container - The parent {@link Container}.
    */
   constructor(
     public readonly container: Container,
@@ -28,14 +28,12 @@ export class UserDefinedFunctions {
 
   /**
    * Query all User Defined Functions.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Query all User Defined Functions.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -56,7 +54,6 @@ export class UserDefinedFunctions {
 
   /**
    * Read all User Defined Functions.
-   * @param options
    * @example Read all User Defined Functions to array.
    * ```typescript
    * const {body: udfList} = await container.userDefinedFunctions.readAll().fetchAll();

@@ -267,7 +267,6 @@ export function validateResourceId(resourceId: string) {
 
 /**
  * @hidden
- * @param resourcePath
  */
 export function getResourceIdFromPath(resourcePath: string) {
   if (!resourcePath || typeof resourcePath !== "string") {

@@ -34,7 +34,7 @@ let envVars: any;
  * or create and return one from configured values if not existing.
  */
 export function getEnvVars(): { [key in EnvVarNames]: string } {
-  if (envVars != undefined) {
+  if (envVars !== undefined) {
     return envVars;
   }
 

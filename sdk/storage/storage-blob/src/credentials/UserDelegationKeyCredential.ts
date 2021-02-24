@@ -9,33 +9,20 @@ import { UserDelegationKey } from "../BlobServiceClient";
  *
  * UserDelegationKeyCredential is only used for generation of user delegation SAS.
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-user-delegation-sas
- *
- * @export
- * @class UserDelegationKeyCredential
  */
 export class UserDelegationKeyCredential {
   /**
    * Azure Storage account name; readonly.
-   *
-   * @type {string}
-   * @memberof UserDelegationKeyCredential
    */
   public readonly accountName: string;
 
   /**
    * Azure Storage user delegation key; readonly.
-   *
-   * @type {UserDelegationKey}
-   * @memberof UserDelegationKeyCredential
    */
   public readonly userDelegationKey: UserDelegationKey;
 
   /**
    * Key value in Buffer type.
-   *
-   * @private
-   * @type {Buffer}
-   * @memberof UserDelegationKeyCredential
    */
   private readonly key: Buffer;
 
@@ -43,7 +30,6 @@ export class UserDelegationKeyCredential {
    * Creates an instance of UserDelegationKeyCredential.
    * @param accountName -
    * @param userDelegationKey -
-   * @memberof UserDelegationKeyCredential
    */
   constructor(accountName: string, userDelegationKey: UserDelegationKey) {
     this.accountName = accountName;
@@ -55,8 +41,6 @@ export class UserDelegationKeyCredential {
    * Generates a hash signature for an HTTP request or for a SAS.
    *
    * @param stringToSign -
-   *
-   * @memberof UserDelegationKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {
     // console.log(`stringToSign: ${JSON.stringify(stringToSign)}`);

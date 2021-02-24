@@ -7,10 +7,6 @@ export { StorageBrowserPolicy };
 
 /**
  * StorageBrowserPolicyFactory is a factory class helping generating BrowserPolicy objects.
- *
- * @export
- * @class StorageBrowserPolicyFactory
- * @implements {RequestPolicyFactory}
  */
 export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
   /**
@@ -18,8 +14,6 @@ export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
    *
    * @param nextPolicy -
    * @param options -
-   *
-   * @memberof StorageBrowserPolicyFactory
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy {
     return new StorageBrowserPolicy(nextPolicy, options);

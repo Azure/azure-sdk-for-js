@@ -4,9 +4,7 @@
 /**
  * Convert a Browser Blob object into ArrayBuffer.
  *
- * @export
  * @param blob -
- *
  */
 export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
   const fileReader = new FileReader();

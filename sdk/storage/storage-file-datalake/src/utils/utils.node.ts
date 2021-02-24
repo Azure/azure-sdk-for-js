@@ -8,13 +8,11 @@ import { isNode } from "@azure/core-http";
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
  *
- * @export
  * @param stream - A Node.js Readable stream
- * @param buffer - Buffer to be filled, length must >= offset
+ * @param buffer - Buffer to be filled, length must greater than or equal to offset
  * @param offset - From which position in the buffer to be filled, inclusive
  * @param end - To which position in the buffer to be filled, exclusive
  * @param encoding - Encoding of the Readable stream
- *
  */
 export async function streamToBuffer(
   stream: NodeJS.ReadableStream,
@@ -66,12 +64,11 @@ export async function streamToBuffer(
 /**
  * Reads a readable stream into buffer entirely.
  *
- * @export
  * @param stream - A Node.js Readable stream
- * @param buffer - Buffer to be filled, length must >= offset
+ * @param buffer - Buffer to be filled, length must greater than or equal to offset
  * @param encoding - Encoding of the Readable stream
  * @returns with the count of bytes read.
- * @throws {RangeError} If buffer size is not big enough.
+ * @throws `RangeError` If buffer size is not big enough.
  */
 export async function streamToBuffer2(
   stream: NodeJS.ReadableStream,

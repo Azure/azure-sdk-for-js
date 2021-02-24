@@ -12,17 +12,11 @@ import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure {@link ShardFactory.create} operation.
- *
- * @export
- * @interface CreateShardOptions
  */
 export interface CreateShardOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof CreateShardOptions
    */
   abortSignal?: AbortSignalLike;
 }

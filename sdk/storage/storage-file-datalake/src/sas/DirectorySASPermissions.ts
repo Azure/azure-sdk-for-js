@@ -7,19 +7,13 @@
  * Once all the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link DataLakeSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
- *
- * @export
- * @class DirectorySASPermissions
  */
 export class DirectorySASPermissions {
   /**
    * Creates an {@link DirectorySASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
-   * @static
    * @param permissions -
-   *
-   * @memberof DirectorySASPermissions
    */
   public static parse(permissions: string) {
     const directorySASPermissions = new DirectorySASPermissions();
@@ -66,65 +60,41 @@ export class DirectorySASPermissions {
 
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public read: boolean = false;
 
   /**
    * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public add: boolean = false;
 
   /**
    * Specifies Create access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public create: boolean = false;
 
   /**
    * Specifies Write access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public write: boolean = false;
 
   /**
    * Specifies Delete access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public delete: boolean = false;
 
   /**
    * Specifies List access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public list: boolean = false;
 
   /**
    * Specifies Move access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public move: boolean = false;
 
   /**
    * Specifies Execute access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public execute: boolean = false;
 
@@ -132,18 +102,12 @@ export class DirectorySASPermissions {
    * Specifies Ownership access granted, which allows the caller to set owner, owning group,
    * or act as the owner when renaming or deleting a blob (file or directory) within a folder
    * that has the sticky bit set.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public manageOwnership: boolean = false;
 
   /**
    * Specifies Permission access granted, which allows the caller to set permissions and
    * POSIX ACLs on blobs (files and directories).
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public manageAccessControl: boolean = false;
 
@@ -154,8 +118,6 @@ export class DirectorySASPermissions {
    * The order of the characters should be as specified here to ensure correctness.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   *
-   * @memberof DirectorySASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];

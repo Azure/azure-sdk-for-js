@@ -34,12 +34,12 @@ export class FilesystemOperations {
    */
   list(options?: Models.FilesystemListOptionalParams): Promise<Models.FilesystemListResponse>;
   /**
-   * @param callback The callback
+   * @param callback - The callback
    */
   list(callback: msRest.ServiceCallback<Models.FilesystemList>): void;
   /**
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   list(
     options: Models.FilesystemListOptionalParams,
@@ -62,7 +62,7 @@ export class FilesystemOperations {
    * Create a filesystem rooted at the specified location. If the filesystem already exists, the
    * operation fails.  This operation does not support conditional HTTP requests.
    * @summary Create Filesystem
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
@@ -74,20 +74,20 @@ export class FilesystemOperations {
     options?: Models.FilesystemCreateOptionalParams
   ): Promise<Models.FilesystemCreateResponse>;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param callback The callback
+   * @param callback - The callback
    */
   create(filesystem: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   create(
     filesystem: string,
@@ -114,7 +114,7 @@ export class FilesystemOperations {
    * information, see [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Set Filesystem Properties
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
@@ -126,20 +126,20 @@ export class FilesystemOperations {
     options?: Models.FilesystemSetPropertiesOptionalParams
   ): Promise<Models.FilesystemSetPropertiesResponse>;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param callback The callback
+   * @param callback - The callback
    */
   setProperties(filesystem: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   setProperties(
     filesystem: string,
@@ -164,7 +164,7 @@ export class FilesystemOperations {
   /**
    * All system and user-defined filesystem properties are specified in the response headers.
    * @summary Get Filesystem Properties.
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
@@ -176,20 +176,20 @@ export class FilesystemOperations {
     options?: Models.FilesystemGetPropertiesOptionalParams
   ): Promise<Models.FilesystemGetPropertiesResponse>;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param callback The callback
+   * @param callback - The callback
    */
   getProperties(filesystem: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   getProperties(
     filesystem: string,
@@ -222,7 +222,7 @@ export class FilesystemOperations {
    * information, see [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Delete Filesystem
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
@@ -234,20 +234,20 @@ export class FilesystemOperations {
     options?: Models.FilesystemDeleteMethodOptionalParams
   ): Promise<Models.FilesystemDeleteResponse>;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param callback The callback
+   * @param callback - The callback
    */
   deleteMethod(filesystem: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param filesystem The filesystem identifier.  The value must start and end with a letter or
+   * @param filesystem - The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param options - The optional parameters
+   * @param callback - The callback
    */
   deleteMethod(
     filesystem: string,

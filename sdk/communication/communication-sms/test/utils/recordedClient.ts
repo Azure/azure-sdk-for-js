@@ -13,7 +13,7 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
     AZURE_TENANT_ID: "SomeTenantId"
   },
   customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
+    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
     (recording: string): string =>
       recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"Sanitized"`)
   ],

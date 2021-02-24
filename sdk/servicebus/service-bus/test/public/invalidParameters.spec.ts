@@ -79,7 +79,7 @@ describe("invalid parameters", () => {
         void
       > {
         try {
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
           chai.assert.fail("This should not have passed.");
         } catch (error) {
@@ -96,7 +96,7 @@ describe("invalid parameters", () => {
         void
       > {
         try {
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
           chai.assert.fail("This should not have passed.");
         } catch (error) {
@@ -113,7 +113,7 @@ describe("invalid parameters", () => {
         void
       > {
         try {
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue, {
             fromSequenceNumber: Long.ZERO
           });
@@ -224,7 +224,7 @@ describe("invalid parameters", () => {
     it("Receiver: Invalid ReceiveMode", async function(): Promise<void> {
       let errorCaught: string = "";
       try {
-        // @ts-expect-error
+        // @ts-expect-error We are trying invalid values on purpose to test the error thrown
         sbClient.createReceiver("dummyQueue", { receiveMode: 123 });
       } catch (error) {
         errorCaught = error.message;
@@ -239,7 +239,7 @@ describe("invalid parameters", () => {
     it("Receiver: Invalid SubQueue", async function(): Promise<void> {
       let errorCaught: string = "";
       try {
-        // @ts-expect-error
+        // @ts-expect-error We are trying invalid values on purpose to test the error thrown
         sbClient.createReceiver("dummyQueue", { subQueueType: 123 });
       } catch (error) {
         errorCaught = error.message;
@@ -256,7 +256,7 @@ describe("invalid parameters", () => {
         void
       > {
         try {
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
           chai.assert.fail("This should not have passed.");
         } catch (error) {
@@ -271,7 +271,7 @@ describe("invalid parameters", () => {
     invalidMessageCounts.forEach((inputValue) => {
       it(`Peek: ${inputValue} as maxMessageCount in Receiver`, async function(): Promise<void> {
         try {
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
           chai.assert.fail("This should not have passed.");
         } catch (error) {
@@ -288,7 +288,7 @@ describe("invalid parameters", () => {
         void
       > {
         try {
-          // @ts-expect-error
+          // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue, {
             fromSequenceNumber: Long.ZERO
           });

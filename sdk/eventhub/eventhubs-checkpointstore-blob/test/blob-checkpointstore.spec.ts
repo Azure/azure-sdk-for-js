@@ -16,9 +16,11 @@ import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/e
 import { Guid } from "guid-typescript";
 import { parseIntOrThrow } from "../src/blobCheckpointStore";
 import { fail } from "assert";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("Blob Checkpoint Store", function(): void {
+  const TEST_FAILURE = "Test failure";
   const service = {
     storageConnectionString: env[EnvVarKeys.STORAGE_CONNECTION_STRING]
   };
@@ -42,6 +44,56 @@ describe("Blob Checkpoint Store", function(): void {
     await containerClient.delete();
   });
 
+  describe("listOwnership", function() {
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listOwnership(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listOwnership(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+  });
+
   it("listOwnership should return an empty array", async function(): Promise<void> {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
@@ -50,6 +102,68 @@ describe("Blob Checkpoint Store", function(): void {
       "testConsumerGroup"
     );
     should.equal(listOwnership.length, 0);
+  });
+
+  describe("claimOwnership", function() {
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.claimOwnership(
+          [
+            {
+              partitionId: "0",
+              consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+              fullyQualifiedNamespace: "fqdn",
+              eventHubName: "ehname",
+              ownerId: "me"
+            }
+          ],
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.claimOwnership(
+          [
+            {
+              partitionId: "0",
+              consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+              fullyQualifiedNamespace: "fqdn",
+              eventHubName: "ehname",
+              ownerId: "me"
+            }
+          ],
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
   });
 
   // these errors happen when we have multiple consumers starting up
@@ -250,6 +364,56 @@ describe("Blob Checkpoint Store", function(): void {
     ownershipList[2].etag!.should.not.undefined;
   });
 
+  describe("listCheckpoints", function() {
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listCheckpoints(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listCheckpoints(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+  });
+
   describe("updateCheckpoint()", () => {
     it("updates checkpoints successfully", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
@@ -383,6 +547,60 @@ describe("Blob Checkpoint Store", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.message.should.not.equal("Test failure");
+      }
+    });
+
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      // Create the checkpoint to add.
+      const checkpoint: Checkpoint = {
+        consumerGroup: "testNamespace.servicebus.windows.net",
+        eventHubName: "testEventHub",
+        fullyQualifiedNamespace: "testConsumerGroup",
+        offset: 0,
+        partitionId: "0",
+        sequenceNumber: 1
+      };
+
+      try {
+        await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      // Create the checkpoint to add.
+      const checkpoint: Checkpoint = {
+        consumerGroup: "testNamespace.servicebus.windows.net",
+        eventHubName: "testEventHub",
+        fullyQualifiedNamespace: "testConsumerGroup",
+        offset: 0,
+        partitionId: "0",
+        sequenceNumber: 1
+      };
+
+      try {
+        await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
       }
     });
   });

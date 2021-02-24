@@ -11,11 +11,11 @@ export class QueryRange {
 
   /**
    * Represents a QueryRange.
-   * @constructor QueryRange
-   * @param {string} rangeMin                - min
-   * @param {string} rangeMin                - max
-   * @param {boolean} isMinInclusive         - isMinInclusive
-   * @param {boolean} isMaxInclusive         - isMaxInclusive
+   *
+   * @param rangeMin                - min
+   * @param rangeMin                - max
+   * @param isMinInclusive         - isMinInclusive
+   * @param isMaxInclusive         - isMaxInclusive
    * @hidden
    */
   constructor(

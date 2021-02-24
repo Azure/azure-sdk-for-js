@@ -21,8 +21,8 @@ export class Conflict {
   }
   /**
    * @hidden
-   * @param container The parent {@link Container}.
-   * @param id The id of the given {@link Conflict}.
+   * @param container - The parent {@link Container}.
+   * @param id - The id of the given {@link Conflict}.
    */
   constructor(
     public readonly container: Container,
@@ -32,7 +32,6 @@ export class Conflict {
 
   /**
    * Read the {@link ConflictDefinition} for the given {@link Conflict}.
-   * @param options
    */
   public async read(options?: RequestOptions): Promise<ConflictResponse> {
     const path = getPathFromLink(this.url, ResourceType.conflicts);
@@ -49,7 +48,6 @@ export class Conflict {
 
   /**
    * Delete the given {@link ConflictDefinition}.
-   * @param options
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
     const path = getPathFromLink(this.url);
