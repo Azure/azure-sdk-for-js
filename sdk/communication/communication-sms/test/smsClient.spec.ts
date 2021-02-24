@@ -69,7 +69,6 @@ describe("SmsClient", async () => {
     assert.equal(validNumberResult.httpStatusCode, 202);
     assert.equal(validNumberResult.to, validToNumber);
     assert.isString(validNumberResult.messageId);
-    assert.equal(validNumberResult.repeatabilityResult, "accepted");
     assert.isTrue(validNumberResult.successful);
     assert.isNull(validNumberResult.errorMessage);
 
@@ -77,7 +76,6 @@ describe("SmsClient", async () => {
     assert.equal(invalidNumberResult.httpStatusCode, 400);
     assert.equal(invalidNumberResult.to, invalidToNumber);
     assert.isNull(invalidNumberResult.messageId, "no message id for errors");
-    assert.notEqual(invalidNumberResult.repeatabilityResult, "accepted");
     assert.isFalse(invalidNumberResult.successful);
     assert.isNotNull(invalidNumberResult.errorMessage);
   });

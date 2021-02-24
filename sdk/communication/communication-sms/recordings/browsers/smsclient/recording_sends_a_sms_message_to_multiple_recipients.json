@@ -6,7 +6,7 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"from\":\"+18005551234\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"819305c2-a1ec-480e-a4d5-a0e3bb47b5bc\",\"repeatabilityFirstSent\":\"Tue, 23 Feb 2021 21:51:56 GMT\"},{\"to\":\"+18332321226444\",\"repeatabilityRequestId\":\"e9676769-97c5-4144-9ae8-c5b04bbcb499\",\"repeatabilityFirstSent\":\"Tue, 23 Feb 2021 21:51:56 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
+   "requestBody": "{\"from\":\"+18005551234\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"424dbcff-f480-446c-8b68-a49cc2842869\",\"repeatabilityFirstSent\":\"Wed, 24 Feb 2021 19:56:33 GMT\"},{\"to\":\"+18332321226444\",\"repeatabilityRequestId\":\"3f53121c-3371-436f-9c11-4dce9873166c\",\"repeatabilityFirstSent\":\"Wed, 24 Feb 2021 19:56:33 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 202,
    "response": "{\"value\":[{\"to\":\"+18005551234\",\"messageId\":\"Sanitized\",\"httpStatusCode\":202,\"errorMessage\":null,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+18332321226444\",\"messageId\":null,\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"repeatabilityResult\":\"notavailable\",\"successful\":false}]}",
    "responseHeaders": {
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "80ef9076968f496b975fc8894158bf1c"
+ "hash": "42d5200fbbe5727ccf205e8c3a13fa2d"
 }

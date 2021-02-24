@@ -17,7 +17,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
-import { SmsSendResult, SendMessageRequest, SmsRecipient } from "./generated/src/models";
+import { SendMessageRequest, SmsRecipient } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
@@ -64,7 +64,28 @@ export interface SendOptions extends OperationOptions {
   tag?: string;
 }
 
-export { SmsSendResult };
+export interface SmsSendResult {
+  /**
+   * The recipient's phone number in E.164 format.
+   */
+  to: string;
+  /**
+   * The identifier of the outgoing Sms message. Only present if message processed.
+   */
+  messageId?: string;
+  /**
+   * HTTP Status code.
+   */
+  httpStatusCode: number;
+  /**
+   * Indicates if the message is processed successfully or not.
+   */
+  successful: boolean;
+  /**
+   * Optional error message in case of 4xx/5xx/repeatable errors.
+   */
+  errorMessage?: string;
+}
 
 /**
  * Checks whether the type of a value is SmsClientOptions or not.

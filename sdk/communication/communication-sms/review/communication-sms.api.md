@@ -34,13 +34,11 @@ export class SmsClient {
 export interface SmsClientOptions extends PipelineOptions {
 }
 
-// @public
+// @public (undocumented)
 export interface SmsSendResult {
     errorMessage?: string;
     httpStatusCode: number;
     messageId?: string;
-    // Warning: (ae-forgotten-export) The symbol "SmsSendResultRepeatabilityResult" needs to be exported by the entry point index.d.ts
-    repeatabilityResult?: SmsSendResultRepeatabilityResult;
     successful: boolean;
     to: string;
 }
