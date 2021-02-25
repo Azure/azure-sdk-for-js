@@ -16,8 +16,6 @@ export const createSpan: <T extends {
   span: Span;
   updatedOptions: T;
 } = createSpanFunction({
-  // TODO: @sadasant - would you prefer to have a prefix? This is inconsistently applied
-  // in here (the generated client has a `generatedClient` prefix, but the other operations do not)
-  packagePrefix: "",
+  packagePrefix: "CertificateClient",
   namespace: "Microsoft.KeyVault"
 });

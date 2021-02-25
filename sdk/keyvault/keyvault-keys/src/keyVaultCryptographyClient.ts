@@ -55,8 +55,6 @@ import { createSpanFunction } from "@azure/core-tracing";
 
 const createSpan = createSpanFunction({
   namespace: "Microsoft.KeyVault",
-  // TODO: @sadasant - this will generate operations with "CryptographyClient.operation" (is that okay? Prior to this it would have been
-  // "CryptographyClient operation")
   packagePrefix: "CryptographyClient"
 });
 
