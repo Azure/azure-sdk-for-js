@@ -109,7 +109,7 @@ export class Container {
   public item(id: string, partitionKeyValue?: any, ...args: any[]): Item {
     let pkValue = partitionKeyValue;
     if (args.length > 0) {
-      pkValue = [partitionKeyValue].concat(...args)
+      pkValue = [partitionKeyValue].concat(...args);
     }
     return new Item(this, id, pkValue, this.clientContext);
   }
