@@ -56,7 +56,7 @@ export interface SmsSendOptions extends OperationOptions {
    * Enable this flag to receive a delivery report for this message on the Azure Resource
    * EventGrid. Default value: false.
    */
-  enableDeliveryReport: boolean;
+  enableDeliveryReport?: boolean;
   /**
    * Use this field to provide metadata that will then be sent back in the corresponding Delivery
    * Report.
@@ -185,7 +185,10 @@ export class SmsClient {
       from: _sendRequest.from,
       smsRecipients: recipients,
       message: _sendRequest.message,
-      smsSendOptions: restOptions
+      smsSendOptions: {
+        enableDeliveryReport: restOptions.enableDeliveryReport ?? false,
+        tag: restOptions.tag
+      }
     };
 
     try {
