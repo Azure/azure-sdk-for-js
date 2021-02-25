@@ -42,15 +42,19 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions) {
     const credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
-    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
-    if (process.env.AZURE_CLIENT_ID) {
+
+    // In case a user assigned ID has been provided.
+    const managedIdentityClientId =
+      tokenCredentialOptions?.managedIdentityClientId || process.env.AZURE_CLIENT_ID;
+    if (managedIdentityClientId) {
       credentials.push(
-        new ManagedIdentityCredential(
-          tokenCredentialOptions?.managedIdentityClientId || process.env.AZURE_CLIENT_ID,
-          tokenCredentialOptions
-        )
+        new ManagedIdentityCredential(managedIdentityClientId, tokenCredentialOptions)
       );
     }
+
+    // In case the user provided ID doesn't work, but the system assigned ID works.
+    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
+
     credentials.push(new AzureCliCredential());
     credentials.push(new VisualStudioCodeCredential(tokenCredentialOptions));
 
