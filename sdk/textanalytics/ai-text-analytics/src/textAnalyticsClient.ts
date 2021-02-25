@@ -18,7 +18,8 @@ import {
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
-  TextDocumentInput
+  TextDocumentInput,
+  PiiCategory
 } from "./generated/models";
 import {
   DetectLanguageResultArray,
@@ -129,7 +130,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * Whether to mine the opinions of a sentence and conduct more  granular
    * analysis around the aspects of a product or service (also known as
    * aspect-based sentiment analysis). If set to true, the returned
-   * `SentenceSentiment` objects will have property `mined_opinions` containing
+   * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
@@ -225,6 +226,10 @@ export type RecognizePiiEntitiesAction = {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * Specifies the Pii categories to return.
+   */
+  piiCategories?: PiiCategory[];
 };
 
 /**
@@ -237,6 +242,23 @@ export interface ExtractKeyPhrasesAction {
    */
   modelVersion?: string;
 }
+
+/**
+ * Options for an entities linking action.
+ */
+export type RecognizeLinkedEntitiesAction = {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+};
 
 /**
  * Description of collection of actions for the analyze API to perform on input documents
@@ -254,6 +276,10 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of key phrases recognition actions.
    */
   extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+  /**
+   * A collection of descriptions of entities linking actions.
+   */
+  recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -946,7 +972,6 @@ export class TextAnalyticsClient {
         tracingOptions: realOptions.tracingOptions,
         abortSignal: realOptions.abortSignal
       },
-      displayName: realOptions.displayName,
       includeStatistics: realOptions.includeStatistics,
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom

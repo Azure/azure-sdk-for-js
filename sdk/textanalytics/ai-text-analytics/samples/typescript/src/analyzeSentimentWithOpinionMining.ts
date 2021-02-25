@@ -3,11 +3,11 @@
 
 /**
  * This sample demonstrates how to analyze sentiment on a more granular level,
- * mining individual opinions from reviews (also known as aspect-based
+ * mining individual assessments from reviews (also known as aspect-based
  * sentiment analysis).
  *
  * In this sample, a bunch of reviews about a hotel are being analyzed for
- * sentiment and different opinions about aspects in the reviews are shown.
+ * sentiment and different assessments about targets in the reviews are shown.
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
@@ -64,16 +64,16 @@ export async function main() {
       console.log(`\tOverall Sentiment: ${result.sentiment}`);
       console.log("\tSentiment confidence scores:", result.confidenceScores);
       console.log("\tSentences");
-      for (const { sentiment, confidenceScores, minedOpinions } of result.sentences) {
+      for (const { sentiment, confidenceScores, opinions } of result.sentences) {
         console.log(`\t- Sentence sentiment: ${sentiment}`);
         console.log("\t  Confidence scores:", confidenceScores);
         console.log("\t  Mined opinions");
-        for (const { aspect, opinions } of minedOpinions!) {
-          console.log(`\t\t- Aspect text: ${aspect.text}`);
-          console.log(`\t\t  Aspect sentiment: ${aspect.sentiment}`);
-          console.log("\t\t  Aspect confidence scores:", aspect.confidenceScores);
-          console.log("\t\t  Aspect opinions");
-          for (const { text, sentiment } of opinions) {
+        for (const { target, assessments } of opinions) {
+          console.log(`\t\t- Target text: ${target.text}`);
+          console.log(`\t\t  Target sentiment: ${target.sentiment}`);
+          console.log("\t\t  Target confidence scores:", target.confidenceScores);
+          console.log("\t\t  Target assessments");
+          for (const { text, sentiment } of assessments) {
             console.log(`\t\t\t- Text: ${text}`);
             console.log(`\t\t\t  Sentiment: ${sentiment}`);
           }

@@ -50,27 +50,27 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
 /**
  * @internal
  */
-export interface OpinionIndex {
+export interface AssessmentIndex {
   document: number;
   sentence: number;
-  opinion: number;
+  assessment: number;
 }
 
 /**
  * @internal
  */
-export function parseOpinionIndex(pointer: string): OpinionIndex {
-  const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/opinions\/(\d+)/);
+export function parseAssessmentIndex(pointer: string): AssessmentIndex {
+  const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/assessments\/(\d+)/);
   const res = regex.exec(pointer);
   if (res !== null) {
-    const opinionIndex: OpinionIndex = {
+    const assessmentIndex: AssessmentIndex = {
       document: parseInt(res[1]),
       sentence: parseInt(res[2]),
-      opinion: parseInt(res[3])
+      assessment: parseInt(res[3])
     };
-    return opinionIndex;
+    return assessmentIndex;
   } else {
-    throw new Error(`Pointer "${pointer}" is not a valid opinion pointer`);
+    throw new Error(`Pointer "${pointer}" is not a valid Assessment pointer`);
   }
 }
 
