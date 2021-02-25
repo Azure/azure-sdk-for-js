@@ -1,22 +1,22 @@
-In this document, we will introduce how to use JS SDK for very new beginner to typescript SDK.
+In this document, we will give a brief introduction on how to use the JavaScript SDK for new users
 
 1. Prepare your environment.  
     NodeJS: can be installed from https://nodejs.org/en/download/  
     typescript: install it with `npm install -g typescript`.
 
-1. create a empty folder and cd this folder.
+1. Create a empty folder and cd this folder.
     ```
     mkdir jstest
     cd jstest
     ```
 
-1. initialize a new node project. 
+1. Initialize a new node project. 
     ```
     npm init
     ```
     This step will create a package.json file in current folder.
 
-1. install dependencies.
+1. Install dependencies.
    ```
    // install the nodeauth packages to do the authentication work.
    npm install @azure/ms-rest-nodeauth
@@ -32,7 +32,7 @@ In this document, we will introduce how to use JS SDK for very new beginner to t
    In the case of verifying the unpublished packages, you may download the artifact from either rest api specs CI pipeline or from the release request issue that we provided.  
 
 
-1. create a ts file (free name and copy follow code into this file) eg: test_1.ts
+1. Create a ts file (free name and copy follow code into this file) eg: test_1.ts
     eg：
     ```
         const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
@@ -62,16 +62,16 @@ In this document, we will introduce how to use JS SDK for very new beginner to t
     await client.galleryImages.createOrUpdate(resourceGroupName, galleryName, galleryImageName, galleryImage);
     ```
     
-1. install all the dependencies 
+1. Install all the dependencies 
     ```
     npm install // need to make sure package.json exists and has contained at step 4.
     ```
-1. compile the ts file.
+1. Compile the ts file.
    ```
    tsc test_1.ts
    ```
    it will generate a test_1.js file in current folder.
-1. run the code. 
+1. Run the code. 
    ```
    node test_1.js
    ```
