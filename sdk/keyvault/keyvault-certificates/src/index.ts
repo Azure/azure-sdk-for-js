@@ -375,9 +375,6 @@ export class CertificateClient {
     options: ListPropertiesOfCertificatesOptions = {}
   ): PagedAsyncIterableIterator<CertificateProperties> {
     const { span, updatedOptions } = createSpan("listPropertiesOfCertificates", options);
-    // TODO: @sadasant - there is a conversion happening here for RequestOptionsBase. In reality
-    // the callers can just avoid the RequestOptionsBase conversion altogether and just pass
-    // OperationOptions instead since (if you trace to the generated client) it would accept it directly.
     const iter = this.listPropertiesOfCertificatesAll(
       operationOptionsToRequestOptionsBase(updatedOptions)
     );
@@ -469,9 +466,6 @@ export class CertificateClient {
     options: ListPropertiesOfCertificateVersionsOptions = {}
   ): PagedAsyncIterableIterator<CertificateProperties> {
     const { span, updatedOptions } = createSpan("listPropertiesOfCertificateVersions", options);
-    // TODO: @sadasant - there is a conversion happening here for RequestOptionsBase. In reality
-    // the callers can just avoid the RequestOptionsBase conversion altogether and just pass
-    // OperationOptions instead since (if you trace to the generated client) it would accept it directly.
     const iter = this.listPropertiesOfCertificateVersionsAll(
       certificateName,
       operationOptionsToRequestOptionsBase(updatedOptions)
@@ -830,9 +824,6 @@ export class CertificateClient {
   ): Promise<CertificateIssuer> {
     const { span, updatedOptions } = createSpan("updateIssuer", options);
 
-    // TODO: @sadasant - this covers for a bug where UpdateIssuerOptions doesn't
-    // actually have a .credentials property (RequestOptionsBase is defined such that
-    // any key is okay and will come back with type 'any'). It looks like `createIssuer` does something similar but it does add a .credentials property, so maybe that same technique would apply here.
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const credentials: IssuerCredentials = requestOptions.credentials || {};
 
@@ -874,7 +865,6 @@ export class CertificateClient {
       result = await this.client.updateCertificateIssuer(
         this.vaultUrl,
         issuerName,
-        // TODO: @sadasant: prior to this it actually just passed `requestOptions` but I imagine it intended to pass the generatedOptions it composed above?
         generatedOptions
       );
     } finally {
@@ -1526,8 +1516,6 @@ export class CertificateClient {
   ): PagedAsyncIterableIterator<DeletedCertificate> {
     const { span, updatedOptions } = createSpan("listPropertiesOfDeletedCertificates", options);
 
-    // TODO: @sadasant - looks like we could just pass updateOptions all the way through
-    // since the underlying generated client takes OperationOptions directly.
     const requestOptions = operationOptionsToRequestOptionsBase(updatedOptions);
     const iter = this.listDeletedCertificatesAll(requestOptions);
 

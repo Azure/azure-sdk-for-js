@@ -103,7 +103,6 @@ export class KeyVaultCryptographyClient {
    * @param options - Options for retrieving key.
    */
   private async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
-    // TODO: @sadasant: no span was ended or used here
     const { updatedOptions } = createSpan("getKey", options);
 
     if (typeof this.key === "string") {

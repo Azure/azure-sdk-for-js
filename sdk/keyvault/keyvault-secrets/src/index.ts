@@ -189,8 +189,6 @@ export class SecretClient {
     value: string,
     options: SetSecretOptions = {}
   ): Promise<KeyVaultSecret> {
-    // TODO: @sadasant: I think the `else` branch here is impossible since requestOptions (before this change)
-    // was _always_ defined. `options`, which I've replaced it with, is similar.
     if (options) {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
       const unflattenedOptions = {
