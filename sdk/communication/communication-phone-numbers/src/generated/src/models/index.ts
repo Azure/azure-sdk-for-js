@@ -26,9 +26,9 @@ export interface PhoneNumberSearchRequest {
 /** Capabilities of a phone number. */
 export interface PhoneNumberCapabilities {
   /** Capability value for calling. */
-  calling: PhoneNumberCapabilityValue;
+  calling: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
-  sms: PhoneNumberCapabilityValue;
+  sms: PhoneNumberCapabilityType;
 }
 
 /** The result of a phone number search operation. */
@@ -130,9 +130,9 @@ export interface AcquiredPhoneNumber {
   /** The assignment type of the phone number. A phone number can be assigned to a person, or to an application. */
   assignmentType: PhoneNumberAssignmentType;
   /** The date and time that the phone number was purchased. */
-  purchaseDate?: Date;
+  purchaseDate: Date;
   /** The incurred cost for a single phone number. */
-  cost?: PhoneNumberCost;
+  cost: PhoneNumberCost;
 }
 
 /** The list of acquired phone numbers. */
@@ -146,9 +146,9 @@ export interface AcquiredPhoneNumbers {
 /** Capabilities of a phone number. */
 export interface PhoneNumberCapabilitiesRequest {
   /** Capability value for calling. */
-  calling?: PhoneNumberCapabilityValue;
+  calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
-  sms?: PhoneNumberCapabilityValue;
+  sms?: PhoneNumberCapabilityType;
 }
 
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
@@ -165,8 +165,6 @@ export interface PhoneNumbersSearchAvailablePhoneNumbersHeaders {
 
 /** Defines headers for PhoneNumbers_purchasePhoneNumbers operation. */
 export interface PhoneNumbersPurchasePhoneNumbersHeaders {
-  /** URL to retrieve the final result after operation completes. */
-  location?: string;
   /** URL to query for status of the operation. */
   operationLocation?: string;
   /** The operation id. */
@@ -207,8 +205,8 @@ export interface PhoneNumbersUpdateCapabilitiesHeaders {
 export type PhoneNumberType = "geographic" | "tollFree";
 /** Defines values for PhoneNumberAssignmentType. */
 export type PhoneNumberAssignmentType = "person" | "application";
-/** Defines values for PhoneNumberCapabilityValue. */
-export type PhoneNumberCapabilityValue = "none" | "inbound" | "outbound" | "inbound+outbound";
+/** Defines values for PhoneNumberCapabilityType. */
+export type PhoneNumberCapabilityType = "none" | "inbound" | "outbound" | "inbound+outbound";
 /** Defines values for PhoneNumberOperationStatus. */
 export type PhoneNumberOperationStatus = "notStarted" | "running" | "succeeded" | "failed";
 /** Defines values for PhoneNumberOperationType. */
@@ -263,21 +261,15 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams extends coreHttp
 }
 
 /** Contains response data for the purchasePhoneNumbers operation. */
-export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhoneNumbersHeaders &
-  PhoneNumberSearchResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: PhoneNumberSearchResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: PhoneNumbersPurchasePhoneNumbersHeaders;
-      /** The parsed HTTP response headers. */
-      [LROSYM]: LROResponseInfo;
-    };
+export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhoneNumbersHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: PhoneNumbersPurchasePhoneNumbersHeaders;
+    /** The parsed HTTP response headers. */
+    [LROSYM]: LROResponseInfo;
   };
+};
 
 /** Contains response data for the getOperation operation. */
 export type PhoneNumbersGetOperationResponse = PhoneNumbersGetOperationHeaders &
@@ -340,9 +332,9 @@ export type PhoneNumbersListPhoneNumbersResponse = AcquiredPhoneNumbers & {
 /** Optional parameters. */
 export interface PhoneNumbersUpdateCapabilitiesOptionalParams extends coreHttp.OperationOptions {
   /** Capability value for calling. */
-  calling?: PhoneNumberCapabilityValue;
+  calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
-  sms?: PhoneNumberCapabilityValue;
+  sms?: PhoneNumberCapabilityType;
 }
 
 /** Contains response data for the updateCapabilities operation. */

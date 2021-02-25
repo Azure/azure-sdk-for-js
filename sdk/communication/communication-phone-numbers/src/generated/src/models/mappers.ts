@@ -359,6 +359,7 @@ export const AcquiredPhoneNumber: coreHttp.CompositeMapper = {
       },
       purchaseDate: {
         serializedName: "purchaseDate",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -461,12 +462,6 @@ export const PhoneNumbersPurchasePhoneNumbersHeaders: coreHttp.CompositeMapper =
     name: "Composite",
     className: "PhoneNumbersPurchasePhoneNumbersHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
       operationLocation: {
         serializedName: "operation-location",
         type: {

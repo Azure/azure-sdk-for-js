@@ -156,7 +156,7 @@ export class PhoneNumbers {
     options?: PhoneNumbersPurchasePhoneNumbersOptionalParams
   ): Promise<LROPoller<PhoneNumbersPurchasePhoneNumbersResponse>> {
     const operationArguments: coreHttp.OperationArguments = {
-      options: this.getOperationOptions(options, "location")
+      options: this.getOperationOptions(options, "undefined")
     };
     const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
@@ -172,8 +172,7 @@ export class PhoneNumbers {
       initialOperationArguments: operationArguments,
       initialOperationSpec: purchasePhoneNumbersOperationSpec,
       initialOperationResult,
-      sendOperation,
-      finalStateVia: "location"
+      sendOperation
     });
   }
 
@@ -246,7 +245,7 @@ export class PhoneNumbers {
   ): Promise<LROPoller<PhoneNumbersReleasePhoneNumberResponse>> {
     const operationArguments: coreHttp.OperationArguments = {
       phoneNumber,
-      options: this.getOperationOptions(options, "location")
+      options: this.getOperationOptions(options, "undefined")
     };
     const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
@@ -262,8 +261,7 @@ export class PhoneNumbers {
       initialOperationArguments: operationArguments,
       initialOperationSpec: releasePhoneNumberOperationSpec,
       initialOperationResult,
-      sendOperation,
-      finalStateVia: "location"
+      sendOperation
     });
   }
 
@@ -411,19 +409,15 @@ const purchasePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     201: {
-      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     202: {
-      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     204: {
-      bodyMapper: Mappers.PhoneNumberSearchResult,
       headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     default: {

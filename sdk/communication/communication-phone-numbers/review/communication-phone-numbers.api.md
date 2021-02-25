@@ -17,12 +17,12 @@ import { TokenCredential } from '@azure/core-auth';
 export interface AcquiredPhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
-    cost?: PhoneNumberCost;
+    cost: PhoneNumberCost;
     countryCode: string;
     id: string;
     phoneNumber: string;
     phoneNumberType: PhoneNumberType;
-    purchaseDate?: Date;
+    purchaseDate: Date;
 }
 
 // @public (undocumented)
@@ -41,10 +41,10 @@ export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPoll
 export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type GetPhoneNumberOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
 // @public
@@ -58,18 +58,18 @@ export type PhoneNumberAssignmentType = "person" | "application";
 
 // @public
 export interface PhoneNumberCapabilities {
-    calling: PhoneNumberCapabilityValue;
-    sms: PhoneNumberCapabilityValue;
+    calling: PhoneNumberCapabilityType;
+    sms: PhoneNumberCapabilityType;
 }
 
 // @public
 export interface PhoneNumberCapabilitiesRequest {
-    calling?: PhoneNumberCapabilityValue;
-    sms?: PhoneNumberCapabilityValue;
+    calling?: PhoneNumberCapabilityType;
+    sms?: PhoneNumberCapabilityType;
 }
 
 // @public
-export type PhoneNumberCapabilityValue = "none" | "inbound" | "outbound" | "inbound+outbound";
+export type PhoneNumberCapabilityType = "none" | "inbound" | "outbound" | "inbound+outbound";
 
 // @public
 export interface PhoneNumberCost {
@@ -93,7 +93,7 @@ export class PhoneNumbersClient {
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
     beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
-    beginSearchAvailablePhoneNumbers(countryCode: string, search: PhoneNumberSearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
+    beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<GetPhoneNumberResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
@@ -125,6 +125,11 @@ export interface PhoneNumberSearchResult {
 
 // @public
 export type PhoneNumberType = "geographic" | "tollFree";
+
+// @public
+export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
+    countryCode: string;
+}
 
 // @public
 export type VoidResponse = WithResponse<{}>;

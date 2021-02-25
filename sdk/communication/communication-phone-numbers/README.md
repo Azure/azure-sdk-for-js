@@ -110,8 +110,8 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async function main() {
-  const countryCode = "US";
   const searchRequest = {
+    countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
     capabilities: {
@@ -145,8 +145,8 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async function main() {
-  const countryCode = "US";
   const searchRequest = {
+    countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
     capabilities: {
