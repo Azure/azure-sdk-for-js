@@ -94,7 +94,7 @@ describe("ChatClient", function () {
     beforeEach(async function () {
       // Start notifications
       await chatClient.startRealtimeNotifications();
-    })
+    });
 
     it("successfully stops realtime notifications", async function () {
       const listener = sinon.spy();
@@ -104,7 +104,7 @@ describe("ChatClient", function () {
       await chatThreadClient.sendTypingNotification();
 
       // Allow time to see if notification comes in
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
 
       sinon.assert.notCalled(listener);
     });
@@ -122,7 +122,7 @@ describe("ChatClient", function () {
 
       // Wait a bit and fail if the notification comes in
       setTimeout(done, 5000);
-    }).timeout(8000)
+    }).timeout(8000);
 
     it("successfully listens to typingIndicatorReceivedEvents", function (done) {
       function listener() {
@@ -133,7 +133,6 @@ describe("ChatClient", function () {
 
       // Send typing notification
       chatThreadClient.sendTypingNotification();
-
     }).timeout(8000);
 
     it("successfully listens to chatMessageEditedEvents", function (done) {
@@ -149,7 +148,7 @@ describe("ChatClient", function () {
         chatThreadClient.updateMessage(result.id, {
           content: "new content"
         });
-      })
+      });
     }).timeout(8000);
 
     it("successfully listens to chatMessageReceivedEvents", function (done) {
@@ -175,7 +174,7 @@ describe("ChatClient", function () {
       const message = { content: `content` };
       chatThreadClient.sendMessage(message).then((result) => {
         chatThreadClient.deleteMessage(result.id);
-      })
+      });
     }).timeout(8000);
 
     it("successfully listens to readReceiptReceivedEvents", function (done) {
@@ -191,9 +190,57 @@ describe("ChatClient", function () {
         chatThreadClient.sendReadReceipt({
           chatMessageId: result.id
         });
-      })
+      });
     }).timeout(8000);
 
-    // TODO thread level events
+    it("successfully listens to chatThreadCreatedEvents", function (done) {
+      function listener() {
+        done();
+      }
+
+      chatClient.on("chatThreadCreated", listener);
+
+
+    }).timeout(8000);
+
+    it("successfully listens to chatThreadDeletedEvents", function (done) {
+      function listener() {
+        done();
+      }
+
+      chatClient.on("chatThreadDeleted", listener);
+
+
+    }).timeout(8000);
+
+    it("successfully listens to chatThreadPropertiesUpdatedEvents", function (done) {
+      function listener() {
+        done();
+      }
+
+      chatClient.on("chatThreadPropertiesUpdated", listener);
+
+
+    }).timeout(8000);
+
+    it("successfully listens to participantsAddedEvents", function (done) {
+      function listener() {
+        done();
+      }
+
+      chatClient.on("participantsAdded", listener);
+
+
+    }).timeout(8000);
+
+    it("successfully listens to participantsRemovedEvents", function (done) {
+      function listener() {
+        done();
+      }
+
+      chatClient.on("participantsRemoved", listener);
+
+
+    }).timeout(8000);
   });
 });
