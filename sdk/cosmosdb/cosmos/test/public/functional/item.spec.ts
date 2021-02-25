@@ -512,9 +512,10 @@ describe("subpartitioned container item CRUD", async function() {
     const database = await getTestDatabase("autoscale test");
     const containerRequest: ContainerRequest = {
       id: "subpartition conatiner",
-      partitionKey: ["/topLevel", "/lowerLevel"]
+      partitionKey: ["/topLevel", "/lowerLevel"],
+      throughput: 10100
     };
-    const response = await database.containers.create(containerRequest);
+    const response = await database.containers.createIfNotExists(containerRequest);
     container = response.container;
   });
 
@@ -559,7 +560,7 @@ describe("subpartitioned container item CRUD", async function() {
       lowerLevel: "B"
     };
     await container.items.create(itemBody);
-    const response = await container.item(itemId, ["A", "B"]).read();
+    const response = await container.item(itemId, "A", "B").read();
     const resource = response.resource;
     const item: ItemDefinition = response.item;
     assert.equal(item.id, itemId);

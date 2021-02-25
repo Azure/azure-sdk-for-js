@@ -106,8 +106,12 @@ export class Container {
    * @example Replace an item
    * const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
-  public item(id: string, partitionKeyValue?: any): Item {
-    return new Item(this, id, partitionKeyValue, this.clientContext);
+  public item(id: string, partitionKeyValue?: any, ...args: any[]): Item {
+    let pkValue = partitionKeyValue;
+    if (args.length > 0) {
+      pkValue = [partitionKeyValue].concat(...args)
+    }
+    return new Item(this, id, pkValue, this.clientContext);
   }
 
   /**
