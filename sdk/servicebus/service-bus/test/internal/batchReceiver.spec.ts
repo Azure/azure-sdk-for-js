@@ -1284,7 +1284,57 @@ describe("Batching Receiver", () => {
       }
     });
 
-    it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {});
+    it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
+      // Create the sender and receiver.
+      await beforeEachTest();
+
+      // Send a message so we can be sure when the receiver is open and active.
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      const messages1 = await receiver.receiveMessages(1, {
+        maxWaitTimeInMs: 5000
+      });
+      should.equal(
+        messages1.length,
+        1,
+        "Unexpected number of received messages(before disconnect)."
+      );
+
+      const receiverContext = (receiver as ServiceBusSessionReceiverImpl)["_context"];
+      const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
+
+      // Send a message so we have something to receive.
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      // We want to simulate a disconnect once the batching receiver is draining.
+      // We can detect when the receiver enters a draining state when `addCredit` is
+      // called while `drain` is set to true.
+      let didRequestDrain = false;
+      const addCredit = batchingReceiver["link"]!.addCredit;
+      batchingReceiver["link"]!.addCredit = function(credits) {
+        // This makes sure the receiveMessages doesn't end because of draining before the disconnect is triggered
+        // Meaning.. the "resolving the messages" can only happen through the onDetached triggered by disconnect
+        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
+        addCredit.call(this, credits);
+        if (batchingReceiver["link"]!.drain) {
+          didRequestDrain = true;
+          // Simulate a disconnect being called with a non-retryable error.
+          receiverContext.connection["_connection"].idle();
+        }
+      };
+
+      // Purposefully request more messages than what's available
+      // so that the receiver will have to drain.
+      const testFailureMessage = "Test failure";
+      try {
+        await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
+        throw new Error(testFailureMessage);
+      } catch (err) {
+        err.message && err.message.should.not.equal(testFailureMessage);
+      }
+
+      didRequestDrain.should.equal(true, "Drain was not requested.");
+    });
 
     it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<
       void
