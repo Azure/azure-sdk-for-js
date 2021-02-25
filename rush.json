@@ -762,7 +762,7 @@
     },
     {
       "packageName": "@azure/mixedreality-remoterendering",
-      "projectFolder": "sdk/mixedreality/mixedreality-remoterendering",
+      "projectFolder": "sdk/remoterendering/mixedreality-remoterendering",
       "versionPolicyName": "client"
     }
     {

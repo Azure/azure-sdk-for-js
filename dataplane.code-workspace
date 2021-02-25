@@ -274,7 +274,7 @@
     },
     {
       "name": "mixedreality-remoterendering",
-      "path": "sdk/mixedreality/mixedreality-remoterendering"
+      "path": "sdk/remoterendering/mixedreality-remoterendering"
     }
   ],
   "settings": {
