@@ -32,6 +32,7 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl
 } from "../../src/receivers/sessionReceiver";
+import { verifyMessageCount } from "../public/utils/managementUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -950,7 +951,7 @@ describe("Batching Receiver", () => {
       refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
     });
 
-    it.only("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
+    it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
       void
     > {
       // Create the sender and receiver.
@@ -1167,7 +1168,7 @@ describe("Batching Receiver", () => {
       receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
     ): Promise<void> {
       serviceBusClient = createServiceBusClientForTests();
-      const entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
+      entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
       if (receiveMode == "receiveAndDelete") {
         receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
           entityNames
@@ -1236,6 +1237,7 @@ describe("Batching Receiver", () => {
     it.only("returns messages if drain is in progress (receiveAndDelete) - session", async function(): Promise<
       void
     > {
+      console.log(entityNames);
       // Create the sender and receiver.
       await beforeEachTest("receiveAndDelete");
 
@@ -1267,7 +1269,6 @@ describe("Batching Receiver", () => {
           receiverContext.connection["_connection"].idle();
         }
       };
-      console.log("====================2=======================");
 
       // Purposefully request more messages than what's available
       // so that the receiver will have to drain.
@@ -1277,14 +1278,19 @@ describe("Batching Receiver", () => {
       messages2.length.should.equal(1, "Unexpected number of messages received - 2.");
       // Make sure that a 2nd receiveMessages call still works
       // by sending and receiving a single message again.
+
       await sender.sendMessages(TestMessage.getSessionSample());
+      await delay(3000);
+      await verifyMessageCount(1, entityNames.queue, entityNames.topic, entityNames.subscription);
 
       await receiver.close();
+      await serviceBusClient.close();
+      serviceBusClient = createServiceBusClientForTests();
       // wait for the 2nd message to be received.
+      sender = await serviceBusClient.test.createSender(entityNames);
       receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
         entityNames
       )) as ServiceBusSessionReceiver;
-
       const messages3 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
       messages3.length.should.equal(1, "Unexpected number of messages received - 3.");
