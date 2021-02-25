@@ -896,7 +896,7 @@ describe("Batching Receiver", () => {
       await afterEachTest();
     });
 
-    it("returns messages if drain is in progress (receiveAndDelete) - non-session", async function(): Promise<
+    it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
       void
     > {
       // Create the sender and receiver.
