@@ -449,6 +449,7 @@ export namespace ConnectionContext {
 
       // Calling onDetached on batching receivers for the same reasons as sender
       const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
+      // if check only checks for non-session batching receivers - fix it
       if (!state.wasConnectionCloseCalled && numBatchingReceivers) {
         logger.verbose(
           `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +

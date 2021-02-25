@@ -770,14 +770,16 @@ export class MessageSession extends LinkEntity<Receiver> {
     receiverType: Extract<ReceiverType, "batching" | "streaming">
   ): Promise<void> {
     if (receiverType === "batching" && this._batchingReceiverLite.isReceivingMessages) {
-      await this.close();
-
       if (connectionError == null) {
         connectionError = new Error(
           "Unknown error occurred on the AMQP connection while receiving messages."
         );
       }
       this._batchingReceiverLite.terminate(connectionError);
+
+      // .close() also calls terminate(without error) but the _closeHandler would be undefined by then,
+      // hence no effect for that "terminate" call.
+      await this.close(); // TODO: Based on how the streaming receivers will be handled, this `.close` call can be called conditionally or moved around accordingly
     } else {
       // TODO: Come up with a plan for streaming
       // not implemented for streaming yet
