@@ -3,12 +3,11 @@
 
 /**
  * Parses the host, hostname, and port from an endpoint.
- * @param endpoint And endpoint to parse.
- * @hidden
+ * @param endpoint - And endpoint to parse.
  * @internal
  */
 export function parseEndpoint(endpoint: string): { host: string; hostname: string; port?: string } {
-  const hostMatch = endpoint.match(/.*:\/\/([^\/]*)/i);
+  const hostMatch = endpoint.match(/.*:\/\/([^/]*)/);
   if (!hostMatch) {
     throw new TypeError(`Invalid endpoint missing host: ${endpoint}`);
   }

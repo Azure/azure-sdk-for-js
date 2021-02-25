@@ -19,13 +19,18 @@ import {
   EmailHookParameter,
   WebhookHookParameter,
   TopNGroupScope,
+  KnownSeverity,
+  Severity,
   SeverityCondition,
   AlertSnoozeCondition,
   DataFeedDetailStatus,
+  KnownDataFeedDetailStatus,
   IngestionStatusType
 } from "./generated/models";
 
 export {
+  KnownSeverity,
+  Severity,
   SeverityCondition,
   AlertSnoozeCondition,
   SmartDetectionCondition,
@@ -43,20 +48,28 @@ export {
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
-  DataFeedDetailStatus
+  DataFeedDetailStatus,
+  KnownDataFeedDetailStatus
 };
 
 // not used directly here but needed by public API surface.
 export {
   AnomalyValue,
+  KnownAnomalyValue,
   DataFeedIngestionProgress,
   IngestionStatusType,
+  KnownIngestionStatusType,
   DataSourceType,
+  KnownDataSourceType,
   SeverityFilterCondition,
   SnoozeScope,
+  KnownSnoozeScope,
   AnomalyDetectorDirection,
+  KnownAnomalyDetectorDirection,
   FeedbackType,
-  FeedbackQueryTimeMode
+  KnownFeedbackType,
+  FeedbackQueryTimeMode,
+  KnownFeedbackQueryTimeMode
 } from "./generated/models";
 
 /**
@@ -142,7 +155,7 @@ export interface DataFeedIngestionSettings {
 /**
  * Defines values for DataFeedRollupMethod.
  */
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count" | string;
 
 /**
  * Specifies the rollup settings for a data feed.
@@ -179,7 +192,8 @@ export type DataFeedRollupSettings =
  */
 export type DataFeedMissingDataPointFillSettings =
   | {
-      fillType: "SmartFilling" | "PreviousValue" | "NoFilling";
+      fillType: "SmartFilling" | "PreviousValue" | "NoFilling" | string;
+      customFillValue?: number;
     }
   | {
       fillType: "CustomValue";
@@ -192,7 +206,7 @@ export type DataFeedMissingDataPointFillSettings =
 /**
  * Access mode of the data feed
  */
-export type DataFeedAccessMode = "Private" | "Public";
+export type DataFeedAccessMode = "Private" | "Public" | string;
 
 /**
  * Various optional configurations for a data feed.
@@ -246,14 +260,16 @@ export type DataFeedGranularity =
         | "Daily"
         | "Hourly"
         | "PerMinute"
-        | "PerSecond";
+        | "PerSecond"
+        | string;
+      customGranularityValue?: number;
     }
   | {
       granularityType: "Custom";
       customGranularityValue: number;
     };
 
-export type DataFeedStatus = "Paused" | "Active";
+export type DataFeedStatus = "Paused" | "Active" | string;
 
 /**
  * Represents a Metrics Advisor data feed.
@@ -291,6 +307,10 @@ export type DataFeed = {
    * Schema of the data in the data feed, including names of metrics, dimensions, and timestamp columns.
    */
   schema: DataFeedSchema;
+  /**
+   * Map of metric names to metric ids for quick lookup
+   */
+  metricIds: Map<string, string>;
   /**
    * Granularity of the data feed.
    */
@@ -476,12 +496,12 @@ export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
  */
-export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
+export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR" | string;
 
 /**
  * The logical operator to apply across anomaly detection conditions.
  */
-export type DetectionConditionsOperator = "AND" | "OR";
+export type DetectionConditionsOperator = "AND" | "OR" | string;
 
 /**
  * Represents properties common to anomaly detection conditions.
@@ -670,7 +690,7 @@ export type MetricAnomalyFeedback = {
   /**
    * feedback value
    */
-  value: "AutoDetect" | "Anomaly" | "NotAnomaly";
+  value: "AutoDetect" | "Anomaly" | "NotAnomaly" | string;
 
   /**
    * The anomaly detection configuration id.
@@ -701,7 +721,7 @@ export type MetricChangePointFeedback = {
   /**
    * value for ChangePointValue
    */
-  value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
+  value: "AutoDetect" | "ChangePoint" | "NotChangePoint" | string;
 } & MetricFeedbackCommon;
 
 /**
@@ -737,7 +757,7 @@ export type MetricPeriodFeedback = {
   /**
    * the type of setting period
    */
-  periodType: "AutoDetect" | "AssignValue";
+  periodType: "AutoDetect" | "AssignValue" | string;
   /**
    * the number of intervals a period contains, when no period set to 0
    */

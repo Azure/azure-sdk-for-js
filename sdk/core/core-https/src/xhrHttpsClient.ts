@@ -20,11 +20,12 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 
 /**
  * A HttpsClient implementation that uses XMLHttpRequest to send HTTPS requests.
+ * @internal
  */
-export class XhrHttpsClient implements HttpsClient {
+class XhrHttpsClient implements HttpsClient {
   /**
    * Makes a request over an underlying transport layer and returns the response.
-   * @param request The request to be made.
+   * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const xhr = new XMLHttpRequest();
@@ -59,7 +60,7 @@ export class XhrHttpsClient implements HttpsClient {
     for (const [name, value] of request.headers) {
       xhr.setRequestHeader(name, value);
     }
-    xhr.responseType = request.streamResponseBody ? "blob" : "text";
+    xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
     if (isReadableStream(request.body)) {
       throw new Error("Node streams are not supported in browser environment.");
@@ -67,25 +68,9 @@ export class XhrHttpsClient implements HttpsClient {
 
     xhr.send(request.body === undefined ? null : request.body);
 
-    if (request.streamResponseBody) {
+    if (xhr.responseType === "blob") {
       return new Promise((resolve, reject) => {
-        xhr.addEventListener("readystatechange", () => {
-          // Resolve as soon as headers are loaded
-          if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-            const blobBody = new Promise<Blob>((resolve, reject) => {
-              xhr.addEventListener("load", () => {
-                resolve(xhr.response);
-              });
-              rejectOnTerminalEvent(request, xhr, reject);
-            });
-            resolve({
-              request,
-              status: xhr.status,
-              headers: parseHeaders(xhr),
-              blobBody
-            });
-          }
-        });
+        handleBlobResponse(xhr, request, resolve, reject);
         rejectOnTerminalEvent(request, xhr, reject);
       });
     } else {
@@ -102,6 +87,61 @@ export class XhrHttpsClient implements HttpsClient {
       });
     }
   }
+}
+
+function handleBlobResponse(
+  xhr: XMLHttpRequest,
+  request: PipelineRequest,
+  res: (value: PipelineResponse | PromiseLike<PipelineResponse>) => void,
+  rej: (reason?: any) => void
+): void {
+  xhr.addEventListener("readystatechange", () => {
+    // Resolve as soon as headers are loaded
+    if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+      if (request.streamResponseStatusCodes?.has(xhr.status)) {
+        const blobBody = new Promise<Blob>((resolve, reject) => {
+          xhr.addEventListener("load", () => {
+            resolve(xhr.response);
+          });
+          rejectOnTerminalEvent(request, xhr, reject);
+        });
+        res({
+          request,
+          status: xhr.status,
+          headers: parseHeaders(xhr),
+          blobBody
+        });
+      } else {
+        xhr.addEventListener("load", () => {
+          // xhr.response is of Blob type if the request is sent with xhr.responseType === "blob"
+          // but the status code is not one of the stream response status codes,
+          // so treat it as text and convert from Blob to text
+          if (xhr.response) {
+            xhr.response
+              .text()
+              .then((text: string) => {
+                res({
+                  request: request,
+                  status: xhr.status,
+                  headers: parseHeaders(xhr),
+                  bodyAsText: text
+                });
+                return;
+              })
+              .catch((e: any) => {
+                rej(e);
+              });
+          } else {
+            res({
+              request,
+              status: xhr.status,
+              headers: parseHeaders(xhr)
+            });
+          }
+        });
+      }
+    }
+  });
 }
 
 function addProgressListener(
@@ -148,4 +188,12 @@ function rejectOnTerminalEvent(
   const abortError = new AbortError("The operation was aborted.");
   xhr.addEventListener("abort", () => reject(abortError));
   xhr.addEventListener("timeout", () => reject(abortError));
+}
+
+/**
+ * Create a new HttpsClient instance for the browser environment.
+ * @internal
+ */
+export function createXhrHttpsClient(): HttpsClient {
+  return new XhrHttpsClient();
 }

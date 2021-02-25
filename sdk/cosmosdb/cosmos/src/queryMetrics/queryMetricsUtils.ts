@@ -3,8 +3,7 @@
 import { TimeSpan } from "./timeSpan";
 
 /**
- * @ignore
- * @param delimitedString
+ * @hidden
  */
 export function parseDelimitedString(
   delimitedString: string
@@ -35,9 +34,7 @@ export function parseDelimitedString(
 }
 
 /**
- * @ignore
- * @param metrics
- * @param key
+ * @hidden
  */
 export function timeSpanFromMetrics(
   metrics: { [key: string]: any } /* TODO: any */,
@@ -51,8 +48,7 @@ export function timeSpanFromMetrics(
 }
 
 /**
- * @ignore
- * @param input
+ * @hidden
  */
 export function isNumeric(input: unknown): boolean {
   return !isNaN(parseFloat(input as string)) && isFinite(input as number);

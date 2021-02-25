@@ -17,7 +17,6 @@ import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 
 /**
- * @ignore
  * @internal
  */
 export class PartitionPump {
@@ -61,8 +60,8 @@ export class PartitionPump {
 
   /**
    * Creates a new `EventHubReceiver` and replaces any existing receiver.
-   * @param partitionId The partition the receiver should read messages from.
-   * @param lastSeenSequenceNumber The sequence number to begin receiving messages from (exclusive).
+   * @param partitionId - The partition the receiver should read messages from.
+   * @param lastSeenSequenceNumber - The sequence number to begin receiving messages from (exclusive).
    * If `-1`, then the PartitionPump's startPosition will be used instead.
    */
   private _setOrReplaceReceiver(
@@ -155,9 +154,9 @@ export class PartitionPump {
         // forward error to user's processError and swallow errors they may throw
         try {
           await this._partitionProcessor.processError(err);
-        } catch (err) {
+        } catch (errorFromUser) {
           // Using verbose over warning because this error is swallowed.
-          logger.verbose("An error was thrown by user's processError method: ", err);
+          logger.verbose("An error was thrown by user's processError method: ", errorFromUser);
         }
 
         // close the partition processor if a non-retryable error was encountered
@@ -170,11 +169,11 @@ export class PartitionPump {
             }
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.Shutdown);
-          } catch (err) {
+          } catch (errorFromStop) {
             // Using verbose over warning because this error is swallowed.
             logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
-              err
+              errorFromStop
             );
           }
         }
@@ -209,7 +208,6 @@ export class PartitionPump {
 
 /**
  * @internal
- * @ignore
  */
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
@@ -249,7 +247,6 @@ export function createProcessingSpan(
 }
 
 /**
- * @ignore
  * @internal
  */
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {

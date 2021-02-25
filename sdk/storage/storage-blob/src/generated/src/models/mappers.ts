@@ -1530,13 +1530,6 @@ export const RetentionPolicy: coreHttp.CompositeMapper = {
         type: {
           name: "Number"
         }
-      },
-      allowPermanentDelete: {
-        xmlName: "AllowPermanentDelete",
-        serializedName: "AllowPermanentDelete",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -3030,6 +3023,80 @@ export const ContainerRestoreHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const ContainerRenameHeaders: coreHttp.CompositeMapper = {
+  serializedName: "container-rename-headers",
+  type: {
+    name: "Composite",
+    className: "ContainerRenameHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerSubmitBatchHeaders: coreHttp.CompositeMapper = {
+  serializedName: "container-submitbatch-headers",
+  type: {
+    name: "Composite",
+    className: "ContainerSubmitBatchHeaders",
+    modelProperties: {
+      contentType: {
+        serializedName: "content-type",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerAcquireLeaseHeaders: coreHttp.CompositeMapper = {
   serializedName: "container-acquirelease-headers",
   type: {
@@ -3948,6 +4015,12 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-version-id",
         type: {
           name: "String"
+        }
+      },
+      isCurrentVersion: {
+        serializedName: "x-ms-is-current-version",
+        type: {
+          name: "Boolean"
         }
       },
       acceptRanges: {

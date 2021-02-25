@@ -2,7 +2,7 @@
 
 This guide is intended to assist in the migration to `@azure/keyvault-secrets` from `azure-keyvault`. It will focus on side-by-side comparisons for similar operations between the two packages.
 
-Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for @azure/keyvault-secrets][kvs-readme] rather than this guide.
+Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for @azure/keyvault-secrets][kvs-npm] rather than this guide.
 
 ## Table of contents
 
@@ -73,7 +73,7 @@ async function main() {
 main().catch((err) => console.error(err));
 ```
 
-Now in `@azure/keyvault-secrets` you can create a `SecretClient` using any credential from [`@azure/identity`][identity-readme].
+Now in `@azure/keyvault-secrets` you can create a `SecretClient` using any credential from [`@azure/identity`][identity-npm].
 
 You can install them by simply running the following command at the root of your project:
 
@@ -193,12 +193,9 @@ await client.purgeDeletedSecret(deletedSecret.name);
 * [Key Vault Secrets samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/typescript)
 * [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
-[kvk-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md
-[kvs-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/README.md
-[kvc-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md
 [kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
 [kvs-npm]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [kvc-npm]: https://www.npmjs.com/package/@azure/keyvault-certificates
 [ts-guidelines]: https://azure.github.io/azure-sdk/typescript_introduction.html
-[identity-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
+[identity-npm]: https://www.npmjs.com/package/@azure/identity
 [identity-readme-DAC]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential

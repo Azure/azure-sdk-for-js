@@ -30,6 +30,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export function createDefaultHttpsClient(): HttpsClient;
+
+// @public
 export function createEmptyPipeline(): Pipeline;
 
 // @public
@@ -42,18 +45,16 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
 
 // @public
-export class DefaultHttpsClient implements HttpsClient {
-    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-}
+export function decompressResponsePolicy(): PipelinePolicy;
 
 // @public
-export function disableResponseDecompressionPolicy(): PipelinePolicy;
-
-// @public
-export const disableResponseDecompressionPolicyName = "disableResponseDecompressionPolicy";
+export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export const exponentialRetryPolicyName = "exponentialRetryPolicy";
 
 // @public
 export interface ExponentialRetryPolicyOptions {
@@ -61,9 +62,6 @@ export interface ExponentialRetryPolicyOptions {
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
 }
-
-// @public
-export const expontentialRetryPolicyName = "exponentialRetryPolicy";
 
 // @public
 export type FormDataMap = {
@@ -84,7 +82,6 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 
 // @public
 export interface HttpHeaders extends Iterable<[string, string]> {
-    clone(): HttpHeaders;
     delete(name: string): void;
     get(name: string): string | undefined;
     has(name: string): boolean;
@@ -102,20 +99,7 @@ export interface HttpsClient {
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
-    decompressResponse?: boolean;
     loggingOptions?: LogPolicyOptions;
-    sendStreamingJson?: boolean;
-}
-
-// @public
-export function keepAlivePolicy(options?: KeepAlivePolicyOptions): PipelinePolicy;
-
-// @public
-export const keepAlivePolicyName = "keepAlivePolicy";
-
-// @public
-export interface KeepAlivePolicyOptions {
-    enable?: boolean;
 }
 
 // @public
@@ -151,10 +135,8 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
-    httpsClient?: HttpsClient;
-    keepAliveOptions?: KeepAlivePolicyOptions;
     proxyOptions?: ProxySettings;
-    redirectOptions?: PipelineRedirectOptions;
+    redirectOptions?: RedirectPolicyOptions;
     retryOptions?: ExponentialRetryPolicyOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
@@ -169,16 +151,9 @@ export interface PipelinePolicy {
 }
 
 // @public
-export interface PipelineRedirectOptions extends RedirectPolicyOptions {
-    disable?: boolean;
-}
-
-// @public
-export interface PipelineRequest<AdditionalInfo = any> {
+export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
-    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
-    clone(): PipelineRequest;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;
@@ -187,18 +162,16 @@ export interface PipelineRequest<AdditionalInfo = any> {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
-    skipDecompressResponse?: boolean;
     spanOptions?: SpanOptions;
-    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
     timeout: number;
     url: string;
     withCredentials: boolean;
 }
 
 // @public
-export interface PipelineRequestOptions<AdditionalInfo = any> {
+export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
-    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers?: HttpHeaders;
@@ -208,9 +181,8 @@ export interface PipelineRequestOptions<AdditionalInfo = any> {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
-    skipDecompressResponse?: boolean;
     spanOptions?: SpanOptions;
-    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     url: string;
     withCredentials?: boolean;

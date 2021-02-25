@@ -10,24 +10,24 @@ import { logger } from "./log";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
 
 /**
- * @ignore
+ * @hidden
  */
 export interface LinkEntityOptions {
   /**
-   * @property [name] The unique name for the entity. If not provided then a guid will be
+   * The unique name for the entity. If not provided then a guid will be
    * assigned.
    */
   name?: string;
   /**
-   * @property [partitionId] The partitionId associated with the link entity.
+   * The partitionId associated with the link entity.
    */
   partitionId?: string;
   /**
-   * @property address The link entity address in one of the following forms:
+   * The link entity address in one of the following forms:
    */
   address?: string;
   /**
-   * @property audience The link entity token audience in one of the following forms:
+   * The link entity token audience in one of the following forms:
    */
   audience?: string;
 }
@@ -35,16 +35,14 @@ export interface LinkEntityOptions {
 /**
  * Describes the base class for entities like EventHub Sender, Receiver and Management link.
  * @internal
- * @ignore
- * @class LinkEntity
  */
 export class LinkEntity {
   /**
-   * @property [name] The unique name for the entity (mostly a guid).
+   * The unique name for the entity (mostly a guid).
    */
   name: string;
   /**
-   * @property address The link entity address in one of the following forms:
+   * The link entity address in one of the following forms:
    *
    * **Sender**
    * - `"<hubName>"`
@@ -58,7 +56,7 @@ export class LinkEntity {
    */
   address: string;
   /**
-   * @property audience The link entity token audience in one of the following forms:
+   * The link entity token audience in one of the following forms:
    *
    * **Sender**
    * - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
@@ -72,34 +70,33 @@ export class LinkEntity {
    */
   audience: string;
   /**
-   * @property [partitionId] The partitionId associated with the link entity.
+   * The partitionId associated with the link entity.
    */
   partitionId?: string;
   /**
-   * @property isConnecting Indicates whether the link is in the process of connecting
+   * Indicates whether the link is in the process of connecting
    * (establishing) itself. Default value: `false`.
    */
   isConnecting: boolean = false;
   /**
-   * @property _context Provides relevant information about the amqp connection,
+   * Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
   protected _context: ConnectionContext;
   /**
-   * @property _tokenRenewalTimer The token renewal timer that keeps track of when
+   * The token renewal timer that keeps track of when
    * the Link Entity is due for token renewal.
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * @property _tokenTimeout Indicates token timeout in milliseconds
+   * Indicates token timeout in milliseconds
    */
   protected _tokenTimeoutInMs?: number;
   /**
    * Creates a new LinkEntity instance.
-   * @ignore
-   * @constructor
-   * @param context The connection context.
-   * @param [options] Options that can be provided while creating the LinkEntity.
+   * @hidden
+   * @param context - The connection context.
+   * @param options - Options that can be provided while creating the LinkEntity.
    */
   constructor(context: ConnectionContext, options?: LinkEntityOptions) {
     if (!options) options = {};
@@ -112,8 +109,8 @@ export class LinkEntity {
 
   /**
    * Negotiates cbs claim for the LinkEntity.
-   * @ignore
-   * @param [setTokenRenewal] Set the token renewal timer. Default false.
+   * @hidden
+   * @param setTokenRenewal - Set the token renewal timer. Default false.
    * @returns Promise<void>
    */
   protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
@@ -187,7 +184,7 @@ export class LinkEntity {
 
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
-   * @ignore
+   * @hidden
    */
   protected async _ensureTokenRenewal(): Promise<void> {
     if (!this._tokenTimeoutInMs) {
@@ -227,15 +224,15 @@ export class LinkEntity {
   /**
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
-   * @ignore
-   * @param [link] The Sender or Receiver link that needs to be closed and
+   * @hidden
+   * @param link - The Sender or Receiver link that needs to be closed and
    * removed.
    */
   protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {
-        // Closing the link and its underlying session if the link is open. This should also
+        // Closing the link and its underlying session if the link is open. This should also
         // remove them from the internal map.
         await link.close();
         logger.verbose(

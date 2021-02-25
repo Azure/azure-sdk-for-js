@@ -30,7 +30,7 @@ const QueryJsonContentType = "application/query+json";
 
 /**
  * @hidden
- * @ignore
+ * @hidden
  */
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
@@ -45,7 +45,7 @@ export class ClientContext {
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
   }
-  /** @ignore */
+  /** @hidden */
   public async read<T>({
     path,
     resourceType,
@@ -505,7 +505,7 @@ export class ClientContext {
 
   /**
    * Gets the Database account information.
-   * @param {string} [options.urlConnection]   - The endpoint url whose database account needs to be retrieved. \
+   * @param options - `urlConnection` in the options is the endpoint url whose database account needs to be retrieved.
    * If not present, current client's url will be used.
    */
   public async getDatabaseAccount(

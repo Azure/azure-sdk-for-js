@@ -3,7 +3,8 @@ import {
   isBrowser,
   testHasChanged,
   isContentTypeInNockFixture,
-  decodeHexEncodingIfExistsInNockFixture
+  decodeHexEncodingIfExistsInNockFixture,
+  handleSingleQuotesInUrlPath
 } from "../../src/utils";
 
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
@@ -390,6 +391,172 @@ describe("NodeJS utils", () => {
           `Unexpected result - content types ${test.expectedContentTypes} ${
             test.output ? "do not match" : "matched"
           }`
+        );
+      });
+    });
+  });
+
+  describe("handleSingleQuotesInUrlPath", () => {
+    [
+      // {
+      //   name: `single quotes in get request in the fixture with request body`,
+      //   input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .get('/'path'', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`,
+      //   output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .get(\`/'path'\`, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`
+      // },
+      {
+        name: `single quotes in get request in the fixture with no request body`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .get('/'path'')
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .get(\`/'path'\`)
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`
+      },
+      {
+        name: `single quotes in delete request in the fixture with no request body`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .delete('/'path'pathx')
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .delete(\`/'path'pathx\`)
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`
+      },
+      {
+        name: `no single quotes in get request in the fixture`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .delete('/path')
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .delete('/path')
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`
+      },
+      {
+        name: `more than two single quotes in delete request in the fixture`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .delete('/p'''a't'h')
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+                  .delete(\`/p'''a't'h\`)
+                  .query(true)
+                  .reply(200, "4f626a0131c2", [
+                  'Transfer-Encoding',
+                  'chunked'
+                ]);`
+      }
+      // {
+      //   name: `no single quotes in the path and single quotes in the request body should not affect`,
+      //   input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post('/$batch', "--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`,
+      //   output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post('/$batch', "--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`
+      // },
+      // {
+      //   name: `single quotes in the path and the request body should work`,
+      //   input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post('/$batch'hello'', "--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`,
+      //   output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post(\`/$batch'hello'\`, "--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`
+      // },
+      // {
+      //   name: `single quotes in the path and the request body should work - without space`,
+      //   input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post('/$batch'hello'',"--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`,
+      //   output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post(\`/$batch'hello'\`,"--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`
+      // },
+      // {
+      //   name: `single quotes in the path and the request body should work`,
+      //   input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post('/$batch'hello'', "--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`,
+      //   output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+      //             .post(\`/$batch'hello'\`, "--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1') HTTP/1.1\\r\\nAccept: application/json\\r\\n")
+      //             .query(true)
+      //             .reply(200, "4f626a0131c2", [
+      //             'Transfer-Encoding',
+      //             'chunked'
+      //           ]);`
+      // }
+    ].forEach((test) => {
+      it(test.name, () => {
+        chai.assert.equal(
+          handleSingleQuotesInUrlPath(test.input),
+          test.output,
+          `Output from "handleSingleQuotesInUrlPath" did not match the expected output`
         );
       });
     });

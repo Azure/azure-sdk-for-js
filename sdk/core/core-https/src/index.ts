@@ -23,31 +23,25 @@ export {
   createEmptyPipeline,
   InternalPipelineOptions,
   PipelineOptions,
-  PipelineRedirectOptions,
   createPipelineFromOptions
 } from "./pipeline";
-export { DefaultHttpsClient } from "./defaultHttpsClient";
+export { createDefaultHttpsClient } from "./defaultHttpsClient";
 export { createHttpHeaders } from "./httpHeaders";
 export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";
 export { RestError, RestErrorOptions } from "./restError";
 export {
-  disableResponseDecompressionPolicy,
-  disableResponseDecompressionPolicyName
-} from "./policies/disableResponseDecompressionPolicy";
+  decompressResponsePolicy,
+  decompressResponsePolicyName
+} from "./policies/decompressResponsePolicy";
 export {
   exponentialRetryPolicy,
   ExponentialRetryPolicyOptions,
-  expontentialRetryPolicyName
+  exponentialRetryPolicyName
 } from "./policies/exponentialRetryPolicy";
 export {
   setClientRequestIdPolicy,
   setClientRequestIdPolicyName
 } from "./policies/setClientRequestIdPolicy";
-export {
-  keepAlivePolicy,
-  keepAlivePolicyName,
-  KeepAlivePolicyOptions
-} from "./policies/keepAlivePolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {

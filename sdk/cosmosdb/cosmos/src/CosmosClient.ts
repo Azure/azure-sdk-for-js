@@ -56,7 +56,7 @@ export class CosmosClient {
   constructor(connectionString: string);
   /**
    * Creates a new {@link CosmosClient} object. See {@link CosmosClientOptions} for more details on what options you can use.
-   * @param options bag of options - require at least endpoint and auth to be configured
+   * @param options - bag of options; require at least endpoint and auth to be configured
    */
   constructor(options: CosmosClientOptions); // tslint:disable-line:unified-signatures
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
@@ -131,7 +131,7 @@ export class CosmosClient {
    *
    * This does not make a network call. Use `.read` to get info about the database after getting the {@link Database} object.
    *
-   * @param id The id of the database.
+   * @param id - The id of the database.
    * @example Create a new container off of an existing database
    * ```typescript
    * const container = client.database("<database id>").containers.create("<container id>");
@@ -148,7 +148,7 @@ export class CosmosClient {
 
   /**
    * Used for reading, or updating a existing offer by id.
-   * @param id The id of the offer.
+   * @param id - The id of the offer.
    */
   public offer(id: string): Offer {
     return new Offer(this, id, this.clientContext);

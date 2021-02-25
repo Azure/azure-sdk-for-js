@@ -1,6 +1,14 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2021-01-25)
+
+### Added
+
+- `PhoneNumberAdministrationClient` added a constructor that supports `TokenCredential`.
+
+### Breaking Changes
+
+- `CommunicationIdentityClient` moved to the new `@azure/communication-identity` package.
 
 ### Key bug fixes
 

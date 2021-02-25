@@ -50,6 +50,7 @@ export class AccountSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     filter: boolean;
+    static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
     process: boolean;
@@ -58,6 +59,21 @@ export class AccountSASPermissions {
     toString(): string;
     update: boolean;
     write: boolean;
+}
+
+// @public
+export interface AccountSASPermissionsLike {
+    add?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    deleteVersion?: boolean;
+    filter?: boolean;
+    list?: boolean;
+    process?: boolean;
+    read?: boolean;
+    tag?: boolean;
+    update?: boolean;
+    write?: boolean;
 }
 
 // @public
@@ -526,6 +542,7 @@ export interface BlobDownloadHeaders {
     // (undocumented)
     errorCode?: string;
     etag?: string;
+    isCurrentVersion?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
     lastAccessed?: Date;
@@ -1006,12 +1023,26 @@ export class BlobSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions;
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
     tag: boolean;
     toString(): string;
     write: boolean;
+}
+
+// @public
+export interface BlobSASPermissionsLike {
+    add?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    deleteVersion?: boolean;
+    execute?: boolean;
+    move?: boolean;
+    read?: boolean;
+    tag?: boolean;
+    write?: boolean;
 }
 
 // @public
@@ -1633,6 +1664,7 @@ export class ContainerClient extends StorageClient {
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
+    getBlobBatchClient(): BlobBatchClient;
     getBlobClient(blobName: string): BlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(blobName: string): BlockBlobClient;
@@ -1900,6 +1932,23 @@ export interface ContainerReleaseLeaseOptions extends CommonOptions {
 }
 
 // @public
+export interface ContainerRenameHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export type ContainerRenameResponse = ContainerRenameHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ContainerRenameHeaders;
+    };
+};
+
+// @public
 export interface ContainerRenewLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
@@ -1916,6 +1965,7 @@ export class ContainerSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    static from(permissionLike: ContainerSASPermissionsLike): ContainerSASPermissions;
     list: boolean;
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
@@ -1923,6 +1973,20 @@ export class ContainerSASPermissions {
     tag: boolean;
     toString(): string;
     write: boolean;
+}
+
+// @public
+export interface ContainerSASPermissionsLike {
+    add?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    deleteVersion?: boolean;
+    execute?: boolean;
+    list?: boolean;
+    move?: boolean;
+    read?: boolean;
+    tag?: boolean;
+    write?: boolean;
 }
 
 // @public
@@ -2044,7 +2108,7 @@ export interface FilterBlobItem {
     name: string;
     tags?: Tags;
     // @deprecated
-    tagValue?: string;
+    tagValue: string;
 }
 
 // @public
@@ -2059,6 +2123,18 @@ export interface FilterBlobItemModel {
 
 // @public
 export interface FilterBlobSegment {
+    // (undocumented)
+    blobs: FilterBlobItem[];
+    // (undocumented)
+    continuationToken?: string;
+    // (undocumented)
+    serviceEndpoint: string;
+    // (undocumented)
+    where: string;
+}
+
+// @public
+export interface FilterBlobSegmentModel {
     // (undocumented)
     blobs: FilterBlobItemModel[];
     // (undocumented)
@@ -2683,7 +2759,6 @@ export { RestError }
 
 // @public
 export interface RetentionPolicy {
-    allowPermanentDelete?: boolean;
     days?: number;
     enabled: boolean;
 }
@@ -2767,22 +2842,17 @@ export interface ServiceFilterBlobsHeaders {
 }
 
 // @public
-export type ServiceFilterBlobsResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceFilterBlobsHeaders;
-        bodyAsText: string;
-        parsedBody: FilterBlobSegment;
-    };
-};
-
-// @public
 export interface ServiceFindBlobByTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
 // @public
-export type ServiceFindBlobsByTagsSegmentResponse = Omit<ServiceFilterBlobsResponse, "blobs"> & {
-    blobs: FilterBlobItem[];
+export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: ServiceFilterBlobsHeaders;
+        bodyAsText: string;
+        parsedBody: FilterBlobSegmentModel;
+    };
 };
 
 // @public
@@ -2914,6 +2984,12 @@ export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse
         parsedBody: ListContainersSegmentResponse;
     };
 };
+
+// @public
+export interface ServiceRenameContainerOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    sourceCondition?: LeaseAccessConditions;
+}
 
 // @public
 export interface ServiceSetPropertiesHeaders {

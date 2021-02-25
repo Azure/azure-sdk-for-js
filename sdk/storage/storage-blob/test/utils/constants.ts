@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CpkInfo } from "../../src";
 
 export const Test_CPK_INFO: CpkInfo = {

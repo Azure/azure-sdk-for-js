@@ -4,7 +4,7 @@ import { Constants } from "../common/constants";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 
 /**
- * @ignore
+ * @hidden
  */
 function compareRanges(a: any, b: any): 0 | 1 | -1 {
   const aVal = a[0][Constants.PartitionKeyRange.MinInclusive];
@@ -45,7 +45,7 @@ export function createCompleteRoutingMap(
 }
 
 /**
- * @ignore
+ * @hidden
  */
 function isCompleteSetOfRange(partitionKeyOrderedRange: any): boolean {
   // TODO: any

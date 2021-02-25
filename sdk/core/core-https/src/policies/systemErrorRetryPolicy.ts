@@ -56,7 +56,7 @@ export interface SystemErrorRetryPolicyOptions {
  * A retry policy that specifically seeks to handle errors in the
  * underlying transport layer (e.g. DNS lookup failures) rather than
  * retryable error codes from the server itself.
- * @param options Options that customize the policy.
+ * @param options - Options that customize the policy.
  */
 export function systemErrorRetryPolicy(
   options: SystemErrorRetryPolicyOptions = {}
@@ -111,7 +111,7 @@ export function systemErrorRetryPolicy(
       try {
         logger.info(`Retrying request in ${retryData.retryInterval}`);
         await delay(retryData.retryInterval);
-        const res = await next(request.clone());
+        const res = await next(request);
         return retry(next, retryData, request, res);
       } catch (e) {
         return retry(next, retryData, request, response, e);

@@ -13,7 +13,7 @@ export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
  * Each PipelineRequest gets a unique id upon creation.
  * This policy passes that unique id along via an HTTP header to enable better
  * telemetry and tracing.
- * @param requestIdHeaderName The name of the header to pass the request ID to.
+ * @param requestIdHeaderName - The name of the header to pass the request ID to.
  */
 export function setClientRequestIdPolicy(
   requestIdHeaderName = "x-ms-client-request-id"

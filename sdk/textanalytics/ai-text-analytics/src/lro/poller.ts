@@ -4,53 +4,56 @@
 import { delay, OperationOptions } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { GeneratedClient } from "../generated/generatedClient";
-import { TextDocumentInput } from "../generated/models";
-import { TextAnalyticsOperationOptions } from "../textAnalyticsOperationOptions";
-
-/**
- * Options for configuring a polling operation.
- */
-export interface PollingOptions {
-  /**
-   * Delay to wait until next poll, in milliseconds.
-   */
-  updateIntervalInMs?: number;
-  /**
-   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
-   */
-  resumeFrom?: string;
-}
-
-export interface TextAnalyticsStatusOperationOptions extends OperationOptions {
-  /**
-   * If set to true, response will contain input and document level statistics.
-   */
-  includeStatistics?: boolean;
-}
+import { State, TextDocumentInput } from "../generated/models";
 
 /**
  * Common parameters to a Poller.
+ * @internal
  */
 export interface AnalysisPollerOptions {
   readonly client: GeneratedClient;
   readonly documents: TextDocumentInput[];
-  readonly analysisOptions?: TextAnalyticsOperationOptions;
+  readonly analysisOptions?: OperationOptions;
   updateIntervalInMs?: number;
   resumeFrom?: string;
+}
+
+/**
+ * Metadata information for an analysis poller operation.
+ */
+export interface OperationMetadata {
+  /**
+   * The date and time the operation was created.
+   */
+  createdOn?: Date;
+  /**
+   * The date and time when the operation results will expire on the server.
+   */
+  expiresOn?: Date;
+  /**
+   * The operation id.
+   */
+  operationId?: string;
+  /**
+   * The time the operation status was last updated.
+   */
+  lastModifiedOn?: Date;
+  /**
+   * The current status of the operation.
+   */
+  status?: State;
 }
 
 /**
  * An interface representing the state of an analysis poller operation.
  */
-export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult> {
-  /**
-   * The id of the analysis job.
-   */
-  jobId?: string;
-}
+export interface AnalysisPollOperationState<TResult>
+  extends PollOperationState<TResult>,
+    OperationMetadata {}
 
 /**
  * Common properties and methods of analysis Pollers.
+ * @internal
  */
 export abstract class AnalysisPoller<TState, TResult> extends Poller<TState, TResult> {
   /**
@@ -68,6 +71,7 @@ export abstract class AnalysisPoller<TState, TResult> extends Poller<TState, TRe
 
 /**
  * Common properties and methods of polling operations.
+ * @internal
  */
 export abstract class AnalysisPollOperation<TState, TResult>
   implements PollOperation<TState, TResult> {

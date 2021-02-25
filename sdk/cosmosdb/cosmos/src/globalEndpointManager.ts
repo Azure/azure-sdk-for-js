@@ -9,26 +9,27 @@ import { ResourceResponse } from "./request";
 /**
  * @hidden
  * This internal class implements the logic for endpoint management for geo-replicated database accounts.
- * @property {object} client                       - The document client instance.
- * @property {string} defaultEndpoint              - The endpoint used to create the client instance.
- * @property {bool} enableEndpointDiscovery        - Flag to enable/disable automatic redirecting of requests
- *                                                   based on read/write operations.
- * @property {Array} preferredLocations            - List of azure regions to be used as preferred locations
- *                                                   for read requests.
- * @property {bool} isEndpointCacheInitialized     - Flag to determine whether the endpoint cache is initialized or not.
  */
 export class GlobalEndpointManager {
+  /**
+   * The endpoint used to create the client instance.
+   */
   private defaultEndpoint: string;
+  /**
+   * Flag to enable/disable automatic redirecting of requests based on read/write operations.
+   */
   public enableEndpointDiscovery: boolean;
   private isRefreshing: boolean;
   private options: CosmosClientOptions;
+  /**
+   * List of azure regions to be used as preferred locations for read requests.
+   */
   private preferredLocations: string[];
   private writeableLocations: Location[];
   private readableLocations: Location[];
 
   /**
-   * @constructor GlobalEndpointManager
-   * @param {object} options                          - The document client instance.
+   * @param options - The document client instance.
    */
   constructor(
     options: CosmosClientOptions,
@@ -186,9 +187,6 @@ export class GlobalEndpointManager {
    * Gets the database account first by using the default endpoint, and if that doesn't returns
    * use the endpoints for the preferred locations in the order they are specified to get
    * the database account.
-   * @memberof GlobalEndpointManager
-   * @instance
-   * @param {function} callback        - The callback function which takes databaseAccount(object) as an argument.
    */
   private async getDatabaseAccountFromAnyEndpoint(): Promise<DatabaseAccount> {
     try {
@@ -226,10 +224,9 @@ export class GlobalEndpointManager {
 
   /**
    * Gets the locational endpoint using the location name passed to it using the default endpoint.
-   * @memberof GlobalEndpointManager
-   * @instance
-   * @param {string} defaultEndpoint - The default endpoint to use for the endpoint.
-   * @param {string} locationName    - The location name for the azure region like "East US".
+   *
+   * @param defaultEndpoint - The default endpoint to use for the endpoint.
+   * @param locationName    - The location name for the azure region like "East US".
    */
   private static getLocationalEndpoint(defaultEndpoint: string, locationName: string): string {
     // For defaultEndpoint like 'https://contoso.documents.azure.com:443/' parse it to generate URL format

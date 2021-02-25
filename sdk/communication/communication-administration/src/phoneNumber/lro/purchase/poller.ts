@@ -18,7 +18,7 @@ export class PurchaseReservationPoller extends PhoneNumberPollerBase<
   /**
    * Initializes an instance of PurchaseReservationPoller
    *
-   * @param {PurchaseReservationPollerOptions} options Options for initializing the poller.
+   * @param options - Options for initializing the poller.
    */
   constructor(options: PurchaseReservationPollerOptions) {
     const { client, reservationId, requestOptions = {}, pollInterval = 2000, resumeFrom } = options;

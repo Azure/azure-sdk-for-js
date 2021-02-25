@@ -3,55 +3,34 @@
 
 import { CryptographyOptions } from "./keysModels";
 
-/**
- * Defines values for SignatureAlgorithm.
- * @readonly
- */
-export type SignatureAlgorithm =
-  | "PS256"
-  | "PS384"
-  | "PS512"
-  | "RS256"
-  | "RS384"
-  | "RS512"
-  | "ES256"
-  | "ES384"
-  | "ES512"
-  | "ES256K";
+import {
+  JsonWebKeyCurveName as KeyCurveName,
+  KnownJsonWebKeyCurveName as KnownKeyCurveNames,
+  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
+  KnownJsonWebKeyEncryptionAlgorithm as KnownEncryptionAlgorithms,
+  JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
+  KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms
+} from "./generated/models";
 
-/**
- * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW', 'A128CBC', 'A192CBC', 'A256CBC', 'A128CBCPAD', 'A192CBCPAD', 'A256CBCPAD'
- * @readonly
- */
-export type EncryptionAlgorithm =
-  | "RSA-OAEP"
-  | "RSA-OAEP-256"
-  | "RSA1_5"
-  | "A128GCM"
-  | "A192GCM"
-  | "A256GCM"
-  | "A128KW"
-  | "A192KW"
-  | "A256KW"
-  | "A128CBC"
-  | "A192CBC"
-  | "A256CBC"
-  | "A128CBCPAD"
-  | "A192CBCPAD"
-  | "A256CBCPAD";
-
-/**
- * Defines values for KeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export {
+  KeyCurveName,
+  KnownKeyCurveNames,
+  EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
+  SignatureAlgorithm,
+  KnownSignatureAlgorithms
+};
 
 /**
  * Supported algorithms for key wrapping/unwrapping
  */
-export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type KeyWrapAlgorithm =
+  | "A128KW"
+  | "A192KW"
+  | "A256KW"
+  | "RSA-OAEP"
+  | "RSA-OAEP-256"
+  | "RSA1_5";
 
 /**
  * Result of the {@link encrypt} operation.
@@ -69,6 +48,18 @@ export interface EncryptResult {
    * The ID of the Key Vault Key used to encrypt the data.
    */
   keyID?: string;
+  /**
+   * The initialization vector used for encryption.
+   */
+  iv?: Uint8Array;
+  /**
+   * The authentication tag resulting from encryption with a symmetric key including A128GCM, A192GCM, and A256GCM.
+   */
+  authenticationTag?: Uint8Array;
+  /**
+   * Additional data that is authenticated during decryption but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
 }
 
 /**
@@ -101,6 +92,10 @@ export interface UnwrapResult {
    * The ID of the Key Vault Key used to unwrap the data.
    */
   keyID?: string;
+  /**
+   * The {@link KeyWrapAlgorithm} used to unwrap the data.
+   */
+  algorithm: KeyWrapAlgorithm;
 }
 /**
  * Result of the {@link decrypt} operation.
@@ -155,21 +150,7 @@ export interface VerifyResult {
 /**
  * Common optional properties for encrypt, decrypt, wrap and unwrap.
  */
-export interface KeyOperationsOptions extends CryptographyOptions {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  additionalAuthenticatedData?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
+export interface KeyOperationsOptions extends CryptographyOptions {}
 
 /**
  * Options for {@link encrypt}.
@@ -200,3 +181,130 @@ export interface WrapKeyOptions extends KeyOperationsOptions {}
  * Options for {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends KeyOperationsOptions {}
+
+/**
+ * Encryption parameters for RSA encryption algorithms.
+ */
+export interface RsaEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+}
+
+/**
+ * Encryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+/**
+ * Encryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * The initialization vector used for encryption.
+   */
+  iv: Uint8Array;
+}
+
+/**
+ * A type representing all currently supported encryption parameters as they apply to different encryption algorithms.
+ */
+export type EncryptParameters =
+  | RsaEncryptParameters
+  | AesGcmEncryptParameters
+  | AesCbcEncryptParameters;
+
+/**
+ * Decryption parameters for RSA encryption algorithms.
+ */
+export interface RsaDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+}
+
+/**
+ * Decryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector (or nonce) generated during encryption.
+   */
+  iv: Uint8Array;
+  /**
+   * The authentication tag generated during encryption.
+   */
+  authenticationTag?: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+/**
+ * Decryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  /**
+   * The initialization vector used during encryption.
+   */
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector generated during encryption.
+   */
+  iv: Uint8Array;
+}
+
+/**
+ * A type representing all currently supported decryption parameters as they apply to different encryption algorithms.
+ */
+export type DecryptParameters =
+  | RsaDecryptParameters
+  | AesGcmDecryptParameters
+  | AesCbcDecryptParameters;

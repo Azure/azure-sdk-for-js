@@ -27,9 +27,9 @@ export class ReservePhoneNumbersPollOperation extends PhoneNumberReservationPoll
   /**
    * Initializes an instance of ReservePhoneNumbersPollOperation
    *
-   * @param {PurchaseReservationPollOperationState} state The state of the poll operation
-   * @param {PhoneNumberAdministration} _client A reference to the generated client used to make requests internally.
-   * @param {OperationOptions} requestOptions Additional options for the underlying requests.
+   * @param state - The state of the poll operation
+   * @param _client - A reference to the generated client used to make requests internally.
+   * @param requestOptions - Additional options for the underlying requests.
    */
   constructor(
     public state: ReservePhoneNumbersPollOperationState,
@@ -43,8 +43,8 @@ export class ReservePhoneNumbersPollOperation extends PhoneNumberReservationPoll
    * Starts a search for phone numbers given some constraints such as name or area code. The phone numbers that are
    * found will then be reserved.
    *
-   * @param {CreateReservationRequest} reservationRequest Request properties to constraint the search scope.
-   * @param {CreateReservationOptions} options Additional request options.
+   * @param reservationRequest - Request properties to constraint the search scope.
+   * @param options - Additional request options.
    */
   private async createReservation(
     reservationRequest: CreateReservationRequest,
@@ -81,7 +81,7 @@ export class ReservePhoneNumbersPollOperation extends PhoneNumberReservationPoll
   /**
    * Reaches to the service and queries the status of the operation.
    *
-   * @param {UpdatePollerOptions<ReservePhoneNumbersPollOperationState>} [options={}] Additional options for the poll operation
+   * @param options - Additional options for the poll operation
    */
   public async update(
     options: UpdatePollerOptions<ReservePhoneNumbersPollOperationState> = {}
@@ -107,10 +107,12 @@ export class ReservePhoneNumbersPollOperation extends PhoneNumberReservationPoll
         state.result = await this.getReservation(state.reservationId, this.requestOptions);
         state.isCompleted = isComplete(state.result, "Reserved");
       }
+
+      return this;
     } catch (error) {
       state.error = error;
       state.isCompleted = true;
-    } finally {
+
       return this;
     }
   }

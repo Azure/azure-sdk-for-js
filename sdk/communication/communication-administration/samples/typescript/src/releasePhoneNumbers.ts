@@ -3,7 +3,7 @@
 
 /**
  * Demonstrates how to us the PhoneNumberAdministrationClient
- * to release phone numbers that have been acquired.
+ * to release phone numbers.
  */
 
 import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
@@ -22,43 +22,16 @@ export const main = async () => {
   // create an instance of PhoneNumberAdministrationClient
   const phoneNumberClient = new PhoneNumberAdministrationClient(connectionString);
 
-  console.log("Getting acquired phone numbers.");
+  // Release a phone numbers
+  const releasePoller = await phoneNumberClient.beginReleasePhoneNumbers([
+    "+14125550100",
+    "+14125550101"
+  ]);
+  console.log("Releasing phone numbers...");
 
-  // get the list of acquired phone numbers
-  const phoneNumbers = await phoneNumberClient.listPhoneNumbers();
-  const phoneNumbersToRelease: string[] = [];
+  await releasePoller.pollUntilDone();
 
-  console.log("Searching for phone numbers to release.");
-
-  // get toll free phone numbers with the sms outbound (A2P) capability as their only capability
-  // we will release these
-  for await (const acquired of phoneNumbers) {
-    if (
-      acquired.acquiredCapabilities.length === 4 &&
-      acquired.acquiredCapabilities.includes("Azure") &&
-      acquired.acquiredCapabilities.includes("ThirdPartyAppAssignment") &&
-      acquired.acquiredCapabilities.includes("TollFree") &&
-      acquired.acquiredCapabilities.includes("OutboundA2PSms")
-    ) {
-      phoneNumbersToRelease.push(acquired.phoneNumber);
-    }
-  }
-
-  console.log(`Found ${phoneNumbersToRelease.length} phone number(s) to release.`);
-
-  if (phoneNumbersToRelease.length) {
-    // create release poller
-    const releasePoller = await phoneNumberClient.beginReleasePhoneNumbers(phoneNumbersToRelease);
-
-    console.log("Releasing phone numbers.");
-
-    // poll until phone numbers are released.
-    await releasePoller.pollUntilDone();
-
-    console.log("Phone numbers released successfully.");
-  } else {
-    throw new Error("Did not find any phone numbers to release.");
-  }
+  console.log("Release succeeded.");
 };
 
 main().catch((error) => {

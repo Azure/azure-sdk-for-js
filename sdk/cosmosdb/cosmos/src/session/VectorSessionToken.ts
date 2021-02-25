@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 /**
  * Models vector clock bases session token. Session token has the following format:
- * {Version}#{GlobalLSN}#{RegionId1}={LocalLsn1}#{RegionId2}={LocalLsn2}....#{RegionIdN}={LocalLsnN}
+ * `{Version}#{GlobalLSN}#{RegionId1}={LocalLsn1}#{RegionId2}={LocalLsn2}....#{RegionIdN}={LocalLsnN}`
  * 'Version' captures the configuration number of the partition which returned this session token.
  * 'Version' is incremented everytime topology of the partition is updated (say due to Add/Remove/Failover).
  *
  * The choice of separators '#' and '=' is important. Separators ';' and ',' are used to delimit
  * per-partitionKeyRange session token
  * @hidden
- * @private
  *
  */
 export class VectorSessionToken {
@@ -146,9 +145,7 @@ export class VectorSessionToken {
 }
 
 /**
- * @ignore
- * @param int1
- * @param int2
+ * @hidden
  */
 function max(int1: string, int2: string): string {
   // NOTE: This only works for positive numbers

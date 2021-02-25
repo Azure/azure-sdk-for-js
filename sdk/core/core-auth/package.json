@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-auth",
-  "version": "1.1.4",
+  "version": "1.2.1",
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -39,7 +39,7 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "mocha test-dist/**/*.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -67,8 +67,6 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
-    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -96,6 +94,6 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "4.1.2",
     "util": "^0.12.1",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

@@ -8,7 +8,7 @@ import { OperationOptions } from "@azure/core-http";
 import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
 
 /**
- * NOTE: This type is intended to mirror the relevant fields and structure from @azure/core-http OperationOptions
+ * NOTE: This type is intended to mirror the relevant fields and structure from `@azure/core-http` OperationOptions
  *
  * Options for configuring tracing and the abortSignal.
  */
@@ -16,7 +16,6 @@ export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "traci
 
 /**
  * @internal
- * @ignore
  */
 export function getParentSpan(
   options?: OperationTracingOptions
@@ -26,12 +25,7 @@ export function getParentSpan(
 
 /**
  * @internal
- * @ignore
  *
- * @param {(Span | SpanContext | null)} [parentSpan]
- * @param {SpanContext[]} [spanContextsToLink=[]]
- * @param {string} [entityPath]
- * @param {string} [host]
  */
 export function createSendSpan(
   parentSpan?: Span | SpanContext | null,
@@ -71,7 +65,7 @@ export interface TryAddOptions {
  * Runs the `fn` passed in and marks the span as completed with an error (and the
  * corresponding message) or as OK.
  *
- * @ignore
+ * @hidden
  * @internal
  */
 export async function trace<T>(fn: () => Promise<T>, span: Span): Promise<T> {

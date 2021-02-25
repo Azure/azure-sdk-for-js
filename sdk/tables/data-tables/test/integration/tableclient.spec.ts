@@ -5,7 +5,8 @@ import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
-import { isNode } from "@azure/core-http";
+import { isNode } from "../testUtils";
+import { FullOperationResponse } from "@azure/core-client";
 
 describe("TableClient", () => {
   let client: TableClient;
@@ -43,8 +44,10 @@ describe("TableClient", () => {
 
   describe("listEntities", () => {
     // Create required entities for testing list operations
-    before(async () => {
+    before(async function() {
       if (!isPlaybackMode()) {
+        // eslint-disable-next-line no-invalid-this
+        this.timeout(10000);
         await client.createEntity({
           partitionKey: listPartitionKey,
           rowKey: "binary1",
@@ -87,7 +90,7 @@ describe("TableClient", () => {
       }
 
       assert.lengthOf(all, totalItems);
-    });
+    }).timeout(10000);
 
     it("should list by page", async function() {
       const totalItems = 21;
@@ -154,12 +157,16 @@ describe("TableClient", () => {
         rowKey: "R1",
         testField: "testEntity"
       };
-      const createResult = await client.createEntity(testEntity);
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.testField, testEntity.testField);
@@ -176,12 +183,16 @@ describe("TableClient", () => {
         rowKey: "R2",
         testField: new Date(testDate)
       };
-      const createResult = await client.createEntity(testEntity);
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField.value, testDate);
@@ -201,12 +212,16 @@ describe("TableClient", () => {
         rowKey: "R3",
         testField: testGuid
       };
-      const createResult = await client.createEntity(testEntity);
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testGuid);
@@ -225,12 +240,16 @@ describe("TableClient", () => {
         rowKey: "R4",
         testField: testInt64
       };
-      const createResult = await client.createEntity(testEntity);
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testInt64);
     });
@@ -253,15 +272,19 @@ describe("TableClient", () => {
         rowKey: "R5",
         testField: testInt32
       };
-      const createResult = await client.createEntity(testEntity);
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<ResponseType>(
         testEntity.partitionKey,
         testEntity.rowKey
       );
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
 
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
@@ -287,15 +310,19 @@ describe("TableClient", () => {
         rowKey: "R6",
         testField: testBoolean
       };
-      const createResult = await client.createEntity(testEntity);
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<ResponseType>(
         testEntity.partitionKey,
         testEntity.rowKey
       );
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.testField, true);
     });
@@ -315,12 +342,16 @@ describe("TableClient", () => {
         rowKey: "R7",
         testField: testDateTime
       };
-      const createResult = await client.createEntity(testEntity, {});
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField.value, testDate);
     });
@@ -333,12 +364,16 @@ describe("TableClient", () => {
         integerNumber: 3,
         floatingPointNumber: 3.14
       };
-      const createResult = await client.createEntity(testEntity, {});
+      let createResult: FullOperationResponse | undefined;
+      let deleteResult: FullOperationResponse | undefined;
+      await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
-      const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+        onResponse: (res) => (deleteResult = res)
+      });
 
-      assert.equal(deleteResult._response.status, 204);
-      assert.equal(createResult._response.status, 204);
+      assert.equal(deleteResult?.status, 204);
+      assert.equal(createResult?.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.integerNumber, 3);

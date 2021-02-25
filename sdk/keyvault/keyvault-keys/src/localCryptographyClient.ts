@@ -13,15 +13,21 @@ import {
   WrapResult,
   VerifyResult,
   KeyWrapAlgorithm,
-  EncryptResult
+  EncryptResult,
+  EncryptParameters
 } from "./cryptographyClientModels";
 import { runOperation } from "./localCryptography/runOperation";
-import { EncryptionAlgorithm } from ".";
+import { EncryptionAlgorithm, EncryptOptions } from ".";
 
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.
+ * @internal
  */
 export class LocalCryptographyClient {
+  constructor(key: JsonWebKey) {
+    this.key = key;
+  }
+
   /**
    * Encrypts the given plaintext with the specified cryptography algorithm
    *
@@ -34,8 +40,8 @@ export class LocalCryptographyClient {
    * @param plaintext - The text to encrypt.
    */
   public async encrypt(
-    algorithm: LocalSupportedAlgorithmName,
-    plaintext: Uint8Array
+    encryptParameters: EncryptParameters,
+    _options: EncryptOptions = {}
   ): Promise<EncryptResult> {
     if (!isNode) {
       throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
@@ -43,11 +49,15 @@ export class LocalCryptographyClient {
     const result = (await runOperation(
       this.key,
       "encrypt",
-      algorithm,
-      Buffer.from(plaintext)
+      encryptParameters.algorithm as LocalSupportedAlgorithmName,
+      Buffer.from(encryptParameters.plaintext)
     )) as Buffer;
     const keyID = this.key.kid;
-    return { result, algorithm: algorithm as EncryptionAlgorithm, keyID };
+    return {
+      result,
+      algorithm: encryptParameters.algorithm as EncryptionAlgorithm,
+      keyID
+    };
   }
 
   /**
@@ -106,20 +116,15 @@ export class LocalCryptographyClient {
   public key: JsonWebKey;
 
   /**
-   * Constructs a new instance of the Local Cryptography client for the given key.
-   *
-   * Example usage:
-   * ```ts
-   * import { LocalCryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const jsonWebKey: JsonWebKey = {
-   *   // ...
-   * };
-   * const client = new LocalCryptographyClient(jsonWebKey);
-   * ```
-   * @param key - The JsonWebKey to use during cryptography operations.
+   * The base URL to the vault.
+   * Since this is a local cryptography client the vaultUrl is empty.
    */
-  constructor(key: JsonWebKey) {
-    this.key = key;
+  public readonly vaultUrl: string = "";
+
+  /**
+   * The ID of the key used to perform cryptographic operations for the client.
+   */
+  public get keyId(): string | undefined {
+    return this.key?.kid;
   }
 }

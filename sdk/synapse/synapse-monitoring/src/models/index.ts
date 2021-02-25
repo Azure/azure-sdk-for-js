@@ -4,7 +4,7 @@ import * as coreHttp from "@azure/core-http";
 
 export interface SparkJobListViewResponse {
   nJobs?: number;
-  sparkJobs?: SparkJob[];
+  sparkJobs?: SparkJob[] | null;
 }
 
 export interface SparkJob {
@@ -18,8 +18,8 @@ export interface SparkJob {
   sparkJobDefinition?: string | null;
   pipeline?: SparkJob[] | null;
   jobType?: string;
-  submitTime?: Date;
-  endTime?: Date;
+  submitTime?: Date | null;
+  endTime?: Date | null;
   queuedDuration?: string;
   runningDuration?: string;
   totalDuration?: string;
@@ -29,79 +29,49 @@ export interface SqlQueryStringDataModel {
   query?: string;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface MonitoringGetSparkJobListOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Can provide a guid, which is helpful for debugging and to provide better customer support
-   */
+  /** Can provide a guid, which is helpful for debugging and to provide better customer support */
   xMsClientRequestId?: string;
 }
 
-/**
- * Contains response data for the getSparkJobList operation.
- */
+/** Contains response data for the getSparkJobList operation. */
 export type MonitoringGetSparkJobListResponse = SparkJobListViewResponse & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SparkJobListViewResponse;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface MonitoringGetSqlJobQueryStringOptionalParams extends coreHttp.OperationOptions {
-  /**
-   * Can provide a guid, which is helpful for debugging and to provide better customer support
-   */
+  /** Can provide a guid, which is helpful for debugging and to provide better customer support */
   xMsClientRequestId?: string;
   filter?: string;
   orderby?: string;
   skip?: string;
 }
 
-/**
- * Contains response data for the getSqlJobQueryString operation.
- */
+/** Contains response data for the getSqlJobQueryString operation. */
 export type MonitoringGetSqlJobQueryStringResponse = SqlQueryStringDataModel & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SqlQueryStringDataModel;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface MonitoringClientOptionalParams extends coreHttp.ServiceClientOptions {
-  /**
-   * Api Version
-   */
+  /** Api Version */
   apiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

@@ -1,11 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
 import { Readable, ReadableOptions, PassThrough } from "stream";
-import { readStreamToLocalFile, streamToBuffer2 } from "../../src/utils/utils.node";
+import {
+  readStreamToLocalFile,
+  streamToBuffer2,
+  streamToBuffer3
+} from "../../src/utils/utils.node";
+import {
+  ReadableStreamGetter,
+  RetriableReadableStream
+} from "../../src/utils/RetriableReadableStream";
 dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
@@ -378,5 +389,110 @@ describe("Utility Helpers Node.js only", () => {
         }
       });
     });
+  });
+});
+
+describe("RetriableReadableStream", () => {
+  const counterMax = 10;
+  const delayTimeInMs = 10;
+
+  class Counter extends Readable {
+    constructor(
+      private _max: number = counterMax,
+      public index: number = 0,
+      opt: ReadableOptions = {}
+    ) {
+      super(opt);
+    }
+
+    _read() {
+      const i = this.index++;
+      if (i >= this._max) {
+        this.push(null);
+      } else {
+        const str = String(i);
+        const buf = Buffer.from(str, "ascii");
+        this.push(buf);
+      }
+    }
+  }
+
+  const getter: ReadableStreamGetter = (offset) => {
+    return new Promise((resolve) => {
+      resolve(new Counter(undefined, offset));
+    });
+  };
+
+  it("destory should work", async () => {
+    const counter = new Counter();
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax);
+
+    const passedInError = new Error("Passed in error.");
+    let errorCaught = false;
+    retriable.on("error", (err) => {
+      assert.deepStrictEqual(err, passedInError);
+      errorCaught = true;
+    });
+
+    retriable.destroy(passedInError);
+    // spare time for events to fire
+    await delay(delayTimeInMs);
+    assert.ok((counter as any).destroyed);
+    assert.ok(errorCaught);
+  });
+
+  it("setEncoding should work", async () => {
+    const counter = new Counter(1);
+    const retriable = new RetriableReadableStream(counter, getter, 0, 1);
+    retriable.on("data", (chunk) => {
+      assert.deepStrictEqual(chunk, Buffer.from("0", "ascii"));
+    });
+
+    const counter2 = new Counter(1);
+    const retriable2 = new RetriableReadableStream(counter2, getter, 0, 1);
+    retriable2.setEncoding("ascii");
+    retriable2.on("data", (chunk) => {
+      assert.deepStrictEqual(chunk, "0");
+    });
+  });
+
+  it("pause and resume should work", async () => {
+    const counter = new Counter(10, undefined, { highWaterMark: 1 });
+    const retriable = new RetriableReadableStream(counter, getter, 0, 10, { highWaterMark: 1 });
+
+    let cur = 0;
+    retriable.on("data", (chunk) => {
+      assert.deepStrictEqual(chunk, Buffer.from(String(cur++), "ascii"));
+      assert.equal(counter.index, cur + 1);
+      retriable.pause();
+    });
+
+    await delay(delayTimeInMs);
+    assert.equal(cur, 1);
+
+    retriable.resume();
+    await delay(delayTimeInMs);
+    assert.equal(cur, 2);
+  });
+
+  it("retry should work on source error", async () => {
+    const counter = new Counter();
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
+      maxRetryRequests: 1
+    });
+    counter.destroy(new Error("Manual injected error."));
+
+    const resBuf = await streamToBuffer3(retriable);
+    assert.deepStrictEqual(resBuf.toString(), "0123456789");
+  });
+
+  it("retry should work on source unexpected end", async () => {
+    const counter = new Counter(2);
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
+      maxRetryRequests: 1
+    });
+
+    const resBuf = await streamToBuffer3(retriable);
+    assert.deepStrictEqual(resBuf.toString(), "0123456789");
   });
 });

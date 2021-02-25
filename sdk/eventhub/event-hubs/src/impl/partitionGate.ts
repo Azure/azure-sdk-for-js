@@ -10,7 +10,6 @@
  * continually steals/overwrites checkpointing and ownership with itself.
  *
  * @internal
- * @ignore
  */
 export class PartitionGate {
   private _partitions = new Set<string>();
@@ -19,9 +18,9 @@ export class PartitionGate {
    * Adds a partition, throwing an Error if there is a conflict with partitions (including "all")
    * that are already added.
    *
-   * @param partitionId A partition ID or the constant "all"
+   * @param partitionId - A partition ID or the constant "all"
    */
-  add(partitionId: string | "all") {
+  add(partitionId: string | "all"): void {
     if (
       (partitionId === "all" && this._partitions.size > 0) ||
       this._partitions.has(partitionId) ||
@@ -36,9 +35,9 @@ export class PartitionGate {
   /**
    * Removes a partition
    *
-   * @param partitionId A partition ID or the constant "all"
+   * @param partitionId - A partition ID or the constant "all"
    */
-  remove(partitionId: string | "all") {
+  remove(partitionId: string | "all"): void {
     this._partitions.delete(partitionId);
   }
 }

@@ -4,9 +4,7 @@ import { parsePath } from "./common";
 import { PartitionKey, PartitionKeyDefinition } from "./documents";
 
 /**
- * @ignore
- * @param document
- * @param partitionKeyDefinition
+ * @hidden
  */
 export function extractPartitionKey(
   document: unknown,
@@ -38,8 +36,7 @@ export function extractPartitionKey(
   }
 }
 /**
- * @ignore
- * @param partitionKeyDefinition
+ * @hidden
  */
 export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition): unknown[] {
   if (partitionKeyDefinition.systemKey === true) {

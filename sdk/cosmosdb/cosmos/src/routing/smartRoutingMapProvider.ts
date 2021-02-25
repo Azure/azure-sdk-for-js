@@ -64,11 +64,9 @@ export class SmartRoutingMapProvider {
 
   /**
    * Given the sorted ranges and a collection, invokes the callback on the list of overlapping partition key ranges
-   * @param {callback} callback - Function execute on the overlapping partition key ranges result,
-   *                              takes two parameters error, partition key ranges
-   * @param collectionLink
-   * @param sortedRanges
-   * @ignore
+   * @param callback - Function execute on the overlapping partition key ranges result,
+   *                   takes two parameters error, partition key ranges
+   * @hidden
    */
   public async getOverlappingRanges(
     collectionLink: string,

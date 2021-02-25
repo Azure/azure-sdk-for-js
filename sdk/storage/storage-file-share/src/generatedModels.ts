@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // explicitly exporting types that we need.
 
@@ -35,7 +35,6 @@ export {
   ListSharesIncludeType,
   FileRange as RangeModel,
   ServiceGetPropertiesResponse,
-  ServiceListSharesSegmentResponse as ServiceListSharesSegmentResponseModel,
   ServiceSetPropertiesResponse,
   ShareCreatePermissionResponse,
   ShareCreateResponse,
@@ -78,7 +77,7 @@ export {
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
   ServiceGetPropertiesHeaders,
-  ListSharesResponse,
+  ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,

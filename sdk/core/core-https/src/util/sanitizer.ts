@@ -4,7 +4,7 @@
 import { URL } from "./url";
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export interface SanitizerOptions {
   /**
@@ -23,7 +23,7 @@ export interface SanitizerOptions {
 }
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export type UnknownObject = { [s: string]: unknown };
 
@@ -36,6 +36,7 @@ const defaultAllowedHeaderNames = [
   "x-ms-correlation-request-id",
   "x-ms-request-id",
   "client-request-id",
+  "ms-cv",
   "return-client-request-id",
   "traceparent",
 
@@ -73,7 +74,7 @@ const defaultAllowedHeaderNames = [
 const defaultAllowedQueryParameters: string[] = ["api-version"];
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export class Sanitizer {
   private allowedHeaderNames: Set<string>;
@@ -90,7 +91,7 @@ export class Sanitizer {
     this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
   }
 
-  public sanitize(obj: object): string {
+  public sanitize(obj: unknown): string {
     return JSON.stringify(obj, this.replacer.bind(this), 2);
   }
 

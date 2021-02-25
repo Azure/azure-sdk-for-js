@@ -13,7 +13,7 @@ import { RetryPolicy } from "./RetryPolicy";
 import { SessionRetryPolicy } from "./sessionRetryPolicy";
 
 /**
- * @ignore
+ * @hidden
  */
 interface ExecuteArgs {
   retryContext?: RetryContext;
@@ -23,7 +23,7 @@ interface ExecuteArgs {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 interface RetryPolicies {
   endpointDiscoveryRetryPolicy: EndpointDiscoveryRetryPolicy;
@@ -33,9 +33,7 @@ interface RetryPolicies {
 }
 
 /**
- *
- * @param param0
- * @ignore
+ * @hidden
  */
 export async function execute({
   retryContext = {},

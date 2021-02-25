@@ -21,6 +21,7 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { isDefined } from "./util/typeGuards";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 
 /**
@@ -50,7 +51,6 @@ export class EventHubProducerClient {
    */
   private _sendersMap: Map<string, EventHubSender>;
   /**
-   * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
@@ -59,7 +59,6 @@ export class EventHubProducerClient {
   }
 
   /**
-   * @property
    * @readonly
    * The fully qualified namespace of the Event Hub instance for which this client is created.
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
@@ -80,7 +79,7 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, options?: EventHubClientOptions);
+  constructor(connectionString: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -94,7 +93,7 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -113,13 +112,13 @@ export class EventHubProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
-    options?: EventHubClientOptions
+    options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
     credentialOrOptions3?: TokenCredential | EventHubClientOptions,
-    options4?: EventHubClientOptions
+    options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(
       fullyQualifiedNamespaceOrConnectionString1,
@@ -160,7 +159,7 @@ export class EventHubProducerClient {
    * }
    * ```
    *
-   * @param options  Configures the behavior of the batch.
+   * @param options -  Configures the behavior of the batch.
    * - `partitionKey`  : A value that is hashed and used by the Azure Event Hubs service to determine the partition to which
    * the events need to be sent.
    * - `partitionId`   : Id of the partition to which the batch of events need to be sent.
@@ -174,7 +173,7 @@ export class EventHubProducerClient {
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
 
-    if (options.partitionId != undefined && options.partitionKey != undefined) {
+    if (isDefined(options.partitionId) && isDefined(options.partitionKey)) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
 
@@ -217,8 +216,8 @@ export class EventHubProducerClient {
    * await client.sendBatch(messages);
    * ```
    *
-   * @param batch An array of {@link EventData}.
-   * @param options A set of options that can be specified to influence the way in which
+   * @param batch - An array of {@link EventData}.
+   * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
    * - `partitionId`  : The partition this batch will be sent to. If set, `partitionKey` can not be set.
@@ -250,8 +249,8 @@ export class EventHubProducerClient {
    *   }
    * }
    * ```
-   * @param batch A batch of events that you can create using the {@link createBatch} method.
-   * @param options A set of options that can be specified to influence the way in which
+   * @param batch - A batch of events that you can create using the {@link createBatch} method.
+   * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
    *
@@ -260,7 +259,7 @@ export class EventHubProducerClient {
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
+  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>; // eslint-disable-line @azure/azure-sdk/ts-naming-options
   async sendBatch(
     batch: EventDataBatch | EventData[],
     options: SendBatchOptions | OperationOptions = {}
@@ -316,16 +315,16 @@ export class EventHubProducerClient {
         }
       }
     }
-    if (partitionId != undefined && partitionKey != undefined) {
+    if (isDefined(partitionId) && isDefined(partitionKey)) {
       throw new Error(
         `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
       );
     }
 
-    if (partitionId != undefined) {
+    if (isDefined(partitionId)) {
       partitionId = String(partitionId);
     }
-    if (partitionKey != undefined) {
+    if (isDefined(partitionKey)) {
       partitionKey = String(partitionKey);
     }
 
@@ -377,7 +376,7 @@ export class EventHubProducerClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the Event Hub instance.
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -391,7 +390,7 @@ export class EventHubProducerClient {
 
   /**
    * Provides the id for each partition associated with the Event Hub.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings representing the id for
    * each partition associated with the Event Hub.
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
@@ -410,8 +409,8 @@ export class EventHubProducerClient {
 
   /**
    * Provides information about the state of the specified partition.
-   * @param partitionId The id of the partition for which information is required.
-   * @param options The set of options to apply to the operation call.
+   * @param partitionId - The id of the partition for which information is required.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the state of the partition .
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.

@@ -9,9 +9,9 @@ export const isNode =
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param {number} t The number of milliseconds to be delayed.
- * @param {T} value The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} Resolved promise
+ * @param t - The number of milliseconds to be delayed.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns Resolved promise
  */
 export function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -22,9 +22,9 @@ export function delay<T>(t: number, value?: T): Promise<T | void> {
  * inclusive of both bounds.
  * Note that this uses Math.random and isn't secure. If you need to use
  * this for any kind of security purpose, find a better source of random.
- * @param min The smallest integer value allowed.
- * @param max The largest integer value allowed.
- * @ignore @internal
+ * @param min - The smallest integer value allowed.
+ * @param max - The largest integer value allowed.
+ * @hidden @internal
  */
 export function getRandomIntegerInclusive(min: number, max: number): number {
   // Make sure inputs are integers.

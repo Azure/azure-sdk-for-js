@@ -6,17 +6,15 @@ import { ExecutionContext } from "../ExecutionContext";
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
   /**
-   * Represents an endpoint in handling an order by query. For each processed orderby \
+   * Represents an endpoint in handling an order by query. For each processed orderby
    * result it returns 'payload' item of the result
-   * @constructor OrderByEndpointComponent
-   * @param {object} executionContext              - Underlying Execution Context
-   * @ignore
+   *
+   * @param executionContext - Underlying Execution Context
+   * @hidden
    */
   constructor(private executionContext: ExecutionContext) {}
   /**
    * Execute a provided function on the next element in the OrderByEndpointComponent.
-   * @memberof OrderByEndpointComponent
-   * @instance
    */
   public async nextItem(): Promise<Response<any>> {
     const { result: item, headers } = await this.executionContext.nextItem();
@@ -28,9 +26,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
 
   /**
    * Determine if there are still remaining resources to processs.
-   * @memberof OrderByEndpointComponent
-   * @instance
-   * @returns {Boolean} true if there is other elements to process in the OrderByEndpointComponent.
+   * @returns true if there is other elements to process in the OrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();

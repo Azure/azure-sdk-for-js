@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
+   "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "",
    "status": 401,
@@ -13,26 +13,25 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:51 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "fae42466-fe8e-4bb3-a9eb-2bbc7feb6844",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "be1515ca-5c96-43a7-ad6f-3abe266da17a",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "PUT",
-   "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
+   "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "",
    "status": 401,
@@ -41,18 +40,17 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:51 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "f067a521-58c9-4692-931e-c04fcc152eca",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "ac533689-3e68-4d25-9aa6-9dfd0b8beb63",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -64,18 +62,18 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
+    "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:51 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:34 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10732.8 - WUS2 ProdSlices",
-    "x-ms-request-id": "077837e8-2309-49b1-b1ef-557f02bd0d01"
+    "x-ms-ests-server": "2.1.11496.6 - WUS2 ProdSlices",
+    "x-ms-request-id": "c83c1f83-05ce-4603-9968-0544eb8c3200"
    }
   },
   {
@@ -86,71 +84,69 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
+    "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10732.8 - SCUS ProdSlices",
-    "x-ms-request-id": "6d3bcc30-fd00-4a68-b656-d0eaa9d10101"
+    "x-ms-ests-server": "2.1.11496.5 - EUS ProdSlices",
+    "x-ms-request-id": "3eb4e4c0-e8c1-4aa1-a070-8a386aadef00"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "{\"value\":\"value\",\"attributes\":{}}",
+   "status": 200,
+   "response": "{\"value\":\"value\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/9842e3b1b87d4833b83ecbe2713a7586\",\"attributes\":{\"enabled\":true,\"created\":1613504614,\"updated\":1613504614,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "329",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "07f7320b-43f8-4151-a0f3-57617e5a5510",
+    "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "PUT",
    "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "{\"value\":\"value\",\"attributes\":{}}",
    "status": 200,
-   "response": "{\"value\":\"value\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/614f3feca2774799817d174a1a93b7bd\",\"attributes\":{\"enabled\":true,\"created\":1593089212,\"updated\":1593089212,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"value\":\"value\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/98a295eb7d7b43b180724a406c0488df\",\"attributes\":{\"enabled\":true,\"created\":1613504614,\"updated\":1613504614,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "328",
+    "content-length": "329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "dcf79294-efba-49f5-b833-f6162e5c91b9",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "PUT",
-   "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": "{\"value\":\"value\",\"attributes\":{}}",
-   "status": 200,
-   "response": "{\"value\":\"value\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/f0a3729a26eb4876a7cebe60e870ccb9\",\"attributes\":{\"enabled\":true,\"created\":1593089212,\"updated\":1593089212,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "328",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:52 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "ece12076-0f28-4663-a204-292fcff4347b",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "e0771314-eb97-407d-bbb7-7f45922395fb",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -158,26 +154,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\",\"deletedDate\":1593089212,\"scheduledPurgeDate\":1600865212,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/f0a3729a26eb4876a7cebe60e870ccb9\",\"attributes\":{\"enabled\":true,\"created\":1593089212,\"updated\":1593089212,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\",\"deletedDate\":1613504614,\"scheduledPurgeDate\":1614109414,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/9842e3b1b87d4833b83ecbe2713a7586\",\"attributes\":{\"enabled\":true,\"created\":1613504614,\"updated\":1613504614,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "529",
+    "content-length": "522",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "779bb734-3cf7-43b3-9038-84ff9995dfb7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "0618ba8e-3a0c-4963-854a-25f354a6d594",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -185,26 +180,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "03b28649-3a93-4bf9-b5c8-77f434348b9b",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "40c6a0b2-90c8-4c5e-983b-07722c784f04",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -212,26 +206,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "1efad4de-5eff-49ca-87f6-4235ac4d6621",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "689a8490-6477-4257-acf2-58a22df2e66d",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -239,26 +232,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:54 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:36 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "bac87ed4-f30c-4652-ac35-8cf7c554d65a",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "0446bf4a-e8d3-4d3a-b832-47cf7d43c802",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -266,26 +258,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:56 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:38 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "2f6dcd12-499f-471e-950e-9d3d5eb5eb4f",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "4689c0ac-8f26-490d-8a2a-b13fc24860ae",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -293,26 +284,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:46:58 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:40 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "868120b8-addc-4a2c-9125-83fa20ddf63d",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "9dcf176d-565e-444a-b887-9685672ed121",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -320,26 +310,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:00 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:41 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "e2506ff6-1c99-4966-9523-e233f2c815b7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "e12b8bd0-fefd-421d-966f-7f02d3afd3dd",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -347,26 +336,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:02 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:44 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "e0d5f535-9141-45b7-b4fd-915907396f72",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "c8dbc01e-8435-451d-91a3-7450b87029a0",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -374,26 +362,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:04 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:46 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "298f4a24-e3e7-41c3-9077-c7346782f6ae",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "db7df98e-25c2-4d04-8664-4d7e25c4e185",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -401,53 +388,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "160",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:07 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "5baa1c00-18c5-4424-bb20-cc73dd597f44",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
-   "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\",\"deletedDate\":1593089212,\"scheduledPurgeDate\":1600865212,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/f0a3729a26eb4876a7cebe60e870ccb9\",\"attributes\":{\"enabled\":true,\"created\":1593089212,\"updated\":1593089212,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0\",\"deletedDate\":1613504614,\"scheduledPurgeDate\":1614109414,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/9842e3b1b87d4833b83ecbe2713a7586\",\"attributes\":{\"enabled\":true,\"created\":1613504614,\"updated\":1613504614,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "529",
+    "content-length": "522",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:08 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:48 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "6411cb9f-4299-4990-afb3-182764ac2a77",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "698837af-29fb-49c4-b49e-b6b16cb6ed8e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -455,24 +414,23 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Thu, 25 Jun 2020 12:47:09 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:48 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "204",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "67c3d444-7c91-4d26-b4e2-981a867b6029",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "cff3502c-fdd9-4497-a376-ddebaf098eb3",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -480,26 +438,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\",\"deletedDate\":1593089229,\"scheduledPurgeDate\":1600865229,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/614f3feca2774799817d174a1a93b7bd\",\"attributes\":{\"enabled\":true,\"created\":1593089212,\"updated\":1593089212,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\",\"deletedDate\":1613504629,\"scheduledPurgeDate\":1614109429,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/98a295eb7d7b43b180724a406c0488df\",\"attributes\":{\"enabled\":true,\"created\":1613504614,\"updated\":1613504614,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "529",
+    "content-length": "522",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:09 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:48 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "349563fc-9788-42f9-aefe-cd28c83d2210",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "75c7a0d1-29ad-4bea-b6e2-ededfed87547",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -507,26 +464,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:09 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:48 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "b4b220a7-4b83-4699-893c-fb76b2e1cdff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "4e9db725-c516-44f5-abd0-99b5755c95f9",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -534,26 +490,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:09 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:48 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "f3b6ae33-0100-4329-ac86-40efda1be2db",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "dab4f536-ba0d-40d2-af5d-8ba416afd75f",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -561,26 +516,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:11 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:51 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "c1c97b58-a214-4c6d-9a7c-5a25e2cc2ee9",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "d8f9a94a-8041-4940-8892-3ac0d916473f",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -588,26 +542,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:13 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:52 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "00187e02-7b58-4f66-86d6-c9112aba6ef7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "d52551cb-21e6-46f0-a048-34e444c1b2ea",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -615,26 +568,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:15 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:54 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "2f102f3f-8272-4d37-9214-1755c47cacca",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "dd121b55-390e-423b-b58a-dd78f0f89a9b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -642,26 +594,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "160",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:17 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:57 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "23e9b914-9e81-4018-851b-768a7f6dfa4d",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "7e446dc1-4daf-47cf-a4ba-1e2f4f9984bc",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -669,80 +620,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "160",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:19 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "8a658cab-9239-4cb8-acb8-0231380773a1",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "160",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:21 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "927a6556-9d4b-42d4-86a1-82928bca8ef5",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
-   "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\",\"deletedDate\":1593089229,\"scheduledPurgeDate\":1600865229,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/614f3feca2774799817d174a1a93b7bd\",\"attributes\":{\"enabled\":true,\"created\":1593089212,\"updated\":1593089212,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1\",\"deletedDate\":1613504629,\"scheduledPurgeDate\":1614109429,\"id\":\"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/98a295eb7d7b43b180724a406c0488df\",\"attributes\":{\"enabled\":true,\"created\":1613504614,\"updated\":1613504614,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "529",
+    "content-length": "522",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:47:22 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:59 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "e1f2daad-df8e-46d1-87c0-55ff29f809de",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "a74b89f5-e2de-4e72-a3b1-e74258a89ff0",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -750,24 +646,23 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Thu, 25 Jun 2020 12:47:23 GMT",
+    "date": "Tue, 16 Feb 2021 19:43:59 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "204",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "cfc19cdc-ee11-49e6-a88f-ac4d32844896",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "a54b060a-6250-4609-8295-2c95b993d132",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -776,5 +671,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "b080bc3cf0bfa71f5b6d1204b814a3bf"
+ "hash": "a534fafe6727b250456ef437431576e5"
 }

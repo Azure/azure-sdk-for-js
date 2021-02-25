@@ -3,7 +3,7 @@
 import { Agent } from "http";
 
 /**
- * @ignore
+ * @hidden
  */
 export let defaultHttpsAgent: Agent;
 

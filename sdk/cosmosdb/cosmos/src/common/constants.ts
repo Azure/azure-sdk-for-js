@@ -9,7 +9,7 @@ export interface PartitionKeyRangePropertiesNames {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
@@ -225,7 +225,7 @@ export const Constants = {
 };
 
 /**
- * @ignore
+ * @hidden
  */
 export enum ResourceType {
   none = "",
@@ -243,7 +243,7 @@ export enum ResourceType {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum HTTPMethod {
   get = "GET",
@@ -253,7 +253,7 @@ export enum HTTPMethod {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum OperationType {
   Create = "create",

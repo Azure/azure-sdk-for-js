@@ -1,6 +1,23 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.6 (Unreleased)
+
+
+## 1.0.0-beta.5 (2021-02-09)
+
+
+### Breaking Changes
+
+- Move generated client to use @azure/core-https. For more information about Core V2 read [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core#core-v1-and-core-v2). [#12548](https://github.com/Azure/azure-sdk-for-js/pull/12548).  
+   - With this change, the response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag.
+      ```typescript
+      let createResult: FullOperationResponse  | undefined;
+      await client.createEntity(testEntity, { onResponse: (response) => (createResult = response) });
+      ```
+
+## 1.0.0-beta.4 (2021-01-12)
+
+- Fix issue that prevented support for Azure Storage Emulator and Azurite [#13165](https://github.com/Azure/azure-sdk-for-js/pull/13165)
 
 ### Breaking Changes
 

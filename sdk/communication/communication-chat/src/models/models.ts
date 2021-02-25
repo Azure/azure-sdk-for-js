@@ -1,66 +1,87 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUser } from "@azure/communication-common";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { HttpResponse } from "@azure/core-http";
 import {
   SendChatMessageResult,
   ChatMessage as RestChatMessage,
   ChatThread as RestChatThread,
-  ChatThreadMember as RestChatThreadMember,
-  ReadReceipt as RestReadReceipt
+  ChatParticipant as RestChatParticipant,
+  ChatMessageReadReceipt as RestChatMessageReadReceipt,
+  ChatMessageContent as RestChatMessageContent,
+  ChatMessageType,
+  CreateChatThreadResult,
+  CreateChatThreadErrors,
+  AddChatParticipantsResult,
+  AddChatParticipantsErrors,
+  CommunicationError
 } from "../generated/src/models";
 
 export {
   RestChatMessage,
   RestChatThread,
-  RestChatThreadMember,
-  RestReadReceipt,
-  SendChatMessageResult
+  RestChatParticipant,
+  RestChatMessageContent,
+  RestChatMessageReadReceipt,
+  CreateChatThreadResult,
+  CreateChatThreadErrors,
+  SendChatMessageResult,
+  AddChatParticipantsResult,
+  AddChatParticipantsErrors,
+  ChatMessageType,
+  CommunicationError
 };
 
 /**
  * An interface representing a chat message.
  */
-export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
+export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content"> {
   /**
-   * The CommunicationUser that identifies this chat message sender.
+   * The CommunicationUserIdentifier that identifies this chat message sender.
    */
-  sender?: CommunicationUser;
+  sender?: CommunicationUserIdentifier;
+  /**
+   * Content of a chat message.
+   */
+  content?: ChatMessageContent;
+}
+
+export interface ChatMessageContent extends Omit<RestChatMessageContent, "participants"> {
+  /**
+   * Chat message content for type "participantAdded" or "participantRemoved" messages.
+   */
+  participants?: ChatParticipant[];
 }
 
 /**
  * An interface representing a chat thread.
  */
-export interface ChatThread extends Omit<RestChatThread, "createdBy" | "members"> {
+export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
   /**
-   * The CommunicationUser that identifies this chat thread owner.
+   * The CommunicationUserIdentifier that identifies this chat thread owner.
    */
-  readonly createdBy?: CommunicationUser;
-  /**
-   * Chat thread members.
-   */
-  members?: ChatThreadMember[];
+  readonly createdBy?: CommunicationUserIdentifier;
 }
 
 /**
- * A member of the chat thread.
+ * A participant of the chat thread.
  */
-export interface ChatThreadMember extends Omit<RestChatThreadMember, "id"> {
+export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
   /**
-   * The CommunicationUser that identifies this chat thread member.
+   * The CommunicationUserIdentifier that identifies this chat participant.
    */
-  user: CommunicationUser;
+  user: CommunicationUserIdentifier;
 }
 
 /**
  * A read receipt indicates the time a chat message was read by a recipient.
  */
-export interface ReadReceipt extends Omit<RestReadReceipt, "senderId"> {
+export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
   /**
-   * The CommunicationUser that identifies this Read receipt sender.
+   * The CommunicationUserIdentifier that identifies this Read receipt sender.
    */
-  readonly sender?: CommunicationUser;
+  readonly sender: CommunicationUserIdentifier;
 }
 
 /**
@@ -103,3 +124,13 @@ export type GetChatThreadResponse = WithResponse<ChatThread>;
  * Represents the response from sending a chat message
  */
 export type SendChatMessageResponse = WithResponse<SendChatMessageResult>;
+
+/**
+ * Represents the response from creating a chat thread
+ */
+export type CreateChatThreadResponse = WithResponse<CreateChatThreadResult>;
+
+/**
+ * Represents the response from adding chat participants
+ */
+export type AddChatParticipantsResponse = WithResponse<AddChatParticipantsResult>;

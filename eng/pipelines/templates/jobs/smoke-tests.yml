@@ -1,0 +1,181 @@
+parameters:
+  - name: Daily
+    type: boolean
+    default: true
+  - name: ServiceDirectory
+    type: string
+    default: ""
+  - name: Artifacts
+    type: object
+    default: []
+
+jobs:
+  - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
+    - job: smoke_test_eligibility
+      variables:
+        - template: /eng/pipelines/templates/variables/globals.yml
+      pool:
+        vmImage: $(OSVmImage)
+      displayName: Check Smoke Test Eligibility
+      steps:
+        - template: /eng/pipelines/templates/steps/use-node-version.yml
+
+        - pwsh: npm install -g
+          workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
+          displayName: Install dev-tool
+
+        - pwsh: |
+            $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
+
+            ./Initialize-SmokeTests.ps1 -DryRun -CI -Verbose -ServiceDirectory ${{ parameters.ServiceDirectory }}
+            if (-not (Test-Path ./run-manifest.json)) {
+              exit
+            }
+            $packages = Get-Content ./run-manifest.json | ConvertFrom-Json
+            $packages | ForEach-Object {
+              if ($_) {
+                Write-Host "Smoke tests will run for $($_.Name)"
+                Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]true"
+              }
+            }
+          name: check_smoke_tests
+          displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
+          workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
+
+  - job: SmokeTest
+    ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
+      dependsOn: smoke_test_eligibility
+      condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
+    strategy:
+      matrix:
+        Linux Node14 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "ubuntu-18.04"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "14.x"
+        Windows Node12 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "windows-2019"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "12.x"
+        Mac Node10 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "macOS-10.14"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "10.x"
+#        Linux Node10 (AzureUSGovernment):
+#          Pool: Azure Pipelines
+#          OSVmImage: "ubuntu-18.04"
+#          SubscriptionConfiguration: $(sub-config-gov-test-resources)
+#          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+#          NodeTestVersion: "10.x"
+#        Windows Node14 (AzureUSGovernment):
+#          Pool: Azure Pipelines
+#          OSVmImage: "windows-2019"
+#          SubscriptionConfiguration: $(sub-config-gov-test-resources)
+#          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+#          NodeTestVersion: "14.x"
+#        Linux Node12 (AzureChinaCloud):
+#          Pool: Azure Pipelines
+#          OSVmImage: "ubuntu-18.04"
+#          SubscriptionConfiguration: $(sub-config-cn-test-resources)
+#          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+#          NodeTestVersion: "12.x"
+#        Windows Node10 (AzureChinaCloud):
+#          Pool: Azure Pipelines
+#          OSVmImage: "windows-2019"
+#          SubscriptionConfiguration: $(sub-config-cn-test-resources)
+#          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+#          NodeTestVersion: "10.x"
+
+    pool:
+      name: $(Pool)
+      vmImage: $(OSVmImage)
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+      - name: Location
+        value: ""
+      - name: AzureCloudArmTemplateParameters
+        value: "@{ }"
+      - name: AzureUSGovernmentArmTemplateParameters
+        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.us'; searchSku = 'basic' }"
+      - name: AzureChinaCloudArmTemplateParameters
+        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.cn'; searchSku = 'basic' }"
+
+    steps:
+      - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
+        parameters:
+          AgentImage: $(OSVmImage)
+        
+      - template: /eng/pipelines/templates/steps/common.yml
+
+      - template: /eng/pipelines/templates/steps/use-node-version.yml
+        parameters:
+          NodeVersion: $(NodeTestVersion)
+
+      - pwsh: npm install -g
+        workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
+        displayName: Install dev-tool
+
+      - pwsh: |
+          $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
+
+          $subscriptionConfiguration = @"
+            $(SubscriptionConfiguration)
+          "@ | ConvertFrom-Json -AsHashtable;
+
+          $packageOverrides = @()
+          $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
+
+          if ([System.Convert]::ToBoolean("${{ parameters.Daily }}")) {
+            ./Initialize-SmokeTests.ps1 `
+              -CI `
+              -Verbose `
+              -Location '$(Location)' `
+              -Daily `
+              @subscriptionConfiguration `
+              -AdditionalParameters $(ArmTemplateParameters)
+          } else {
+            ./Initialize-SmokeTests.ps1 `
+              -CI `
+              -Verbose `
+              -Location '$(Location)' `
+              -TagOverride $(Tag) `
+              -TagOverridePackages $packageOverrides `
+              -ServiceDirectory ${{ parameters.ServiceDirectory }} `
+              @subscriptionConfiguration `
+              -AdditionalParameters $(ArmTemplateParameters)
+          }
+
+        workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
+        displayName: Deploy Smoke Test resources and prepare samples
+        env:
+          # Pipelines yaml does not handle transferring non-string parameter types
+          # into script blocks very well, so this is the best available workaround.
+          ${{ each artifact in parameters.Artifacts }}:
+            SMOKE_PACKAGE_${{ artifact.safeName }}: "@azure/${{ replace(artifact.name, 'azure-', '') }}"
+
+      - task: Npm@1
+        inputs:
+          command: install
+          workingDir: common/smoke-test/
+        displayName: Install packages
+
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: "list --depth=0"
+          workingDir: common/smoke-test/
+        displayName: List packages installed from the feed
+
+      - script: npm run smoke-test -- --devops-logging
+        workingDirectory: common/smoke-test/
+        displayName: Run smoke tests
+
+      - template: /eng/common/TestResources/remove-test-resources.yml
+        parameters:
+          SubscriptionConfiguration: $(SubscriptionConfiguration)

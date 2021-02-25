@@ -18,9 +18,18 @@ import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
 import { URL } from "./util/url";
 import { IncomingMessage } from "http";
+import { logger } from "./log";
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
+  return new Promise((resolve) => {
+    stream.on("close", resolve);
+    stream.on("end", resolve);
+    stream.on("error", resolve);
+  });
 }
 
 function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
@@ -30,6 +39,8 @@ function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
 class ReportTransform extends Transform {
   private loadedBytes = 0;
   private progressCallback: (progress: TransferProgressEvent) => void;
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
   _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
@@ -49,14 +60,15 @@ class ReportTransform extends Transform {
 
 /**
  * A HttpsClient implementation that uses Node's "https" module to send HTTPS requests.
+ * @internal
  */
-export class NodeHttpsClient implements HttpsClient {
+class NodeHttpsClient implements HttpsClient {
   private keepAliveAgent?: https.Agent;
   private proxyAgent?: https.Agent;
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
-   * @param request The request to be made.
+   * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const abortController = new AbortController();
@@ -80,10 +92,9 @@ export class NodeHttpsClient implements HttpsClient {
       }, request.timeout);
     }
 
-    if (!request.skipDecompressResponse) {
-      request.headers.set("Accept-Encoding", "gzip,deflate");
-    }
-
+    const acceptEncoding = request.headers.get("Accept-Encoding");
+    const shouldDecompress =
+      acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
     let body = request.body;
 
     if (body && !request.headers.has("Content-Length")) {
@@ -93,6 +104,7 @@ export class NodeHttpsClient implements HttpsClient {
       }
     }
 
+    let responseStream: NodeJS.ReadableStream | undefined;
     try {
       const result = await new Promise<PipelineResponse>((resolve, reject) => {
         if (body && request.onUploadProgress) {
@@ -118,7 +130,7 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          let responseStream = getResponseStream(res, headers, request.skipDecompressResponse);
+          responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {
@@ -128,7 +140,7 @@ export class NodeHttpsClient implements HttpsClient {
             responseStream = downloadReportStream;
           }
 
-          if (request.streamResponseBody) {
+          if (request.streamResponseStatusCodes?.has(response.status)) {
             response.readableStreamBody = responseStream;
           } else {
             response.bodyAsText = await streamToText(responseStream);
@@ -158,7 +170,23 @@ export class NodeHttpsClient implements HttpsClient {
     } finally {
       // clean up event listener
       if (request.abortSignal && abortListener) {
-        request.abortSignal.removeEventListener("abort", abortListener);
+        let uploadStreamDone = Promise.resolve();
+        if (isReadableStream(body)) {
+          uploadStreamDone = isStreamComplete(body as NodeJS.ReadableStream);
+        }
+        let downloadStreamDone = Promise.resolve();
+        if (isReadableStream(responseStream)) {
+          downloadStreamDone = isStreamComplete(responseStream);
+        }
+
+        Promise.all([uploadStreamDone, downloadStreamDone])
+          .then(() => {
+            request.abortSignal?.removeEventListener("abort", abortListener!);
+            return;
+          })
+          .catch((e) => {
+            logger.warning("Error when cleaning up abortListener on httpRequest", e);
+          });
       }
     }
   }
@@ -170,9 +198,17 @@ export class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
+        let parsedUrl: URL;
+        try {
+          parsedUrl = new URL(proxySettings.host);
+        } catch (_error) {
+          throw new Error(`Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`);
+        }
+
         const proxyAgentOptions: HttpsProxyAgentOptions = {
-          host: proxySettings.host,
+          hostname: parsedUrl.hostname,
           port: proxySettings.port,
+          protocol: parsedUrl.protocol,
           headers: request.headers.toJSON()
         };
         if (proxySettings.username && proxySettings.password) {
@@ -224,15 +260,10 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
   return headers;
 }
 
-function getResponseStream(
+function getDecodedResponseStream(
   stream: IncomingMessage,
-  headers: HttpHeaders,
-  skipDecompressResponse = false
+  headers: HttpHeaders
 ): NodeJS.ReadableStream {
-  if (skipDecompressResponse) {
-    return stream;
-  }
-
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
     const unzip = zlib.createGunzip();
@@ -283,4 +314,12 @@ function getBodyLength(body: RequestBodyType): number | null {
   } else {
     return null;
   }
+}
+
+/**
+ * Create a new HttpsClient instance for the NodeJS environment.
+ * @internal
+ */
+export function createNodeHttpsClient(): HttpsClient {
+  return new NodeHttpsClient();
 }

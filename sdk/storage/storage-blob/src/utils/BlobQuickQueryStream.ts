@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { Readable } from "stream";
 
@@ -13,23 +13,16 @@ export interface BlobQuickQueryStreamOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobQuickQueryStreamOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Read progress event handler
-   *
-   * @memberof BlobQuickQueryStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Callback to receive error events during the query operaiton.
-   *
-   * @memberof BlockBlobQueryOptions
    */
   onError?: (error: BlobQueryError) => void;
 }
@@ -38,23 +31,20 @@ export interface BlobQuickQueryStreamOptions {
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * A Node.js BlobQuickQueryStream will internally parse avro data stream for blob query.
- *
- * @class BlobQuickQueryStream
- * @extends {Readable}
  */
 export class BlobQuickQueryStream extends Readable {
   private source: NodeJS.ReadableStream;
   private avroReader: AvroReader;
   private avroIter: AsyncIterableIterator<Object | null>;
+  private avroPaused: boolean = true;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private onError?: (error: BlobQueryError) => void;
 
   /**
    * Creates an instance of BlobQuickQueryStream.
    *
-   * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
-   * @param {BlobQuickQueryStreamOptions} [options={}]
-   * @memberof BlobQuickQueryStream
+   * @param source - The current ReadableStream returned from getter
+   * @param options -
    */
   public constructor(source: NodeJS.ReadableStream, options: BlobQuickQueryStreamOptions = {}) {
     super();
@@ -66,19 +56,27 @@ export class BlobQuickQueryStream extends Readable {
   }
 
   public _read() {
-    this.readInternal().catch((err) => {
-      this.emit("error", err);
-    });
+    if (this.avroPaused) {
+      this.readInternal().catch((err) => {
+        this.emit("error", err);
+      });
+    }
   }
 
   private async readInternal() {
-    for await (const obj of this.avroIter) {
+    this.avroPaused = false;
+    let avroNext;
+    do {
+      avroNext = await this.avroIter.next();
+      if (avroNext.done) {
+        break;
+      }
+      const obj = avroNext.value;
       const schema = (obj as any).$schema;
       if (typeof schema !== "string") {
         throw Error("Missing schema in avro record.");
       }
 
-      let exit = false;
       switch (schema) {
         case "com.microsoft.azure.storage.queryBlobContents.resultData":
           const data = (obj as any).data;
@@ -86,7 +84,7 @@ export class BlobQuickQueryStream extends Readable {
             throw Error("Invalid data in avro result record.");
           }
           if (!this.push(Buffer.from(data))) {
-            exit = true;
+            this.avroPaused = true;
           }
           break;
         case "com.microsoft.azure.storage.queryBlobContents.progress":
@@ -137,10 +135,6 @@ export class BlobQuickQueryStream extends Readable {
         default:
           throw Error(`Unknown schema ${schema} in avro progress record.`);
       }
-
-      if (exit) {
-        break;
-      }
-    }
+    } while (!avroNext.done && !this.avroPaused);
   }
 }

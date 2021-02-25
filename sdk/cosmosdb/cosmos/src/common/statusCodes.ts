@@ -36,7 +36,7 @@ export interface StatusCodesType {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export const StatusCodes: StatusCodesType = {
   // Success

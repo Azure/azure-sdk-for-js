@@ -28,7 +28,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { defaultDataTransformer } from "./dataTransformer";
 
 /**
- * @ignore
+ * @hidden
  */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -46,22 +46,22 @@ interface CreateReceiverOptions {
  */
 export interface LastEnqueuedEventProperties {
   /**
-   * @property The sequence number of the event that was last enqueued into the Event Hub partition from which
+   * The sequence number of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
   sequenceNumber?: number;
   /**
-   * @property The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
+   * The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
    * which this event was received.
    */
   enqueuedOn?: Date;
   /**
-   * @property The offset of the event that was last enqueued into the Event Hub partition from which
+   * The offset of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
   offset?: string;
   /**
-   * @property The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
+   * The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
    */
   retrievedOn?: Date;
 }
@@ -69,99 +69,94 @@ export interface LastEnqueuedEventProperties {
 /**
  * Describes the message handler signature.
  * @internal
- * @ignore
  */
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
  * @internal
- * @ignore
  */
 export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the abort handler signature.
  * @internal
- * @ignore
  */
 export type OnAbort = () => void;
 
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
- * @class EventHubReceiver
  * @internal
- * @ignore
  */
 export class EventHubReceiver extends LinkEntity {
   /**
-   * @property consumerGroup The EventHub consumer group from which the receiver will
+   * The EventHub consumer group from which the receiver will
    * receive messages. (Default: "default").
    */
   consumerGroup: string;
   /**
-   * @property runtimeInfo The receiver runtime info.
+   * The receiver runtime info.
    */
   runtimeInfo: LastEnqueuedEventProperties;
   /**
-   * @property [ownerLevel] The Receiver ownerLevel.
+   * The Receiver ownerLevel.
    */
   ownerLevel?: number;
   /**
-   * @property eventPosition The event position in the partition at which to start receiving messages.
+   * The event position in the partition at which to start receiving messages.
    */
   eventPosition: EventPosition;
   /**
-   * @property [options] Optional properties that can be set while creating
+   * Optional properties that can be set while creating
    * the EventHubConsumer.
    */
   options: EventHubConsumerOptions;
   /**
-   * @property [_receiver] The RHEA AMQP-based receiver link.
+   * The RHEA AMQP-based receiver link.
    */
   private _receiver?: Receiver;
   /**
-   * @property _onMessage The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onMessage?: OnMessage;
   /**
-   * @property _OnError The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onError?: OnError;
   /**
-   * @property _onAbort The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onAbort?: OnAbort;
   /**
-   * @property _abortSignal An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
+   * An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
    */
   private _abortSignal?: AbortSignalLike;
   /**
-   * @property _checkpoint The sequence number of the most recently received AMQP message.
+   * The sequence number of the most recently received AMQP message.
    */
   private _checkpoint: number = -1;
   /**
-   * @property _internalQueue A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
+   * A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
    */
   private _internalQueue: ReceivedEventData[] = [];
   /**
-   * @property _usingInternalQueue Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
+   * Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
    */
   private _usingInternalQueue: boolean = false;
   /**
-   * @property _isReceivingMessages Indicates if messages are being received from this receiver.
+   * Indicates if messages are being received from this receiver.
    */
   private _isReceivingMessages: boolean = false;
   /**
-   * @property _isStreaming Indicated if messages are being received in streaming mode.
+   * Indicated if messages are being received in streaming mode.
    */
   private _isStreaming: boolean = false;
   /**
-   * @property Denotes if close() was called on this receiver
+   * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
   /**
-   * @property Returns sequenceNumber of the last event received from the service. This will not match the
+   * Returns sequenceNumber of the last event received from the service. This will not match the
    * last event received by `EventHubConsumer` when the `_internalQueue` is not empty
    * @readonly
    */
@@ -170,7 +165,7 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * @property Indicates if messages are being received from this receiver.
+   * Indicates if messages are being received from this receiver.
    * @readonly
    */
   get isReceivingMessages(): boolean {
@@ -185,7 +180,7 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * @property The last enqueued event information. This property will only
+   * The last enqueued event information. This property will only
    * be enabled when `trackLastEnqueuedEventProperties` option is set to true
    * @readonly
    */
@@ -196,13 +191,12 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
    * either batching or streaming mode.
-   * @ignore
-   * @constructor
-   * @param context        The connection context corresponding to the EventHubClient instance
-   * @param consumerGroup  The consumer group from which the receiver should receive events from.
-   * @param partitionId    The Partition ID from which to receive.
-   * @param eventPosition  The position in the stream from where to start receiving events.
-   * @param [options]      Receiver options.
+   * @hidden
+   * @param context -        The connection context corresponding to the EventHubClient instance
+   * @param consumerGroup -  The consumer group from which the receiver should receive events from.
+   * @param partitionId -    The Partition ID from which to receive.
+   * @param eventPosition -  The position in the stream from where to start receiving events.
+   * @param options -      Receiver options.
    */
   constructor(
     context: ConnectionContext,
@@ -365,7 +359,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Clears the user-provided handlers and updates the receiving messages flag.
-   * @ignore
+   * @hidden
    */
   clearHandlers(): void {
     if (this._abortSignal && this._onAbort) {
@@ -382,7 +376,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Closes the underlying AMQP receiver.
-   * @ignore
+   * @hidden
    */
   async close(): Promise<void> {
     try {
@@ -407,7 +401,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @ignore
+   * @hidden
    * @returns boolean
    */
   isOpen(): boolean {
@@ -425,7 +419,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Registers the user's onMessage and onError handlers.
    * Sends buffered events from the queue before adding additional credits to the AMQP link.
-   * @ignore
+   * @hidden
    */
   registerHandlers(
     onMessage: OnMessage,
@@ -462,7 +456,10 @@ export class EventHubReceiver extends LinkEntity {
               await this.abort();
             }
           } catch (err) {
-            return this._onError === onError && onError(err);
+            if (this._onError === onError) {
+              onError(err);
+            }
+            return;
           }
         } else {
           logger.verbose(
@@ -478,6 +475,7 @@ export class EventHubReceiver extends LinkEntity {
           0
         );
         this._addCredit(creditsToAdd);
+        return;
       })
       .catch((err) => {
         // something really unexpected happened, so attempt to call user's error handler
@@ -540,7 +538,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @ignore
+   * @hidden
    */
   async initialize(): Promise<void> {
     try {
@@ -608,7 +606,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @ignore
+   * @hidden
    */
   private _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
     if (options.newName) this.name = uuid();
@@ -654,13 +652,12 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Returns a promise that resolves to an array of events received from the service.
    *
-   * @param maxMessageCount The maximum number of messages to receive.
-   * @param maxWaitTimeInSeconds The maximum amount of time to wait to build up the requested message count;
+   * @param maxMessageCount - The maximum number of messages to receive.
+   * @param maxWaitTimeInSeconds - The maximum amount of time to wait to build up the requested message count;
    * If not provided, it defaults to 60 seconds.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * @param abortSignal - An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @returns Promise<ReceivedEventData[]>.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    * @throws MessagingError if an error is encountered while receiving a message.
    * @throws Error if the underlying connection or receiver has been closed.
@@ -676,7 +673,7 @@ export class EventHubReceiver extends LinkEntity {
     const receivedEvents: ReceivedEventData[] = [];
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         // if this consumer was closed,
         // resolve the operation's promise with the events collected thus far in case
         // the promise hasn't already been resolved.
@@ -700,13 +697,13 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.close();
           } finally {
-            return reject(new AbortError("The receive operation has been cancelled by the user."));
+            reject(new AbortError("The receive operation has been cancelled by the user."));
           }
         };
 
         // operation has been cancelled, so exit immediately
         if (abortSignal && abortSignal.aborted) {
-          return await rejectOnAbort();
+          return rejectOnAbort();
         }
 
         // updates the prefetch count so that the baseConsumer adds

@@ -11,7 +11,6 @@ import {
 import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
 import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
-import { KeepAlivePolicyOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import {
   ExponentialRetryPolicyOptions,
   exponentialRetryPolicy
@@ -20,11 +19,10 @@ import { tracingPolicy } from "./policies/tracingPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { isNode } from "./util/helpers";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 
 /**
  * Policies are executed in phases.
@@ -53,7 +51,6 @@ export interface AddPolicyOptions {
   afterPolicies?: string[];
   /**
    * The phase that this policy must come after.
-   * By default, policies without a phase occur first.
    */
   afterPhase?: PipelinePhase;
   /**
@@ -74,8 +71,8 @@ export interface PipelinePolicy {
   name: string;
   /**
    * The main method to implement that manipulates a request/response.
-   * @param request The request being performed.
-   * @param next The next policy in the pipeline. Must be called to continue the pipeline.
+   * @param request - The request being performed.
+   * @param next - The next policy in the pipeline. Must be called to continue the pipeline.
    */
   sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse>;
 }
@@ -88,19 +85,19 @@ export interface PipelinePolicy {
 export interface Pipeline {
   /**
    * Add a new policy to the pipeline.
-   * @param policy A policy that manipulates a request.
-   * @param options A set of options for when the policy should run.
+   * @param policy - A policy that manipulates a request.
+   * @param options - A set of options for when the policy should run.
    */
   addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
   /**
    * Remove a policy from the pipeline.
-   * @param options Options that let you specify which policies to remove.
+   * @param options - Options that let you specify which policies to remove.
    */
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
   /**
    * Uses the pipeline to make a HTTPS request.
-   * @param httpsClient The HttpsClient that actually performs the request.
-   * @param request The request to be made.
+   * @param httpsClient - The HttpsClient that actually performs the request.
+   * @param request - The request to be made.
    */
   sendRequest(httpsClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
   /**
@@ -149,7 +146,7 @@ class HttpsPipeline implements Pipeline {
       throw new Error(`Invalid phase name: ${options.phase}`);
     }
     if (options.afterPhase && !ValidPhaseNames.has(options.afterPhase)) {
-      throw new Error(`Invalid phase name: ${options.afterPhase}`);
+      throw new Error(`Invalid afterPhase name: ${options.afterPhase}`);
     }
     this._policies.push({
       policy,
@@ -185,11 +182,11 @@ class HttpsPipeline implements Pipeline {
 
     const pipeline = policies.reduceRight<SendRequest>(
       (next, policy) => {
-        return (request: PipelineRequest) => {
-          return policy.sendRequest(request, next);
+        return (req: PipelineRequest) => {
+          return policy.sendRequest(req, next);
         };
       },
-      (request: PipelineRequest) => httpsClient.sendRequest(request)
+      (req: PipelineRequest) => httpsClient.sendRequest(req)
     );
 
     return pipeline(request);
@@ -255,6 +252,9 @@ class HttpsPipeline implements Pipeline {
     const noPhase = new Set<PolicyGraphNode>();
     const deserializePhase = new Set<PolicyGraphNode>();
     const retryPhase = new Set<PolicyGraphNode>();
+
+    // a list of phases in order
+    const orderedPhases = [serializePhase, noPhase, deserializePhase, retryPhase];
 
     // Small helper function to map phase name to each Set bucket.
     function getPhase(phase: PipelinePhase | undefined): Set<PolicyGraphNode> {
@@ -346,14 +346,33 @@ class HttpsPipeline implements Pipeline {
       }
     }
 
+    function walkPhases(): void {
+      let noPhaseRan = false;
+
+      for (const phase of orderedPhases) {
+        walkPhase(phase);
+        if (phase === noPhase) {
+          noPhaseRan = true;
+        }
+        // if the phase isn't complete
+        if (phase.size > 0 && phase !== noPhase) {
+          if (noPhaseRan === false) {
+            // Try running noPhase to see if that unblocks this phase next tick.
+            // This can happen if a phase that happens before noPhase
+            // is waiting on a noPhase policy to complete.
+            walkPhase(noPhase);
+          }
+          // Don't proceed to the next phase until this phase finishes.
+          return;
+        }
+      }
+    }
+
     // Iterate until we've put every node in the result list.
     while (policyMap.size > 0) {
       const initialResultLength = result.length;
       // Keep walking each phase in order until we can order every node.
-      walkPhase(serializePhase);
-      walkPhase(noPhase);
-      walkPhase(deserializePhase);
-      walkPhase(retryPhase);
+      walkPhases();
       // The result list *should* get at least one larger each time.
       // Otherwise, we're going to loop forever.
       if (result.length <= initialResultLength) {
@@ -374,26 +393,10 @@ export function createEmptyPipeline(): Pipeline {
 }
 
 /**
- * Options that allow configuring redirect behavior.
- */
-export interface PipelineRedirectOptions extends RedirectPolicyOptions {
-  /**
-   * If true, disables automatic following of redirects.
-   */
-  disable?: boolean;
-}
-
-/**
  * Defines options that are used to configure the HTTP pipeline for
  * an SDK client.
  */
 export interface PipelineOptions {
-  /**
-   * The HttpsClient implementation to use for outgoing HTTP requests.
-   * Defaults to DefaultHttpsClient.
-   */
-  httpsClient?: HttpsClient;
-
   /**
    * Options that control how to retry failed requests.
    */
@@ -405,15 +408,9 @@ export interface PipelineOptions {
   proxyOptions?: ProxySettings;
 
   /**
-   * Options for how HTTP connections should be maintained for future
-   * requests.
-   */
-  keepAliveOptions?: KeepAlivePolicyOptions;
-
-  /**
    * Options for how redirect responses are handled.
    */
-  redirectOptions?: PipelineRedirectOptions;
+  redirectOptions?: RedirectPolicyOptions;
 
   /**
    * Options for adding user agent details to outgoing requests.
@@ -430,50 +427,28 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
-
-  /**
-   * Configure whether to decompress response according to Accept-Encoding header (node-fetch only)
-   */
-  decompressResponse?: boolean;
-
-  /**
-   * Send JSON Array payloads as NDJSON.
-   */
-  sendStreamingJson?: boolean;
 }
 
 /**
  * Create a new pipeline with a default set of customizable policies.
- * @param options Options to configure a custom pipeline.
+ * @param options - Options to configure a custom pipeline.
  */
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = HttpsPipeline.create();
 
-  if (options.sendStreamingJson) {
-    pipeline.addPolicy(ndJsonPolicy());
-  }
-
   if (isNode) {
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
-
-    if (options.decompressResponse === false) {
-      pipeline.addPolicy(disableResponseDecompressionPolicy());
-    }
+    pipeline.addPolicy(decompressResponsePolicy());
   }
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
-  pipeline.addPolicy(keepAlivePolicy(options.keepAliveOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
   pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
   pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
-
-  if (!options.redirectOptions?.disable) {
-    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
-  }
-
+  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 
   return pipeline;

@@ -1,5 +1,6 @@
 $Language = "javascript"
 $LanguageShort = "js"
+$LanguageDisplayName = "JavaScript"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
@@ -14,7 +15,15 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgNa
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
     if ($pkgName -eq "$jsStylePkgName")
     {
-      return [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+      $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+      if ($projectJson.name.StartsWith("@azure/arm"))
+      {
+        $pkgProp.SdkType = "mgmt"
+      }
+      $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+      $pkgProp.ArtifactName = $pkgName  # pkgName variable actually stores artifact name
+      return $pkgProp
     }
   }
   return $null
@@ -69,6 +78,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 
   $packageJSON = ResolvePkgJson -workFolder $workFolder | Get-Content | ConvertFrom-Json
   $pkgId = $packageJSON.name
+  $docsReadMeName = $pkgId -replace "^@azure/" , ""
   $pkgVersion = $packageJSON.version
 
   $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
@@ -93,6 +103,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
     Deployable     = $forceCreate -or !(IsNPMPackageVersionPublished -pkgId $pkgId -pkgVersion $pkgVersion)
     ReleaseNotes   = $releaseNotes
     ReadmeContent  = $readmeContent
+    DocsReadMeName = $docsReadMeName
   }
 
   return $resultObj
@@ -210,13 +221,13 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   $pkgName = $pattern.replace($packageName, "", 1)
   $packageDir = Join-Path $artifactDir $pkgName "temp"
   Write-Host "Searching for *.api.json in path $($packageDir)"
-  $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript {$_.Name.EndsWith(".api.json")}
+  $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
   if (!$files)
   {
     Write-Host "$($packageDir) does not have api review json for package"
     return $null
   }
-  elseif($files.Count -ne 1)
+  elseif ($files.Count -ne 1)
   {
     Write-Host "$($packageDir) should contain only one api review for $($packageName)"
     Write-Host "No of Packages $($files.Count)"
@@ -227,4 +238,32 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
     $files[0].Name = $files[0].FullName
   }
   return $packages
+}
+
+function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $ReleaseDate, $BuildType = $null, $GroupId = $null)
+{
+  if ($null -eq $ReleaseDate)
+  {
+    $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
+  }
+  Push-Location "$EngDir/tools/versioning"
+  npm install
+  node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
+  Pop-Location
+}
+
+# PackageName: Pass full package name e.g. @azure/abort-controller
+# You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
+function GetExistingPackageVersions ($PackageName, $GroupId = $null)
+{
+  try
+  {
+    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
+    return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
+  }
+  catch
+  {
+    LogError "Failed to retrieve package versions. `n$_"
+    return $null
+  }
 }

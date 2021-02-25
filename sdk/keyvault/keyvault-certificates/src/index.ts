@@ -51,8 +51,6 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
-  CertificateKeyType,
-  CertificateKeyCurveName,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
@@ -82,7 +80,8 @@ import {
   DefaultCertificatePolicy,
   CertificateClientOptions,
   LATEST_API_VERSION,
-  CancelCertificateOperationOptions
+  CancelCertificateOperationOptions,
+  ImportCertificatePolicy
 } from "./certificatesModels";
 
 import {
@@ -96,28 +95,34 @@ import {
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
-  KeyUsageType,
   X509CertificateProperties,
-  DeleteCertificateContactsResponse,
-  SetCertificateContactsResponse,
-  GetCertificateContactsResponse,
-  SetCertificateIssuerResponse,
-  UpdateCertificateIssuerResponse,
-  GetCertificateIssuerResponse,
-  DeleteCertificateIssuerResponse,
-  GetCertificateResponse,
-  ImportCertificateResponse,
-  GetCertificatePolicyResponse,
-  UpdateCertificatePolicyResponse,
-  UpdateCertificateResponse,
-  DeleteCertificateOperationResponse,
-  MergeCertificateResponse,
-  BackupCertificateResponse,
-  RestoreCertificateResponse,
-  GetDeletedCertificateResponse,
+  KeyVaultClientDeleteCertificateContactsResponse,
+  KeyVaultClientSetCertificateContactsResponse,
+  KeyVaultClientGetCertificateContactsResponse,
+  KeyVaultClientSetCertificateIssuerResponse,
+  KeyVaultClientUpdateCertificateIssuerResponse,
+  KeyVaultClientGetCertificateIssuerResponse,
+  KeyVaultClientDeleteCertificateIssuerResponse,
+  KeyVaultClientGetCertificateResponse,
+  KeyVaultClientImportCertificateResponse,
+  KeyVaultClientGetCertificatePolicyResponse,
+  KeyVaultClientUpdateCertificatePolicyResponse,
+  KeyVaultClientUpdateCertificateResponse,
+  KeyVaultClientDeleteCertificateOperationResponse,
+  KeyVaultClientMergeCertificateResponse,
+  KeyVaultClientBackupCertificateResponse,
+  KeyVaultClientRestoreCertificateResponse,
+  KeyVaultClientGetDeletedCertificateResponse,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   ActionType,
-  DeletionRecoveryLevel
+  DeletionRecoveryLevel,
+  JsonWebKeyType as CertificateKeyType,
+  KnownJsonWebKeyType as KnownCertificateKeyTypes,
+  JsonWebKeyCurveName as CertificateKeyCurveName,
+  KnownJsonWebKeyCurveName as KnownCertificateKeyCurveNames,
+  KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
+  KeyUsageType,
+  KnownKeyUsageType as KnownKeyUsageTypes
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -137,7 +142,7 @@ import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 import { parseCertificateBytes } from "./utils";
-import { parseKeyVaultCertificateId, KeyVaultCertificateId } from "./identifier";
+import { KeyVaultCertificateId } from "./identifier";
 import {
   coreContactsToCertificateContacts,
   getCertificateFromCertificateBundle,
@@ -164,7 +169,6 @@ export {
   BeginRecoverDeletedCertificateOptions,
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
-  parseKeyVaultCertificateId,
   BackupCertificateOptions,
   CertificateContentType,
   CertificateProperties,
@@ -172,6 +176,7 @@ export {
   CertificateOperation,
   CertificateOperationError,
   CertificatePolicy,
+  ImportCertificatePolicy,
   CertificatePolicyAction,
   CertificatePolicyProperties,
   PolicySubjectProperties,
@@ -231,7 +236,11 @@ export {
   X509CertificateProperties,
   logger,
   CancelCertificateOperationOptions,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
+  KnownCertificateKeyCurveNames,
+  KnownDeletionRecoveryLevels,
+  KnownCertificateKeyTypes,
+  KnownKeyUsageTypes
 };
 
 /**
@@ -554,7 +563,7 @@ export class CertificateClient {
 
     const span = createSpan("deleteContacts", requestOptions);
 
-    let result: DeleteCertificateContactsResponse;
+    let result: KeyVaultClientDeleteCertificateContactsResponse;
 
     try {
       result = await this.client.deleteCertificateContacts(
@@ -597,7 +606,7 @@ export class CertificateClient {
 
     const span = createSpan("setCertificateContacts", requestOptions);
 
-    let result: SetCertificateContactsResponse;
+    let result: KeyVaultClientSetCertificateContactsResponse;
 
     try {
       result = await this.client.setCertificateContacts(
@@ -634,7 +643,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getCertificateContacts", requestOptions);
 
-    let result: GetCertificateContactsResponse;
+    let result: KeyVaultClientGetCertificateContactsResponse;
     try {
       result = await this.client.getCertificateContacts(
         this.vaultUrl,
@@ -763,13 +772,10 @@ export class CertificateClient {
 
     const requestOptions = operationOptionsToRequestOptionsBase(unflattenedOptions);
     const span = createSpan("createIssuer", requestOptions);
-    const properties: IssuerProperties = requestOptions.properties || {};
     const credentials: IssuerCredentials = requestOptions.credentials || {};
 
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
-      ...requestOptions,
-      id: properties.id || requestOptions.id,
-      provider: properties.provider || requestOptions.provider
+      ...requestOptions
     };
 
     generatedOptions.credentials = {
@@ -800,7 +806,7 @@ export class CertificateClient {
       };
     }
 
-    let result: SetCertificateIssuerResponse;
+    let result: KeyVaultClientSetCertificateIssuerResponse;
 
     try {
       result = await this.client.setCertificateIssuer(
@@ -837,13 +843,10 @@ export class CertificateClient {
   ): Promise<CertificateIssuer> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("updateIssuer", requestOptions);
-    const properties: IssuerProperties = requestOptions.properties || {};
     const credentials: IssuerCredentials = requestOptions.credentials || {};
 
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
-      ...requestOptions,
-      id: properties.id || requestOptions.id,
-      provider: properties.provider || requestOptions.provider
+      ...requestOptions
     };
 
     generatedOptions.credentials = {
@@ -874,7 +877,7 @@ export class CertificateClient {
       };
     }
 
-    let result: UpdateCertificateIssuerResponse;
+    let result: KeyVaultClientUpdateCertificateIssuerResponse;
 
     try {
       result = await this.client.updateCertificateIssuer(
@@ -912,7 +915,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getCertificateIssuer", requestOptions);
 
-    let result: GetCertificateIssuerResponse;
+    let result: KeyVaultClientGetCertificateIssuerResponse;
 
     try {
       result = await this.client.getCertificateIssuer(
@@ -947,7 +950,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("deleteCertificateIssuer", requestOptions);
 
-    let result: DeleteCertificateIssuerResponse;
+    let result: KeyVaultClientDeleteCertificateIssuerResponse;
 
     try {
       result = await this.client.deleteCertificateIssuer(
@@ -1004,12 +1007,12 @@ export class CertificateClient {
   ): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
+      vaultUrl: this.vaultUrl,
+      client: this.client,
       certificateName,
       certificatePolicy: policy,
       createCertificateOptions: options,
       requestOptions,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom
     });
@@ -1043,7 +1046,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getCertificate", requestOptions);
 
-    let result: GetCertificateResponse;
+    let result: KeyVaultClientGetCertificateResponse;
 
     try {
       result = await this.client.getCertificate(
@@ -1091,7 +1094,7 @@ export class CertificateClient {
 
     const span = createSpan("getCertificateVersion", requestOptions);
 
-    let result: GetCertificateResponse;
+    let result: KeyVaultClientGetCertificateResponse;
 
     try {
       result = await this.client.getCertificate(
@@ -1146,7 +1149,7 @@ export class CertificateClient {
       options.policy?.contentType
     );
 
-    let result: ImportCertificateResponse;
+    let result: KeyVaultClientImportCertificateResponse;
 
     try {
       result = await this.client.importCertificate(
@@ -1186,7 +1189,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getCertificatePolicy", requestOptions);
 
-    let result: GetCertificatePolicyResponse;
+    let result: KeyVaultClientGetCertificatePolicyResponse;
 
     try {
       result = await this.client.getCertificatePolicy(
@@ -1218,7 +1221,7 @@ export class CertificateClient {
 
     const corePolicy = toCorePolicy(undefined, policy);
 
-    let result: UpdateCertificatePolicyResponse;
+    let result: KeyVaultClientUpdateCertificatePolicyResponse;
     try {
       result = await this.client.updateCertificatePolicy(
         this.vaultUrl,
@@ -1262,7 +1265,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("updateCertificateProperties", requestOptions);
 
-    let result: UpdateCertificateResponse;
+    let result: KeyVaultClientUpdateCertificateResponse;
 
     try {
       result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
@@ -1341,7 +1344,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("deleteCertificateOperation", requestOptions);
 
-    let result: DeleteCertificateOperationResponse;
+    let result: KeyVaultClientDeleteCertificateOperationResponse;
 
     try {
       result = await this.client.deleteCertificateOperation(
@@ -1402,7 +1405,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("mergeCertificate", requestOptions);
 
-    let result: MergeCertificateResponse;
+    let result: KeyVaultClientMergeCertificateResponse;
     try {
       result = await this.client.mergeCertificate(
         this.vaultUrl,
@@ -1440,7 +1443,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("backupCertificate", requestOptions);
 
-    let result: BackupCertificateResponse;
+    let result: KeyVaultClientBackupCertificateResponse;
     try {
       result = await this.client.backupCertificate(
         this.vaultUrl,
@@ -1481,7 +1484,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("restoreCertificate", requestOptions);
 
-    let result: RestoreCertificateResponse;
+    let result: KeyVaultClientRestoreCertificateResponse;
 
     try {
       result = await this.client.restoreCertificate(
@@ -1605,7 +1608,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getDeletedCertificate", requestOptions);
 
-    let result: GetDeletedCertificateResponse;
+    let result: KeyVaultClientGetDeletedCertificateResponse;
     try {
       result = await this.client.getDeletedCertificate(
         this.vaultUrl,

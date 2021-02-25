@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { Span, SpanOptions as OTSpanOptions, SpanKind } from "@opentelemetry/api";
 import { getTracer, SpanOptions, OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
- * @param {string} operationName The name of the operation being performed.
- * @param {SpanOptions} options The options for the underlying http request.
+ * @param operationName - The name of the operation being performed.
+ * @param options - The options for the underlying http request.
  */
 export function createSpan(
   operationName: string,

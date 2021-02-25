@@ -1,6 +1,7 @@
 const path = require("path");
 const { readFile, writeFile } = require("eng-package-utils");
-var spawnSync = require("child_process").spawnSync, child;
+var spawnSync = require("child_process").spawnSync,
+  child;
 
 // This is done to update files which are only periodically generated and
 // checked in. Since these files could be generated once between many versions
@@ -17,10 +18,7 @@ async function updatePackageConstants(packagePath, packageJson, newVersion) {
     const fileContents = await readFile(targetPath);
 
     const versionExpression = buildSemverRegex(constantFileSpec.prefix);
-    const updatedContents = fileContents.replace(
-      versionExpression,
-      `$1${newVersion}`
-    );
+    const updatedContents = fileContents.replace(versionExpression, `$1${newVersion}`);
 
     if (updatedContents == fileContents) {
       continue;
@@ -34,10 +32,34 @@ function buildSemverRegex(prefix) {
   return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
 }
 
-function updateChangelog(targetPackagePath, repoRoot, newVersion, unreleased, replaceVersion) {
-  const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
-  const updateChangelogPath = path.resolve(path.join(repoRoot, "eng/common/Update-Change-Log.ps1"));
-  child = spawnSync("pwsh", [updateChangelogPath, newVersion, changelogLocation, unreleased, replaceVersion]);
+function updateChangelog(
+  targetPackagePath,
+  packageName,
+  repoRoot,
+  newVersion,
+  unreleased,
+  replaceLatestVersionTitle,
+  releaseDate = null
+) {
+  const service = path.basename(path.dirname(targetPackagePath));
+  const updateChangelogPath = path.resolve(
+    path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1")
+  );
+  let args = [
+    updateChangelogPath,
+    "--Version",
+    newVersion,
+    "--ServiceDirectory",
+    service,
+    "--PackageName",
+    packageName,
+    "--Unreleased:$" + unreleased,
+    "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle
+  ];
+  if (releaseDate != null) {
+    args.push(releaseDate);
+  }
+  child = spawnSync("pwsh", args);
   console.log("Powershell Data: " + child.stdout);
   console.log("Powershell Errors: " + child.stderr);
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { URLBuilder } from "@azure/core-http";
 import { parseConnectionString } from "./connectionString";
 
@@ -25,10 +25,18 @@ const assertValidEndpoint = (host: string): void => {
 /**
  * Checks whether a value is a KeyCredential.
  *
- * @param {*} credential The credential being checked.
+ * @param credential - The credential being checked.
  */
-export const isKeyCredential = (credential: any): credential is KeyCredential => {
-  return credential && typeof credential.key === "string" && credential.getToken === undefined;
+export const isKeyCredential = (credential: unknown): credential is KeyCredential => {
+  const castCredential = credential as {
+    key: unknown;
+    getToken: unknown;
+  };
+  return (
+    castCredential &&
+    typeof castCredential.key === "string" &&
+    castCredential.getToken === undefined
+  );
 };
 
 /**
@@ -36,20 +44,17 @@ export const isKeyCredential = (credential: any): credential is KeyCredential =>
  */
 export type UrlWithCredential = {
   url: string;
-  credential: KeyCredential;
+  credential: TokenCredential | KeyCredential;
 };
 
 /**
  * Parses arguments passed to a communication client.
- *
- * @param {string} connectionStringOrUrl
- * @param {*} [credentialOrOptions]
  */
 export const parseClientArguments = (
   connectionStringOrUrl: string,
-  credentialOrOptions?: any
+  credentialOrOptions?: unknown
 ): UrlWithCredential => {
-  if (isKeyCredential(credentialOrOptions)) {
+  if (isKeyCredential(credentialOrOptions) || isTokenCredential(credentialOrOptions)) {
     assertValidEndpoint(connectionStringOrUrl);
     return { url: connectionStringOrUrl, credential: credentialOrOptions };
   } else {

@@ -29,7 +29,7 @@ export function bodyFromData(data: Buffer | string | Record<string, unknown>): s
 }
 
 /**
- * @ignore
+ * @hidden
  */
 interface GetHeadersOptions {
   clientOptions: CosmosClientOptions;
@@ -47,8 +47,7 @@ interface GetHeadersOptions {
 const JsonContentType = "application/json";
 
 /**
- * @ignore
- * @param param0
+ * @hidden
  */
 export async function getHeaders({
   clientOptions,
@@ -192,7 +191,8 @@ export async function getHeaders({
     clientOptions.key ||
     clientOptions.resourceTokens ||
     clientOptions.tokenProvider ||
-    clientOptions.permissionFeed
+    clientOptions.permissionFeed ||
+    clientOptions.aadCredentials
   ) {
     await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
   }

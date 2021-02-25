@@ -25,19 +25,16 @@ import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @internal
- * @ignore
  * The amount of bytes to reserve as overhead for a small message.
  */
 const smallMessageOverhead = 5;
 /**
  * @internal
- * @ignore
  * The amount of bytes to reserve as overhead for a large message.
  */
 const largeMessageOverhead = 8;
 /**
  * @internal
- * @ignore
  * The maximum number of bytes that a message may be to be considered small.
  */
 const smallMessageMaxBytes = 255;
@@ -45,7 +42,6 @@ const smallMessageMaxBytes = 255;
 /**
  * A batch of messages that you can create using the {@link createBatch} method.
  *
- * @export
  */
 export interface ServiceBusMessageBatch {
   /**
@@ -65,7 +61,7 @@ export interface ServiceBusMessageBatch {
    * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
    * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
-   * @readonly.
+   * @readonly
    */
   readonly maxSizeInBytes: number;
 
@@ -74,7 +70,7 @@ export interface ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param message  An individual service bus message.
+   * @param message - An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
   tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
@@ -86,7 +82,7 @@ export interface ServiceBusMessageBatch {
    *
    * @readonly
    * @internal
-   * @ignore
+   * @hidden
    */
   _generateMessage(): Buffer;
 
@@ -94,7 +90,7 @@ export interface ServiceBusMessageBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -102,17 +98,15 @@ export interface ServiceBusMessageBatch {
 /**
  * An internal class representing a batch of messages which can be used to send messages to Service Bus.
  *
- * @class
  * @internal
- * @ignore
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
-   * @property Current size of the batch in bytes.
+   * Current size of the batch in bytes.
    */
   private _sizeInBytes: number;
   /**
-   * @property Encoded amqp messages.
+   * Encoded amqp messages.
    */
   private _encodedMessages: Buffer[] = [];
   /**
@@ -122,9 +116,8 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * ServiceBusMessageBatch should not be constructed using `new ServiceBusMessageBatch()`
    * Use the `createBatch()` method on your `Sender` instead.
-   * @constructor
    * @internal
-   * @ignore
+   * @hidden
    */
   constructor(private _context: ConnectionContext, private _maxSizeInBytes: number) {
     this._sizeInBytes = 0;
@@ -132,7 +125,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property The maximum size of the batch, in bytes.
+   * The maximum size of the batch, in bytes.
    * @readonly
    */
   get maxSizeInBytes(): number {
@@ -140,7 +133,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property Size of the `ServiceBusMessageBatch` instance after the messages added to it have been
+   * Size of the `ServiceBusMessageBatch` instance after the messages added to it have been
    * encoded into a single AMQP message.
    * @readonly
    */
@@ -149,7 +142,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property Number of messages in the `ServiceBusMessageBatch` instance.
+   * Number of messages in the `ServiceBusMessageBatch` instance.
    * @readonly
    */
   get count(): number {
@@ -159,7 +152,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * Gets the "message" span contexts that were created when adding messages to the batch.
    * @internal
-   * @ignore
+   * @hidden
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
@@ -168,13 +161,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * Generates an AMQP message that contains the provided encoded messages and annotations.
    *
-   * @private
-   * @param {Buffer[]} encodedMessages The already encoded messages to include in the AMQP batch.
-   * @param {MessageAnnotations} [annotations] The message annotations to set on the batch.
-   * @param {{ [key: string]: any }} [applicationProperties] The application properties to set on the batch.
-   * @param {{ [key: string]: string }} [messageProperties] The message properties to set on the batch.
-   * @returns {Buffer}
-   * @memberof ServiceBusMessageBatchImpl
+   * @param encodedMessages - The already encoded messages to include in the AMQP batch.
+   * @param annotations - The message annotations to set on the batch.
+   * @param applicationProperties - The application properties to set on the batch.
+   * @param messageProperties - The message properties to set on the batch.
    */
   private _generateBatch(
     encodedMessages: Buffer[],
@@ -198,7 +188,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property Represents the single AMQP message which is the result of encoding all the events
+   * Represents the single AMQP message which is the result of encoding all the events
    * added into the `ServiceBusMessageBatch` instance.
    *
    * This is not meant for the user to use directly.
@@ -240,7 +230,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next message.
    *
-   * @param message  An individual service bus message.
+   * @param message - An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
   public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {

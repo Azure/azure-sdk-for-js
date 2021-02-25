@@ -33,12 +33,11 @@ export class DocumentProducer {
 
   /**
    * Provides the Target Partition Range Query Execution Context.
-   * @constructor DocumentProducer
-   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
-   * @param {String} collectionLink                - Represents collection link
-   * @param {SqlQuerySpec | string} query          - A SQL query.
-   * @param {object} targetPartitionKeyRange       - Query Target Partition key Range
-   * @ignore
+   * @param clientContext  - The service endpoint to use to create the client.
+   * @param collectionLink - Represents collection link
+   * @param query          - A SQL query.
+   * @param targetPartitionKeyRange - Query Target Partition key Range
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,
@@ -65,8 +64,8 @@ export class DocumentProducer {
   }
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any
-   * @returns {Object}       - buffered current items if any
-   * @ignore
+   * @returns buffered current items if any
+   * @hidden
    */
   public peekBufferedItems(): any[] {
     const bufferedResults = [];
@@ -151,8 +150,6 @@ export class DocumentProducer {
 
   /**
    * Fetches and bufferes the next page of results and executes the given callback
-   * @memberof DocumentProducer
-   * @instance
    */
   public async bufferMore(): Promise<Response<any>> {
     if (this.err) {
@@ -205,19 +202,15 @@ export class DocumentProducer {
 
   /**
    * Synchronously gives the bufferend current item if any
-   * @returns {Object}       - buffered current item if any
-   * @ignore
+   * @returns buffered current item if any
+   * @hidden
    */
   public getTargetParitionKeyRange(): PartitionKeyRange {
     return this.targetPartitionKeyRange;
   }
 
   /**
-   * Execute a provided function on the next element in the DocumentProducer.
-   * @memberof DocumentProducer
-   * @instance
-   * @param {callback} callback - Function to execute for each element. the function \
-   * takes two parameters error, element.
+   * Fetches the next element in the DocumentProducer.
    */
   public async nextItem(): Promise<Response<any>> {
     if (this.err) {
@@ -250,10 +243,6 @@ export class DocumentProducer {
 
   /**
    * Retrieve the current element on the DocumentProducer.
-   * @memberof DocumentProducer
-   * @instance
-   * @param {callback} callback - Function to execute for the current element. \
-   * the function takes two parameters error, element.
    */
   public async current(): Promise<Response<any>> {
     // If something is buffered just give that

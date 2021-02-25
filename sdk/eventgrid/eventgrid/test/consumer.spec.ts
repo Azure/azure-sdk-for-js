@@ -4,13 +4,13 @@
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 
-import { EventGridConsumer } from "../src";
+import { EventGridDeserializer } from "../src";
 import * as testData from "./utils/testData";
 
 chaiUse(chaiPromises);
 
-describe("EventGridConsumer", function() {
-  const consumer = new EventGridConsumer();
+describe("EventGridDeserializer", function() {
+  const consumer = new EventGridDeserializer();
 
   describe("#deserializeEventGridEvents", function() {
     it("deserializes a single event", async () => {

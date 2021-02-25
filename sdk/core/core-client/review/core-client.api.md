@@ -42,7 +42,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
         credential: TokenCredential;
     };
     deserializationOptions?: DeserializationPolicyOptions;
-    serializationOptions?: serializationPolicyOptions;
+    serializationOptions?: SerializationPolicyOptions;
 }
 
 // @public (undocumented)
@@ -202,6 +202,7 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
     serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
@@ -220,7 +221,7 @@ export interface OperationQueryParameter extends OperationParameter {
 }
 
 // @public
-export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+export type OperationRequest = PipelineRequest;
 
 // @public
 export interface OperationRequestInfo {
@@ -239,13 +240,6 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
     timeout?: number;
-}
-
-// @public
-export interface OperationResponse {
-    // (undocumented)
-    [key: string]: any;
-    _response: FullOperationResponse;
 }
 
 // @public
@@ -297,6 +291,9 @@ export interface PolymorphicDiscriminator {
 // @public
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
+// @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
+
 // @public (undocumented)
 export interface SequenceMapper extends BaseMapper {
     // (undocumented)
@@ -312,13 +309,13 @@ export interface SequenceMapperType {
 }
 
 // @public
-export function serializationPolicy(options?: serializationPolicyOptions): PipelinePolicy;
+export function serializationPolicy(options?: SerializationPolicyOptions): PipelinePolicy;
 
 // @public
 export const serializationPolicyName = "serializationPolicy";
 
 // @public
-export interface serializationPolicyOptions {
+export interface SerializationPolicyOptions {
     serializerOptions?: SerializerOptions;
     stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
@@ -347,7 +344,7 @@ export interface SerializerOptions {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
-    sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
+    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
 

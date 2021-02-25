@@ -2,26 +2,17 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel, KeyUsageType } from "./generated/models";
-
-/**
- * Defines values for CertificateKeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
- * @readonly
- */
-export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
-
-/**
- * Defines values for CertificateKeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- */
-export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+import {
+  DeletionRecoveryLevel,
+  KeyUsageType,
+  JsonWebKeyType as CertificateKeyType,
+  JsonWebKeyCurveName as CertificateKeyCurveName
+} from "./generated/models";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.1";
+export const LATEST_API_VERSION = "7.2";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -30,7 +21,7 @@ export interface CertificateClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1";
+  serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 /**
@@ -271,6 +262,9 @@ export interface CertificatePolicyProperties {
   certificateTransparency?: boolean;
   /**
    * The media type (MIME type).
+   *
+   * Set to `application/x-pkcs12` when the certificate contains your PKCS#12/PFX bytes,
+   * or to `application/x-pem-file` when the certificate contains your ASCII PEM-encoded bytes.
    */
   contentType?: CertificateContentType;
   /**
@@ -352,6 +346,12 @@ export interface PolicySubjectProperties {
  */
 export type CertificatePolicy = CertificatePolicyProperties &
   RequireAtLeastOne<PolicySubjectProperties>;
+
+/**
+ * A type representing a certificate's policy for import which does not require a SAN or a Subject
+ */
+export type ImportCertificatePolicy = CertificatePolicyProperties &
+  Partial<PolicySubjectProperties>;
 
 /**
  * The DefaultCertificatePolicy exports values that
@@ -543,7 +543,7 @@ export interface ImportCertificateOptions extends coreHttp.OperationOptions {
   /**
    * The management policy.
    */
-  policy?: CertificatePolicy;
+  policy?: ImportCertificatePolicy;
   /**
    * Application specific
    * metadata in the form of key-value pairs.

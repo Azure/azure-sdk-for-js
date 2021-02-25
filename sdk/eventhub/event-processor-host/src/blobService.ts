@@ -12,7 +12,7 @@ import { validateType, getStorageError } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
 import path from "path";
 /**
- * @ignore
+ * @hidden
  */
 export interface CreateContainerResult {
   created: StorageBlobService.ContainerResult;
@@ -20,7 +20,7 @@ export interface CreateContainerResult {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum LeaseState {
   /**
@@ -55,7 +55,7 @@ export enum LeaseState {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export class BlobService {
   private _hostName: string;

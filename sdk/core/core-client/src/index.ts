@@ -3,12 +3,8 @@
 
 export { createSerializer, MapperTypeNames } from "./serializer";
 export { createSpanFunction } from "./createSpan";
-export {
-  ServiceClient,
-  ServiceClientOptions,
-  createClientPipeline,
-  ClientPipelineOptions
-} from "./serviceClient";
+export { ServiceClient, ServiceClientOptions } from "./serviceClient";
+export { createClientPipeline, ClientPipelineOptions } from "./pipeline";
 export {
   OperationSpec,
   OperationArguments,
@@ -36,14 +32,14 @@ export {
   OperationRequestInfo,
   QueryCollectionFormat,
   ParameterPath,
-  OperationResponse,
   FullOperationResponse,
   PolymorphicDiscriminator,
   SpanConfig,
   XML_ATTRKEY,
   XML_CHARKEY,
   XmlOptions,
-  SerializerOptions
+  SerializerOptions,
+  RawResponseCallback
 } from "./interfaces";
 export {
   deserializationPolicy,
@@ -54,5 +50,6 @@ export {
 export {
   serializationPolicy,
   serializationPolicyName,
-  serializationPolicyOptions
+  SerializationPolicyOptions
 } from "./serializationPolicy";
+import "@azure/core-asynciterator-polyfill";

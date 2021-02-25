@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  createCommunicationAccessKeyCredentialPolicy,
   parseClientArguments,
-  isKeyCredential
+  isKeyCredential,
+  createCommunicationAuthPolicy
 } from "@azure/communication-common";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   RestResponse,
   PipelineOptions,
@@ -59,7 +59,7 @@ export interface SendOptions extends OperationOptions {
 /**
  * Checks whether the type of a value is SmsClientOptions or not.
  *
- * @param options The value being checked.
+ * @param options - The value being checked.
  */
 const isSmsClientOptions = (options: any): options is SmsClientOptions =>
   !!options && !isKeyCredential(options);
@@ -73,23 +73,31 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class.
-   * @param connectionString Connection string to connect to an Azure Communication Service resource.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(connectionString: string, options?: SmsClientOptions);
 
   /**
    * Initializes a new instance of the SmsClient class using an Azure KeyCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
 
+  /**
+   * Initializes a new instance of the SmsClient class using a TokenCredential.
+   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - TokenCredential that is used to authenticate requests to the service.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
+  constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
+
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | SmsClientOptions,
+    credentialOrOptions?: KeyCredential | TokenCredential | SmsClientOptions,
     maybeOptions: SmsClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -115,7 +123,7 @@ export class SmsClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+    const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new SmsApiClient(url, pipeline);
@@ -124,8 +132,8 @@ export class SmsClient {
   /**
    * Sends a SMS from a phone number that is acquired by the authenticated account, to another phone number.
    *
-   * @param sendRequest Provides the sender's and recipient's phone numbers, and the contents of the message
-   * @param options Additional request options
+   * @param sendRequest - Provides the sender's and recipient's phone numbers, and the contents of the message
+   * @param options - Additional request options
    */
   public async send(sendRequest: SendRequest, options: SendOptions = {}): Promise<RestResponse> {
     const { operationOptions, restOptions } = extractOperationOptions(options);

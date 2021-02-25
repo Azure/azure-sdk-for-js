@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-spark/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "sdk-type": "client",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.3",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "@opentelemetry/api": "^0.10.2",
@@ -40,7 +40,7 @@
     "@rollup/plugin-commonjs": "11.0.2",
     "uglify-js": "^3.4.9",
     "@microsoft/api-extractor": "7.7.11",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -72,7 +72,7 @@
     "extract-api": "api-extractor run --local",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "autoPublish": true

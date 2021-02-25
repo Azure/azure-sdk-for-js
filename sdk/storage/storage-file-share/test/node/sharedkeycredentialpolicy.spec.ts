@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { getBSU, recorderEnvSetup } from "../utils";
 import { ShareClient } from "../../src";
 import { Recorder, record } from "@azure/test-utils-recorder";

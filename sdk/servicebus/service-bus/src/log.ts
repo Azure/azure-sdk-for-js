@@ -5,62 +5,54 @@ import { AzureLogger, createClientLogger } from "@azure/logger";
 import { AmqpError } from "rhea-promise";
 
 /**
- * The @azure/logger configuration for this package.
+ * The `@azure/logger` configuration for this package.
  * This will output logs using the `azure:service-bus` namespace prefix.
  * @internal
- * @ignore
  */
 export const logger = createServiceBusLogger("service-bus");
 
 /**
  * Logging for ServiceBusReceivers of any type (session, non-session)
  * @internal
- * @ignore
  */
 export const receiverLogger = createServiceBusLogger("service-bus:receiver");
 
 /**
  * Logging for ServiceBusSenders
  * @internal
- * @ignore
  */
 export const senderLogger = createServiceBusLogger("service-bus:sender");
 
 /**
  * Logging for connection management
  * @internal
- * @ignore
  */
 export const connectionLogger = createServiceBusLogger("service-bus:connection");
 
 /**
  * Logging for the ServiceBusAdministrationClient
  * @internal
- * @ignore
  */
 export const administrationLogger = createServiceBusLogger("service-bus:administration");
 
 /**
  * Logging related to message encoding/decoding.
  * @internal
- * @ignore
  */
 export const messageLogger = createServiceBusLogger("service-bus:messages");
 
 /**
  * Logging related to message encoding/decoding.
  * @internal
- * @ignore
  */
 export const managementClientLogger = createServiceBusLogger("service-bus:management");
 
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
- * @param error Error containing a stack trace.
+ * @param error - Error containing a stack trace.
  * @internal
- * @ignore
  */
-export function logErrorStackTrace(_logger: AzureLogger, error: any) {
+export function logErrorStackTrace(_logger: AzureLogger, error: any): void {
   if (error && error.stack) {
     _logger.verbose(error.stack);
   }
@@ -68,7 +60,6 @@ export function logErrorStackTrace(_logger: AzureLogger, error: any) {
 
 /**
  * @internal
- * @ignore
  */
 export interface ServiceBusLogger extends AzureLogger {
   /**
@@ -79,8 +70,6 @@ export interface ServiceBusLogger extends AzureLogger {
    *   receiverLogger.logError(new Error("hello, this is the error"), "this is my message");
    * will output:
    *   azure:service-bus:receiver:warning this is my message : Error: hello, this is the error
-   * @param err
-   * @param args
    */
   logError(err: Error | AmqpError | undefined, ...args: any[]): void;
 }
@@ -88,7 +77,6 @@ export interface ServiceBusLogger extends AzureLogger {
 /**
  * Creates an AzureLogger with any additional methods for standardized logging (for example, with errors)
  * @internal
- * @ignore
  */
 export function createServiceBusLogger(namespace: string) {
   const _logger = createClientLogger(namespace) as ServiceBusLogger;
@@ -121,7 +109,6 @@ export function createServiceBusLogger(namespace: string) {
 
 /**
  * @internal
- * @ignore
  */
 function isError(err: Error | AmqpError | undefined): err is Error {
   return err != null && (err as any).name != null;

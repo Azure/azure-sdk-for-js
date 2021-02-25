@@ -7,28 +7,46 @@
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
-import { CommunicationUser } from '@azure/communication-common';
-import { CommunicationUserCredential } from '@azure/communication-common';
+import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
+import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
+import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
+import { CommunicationTokenCredential } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ParticipantsAddedEvent } from '@azure/communication-signaling';
+import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { PipelineOptions } from '@azure/core-http';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
-export type AddMembersOptions = OperationOptions;
-
-// @public
-export interface AddMembersRequest extends Omit<RestAddMembersRequest, "members"> {
-    members: ChatThreadMember[];
+export interface AddChatParticipantsErrors {
+    invalidParticipants: (CommunicationError | null)[];
 }
 
 // @public
+export interface AddChatParticipantsRequest extends Omit<RestAddChatParticipantsRequest, "participants"> {
+    participants: ChatParticipant[];
+}
+
+// @public
+export type AddChatParticipantsResponse = WithResponse<AddChatParticipantsResult>;
+
+// @public
+export interface AddChatParticipantsResult {
+    errors?: AddChatParticipantsErrors;
+}
+
+// @public
+export type AddParticipantsOptions = OperationOptions;
+
+// @public
 export class ChatClient {
-    constructor(url: string, credential: CommunicationUserCredential, options?: ChatClientOptions);
-    createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<ChatThreadClient>;
+    constructor(url: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
+    createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResponse>;
     deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<OperationResponse>;
     getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<GetChatThreadResponse>;
     getChatThreadClient(threadId: string): Promise<ChatThreadClient>;
@@ -38,11 +56,21 @@ export class ChatClient {
     off(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
     off(event: "typingIndicatorReceived", listener: (e: TypingIndicatorReceivedEvent) => void): void;
     off(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
+    off(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
+    off(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
+    off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
     on(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
     on(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
     on(event: "typingIndicatorReceived", listener: (e: TypingIndicatorReceivedEvent) => void): void;
     on(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
+    on(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
+    on(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
+    on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     startRealtimeNotifications(): Promise<void>;
     stopRealtimeNotifications(): Promise<void>;
     }
@@ -52,30 +80,45 @@ export interface ChatClientOptions extends PipelineOptions {
 }
 
 // @public
-export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
-    sender?: CommunicationUser;
+export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content"> {
+    content?: ChatMessageContent;
+    sender?: CommunicationUserIdentifier;
+}
+
+// @public (undocumented)
+export interface ChatMessageContent extends Omit<RestChatMessageContent, "participants"> {
+    participants?: ChatParticipant[];
 }
 
 // @public
-export type ChatMessagePriority = "Normal" | "High";
+export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
+    readonly sender: CommunicationUserIdentifier;
+}
 
 // @public
-export interface ChatThread extends Omit<RestChatThread, "createdBy" | "members"> {
-    readonly createdBy?: CommunicationUser;
-    members?: ChatThreadMember[];
+export type ChatMessageType = string;
+
+// @public
+export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
+    user: CommunicationUserIdentifier;
+}
+
+// @public
+export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
+    readonly createdBy?: CommunicationUserIdentifier;
 }
 
 // @public
 export class ChatThreadClient {
-    constructor(threadId: string, url: string, credential: CommunicationUserCredential, options?: ChatThreadClientOptions);
-    addMembers(request: AddMembersRequest, options?: AddMembersOptions): Promise<OperationResponse>;
+    constructor(threadId: string, url: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
+    addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<OperationResponse>;
     dispose(): void;
     getMessage(messageId: string, options?: GetMessageOptions): Promise<GetChatMessageResponse>;
-    listMembers(options?: ListMembersOptions): PagedAsyncIterableIterator<ChatThreadMember>;
     listMessages(options?: ListMessagesOptions): PagedAsyncIterableIterator<ChatMessage>;
-    listReadReceipts(options?: ListReadReceiptsOptions): PagedAsyncIterableIterator<ReadReceipt>;
-    removeMember(member: CommunicationUser, options?: RemoveMemberOptions): Promise<OperationResponse>;
+    listParticipants(options?: ListParticipantsOptions): PagedAsyncIterableIterator<ChatParticipant>;
+    listReadReceipts(options?: ListReadReceiptsOptions): PagedAsyncIterableIterator<ChatMessageReadReceipt>;
+    removeParticipant(participant: CommunicationUserIdentifier, options?: RemoveParticipantOptions): Promise<OperationResponse>;
     sendMessage(request: SendMessageRequest, options?: SendMessageOptions): Promise<SendChatMessageResponse>;
     sendReadReceipt(request: SendReadReceiptRequest, options?: SendReadReceiptOptions): Promise<OperationResponse>;
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
@@ -88,25 +131,43 @@ export class ChatThreadClient {
 export interface ChatThreadClientOptions extends ChatClientOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface ChatThreadInfo {
-    readonly id?: string;
-    isDeleted?: boolean;
+    deletedOn?: Date;
+    id: string;
     readonly lastMessageReceivedOn?: Date;
-    topic?: string;
+    topic: string;
 }
 
 // @public
-export interface ChatThreadMember extends Omit<RestChatThreadMember, "id"> {
-    user: CommunicationUser;
+export interface CommunicationError {
+    code: string;
+    readonly details?: (CommunicationError | null)[];
+    readonly innerError?: CommunicationError | null;
+    message: string;
+    readonly target?: string;
 }
 
 // @public
-export type CreateChatThreadOptions = OperationOptions;
+export interface CreateChatThreadErrors {
+    readonly invalidParticipants?: (CommunicationError | null)[];
+}
 
 // @public
-export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "members"> {
-    members: ChatThreadMember[];
+export type CreateChatThreadOptions = RestCreateChatThreadOptions;
+
+// @public
+export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "participants"> {
+    participants: ChatParticipant[];
+}
+
+// @public
+export type CreateChatThreadResponse = WithResponse<CreateChatThreadResult>;
+
+// @public
+export interface CreateChatThreadResult {
+    chatThread?: RestChatThread;
+    errors?: CreateChatThreadErrors;
 }
 
 // @public
@@ -131,9 +192,6 @@ export type GetMessageOptions = OperationOptions;
 export type ListChatThreadsOptions = RestListChatThreadsOptions;
 
 // @public
-export type ListMembersOptions = OperationOptions;
-
-// @public
 export type ListMessagesOptions = RestListMessagesOptions;
 
 // @public
@@ -142,7 +200,10 @@ export interface ListPageSettings {
 }
 
 // @public
-export type ListReadReceiptsOptions = OperationOptions;
+export type ListParticipantsOptions = RestListParticipantsOptions;
+
+// @public
+export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
 
 // @public
 export interface OperationResponse {
@@ -150,51 +211,66 @@ export interface OperationResponse {
 }
 
 // @public
-export interface ReadReceipt extends Omit<RestReadReceipt, "senderId"> {
-    readonly sender?: CommunicationUser;
+export type RemoveParticipantOptions = OperationOptions;
+
+// @public
+export interface RestAddChatParticipantsRequest {
+    participants: RestChatParticipant[];
 }
 
 // @public
-export type RemoveMemberOptions = OperationOptions;
-
-// @public
-export interface RestAddMembersRequest {
-    members: RestChatThreadMember[];
-}
-
-// @public (undocumented)
 export interface RestChatMessage {
-    content?: string;
-    readonly createdOn?: Date;
+    content?: RestChatMessageContent;
+    createdOn: Date;
     deletedOn?: Date;
     editedOn?: Date;
-    readonly id?: string;
-    priority?: ChatMessagePriority;
+    id: string;
     senderDisplayName?: string;
-    readonly senderId?: string;
-    type?: string;
-    readonly version?: string;
+    senderId?: string;
+    sequenceId: string;
+    type: ChatMessageType;
+    version: string;
 }
 
-// @public (undocumented)
-export interface RestChatThread {
-    readonly createdBy?: string;
-    readonly createdOn?: Date;
-    readonly id?: string;
-    members?: RestChatThreadMember[];
+// @public
+export interface RestChatMessageContent {
+    initiator?: string;
+    message?: string;
+    participants?: RestChatParticipant[];
     topic?: string;
 }
 
 // @public
-export interface RestChatThreadMember {
+export interface RestChatMessageReadReceipt {
+    chatMessageId: string;
+    readOn: Date;
+    senderId: string;
+}
+
+// @public
+export interface RestChatParticipant {
     displayName?: string;
     id: string;
     shareHistoryTime?: Date;
 }
 
 // @public
+export interface RestChatThread {
+    createdBy: string;
+    createdOn: Date;
+    deletedOn?: Date;
+    id: string;
+    topic: string;
+}
+
+// @public
+export interface RestCreateChatThreadOptions extends coreHttp.OperationOptions {
+    repeatabilityRequestID?: string;
+}
+
+// @public
 export interface RestCreateChatThreadRequest {
-    members: RestChatThreadMember[];
+    participants: RestChatParticipant[];
     topic: string;
 }
 
@@ -211,19 +287,23 @@ export interface RestListMessagesOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RestReadReceipt {
-    readonly chatMessageId?: string;
-    readonly readOn?: Date;
-    readonly senderId?: string;
+export interface RestListParticipantsOptions extends coreHttp.OperationOptions {
+    maxPageSize?: number;
+    skip?: number;
 }
 
-// @public (undocumented)
+// @public
+export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
+    maxPageSize?: number;
+    skip?: number;
+}
+
+// @public
 export interface RestUpdateMessageOptions {
     content?: string;
-    priority?: ChatMessagePriority;
 }
 
-// @public (undocumented)
+// @public
 export interface RestUpdateThreadOptions {
     topic?: string;
 }
@@ -231,8 +311,8 @@ export interface RestUpdateThreadOptions {
 // @public
 interface SendChatMessageRequest {
     content: string;
-    priority?: ChatMessagePriority;
     senderDisplayName?: string;
+    type?: ChatMessageType;
 }
 
 export { SendChatMessageRequest as RestSendMessageOptions }
@@ -244,7 +324,7 @@ export type SendChatMessageResponse = WithResponse<SendChatMessageResult>;
 
 // @public
 export interface SendChatMessageResult {
-    readonly id?: string;
+    id: string;
 }
 
 // @public
@@ -252,7 +332,7 @@ export interface SendMessageOptions extends Omit<SendChatMessageRequest, "conten
 }
 
 // @public
-export interface SendMessageRequest extends Omit<SendChatMessageRequest, "priority" | "senderDisplayName"> {
+export interface SendMessageRequest extends Omit<SendChatMessageRequest, "type" | "senderDisplayName"> {
 }
 
 // @public

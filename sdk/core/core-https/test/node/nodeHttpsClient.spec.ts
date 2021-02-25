@@ -7,7 +7,7 @@ import { PassThrough } from "stream";
 import { IncomingMessage, ClientRequest, IncomingHttpHeaders } from "http";
 import * as https from "https";
 import { AbortController } from "@azure/abort-controller";
-import { DefaultHttpsClient, createPipelineRequest } from "../../src";
+import { createDefaultHttpsClient, createPipelineRequest } from "../../src";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;
@@ -51,7 +51,7 @@ describe("NodeHttpsClient", function() {
   });
 
   it("shouldn't throw on 404", async function() {
-    const client = new DefaultHttpsClient();
+    const client = createDefaultHttpsClient();
     stubbedRequest.returns(createRequest());
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
@@ -61,7 +61,7 @@ describe("NodeHttpsClient", function() {
   });
 
   it("should allow canceling of requests", async function() {
-    const client = new DefaultHttpsClient();
+    const client = createDefaultHttpsClient();
     const controller = new AbortController();
     stubbedRequest.returns(createRequest());
     const request = createPipelineRequest({
@@ -79,7 +79,7 @@ describe("NodeHttpsClient", function() {
   });
 
   it("should allow canceling of requests before the request is made", async function() {
-    const client = new DefaultHttpsClient();
+    const client = createDefaultHttpsClient();
     const controller = new AbortController();
     controller.abort();
     stubbedRequest.returns(createRequest());
@@ -97,7 +97,7 @@ describe("NodeHttpsClient", function() {
   });
 
   it("should report upload and download progress", async function() {
-    const client = new DefaultHttpsClient();
+    const client = createDefaultHttpsClient();
     stubbedRequest.returns(createRequest());
     let downloadCalled = false;
     let uploadCalled = false;
@@ -123,7 +123,7 @@ describe("NodeHttpsClient", function() {
   });
 
   it("should fail if progress callbacks throw", async function() {
-    const client = new DefaultHttpsClient();
+    const client = createDefaultHttpsClient();
     stubbedRequest.returns(createRequest());
     const errorMessage = "it failed horribly!";
     const request = createPipelineRequest({
@@ -143,7 +143,7 @@ describe("NodeHttpsClient", function() {
   });
 
   it("should honor timeout", async function() {
-    const client = new DefaultHttpsClient();
+    const client = createDefaultHttpsClient();
 
     const timeoutLength = 2000;
     stubbedRequest.returns(createRequest());
@@ -159,5 +159,33 @@ describe("NodeHttpsClient", function() {
     } catch (e) {
       assert.strictEqual(e.name, "AbortError");
     }
+  });
+
+  it("should stream response body on matching status code", async function() {
+    const client = createDefaultHttpsClient();
+    stubbedRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([200])
+    });
+    const promise = client.sendRequest(request);
+    stubbedRequest.yield(createResponse(200, "body"));
+    const response = await promise;
+    assert.equal(response.bodyAsText, undefined);
+    assert.ok(response.readableStreamBody);
+  });
+
+  it("should not stream response body on non-matching status code", async function() {
+    const client = createDefaultHttpsClient();
+    stubbedRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([200])
+    });
+    const promise = client.sendRequest(request);
+    stubbedRequest.yield(createResponse(400, "body"));
+    const response = await promise;
+    assert.equal(response.bodyAsText, "body");
+    assert.strictEqual(response.readableStreamBody, undefined);
   });
 });

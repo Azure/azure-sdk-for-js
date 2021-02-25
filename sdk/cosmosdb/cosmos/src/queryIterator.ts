@@ -104,9 +104,9 @@ export class QueryIterator<T> {
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation token or the\
+   * Determine if there are still remaining resources to processs based on the value of the continuation token or the
    * elements remaining on the current batch in the QueryIterator.
-   * @returns {Boolean} true if there is other elements to process in the QueryIterator.
+   * @returns true if there is other elements to process in the QueryIterator.
    */
   public hasMoreResults(): boolean {
     return this.queryExecutionContext.hasMoreResults();
@@ -243,8 +243,15 @@ export class QueryIterator<T> {
     return this.queryPlanPromise;
   }
 
-  private needsQueryPlan(error: any): error is ErrorResponse {
-    return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+  private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+    if (
+      error.body?.additionalErrorInfo ||
+      error.message.includes("Cross partition query only supports")
+    ) {
+      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+    } else {
+      throw error;
+    }
   }
 
   private initPromise: Promise<void>;

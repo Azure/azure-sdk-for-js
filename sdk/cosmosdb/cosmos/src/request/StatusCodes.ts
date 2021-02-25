@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 /**
- * @ignore
+ * @hidden
  */
 export type StatusCode = number;
 /**
- * @ignore
+ * @hidden
  */
 export type SubStatusCode = number;

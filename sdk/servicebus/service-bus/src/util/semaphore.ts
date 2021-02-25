@@ -3,9 +3,7 @@
 
 /**
  * @internal
- * @ignore
  * A simple Semaphore
- * @class Semaphore
  */
 export class Semaphore {
   /**
@@ -57,7 +55,7 @@ export class Semaphore {
   /**
    * Aquires a lock from the semaphore and then execute the fn. If the fn returns a Promise,
    * wait for that promise to settle and then release the lock back to the semaphore.
-   * @param fn The function that needs to be executed in the ciritical region.
+   * @param fn - The function that needs to be executed in the ciritical region.
    * @returns A Promise that will settle with the return value of fn.
    */
   use<T>(fn: () => T | PromiseLike<T>): Promise<T> {

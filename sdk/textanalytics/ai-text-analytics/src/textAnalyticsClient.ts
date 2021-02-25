@@ -14,12 +14,12 @@ import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
-  JobManifestTasks as GeneratedJobManifestTasks,
+  JobManifestTasks as GeneratedActions,
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
-  PiiTaskParametersDomain,
-  TextDocumentInput
+  TextDocumentInput,
+  PiiCategory
 } from "./generated/models";
 import {
   DetectLanguageResultArray,
@@ -49,36 +49,43 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
-  addEncodingParamToTask,
   AddParamsToTask,
   addStrEncodingParam,
-  handleInvalidDocumentBatch
+  handleInvalidDocumentBatch,
+  setStrEncodingParam,
+  StringIndexType
 } from "./util";
 import {
-  BeginAnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcarePoller,
-  HealthPollerLike
+  AnalyzeHealthcareEntitiesPollerLike
 } from "./lro/health/poller";
-import { BeginAnalyzeHealthcareOptions, HealthcareJobOptions } from "./lro/health/operation";
+import {
+  BeginAnalyzeHealthcareEntitiesOptions,
+  AnalyzeHealthcareOperationState
+} from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import {
-  AnalyzePollerLike,
-  BeginAnalyzeOperationState,
-  BeginAnalyzePoller
+  AnalyzeBatchActionsPollerLike,
+  BeginAnalyzeBatchActionsPoller
 } from "./lro/analyze/poller";
-import { AnalyzeJobOptions, BeginAnalyzeOptions } from "./lro/analyze/operation";
-import { PollingOptions } from "./lro/poller";
+import {
+  AnalyzeBatchActionsOperationMetadata,
+  BeginAnalyzeBatchActionsOptions,
+  AnalyzeBatchActionsOperationState
+} from "./lro/analyze/operation";
+import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
 
 export {
-  BeginAnalyzeOptions,
-  AnalyzePollerLike,
-  BeginAnalyzeOperationState,
-  BeginAnalyzeHealthcareOptions,
-  HealthPollerLike,
-  AnalyzeJobOptions,
-  PollingOptions,
-  HealthcareJobOptions,
-  BeginAnalyzeHealthcareOperationState
+  BeginAnalyzeBatchActionsOptions,
+  AnalyzeBatchActionsPollerLike,
+  AnalyzeBatchActionsOperationState,
+  BeginAnalyzeHealthcareEntitiesOptions,
+  AnalyzeHealthcareEntitiesPollerLike,
+  AnalyzeHealthcareOperationState,
+  AnalysisPollOperationState,
+  OperationMetadata,
+  AnalyzeBatchActionsOperationMetadata,
+  StringIndexType
 };
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
@@ -106,7 +113,14 @@ export type DetectLanguageOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the recognize entities operation.
  */
-export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
 
 /**
  * Options for the analyze sentiment operation.
@@ -116,11 +130,17 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * Whether to mine the opinions of a sentence and conduct more  granular
    * analysis around the aspects of a product or service (also known as
    * aspect-based sentiment analysis). If set to true, the returned
-   * `SentenceSentiment` objects will have property `mined_opinions` containing
+   * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -143,6 +163,12 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
   domainFilter?: PiiEntityDomainType;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -153,40 +179,63 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the recognize linked entities operation.
  */
-export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
 
 /**
- * Options for an entities recognition task.
+ * Options for an entities recognition action.
  */
-export type EntitiesTask = {
+export type RecognizeCategorizedEntitiesAction = {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
    */
   modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 };
 
 /**
- * Options for a Pii entities recognition task.
+ * Options for a Pii entities recognition action.
  */
-export type PiiTask = {
+export type RecognizePiiEntitiesAction = {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domain?: PiiTaskParametersDomain;
+  domain?: PiiEntityDomainType;
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
    */
   modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * Specifies the Pii categories to return.
+   */
+  piiCategories?: PiiCategory[];
 };
 
 /**
- * Options for a key phrases recognition task.
+ * Options for a key phrases recognition action.
  */
-export interface KeyPhrasesTask {
+export interface ExtractKeyPhrasesAction {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -195,21 +244,42 @@ export interface KeyPhrasesTask {
 }
 
 /**
- * Description of collection of tasks for the analyze API to perform on input documents
+ * Options for an entities linking action.
  */
-export interface JobManifestTasks {
+export type RecognizeLinkedEntitiesAction = {
   /**
-   * A collection of descriptions of entities recognition tasks.
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
    */
-  entityRecognitionTasks?: EntitiesTask[];
+  modelVersion?: string;
   /**
-   * A collection of descriptions of Pii entities recognition tasks.
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  entityRecognitionPiiTasks?: PiiTask[];
+  stringIndexType?: StringIndexType;
+};
+
+/**
+ * Description of collection of actions for the analyze API to perform on input documents
+ */
+export interface TextAnalyticsActions {
   /**
-   * A collection of descriptions of key phrases recognition tasks.
+   * A collection of descriptions of entities recognition actions.
    */
-  keyPhraseExtractionTasks?: KeyPhrasesTask[];
+  recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
+  /**
+   * A collection of descriptions of Pii entities recognition actions.
+   */
+  recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
+  /**
+   * A collection of descriptions of key phrases recognition actions.
+   */
+  extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+  /**
+   * A collection of descriptions of entities linking actions.
+   */
+  recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -363,13 +433,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeDetectLanguageResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeDetectLanguageResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -454,13 +518,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
-      return makeRecognizeCategorizedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
     } catch (e) {
       /**
        * This special logic handles REST exception with code
@@ -528,18 +586,12 @@ export class TextAnalyticsClient {
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
-      realOptions = {
-        includeStatistics: options?.includeStatistics,
-        modelVersion: options?.modelVersion,
-        opinionMining: options?.includeOpinionMining
-      };
+      realOptions = makeAnalyzeSentimentOptionsModel(options || {});
     } else {
       realInputs = documents;
-      realOptions = {
-        includeStatistics: (languageOrOptions as AnalyzeSentimentOptions)?.includeStatistics,
-        modelVersion: (languageOrOptions as AnalyzeSentimentOptions)?.modelVersion,
-        opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.includeOpinionMining
-      };
+      realOptions = makeAnalyzeSentimentOptionsModel(
+        (languageOrOptions as AnalyzeSentimentOptions) || {}
+      );
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -552,7 +604,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -631,13 +683,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeExtractKeyPhrasesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeExtractKeyPhrasesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -694,12 +740,12 @@ export class TextAnalyticsClient {
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(inputs, language);
-      realOptions = options || {};
-      realOptions.domain = options?.domainFilter;
+      realOptions = makePiiEntitiesOptionsModel(options || {});
     } else {
       realInputs = inputs;
-      realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
-      realOptions.domain = (languageOrOptions as RecognizePiiEntitiesOptions)?.domainFilter;
+      realOptions = makePiiEntitiesOptionsModel(
+        (languageOrOptions as RecognizePiiEntitiesOptions) || {}
+      );
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -712,7 +758,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
       );
 
       return makeRecognizePiiEntitiesResultArray(realInputs, result);
@@ -793,13 +839,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
-      return makeRecognizeLinkedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -812,7 +852,7 @@ export class TextAnalyticsClient {
   }
 
   /**
-   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
    * symptoms, etc) and their relations.
    * @param documents - Collection of documents to analyze.
    * @param language - The language that all the input strings are
@@ -822,28 +862,28 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: string[],
     language?: string,
-    options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike>;
+    options?: BeginAnalyzeHealthcareEntitiesOptions
+  ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
   /**
-   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
    * symptoms, etc) and their relations.
    * @param documents - Collection of documents to analyze.
    * @param options - Options for the operation.
    */
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: TextDocumentInput[],
-    options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike>;
+    options?: BeginAnalyzeHealthcareEntitiesOptions
+  ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
 
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: string[] | TextDocumentInput[],
-    languageOrOptions?: string | BeginAnalyzeHealthcareOptions,
-    options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike> {
-    let realOptions: BeginAnalyzeHealthcareOptions;
+    languageOrOptions?: string | BeginAnalyzeHealthcareEntitiesOptions,
+    options?: BeginAnalyzeHealthcareEntitiesOptions
+  ): Promise<AnalyzeHealthcareEntitiesPollerLike> {
+    let realOptions: BeginAnalyzeHealthcareEntitiesOptions;
     let realInputs: TextDocumentInput[];
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -851,14 +891,22 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as BeginAnalyzeHealthcareOptions) || {};
+      realOptions = (languageOrOptions as BeginAnalyzeHealthcareEntitiesOptions) || {};
     }
 
     const poller = new BeginAnalyzeHealthcarePoller({
       client: this.client,
       documents: realInputs,
-      analysisOptions: realOptions.health,
-      ...realOptions.polling
+      analysisOptions: {
+        requestOptions: realOptions.requestOptions,
+        tracingOptions: realOptions.tracingOptions,
+        abortSignal: realOptions.abortSignal
+      },
+      updateIntervalInMs: realOptions.updateIntervalInMs,
+      resumeFrom: realOptions.resumeFrom,
+      includeStatistics: realOptions.includeStatistics,
+      modelVersion: realOptions.modelVersion,
+      stringIndexType: realOptions.stringIndexType
     });
 
     await poller.poll();
@@ -866,9 +914,9 @@ export class TextAnalyticsClient {
   }
 
   /**
-   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
-   * @param tasks - Tasks to execute.
+   * @param actions - TextAnalyticsActions to execute.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.
@@ -876,30 +924,30 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  public async beginAnalyze(
+  public async beginAnalyzeBatchActions(
     documents: string[],
-    tasks: JobManifestTasks,
+    actions: TextAnalyticsActions,
     language?: string,
-    options?: BeginAnalyzeOptions
-  ): Promise<AnalyzePollerLike>;
+    options?: BeginAnalyzeBatchActionsOptions
+  ): Promise<AnalyzeBatchActionsPollerLike>;
   /**
-   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
-   * @param tasks - Tasks to execute.
+   * @param actions - TextAnalyticsActions to execute.
    * @param options - Options for the operation.
    */
-  public async beginAnalyze(
+  public async beginAnalyzeBatchActions(
     documents: TextDocumentInput[],
-    tasks: JobManifestTasks,
-    options?: BeginAnalyzeOptions
-  ): Promise<AnalyzePollerLike>;
-  public async beginAnalyze(
+    actions: TextAnalyticsActions,
+    options?: BeginAnalyzeBatchActionsOptions
+  ): Promise<AnalyzeBatchActionsPollerLike>;
+  public async beginAnalyzeBatchActions(
     documents: string[] | TextDocumentInput[],
-    tasks: JobManifestTasks,
-    languageOrOptions?: string | BeginAnalyzeOptions,
-    options?: BeginAnalyzeOptions
-  ): Promise<AnalyzePollerLike> {
-    let realOptions: BeginAnalyzeOptions;
+    actions: TextAnalyticsActions,
+    languageOrOptions?: string | BeginAnalyzeBatchActionsOptions,
+    options?: BeginAnalyzeBatchActionsOptions
+  ): Promise<AnalyzeBatchActionsPollerLike> {
+    let realOptions: BeginAnalyzeBatchActionsOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -912,15 +960,21 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as BeginAnalyzeOptions) || {};
+      realOptions = (languageOrOptions as BeginAnalyzeBatchActionsOptions) || {};
     }
-    const compiledTasks = addEncodingParamToAnalyzeInput(tasks);
-    const poller = new BeginAnalyzePoller({
+    const compiledActions = addEncodingParamToAnalyzeInput(actions);
+    const poller = new BeginAnalyzeBatchActionsPoller({
       client: this.client,
       documents: realInputs,
-      tasks: compiledTasks,
-      analysisOptions: realOptions.analyze,
-      ...realOptions.polling
+      actions: compiledActions,
+      analysisOptions: {
+        requestOptions: realOptions.requestOptions,
+        tracingOptions: realOptions.tracingOptions,
+        abortSignal: realOptions.abortSignal
+      },
+      includeStatistics: realOptions.includeStatistics,
+      updateIntervalInMs: realOptions.updateIntervalInMs,
+      resumeFrom: realOptions.resumeFrom
     });
 
     await poller.poll();
@@ -928,15 +982,18 @@ export class TextAnalyticsClient {
   }
 }
 
-function addEncodingParamToAnalyzeInput(tasks: JobManifestTasks): GeneratedJobManifestTasks {
+/**
+ * @internal
+ */
+function addEncodingParamToAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
-    entityRecognitionPiiTasks: tasks.entityRecognitionPiiTasks
-      ?.map(addEncodingParamToTask)
+    entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions
+      ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
-    entityRecognitionTasks: tasks.entityRecognitionTasks
-      ?.map(addEncodingParamToTask)
+    entityRecognitionTasks: actions.recognizeEntitiesActions
+      ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
-    keyPhraseExtractionTasks: tasks.keyPhraseExtractionTasks?.map(AddParamsToTask)
+    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask)
   };
 }
 
@@ -944,6 +1001,9 @@ function isStringArray(documents: any[]): documents is string[] {
   return typeof documents[0] === "string";
 }
 
+/**
+ * @internal
+ */
 function convertToDetectLanguageInput(
   inputs: string[],
   countryHint: string
@@ -962,6 +1022,9 @@ function convertToDetectLanguageInput(
   );
 }
 
+/**
+ * @internal
+ */
 function convertToTextDocumentInput(inputs: string[], language: string): TextDocumentInput[] {
   return inputs.map(
     (text: string, index): TextDocumentInput => {
@@ -972,4 +1035,42 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
       };
     }
   );
+}
+
+/**
+ * Creates the options the service expects for the analyze sentiment API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ */
+function makeAnalyzeSentimentOptionsModel(
+  params: AnalyzeSentimentOptions
+): GeneratedClientSentimentOptionalParams {
+  return {
+    abortSignal: params.abortSignal,
+    opinionMining: params.includeOpinionMining,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    stringIndexType: params.stringIndexType,
+    tracingOptions: params.tracingOptions
+  };
+}
+
+/**
+ * Creates the options the service expects for the recognize pii entities API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ */
+function makePiiEntitiesOptionsModel(
+  params: RecognizePiiEntitiesOptions
+): GeneratedClientEntitiesRecognitionPiiOptionalParams {
+  return {
+    abortSignal: params.abortSignal,
+    domain: params.domainFilter,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    stringIndexType: params.stringIndexType,
+    tracingOptions: params.tracingOptions
+  };
 }

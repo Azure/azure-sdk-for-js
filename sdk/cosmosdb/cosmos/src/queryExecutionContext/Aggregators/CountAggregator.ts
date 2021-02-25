@@ -7,17 +7,13 @@ export class CountAggregator implements Aggregator {
   public value: number;
   /**
    * Represents an aggregator for COUNT operator.
-   * @constructor CountAggregator
-   * @ignore
+   * @hidden
    */
   constructor() {
     this.value = 0;
   }
   /**
    * Add the provided item to aggregation result.
-   * @memberof CountAggregator
-   * @instance
-   * @param other
    */
   public aggregate(other: number): void {
     this.value += other;
@@ -25,8 +21,6 @@ export class CountAggregator implements Aggregator {
 
   /**
    * Get the aggregation result.
-   * @memberof CountAggregator
-   * @instance
    */
   public getResult(): number {
     return this.value;

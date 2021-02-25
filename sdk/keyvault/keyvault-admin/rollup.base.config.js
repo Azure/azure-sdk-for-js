@@ -118,8 +118,8 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          chai: ["assert"],
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
+          chai: ["assert", "use"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "isRejected"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
@@ -133,7 +133,7 @@ export function browserConfig(test = false) {
       json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
     );
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
+
     baseConfig.external = [];
     baseConfig.context = "null";
 

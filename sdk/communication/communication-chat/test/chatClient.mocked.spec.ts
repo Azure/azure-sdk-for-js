@@ -7,12 +7,13 @@ import { ChatClient, CreateChatThreadRequest } from "../src";
 import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
-import { AzureCommunicationUserCredential } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
   mockThread,
   generateHttpClient,
   createChatClient,
-  mockThreadInfo
+  mockThreadInfo,
+  mockCreateThreadResult
 } from "./utils/mockClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
@@ -25,34 +26,27 @@ describe("[Mocked] ChatClient", async () => {
   });
 
   it("can instantiate", async () => {
-    new ChatClient(baseUri, new AzureCommunicationUserCredential(generateToken()));
+    new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
   it("makes successful create thread request", async () => {
-    const mockHttpClient = generateHttpClient(207, {
-      multipleStatus: [
-        {
-          id: mockThread.id,
-          statusCode: 201,
-          type: "Thread"
-        }
-      ]
-    });
+    const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
 
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendRequest: CreateChatThreadRequest = {
       topic: mockThread.topic!,
-      members: []
+      participants: []
     };
 
     const sendOptions = {};
 
-    const chatThreadClient = await chatClient.createChatThread(sendRequest, sendOptions);
+    const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
 
     sinon.assert.calledOnce(spy);
-    assert.equal(chatThreadClient.threadId, mockThread.id);
+    assert.isDefined(createThreadResult.chatThread);
+    assert.equal(createThreadResult.chatThread?.id, mockThread.id);
 
     const request = spy.getCall(0).args[0];
 
@@ -66,23 +60,15 @@ describe("[Mocked] ChatClient", async () => {
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const {
-      createdBy: responseUser,
-      _response,
-      members: responseMembers,
-      ...response
-    } = await chatClient.getChatThread(mockThread.id!);
-    const { createdBy: expectedId, members: expectedMembers, ...expected } = mockThread;
+    const { createdBy: responseUser, _response, ...response } = await chatClient.getChatThread(
+      mockThread.id!
+    );
+    const { createdBy: expectedId, ...expected } = mockThread;
 
     sinon.assert.calledOnce(spy);
 
     assert.deepEqual(response, expected);
     assert.equal(responseUser?.communicationUserId, expectedId);
-    assert.equal(responseMembers?.length, expectedMembers?.length);
-    const { user, ...responseMember } = responseMembers![0];
-    const { id, ...expectedMember } = expectedMembers![0];
-    assert.equal(user.communicationUserId, id);
-    assert.deepEqual(responseMember, expectedMember);
 
     const request = spy.getCall(0).args[0];
 

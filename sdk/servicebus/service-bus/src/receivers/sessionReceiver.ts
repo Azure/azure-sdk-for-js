@@ -53,7 +53,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
   readonly sessionId: string;
 
   /**
-   * @property The time in UTC until which the session is locked.
+   * The time in UTC until which the session is locked.
    * Every time `renewSessionLock()` is called, this time gets updated to current time plus the lock
    * duration as specified during the Queue/Subscription creation.
    *
@@ -65,8 +65,8 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
   /**
    * Streams messages to message handlers.
-   * @param handlers A handler that gets called for messages and errors.
-   * @param options Options for subscribe.
+   * @param handlers - A handler that gets called for messages and errors.
+   * @param options - Options for subscribe.
    * @returns An object that can be closed, sending any remaining messages to `handlers` and
    * stopping new messages from arriving.
    */
@@ -87,9 +87,9 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns {Promise<any>} The state of that session
+   * @returns The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
@@ -97,33 +97,30 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
-   * @param state The state that needs to be set.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
+   * @param state - The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.
    *
-   * @param {*} state
-   * @returns {Promise<void>}
    */
   setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
 
 /**
  * @internal
- * @ignore
  */
 export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver {
   public sessionId: string;
 
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 
   private _createProcessingSpan: typeof createProcessingSpan;
 
-  private get logPrefix() {
+  private get logPrefix(): string {
     return `[${this._context.connectionId}|session:${this.entityPath}]`;
   }
 
@@ -179,7 +176,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   /**
-   * @property The time in UTC until which the session is locked.
+   * The time in UTC until which the session is locked.
    * Every time `renewSessionLock()` is called, this time gets updated to current time plus the lock
    * duration as specified during the Queue/Subscription creation.
    *
@@ -206,13 +203,13 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * will land back in the Queue/Subscription with their delivery count incremented.
    *
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @returns New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while renewing session lock.
    */
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    const renewSessionLockOperationPromise = async () => {
+    const renewSessionLockOperationPromise = async (): Promise<Date> => {
       this._messageSession!.sessionLockedUntilUtc = await this._context
         .getManagementClient(this.entityPath)
         .renewSessionLock(this.sessionId, {
@@ -235,8 +232,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
-   * @param state The state that needs to be set.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
+   * @param state - The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.
@@ -244,7 +241,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const setSessionStateOperationPromise = async () => {
+    const setSessionStateOperationPromise = async (): Promise<void> => {
       await this._context
         .getManagementClient(this.entityPath)
         .setSessionState(this.sessionId!, state, {
@@ -267,16 +264,16 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<any> The state of that session
+   * @returns The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
   async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const getSessionStateOperationPromise = async () => {
+    const getSessionStateOperationPromise = async (): Promise<any> => {
       return this._context.getManagementClient(this.entityPath).getSessionState(this.sessionId, {
         ...options,
         associatedLinkName: this._messageSession.name,
@@ -306,7 +303,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
-    const peekOperationPromise = async () => {
+    const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
         return await this._context
           .getManagementClient(this.entityPath)
@@ -352,7 +349,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
       ? sequenceNumbers
       : [sequenceNumbers];
-    const receiveDeferredMessagesOperationPromise = async () => {
+    const receiveDeferredMessagesOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, this.sessionId, {
@@ -395,7 +392,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       throw new TypeError(InvalidMaxMessageCountError);
     }
 
-    const receiveBatchOperationPromise = async () => {
+    const receiveBatchOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
@@ -463,7 +460,6 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    *
-   * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if the receiver is already in state of receiving messages.
    * @throws `ServiceBusError` if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.

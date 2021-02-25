@@ -16,18 +16,26 @@ import {
   convertEventGridEventToModelType,
   convertCloudEventToModelType
 } from "../src/eventGridClient";
+import { FullOperationResponse } from "@azure/core-client";
 
 describe("EventGridPublisherClient", function() {
   let recorder: Recorder;
-  let client: EventGridPublisherClient;
+  let res: FullOperationResponse | undefined;
 
   this.timeout(10000);
 
-  describe("#sendEvents", function() {
+  beforeEach(function() {
+    res = undefined;
+  });
+
+  describe("#send (EventGrid schema)", function() {
+    let client: EventGridPublisherClient<"EventGrid">;
+
     beforeEach(function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
+        "EventGrid",
         new AzureKeyCredential(testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY)
       ));
     });
@@ -37,55 +45,64 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends a single event", async () => {
-      const res = await client.sendEvents([
-        {
-          eventTime: recorder.newDate("singleEventDate"),
-          id: recorder.getUniqueName("singleEventId"),
-          eventType: "Azure.Sdk.TestEvent1",
-          subject: "Single 1",
-          dataVersion: "1.0",
-          data: {
-            hello: "world"
+      await client.send(
+        [
+          {
+            eventTime: recorder.newDate("singleEventDate"),
+            id: recorder.getUniqueName("singleEventId"),
+            eventType: "Azure.Sdk.TestEvent1",
+            subject: "Single 1",
+            dataVersion: "1.0",
+            data: {
+              hello: "world"
+            }
           }
-        }
-      ]);
+        ],
+        { onResponse: (response) => (res = response) }
+      );
 
-      assert.equal(res._response.status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("sends multiple events", async () => {
-      const res = await client.sendEvents([
-        {
-          eventTime: recorder.newDate("multiEventDate1"),
-          id: recorder.getUniqueName("multiEventId1"),
-          eventType: "Azure.Sdk.TestEvent1",
-          subject: "Multiple 1",
-          dataVersion: "1.0",
-          data: {
-            hello: "world"
+      await client.send(
+        [
+          {
+            eventTime: recorder.newDate("multiEventDate1"),
+            id: recorder.getUniqueName("multiEventId1"),
+            eventType: "Azure.Sdk.TestEvent1",
+            subject: "Multiple 1",
+            dataVersion: "1.0",
+            data: {
+              hello: "world"
+            }
+          },
+          {
+            eventTime: recorder.newDate("multiEventDate2"),
+            id: recorder.getUniqueName("multiEventId2"),
+            eventType: "Azure.Sdk.TestEvent1",
+            subject: "Multiple 2",
+            dataVersion: "1.0",
+            data: {
+              hello: "world"
+            }
           }
-        },
-        {
-          eventTime: recorder.newDate("multiEventDate2"),
-          id: recorder.getUniqueName("multiEventId2"),
-          eventType: "Azure.Sdk.TestEvent1",
-          subject: "Multiple 2",
-          dataVersion: "1.0",
-          data: {
-            hello: "world"
-          }
-        }
-      ]);
+        ],
+        { onResponse: (response) => (res = response) }
+      );
 
-      assert.equal(res._response.status, 200);
+      assert.equal(res?.status, 200);
     });
   });
 
-  describe("#sendCloudEventSchemaEvents", function() {
+  describe("#send (CloudEvent schema)", function() {
+    let client: EventGridPublisherClient<"CloudEvent">;
+
     beforeEach(function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
+        "CloudEvent",
         new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
       ));
     });
@@ -95,46 +112,52 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends a single event", async () => {
-      const res = await client.sendCloudEvents([
-        {
-          type: "Azure.Sdk.TestEvent1",
-          id: recorder.getUniqueName("cloudSingleEventId"),
-          time: recorder.newDate("cloudSingleEventDate"),
-          source: "/earth/unitedstates/washington/kirkland/finnhill",
-          data: {
-            hello: "world"
+      await client.send(
+        [
+          {
+            type: "Azure.Sdk.TestEvent1",
+            id: recorder.getUniqueName("cloudSingleEventId"),
+            time: recorder.newDate("cloudSingleEventDate"),
+            source: "/earth/unitedstates/washington/kirkland/finnhill",
+            data: {
+              hello: "world"
+            }
           }
-        }
-      ]);
+        ],
+        { onResponse: (response) => (res = response) }
+      );
 
-      assert.equal(res._response.status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("sends multiple events", async () => {
-      const res = await client.sendCloudEvents([
-        {
-          type: "Azure.Sdk.TestEvent1",
-          id: recorder.getUniqueName("cloudMultiEventId1"),
-          time: recorder.newDate("cloudMultiEventDate1"),
-          source: "/earth/unitedstates/washington/kirkland/finnhill",
-          subject: "Multiple 1",
-          data: {
-            hello: "world"
+      await client.send(
+        [
+          {
+            type: "Azure.Sdk.TestEvent1",
+            id: recorder.getUniqueName("cloudMultiEventId1"),
+            time: recorder.newDate("cloudMultiEventDate1"),
+            source: "/earth/unitedstates/washington/kirkland/finnhill",
+            subject: "Multiple 1",
+            data: {
+              hello: "world"
+            }
+          },
+          {
+            type: "Azure.Sdk.TestEvent1",
+            id: recorder.getUniqueName("cloudMultiEventId2"),
+            time: recorder.newDate("cloudMultiEventDate2"),
+            source: "/earth/unitedstates/washington/kirkland/finnhill",
+            subject: "Multiple 2",
+            data: {
+              hello: "world"
+            }
           }
-        },
-        {
-          type: "Azure.Sdk.TestEvent1",
-          id: recorder.getUniqueName("cloudMultiEventId2"),
-          time: recorder.newDate("cloudMultiEventDate2"),
-          source: "/earth/unitedstates/washington/kirkland/finnhill",
-          subject: "Multiple 2",
-          data: {
-            hello: "world"
-          }
-        }
-      ]);
+        ],
+        { onResponse: (response) => (res = response) }
+      );
 
-      assert.equal(res._response.status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("enriches events with distributed tracing information", async () => {
@@ -142,7 +165,7 @@ describe("EventGridPublisherClient", function() {
       setTracer(tracer);
       const rootSpan = tracer.startSpan("root");
 
-      const res = await client.sendCloudEvents(
+      await client.send(
         [
           {
             type: "Azure.Sdk.TestEvent1",
@@ -160,13 +183,14 @@ describe("EventGridPublisherClient", function() {
             spanOptions: {
               parent: rootSpan.context()
             }
-          }
+          },
+          onResponse: (response) => (res = response)
         }
       );
 
       rootSpan.end();
 
-      const parsedBody = JSON.parse(res._response.request.body);
+      const parsedBody = JSON.parse(res?.request.body as string);
 
       assert.isArray(parsedBody);
       assert.equal(parsedBody[0].traceparent, "00-1-3-00");
@@ -175,16 +199,19 @@ describe("EventGridPublisherClient", function() {
 
       assert.equal(spans.length, 3);
       assert.equal(spans[0].name, "root");
-      assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-sendCloudEvents");
+      assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-send");
       assert.equal(spans[2].name, "/api/events");
     });
   });
 
-  describe("#sendCustomSchemaEvents", function() {
+  describe("#send (Custom Event Schema)", function() {
+    let client: EventGridPublisherClient<"Custom">;
+
     beforeEach(function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
+        "Custom",
         new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
       ));
     });
@@ -194,41 +221,47 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends a single event", async () => {
-      const res = await client.sendCustomSchemaEvents([
-        {
-          ver: "1.0",
-          typ: "Azure.Sdk.TestEvent1",
-          sub: "Single",
-          payload: {
-            hello: "world"
+      await client.send(
+        [
+          {
+            ver: "1.0",
+            typ: "Azure.Sdk.TestEvent1",
+            sub: "Single",
+            payload: {
+              hello: "world"
+            }
           }
-        }
-      ]);
+        ],
+        { onResponse: (response) => (res = response) }
+      );
 
-      assert.equal(res._response.status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("sends multiple events", async () => {
-      const res = await client.sendCustomSchemaEvents([
-        {
-          ver: "1.0",
-          typ: "Azure.Sdk.TestEvent1",
-          sub: "Multiple 1",
-          payload: {
-            hello: "world"
+      await client.send(
+        [
+          {
+            ver: "1.0",
+            typ: "Azure.Sdk.TestEvent1",
+            sub: "Multiple 1",
+            payload: {
+              hello: "world"
+            }
+          },
+          {
+            ver: "1.0",
+            typ: "Azure.Sdk.TestEvent1",
+            sub: "Multiple 2",
+            payload: {
+              hello: "world"
+            }
           }
-        },
-        {
-          ver: "1.0",
-          typ: "Azure.Sdk.TestEvent1",
-          sub: "Multiple 2",
-          payload: {
-            hello: "world"
-          }
-        }
-      ]);
+        ],
+        { onResponse: (response) => (res = response) }
+      );
 
-      assert.equal(res._response.status, 200);
+      assert.equal(res?.status, 200);
     });
   });
 });

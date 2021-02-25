@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { BuffersStream } from "./BuffersStream";
 import { Readable } from "stream";
@@ -17,36 +17,21 @@ const maxBufferLength = require("buffer").constants.MAX_LENGTH;
  * into the internal "buffer" serially with respect to the total length.
  * Then by calling PooledBuffer.getReadableStream(), you can get a readable stream
  * assembled from all the data in the internal "buffer".
- *
- * @export
- * @class BufferScheduler
  */
 export class PooledBuffer {
   /**
    * Internal buffers used to keep the data.
    * Each buffer has a length of the maxBufferLength except last one.
-   *
-   * @private
-   * @type {Buffer[]}
-   * @memberof PooledBuffer
    */
   private buffers: Buffer[] = [];
 
   /**
    * The total size of internal buffers.
-   *
-   * @private
-   * @type {number}
-   * @memberof PooledBuffer
    */
   private readonly capacity: number;
 
   /**
    * The total size of data contained in internal buffers.
-   *
-   * @private
-   * @type {number}
-   * @memberof PooledBuffer
    */
   private _size: number;
 
@@ -63,8 +48,7 @@ export class PooledBuffer {
    * Users may call the {@link PooledBuffer.fill} method to fill this
    * pooled buffer with data.
    *
-   * @param {number} capacity Total capacity of the internal buffers
-   * @memberof PooledBuffer
+   * @param capacity - Total capacity of the internal buffers
    */
   constructor(capacity: number);
 
@@ -73,10 +57,9 @@ export class PooledBuffer {
    * Internal buffers are allocated and filled with data in the input buffers serially
    * with respect to the total length.
    *
-   * @param {number} capacity Total capacity of the internal buffers
-   * @param {Buffer[]} buffers Input buffers containing the data to be filled in the pooled buffer
-   * @param {number} totalLength Total length of the data to be filled in.
-   * @memberof PooledBuffer
+   * @param capacity - Total capacity of the internal buffers
+   * @param buffers - Input buffers containing the data to be filled in the pooled buffer
+   * @param totalLength - Total length of the data to be filled in.
    */
   constructor(capacity: number, buffers: Buffer[], totalLength: number);
   constructor(capacity: number, buffers?: Buffer[], totalLength?: number) {
@@ -103,11 +86,9 @@ export class PooledBuffer {
    * with respect to the total length and the total capacity of the internal buffers.
    * Data copied will be shift out of the input buffers.
    *
-   * @param {Buffer[]} buffers Input buffers containing the data to be filled in the pooled buffer
-   * @param {number} totalLength Total length of the data to be filled in.
+   * @param buffers - Input buffers containing the data to be filled in the pooled buffer
+   * @param totalLength - Total length of the data to be filled in.
    *
-   * @returns {void}
-   * @memberof PooledBuffer
    */
   public fill(buffers: Buffer[], totalLength: number) {
     this._size = Math.min(this.capacity, totalLength);
@@ -145,8 +126,6 @@ export class PooledBuffer {
   /**
    * Get the readable stream assembled from all the data in the internal buffers.
    *
-   * @returns {Readable}
-   * @memberof PooledBuffer
    */
   public getReadableStream(): Readable {
     return new BuffersStream(this.buffers, this.size);

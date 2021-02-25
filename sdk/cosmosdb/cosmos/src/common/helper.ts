@@ -17,7 +17,7 @@ export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function parseLink(
   resourcePath: string
@@ -80,14 +80,14 @@ export function parseLink(
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function isReadRequest(operationType: OperationType): boolean {
   return operationType === OperationType.Read || operationType === OperationType.Query;
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function sleep(time: number): Promise<void> {
   return new Promise((resolve) => {
@@ -98,7 +98,7 @@ export function sleep(time: number): Promise<void> {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function getContainerLink(link: string): string {
   return link
@@ -108,21 +108,21 @@ export function getContainerLink(link: string): string {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function trimSlashes(source: string): string {
   return source.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function getHexaDigit(): string {
   return Math.floor(Math.random() * 16).toString(16);
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function parsePath(path: string): string[] {
   const pathParts = [];
@@ -189,7 +189,7 @@ export function parsePath(path: string): string[] {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function isResourceValid(resource: { id?: string }, err: { message?: string }): boolean {
   // TODO: fix strictness issues so that caller contexts respects the types of the functions
@@ -216,13 +216,13 @@ export function isResourceValid(resource: { id?: string }, err: { message?: stri
   return true;
 }
 
-/** @ignore */
-export function getIdFromLink(resourceLink: string): string {
+/** @hidden */
+export function getIdFromLink(resourceLink: string) {
   resourceLink = trimSlashes(resourceLink);
   return resourceLink;
 }
 
-/** @ignore */
+/** @hidden */
 export function getPathFromLink(resourceLink: string, resourceType?: string): string {
   resourceLink = trimSlashes(resourceLink);
   if (resourceType) {
@@ -233,7 +233,7 @@ export function getPathFromLink(resourceLink: string, resourceType?: string): st
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function isStringNullOrEmpty(inputString: string): boolean {
   // checks whether string is null, undefined, empty or only contains space
@@ -241,7 +241,7 @@ export function isStringNullOrEmpty(inputString: string): boolean {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function trimSlashFromLeftAndRight(inputString: string): string {
   if (typeof inputString !== "string") {
@@ -252,7 +252,7 @@ export function trimSlashFromLeftAndRight(inputString: string): string {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function validateResourceId(resourceId: string): boolean {
   // if resourceId is not a string or is empty throw an error
@@ -274,8 +274,7 @@ export function validateResourceId(resourceId: string): boolean {
 }
 
 /**
- * @ignore
- * @param resourcePath
+ * @hidden
  */
 export function getResourceIdFromPath(resourcePath: string): string {
   if (!resourcePath || typeof resourcePath !== "string") {
@@ -294,7 +293,7 @@ export function getResourceIdFromPath(resourcePath: string): string {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 interface ConnectionObject {
   AccountEndpoint: string;
@@ -302,7 +301,7 @@ interface ConnectionObject {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function parseConnectionString(connectionString: string): CosmosClientOptions {
   const keyValueStrings = connectionString.split(";");

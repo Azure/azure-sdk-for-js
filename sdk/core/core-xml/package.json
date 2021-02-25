@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -38,8 +38,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o coreXml-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test:browser && npm run unit-test:browser && npm run integration-test:browser",
@@ -48,7 +48,7 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -61,8 +61,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
-    "cloud",
-    "Azure"
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -107,7 +106,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",
@@ -119,6 +118,6 @@
     "sinon": "^9.0.2",
     "typescript": "4.1.2",
     "util": "^0.12.1",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

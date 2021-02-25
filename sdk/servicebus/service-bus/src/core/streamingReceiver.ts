@@ -6,8 +6,7 @@ import {
   OnAmqpEventAsPromise,
   OnError,
   OnMessage,
-  ReceiveOptions,
-  ReceiverHandlers
+  ReceiveOptions
 } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 
@@ -29,10 +28,10 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
+import { ReceiverHandlers } from "./shared";
 
 /**
  * @internal
- * @ignore
  */
 export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
@@ -42,15 +41,12 @@ export interface StreamingReceiverInitArgs
 
 /**
  * @internal
- * @ignore
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
- * @class StreamingReceiver
- * @extends MessageReceiver
  */
 export class StreamingReceiver extends MessageReceiver {
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * The maximum number of messages that should be
    * processed concurrently while in streaming mode. Once this limit has been reached, more
    * messages will not be received until the user's message handler has completed processing current message.
    * Default: 1
@@ -77,30 +73,30 @@ export class StreamingReceiver extends MessageReceiver {
   private _retry: typeof retry;
 
   /**
-   * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
    */
   private _onAmqpClose: OnAmqpEventAsPromise;
 
   /**
-   * @property {OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
    */
   private _onSessionClose: OnAmqpEventAsPromise;
 
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
    */
   private _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    */
   private _onAmqpError: OnAmqpEvent;
 
   /**
-   * @property {OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    */
   protected _onAmqpMessage: OnAmqpEventAsPromise;
@@ -118,12 +114,11 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
-   * @constructor
-   * @param {ClientEntityContext} context                      The client entity context.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
+   * @param connectionContext - The client entity context.
+   * @param options - Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
-    super(context, entityPath, "streaming", options);
+  constructor(connectionContext: ConnectionContext, entityPath: string, options: ReceiveOptions) {
+    super(connectionContext, entityPath, "streaming", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -377,7 +372,7 @@ export class StreamingReceiver extends MessageReceiver {
       OperationOptionsBase,
       "abortSignal"
     >
-  ) {
+  ): Promise<void> {
     let numRetryCycles = 0;
 
     while (true) {
@@ -438,8 +433,8 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
    *
-   * @param {OnMessage} onMessage The message handler to receive servicebus messages.
-   * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
+   * @param onMessage - The message handler to receive servicebus messages.
+   * @param onError - The error handler to receive an error that occurs while receivin messages.
    */
   subscribe(onMessage: OnMessage, onError: OnError): void {
     throwErrorIfConnectionClosed(this._context);
@@ -452,8 +447,7 @@ export class StreamingReceiver extends MessageReceiver {
 
   /**
    * Will reconnect the receiver link if necessary.
-   * @param receiverError The receiver error or connection error, if any.
-   * @returns {Promise<void>} Promise<void>.
+   * @param receiverError - The receiver error or connection error, if any.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);

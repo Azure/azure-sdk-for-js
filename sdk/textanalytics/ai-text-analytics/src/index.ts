@@ -17,19 +17,21 @@ export {
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   PiiEntityDomainType,
-  JobManifestTasks,
-  EntitiesTask,
-  PiiTask,
-  KeyPhrasesTask,
-  BeginAnalyzeOptions,
-  AnalyzePollerLike,
-  BeginAnalyzeHealthcareOptions,
-  HealthPollerLike,
-  BeginAnalyzeOperationState,
-  HealthcareJobOptions,
-  PollingOptions,
-  AnalyzeJobOptions,
-  BeginAnalyzeHealthcareOperationState
+  TextAnalyticsActions,
+  RecognizeCategorizedEntitiesAction,
+  RecognizePiiEntitiesAction,
+  ExtractKeyPhrasesAction,
+  BeginAnalyzeBatchActionsOptions,
+  AnalyzeBatchActionsPollerLike,
+  BeginAnalyzeHealthcareEntitiesOptions,
+  AnalyzeHealthcareEntitiesPollerLike,
+  AnalyzeBatchActionsOperationState,
+  AnalyzeHealthcareOperationState,
+  AnalysisPollOperationState,
+  OperationMetadata,
+  AnalyzeBatchActionsOperationMetadata,
+  StringIndexType,
+  RecognizeLinkedEntitiesAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -57,9 +59,9 @@ export {
   AnalyzeSentimentErrorResult,
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
-  MinedOpinion,
-  AspectSentiment,
-  OpinionSentiment
+  Opinion,
+  TargetSentiment,
+  AssessmentSentiment
 } from "./analyzeSentimentResult";
 export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 export {
@@ -75,20 +77,35 @@ export {
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
 export {
-  PaginatedHealthcareEntities,
-  PagedAsyncIterableHealthEntities,
-  HealthcareEntitiesArray,
-  HealthcareResult,
-  HealthcareSuccessResult,
-  HealthcareErrorResult
-} from "./healthResult";
+  PagedAnalyzeHealthcareEntitiesResult,
+  PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
+  AnalyzeHealthcareEntitiesResultArray,
+  AnalyzeHealthcareEntitiesResult,
+  AnalyzeHealthcareEntitiesSuccessResult,
+  AnalyzeHealthcareEntitiesErrorResult,
+  HealthcareEntity,
+  EntityDataSource
+} from "./analyzeHealthcareEntitiesResult";
 export {
-  PaginatedAnalyzeResults,
-  PagedAsyncIterableAnalyzeResults,
-  AnalyzeResult
-} from "./analyzeResult";
+  PagedAnalyzeBatchActionsResult,
+  PagedAsyncIterableAnalyzeBatchActionsResult,
+  AnalyzeBatchActionsResult,
+  RecognizeCategorizedEntitiesActionResult,
+  RecognizePiiEntitiesActionResult,
+  ExtractKeyPhrasesActionResult,
+  TextAnalyticsActionSuccessState,
+  TextAnalyticsActionErrorResult,
+  RecognizeCategorizedEntitiesActionErrorResult,
+  RecognizeCategorizedEntitiesActionSuccessResult,
+  RecognizePiiEntitiesActionErrorResult,
+  RecognizePiiEntitiesActionSuccessResult,
+  ExtractKeyPhrasesActionErrorResult,
+  ExtractKeyPhrasesActionSuccessResult,
+  RecognizeLinkedEntitiesActionResult,
+  RecognizeLinkedEntitiesActionSuccessResult,
+  RecognizeLinkedEntitiesActionErrorResult
+} from "./analyzeBatchActionsResult";
 export {
-  TextAnalyticsResult,
   ErrorCode,
   TextAnalyticsError,
   TextAnalyticsErrorResult,
@@ -108,15 +125,19 @@ export {
   SentenceSentimentLabel,
   ErrorCodeValue,
   InnerErrorCodeValue,
+  KnownInnerErrorCodeValue,
   WarningCode,
+  KnownWarningCode,
   LinkedEntity,
   Match,
-  SentenceOpinion,
-  AspectConfidenceScoreLabel,
+  SentenceAssessment,
+  TargetConfidenceScoreLabel,
   TokenSentimentValue,
   TextAnalyticsWarning,
-  PiiTaskParametersDomain,
-  HealthcareEntity,
-  HealthcareRelation,
-  HealthcareEntityLink
+  State as TextAnalyticsOperationStatus,
+  HealthcareAssertion,
+  PiiCategory,
+  Association,
+  Certainty,
+  Conditionality
 } from "./generated/models";

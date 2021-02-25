@@ -17,8 +17,8 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts
   /**
    * Provides a Comparator for document producers using the min value of the corresponding target partition.
-   * @returns {object}        - Comparator Function
-   * @ignore
+   * @returns Comparator Function
+   * @hidden
    */
   public documentProducerComparator(
     docProd1: DocumentProducer,

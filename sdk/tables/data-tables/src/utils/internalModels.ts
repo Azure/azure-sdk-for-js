@@ -19,7 +19,7 @@ import {
   UpsertTableEntityOptions
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
-import { RequestPolicyFactory, WebResourceLike } from "@azure/core-http";
+import { Pipeline, PipelineRequest } from "@azure/core-https";
 import {
   DeleteTableOptions,
   DeleteTableResponse,
@@ -55,12 +55,12 @@ export interface InnerBatchRequest {
    * Creates a pipeline to intercept sub-requests and
    * build the request body
    */
-  createPipeline(): RequestPolicyFactory[];
+  createPipeline(): Pipeline;
   /**
    * Adds an operation to add to the batch body
    * @param request - The operation to add
    */
-  appendSubRequestToBody(request: WebResourceLike): void;
+  appendSubRequestToBody(request: PipelineRequest): void;
   /**
    * Gets the batch request body
    */
@@ -68,7 +68,7 @@ export interface InnerBatchRequest {
 }
 
 export interface InternalBatchClientOptions extends TableServiceClientOptions {
-  innerBatchRequest?: InnerBatchRequest;
+  innerBatchRequest: InnerBatchRequest;
 }
 
 /**

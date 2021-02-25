@@ -20,12 +20,11 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
    * When handling a parallelized query, it instantiates one instance of
    * DocumentProcuder per target partition key range and aggregates the result of each.
    *
-   * @constructor ParallelQueryExecutionContext
-   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
-   * @param {string} collectionLink                - The Collection Link
-   * @param {FeedOptions} [options]                - Represents the feed options.
-   * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
-   * @ignore
+   * @param clientContext - The service endpoint to use to create the client.
+   * @param collectionLink - The Collection Link
+   * @param options - Represents the feed options.
+   * @param partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
+   * @hidden
    */
   constructor(
     clientContext: ClientContext,
@@ -43,8 +42,8 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
   // Overriding documentProducerComparator for OrderByQueryExecutionContexts
   /**
    * Provides a Comparator for document producers which respects orderby sort order.
-   * @returns {object}        - Comparator Function
-   * @ignore
+   * @returns Comparator Function
+   * @hidden
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): any {
     return this.orderByComparator.compare(docProd1, docProd2);

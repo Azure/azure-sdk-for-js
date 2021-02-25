@@ -10,11 +10,15 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/55c3979124d193ab8cd4c5409a3e9f67739ca571/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@microsoft.azure/autorest.typescript": "5.0.1"
+  "@autorest/typescript": "6.0.0-dev.20210121.1"
+disable-async-iterators: true
+api-version-parameter: choice
+v3: true
+hide-clients: true
 ```
 
 ## Customizations for Track 2 Generator
@@ -55,28 +59,29 @@ directive:
   - from: swagger-document
     where: $.definitions.IndexAction
     transform: >
-      $.properties['@search.action']['x-ms-client-name'] = '__actionType';
       $.required = ['@search.action'];
+
+modelerfour:
+  naming:
+    override:
+      ActionType: $DO_NOT_NORMALIZE$__actionType
 ```
 
-
-### Change text to _text in SuggestResult
+### Change text to \_text in SuggestResult
 
 ```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SuggestResult.properties['@search.text']
-    transform: >
-      $['x-ms-client-name'] = '_text'
+modelerfour:
+  naming:
+    override:
+      Text: $DO_NOT_NORMALIZE$_text
 ```
 
-### Change score to _score & highlights to _highlights in SuggestResult
+### Change score to \_score & highlights to \_highlights in SuggestResult
 
 ```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SearchResult
-    transform: >
-      $.properties['@search.score']['x-ms-client-name'] = '_score';
-      $.properties['@search.highlights']['x-ms-client-name'] = '_highlights';
+modelerfour:
+  naming:
+    override:
+      Score: $DO_NOT_NORMALIZE$_score
+      Highlights: $DO_NOT_NORMALIZE$_highlights
 ```

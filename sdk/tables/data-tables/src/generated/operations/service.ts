@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { createSerializer, OperationSpec } from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
@@ -20,9 +20,8 @@ import {
   ServiceGetStatisticsResponse
 } from "../models";
 
-/**
- * Class representing a Service.
- */
+/** Class representing a Service. */
+/** @hidden */
 export class Service {
   private readonly client: GeneratedClient;
 
@@ -44,11 +43,8 @@ export class Service {
     tableServiceProperties: TableServiceProperties,
     options?: ServiceSetPropertiesOptionalParams
   ): Promise<ServiceSetPropertiesResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { tableServiceProperties, options: operationOptions },
+      { tableServiceProperties, options },
       setPropertiesOperationSpec
     ) as Promise<ServiceSetPropertiesResponse>;
   }
@@ -61,13 +57,9 @@ export class Service {
   getProperties(
     options?: ServiceGetPropertiesOptionalParams
   ): Promise<ServiceGetPropertiesResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      getPropertiesOperationSpec
-    ) as Promise<ServiceGetPropertiesResponse>;
+    return this.client.sendOperationRequest({ options }, getPropertiesOperationSpec) as Promise<
+      ServiceGetPropertiesResponse
+    >;
   }
 
   /**
@@ -78,20 +70,16 @@ export class Service {
   getStatistics(
     options?: ServiceGetStatisticsOptionalParams
   ): Promise<ServiceGetStatisticsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      getStatisticsOperationSpec
-    ) as Promise<ServiceGetStatisticsResponse>;
+    return this.client.sendOperationRequest({ options }, getStatisticsOperationSpec) as Promise<
+      ServiceGetStatisticsResponse
+    >;
   }
 }
 // Operation Specifications
 
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = createSerializer(Mappers, /* isXml */ true);
 
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: OperationSpec = {
   path: "/",
   httpMethod: "PUT",
   responses: {
@@ -110,14 +98,14 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.contentType2,
-    Parameters.accept5
+    Parameters.accept3
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -132,15 +120,11 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp1],
   urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept4
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept2],
   isXML: true,
   serializer: xmlSerializer
 };
-const getStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getStatisticsOperationSpec: OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -155,11 +139,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp2],
   urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept4
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept2],
   isXML: true,
   serializer: xmlSerializer
 };

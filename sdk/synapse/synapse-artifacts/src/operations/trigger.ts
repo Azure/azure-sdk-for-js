@@ -21,9 +21,7 @@ import {
   TriggerGetTriggersByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Trigger.
- */
+/** Class representing a Trigger. */
 export class Trigger {
   private readonly client: ArtifactsClient;
 
@@ -508,7 +506,6 @@ export class Trigger {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getTriggersByWorkspaceOperationSpec: coreHttp.OperationSpec = {

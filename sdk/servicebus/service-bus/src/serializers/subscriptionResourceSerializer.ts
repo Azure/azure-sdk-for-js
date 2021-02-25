@@ -28,11 +28,9 @@ import {
 
 /**
  * @internal
- * @ignore
  * Builds the subscription options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param subscription
  */
 export function buildSubscriptionOptions(
   subscription: CreateSubscriptionOptions
@@ -63,10 +61,8 @@ export function buildSubscriptionOptions(
 
 /**
  * @internal
- * @ignore
  * Builds the subscription object from the raw json object gotten after deserializing
  * the response from the service
- * @param rawSubscription
  */
 export function buildSubscription(rawSubscription: any): SubscriptionProperties {
   return {
@@ -114,10 +110,8 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
 
 /**
  * @internal
- * @ignore
  * Builds the subscription runtime info object from the raw json object gotten after deserializing
  * the response from the service
- * @param rawSubscription
  */
 export function buildSubscriptionRuntimeProperties(
   rawSubscription: any
@@ -272,8 +266,6 @@ export interface CreateSubscriptionOptions extends OperationOptions {
 /**
  * Represents the input for updateSubscription.
  *
- * @export
- * @interface SubscriptionProperties
  */
 export interface SubscriptionProperties {
   /**
@@ -392,7 +384,6 @@ export interface SubscriptionProperties {
 
 /**
  * @internal
- * @ignore
  * Internal representation of settable options on a subscription
  */
 export interface InternalSubscriptionOptions {
@@ -560,7 +551,6 @@ export interface SubscriptionRuntimeProperties {
 
 /**
  * @internal
- * @ignore
  * SubscriptionResourceSerializer for serializing / deserializing Subscription entities
  */
 export class SubscriptionResourceSerializer implements AtomXmlSerializer {

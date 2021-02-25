@@ -41,29 +41,25 @@ export type RawHttpHeaders = { [headerName: string]: string };
 export interface HttpHeaders extends Iterable<[string, string]> {
   /**
    * Returns the value of a specific header or undefined if not set.
-   * @param name The name of the header to retrieve.
+   * @param name - The name of the header to retrieve.
    */
   get(name: string): string | undefined;
   /**
    * Returns true if the specified header exists.
-   * @param name The name of the header to check.
+   * @param name - The name of the header to check.
    */
   has(name: string): boolean;
   /**
    * Sets a specific header with a given value.
-   * @param name The name of the header to set.
-   * @param value The value to use for the header.
+   * @param name - The name of the header to set.
+   * @param value - The value to use for the header.
    */
   set(name: string, value: string | number): void;
   /**
    * Removes a specific header from the collection.
-   * @param name The name of the header to delete.
+   * @param name - The name of the header to delete.
    */
   delete(name: string): void;
-  /**
-   * Duplicates this collection.
-   */
-  clone(): HttpHeaders;
   /**
    * Accesses a raw JS object that acts as a simple map
    * of header names to values.
@@ -88,7 +84,7 @@ export type RequestBodyType =
 /**
  * Metadata about a request being made by the pipeline.
  */
-export interface PipelineRequest<AdditionalInfo = any> {
+export interface PipelineRequest {
   /**
    * The URL to make the request to.
    */
@@ -123,12 +119,6 @@ export interface PipelineRequest<AdditionalInfo = any> {
   requestId: string;
 
   /**
-   * Any additional information on the request that
-   * is policy or client specific.
-   */
-  additionalInfo?: AdditionalInfo;
-
-  /**
    * The HTTP body content (if any)
    */
   body?: RequestBodyType;
@@ -139,9 +129,9 @@ export interface PipelineRequest<AdditionalInfo = any> {
   formData?: FormDataMap;
 
   /**
-   * Whether or not the body of the PipelineResponse should be treated as a stream.
+   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
    */
-  streamResponseBody?: boolean;
+  streamResponseStatusCodes?: Set<number>;
 
   /**
    * Proxy configuration.
@@ -154,11 +144,6 @@ export interface PipelineRequest<AdditionalInfo = any> {
   keepAlive?: boolean;
 
   /**
-   * Disable automatic decompression based on Accept-Encoding header (Node only)
-   */
-  skipDecompressResponse?: boolean;
-
-  /**
    * Used to abort the request later.
    */
   abortSignal?: AbortSignalLike;
@@ -167,11 +152,6 @@ export interface PipelineRequest<AdditionalInfo = any> {
    * Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
-
-  /**
-   * Clone this request object.
-   */
-  clone(): PipelineRequest;
 
   /**
    * Callback which fires upon upload progress.

@@ -3,6 +3,10 @@ parameters:
   ServiceDirectory: not-specified
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
+    parameters:
+      AgentImage: $(OSVmImage)
+
   - script: |
       node common/scripts/install-run-rush.js install
     displayName: "Install dependencies"

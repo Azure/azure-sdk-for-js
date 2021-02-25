@@ -5,10 +5,11 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { HttpResponse } from '@azure/core-http';
+import { AzureSASCredential } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
+import { PipelineOptions } from '@azure/core-https';
+import { SASCredential } from '@azure/core-auth';
 
 // @public
 export interface ACSChatEventBase {
@@ -122,13 +123,14 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
 };
 
 // @public
-export type AppAction = "Restarted" | "Stopped" | "ChangedAppSettings" | "Started" | "Completed" | "Failed";
+export type AppAction = string;
 
 // @public
 export interface AppConfigurationKeyValueDeletedEventData {
     etag?: string;
     key?: string;
     label?: string;
+    syncToken?: string;
 }
 
 // @public
@@ -136,6 +138,7 @@ export interface AppConfigurationKeyValueModifiedEventData {
     etag?: string;
     key?: string;
     label?: string;
+    syncToken?: string;
 }
 
 // @public
@@ -144,16 +147,21 @@ export interface AppEventTypeDetail {
 }
 
 // @public
+export type AppServicePlanAction = string;
+
+// @public
 export interface AppServicePlanEventTypeDetail {
-    action?: "Updated";
+    action?: AppServicePlanAction;
     stampKind?: StampKind;
     status?: AsyncStatus;
 }
 
 // @public
-export type AsyncStatus = "Started" | "Completed" | "Failed";
+export type AsyncStatus = string;
 
 export { AzureKeyCredential }
+
+export { AzureSASCredential }
 
 // @public
 export interface CloudEvent<T> {
@@ -242,9 +250,6 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
-export type CustomEventDataDeserializer = (o: any) => Promise<any>;
-
-// @public
 export interface DeviceConnectionStateEventInfo {
     sequenceNumber?: string;
 }
@@ -314,19 +319,11 @@ export interface DeviceTwinProperties {
 }
 
 // @public
-export class EventGridConsumer {
-    constructor(options?: EventGridConsumerOptions);
-    // (undocumented)
-    readonly customDeserializers: Record<string, CustomEventDataDeserializer>;
+export class EventGridDeserializer {
     deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
-    deserializeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
+    deserializeCloudEvents(encodedEvents: Record<string, unknown>): Promise<CloudEvent<unknown>[]>;
     deserializeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
-    deserializeEventGridEvents(encodedEvents: object): Promise<EventGridEvent<unknown>[]>;
-}
-
-// @public
-export interface EventGridConsumerOptions {
-    customDeserializers: Record<string, CustomEventDataDeserializer>;
+    deserializeEventGridEvents(encodedEvents: Record<string, unknown>): Promise<EventGridEvent<unknown>[]>;
 }
 
 // @public
@@ -341,25 +338,15 @@ export interface EventGridEvent<T> {
 }
 
 // @public
-export class EventGridPublisherClient {
-    constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
+export class EventGridPublisherClient<T extends InputSchema> {
+    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
-    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<SendEventsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "SendEventsResponse" needs to be exported by the entry point index.d.ts
-    sendEvents(events: SendEventGridEventInput<any>[], options?: SendEventsOptions): Promise<SendEventsResponse>;
+    send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
 }
 
 // @public
 export type EventGridPublisherClientOptions = PipelineOptions;
-
-// @public
-export class EventGridSharedAccessSignatureCredential implements SignatureCredential {
-    constructor(signature: string);
-    signature(): string;
-    update(newSignature: string): void;
-}
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
@@ -380,6 +367,16 @@ export function generateSharedAccessSignature(endpointUrl: string, credential: K
 // @public (undocumented)
 export interface GenerateSharedAccessSignatureOptions {
     apiVersion?: string;
+}
+
+// @public
+export type InputSchema = keyof InputSchemaToInputTypeMap;
+
+// @public
+export interface InputSchemaToInputTypeMap {
+    CloudEvent: SendCloudEventInput<unknown>;
+    Custom: Record<string, unknown>;
+    EventGrid: SendEventGridEventInput<unknown>;
 }
 
 // @public
@@ -514,6 +511,35 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
 }
 
 // @public
+export const enum KnownAppAction {
+    ChangedAppSettings = "ChangedAppSettings",
+    Completed = "Completed",
+    Failed = "Failed",
+    Restarted = "Restarted",
+    Started = "Started",
+    Stopped = "Stopped"
+}
+
+// @public
+export const enum KnownAppServicePlanAction {
+    Updated = "Updated"
+}
+
+// @public
+export const enum KnownAsyncStatus {
+    Completed = "Completed",
+    Failed = "Failed",
+    Started = "Started"
+}
+
+// @public
+export const enum KnownStampKind {
+    AseV1 = "AseV1",
+    AseV2 = "AseV2",
+    Public = "Public"
+}
+
+// @public
 export type KnownSystemEventTypes = "Microsoft.AppConfiguration.KeyValueDeleted" | "Microsoft.AppConfiguration.KeyValueModified" | "Microsoft.Communication.ChatMessageReceived" | "Microsoft.Communication.ChatMessageEdited" | "Microsoft.Communication.ChatMessageDeleted" | "Microsoft.Communication.ChatThreadCreatedWithUser" | "Microsoft.Communication.ChatThreadWithUserDeleted" | "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" | "Microsoft.Communication.ChatMemberAddedToThreadWithUser" | "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" | "Microsoft.Communication.SMSDeliveryReportReceived" | "Microsoft.Communication.SMSReceived" | "Microsoft.ContainerRegistry.ImagePushed" | "Microsoft.ContainerRegistry.ImageDeleted" | "Microsoft.ContainerRegistry.ChartDeleted" | "Microsoft.ContainerRegistry.ChartPushed" | "Microsoft.Devices.DeviceCreated" | "Microsoft.Devices.DeviceDeleted" | "Microsoft.Devices.DeviceConnected" | "Microsoft.Devices.DeviceDisconnected" | "Microsoft.Devices.DeviceTelemetry" | "Microsoft.EventGrid.SubscriptionValidationEvent" | "Microsoft.EventGrid.SubscriptionDeletedEvent" | "Microsoft.EventHub.CaptureFileCreated" | "Microsoft.KeyVault.CertificateNewVersionCreated" | "Microsoft.KeyVault.CertificateNearExpiry" | "Microsoft.KeyVault.CertificateExpired" | "Microsoft.KeyVault.KeyNewVersionCreated" | "Microsoft.KeyVault.KeyNearExpiry" | "Microsoft.KeyVault.KeyExpired" | "Microsoft.KeyVault.SecretNewVersionCreated" | "Microsoft.KeyVault.SecretNearExpiry" | "Microsoft.KeyVault.SecretExpired" | "Microsoft.KeyVault.VaultAccessPolicyChanged" | "Microsoft.MachineLearningServices.DatasetDriftDetected" | "Microsoft.MachineLearningServices.ModelDeployed" | "Microsoft.MachineLearningServices.ModelRegistered" | "Microsoft.MachineLearningServices.RunCompleted" | "Microsoft.MachineLearningServices.RunStatusChanged" | "Microsoft.Maps.GeofenceEntered" | "Microsoft.Maps.GeofenceExited" | "Microsoft.Maps.GeofenceResult" | "Microsoft.Media.JobStateChange" | "Microsoft.Media.JobOutputStateChange" | "Microsoft.Media.JobScheduled" | "Microsoft.Media.JobProcessing" | "Microsoft.Media.JobCanceling" | "Microsoft.Media.JobFinished" | "Microsoft.Media.JobCanceled" | "Microsoft.Media.JobErrored" | "Microsoft.Media.JobOutputCanceled" | "Microsoft.Media.JobOutputCanceling" | "Microsoft.Media.JobOutputErrored" | "Microsoft.Media.JobOutputFinished" | "Microsoft.Media.JobOutputProcessing" | "Microsoft.Media.JobOutputScheduled" | "Microsoft.Media.JobOutputProgress" | "Microsoft.Media.LiveEventEncoderConnected" | "Microsoft.Media.LiveEventConnectionRejected" | "Microsoft.Media.LiveEventEncoderDisconnected" | "Microsoft.Media.LiveEventIncomingStreamReceived" | "Microsoft.Media.LiveEventIncomingStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingDataChunkDropped" | "Microsoft.Media.LiveEventIngestHeartbeat" | "Microsoft.Media.LiveEventTrackDiscontinuityDetected" | "Microsoft.Resources.ResourceWriteSuccess" | "Microsoft.Resources.ResourceWriteFailure" | "Microsoft.Resources.ResourceWriteCancel" | "Microsoft.Resources.ResourceDeleteSuccess" | "Microsoft.Resources.ResourceDeleteFailure" | "Microsoft.Resources.ResourceDeleteCancel" | "Microsoft.Resources.ResourceActionSuccess" | "Microsoft.Resources.ResourceActionFailure" | "Microsoft.Resources.ResourceActionCancel" | "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners" | "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" | "Microsoft.Storage.BlobCreated" | "Microsoft.Storage.BlobDeleted" | "Microsoft.Storage.BlobRenamed" | "Microsoft.Storage.DirectoryCreated" | "Microsoft.Storage.DirectoryDeleted" | "Microsoft.Storage.DirectoryRenamed" | "Microsoft.Storage.LifecyclePolicyCompleted" | "Microsoft.Web.AppUpdated" | "Microsoft.Web.BackupOperationStarted" | "Microsoft.Web.BackupOperationCompleted" | "Microsoft.Web.BackupOperationFailed" | "Microsoft.Web.RestoreOperationStarted" | "Microsoft.Web.RestoreOperationCompleted" | "Microsoft.Web.RestoreOperationFailed" | "Microsoft.Web.SlotSwapStarted" | "Microsoft.Web.SlotSwapCompleted" | "Microsoft.Web.SlotSwapFailed" | "Microsoft.Web.SlotSwapWithPreviewStarted" | "Microsoft.Web.SlotSwapWithPreviewCancelled" | "Microsoft.Web.AppServicePlanUpdated";
 
 // @public
@@ -634,16 +660,16 @@ export type MediaJobFinishedEventData = MediaJobStateChangeEventData & {
 
 // @public
 export interface MediaJobOutput {
-    "@odata.type": "#Microsoft.Media.JobOutputAsset";
     error?: MediaJobError;
     label?: string;
-    odataType?: string;
+    odataType: "#Microsoft.Media.JobOutputAsset";
     progress: number;
     state: MediaJobState;
 }
 
 // @public
 export type MediaJobOutputAsset = MediaJobOutput & {
+    odataType: "#Microsoft.Media.JobOutputAsset";
     assetName?: string;
 };
 
@@ -951,12 +977,6 @@ export interface SendCloudEventInput<T> {
 }
 
 // @public
-export type SendCloudEventsOptions = OperationOptions;
-
-// @public
-export type SendCustomSchemaEventsOptions = OperationOptions;
-
-// @public
 export interface SendEventGridEventInput<T> {
     data: T;
     dataVersion: string;
@@ -968,7 +988,7 @@ export interface SendEventGridEventInput<T> {
 }
 
 // @public
-export type SendEventsOptions = OperationOptions;
+export type SendOptions = OperationOptions;
 
 // @public
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
@@ -991,12 +1011,7 @@ export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
 }
 
 // @public
-export interface SignatureCredential {
-    signature(): string;
-}
-
-// @public
-export type StampKind = "Public" | "AseV1" | "AseV2";
+export type StampKind = string;
 
 // @public
 export interface StorageBlobCreatedEventData {
@@ -1076,8 +1091,14 @@ export interface StorageDirectoryRenamedEventData {
 }
 
 // @public
+export interface StorageLifecyclePolicyActionSummaryDetail {
+    errorList?: string;
+    successCount?: number;
+    totalObjectsCount?: number;
+}
+
+// @public
 export interface StorageLifecyclePolicyCompletedEventData {
-    // Warning: (ae-forgotten-export) The symbol "StorageLifecyclePolicyActionSummaryDetail" needs to be exported by the entry point index.d.ts
     deleteSummary?: StorageLifecyclePolicyActionSummaryDetail;
     scheduleTime?: string;
     tierToArchiveSummary?: StorageLifecyclePolicyActionSummaryDetail;

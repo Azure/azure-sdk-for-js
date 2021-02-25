@@ -44,12 +44,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * When handling a parallelized query, it instantiates one instance of
    * DocumentProcuder per target partition key range and aggregates the result of each.
    *
-   * @constructor ParallelQueryExecutionContext
-   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
-   * @param {string} collectionLink                - The Collection Link
-   * @param {FeedOptions} [options]                - Represents the feed options.
-   * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
-   * @ignore
+   * @param clientContext - The service endpoint to use to create the client.
+   * @param collectionLink - The Collection Link
+   * @param options - Represents the feed options.
+   * @param partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,
@@ -193,8 +192,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   /**
    * Gets the replacement ranges for a partitionkeyrange that has been split
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
    */
   private async _getReplacementPartitionKeyRanges(
     documentProducer: DocumentProducer
@@ -212,8 +209,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Removes the current document producer from the priqueue,
    * replaces that document producer with child document producers,
    * then reexecutes the originFunction with the corrrected executionContext
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
    */
   private async _repairExecutionContext(originFunction: any): Promise<void> {
     // TODO: any
@@ -287,8 +282,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Checks to see if the executionContext needs to be repaired.
    * if so it repairs the execution context and executes the ifCallback,
    * else it continues with the current execution context and executes the elseCallback
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
    */
   private async _repairExecutionContextIfNeeded(ifCallback: any, elseCallback: any): Promise<void> {
     const documentProducer = this.orderByPQ.peek();
@@ -309,11 +302,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Execute a provided function on the next element in the ParallelQueryExecutionContextBase.
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
-   * @param {callback} callback - Function to execute for each element. the function takes two \
-   * parameters error, element.
+   * Fetches the next element in the ParallelQueryExecutionContextBase.
    */
   public async nextItem(): Promise<Response<any>> {
     if (this.err) {
@@ -446,11 +435,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation \
+   * Determine if there are still remaining resources to processs based on the value of the continuation
    * token or the elements remaining on the current batch in the QueryIterator.
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
-   * @returns {Boolean} true if there is other elements to process in the ParallelQueryExecutionContextBase.
+   * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */
   public hasMoreResults(): boolean {
     return !(

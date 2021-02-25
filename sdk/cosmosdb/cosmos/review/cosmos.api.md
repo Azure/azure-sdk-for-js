@@ -4,6 +4,8 @@
 
 ```ts
 
+import { TokenCredential } from '@azure/identity';
+
 // @public (undocumented)
 export interface Agent {
     // (undocumented)
@@ -483,6 +485,7 @@ export class CosmosClient {
 
 // @public (undocumented)
 export interface CosmosClientOptions {
+    aadCredentials?: TokenCredential;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
@@ -716,7 +719,6 @@ export class GlobalEndpointManager {
     constructor(options: CosmosClientOptions, readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
-    // (undocumented)
     enableEndpointDiscovery: boolean;
     getReadEndpoint(): Promise<string>;
     // (undocumented)
