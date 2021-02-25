@@ -31,7 +31,7 @@ export const main = async () => {
   const message = "Hello World via SMS!";
 
   // Send SMS message
-  const sendResults = client.send(
+  const sendResults = await client.send(
     { from, to, message },
     { enableDeliveryReport: true, tag: "customTag" }
   );
