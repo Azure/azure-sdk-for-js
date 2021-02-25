@@ -112,10 +112,10 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
 
     // TODO: bad practice to test implementation details
     it("validate _orderedPartitionInfo", function() {
-      assert.equal(0, collectionRoutingMap.orderedPartitionInfo[0]);
-      assert.equal(1, collectionRoutingMap.orderedPartitionInfo[1]);
-      assert.equal(2, collectionRoutingMap.orderedPartitionInfo[2]);
-      assert.equal(3, collectionRoutingMap.orderedPartitionInfo[3]);
+      assert.equal(0, (collectionRoutingMap.orderedPartitionInfo as number[])[0]);
+      assert.equal(1, (collectionRoutingMap.orderedPartitionInfo as number[])[1]);
+      assert.equal(2, (collectionRoutingMap.orderedPartitionInfo as number[])[2]);
+      assert.equal(3, (collectionRoutingMap.orderedPartitionInfo as number[])[3]);
     });
 
     it("validate getOverlappingRanges", function() {

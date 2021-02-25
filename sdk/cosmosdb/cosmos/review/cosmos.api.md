@@ -1270,7 +1270,7 @@ export interface ReadOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Read;
     // (undocumented)
-    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
 }
 
 // @public (undocumented)

@@ -74,7 +74,7 @@ export interface UpsertOperationInput {
 }
 
 export interface ReadOperationInput {
-  partitionKey?: string | number | null | Record<string, unknown> | undefined;
+  partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
   operationType: typeof BulkOperationType.Read;
   id: string;
 }
