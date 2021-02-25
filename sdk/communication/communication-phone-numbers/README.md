@@ -52,7 +52,7 @@ Once you have a key, you can authenticate the `PhoneNumbersClient` with any of t
 ```typescript
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
-const connectionString = `endpoint=HOST;accessKey=KEY`;
+const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 ```
 
@@ -64,8 +64,8 @@ If you use a key to initialize the client you will also need to provide the appr
 import { AzureKeyCredential } from "@azure/core-auth";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
-const credential = new AzureKeyCredential(KEY);
-const client = new PhoneNumbersClient(endpoint, credential);
+const credential = new AzureKeyCredential("<key-from-resource>");
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 ```
 
 ### Using an Azure Active Directory Credential
@@ -83,7 +83,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 let credential = new DefaultAzureCredential();
-const client = new PhoneNumbersClient(endpoint, credential);
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 ```
 
 ## Usage
