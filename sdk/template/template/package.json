@@ -6,7 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
-  "types": "types/template.d.ts",
   "//metadata": {
     "constantPaths": [
       {
@@ -19,6 +18,14 @@
       }
     ]
   },
+  "types": "types/latest/template.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*" :[
+        "types/3.1/*"
+      ]
+    }    
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:ts": "tsc -p .",
@@ -27,7 +34,7 @@
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "dev-tool samples prep && cd dist-samples && npm run build:ts",
     "build:test": "npm run build:ts && rollup -c 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run build:ts && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
