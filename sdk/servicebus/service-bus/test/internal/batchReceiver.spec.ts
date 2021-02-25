@@ -896,19 +896,6 @@ describe("Batching Receiver", () => {
       await afterEachTest();
     });
 
-    it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
-      void
-    > {
-      // Create the sender and receiver.
-      await beforeEachTest(noSessionTestClientType, "receiveAndDelete");
-
-      // Send a message so we can be sure when the receiver is open and active.
-      await sender.sendMessages(TestMessage.getSample());
-
-      const messages1 = await receiver.receiveMessages(1);
-      should.equal(messages1.length, 1, "Unexpected number of received messages.");
-    });
-
     it("can receive and settle messages after a disconnect", async function(): Promise<void> {
       // Create the sender and receiver.
       await beforeEachTest(noSessionTestClientType);
@@ -956,8 +943,6 @@ describe("Batching Receiver", () => {
       // Create the sender and receiver.
       await beforeEachTest(noSessionTestClientType, "receiveAndDelete");
 
-      // Send a message so we can be sure when the receiver is open and active.
-      await sender.sendMessages(TestMessage.getSample());
       // The first time `receiveMessages` is called the receiver link is created.
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
