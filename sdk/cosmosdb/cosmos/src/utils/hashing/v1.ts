@@ -8,7 +8,7 @@ import MurmurHash from "./murmurHash";
 
 const MAX_STRING_CHARS = 100;
 
-type v1Key = string | number | null | Record<string, unknown> | undefined;
+type v1Key = string | number | boolean | null | Record<string, unknown> | undefined;
 
 export function hashV1PartitionKey(partitionKey: v1Key): string {
   const toHash = prefixKeyByType(partitionKey);
