@@ -10,7 +10,7 @@ import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
-import { checkURL } from "./utils/url";
+import { checkURL } from "./utils/checkURL";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.

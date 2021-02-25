@@ -217,7 +217,7 @@ export function isResourceValid(resource: { id?: string }, err: { message?: stri
 }
 
 /** @hidden */
-export function getIdFromLink(resourceLink: string) {
+export function getIdFromLink(resourceLink: string): string {
   resourceLink = trimSlashes(resourceLink);
   return resourceLink;
 }

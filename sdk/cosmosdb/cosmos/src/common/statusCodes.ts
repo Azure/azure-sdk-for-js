@@ -90,7 +90,7 @@ export interface SubStatusCodesType {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export const SubStatusCodes: SubStatusCodesType = {
   Unknown: 0,

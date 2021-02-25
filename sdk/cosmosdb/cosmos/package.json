@@ -33,9 +33,6 @@
     "LICENSE"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/README.md",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
   "sideEffects": false,
   "types": "./dist/types/latest/cosmos.d.ts",
   "typesVersions": {
@@ -103,6 +100,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
     "@microsoft/api-extractor": "7.7.11",

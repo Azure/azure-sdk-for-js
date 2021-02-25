@@ -10,7 +10,7 @@ logSampleHeader("Server Side Scripts");
 const client = new CosmosClient({ endpoint, key });
 
 // Path to stored procedure definition
-const sprocDefinition = require("./upsert");
+const sprocDefinition = require("./upsert"); // eslint-disable-line @typescript-eslint/no-require-imports
 
 // Execute the stored procedure with the following parameters.
 const sprocParams = [

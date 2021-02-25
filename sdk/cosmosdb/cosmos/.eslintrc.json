@@ -18,8 +18,8 @@
     // left to the cosmos team make this rule error again
     "@azure/azure-sdk/ts-package-json-module": "warn",
     "@azure/azure-sdk/ts-doc-internal": "warn",
-    // https://github.com/Azure/azure-sdk-for-js/issues/12951
-    "tsdoc/syntax": "warn",
+    // https://github.com/benmosher/eslint-plugin-import/issues/1816
+    "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/tslint/config": [
       "error",
       {
