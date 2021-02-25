@@ -27,7 +27,6 @@ import {
 } from "./keysModels";
 
 import {
-  EncryptionAlgorithm,
   KeyWrapAlgorithm,
   WrapResult,
   UnwrapResult,
@@ -41,7 +40,9 @@ import {
   WrapKeyOptions,
   UnwrapKeyOptions,
   SignOptions,
-  VerifyOptions
+  VerifyOptions,
+  EncryptParameters,
+  DecryptParameters
 } from "./cryptographyClientModels";
 import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
@@ -137,19 +138,21 @@ export class KeyVaultCryptographyClient {
    * @param options - Additional options.
    */
   public async encrypt(
-    algorithm: EncryptionAlgorithm,
-    plaintext: Uint8Array,
+    encryptParameters: EncryptParameters,
     options: EncryptOptions = {}
   ): Promise<EncryptResult> {
-    const localCryptographyClient = await this.getLocalCryptographyClient();
-    const { span, updatedOptions } = createSpan("encrypt", options);
-
+    const { algorithm, plaintext, ...params } = encryptParameters;
+    const { span, updatedOptions } = createSpan("encrypt", {
+      ...options,
+      ...params
+    });
     await this.checkPermissions("encrypt");
+    const localCryptographyClient = await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
-        return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
+        return localCryptographyClient.encrypt(encryptParameters, options);
       } catch (e) {
         if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
@@ -174,29 +177,25 @@ export class KeyVaultCryptographyClient {
       span.end();
     }
 
-    return { result: result.result!, algorithm, keyID: this.getKeyID() };
+    return {
+      algorithm: encryptParameters.algorithm,
+      result: result.result!,
+      keyID: this.getKeyID(),
+      additionalAuthenticatedData: result.additionalAuthenticatedData,
+      authenticationTag: result.authenticationTag,
+      iv: result.iv
+    };
   }
 
-  /**
-   * Decrypts the given ciphertext with the specified cryptography algorithm
-   *
-   * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.decrypt("RSA1_5", encryptedBuffer);
-   * ```
-   * @param algorithm - The algorithm to use.
-   * @param ciphertext - The text to decrypt.
-   * @param options - Additional options.
-   */
-
   public async decrypt(
-    algorithm: EncryptionAlgorithm,
-    ciphertext: Uint8Array,
+    decryptParameters: DecryptParameters,
     options: DecryptOptions = {}
   ): Promise<DecryptResult> {
-    const { span, updatedOptions } = createSpan("decrypt", options);
-
+    const { algorithm, ciphertext, ...params } = decryptParameters;
+    const { span, updatedOptions } = createSpan("decrypt", {
+      ...options,
+      ...params
+    });
     await this.checkPermissions("decrypt");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
@@ -216,7 +215,11 @@ export class KeyVaultCryptographyClient {
       span.end();
     }
 
-    return { result: result.result!, keyID: this.getKeyID(), algorithm };
+    return {
+      result: result.result!,
+      keyID: this.getKeyID(),
+      algorithm
+    };
   }
 
   /**

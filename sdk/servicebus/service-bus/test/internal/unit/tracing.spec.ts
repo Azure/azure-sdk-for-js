@@ -130,7 +130,9 @@ describe("Tracing tests", () => {
             throw new Error("This message failed when we tried to process it");
           }
         },
-        processError: async (_err) => {}
+        processError: async (_err) => {
+          /** Nothing to do here */
+        }
       },
       {
         tracingOptions
@@ -187,7 +189,9 @@ describe("Tracing tests", () => {
             throw new Error("This message failed when we tried to process it");
           }
         },
-        processError: async (_err) => {}
+        processError: async (_err) => {
+          /** Nothing to do here */
+        }
       },
       {
         tracingOptions
@@ -258,7 +262,11 @@ describe("Tracing tests", () => {
     });
   });
 
-  function stubCreateProcessingSpan(receiver: any) {
+  function stubCreateProcessingSpan(
+    receiverToStub: any
+  ): {
+    span?: TestSpan;
+  } {
     const data: {
       span?: TestSpan;
     } = {};
@@ -278,7 +286,7 @@ describe("Tracing tests", () => {
       return data.span;
     };
 
-    receiver["_createProcessingSpan"] = fakeCreateProcessingSpan;
+    receiverToStub["_createProcessingSpan"] = fakeCreateProcessingSpan;
     return data;
   }
 
@@ -355,17 +363,17 @@ describe("Tracing tests", () => {
     });
 
     it("trace - normal", async () => {
-      const tracer = new TestTracer();
       const span = tracer.startSpan("whatever");
 
-      await trace(async () => {}, span);
+      await trace(async () => {
+        /** Nothing to do here */
+      }, span);
 
       span.status!.code.should.equal(CanonicalCode.OK);
       span.endCalled.should.be.ok;
     });
 
     it("trace - throws", async () => {
-      const tracer = new TestTracer();
       const span = tracer.startSpan("whatever");
 
       await trace(async () => {
@@ -382,10 +390,6 @@ describe("Tracing tests", () => {
 class TestTracer2 extends TestTracer {
   public spanOptions: SpanOptions | undefined;
   public spanName: string | undefined;
-
-  constructor() {
-    super();
-  }
 
   startSpan(nameArg: string, optionsArg?: SpanOptions): TestSpan {
     this.spanName = nameArg;

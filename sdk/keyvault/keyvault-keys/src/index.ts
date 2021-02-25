@@ -94,7 +94,15 @@ import {
   SignOptions,
   UnwrapKeyOptions,
   VerifyOptions,
-  WrapKeyOptions
+  WrapKeyOptions,
+  EncryptParameters,
+  DecryptParameters,
+  RsaEncryptParameters,
+  AesCbcEncryptParameters,
+  AesGcmEncryptParameters,
+  AesCbcDecryptParameters,
+  AesGcmDecryptParameters,
+  RsaDecryptParameters
 } from "./cryptographyClientModels";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
@@ -112,11 +120,19 @@ export {
   CreateOctKeyOptions,
   CryptographyClient,
   CryptographyOptions,
+  RsaDecryptParameters,
+  AesGcmDecryptParameters,
+  AesCbcDecryptParameters,
+  DecryptParameters,
   DecryptOptions,
   DecryptResult,
   DeletedKey,
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
+  RsaEncryptParameters,
+  AesGcmEncryptParameters,
+  AesCbcEncryptParameters,
+  EncryptParameters,
   EncryptOptions,
   EncryptResult,
   GetDeletedKeyOptions,
