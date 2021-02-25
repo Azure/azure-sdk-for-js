@@ -192,6 +192,11 @@ if (serviceDirs.length === 0) {
         spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
       }
       break;
+    case "check-format":
+      for (const packageDir of packageDirs) {
+        spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+      }
+      break;
 
     case "build":
       if (actionComponents[1] === "samples") {

@@ -48,6 +48,10 @@ steps:
       node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
     displayName: "Build ESLint Plugin and Lint Libraries"
 
+  - pwsh: |
+      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}"
+    displayName: "Check Format in Libraries"
+
   - script: |
       node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
     condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
