@@ -39,14 +39,15 @@ export {
 export { logger } from "./log";
 
 export function configureFallback(
-  domParser: new () => DOMParser,
-  xmlSerializer: new () => XMLSerializer,
+  domParser: { new (): DOMParser },
+  xmlSerializer: { new (): XMLSerializer },
   document: Document,
-  node: new () => Node
+  node: { new (): Node }
 ) {
-  // TODO: any validation or let the user blindly override existing implementation?
-  self.DOMParser = domParser;
-  self.XMLSerializer = xmlSerializer;
-  (self as any).Node = node;
-  (self as any).document = document;
+  if (!self) {
+    throw new Error(
+      "configureFallback should be used when providing DOM polyfills in a browser environment. Self is not defined - check if you're accidentally running this in node."
+    );
+  }
+  Object.assign(self, { DOMParser: domParser, XMLSerializer: xmlSerializer, Node: node, document });
 }

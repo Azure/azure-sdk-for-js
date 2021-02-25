@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 /* eslint-disable */
 import WebWorker from "worker-loader!./web.worker";
@@ -10,7 +9,7 @@ new WebWorker();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <div>check devtools</div>
   </React.StrictMode>,
   document.getElementById("root")
 );

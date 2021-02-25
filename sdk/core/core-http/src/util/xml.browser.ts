@@ -3,16 +3,43 @@
 
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./serializer.common";
 
-// tslint:disable-next-line:no-null-keyword
+/**
+ * Simple Lazy that allows for deferred value creation.
+ * In the event of race conditions the last write wins.
+ */
+export class Lazy<T> {
+  private valueFactory: () => T;
+  private _value?: T;
+  private valueFactoryCalled: boolean = false;
+
+  /**
+   * Creates a new instance of the Lazy.
+   * @param valueFactory - The function that will be called to produce the value.
+   */
+  constructor(valueFactory: () => T) {
+    this.valueFactory = valueFactory;
+  }
+
+  /**
+   * Gets the value that was created, possibly invoking the valueFactory to create the value.
+   */
+  get value(): T {
+    if (!this.valueFactoryCalled) {
+      this._value = this.valueFactory();
+      this.valueFactoryCalled = true;
+    }
+    return this._value!;
+  }
+}
+
 export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any> {
-  const parser = new DOMParser();
   try {
     const updatedOptions: Required<SerializerOptions> = {
       rootName: opts.rootName ?? "",
       includeRoot: opts.includeRoot ?? false,
       xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
     };
-    const dom = parser.parseFromString(str, "application/xml");
+    const dom = parser.value.parseFromString(str, "application/xml");
     throwIfError(dom);
 
     let obj;
@@ -28,28 +55,29 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
   }
 }
 
-let errorNS: string | undefined;
+let doc = new Lazy(() => {
+  return document.implementation.createDocument(null, null, null);
+});
 
-function getErrorNamespace(): string {
-  const parser = new DOMParser();
-  if (errorNS === undefined) {
-    try {
-      errorNS =
-        parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
-          .namespaceURI! ?? "";
-    } catch (ignored) {
-      // Most browsers will return a document containing <parsererror>, but IE will throw.
-      errorNS = "";
-    }
+let parser = new Lazy(() => new DOMParser());
+
+let errorNS = new Lazy(() => {
+  try {
+    return (
+      parser.value.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+        .namespaceURI! ?? ""
+    );
+  } catch (ignored) {
+    // Most browsers will return a document containing <parsererror>, but IE will throw.
+    return "";
   }
-  return errorNS;
-}
+});
 
 function throwIfError(dom: Document): void {
   const parserErrors = dom.getElementsByTagName("parsererror");
-  if (parserErrors.length > 0 && getErrorNamespace()) {
+  if (parserErrors.length > 0 && errorNS.value) {
     for (let i = 0; i < parserErrors.length; i++) {
-      if (parserErrors[i].namespaceURI === errorNS) {
+      if (parserErrors[i].namespaceURI === errorNS.value) {
         throw new Error(parserErrors[i].innerHTML);
       }
     }
@@ -125,8 +153,6 @@ export function stringifyXML(content: unknown, opts: SerializerOptions = {}): st
     includeRoot: opts.includeRoot ?? false,
     xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
   };
-  // TODO: pass doc into buildNode instead of creating every time!
-  // In fact, only instantiate in the top-level exports and pass into local functions
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   const serializer = new XMLSerializer();
   return (
@@ -134,10 +160,10 @@ export function stringifyXML(content: unknown, opts: SerializerOptions = {}): st
   );
 }
 
-function buildAttributes(attrs: { [key: string]: { toString(): string } }, doc: Document): Attr[] {
+function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
-    const attr = doc.createAttribute(key);
+    const attr = doc.value.createAttribute(key);
     attr.value = attrs[key].toString();
     result.push(attr);
   }
@@ -145,7 +171,6 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }, doc: 
 }
 
 function buildNode(obj: any, elementName: string, options: Required<SerializerOptions>): Node[] {
-  const doc = document.implementation.createDocument(null, null, null);
   if (
     obj === undefined ||
     obj === null ||
@@ -153,7 +178,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     typeof obj === "number" ||
     typeof obj === "boolean"
   ) {
-    const elem = doc.createElement(elementName);
+    const elem = doc.value.createElement(elementName);
     elem.textContent = obj === undefined || obj === null ? "" : obj.toString();
     return [elem];
   } else if (Array.isArray(obj)) {
@@ -165,10 +190,10 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     }
     return result;
   } else if (typeof obj === "object") {
-    const elem = doc.createElement(elementName);
+    const elem = doc.value.createElement(elementName);
     for (const key of Object.keys(obj)) {
       if (key === XML_ATTRKEY) {
-        for (const attr of buildAttributes(obj[key], doc)) {
+        for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
       } else if (key === options.xmlCharKey) {
