@@ -21,10 +21,10 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
   EntityName,
-  getRandomTestClientType
+  getRandomTestClientType,
+  getRandomTestClientTypeWithSessions
 } from "../public/utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
@@ -32,7 +32,6 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl
 } from "../../src/receivers/sessionReceiver";
-import { verifyMessageCount } from "../public/utils/managementUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -1234,18 +1233,21 @@ describe("Batching Receiver", () => {
       refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
     });
 
-    it.only("returns messages if drain is in progress (receiveAndDelete) - session", async function(): Promise<
+    it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
       void
     > {
-      console.log(entityNames);
       // Create the sender and receiver.
       await beforeEachTest("receiveAndDelete");
 
       // Send a message so we can be sure when the receiver is open and active.
       await sender.sendMessages(TestMessage.getSessionSample());
 
-      const messages1 = await receiver.receiveMessages(1);
-      should.equal(messages1.length, 1, "Unexpected number of received messages - 1.");
+      const messages1 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      should.equal(
+        messages1.length,
+        1,
+        "Unexpected number of received messages(before disconnect)."
+      );
 
       const receiverContext = (receiver as ServiceBusSessionReceiverImpl)["_context"];
       const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
@@ -1272,28 +1274,38 @@ describe("Batching Receiver", () => {
 
       // Purposefully request more messages than what's available
       // so that the receiver will have to drain.
-      const messages2 = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
+      const messages2 = await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
 
       didRequestDrain.should.equal(true, "Drain was not requested.");
-      messages2.length.should.equal(1, "Unexpected number of messages received - 2.");
-      // Make sure that a 2nd receiveMessages call still works
-      // by sending and receiving a single message again.
+      messages2.length.should.equal(
+        1,
+        "Unexpected number of messages received(during disconnect)."
+      );
 
       await sender.sendMessages(TestMessage.getSessionSample());
-      await delay(3000);
-      await verifyMessageCount(1, entityNames.queue, entityNames.topic, entityNames.subscription);
 
-      await receiver.close();
-      await serviceBusClient.close();
-      serviceBusClient = createServiceBusClientForTests();
-      // wait for the 2nd message to be received.
-      sender = await serviceBusClient.test.createSender(entityNames);
-      receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
-        entityNames
-      )) as ServiceBusSessionReceiver;
-      const messages3 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      try {
+        // New receiveMessages should fail because the session lock would be lost due to the disconnection
+        await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+        assert.fail("Receive messages call should have failed since the lock was lost");
+      } catch (error) {
+        should.equal(
+          error.message,
+          `The session lock has expired on the session with id ${TestMessage.sessionId}`,
+          "Unexpected error thrown"
+        );
+        // wait for the 2nd message to be received.
+        await receiver.close();
+        receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
+          entityNames
+        )) as ServiceBusSessionReceiver;
+        const messages3 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
-      messages3.length.should.equal(1, "Unexpected number of messages received - 3.");
+        messages3.length.should.equal(
+          1,
+          "Unexpected number of messages received(upon reconnecting)."
+        );
+      }
     });
 
     it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {});
