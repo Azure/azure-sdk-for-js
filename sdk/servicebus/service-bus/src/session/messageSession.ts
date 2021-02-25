@@ -769,7 +769,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     connectionError: AmqpError | Error | undefined,
     receiverType: Extract<ReceiverType, "batching" | "streaming">
   ): Promise<void> {
-    if (receiverType === "batching") {
+    if (receiverType === "batching" && this._batchingReceiverLite.isReceivingMessages) {
       await this.close();
 
       if (connectionError == null) {

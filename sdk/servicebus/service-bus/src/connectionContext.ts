@@ -143,6 +143,7 @@ async function callOnDetachedOnReceivers(
 ): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
+  // For non-sessions batching and streaming receivers
   for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
     const receiver = connectionContext.messageReceivers[receiverName];
     if (receiver && receiver.receiverType === receiverType) {
@@ -165,30 +166,41 @@ async function callOnDetachedOnReceivers(
       );
     }
   }
+  return Promise.all(detachCalls);
+}
 
-  // Message sessions batching
-  if (receiverType === "batching") {
-    for (const receiverName of Object.keys(connectionContext.messageSessions)) {
-      const receiver = connectionContext.messageSessions[receiverName];
-      logger.verbose(
-        "[%s] calling detached on %s receiver(sessions) '%s'.",
-        connectionContext.connection.id,
-        receiverType,
-        receiver.name
-      );
-      detachCalls.push(
-        receiver.onDetached(contextOrConnectionError, "batching").catch((err) => {
-          logger.logError(
-            err,
-            "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
-            connectionContext.connection.id,
-            receiverType,
-            receiver.name
-          );
-        })
-      );
-    }
+/**
+ * @internal
+ * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
+ */
+async function callOnDetachedOnSessionReceivers(
+  connectionContext: ConnectionContext,
+  contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
+  receiverType: Extract<ReceiverType, "batching" | "streaming">
+): Promise<void[]> {
+  const detachCalls: Promise<void>[] = [];
+
+  for (const receiverName of Object.keys(connectionContext.messageSessions)) {
+    const receiver = connectionContext.messageSessions[receiverName];
+    logger.verbose(
+      "[%s] calling detached on %s receiver(sessions) '%s'.",
+      connectionContext.connection.id,
+      receiverType,
+      receiver.name
+    );
+    detachCalls.push(
+      receiver.onDetached(contextOrConnectionError, receiverType).catch((err) => {
+        logger.logError(
+          err,
+          "[%s] An error occurred while calling onDetached() on the %s receiver(sessions) '%s'",
+          connectionContext.connection.id,
+          receiverType,
+          receiver.name
+        );
+      })
+    );
   }
+
   return Promise.all(detachCalls);
 }
 
@@ -449,13 +461,12 @@ export namespace ConnectionContext {
           connectionError || contextError,
           "batching"
         );
-
-        // TODO:
-        //  `callOnDetachedOnReceivers` handles "connectionContext.messageReceivers".
-        //  ...What to do for sessions (connectionContext.messageSessions) ??
-        // Answer:
-        // batchingReceiver for sessions will be handled the same way the normal batching receiver is handled
-        // What's left? Streaming
+        // Call onDetached() on session receivers - batching
+        await callOnDetachedOnSessionReceivers(
+          connectionContext,
+          connectionError || contextError,
+          "batching"
+        );
       }
 
       await refreshConnection(connectionContext);
@@ -483,6 +494,9 @@ export namespace ConnectionContext {
           connectionError || contextError,
           "streaming"
         );
+        // TODO: What to do for "disconnect" on streaming receiver?
+        //       re-initialize the link?
+        //       close the link and throw?
       }
     };
 
