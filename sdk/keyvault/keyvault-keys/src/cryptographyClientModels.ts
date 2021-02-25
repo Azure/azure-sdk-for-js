@@ -48,6 +48,18 @@ export interface EncryptResult {
    * The ID of the Key Vault Key used to encrypt the data.
    */
   keyID?: string;
+  /**
+   * The initialization vector used for encryption.
+   */
+  iv?: Uint8Array;
+  /**
+   * The authentication tag resulting from encryption with a symmetric key including A128GCM, A192GCM, and A256GCM.
+   */
+  authenticationTag?: Uint8Array;
+  /**
+   * Additional data that is authenticated during decryption but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
 }
 
 /**
@@ -138,21 +150,7 @@ export interface VerifyResult {
 /**
  * Common optional properties for encrypt, decrypt, wrap and unwrap.
  */
-export interface KeyOperationsOptions extends CryptographyOptions {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  readonly additionalAuthenticatedData?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
+export interface KeyOperationsOptions extends CryptographyOptions {}
 
 /**
  * Options for {@link encrypt}.
@@ -183,3 +181,130 @@ export interface WrapKeyOptions extends KeyOperationsOptions {}
  * Options for {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends KeyOperationsOptions {}
+
+/**
+ * Encryption parameters for RSA encryption algorithms.
+ */
+export interface RsaEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+}
+
+/**
+ * Encryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+/**
+ * Encryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * The initialization vector used for encryption.
+   */
+  iv: Uint8Array;
+}
+
+/**
+ * A type representing all currently supported encryption parameters as they apply to different encryption algorithms.
+ */
+export type EncryptParameters =
+  | RsaEncryptParameters
+  | AesGcmEncryptParameters
+  | AesCbcEncryptParameters;
+
+/**
+ * Decryption parameters for RSA encryption algorithms.
+ */
+export interface RsaDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+}
+
+/**
+ * Decryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector (or nonce) generated during encryption.
+   */
+  iv: Uint8Array;
+  /**
+   * The authentication tag generated during encryption.
+   */
+  authenticationTag?: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+/**
+ * Decryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  /**
+   * The initialization vector used during encryption.
+   */
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector generated during encryption.
+   */
+  iv: Uint8Array;
+}
+
+/**
+ * A type representing all currently supported decryption parameters as they apply to different encryption algorithms.
+ */
+export type DecryptParameters =
+  | RsaDecryptParameters
+  | AesGcmDecryptParameters
+  | AesCbcDecryptParameters;

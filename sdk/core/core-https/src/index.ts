@@ -36,7 +36,7 @@ export {
 export {
   exponentialRetryPolicy,
   ExponentialRetryPolicyOptions,
-  expontentialRetryPolicyName
+  exponentialRetryPolicyName
 } from "./policies/exponentialRetryPolicy";
 export {
   setClientRequestIdPolicy,

@@ -4,9 +4,9 @@
 
 ```ts
 
+import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
 
 // @public
@@ -433,7 +433,7 @@ export class TableServiceClient {
     }
 
 // @public
-export type TableServiceClientOptions = PipelineOptions & {
+export type TableServiceClientOptions = CommonClientOptions & {
     endpoint?: string;
     version?: string;
 };

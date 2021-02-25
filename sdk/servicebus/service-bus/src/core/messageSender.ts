@@ -209,14 +209,15 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         this.link?.session?.outgoing?.available()
       );
 
-      if (!this.link?.sendable()) {
+      let waitTimeForSendable = 1000;
+      if (!this.link?.sendable() && timeoutInMs - timeTakenByInit > waitTimeForSendable) {
         logger.verbose(
           "%s Sender '%s', waiting for 1 second for sender to become sendable",
           this.logPrefix,
           this.name
         );
 
-        await delay(1000);
+        await delay(waitTimeForSendable);
 
         logger.verbose(
           "%s Sender '%s' after waiting for a second, credit: %d available: %d",
@@ -225,6 +226,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           this.link?.credit,
           this.link?.session?.outgoing?.available()
         );
+      } else {
+        waitTimeForSendable = 0;
       }
 
       if (!this.link?.sendable()) {
@@ -240,7 +243,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         throw translateServiceBusError(amqpError);
       }
 
-      if (timeoutInMs <= timeTakenByInit) {
+      if (timeoutInMs <= timeTakenByInit + waitTimeForSendable) {
         const desc: string =
           `${this.logPrefix} Sender "${this.name}" ` +
           `with address "${this.address}", was not able to send the message right now, due ` +
@@ -254,7 +257,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       }
 
       try {
-        this.link.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
+        this.link.sendTimeoutInSeconds =
+          (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
         const delivery = await this.link!.send(
           encodedMessage,
           undefined,

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -11,34 +11,34 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 17:54:43 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:39 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
-    "x-ms-request-id": "f900261e-2c72-43f1-a44e-b507693c7100"
+    "x-ms-ests-server": "2.1.11530.11 - WUS2 ProdSlices",
+    "x-ms-request-id": "fb4766df-6a88-4aaf-8ba9-c5d1ab520400"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/recognition/general",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/recognition/general",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"This is some text, but it doesn't matter.\",\"language\":\"notalanguage\"}]}",
    "status": 200,
-   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans\"}}}],\"modelVersion\":\"2020-04-01\"}",
+   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans\"}}}],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "82537fdb-452b-4741-a02b-f2c894e0904e",
+    "apim-request-id": "8e3fe7b4-892f-4e32-88d3-5752d420fa3e",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 17:54:44 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "4"
+    "x-envoy-upstream-service-time": "3"
    }
   }
  ],

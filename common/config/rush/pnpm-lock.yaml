@@ -41,6 +41,7 @@ dependencies:
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -993,6 +994,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
+  /@types/dotenv/8.2.0:
+    dependencies:
+      dotenv: 8.2.0
+    deprecated: This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.
+    dev: false
+    resolution:
+      integrity: sha512-ylSC9GhfRH7m1EUXBXofhgx4lUWmFeQDINW5oLuS+gxWdfUeW4zJdeVTYVkexEW+e2VUvlZR2kGnGGipAWR7kw==
   /@types/eslint/7.2.6:
     dependencies:
       '@types/estree': 0.0.46
@@ -1178,6 +1186,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dIPoZ3g5gcx9zZEszaxLSVTvMReD3xxyyDnQUjA6IYDG9Ba2AV0otMPs+77sG9ojB4Qr2N2Vk5RnKeuA0X/0bg==
+  /@types/stoppable/1.1.0:
+    dependencies:
+      '@types/node': 10.17.51
+    dev: false
+    resolution:
+      integrity: sha512-BRR23Q9CJduH7AM6mk4JRttd8XyFkb4qIPZu4mdLF+VoP+wcjIxIWIKiBbN78NBbEuynrAyMPtzOHnIp2B/JPQ==
   /@types/tough-cookie/4.0.0:
     dev: false
     resolution:
@@ -7343,6 +7357,13 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+  /stoppable/1.1.0:
+    dev: false
+    engines:
+      node: '>=4'
+      npm: '>=6'
+    resolution:
+      integrity: sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==
   /stream-browserify/2.0.2:
     dependencies:
       inherits: 2.0.4
@@ -9985,6 +10006,7 @@ packages:
       '@types/node': 8.10.66
       '@types/qs': 6.9.5
       '@types/sinon': 9.0.10
+      '@types/stoppable': 1.1.0
       '@types/uuid': 8.3.0
       assert: 1.5.0
       axios: 0.21.1
@@ -10016,6 +10038,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
       sinon: 9.2.4
+      stoppable: 1.1.0
       tslib: 2.1.0
       typedoc: 0.15.2
       typescript: 4.1.2
@@ -10026,7 +10049,7 @@ packages:
     optionalDependencies:
       keytar: 7.3.0
     resolution:
-      integrity: sha512-tFR61LCHIZDfYb97aYITRuRpTDM7+7O4bQt+Rxuj07YPyrHQH11lmrFsSq2RwaEJUG6W9qfAkvo2ONiPK5k3fw==
+      integrity: sha512-n9Sn03tFbNDFSt+Z5Ofvd6weyUrUxgVV0KiCfg6ztX6NlRk7dRPHE7oW0zFs5dpYzF0oVqANkrCL+8j3Z3l5dA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/keyvault-admin.tgz:
@@ -10407,6 +10430,24 @@ packages:
     resolution:
       integrity: sha512-Wfak3T6DRQr5CH2DFIOOpsHf1jWps/pkwoLUC185vsw5dO5F1BSnYBRfhBzAWWNr1ot1R60Puy+whBcK0lq8Rw==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
+    version: 0.0.0
+  file:projects/perf-storage-blob.tgz:
+    dependencies:
+      '@azure/core-https': 1.0.0-beta.1
+      '@types/dotenv': 8.2.0
+      '@types/node': 8.10.66
+      '@types/node-fetch': 2.5.8
+      '@types/uuid': 8.3.0
+      dotenv: 8.2.0
+      node-fetch: 2.6.1
+      tslib: 2.1.0
+      typescript: 4.1.2
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-storage-blob'
+    resolution:
+      integrity: sha512-jsMAAOThI7IpoBBne8HB3vAZ23Tr0eTk+yBqyvr8TrXD/6GqiqN94BnkZsPhSeksTZPc4pruN7vq/ac9Pep0JA==
+      tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
@@ -11373,6 +11414,7 @@ specifiers:
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
