@@ -18,7 +18,7 @@
     "build": "npm run build:ts && rollup -c 2>&1 && api-extractor run --local",
     "build:test:browser": "npm run build:ts && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "npm run build:ts && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build:test": "npm run build:test:node && npm run build:test:browser",
+    "build:test": "npm run build:ts && rollup -c rollup.test.config.js 2>&1",
     "build:ts": "tsc -p .",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
