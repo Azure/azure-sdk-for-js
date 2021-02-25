@@ -5,7 +5,7 @@ import { doubleToByteArrayJSBI } from "./encoding/number";
 import { BytePrefix } from "./encoding/prefix";
 import MurmurHash from "./murmurHash";
 
-type v2Key = string | number | null | Record<string, unknown> | undefined;
+type v2Key = string | number | boolean | null | Record<string, unknown> | undefined;
 
 export function hashV2PartitionKey(partitionKey: v2Key): string {
   const toHash = prefixKeyByType(partitionKey);
