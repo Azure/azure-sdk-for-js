@@ -172,7 +172,7 @@ export class SmsClient {
     const { operationOptions, restOptions } = extractOperationOptions(_options);
     const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);
 
-    const now = new Date().toUTCString();
+    const now = new Date(Date.now()).toUTCString();
     const sendRequest: SendMessageRequest = {
       from: _sendRequest.from,
       smsRecipients: _sendRequest.to.map((phoneNumberStr) => {

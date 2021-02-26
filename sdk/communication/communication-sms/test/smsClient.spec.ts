@@ -3,37 +3,34 @@
 
 import { assert } from "chai";
 import { SmsClient, SmsSendRequest, SmsSendOptions } from "../src/smsClient";
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
+import * as sinon from "sinon";
+import { Uuid } from "../src/utils/uuid";
+import { recorderConfiguration } from "./utils/recordedClient";
 
 if (isNode) {
   dotenv.config();
 }
-
-const recorderConfiguration: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-    AZURE_PHONE_NUMBER: "+18005551234"
-  },
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string =>
-      recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"Sanitized"`)
-  ],
-  queryParametersToSkip: []
-};
 
 describe("SmsClient", async () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderConfiguration);
+    if(isPlaybackMode()) {
+      sinon.stub(Uuid, "generateUuid").returns("sanitized");
+      sinon.stub(Date, "now").returns(0);
+    }
   });
 
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
+    }
+    if(isPlaybackMode()) {
+      sinon.restore();
     }
   });
 
