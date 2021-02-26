@@ -200,7 +200,12 @@ describe("ChatClient", function () {
 
       chatClient.on("chatThreadCreated", listener);
 
-
+      // Create thread
+      const request = {
+        topic: "test create thread event",
+        participants: [{ user: testUser }]
+      };
+      chatClient.createChatThread(request);
     }).timeout(8000);
 
     it("successfully listens to chatThreadDeletedEvents", function (done) {
@@ -210,7 +215,14 @@ describe("ChatClient", function () {
 
       chatClient.on("chatThreadDeleted", listener);
 
-
+      // Delete thread
+      const request = {
+        topic: "test delete thread event",
+        participants: [{ user: testUser }]
+      };
+      chatClient.createChatThread(request).then((result) => {
+        chatClient.deleteChatThread(result.chatThread?.id!);
+      });
     }).timeout(8000);
 
     it("successfully listens to chatThreadPropertiesUpdatedEvents", function (done) {
@@ -220,7 +232,8 @@ describe("ChatClient", function () {
 
       chatClient.on("chatThreadPropertiesUpdated", listener);
 
-
+      // Update thread
+      chatThreadClient.updateTopic("updated topic");
     }).timeout(8000);
 
     it("successfully listens to participantsAddedEvents", function (done) {
@@ -230,7 +243,11 @@ describe("ChatClient", function () {
 
       chatClient.on("participantsAdded", listener);
 
-
+      // Add participant
+      const request = {
+        participants: [{ user: testUser2 }]
+      }
+      chatThreadClient.addParticipants(request);
     }).timeout(8000);
 
     it("successfully listens to participantsRemovedEvents", function (done) {
@@ -240,7 +257,8 @@ describe("ChatClient", function () {
 
       chatClient.on("participantsRemoved", listener);
 
-
+      // Remove participant
+      chatThreadClient.removeParticipant(testUser2);
     }).timeout(8000);
   });
 });
