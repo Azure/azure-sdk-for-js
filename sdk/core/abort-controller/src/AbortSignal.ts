@@ -158,7 +158,7 @@ export function abortSignal(signal: AbortSignal): void {
     // Create a copy of listeners so mutations to the array
     // (e.g. via removeListener calls) don't affect the listeners
     // we invoke.
-    [...listeners].forEach((listener) => {
+    listeners.slice().forEach((listener) => {
       listener.call(signal, { type: "abort" });
     });
   }
