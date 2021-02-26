@@ -17,7 +17,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
-import { SendMessageRequest, SmsRecipient } from "./generated/src/models";
+import { SendMessageRequest } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
@@ -173,17 +173,15 @@ export class SmsClient {
     const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);
 
     const now = new Date().toUTCString();
-    const recipients: SmsRecipient[] = _sendRequest.to.map((phoneNumberStr) => {
-      return {
-        to: phoneNumberStr,
-        repeatabilityFirstSent: now,
-        repeatabilityRequestId: Uuid.generateUuid()
-      };
-    });
-
     const sendRequest: SendMessageRequest = {
       from: _sendRequest.from,
-      smsRecipients: recipients,
+      smsRecipients: _sendRequest.to.map((phoneNumberStr) => {
+        return {
+          to: phoneNumberStr,
+          repeatabilityFirstSent: now,
+          repeatabilityRequestId: Uuid.generateUuid()
+        };
+      }),
       message: _sendRequest.message,
       smsSendOptions: {
         enableDeliveryReport: restOptions.enableDeliveryReport ?? false,
