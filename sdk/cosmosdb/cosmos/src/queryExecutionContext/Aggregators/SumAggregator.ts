@@ -8,7 +8,7 @@ export class SumAggregator implements Aggregator {
   /**
    * Add the provided item to aggregation result.
    */
-  public aggregate(other: number) {
+  public aggregate(other: number): void {
     if (other === undefined) {
       return;
     }
@@ -22,7 +22,7 @@ export class SumAggregator implements Aggregator {
   /**
    * Get the aggregation result.
    */
-  public getResult() {
+  public getResult(): number {
     return this.sum;
   }
 }

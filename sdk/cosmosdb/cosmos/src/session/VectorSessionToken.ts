@@ -124,7 +124,7 @@ export class VectorSessionToken {
     );
   }
 
-  public toString() {
+  public toString(): string | undefined {
     return this.sessionToken;
   }
 
@@ -147,7 +147,7 @@ export class VectorSessionToken {
 /**
  * @hidden
  */
-function max(int1: string, int2: string) {
+function max(int1: string, int2: string): string {
   // NOTE: This only works for positive numbers
   if (int1.length === int2.length) {
     return int1 > int2 ? int1 : int2;

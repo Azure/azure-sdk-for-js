@@ -10,7 +10,7 @@ import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
-import { checkURL } from "./utils/url";
+import { checkURL } from "./utils/checkURL";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -150,7 +150,7 @@ export class CosmosClient {
    * Used for reading, or updating a existing offer by id.
    * @param id - The id of the offer.
    */
-  public offer(id: string) {
+  public offer(id: string): Offer {
     return new Offer(this, id, this.clientContext);
   }
 }

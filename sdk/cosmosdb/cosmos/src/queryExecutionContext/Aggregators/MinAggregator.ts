@@ -23,7 +23,7 @@ export class MinAggregator implements Aggregator {
   /**
    * Add the provided item to aggregation result.
    */
-  public aggregate(other: MinAggregateResult) {
+  public aggregate(other: MinAggregateResult): void {
     if (this.value === undefined) {
       // || typeof this.value === "object"
       this.value = other.min;
@@ -39,7 +39,7 @@ export class MinAggregator implements Aggregator {
   /**
    * Get the aggregation result.
    */
-  public getResult() {
+  public getResult(): number {
     return this.value;
   }
 }
