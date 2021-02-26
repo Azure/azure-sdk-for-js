@@ -68,13 +68,6 @@ module.exports = function (config: any) {
         base: "Firefox",
         flags: ["-url", `http://localhost:${defaults.port}/debug.html`, "-devtools"]
       }
-    },
-
-    client: {
-      mocha: {
-        reporter: "html",
-        timeout: "20000"
-      }
     }
   });
 };
