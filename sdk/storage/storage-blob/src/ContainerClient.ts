@@ -45,7 +45,7 @@ import {
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -700,13 +700,13 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-create", options);
     try {
       // Spread operator in destructuring assignments,
       // this will filter out unwanted properties from the response object into result object
       return await this.containerContext.create({
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -729,15 +729,9 @@ export class ContainerClient extends StorageClient {
   public async createIfNotExists(
     options: ContainerCreateOptions = {}
   ): Promise<ContainerCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-createIfNotExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-createIfNotExists", options);
     try {
-      const res = await this.create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.create(updatedOptions);
       return {
         succeeded: true,
         ...res,
@@ -776,11 +770,11 @@ export class ContainerClient extends StorageClient {
    * @param options -
    */
   public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ContainerClient-exists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-exists", options);
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       return true;
     } catch (e) {
@@ -876,15 +870,12 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-getProperties", options);
     try {
       return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -911,13 +902,13 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-delete", options);
     try {
       return await this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -940,16 +931,10 @@ export class ContainerClient extends StorageClient {
   public async deleteIfExists(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-deleteIfExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-deleteIfExists", options);
 
     try {
-      const res = await this.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
         ...res,
@@ -1003,7 +988,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-setMetadata", options);
 
     try {
       return await this.containerContext.setMetadata({
@@ -1011,7 +996,7 @@ export class ContainerClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         metadata,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1042,16 +1027,13 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-getAccessPolicy",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-getAccessPolicy", options);
 
     try {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       const res: ContainerGetAccessPolicyResponse = {
@@ -1124,10 +1106,7 @@ export class ContainerClient extends StorageClient {
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<ContainerSetAccessPolicyResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-setAccessPolicy",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-setAccessPolicy", options);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of containerAcl || []) {
@@ -1151,7 +1130,7 @@ export class ContainerClient extends StorageClient {
         containerAcl: acl,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1202,16 +1181,10 @@ export class ContainerClient extends StorageClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-uploadBlockBlob",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-uploadBlockBlob", options);
     try {
       const blockBlobClient = this.getBlockBlobClient(blobName);
-      const response = await blockBlobClient.upload(body, contentLength, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const response = await blockBlobClient.upload(body, contentLength, updatedOptions);
       return {
         blockBlobClient,
         response
@@ -1242,16 +1215,13 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     options: ContainerDeleteBlobOptions = {}
   ): Promise<BlobDeleteResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-deleteBlob", options);
     try {
       let blobClient = this.getBlobClient(blobName);
       if (options.versionId) {
         blobClient = blobClient.withVersion(options.versionId);
       }
-      return await blobClient.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await blobClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1277,15 +1247,12 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobFlatSegmentResponse> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-listBlobFlatSegment",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-listBlobFlatSegment", options);
     try {
       const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
@@ -1332,15 +1299,15 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ContainerClient-listBlobHierarchySegment",
-      options.tracingOptions
+      options
     );
     try {
       const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...response,
@@ -1593,7 +1560,10 @@ export class ContainerClient extends StorageClient {
       const segment = listBlobsHierarchySegmentResponse.segment;
       if (segment.blobPrefixes) {
         for (const prefix of segment.blobPrefixes) {
-          yield { kind: "prefix", ...prefix };
+          yield {
+            kind: "prefix",
+            ...prefix
+          };
         }
       }
       for (const blob of segment.blobItems) {

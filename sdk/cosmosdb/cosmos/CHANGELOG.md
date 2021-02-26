@@ -1,5 +1,9 @@
 # Release History
 
+## 3.10.1 (2021-02-25)
+
+- BUGFIX: Autogenerates IDs for Upsert operations in bulk.
+
 ## 3.10.0 (2021-01-21)
 
 - FEATURE: Adds AAD authentication via @azure/identity.

@@ -59,7 +59,7 @@
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "tslib": "^2.0.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-beta.1",
     "@opentelemetry/api": "^0.10.2"
   },
   "devDependencies": {

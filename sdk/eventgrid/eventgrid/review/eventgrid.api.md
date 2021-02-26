@@ -6,9 +6,9 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
-import { PipelineOptions } from '@azure/core-https';
 import { SASCredential } from '@azure/core-auth';
 
 // @public
@@ -346,7 +346,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
 }
 
 // @public
-export type EventGridPublisherClientOptions = PipelineOptions;
+export type EventGridPublisherClientOptions = CommonClientOptions;
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {

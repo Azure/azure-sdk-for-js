@@ -6,13 +6,12 @@ import {
   TableInsertEntityHeaders,
   TableCreateHeaders
 } from "./generated/models";
-import { PipelineOptions } from "@azure/core-https";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 /**
  * Client options used to configure Tables Api requests
  */
-export type TableServiceClientOptions = PipelineOptions & {
+export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
   version?: string;
 };

@@ -52,7 +52,7 @@ export class Shard {
   public async getChange(
     options: ShardGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, spanOptions } = createSpan("Shard-getChange", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("Shard-getChange", options);
     try {
       let event: BlobChangeFeedEvent | undefined = undefined;
       while (event === undefined && this.hasNext()) {
@@ -67,7 +67,7 @@ export class Shard {
             undefined,
             {
               abortSignal: options.abortSignal,
-              tracingOptions: { ...options.tracingOptions, spanOptions }
+              tracingOptions: updatedOptions.tracingOptions
             }
           );
         }

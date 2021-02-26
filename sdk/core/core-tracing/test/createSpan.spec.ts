@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { SpanKind, TraceFlags } from "@opentelemetry/api";
-import { setTracer, TestSpan, TestTracer } from "@azure/core-tracing";
+import * as assert from "assert";
 import sinon from "sinon";
+import { SpanKind, TraceFlags } from "@opentelemetry/api";
+
+import { setTracer } from "../src/tracerProxy";
+import { TestTracer } from "../src/tracers/test/testTracer";
+import { TestSpan } from "../src/tracers/test/testSpan";
 import { createSpanFunction } from "../src/createSpan";
-import { OperationOptions } from "../src/interfaces";
+import { OperationTracingOptions } from "../src/interfaces";
 
 const createSpan = createSpanFunction({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
 
@@ -23,21 +26,44 @@ describe("createSpan", () => {
     const startSpanStub = sinon.stub(tracer, "startSpan");
     startSpanStub.returns(testSpan);
     setTracer(tracer);
-    const { span } = createSpan("testMethod", {});
+    const { span, updatedOptions } = createSpan("testMethod", {
+      tracingOptions: ({
+        // validate that we dumbly just copy any fields (this makes future upgrades easier)
+        someOtherField: "someOtherFieldValue",
+        context: { someContext: "some Context" }
+      } as OperationTracingOptions) as any
+    });
     assert.strictEqual(span, testSpan, "Should return mocked span");
-    assert.isTrue(startSpanStub.calledOnce);
+    assert.ok(startSpanStub.calledOnce);
     const [name, options] = startSpanStub.firstCall.args;
     assert.strictEqual(name, "Azure.Test.testMethod");
     assert.deepEqual(options, { kind: SpanKind.INTERNAL });
-    assert.isTrue(setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.Test"));
+    assert.ok(setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.Test"));
+
+    assert.deepEqual(updatedOptions.tracingOptions, {
+      someOtherField: "someOtherFieldValue",
+      // TODO: note, this will be incorrect (and break) when we get to the next opentelemetry
+      // upgrade (and that'll be a good reminder to fix it)
+      context: { someContext: "some Context" },
+      spanOptions: {
+        attributes: {
+          "az.namespace": "Microsoft.Test"
+        },
+        parent: {
+          spanId: "",
+          traceFlags: 0,
+          traceId: ""
+        }
+      }
+    });
   });
 
   it("returns updated SpanOptions", () => {
-    const options: OperationOptions = {};
+    const options: { tracingOptions?: OperationTracingOptions } = {};
     const { span, updatedOptions } = createSpan("testMethod", options);
-    assert.isEmpty(options, "original options should not be modified");
+    assert.deepStrictEqual(options, {}, "original options should not be modified");
     assert.notStrictEqual(updatedOptions, options, "should return new object");
-    const expected: OperationOptions = {
+    const expected: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),
@@ -51,7 +77,7 @@ describe("createSpan", () => {
   });
 
   it("preserves existing attributes", () => {
-    const options: OperationOptions = {
+    const options: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
           attributes: {
@@ -62,7 +88,7 @@ describe("createSpan", () => {
     };
     const { span, updatedOptions } = createSpan("testMethod", options);
     assert.notStrictEqual(updatedOptions, options, "should return new object");
-    const expected: OperationOptions = {
+    const expected: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),

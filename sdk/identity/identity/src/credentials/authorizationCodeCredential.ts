@@ -135,10 +135,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan(
-      "AuthorizationCodeCredential-getToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
       let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
@@ -155,7 +152,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
           this.lastTokenResponse.refreshToken,
           this.clientSecret,
           undefined,
-          newOptions
+          updatedOptions
         );
       }
 
@@ -179,7 +176,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
             "Content-Type": "application/x-www-form-urlencoded"
           },
           abortSignal: options && options.abortSignal,
-          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+          spanOptions: updatedOptions?.tracingOptions?.spanOptions
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);

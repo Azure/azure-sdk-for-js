@@ -58,11 +58,11 @@ export class ChainedTokenCredential implements TokenCredential {
     let token = null;
     const errors = [];
 
-    const { span, options: newOptions } = createSpan("ChainedTokenCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
-        token = await this._sources[i].getToken(scopes, newOptions);
+        token = await this._sources[i].getToken(scopes, updatedOptions);
       } catch (err) {
         if (err instanceof CredentialUnavailable) {
           errors.push(err);

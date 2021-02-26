@@ -58,7 +58,7 @@ export class Segment {
   public async getChange(
     options: SegmentGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, spanOptions } = createSpan("Segment-getChange", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("Segment-getChange", options);
 
     try {
       if (this.shardIndex >= this.shards.length || this.shardIndex < 0) {
@@ -75,7 +75,7 @@ export class Segment {
         const currentShard = this.shards[this.shardIndex];
         event = await currentShard.getChange({
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
 
         if (!currentShard.hasNext()) {
