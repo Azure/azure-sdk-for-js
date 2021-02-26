@@ -99,7 +99,7 @@ export class DocumentProducer {
       options,
       partitionKeyRangeId: this.targetPartitionKeyRange["id"]
     });
-  }
+  };
 
   public hasMoreResults(): boolean {
     return this.internalExecutionContext.hasMoreResults() || this.fetchResults.length !== 0;
