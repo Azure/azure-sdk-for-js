@@ -21,7 +21,7 @@ let entityName: EntityName;
 let sender: ServiceBusSender;
 let receiver: ServiceBusReceiver;
 const testClientTypes = [
-  TestClientType.PartitionedQueue,
+  // TestClientType.PartitionedQueue
   // TestClientType.PartitionedQueueWithSessions,
   TestClientType.UnpartitionedQueue
   // TestClientType.UnpartitionedQueueWithSessions
@@ -133,6 +133,13 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           await sendMessages();
           await receiveMessages();
           await verifyMessageCount(numberOfMessagesToSend, entityName);
+          // TODO:
+          // - Close the client
+          // - Receive all the messages again
+          // - Settle the messages
+          // - Delivery count should have been 1(or incremented) for 2048 of the messages
+          // - Rest 952 messages should have zero delivery count
+          // This makes sure there is no message loss
         }
       );
     });
