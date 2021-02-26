@@ -27,7 +27,6 @@ import {
 import { Client } from "azure-iothub";
 import { ModuleClient } from "azure-iot-device";
 
-
 function buildGraphTopology() {
   const rtspSource: MediaGraphRtspSource = {
     name: "rtspSource",
@@ -104,12 +103,12 @@ export async function main() {
   const graphTopology = buildGraphTopology();
   const graphInstance = buildGraphInstance(graphTopology.name);
 
-  const setGraphTopRequest =  createMediaGraphTopologySetRequest(graphTopology);
+  const setGraphTopRequest = createMediaGraphTopologySetRequest(graphTopology);
   const setRequestResult2 = await invokeMethod(setGraphTopRequest);
   console.log(setRequestResult2);
 
   const listGraphRequest = createMediaGraphTopologyListRequest(graphTopology);
-  const listGraphResponse = await invokeMethod(listGraphRequest)
+  const listGraphResponse = await invokeMethod(listGraphRequest);
   console.log(listGraphResponse);
 
   const getGraphRequest = createMediaGraphTopologyGetRequest(graphTopology.name);
@@ -117,33 +116,32 @@ export async function main() {
   console.log(getGraphResponse);
 
   const setGraphInstanceRequest = createMediaGraphInstanceSetRequest(graphInstance);
-  const setGraphResponse = await invokeMethod(setGraphInstanceRequest)
-  console.log(setGraphResponse)
+  const setGraphResponse = await invokeMethod(setGraphInstanceRequest);
+  console.log(setGraphResponse);
 
   const listGraphInstanceRequest = createMediaGraphInstanceListRequest(graphInstance);
-  const listGraphInstanceResponse = await invokeMethod(listGraphInstanceRequest)
+  const listGraphInstanceResponse = await invokeMethod(listGraphInstanceRequest);
   console.log(listGraphInstanceResponse);
-  
-  const activateGraphRequest = createMediaGraphInstanceActivateRequest(graphInstance.name)
+
+  const activateGraphRequest = createMediaGraphInstanceActivateRequest(graphInstance.name);
   const activateGraphResponse = await invokeMethod(activateGraphRequest);
-  console.log(activateGraphResponse)
+  console.log(activateGraphResponse);
 
-  const getGraphInstanceRequest = createMediaGraphInstanceGetRequest(graphInstance.name)
-  const getGraphInstanceResponse = await invokeMethod(getGraphInstanceRequest)
-  console.log(getGraphInstanceResponse)
+  const getGraphInstanceRequest = createMediaGraphInstanceGetRequest(graphInstance.name);
+  const getGraphInstanceResponse = await invokeMethod(getGraphInstanceRequest);
+  console.log(getGraphInstanceResponse);
 
-  const deactivateGraphRequest = createMediaGraphInstanceDeActivateRequest(graphInstance.name)
-  const deactivateGraphResponse = await invokeMethod(deactivateGraphRequest)
-  console.log(deactivateGraphResponse)
+  const deactivateGraphRequest = createMediaGraphInstanceDeActivateRequest(graphInstance.name);
+  const deactivateGraphResponse = await invokeMethod(deactivateGraphRequest);
+  console.log(deactivateGraphResponse);
 
-  const deleteGraphInstanceRequest = createMediaGraphInstanceDeleteRequest(graphInstance.name)
-  const deleteGraphInstanceResponse = await invokeMethod(deleteGraphInstanceRequest)
-  console.log(deleteGraphInstanceResponse)
+  const deleteGraphInstanceRequest = createMediaGraphInstanceDeleteRequest(graphInstance.name);
+  const deleteGraphInstanceResponse = await invokeMethod(deleteGraphInstanceRequest);
+  console.log(deleteGraphInstanceResponse);
 
-  const deleteGraphTopRequest = createMediaGraphTopologyDeleteRequest(graphTopology.name)
-  const deleteGraphTopResponse = await invokeMethod(deleteGraphTopRequest)
-  console.log(deleteGraphTopResponse)
-
+  const deleteGraphTopRequest = createMediaGraphTopologyDeleteRequest(graphTopology.name);
+  const deleteGraphTopResponse = await invokeMethod(deleteGraphTopRequest);
+  console.log(deleteGraphTopResponse);
 }
 
 main().catch((err) => {

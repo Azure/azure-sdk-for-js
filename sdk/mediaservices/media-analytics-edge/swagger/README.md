@@ -19,7 +19,7 @@ use-extension:
 modelerfour:
   naming:
     override:
-      '@type': $DO_NOT_NORMALIZE$@type
+      "@type": $DO_NOT_NORMALIZE$@type
 ```
 
 <!-- modelerfour:
