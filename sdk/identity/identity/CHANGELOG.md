@@ -4,6 +4,7 @@
 
 ## 1.2.4-beta.2 (Unreleased)
 
+- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13973](https://github.com/Azure/azure-sdk-for-js/pull/13973).
 - `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
 - Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
 - Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
