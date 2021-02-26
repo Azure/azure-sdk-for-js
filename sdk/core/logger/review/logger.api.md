@@ -21,9 +21,7 @@ export interface AzureLogger {
 // @public
 export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
 
-// Warning: (ae-internal-missing-underscore) The name "createClientLogger" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function createClientLogger(namespace: string): AzureLogger;
 
 // @public

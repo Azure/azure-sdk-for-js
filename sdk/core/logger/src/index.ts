@@ -123,7 +123,7 @@ export interface AzureLogger {
 /**
  * Creates a logger for use by the Azure SDKs that inherits from `AzureLogger`.
  * @param namespace - The name of the SDK package.
- * @internal
+ * @hidden
  */
 export function createClientLogger(namespace: string): AzureLogger {
   const clientRootLogger: AzureClientLogger = AzureLogger.extend(namespace);
