@@ -6,9 +6,9 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"from\":\"+18005551234\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"424dbcff-f480-446c-8b68-a49cc2842869\",\"repeatabilityFirstSent\":\"Wed, 24 Feb 2021 19:56:33 GMT\"},{\"to\":\"+18332321226444\",\"repeatabilityRequestId\":\"3f53121c-3371-436f-9c11-4dce9873166c\",\"repeatabilityFirstSent\":\"Wed, 24 Feb 2021 19:56:33 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
+   "requestBody": "{\"from\":\"+18005551234\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"},{\"to\":\"+18332321226444\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+18005551234\",\"messageId\":\"Sanitized\",\"httpStatusCode\":202,\"errorMessage\":null,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+18332321226444\",\"messageId\":null,\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"repeatabilityResult\":\"notavailable\",\"successful\":false}]}",
+   "response": "{\"value\":[{\"to\":\"+18005551234\",\"messageId\":\"sanitized\",\"httpStatusCode\":202,\"errorMessage\":null,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+18332321226444\",\"messageId\":null,\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"repeatabilityResult\":null,\"successful\":false}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

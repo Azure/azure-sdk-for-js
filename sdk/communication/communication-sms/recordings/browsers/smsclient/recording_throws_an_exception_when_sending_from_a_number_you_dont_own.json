@@ -6,7 +6,7 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"from\":\"+18331234567\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"cc2e3df2-b5ed-4cf6-9af6-ab4f956741d8\",\"repeatabilityFirstSent\":\"Wed, 24 Feb 2021 19:56:34 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
+   "requestBody": "{\"from\":\"+18331234567\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 400,
    "response": "{\"From\":[\"Invalid From phone number format\"]}",
    "responseHeaders": {
