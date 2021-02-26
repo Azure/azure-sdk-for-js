@@ -29,7 +29,7 @@ export interface GetAttributesOptions extends OperationOptions {}
 /**
  * Client options used to configure Container Registry Repository API requests.
  */
-export interface containerRegistryClientOptions extends PipelineOptions {
+export interface ContainerRegistryClientOptions extends PipelineOptions {
   // Any custom options configured at the client level go here.
 }
 
@@ -59,7 +59,7 @@ export class ContainerRegistryClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
-    options: containerRegistryClientOptions = {}
+    options: ContainerRegistryClientOptions = {}
   ) {
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;

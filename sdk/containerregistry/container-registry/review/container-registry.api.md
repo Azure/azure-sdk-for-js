@@ -9,6 +9,16 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
+export class ContainerRegistryClient {
+    constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    getAttributes(name: string, options?: GetAttributesOptions): Promise<RepositoryAttributes>;
+}
+
+// @public
+export interface ContainerRegistryClientOptions extends PipelineOptions {
+}
+
+// @public
 export interface GetAttributesOptions extends OperationOptions {
 }
 
@@ -22,16 +32,6 @@ export interface RepositoryAttributes {
     manifestCount?: number;
     registry?: string;
     tagCount?: number;
-}
-
-// @public
-export class RepositoryClient {
-    constructor(endpointUrl: string, credential: TokenCredential, options?: RepositoryClientOptions);
-    getAttributes(name: string, options?: GetAttributesOptions): Promise<RepositoryAttributes>;
-}
-
-// @public
-export interface RepositoryClientOptions extends PipelineOptions {
 }
 
 
