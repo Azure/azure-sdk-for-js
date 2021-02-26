@@ -46,7 +46,7 @@ export class SegmentFactory {
     cursor?: SegmentCursor,
     options: CreateSegmentOptions = {}
   ): Promise<Segment> {
-    const { span, spanOptions } = createSpan("SegmentFactory-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("SegmentFactory-create", options);
 
     try {
       const shards: Shard[] = [];
@@ -55,7 +55,7 @@ export class SegmentFactory {
       const blobClient = containerClient.getBlobClient(manifestPath);
       const blobDownloadRes = await blobClient.download(undefined, undefined, {
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       const blobContent: string = await bodyToString(blobDownloadRes);
 
@@ -73,7 +73,7 @@ export class SegmentFactory {
           shardCursor,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: { ...options.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           }
         );
         if (shard.hasNext()) {

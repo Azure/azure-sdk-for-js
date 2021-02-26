@@ -187,18 +187,12 @@ export class DataLakeServiceClient extends StorageClient {
     expiresOn: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeServiceClient-getUserDelegationKey",
-      options.tracingOptions
+      options
     );
     try {
-      return await this.blobServiceClient.getUserDelegationKey(startsOn, expiresOn, {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
-      });
+      return await this.blobServiceClient.getUserDelegationKey(startsOn, expiresOn, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -360,19 +354,13 @@ export class DataLakeServiceClient extends StorageClient {
     fileSystemClient: DataLakeFileSystemClient;
     fileSystemRenameResponse: FileSystemRenameResponse;
   }> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeServiceClient-renameFileSystem",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeServiceClient-renameFileSystem", options);
     try {
       // const res = await this.blobServiceClient.renameContainer(
       const res = await this.blobServiceClient["renameContainer"](
         sourceFileSystemName,
         destinationFileSystemName,
-        {
-          ...options,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
-        }
+        updatedOptions
       );
 
       const fileSystemClient = this.getFileSystemClient(destinationFileSystemName);
@@ -407,9 +395,9 @@ export class DataLakeServiceClient extends StorageClient {
     fileSystemClient: DataLakeFileSystemClient;
     fileSystemUndeleteResponse: FileSystemUndeleteResponse;
   }> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeServiceClient-undeleteFileSystem",
-      options.tracingOptions
+      options
     );
     try {
       const res = await this.blobServiceClient.undeleteContainer(
@@ -418,7 +406,7 @@ export class DataLakeServiceClient extends StorageClient {
         {
           ...options,
           destinationContainerName: options.destinationFileSystemName,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         }
       );
 

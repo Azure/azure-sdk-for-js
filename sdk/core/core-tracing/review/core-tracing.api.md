@@ -17,6 +17,20 @@ import { Tracer } from '@opentelemetry/api';
 import { TracerBase } from '@opencensus/web-types';
 
 // @public
+export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
+    tracingOptions?: OperationTracingOptions | undefined;
+}>(operationName: string, operationOptions: T | undefined) => {
+    span: Span;
+    updatedOptions: T;
+};
+
+// @public
+export interface CreateSpanFunctionArgs {
+    namespace: string;
+    packagePrefix: string;
+}
+
+// @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
 
 // @public

@@ -9,7 +9,6 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import {
-  ListQueuesIncludeType,
   QueueCreateResponse,
   QueueDeleteResponse,
   QueueItem,
@@ -107,7 +106,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType;
+  include?: string;
 }
 
 /**
@@ -321,10 +320,7 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<ServiceListQueuesSegmentResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-listQueuesSegment",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-listQueuesSegment", options);
 
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -337,7 +333,7 @@ export class QueueServiceClient extends StorageClient {
         maxPageSize: options.maxPageSize,
         prefix: options.prefix,
         include: options.include === undefined ? undefined : [options.include],
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -525,14 +521,11 @@ export class QueueServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-getProperties", options);
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -558,14 +551,11 @@ export class QueueServiceClient extends StorageClient {
     properties: QueueServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-setProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-setProperties", options);
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -590,14 +580,11 @@ export class QueueServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<ServiceGetStatisticsResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-getStatistics",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-getStatistics", options);
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -622,15 +609,9 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueCreateOptions = {}
   ): Promise<QueueCreateResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-createQueue",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-createQueue", options);
     try {
-      return await this.getQueueClient(queueName).create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.getQueueClient(queueName).create(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -654,15 +635,9 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueDeleteOptions = {}
   ): Promise<QueueDeleteResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-deleteQueue",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-deleteQueue", options);
     try {
-      return await this.getQueueClient(queueName).delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.getQueueClient(queueName).delete(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

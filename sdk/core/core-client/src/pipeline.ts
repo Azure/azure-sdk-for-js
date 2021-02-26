@@ -16,7 +16,7 @@ import { serializationPolicy, SerializationPolicyOptions } from "./serialization
  * Mostly for customizing the auth policy (if using token auth) or
  * the deserialization options when using XML.
  */
-export interface ClientPipelineOptions extends InternalPipelineOptions {
+export interface InternalClientPipelineOptions extends InternalPipelineOptions {
   /**
    * Options to customize bearerTokenAuthenticationPolicy.
    */
@@ -37,7 +37,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
  * Also adds in bearerTokenAuthenticationPolicy if passed a TokenCredential.
  * @param options - Options to customize the created pipeline.
  */
-export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
+export function createClientPipeline(options: InternalClientPipelineOptions = {}): Pipeline {
   const pipeline = createPipelineFromOptions(options ?? {});
   if (options.credentialOptions) {
     pipeline.addPolicy(
