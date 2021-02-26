@@ -19,7 +19,7 @@ describe("SmsClient", async () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderConfiguration);
-    if(isPlaybackMode()) {
+    if (isPlaybackMode()) {
       sinon.stub(Uuid, "generateUuid").returns("sanitized");
       sinon.stub(Date, "now").returns(0);
     }
@@ -29,7 +29,7 @@ describe("SmsClient", async () => {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
-    if(isPlaybackMode()) {
+    if (isPlaybackMode()) {
       sinon.restore();
     }
   });

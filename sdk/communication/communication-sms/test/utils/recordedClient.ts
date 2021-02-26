@@ -19,9 +19,15 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
     (recording: string): string =>
-      recording.replace(/"repeatabilityRequestId"\s?:\s?"[^"]*"/g, `"repeatabilityRequestId":"sanitized"`),
+      recording.replace(
+        /"repeatabilityRequestId"\s?:\s?"[^"]*"/g,
+        `"repeatabilityRequestId":"sanitized"`
+      ),
     (recording: string): string =>
-      recording.replace(/"repeatabilityFirstSent"\s?:\s?"[^"]*"/g, `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"`)
+      recording.replace(
+        /"repeatabilityFirstSent"\s?:\s?"[^"]*"/g,
+        `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"`
+      )
   ],
   queryParametersToSkip: []
 };
