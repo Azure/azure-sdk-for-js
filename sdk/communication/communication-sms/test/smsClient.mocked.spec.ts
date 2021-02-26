@@ -63,7 +63,7 @@ describe("[mocked] SmsClient", async () => {
 
   beforeEach(() => {
     sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
-  })
+  });
 
   afterEach(() => {
     sinon.restore();
@@ -205,20 +205,33 @@ describe("[mocked] SmsClient", async () => {
       }
     };
 
-    let error = null;
-    try {
-      const promise = smsClient.send(sendRequest);
-      await clock.runAllAsync();
-      await promise;
-    } catch (e) {
-      error = e;
-    }
-    finally {
-      clock.restore();
-    }
+    let error = {
+      statusCode: 123,
+      request: {
+        body: ""
+      }
+    };
+    // try {
+      // const promise = smsClient.send(sendRequest);
+      // await clock.runAllAsync();
+      // await promise;
+    // } catch (e) {
+    //   error = e;
+    // } finally {
+    //   clock.restore();
+    // }
 
+    let catchCalled = false;
+    const promise = smsClient.send(sendRequest);
+    promise.catch((e) => {
+      error = e;
+      catchCalled = true;
+    });
+    await clock.runAllAsync();
+
+    assert.isTrue(catchCalled);
     sinon.assert.calledThrice(spy);
     assert.equal(error.statusCode, 503);
     assert.deepEqual(JSON.parse(error.request.body), expectedRequestBody);
-  });
+  })
 });
