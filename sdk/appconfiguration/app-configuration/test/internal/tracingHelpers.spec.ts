@@ -41,16 +41,15 @@ describe("tracingHelpers", () => {
       {
         tracingOptions: {}
       },
-      async (_newOptions, _span) => {},
+      async (_newOptions, _span) => { },
       fakeCreateSpan
     );
 
-    assert.equal(
-      setStatusStub?.called,
-      false,
-      "if nothing fails we don't explicitly set the status (uses the default status)"
-    );
+    assert.equal(setStatusStub?.called, true);
 
+    const [status] = setStatusStub!.args[0];
+
+    assert.equal(status.code, CanonicalCode.OK);
     assert.equal(endStub?.called, true);
   });
 
@@ -98,7 +97,7 @@ describe("tracingHelpers", () => {
     assert.equal(
       setStatusStub?.args[0][0].code,
       CanonicalCode.INTERNAL,
-      "Any thrown exception causes the span to be set to StatusCode.ERROR"
+      "Any thrown exception causes the span status to be set to an error"
     );
 
     assert.equal(endStub?.called, true);

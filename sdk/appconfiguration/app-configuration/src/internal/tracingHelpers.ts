@@ -33,7 +33,13 @@ export async function trace<ReturnT>(
   try {
     // NOTE: we really do need to await on this function here so we can handle any exceptions thrown and properly
     // close the span.
-    return await fn(updatedOptions, span);
+    const result = await fn(updatedOptions, span);
+
+    // otel 0.16+ needs this or else the code ends up being set as UNSET
+    span.setStatus({
+      code: CanonicalCode.OK
+    });
+    return result;
   } catch (err) {
     span.setStatus({
       code: CanonicalCode.INTERNAL, // TODO: StatusCode.ERROR in otel 0.16+
