@@ -13,13 +13,13 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GeneratedClient, RepositoryAttributes } from "./generated";
+import { GeneratedClient, RepositoryAttributes, ChangeableAttributes } from "./generated";
 import { createSpan } from "./tracing";
 
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export { RepositoryAttributes };
+export { RepositoryAttributes, ChangeableAttributes };
 
 /**
  * Options for the `GetAttributesOptions` method of `ContainerRegistryClient`.

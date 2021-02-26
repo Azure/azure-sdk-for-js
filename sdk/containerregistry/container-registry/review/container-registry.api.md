@@ -8,6 +8,14 @@ import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
+// @public (undocumented)
+export interface ChangeableAttributes {
+    deleteEnabled?: boolean;
+    listEnabled?: boolean;
+    readEnabled?: boolean;
+    writeEnabled?: boolean;
+}
+
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
@@ -24,7 +32,6 @@ export interface GetAttributesOptions extends OperationOptions {
 
 // @public
 export interface RepositoryAttributes {
-    // Warning: (ae-forgotten-export) The symbol "ChangeableAttributes" needs to be exported by the entry point index.d.ts
     changeableAttributes?: ChangeableAttributes;
     createdTime?: string;
     imageName?: string;

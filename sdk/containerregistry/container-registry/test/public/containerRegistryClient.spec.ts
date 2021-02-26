@@ -13,7 +13,7 @@ import { env, record, Recorder } from "@azure/test-utils-recorder";
 // recorded HTTP request or response, it will replace them with the values they
 // are mapped to below.
 const replaceableVariables: Record<string, string> = {
-  CONTAINER_REGISTRY_ENDPOINT: "https://myappconfig.azconfig.io",
+  CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret"
