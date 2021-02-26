@@ -3,7 +3,7 @@
 
 import { isLiveMode, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { PhoneNumberSearchRequest, PhoneNumberSearchResult } from "../src";
+import { PhoneNumberSearchResult, SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
 
@@ -11,7 +11,6 @@ describe("PhoneNumbersClient - lro - purchase", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
   let includePhoneNumberLiveTests: boolean;
-  const countryCode = "US";
 
   this.beforeAll(function() {
     if (isPlaybackMode() || isLiveMode()) {
@@ -37,7 +36,8 @@ describe("PhoneNumbersClient - lro - purchase", function() {
         this.skip();
       }
 
-      const searchRequest: PhoneNumberSearchRequest = {
+      const searchRequest: SearchAvailablePhoneNumbersRequest = {
+        countryCode: "US",
         phoneNumberType: "tollFree",
         assignmentType: "application",
         capabilities: {
@@ -48,11 +48,9 @@ describe("PhoneNumbersClient - lro - purchase", function() {
         quantity: 1
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(
-        countryCode,
         searchRequest,
         testPollerOptions
       );
-      //assert.ok(searchPoller.getOperationState().isStarted);
 
       searchResults = await searchPoller.pollUntilDone();
 
@@ -71,7 +69,6 @@ describe("PhoneNumbersClient - lro - purchase", function() {
         searchResults.searchId,
         testPollerOptions
       );
-      //assert.ok(purchasePoller.getOperationState().isStarted);
 
       await purchasePoller.pollUntilDone();
       assert.ok(purchasePoller.getOperationState().isCompleted);

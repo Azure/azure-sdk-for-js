@@ -11,12 +11,12 @@ package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/967da531665d4b51a7a5599324e5edd95489cc3d/specification/communication/data-plane/Microsoft.CommunicationServicesPhoneNumbers/stable/2021-03-07/phonenumbers.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a4d1e1516433894fca89f9600a6ac8a5471fc598/specification/communication/data-plane/Microsoft.CommunicationServicesPhoneNumbers/stable/2021-03-07/phonenumbers.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
-  "@autorest/typescript": "https://bit.ly/2Zncabl"
+  "@autorest/typescript": "6.0.0-dev.20210223.1"
 add-credentials: false
 azure-arm: false
 skip-enum-validation: true

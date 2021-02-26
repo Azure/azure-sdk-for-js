@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PhoneNumberCapabilitiesRequest, PhoneNumberCapabilityValue } from "../../src";
+import { PhoneNumberCapabilitiesRequest, PhoneNumberCapabilityType } from "../../src";
 
 export const buildCapabilityUpdate = (
   capabilities: PhoneNumberCapabilitiesRequest
 ): PhoneNumberCapabilitiesRequest => {
-  const values: PhoneNumberCapabilityValue[] = ["none", "inbound", "outbound", "inbound+outbound"];
+  const values: PhoneNumberCapabilityType[] = ["none", "inbound", "outbound", "inbound+outbound"];
 
   return {
     sms: shuffle(values).find((val) => val != capabilities.sms),

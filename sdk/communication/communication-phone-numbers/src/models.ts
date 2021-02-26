@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpResponse, OperationOptions } from "@azure/core-http";
-import { AcquiredPhoneNumber } from "./generated/src/models/";
+import { AcquiredPhoneNumber, PhoneNumberSearchRequest } from "./generated/src/models/";
 
 /**
  * Represents an object with a non-enumerable _response property which provides
@@ -15,8 +15,14 @@ export type WithResponse<T> = T & { _response: HttpResponse };
  */
 export type VoidResponse = WithResponse<{}>;
 
+/**
+ * Additional options for the get phone number request.
+ */
 export type GetPhoneNumberOptions = OperationOptions;
 
+/**
+ * The response from the get phone number request.
+ */
 export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
 /**
@@ -36,14 +42,25 @@ export interface ListPhoneNumbersOptions extends OperationOptions {
   top?: number;
 }
 
+/**
+ * Represents a phone number search request to find phone numbers.
+ * Found phone numbers are temporarily held for a following purchase.
+ */
+export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
+  /**
+   * The ISO 3166-2 country code, e.g. US, representing the location of the search.
+   */
+  countryCode: string;
+}
+
 export {
   AcquiredPhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
-  PhoneNumberCapabilityValue,
+  PhoneNumberCapabilityType,
   PhoneNumberCost,
-  PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
+  PhoneNumberSearchRequest,
   PhoneNumberType
 } from "./generated/src/models/";

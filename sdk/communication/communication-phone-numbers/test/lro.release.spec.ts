@@ -51,7 +51,6 @@ describe("PhoneNumbersClient - lro - release", function() {
         phoneNumberToRelease,
         testPollerOptions
       );
-      //assert.ok(releasePoller.getOperationState().isStarted);
 
       await releasePoller.pollUntilDone();
       assert.ok(releasePoller.getOperationState().isCompleted);

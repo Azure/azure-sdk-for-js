@@ -22,14 +22,14 @@ import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
   AcquiredPhoneNumber,
   PhoneNumberCapabilitiesRequest,
-  PhoneNumberSearchRequest,
   PhoneNumberSearchResult
 } from "./generated/src/models/";
 import {
   GetPhoneNumberOptions,
   GetPhoneNumberResponse,
   ListPhoneNumbersOptions,
-  VoidResponse
+  VoidResponse,
+  SearchAvailablePhoneNumbersRequest
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
@@ -226,13 +226,11 @@ export class PhoneNumbersClient {
    * console.log(results);
    * ```
    *
-   * @param {string} countryCode The ISO 3166-2 country code .
-   * @param {PhoneNumberSearchRequest} search Request properties to constraint the search scope.
+   * @param {SearchAvailablePhoneNumbersRequest} search Request properties to constraint the search scope.
    * @param {BeginReservePhoneNumbersOptions} options Additional request options.
    */
   public async beginSearchAvailablePhoneNumbers(
-    countryCode: string,
-    search: PhoneNumberSearchRequest,
+    search: SearchAvailablePhoneNumbersRequest,
     options: BeginSearchAvailablePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
     const { span, updatedOptions } = createSpan(
@@ -241,7 +239,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      const { phoneNumberType, assignmentType, capabilities, ...rest } = search;
+      const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
       return await this.client.searchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,

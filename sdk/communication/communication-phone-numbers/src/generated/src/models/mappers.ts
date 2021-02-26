@@ -17,14 +17,16 @@ export const PhoneNumberSearchRequest: coreHttp.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["geographic", "tollFree"]
         }
       },
       assignmentType: {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["person", "application"]
         }
       },
       capabilities: {
@@ -64,14 +66,16 @@ export const PhoneNumberCapabilities: coreHttp.CompositeMapper = {
         serializedName: "calling",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       },
       sms: {
         serializedName: "sms",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       }
     }
@@ -106,14 +110,16 @@ export const PhoneNumberSearchResult: coreHttp.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["geographic", "tollFree"]
         }
       },
       assignmentType: {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["person", "application"]
         }
       },
       capabilities: {
@@ -262,7 +268,8 @@ export const PhoneNumberOperation: coreHttp.CompositeMapper = {
         serializedName: "status",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["notStarted", "running", "succeeded", "failed"]
         }
       },
       resourceLocation: {
@@ -296,7 +303,13 @@ export const PhoneNumberOperation: coreHttp.CompositeMapper = {
         serializedName: "operationType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "purchase",
+            "releasePhoneNumber",
+            "search",
+            "updatePhoneNumberCapabilities"
+          ]
         }
       },
       lastActionDateTime: {
@@ -340,7 +353,8 @@ export const AcquiredPhoneNumber: coreHttp.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["geographic", "tollFree"]
         }
       },
       capabilities: {
@@ -354,11 +368,13 @@ export const AcquiredPhoneNumber: coreHttp.CompositeMapper = {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["person", "application"]
         }
       },
       purchaseDate: {
         serializedName: "purchaseDate",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -410,13 +426,15 @@ export const PhoneNumberCapabilitiesRequest: coreHttp.CompositeMapper = {
       calling: {
         serializedName: "calling",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       },
       sms: {
         serializedName: "sms",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       }
     }
@@ -461,12 +479,6 @@ export const PhoneNumbersPurchasePhoneNumbersHeaders: coreHttp.CompositeMapper =
     name: "Composite",
     className: "PhoneNumbersPurchasePhoneNumbersHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
       operationLocation: {
         serializedName: "operation-location",
         type: {

@@ -3,7 +3,7 @@
 
 import { isLiveMode, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { PhoneNumberSearchRequest } from "../src";
+import { SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
 
@@ -11,8 +11,8 @@ describe("PhoneNumbersClient - lro - search", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
   let includePhoneNumberLiveTests: boolean;
-  const countryCode = "US";
-  const searchRequest: PhoneNumberSearchRequest = {
+  const searchRequest: SearchAvailablePhoneNumbersRequest = {
+    countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
     capabilities: {
@@ -42,8 +42,7 @@ describe("PhoneNumbersClient - lro - search", function() {
       this.skip();
     }
 
-    const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
-    //assert.ok(searchPoller.getOperationState().isStarted);
+    const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
     const results = await searchPoller.pollUntilDone();
     assert.equal(results.phoneNumbers.length, 1);
@@ -57,11 +56,9 @@ describe("PhoneNumbersClient - lro - search", function() {
 
     const quantity = 2;
     const searchPoller = await client.beginSearchAvailablePhoneNumbers(
-      countryCode,
       { ...searchRequest, quantity },
       testPollerOptions
     );
-    //assert.ok(searchPoller.getOperationState().isStarted);
 
     const results = await searchPoller.pollUntilDone();
     assert.equal(results.phoneNumbers.length, quantity);
@@ -74,11 +71,9 @@ describe("PhoneNumbersClient - lro - search", function() {
     }
 
     const searchPoller = await client.beginSearchAvailablePhoneNumbers(
-      countryCode,
       searchRequest,
       testPollerOptions
     );
-    //assert.ok(searchPoller.getOperationState().isStarted);
 
     await searchPoller.cancelOperation();
     assert.ok(searchPoller.isStopped);
