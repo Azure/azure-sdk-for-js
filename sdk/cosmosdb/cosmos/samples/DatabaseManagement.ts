@@ -3,7 +3,6 @@
 import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { endpoint, key, database as databaseId } from "./Shared/config";
-// eslint-disable-next-line @typescript-eslint/tslint/config
 import assert from "assert";
 
 logSampleHeader("Database Management");

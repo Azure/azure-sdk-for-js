@@ -4,13 +4,5 @@
     "no-console": "off",
     "no-invalid-this": "off",
     "space-before-function-paren": "off",
-    "@typescript-eslint/tslint/config": [
-      "error",
-      {
-        "rules": {
-          "no-implicit-dependencies": [true, "dev"]
-        }
-      }
-    ]
   }
 }

@@ -1,5 +1,5 @@
 {
-  "plugins": ["@azure/azure-sdk", "@typescript-eslint/tslint"],
+  "plugins": ["@azure/azure-sdk"],
   "extends": ["plugin:@azure/azure-sdk/recommended"],
   "parserOptions": {
     "createDefaultProgram": true
@@ -10,15 +10,6 @@
     "dot-notation": "off",
     "some-rule": "off",
     // ChangeFeed.ts has problems with this rule
-    "no-irregular-whitespace": "off",
-    "@typescript-eslint/tslint/config": [
-      "error",
-      {
-        "rules": {
-          "import-blacklist": [true, "assert", "util"],
-          "no-floating-promises": true
-        }
-      }
-    ]
+    "no-irregular-whitespace": "off"
   }
 }

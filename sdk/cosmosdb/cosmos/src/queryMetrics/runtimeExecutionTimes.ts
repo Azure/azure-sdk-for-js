@@ -46,12 +46,10 @@ export class RuntimeExecutionTimes {
    * Output the RuntimeExecutionTimes as a delimited string.
    */
   public toDelimitedString(): string {
-    // tslint:disable-next-line:max-line-length
     return (
       `${
         QueryMetricsConstants.SystemFunctionExecuteTimeInMs
       }=${this.systemFunctionExecutionTime.totalMilliseconds()};` +
-      // tslint:disable-next-line:max-line-length
       `${
         QueryMetricsConstants.UserDefinedFunctionExecutionTimeInMs
       }=${this.userDefinedFunctionExecutionTime.totalMilliseconds()}`
