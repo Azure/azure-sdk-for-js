@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import fs from "fs";
 import util from "util";
-import { BlockBlobClient } from "../../../src";
+import { BlockBlobClient } from "@azure/storage-blob";
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -11,35 +11,35 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 19:31:57 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:48 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "72641014-2e20-4791-9943-7a192ff97100"
+    "x-ms-ests-server": "2.1.11513.14 - SCUS ProdSlices",
+    "x-ms-request-id": "d10b05a6-be44-4eb5-9783-6d1f6e572200"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/recognition/pii",
    "query": {
     "stringIndexType": "UnicodeCodePoint"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"U.S. Social Security Number (SSN)\",\"offset\":121,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
+   "response": "{\"documents\":[{\"redactedText\":\"ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":121,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "0826a299-bea9-4c9a-bbd2-5d3ddaeff788",
+    "apim-request-id": "69321b36-e2e9-4977-a6b8-183be6f9136f",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 30 Dec 2020 19:31:58 GMT",
+    "date": "Wed, 24 Feb 2021 02:17:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "106"
+    "x-envoy-upstream-service-time": "219"
    }
   }
  ],
@@ -47,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "775eefbe4d75cb0dca8aae839b557550"
+ "hash": "1001cba93467d0c21efe8d7b416d0203"
 }

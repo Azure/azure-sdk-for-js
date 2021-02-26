@@ -10,7 +10,7 @@ import { RestError } from "../restError";
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
  */
-export const expontentialRetryPolicyName = "exponentialRetryPolicy";
+export const exponentialRetryPolicyName = "exponentialRetryPolicy";
 
 const DEFAULT_CLIENT_RETRY_COUNT = 10;
 // intervals are in ms
@@ -152,7 +152,7 @@ export function exponentialRetryPolicy(
   }
 
   return {
-    name: expontentialRetryPolicyName,
+    name: exponentialRetryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const retryData = {
         retryCount: 0,

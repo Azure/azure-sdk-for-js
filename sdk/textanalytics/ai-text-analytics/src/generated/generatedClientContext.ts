@@ -12,7 +12,7 @@ import { GeneratedClientOptionalParams } from "./models";
 const packageName = "@azure/ai-text-analytics";
 const packageVersion = "5.1.0-beta.5";
 
-/** @internal */
+/** @hidden */
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
 
@@ -42,7 +42,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
 
     this.baseUri =
-      options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.3";
+      options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.4";
 
     // Parameter assignments
     this.endpoint = endpoint;

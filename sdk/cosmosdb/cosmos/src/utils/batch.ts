@@ -150,7 +150,10 @@ export function decorateOperation(
   definition: PartitionKeyDefinition,
   options: RequestOptions = {}
 ): Operation {
-  if (operation.operationType === BulkOperationType.Create) {
+  if (
+    operation.operationType === BulkOperationType.Create ||
+    operation.operationType === BulkOperationType.Upsert
+  ) {
     if (
       (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration

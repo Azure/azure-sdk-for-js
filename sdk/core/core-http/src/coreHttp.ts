@@ -127,3 +127,4 @@ export { Authenticator } from "./credentials/credentials";
 
 export { parseXML, stringifyXML } from "./util/xml";
 export { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
+import "@azure/core-asynciterator-polyfill";

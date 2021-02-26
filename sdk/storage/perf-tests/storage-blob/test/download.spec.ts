@@ -3,7 +3,7 @@
 
 import { drainStream, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
-import { BlockBlobClient } from "../../../src";
+import { BlockBlobClient } from "@azure/storage-blob";
 import { generateUuid } from "@azure/core-http";
 
 interface StorageBlobDownloadTestOptions {
