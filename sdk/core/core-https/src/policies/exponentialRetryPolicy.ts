@@ -17,6 +17,13 @@ const DEFAULT_CLIENT_RETRY_COUNT = 10;
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
 
+const retryHttpStatusCodes: number[] = [
+  // Client error responses
+  408, // Request timeout
+  425, // Too early
+  429 // Too many requests
+];
+
 interface RetryData {
   retryCount: number;
   retryInterval: number;
@@ -73,9 +80,9 @@ export function exponentialRetryPolicy(
   function shouldRetry(statusCode: number | undefined, retryData: RetryData): boolean {
     if (
       statusCode === undefined ||
-      (statusCode < 500 && statusCode !== 408) ||
-      statusCode === 501 ||
-      statusCode === 505
+      (statusCode < 500 && retryHttpStatusCodes.indexOf(statusCode) === -1) ||
+      statusCode === 501 || // Not implemented
+      statusCode === 505 // HTTP version not supported
     ) {
       return false;
     }
