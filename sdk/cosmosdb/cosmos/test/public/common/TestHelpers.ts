@@ -264,7 +264,7 @@ export function generateDocuments(
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function assertThrowsAsync(test: () => Promise<void>, error?: any): Promise<string> {
+export async function assertThrowsAsync(test: () => Promise<any>, error?: any): Promise<string> {
   try {
     await test();
   } catch (e) {
