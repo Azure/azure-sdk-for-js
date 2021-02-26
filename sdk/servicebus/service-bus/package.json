@@ -73,7 +73,7 @@
     "test:node": "npm run clean && npm run build:test:node && npm run integration-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "npm run build:test:node && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace dist-esm/test/internal/unit/*.spec.js dist-esm/test/internal/node/*.spec.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace dist-esm/test/internal/unit/*.spec.js dist-esm/test/internal/node/*.spec.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },

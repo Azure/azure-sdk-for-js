@@ -21,26 +21,25 @@
   "types": "types/latest/template.d.ts",
   "typesVersions": {
     "<3.6": {
-      "types/latest/*" :[
+      "types/latest/*": [
         "types/3.1/*"
       ]
-    }    
+    }
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:ts": "tsc -p .",
-    "build:browser": "npm run build:ts && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "npm run build:ts && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && npm run build:ts",
-    "build:test": "npm run build:ts && rollup -c 2>&1",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:test": "tsc -p . && rollup -c 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "npm run build:ts && npm run build:nodebrowser && api-extractor run --local",
+    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
-    "extract-api": "npm run build:ts && api-extractor run --local",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript --v3 swagger",
     "integration-test:browser": "karma start --single-run",
