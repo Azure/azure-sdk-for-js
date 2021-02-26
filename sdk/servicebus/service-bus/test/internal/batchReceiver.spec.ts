@@ -1401,6 +1401,49 @@ describe("Batching Receiver", () => {
       }
     });
 
-    it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {});
+    it("throws an error if receive is in progress (peekLock)", async function(): Promise<
+      void
+    > {
+      // Create the sender and receiver.
+      await beforeEachTest();
+
+      // Send a message so we can be sure when the receiver is open and active.
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      const messages1 = await receiver.receiveMessages(1, {
+        maxWaitTimeInMs: 5000
+      });
+      should.equal(
+        messages1.length,
+        1,
+        "Unexpected number of received messages(before disconnect)."
+      );
+
+      const receiverContext = (receiver as ServiceBusSessionReceiverImpl)["_context"];
+      const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
+
+      // Send a message so we have something to receive.
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      // Simulate a disconnect after a message has been received.
+      batchingReceiver["link"]!.once("message", function() {
+        setTimeout(() => {
+          // Simulate a disconnect being called with a non-retryable error.
+          receiverContext.connection["_connection"].idle();
+        }, 0);
+      });
+
+      // Purposefully request more messages than what's available
+      // so that the receiver will have to drain.
+      const testFailureMessage = "Test failure";
+      try {
+        await receiver.receiveMessages(10, {
+          maxWaitTimeInMs: 1000
+        });
+        throw new Error(testFailureMessage);
+      } catch (err) {
+        err.message && err.message.should.not.equal(testFailureMessage);
+      }
+    });
   });
 });
