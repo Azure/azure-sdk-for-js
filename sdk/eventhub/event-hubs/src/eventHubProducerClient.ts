@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from "./diagnostics/messageSpan";
+import { createMessageSpan } from "./diagnostics/tracing";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubSender } from "./eventHubSender";
@@ -22,7 +21,8 @@ import {
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { isDefined } from "./util/typeGuards";
-import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { OperationOptions } from "./util/operationOptions";
+import { createEventHubSpan } from "./diagnostics/tracing";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -303,10 +303,7 @@ export class EventHubProducerClient {
       for (let i = 0; i < batch.length; i++) {
         const event = batch[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(
-            getParentSpan(options.tracingOptions),
-            this._context.config
-          );
+          const { span: messageSpan } = createMessageSpan(options, this._context.config);
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
@@ -334,10 +331,7 @@ export class EventHubProducerClient {
       this._sendersMap.set(partitionId || "", sender);
     }
 
-    const sendSpan = this._createSendSpan(
-      getParentSpan(options.tracingOptions),
-      spanContextsToLink
-    );
+    const sendSpan = this._createSendSpan(options, spanContextsToLink);
 
     try {
       const result = await sender.send(batch, {
@@ -426,7 +420,7 @@ export class EventHubProducerClient {
   }
 
   private _createSendSpan(
-    parentSpan?: Span | SpanContext | null,
+    operationOptions: OperationOptions,
     spanContextsToLink: SpanContext[] = []
   ): Span {
     const links: Link[] = spanContextsToLink.map((context) => {
@@ -434,16 +428,11 @@ export class EventHubProducerClient {
         context
       };
     });
-    const tracer = getTracer();
-    const span = tracer.startSpan("Azure.EventHubs.send", {
+
+    const { span } = createEventHubSpan("send", operationOptions, this._context.config, {
       kind: SpanKind.CLIENT,
-      parent: parentSpan,
       links
     });
-
-    span.setAttribute("az.namespace", "Microsoft.EventHub");
-    span.setAttribute("message_bus.destination", this._context.config.entityPath);
-    span.setAttribute("peer.address", this._context.config.host);
 
     return span;
   }

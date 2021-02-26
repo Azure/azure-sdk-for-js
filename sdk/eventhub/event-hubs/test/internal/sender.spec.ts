@@ -314,7 +314,16 @@ describe("EventHub Sender", function(): void {
       });
 
       for (let i = 0; i < 2; i++) {
-        eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+        eventDataBatch.tryAdd(
+          { body: `${list[i].name}` },
+          {
+            tracingOptions: {
+              spanOptions: {
+                parent: rootSpan.context()
+              }
+            }
+          }
+        );
       }
       await producerClient.sendBatch(eventDataBatch);
       rootSpan.end();
@@ -368,7 +377,13 @@ describe("EventHub Sender", function(): void {
       for (let i = 0; i < 2; i++) {
         eventDataBatch.tryAdd(
           { body: `${list[i].name}`, properties: list[i].properties },
-          { parentSpan: rootSpan }
+          {
+            tracingOptions: {
+              spanOptions: {
+                parent: rootSpan.context()
+              }
+            }
+          }
         );
       }
       await producerClient.sendBatch(eventDataBatch);
@@ -408,7 +423,16 @@ describe("EventHub Sender", function(): void {
         partitionId: "0"
       });
       for (let i = 0; i < 2; i++) {
-        eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+        eventDataBatch.tryAdd(
+          { body: `${list[i].name}` },
+          {
+            tracingOptions: {
+              spanOptions: {
+                parent: rootSpan.context()
+              }
+            }
+          }
+        );
       }
       await producerClient.sendBatch(eventDataBatch, {
         tracingOptions: {
