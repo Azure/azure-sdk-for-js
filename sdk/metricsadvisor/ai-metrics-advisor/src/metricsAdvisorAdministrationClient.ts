@@ -135,13 +135,13 @@ export class MetricsAdvisorAdministrationClient {
   public readonly endpointUrl: string;
 
   /**
-   * @internal
+   
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
-   * @internal
+   
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -386,7 +386,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
@@ -399,7 +399,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
@@ -800,7 +800,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
 
   private async *listSegmentsOfAlertingConfigurations(
@@ -821,7 +821,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
 
   private async *listItemsOfAlertingConfigurations(
@@ -998,7 +998,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
 
   private async *listSegmentOfHooks(
@@ -1042,7 +1042,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
 
   private async *listItemsOfHooks(
@@ -1184,7 +1184,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
 
   private async *listSegmentsOfDetectionConfigurations(
@@ -1202,7 +1202,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
 
   private async *listItemsOfDetectionConfigurations(
@@ -1340,7 +1340,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
@@ -1420,7 +1420,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
+   
    */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
