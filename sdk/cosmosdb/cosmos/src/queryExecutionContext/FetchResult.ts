@@ -20,7 +20,7 @@ export class FetchResult {
    * @param error - The exception meant to be buffered on an unsuccessful fetch
    * @hidden
    */
-  constructor(feedResponse: any, error: any) {
+  constructor(feedResponse: unknown, error: unknown) {
     // TODO: feedResponse/error
     if (feedResponse) {
       this.feedResponse = feedResponse;

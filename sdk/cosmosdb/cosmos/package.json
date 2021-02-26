@@ -32,13 +32,13 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/README.md",
   "sideEffects": false,
-  "types": "./dist/types/latest/index.d.ts",
+  "types": "./dist/types/latest/cosmos.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./dist/types/3.1/index.d.ts"
+        "./dist/types/3.1/cosmos.d.ts"
       ]
     }
   },
@@ -64,8 +64,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/public/common/setup.ts \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test samples --ext .ts -f html -o cosmos-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
@@ -86,7 +86,7 @@
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
-    "@azure/identity": "^1.1.0",
+    "@azure/core-auth": "^1.2.0",
     "@types/debug": "^4.1.4",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
@@ -100,7 +100,9 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",

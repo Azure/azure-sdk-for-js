@@ -9,7 +9,7 @@ logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy
 let getContext: any;
 
-function body(continuation: string) {
+function body(continuation: string): void {
   const collection = getContext().getCollection();
   const response = getContext().getResponse();
   const responseBody: any = { updatedDocumentIds: [] }; // Setup Initial Response
@@ -28,10 +28,10 @@ function body(continuation: string) {
     }
   );
 
-  function updateDocs(documents: any, responseBody: any) {
+  function updateDocs(documents: any, responseBodyParam: any): void {
     if (documents.length === 0) {
       // If no documents are left to update, we are done
-      response.setBody(responseBody);
+      response.setBody(responseBodyParam);
     } else {
       // Grab the next document to update
       const document = documents.pop();
@@ -39,9 +39,9 @@ function body(continuation: string) {
       collection.replaceDocument(document._self, document, {}, function(err: any) {
         if (err) throw err;
         // If we have successfully updated the document, include it in the returned document ids
-        responseBody.updatedDocumentIds.push(document.id);
-        // Call update with remaning documents
-        updateDocs(documents, responseBody);
+        responseBodyParam.updatedDocumentIds.push(document.id);
+        // Call update with remaining documents
+        updateDocs(documents, responseBodyParam);
       });
     }
   }
@@ -50,7 +50,7 @@ function body(continuation: string) {
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run() {
+async function run(): Promise<void> {
   // ensuring a database & container exists for us to work with
   logStep("Create database '" + databaseId + "' and container '" + containerId + "'");
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
@@ -72,7 +72,7 @@ async function run() {
   logStep("Execute stored procedure and follow continuation tokens");
   let continuation: string = undefined;
   let totalUpdatedDocuments = 0;
-  while (true) {
+  for (;;) {
     const response = await storedProcedure.execute(undefined, [continuation]);
     const result: any = response.resource;
     totalUpdatedDocuments = totalUpdatedDocuments + result.updatedDocumentIds.length;

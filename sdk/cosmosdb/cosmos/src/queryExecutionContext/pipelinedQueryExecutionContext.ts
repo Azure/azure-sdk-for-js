@@ -14,6 +14,7 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
+import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -25,7 +26,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
-    private query: any, // TODO: any query
+    private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {

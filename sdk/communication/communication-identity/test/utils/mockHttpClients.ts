@@ -28,7 +28,7 @@ const tokenResponse = {
   expiresOn: new Date("2011/11/30")
 };
 
-export const issueTokenHttpClient: HttpClient = createMockHttpClient<CommunicationAccessToken>(
+export const getTokenHttpClient: HttpClient = createMockHttpClient<CommunicationAccessToken>(
   200,
   tokenResponse
 );
@@ -38,4 +38,14 @@ export const createUserHttpClient: HttpClient = createMockHttpClient<
   CommunicationIdentityAccessTokenResult
 >(201, {
   identity: { id: "identity" }
+});
+
+export const createUserWithTokenHttpClient: HttpClient = createMockHttpClient<
+  CommunicationIdentityAccessTokenResult
+>(201, {
+  identity: { id: "identity" },
+  accessToken: {
+    token: "token",
+    expiresOn: new Date("2011/11/30")
+  }
 });

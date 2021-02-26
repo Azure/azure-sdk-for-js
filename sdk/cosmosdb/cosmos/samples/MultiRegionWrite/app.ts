@@ -3,7 +3,7 @@
 import { MultiRegionWriteScenario } from "./MultiRegionWriteScenario";
 
 // tslint:disable:no-console
-async function run() {
+async function run(): Promise<void> {
   const scenarios = new MultiRegionWriteScenario();
   await scenarios.init();
 
@@ -13,12 +13,12 @@ async function run() {
   await scenarios.runUDP();
 }
 
-run()
-  .catch(err => {
+run() // eslint-disable-line promise/catch-or-return
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   })
   .then(() => {
     console.log("Complete!");
-    process.exit(0);
+    return;
   });

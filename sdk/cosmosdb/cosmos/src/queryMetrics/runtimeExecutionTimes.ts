@@ -14,7 +14,7 @@ export class RuntimeExecutionTimes {
   /**
    * returns a new RuntimeExecutionTimes instance that is the addition of this and the arguments.
    */
-  public add(...runtimeExecutionTimesArray: RuntimeExecutionTimes[]) {
+  public add(...runtimeExecutionTimesArray: RuntimeExecutionTimes[]): RuntimeExecutionTimes {
     let queryEngineExecutionTime = this.queryEngineExecutionTime;
     let systemFunctionExecutionTime = this.systemFunctionExecutionTime;
     let userDefinedFunctionExecutionTime = this.userDefinedFunctionExecutionTime;
@@ -45,7 +45,7 @@ export class RuntimeExecutionTimes {
   /**
    * Output the RuntimeExecutionTimes as a delimited string.
    */
-  public toDelimitedString() {
+  public toDelimitedString(): string {
     // tslint:disable-next-line:max-line-length
     return (
       `${
@@ -68,7 +68,9 @@ export class RuntimeExecutionTimes {
    * Returns a new instance of the RuntimeExecutionTimes class that is
    *  the aggregation of an array of RuntimeExecutionTimes.
    */
-  public static createFromArray(runtimeExecutionTimesArray: RuntimeExecutionTimes[]) {
+  public static createFromArray(
+    runtimeExecutionTimesArray: RuntimeExecutionTimes[]
+  ): RuntimeExecutionTimes {
     if (runtimeExecutionTimesArray == null) {
       throw new Error("runtimeExecutionTimesArray is null or undefined item(s)");
     }
@@ -79,7 +81,7 @@ export class RuntimeExecutionTimes {
   /**
    * Returns a new instance of the RuntimeExecutionTimes class this is deserialized from a delimited string.
    */
-  public static createFromDelimitedString(delimitedString: string) {
+  public static createFromDelimitedString(delimitedString: string): RuntimeExecutionTimes {
     const metrics = parseDelimitedString(delimitedString);
 
     const vmExecutionTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs);

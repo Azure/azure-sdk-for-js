@@ -85,8 +85,8 @@ export class QueryIterator<T> {
           await this.createPipelinedExecutionContext();
           try {
             response = await this.queryExecutionContext.fetchMore();
-          } catch (error) {
-            this.handleSplitError(error);
+          } catch (queryError) {
+            this.handleSplitError(queryError);
           }
         } else {
           throw error;
@@ -149,8 +149,8 @@ export class QueryIterator<T> {
         await this.createPipelinedExecutionContext();
         try {
           response = await this.queryExecutionContext.fetchMore();
-        } catch (error) {
-          this.handleSplitError(error);
+        } catch (queryError) {
+          this.handleSplitError(queryError);
         }
       } else {
         throw error;
@@ -166,7 +166,7 @@ export class QueryIterator<T> {
   /**
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
-  public reset() {
+  public reset(): void {
     this.queryPlanPromise = undefined;
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
@@ -206,7 +206,7 @@ export class QueryIterator<T> {
     );
   }
 
-  private async createPipelinedExecutionContext() {
+  private async createPipelinedExecutionContext(): Promise<void> {
     const queryPlanResponse = await this.queryPlanPromise;
 
     // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
@@ -228,7 +228,7 @@ export class QueryIterator<T> {
     );
   }
 
-  private async fetchQueryPlan() {
+  private async fetchQueryPlan(): Promise<any> {
     if (!this.queryPlanPromise && this.resourceType === ResourceType.item) {
       return this.clientContext
         .getQueryPlan(
@@ -255,7 +255,7 @@ export class QueryIterator<T> {
   }
 
   private initPromise: Promise<void>;
-  private async init() {
+  private async init(): Promise<void> {
     if (this.isInitialized === true) {
       return;
     }
@@ -264,14 +264,14 @@ export class QueryIterator<T> {
     }
     return this.initPromise;
   }
-  private async _init() {
+  private async _init(): Promise<void> {
     if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
       await this.createPipelinedExecutionContext();
     }
     this.isInitialized = true;
   }
 
-  private handleSplitError(err: any) {
+  private handleSplitError(err: any): void {
     if (err.code === 410) {
       const error = new Error(
         "Encountered partition split and could not recover. This request is retryable"

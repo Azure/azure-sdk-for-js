@@ -20,17 +20,15 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
 import {
-  CommunicationIdentityOptions,
+  CommunicationIdentityClientOptions,
   TokenScope,
-  IssueTokenResponse,
-  CreateUserResponse,
   CommunicationUserToken,
-  CreateUserWithTokenResponse
+  CommunicationAccessToken
 } from "./models";
-import { VoidResponse } from "./common/models";
-import { attachHttpResponse } from "./common/mappers";
 
-const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
+const isCommunicationIdentityClientOptions = (
+  options: any
+): options is CommunicationIdentityClientOptions =>
   options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
@@ -48,7 +46,7 @@ export class CommunicationIdentityClient {
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(connectionString: string, options?: CommunicationIdentityOptions);
+  public constructor(connectionString: string, options?: CommunicationIdentityClientOptions);
 
   /**
    * Initializes a new instance of the CommunicationIdentity class using an Azure KeyCredential.
@@ -59,7 +57,7 @@ export class CommunicationIdentityClient {
   public constructor(
     url: string,
     credential: KeyCredential,
-    options?: CommunicationIdentityOptions
+    options?: CommunicationIdentityClientOptions
   );
   /**
    * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
@@ -70,7 +68,7 @@ export class CommunicationIdentityClient {
   public constructor(
     url: string,
     credential: TokenCredential,
-    options?: CommunicationIdentityOptions
+    options?: CommunicationIdentityClientOptions
   );
   /**
    * Creates an instance of CommunicationIdentity.
@@ -81,11 +79,11 @@ export class CommunicationIdentityClient {
    */
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | CommunicationIdentityOptions | TokenCredential,
-    maybeOptions: CommunicationIdentityOptions = {}
+    credentialOrOptions?: KeyCredential | CommunicationIdentityClientOptions | TokenCredential,
+    maybeOptions: CommunicationIdentityClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isCommunicationIdentityOptions(credentialOrOptions)
+    const options = isCommunicationIdentityClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
     const libInfo = `azsdk-js-communication-identity/${SDK_VERSION}`;
@@ -125,15 +123,15 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options: OperationOptions = {}
-  ): Promise<IssueTokenResponse> {
+  ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
-      const { token, expiresOn, _response } = await this.client.issueAccessToken(
+      const { _response, ...result } = await this.client.issueAccessToken(
         user.communicationUserId,
         { scopes },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({ token, expiresOn }, _response);
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -154,14 +152,13 @@ export class CommunicationIdentityClient {
   public async revokeTokens(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-revokeTokens", options);
     try {
-      const { _response } = await this.client.revokeAccessTokens(
+      await this.client.revokeAccessTokens(
         user.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -178,14 +175,13 @@ export class CommunicationIdentityClient {
    *
    * @param options - Additional options for the request.
    */
-  public async createUser(options: OperationOptions = {}): Promise<CreateUserResponse> {
+  public async createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
     try {
-      const { identity, _response } = await this.client.create(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      const user: CommunicationUserIdentifier = { communicationUserId: identity.id };
-      return attachHttpResponse(user, _response);
+      const result = await this.client.create(operationOptionsToRequestOptionsBase(updatedOptions));
+      return {
+        communicationUserId: result.identity.id
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -206,21 +202,20 @@ export class CommunicationIdentityClient {
   public async createUserWithToken(
     scopes: TokenScope[],
     options: OperationOptions = {}
-  ): Promise<CreateUserWithTokenResponse> {
+  ): Promise<CommunicationUserToken> {
     const { span, updatedOptions } = createSpan(
       "CommunicationIdentity-createUserWithToken",
       options
     );
     try {
-      const { identity, accessToken, _response } = await this.client.create({
+      const { identity, accessToken } = await this.client.create({
         body: { createTokenWithScopes: scopes },
         ...operationOptionsToRequestOptionsBase(updatedOptions)
       });
-      const results: CommunicationUserToken = {
+      return {
         ...accessToken!,
         user: { communicationUserId: identity.id }
       };
-      return attachHttpResponse(results, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -241,14 +236,13 @@ export class CommunicationIdentityClient {
   public async deleteUser(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);
     try {
-      const { _response } = await this.client.delete(
+      await this.client.delete(
         user.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

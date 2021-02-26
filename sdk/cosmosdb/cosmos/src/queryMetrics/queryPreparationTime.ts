@@ -15,7 +15,7 @@ export class QueryPreparationTimes {
   /**
    * returns a new QueryPreparationTimes instance that is the addition of this and the arguments.
    */
-  public add(...queryPreparationTimesArray: QueryPreparationTimes[]) {
+  public add(...queryPreparationTimesArray: QueryPreparationTimes[]): QueryPreparationTimes {
     let queryCompilationTime = this.queryCompilationTime;
     let logicalPlanBuildTime = this.logicalPlanBuildTime;
     let physicalPlanBuildTime = this.physicalPlanBuildTime;
@@ -47,7 +47,7 @@ export class QueryPreparationTimes {
   /**
    * Output the QueryPreparationTimes as a delimited string.
    */
-  public toDelimitedString() {
+  public toDelimitedString(): string {
     return (
       `${
         QueryMetricsConstants.QueryCompileTimeInMs
@@ -75,7 +75,9 @@ export class QueryPreparationTimes {
    * Returns a new instance of the QueryPreparationTimes class that is the
    * aggregation of an array of QueryPreparationTimes.
    */
-  public static createFromArray(queryPreparationTimesArray: QueryPreparationTimes[]) {
+  public static createFromArray(
+    queryPreparationTimesArray: QueryPreparationTimes[]
+  ): QueryPreparationTimes {
     if (queryPreparationTimesArray == null) {
       throw new Error("queryPreparationTimesArray is null or undefined item(s)");
     }
@@ -86,7 +88,7 @@ export class QueryPreparationTimes {
   /**
    * Returns a new instance of the QueryPreparationTimes class this is deserialized from a delimited string.
    */
-  public static createFromDelimitedString(delimitedString: string) {
+  public static createFromDelimitedString(delimitedString: string): QueryPreparationTimes {
     const metrics = parseDelimitedString(delimitedString);
 
     return new QueryPreparationTimes(
