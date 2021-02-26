@@ -178,6 +178,8 @@ describe("ChatClient", function () {
     }).timeout(8000);
 
     it("successfully listens to readReceiptReceivedEvents", function (done) {
+      // TODO: Disabled while investigating read receipt notifications
+      this.skip();
       function listener() {
         done();
       }
@@ -246,7 +248,7 @@ describe("ChatClient", function () {
       // Add participant
       const request = {
         participants: [{ user: testUser2 }]
-      }
+      };
       chatThreadClient.addParticipants(request);
     }).timeout(8000);
 
