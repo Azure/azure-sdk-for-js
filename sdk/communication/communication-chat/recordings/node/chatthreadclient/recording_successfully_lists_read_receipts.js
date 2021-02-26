@@ -5,23 +5,23 @@ module.exports.hash = "68f698ad1cd68fb5d2031b79d0a1fd0f";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/chat/threads/19%3Ad0faaa3907264686b859c3b0cca68dcb%40thread.v2/readReceipts')
+  .get('/chat/threads/19%3A78448d7234104d49a790bd99614da6e6%40thread.v2/readReceipts')
   .query(true)
-  .reply(200, {"value":[{"senderId":"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-52e0-e3c7-593a0d0002d8","chatMessageId":"1613524939985","readOn":"2021-02-17T01:22:20Z"}]}, [
+  .reply(200, {"value":[{"senderId":"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-8014-e55d-ceb1-a43a0d00e5c5","chatMessageId":"1614374194140","readOn":"2021-02-26T21:16:34Z"}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'T2NUGQBAM0i9aBJpfK3z+g.0',
+  'OS3Z4I2mnUmBhWm9wJyEoQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
   '2020-09-21-preview2, 2020-11-01-preview3, 2021-01-27-preview4',
   'X-Processing-Time',
-  '366ms',
+  '121ms',
   'X-Azure-Ref',
-  '0zm8sYAAAAAAmPSL9AMXFRZQLEjDxJXF6U0pDRURHRTA1MTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0NGU5YAAAAADrgjudhmLjRJ4hrJifPjIGWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 17 Feb 2021 01:22:22 GMT'
+  'Fri, 26 Feb 2021 21:16:36 GMT'
 ]);
