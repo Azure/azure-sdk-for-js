@@ -3,6 +3,7 @@
 
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { AmqpError } from "rhea-promise";
+import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The `@azure/logger` configuration for this package.
@@ -53,8 +54,8 @@ export const managementClientLogger = createServiceBusLogger("service-bus:manage
  * @internal
  */
 export function logErrorStackTrace(_logger: AzureLogger, error: unknown): void {
-  if (error && Object.hasOwnProperty.call(error, "stack")) {
-    _logger.verbose((error as any).stack);
+  if (isObjectWithProperties(error, ["stack"]) && error.stack) {
+    logger.verbose(error.stack);
   }
 }
 

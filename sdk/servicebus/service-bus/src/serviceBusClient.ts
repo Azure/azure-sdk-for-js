@@ -18,6 +18,7 @@ import {
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
+import { isDefined, objectHasProperty } from "./util/typeGuards";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -89,7 +90,7 @@ export class ServiceBusClient {
 
     const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
     if (
-      timeoutInMs !== undefined &&
+      isDefined(timeoutInMs) &&
       (typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0)
     ) {
       throw new Error(`${timeoutInMs} is an invalid value for retryOptions.timeoutInMs`);
@@ -456,7 +457,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     options = optionsOrSubscriptionName2;
   }
   let receiveMode: ReceiveMode;
-  if (options?.receiveMode === undefined || options.receiveMode === "peekLock") {
+  if (!objectHasProperty(options, "receiveMode") || options.receiveMode === "peekLock") {
     receiveMode = "peekLock";
   } else if (options.receiveMode === "receiveAndDelete") {
     receiveMode = "receiveAndDelete";

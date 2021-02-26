@@ -14,6 +14,7 @@ import {
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
+import { objectHasProperty } from "./util/typeGuards";
 import { reorderLockToken } from "./util/utils";
 
 /**
@@ -558,9 +559,7 @@ export function fromRheaMessage(
  * @internal
  */
 export function isServiceBusMessage(possible: unknown): possible is ServiceBusMessage {
-  return (
-    possible != null && typeof possible === "object" && Object.hasOwnProperty.call(possible, "body")
-  );
+  return objectHasProperty(possible, "body");
 }
 
 /**
