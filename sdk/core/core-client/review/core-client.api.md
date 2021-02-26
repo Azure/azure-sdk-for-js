@@ -14,7 +14,6 @@ import { PipelineOptions } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
 import { PipelineRequest } from '@azure/core-https';
 import { PipelineResponse } from '@azure/core-https';
-import { Span } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-https';
 
@@ -72,12 +71,6 @@ export function createClientPipeline(options?: InternalClientPipelineOptions): P
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
-
-// @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
-    span: Span;
-    updatedOptions: T;
-};
 
 // @public
 export interface DeserializationContentTypes {

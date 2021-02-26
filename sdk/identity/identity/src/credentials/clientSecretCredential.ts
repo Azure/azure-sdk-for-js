@@ -62,7 +62,7 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("ClientSecretCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ClientSecretCredential-getToken", options);
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
       const webResource = this.identityClient.createWebResource({
@@ -82,7 +82,7 @@ export class ClientSecretCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+        spanOptions: updatedOptions?.tracingOptions?.spanOptions
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

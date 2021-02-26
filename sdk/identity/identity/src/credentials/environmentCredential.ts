@@ -122,10 +122,10 @@ export class EnvironmentCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
       try {
-        const result = await this._credential.getToken(scopes, newOptions);
+        const result = await this._credential.getToken(scopes, updatedOptions);
         logger.getToken.info(formatSuccess(scopes));
         return result;
       } catch (err) {
