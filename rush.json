@@ -633,6 +633,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-storage-blob",
       "projectFolder": "sdk/storage/perf-tests/storage-blob",
       "versionPolicyName": "test"
