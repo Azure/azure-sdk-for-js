@@ -73,7 +73,6 @@ describe("createSpan", () => {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),
-          kind: SpanKind.INTERNAL,
           attributes: {
             "az.namespace": "Microsoft.Test"
           }
@@ -99,7 +98,6 @@ describe("createSpan", () => {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),
-          kind: SpanKind.INTERNAL,
           attributes: {
             "az.namespace": "Microsoft.Test",
             foo: "bar"

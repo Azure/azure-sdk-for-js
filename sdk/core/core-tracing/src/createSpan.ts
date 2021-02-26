@@ -59,7 +59,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     let newSpanOptions = tracingOptions.spanOptions || {};
     if (span.isRecording()) {
       newSpanOptions = {
-        ...spanOptions,
+        ...tracingOptions.spanOptions,
         parent: span.context(),
         attributes: {
           ...spanOptions.attributes,
