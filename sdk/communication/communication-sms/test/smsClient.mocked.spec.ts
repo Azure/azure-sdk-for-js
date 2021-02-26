@@ -205,21 +205,13 @@ describe("[mocked] SmsClient", async () => {
       }
     };
 
+    //Dummy error body to get around TS Checker
     let error = {
-      statusCode: 123,
+      statusCode: 200,
       request: {
         body: ""
       }
     };
-    // try {
-      // const promise = smsClient.send(sendRequest);
-      // await clock.runAllAsync();
-      // await promise;
-    // } catch (e) {
-    //   error = e;
-    // } finally {
-    //   clock.restore();
-    // }
 
     let catchCalled = false;
     const promise = smsClient.send(sendRequest);
@@ -233,5 +225,5 @@ describe("[mocked] SmsClient", async () => {
     sinon.assert.calledThrice(spy);
     assert.equal(error.statusCode, 503);
     assert.deepEqual(JSON.parse(error.request.body), expectedRequestBody);
-  })
+  });
 });
