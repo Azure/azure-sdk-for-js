@@ -640,12 +640,12 @@ describe("Batching Receiver", () => {
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
-        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscription, Unpartitioned queue/subscription do not care about partitionKey.
       },
       {
         body: "hello2",
         messageId: `test message ${Math.random()}`,
-        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscription, Unpartitioned queue/subscription do not care about partitionKey.
       }
     ];
     const messageWithSessions: ServiceBusMessage[] = [
@@ -661,7 +661,7 @@ describe("Batching Receiver", () => {
       }
     ];
 
-    // We test for mutilple receiveMessages specifically to ensure that batchingRecevier on a client is reused
+    // We test for multiple receiveMessages specifically to ensure that batchingReceiver on a client is reused
     // See https://github.com/Azure/azure-service-bus-node/issues/31
     async function testSequentialReceiveBatchCalls(): Promise<void> {
       const testMessages = entityNames.usesSessions ? messageWithSessions : messages;
