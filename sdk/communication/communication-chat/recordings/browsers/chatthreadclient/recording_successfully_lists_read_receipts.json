@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A2780d69dc907497681b20e54421431cb%40thread.v2/readReceipts",
+   "url": "https://endpoint/chat/threads/19%3Adb4189c1cea440d6855cf911e6162571%40thread.v2/readReceipts",
    "query": {
-    "api-version": "2020-11-01-preview3"
+    "api-version": "2021-01-27-preview4"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"senderId\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000008-4d76-7f63-02c3-593a0d00e31b\",\"chatMessageId\":\"1613524951233\",\"readOn\":\"2021-02-17T01:22:31Z\"}]}",
+   "response": "{\"value\":[{\"senderCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-7ba9-0fb2-f6c7-593a0d00c625\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-7ba9-0fb2-f6c7-593a0d00c625\"}},\"chatMessageId\":\"1614300017342\",\"readOn\":\"2021-02-26T00:40:17Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
