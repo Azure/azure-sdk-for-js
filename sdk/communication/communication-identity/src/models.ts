@@ -12,7 +12,7 @@ export type TokenScope = "chat" | "voip";
 /**
  * Client options used to configure the CommunicationIdentity API requests.
  */
-export interface CommunicationIdentityOptions extends PipelineOptions {}
+export interface CommunicationIdentityClientOptions extends PipelineOptions {}
 
 /**
  * The access token for a user.

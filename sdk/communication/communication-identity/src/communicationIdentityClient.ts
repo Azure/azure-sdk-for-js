@@ -20,13 +20,15 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
 import {
-  CommunicationIdentityOptions,
+  CommunicationIdentityClientOptions,
   TokenScope,
   CommunicationUserToken,
   CommunicationAccessToken
 } from "./models";
 
-const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
+const isCommunicationIdentityClientOptions = (
+  options: any
+): options is CommunicationIdentityClientOptions =>
   options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
@@ -44,7 +46,7 @@ export class CommunicationIdentityClient {
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(connectionString: string, options?: CommunicationIdentityOptions);
+  public constructor(connectionString: string, options?: CommunicationIdentityClientOptions);
 
   /**
    * Initializes a new instance of the CommunicationIdentity class using an Azure KeyCredential.
@@ -55,7 +57,7 @@ export class CommunicationIdentityClient {
   public constructor(
     url: string,
     credential: KeyCredential,
-    options?: CommunicationIdentityOptions
+    options?: CommunicationIdentityClientOptions
   );
   /**
    * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
@@ -66,7 +68,7 @@ export class CommunicationIdentityClient {
   public constructor(
     url: string,
     credential: TokenCredential,
-    options?: CommunicationIdentityOptions
+    options?: CommunicationIdentityClientOptions
   );
   /**
    * Creates an instance of CommunicationIdentity.
@@ -77,11 +79,11 @@ export class CommunicationIdentityClient {
    */
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | CommunicationIdentityOptions | TokenCredential,
-    maybeOptions: CommunicationIdentityOptions = {}
+    credentialOrOptions?: KeyCredential | CommunicationIdentityClientOptions | TokenCredential,
+    maybeOptions: CommunicationIdentityClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isCommunicationIdentityOptions(credentialOrOptions)
+    const options = isCommunicationIdentityClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
     const libInfo = `azsdk-js-communication-identity/${SDK_VERSION}`;
@@ -176,9 +178,7 @@ export class CommunicationIdentityClient {
   public async createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
     try {
-      const { _response, ...result } = await this.client.create(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.create(operationOptionsToRequestOptionsBase(updatedOptions));
       return {
         communicationUserId: result.identity.id
       };
@@ -212,11 +212,10 @@ export class CommunicationIdentityClient {
         body: { createTokenWithScopes: scopes },
         ...operationOptionsToRequestOptionsBase(updatedOptions)
       });
-      const results: CommunicationUserToken = {
+      return {
         ...accessToken!,
         user: { communicationUserId: identity.id }
       };
-      return results;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

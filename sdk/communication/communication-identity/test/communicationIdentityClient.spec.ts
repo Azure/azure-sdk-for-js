@@ -31,8 +31,8 @@ describe("CommunicationIdentityClient [Playback/Live]", function() {
   });
 
   it("successfully creates a user and token", async function() {
-    const { user, token } = await client.createUserWithToken(["voip"]);
-    assert.isString(user.communicationUserId);
+    const { user: newUser, token } = await client.createUserWithToken(["voip"]);
+    assert.isString(newUser.communicationUserId);
     assert.isString(token);
   });
 
@@ -49,8 +49,8 @@ describe("CommunicationIdentityClient [Playback/Live]", function() {
   });
 
   it("successfully creates a user and gets a token in a single request", async function() {
-    const { user, token, expiresOn } = await client.createUserWithToken(["chat", "voip"]);
-    assert.isTrue(isCommunicationUserIdentifier(user));
+    const { user: newUser, token, expiresOn } = await client.createUserWithToken(["chat", "voip"]);
+    assert.isTrue(isCommunicationUserIdentifier(newUser));
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
   });

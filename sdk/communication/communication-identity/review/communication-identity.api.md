@@ -18,9 +18,9 @@ export interface CommunicationAccessToken {
 
 // @public
 export class CommunicationIdentityClient {
-    constructor(connectionString: string, options?: CommunicationIdentityOptions);
-    constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
-    constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
+    constructor(connectionString: string, options?: CommunicationIdentityClientOptions);
+    constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityClientOptions);
     createUser(options?: OperationOptions): Promise<CommunicationUserIdentifier>;
     createUserWithToken(scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationUserToken>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
@@ -29,7 +29,7 @@ export class CommunicationIdentityClient {
 }
 
 // @public
-export interface CommunicationIdentityOptions extends PipelineOptions {
+export interface CommunicationIdentityClientOptions extends PipelineOptions {
 }
 
 // @public

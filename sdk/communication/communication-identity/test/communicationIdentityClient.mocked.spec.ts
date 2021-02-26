@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-http";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import {
+  CommunicationUserIdentifier,
+  isCommunicationUserIdentifier
+} from "@azure/communication-common";
 import { assert } from "chai";
 import sinon from "sinon";
 import { CommunicationIdentityClient } from "../src";
@@ -56,5 +59,21 @@ describe("CommunicationIdentityClient [Mocked]", () => {
 
     const request = spy.getCall(0).args[0];
     assert.deepEqual(JSON.parse(request.body), { scopes: ["chat"] });
+  });
+
+  it("[getToken] excludes _response from results", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const response = await client.getTokenTest(user, ["chat"]);
+
+    assert.isFalse("_response" in response);
+  });
+
+  it("[createUser] excludes _response from results", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const user = await client.createUserTest();
+
+    assert.isTrue(isCommunicationUserIdentifier(user));
+    assert.equal(user.communicationUserId, "identity");
+    assert.isFalse("_response" in user);
   });
 });
