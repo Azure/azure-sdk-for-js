@@ -39,12 +39,12 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 // @public
 export function getTracer(): Tracer;
 
-// @public (undocumented)
+// @public
 export interface Link {
     context: LinkContext;
 }
 
-// @public (undocumented)
+// @public
 export type LinkContext = Pick<SpanContext, "traceId" | "spanId">;
 
 // @public

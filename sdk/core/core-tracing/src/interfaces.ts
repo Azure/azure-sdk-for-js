@@ -31,8 +31,14 @@ export interface SpanContext {
   traceFlags: number;
 }
 
+/**
+ * Context for the linked span.
+ */
 export type LinkContext = Pick<SpanContext, "traceId" | "spanId">;
 
+/**
+ * Used to specify a span that is linked to another.
+ */
 export interface Link {
   /** The {@link LinkContext} of a linked span. */
   context: LinkContext;
