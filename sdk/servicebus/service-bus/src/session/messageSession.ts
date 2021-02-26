@@ -11,7 +11,7 @@ import {
   ReceiverOptions
 } from "rhea-promise";
 import { ConnectionContext } from "../connectionContext";
-import { LinkEntity, ReceiverType } from "../core/linkEntity";
+import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import { receiverLogger as logger } from "../log";
@@ -765,11 +765,8 @@ export class MessageSession extends LinkEntity<Receiver> {
    * To be called when connection is disconnected to gracefully close ongoing receive request.
    * @param connectionError - The connection error if any.
    */
-  async onDetached(
-    connectionError: AmqpError | Error | undefined,
-    receiverType: Extract<ReceiverType, "batching" | "streaming">
-  ): Promise<void> {
-    if (receiverType === "batching" && this._batchingReceiverLite.isReceivingMessages) {
+  async onDetached(connectionError: AmqpError | Error | undefined): Promise<void> {
+    if (this._batchingReceiverLite.isReceivingMessages) {
       if (connectionError == null) {
         connectionError = new Error(
           "Unknown error occurred on the AMQP connection while receiving messages."
@@ -781,8 +778,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       // hence no effect for that "terminate" call.
       await this.close(); // TODO: Based on how the streaming receivers will be handled, this `.close` call can be called conditionally or moved around accordingly
     } else {
-      // TODO: Come up with a plan for streaming
-      // not implemented for streaming yet
+      // TODO: Not implemented for streaming yet... Come up with a plan for streaming
     }
   }
 

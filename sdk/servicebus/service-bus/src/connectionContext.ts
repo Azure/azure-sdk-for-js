@@ -175,8 +175,7 @@ async function callOnDetachedOnReceivers(
  */
 async function callOnDetachedOnSessionReceivers(
   connectionContext: ConnectionContext,
-  contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
-  receiverType: Extract<ReceiverType, "batching" | "streaming">
+  contextOrConnectionError: Error | ConnectionError | AmqpError | undefined
 ): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
@@ -185,16 +184,14 @@ async function callOnDetachedOnSessionReceivers(
     logger.verbose(
       "[%s] calling detached on %s receiver(sessions) '%s'.",
       connectionContext.connection.id,
-      receiverType,
       receiver.name
     );
     detachCalls.push(
-      receiver.onDetached(contextOrConnectionError, receiverType).catch((err) => {
+      receiver.onDetached(contextOrConnectionError).catch((err) => {
         logger.logError(
           err,
-          "[%s] An error occurred while calling onDetached() on the %s receiver(sessions) '%s'",
+          "[%s] An error occurred while calling onDetached() on the session receiver(sessions) '%s'",
           connectionContext.connection.id,
-          receiverType,
           receiver.name
         );
       })
@@ -449,11 +446,10 @@ export namespace ConnectionContext {
 
       // Calling onDetached on batching receivers for the same reasons as sender
       const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
-      // if check only checks for non-session batching receivers - fix it
       if (!state.wasConnectionCloseCalled && numBatchingReceivers) {
         logger.verbose(
           `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
-            `batching receivers. We should reconnect.`
+            `batching receivers. We should not reconnect.`
         );
 
         // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
@@ -462,12 +458,17 @@ export namespace ConnectionContext {
           connectionError || contextError,
           "batching"
         );
-        // Call onDetached() on session receivers - batching
-        await callOnDetachedOnSessionReceivers(
-          connectionContext,
-          connectionError || contextError,
-          "batching"
+      }
+
+      // Calling onDetached on session receivers
+      const numSessionReceivers = getNumberOfReceivers(connectionContext, "session");
+      if (!state.wasConnectionCloseCalled && numSessionReceivers) {
+        logger.verbose(
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numSessionReceivers} ` +
+            `session receivers. We should close them.`
         );
+
+        await callOnDetachedOnSessionReceivers(connectionContext, connectionError || contextError);
       }
 
       await refreshConnection(connectionContext);
@@ -495,9 +496,9 @@ export namespace ConnectionContext {
           connectionError || contextError,
           "streaming"
         );
-        // TODO: What to do for "disconnect" on streaming receiver?
+        // TODO: What to do for "disconnect" on sessions streaming receiver?
         //       re-initialize the link?
-        //       close the link and throw?
+        //       close the link and throw like batching receiver?
       }
     };
 
