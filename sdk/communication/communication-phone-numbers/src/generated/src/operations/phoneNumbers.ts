@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PhoneNumbersClient } from "../phoneNumbersClient";
+import { PhoneNumbersClientContext } from "../phoneNumbersClientContext";
 import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
   AcquiredPhoneNumber,
@@ -35,13 +35,13 @@ import {
 
 /** Class representing a PhoneNumbers. */
 export class PhoneNumbers {
-  private readonly client: PhoneNumbersClient;
+  private readonly client: PhoneNumbersClientContext;
 
   /**
    * Initialize a new instance of the class PhoneNumbers class.
    * @param client Reference to the service client
    */
-  constructor(client: PhoneNumbersClient) {
+  constructor(client: PhoneNumbersClientContext) {
     this.client = client;
   }
 
