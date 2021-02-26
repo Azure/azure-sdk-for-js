@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 import {
   //PipelineOptions,
   TokenCredential,
@@ -12,12 +11,11 @@ import {
 } from "@azure/core-http";
 //import { CanonicalCode } from "@opentelemetry/api";
 
-
 import { RemoteRenderingRestClient } from "./generated";
 import { RemoteRenderingRestClientOptionalParams } from "./generated/models/index";
 
 import { RemoteRenderingClientOptions } from "./options";
-import { RemoteRenderingAccount } from "./remoteRenderingAccount";
+import { MixedRealityTokenCredential } from "../authentication/MixedRealityTokenCredential"
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -38,8 +36,13 @@ export class RemoteRenderingClient {
    * @param keyCredential The Mixed Reality service account primary or secondary key credential.
    * @param options Additional client options.
    */
-  constructor(endpoint: string, account: RemoteRenderingAccount, tokenCredential: TokenCredential, options: RemoteRenderingClientOptions = {}) {
-
+  constructor(
+    endpoint: string,
+    accountId: string,
+    accountDomain: string,
+    tokenCredential: TokenCredential,
+    options: RemoteRenderingClientOptions = {}
+  ) {
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-mixedreality-authentication/${SDK_VERSION}`;
 
@@ -66,14 +69,17 @@ export class RemoteRenderingClient {
       }
     };
 
-    const authenticationEndpoint = options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(account.domain);
-    
-    const mrTokenCredential : TokenCredential = new MixedRealityTokenCredential(account.AccountId, authenticationEndpoint, tokenCredential);
+    const authenticationEndpoint =
+      options.authenticationEndpointUrl ??
+      constructAuthenticationEndpointFromDomain(accountDomain);
 
-    const authPolicy = bearerTokenAuthenticationPolicy(
-      mrTokenCredential,
-      `${endpoint}/.default`
+    const mrTokenCredential: TokenCredential = new MixedRealityTokenCredential(
+      accountId,
+      authenticationEndpoint,
+      tokenCredential
     );
+
+    const authPolicy = bearerTokenAuthenticationPolicy(mrTokenCredential, `${endpoint}/.default`);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     const clientOptions: RemoteRenderingRestClientOptionalParams = {
@@ -83,5 +89,9 @@ export class RemoteRenderingClient {
     };
 
     this.client = new RemoteRenderingRestClient(endpoint, clientOptions);
+  }
+
+  constructor() {
+    
   }
 }
