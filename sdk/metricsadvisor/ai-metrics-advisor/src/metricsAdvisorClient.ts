@@ -183,14 +183,12 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -223,7 +221,6 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * List alert segments for alerting configuration
    */
   private async *listSegmentOfAlerts(
@@ -301,7 +298,6 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * List alert items for alerting configuration
    */
   private async *listItemsOfAlerts(
@@ -429,7 +425,6 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * List anomalies for alerting configuration - segments
    */
   private async *listSegmentsOfAnomaliesForAlert(
@@ -510,7 +505,6 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * listing anomalies for alerting configuration - items
    */
   private async *listItemsOfAnomaliesForAlert(
@@ -566,7 +560,6 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * listing incidents for alert - segments
    */
   private async *listSegmentsOfIncidentsForAlert(
@@ -892,7 +885,6 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * listing anomalies for detection config - segments
    */
 
@@ -984,7 +976,6 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
    * listing anomalies for detection config - items
    */
 
