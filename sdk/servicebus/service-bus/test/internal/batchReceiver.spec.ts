@@ -1401,9 +1401,7 @@ describe("Batching Receiver", () => {
       }
     });
 
-    it("throws an error if receive is in progress (peekLock)", async function(): Promise<
-      void
-    > {
+    it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
       // Create the sender and receiver.
       await beforeEachTest();
 
