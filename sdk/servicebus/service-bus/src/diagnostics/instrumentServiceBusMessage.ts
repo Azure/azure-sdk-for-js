@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  extractSpanContextFromTraceParentHeader,
-  getTraceParentHeader,
-  getTracer
-} from "@azure/core-tracing";
+import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext } from "../connectionContext";
-import { getParentSpan, OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceiver } from "../receivers/receiver";
 import { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
+import { createServiceBusSpan } from "./tracing";
 
 /**
  * @hidden
@@ -117,17 +114,16 @@ export function createProcessingSpan(
     });
   }
 
-  const span = getTracer().startSpan("Azure.ServiceBus.process", {
-    kind: SpanKind.CONSUMER,
-    links,
-    parent: getParentSpan(options?.tracingOptions)
-  });
-
-  span.setAttributes({
-    "az.namespace": "Microsoft.ServiceBus",
-    "message_bus.destination": receiver.entityPath,
-    "peer.address": connectionConfig.host
-  });
+  const { span } = createServiceBusSpan(
+    "process",
+    options,
+    receiver.entityPath,
+    connectionConfig.host,
+    {
+      kind: SpanKind.CONSUMER,
+      links
+    }
+  );
 
   return span;
 }

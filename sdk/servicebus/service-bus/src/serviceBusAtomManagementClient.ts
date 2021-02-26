@@ -70,7 +70,7 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { createSpan, getCanonicalCode } from "./util/tracing";
+import { createSpan, getCanonicalCode } from "./diagnostics/tracing";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
