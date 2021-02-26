@@ -35,7 +35,9 @@ async function beforeEachTest(
   if (receiveMode === "receiveAndDelete") {
     receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityName);
   } else {
-    receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityName, {
+      maxAutoLockRenewalDurationInMs: 0
+    });
   }
 
   sender = serviceBusClient.test.addToCleanup(
