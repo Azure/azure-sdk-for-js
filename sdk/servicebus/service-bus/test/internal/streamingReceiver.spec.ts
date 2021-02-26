@@ -798,14 +798,9 @@ describe("Streaming Receiver Tests", () => {
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
       receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
-      await verifyMessageCount(
-        totalNumOfMessages,
-        entityNames.queue,
-        entityNames.topic,
-        entityNames.subscription
-      );
+      await verifyMessageCount(totalNumOfMessages, entityNames);
       await drainReceiveAndDeleteReceiver(receiver);
-      await verifyMessageCount(0, entityNames.queue, entityNames.topic, entityNames.subscription);
+      await verifyMessageCount(0, entityNames);
     }
 
     it(
