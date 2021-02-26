@@ -20,7 +20,7 @@ describe("createSpan", () => {
       tracer,
       "testing",
       { traceId: "", spanId: "", traceFlags: TraceFlags.NONE },
-      SpanKind.INTERNAL
+      SpanKind.INTERNAL // this isn't used by anything in our test.
     );
     const setAttributeSpy = sinon.spy(testSpan, "setAttribute");
     const startSpanStub = sinon.stub(tracer, "startSpan");
@@ -30,14 +30,19 @@ describe("createSpan", () => {
       tracingOptions: ({
         // validate that we dumbly just copy any fields (this makes future upgrades easier)
         someOtherField: "someOtherFieldValue",
-        context: { someContext: "some Context" }
+        context: { someContext: "some Context" },
+        spanOptions: {
+          kind: SpanKind.SERVER
+        }
       } as OperationTracingOptions) as any
     });
     assert.strictEqual(span, testSpan, "Should return mocked span");
     assert.ok(startSpanStub.calledOnce);
     const [name, options] = startSpanStub.firstCall.args;
     assert.strictEqual(name, "Azure.Test.testMethod");
-    assert.deepEqual(options, { kind: SpanKind.INTERNAL });
+
+    assert.deepEqual(options, { kind: SpanKind.SERVER });
+
     assert.ok(setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.Test"));
 
     assert.deepEqual(updatedOptions.tracingOptions, {
@@ -49,6 +54,7 @@ describe("createSpan", () => {
         attributes: {
           "az.namespace": "Microsoft.Test"
         },
+        kind: SpanKind.SERVER,
         parent: {
           spanId: "",
           traceFlags: 0,
@@ -67,6 +73,7 @@ describe("createSpan", () => {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),
+          kind: SpanKind.INTERNAL,
           attributes: {
             "az.namespace": "Microsoft.Test"
           }
@@ -92,6 +99,7 @@ describe("createSpan", () => {
       tracingOptions: {
         spanOptions: {
           parent: span.context(),
+          kind: SpanKind.INTERNAL,
           attributes: {
             "az.namespace": "Microsoft.Test",
             foo: "bar"

@@ -39,6 +39,14 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 // @public
 export function getTracer(): Tracer;
 
+// @public (undocumented)
+export interface Link {
+    context: LinkContext;
+}
+
+// @public (undocumented)
+export type LinkContext = Pick<SpanContext, "traceId" | "spanId">;
+
 // @public
 export class NoOpSpan implements Span {
     addEvent(_name: string, _attributes?: Attributes): this;
@@ -123,6 +131,8 @@ export interface SpanOptions {
     attributes?: {
         [key: string]: unknown;
     };
+    kind?: SpanKind;
+    links?: Link[];
     parent?: SpanContext | null;
 }
 
