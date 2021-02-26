@@ -68,8 +68,6 @@ describe("ChatClient", function () {
     it("successfully deletes a thread", async function () {
       await chatClient.deleteChatThread(threadId);
     });
-
-    // TODO add list threads test
   });
 
   describe("Realtime Notifications", function () {
