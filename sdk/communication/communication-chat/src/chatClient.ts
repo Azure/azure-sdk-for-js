@@ -38,15 +38,8 @@ import {
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
-import {
-  CreateChatThreadResponse,
-  GetChatThreadResponse,
-  OperationResponse
-} from "./models/models";
-import { ChatThreadInfo, ChatApiClient, CreateChatThreadRequest } from "./generated/src";
+import { ChatThreadInfo, ChatApiClient, CreateChatThreadRequest, CreateChatThreadResult, ChatThread } from "./generated/src";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-
-export { ChatThreadInfo, CreateChatThreadRequest } from "./generated/src";
 
 /**
  * The client to do chat operations
@@ -122,14 +115,15 @@ export class ChatClient {
   public async createChatThread(
     request: CreateChatThreadRequest,
     options: CreateChatThreadOptions = {}
-  ): Promise<CreateChatThreadResponse> {
+  ): Promise<CreateChatThreadResult> {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
-      return await this.client.chat.createChatThread(
+      const { _response, ...result } = await this.client.chat.createChatThread(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -150,14 +144,15 @@ export class ChatClient {
   public async getChatThread(
     threadId: string,
     options: GetChatThreadOptions = {}
-  ): Promise<GetChatThreadResponse> {
+  ): Promise<ChatThread> {
     const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
 
     try {
-      return await this.client.chat.getChatThread(
+      const { _response, ...result } = await this.client.chat.getChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -198,11 +193,11 @@ export class ChatClient {
   public async deleteChatThread(
     threadId: string,
     options: DeleteChatThreadOptions = {}
-  ): Promise<OperationResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatClient-DeleteChatThread", options);
 
     try {
-      return await this.client.chat.deleteChatThread(
+      await this.client.chat.deleteChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

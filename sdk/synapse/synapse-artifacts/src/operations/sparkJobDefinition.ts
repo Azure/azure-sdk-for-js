@@ -84,10 +84,10 @@ export class SparkJobDefinition {
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -119,12 +119,12 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateSparkJobDefinition",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
       sparkJobDefinition,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -165,13 +165,10 @@ export class SparkJobDefinition {
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getSparkJobDefinition",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getSparkJobDefinition", options);
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -201,11 +198,11 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteSparkJobDefinition",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -248,11 +245,11 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-executeSparkJobDefinition",
-      this.getOperationOptions(options, "location")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "location")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -298,12 +295,12 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-renameSparkJobDefinition",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -344,13 +341,10 @@ export class SparkJobDefinition {
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-debugSparkJobDefinition",
-      this.getOperationOptions(options, "location")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-debugSparkJobDefinition", options);
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionAzureResource,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "location")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -395,11 +389,11 @@ export class SparkJobDefinition {
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

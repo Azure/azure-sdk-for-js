@@ -5,5 +5,4 @@ extends:
   parameters:
     PackageName: "@azure/mixedreality-authentication"
     ResourceServiceDirectory: mixedreality
-    TestMinMax: true
     ResourceGroupLocation: eastus2

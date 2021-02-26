@@ -57,7 +57,7 @@ describe("Retries - ManagementClient", () => {
   }
 
   function mockManagementClientToThrowError(): void {
-    const fakeFunction = async function() {
+    const fakeFunction = async function(): Promise<never> {
       numberOfTimesManagementClientInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
@@ -72,7 +72,7 @@ describe("Retries - ManagementClient", () => {
     receiverMgmtClient["_makeManagementRequest"] = fakeFunction;
   }
 
-  async function mockManagementClientAndVerifyRetries(func: Function): Promise<void> {
+  async function mockManagementClientAndVerifyRetries(func: () => Promise<void>): Promise<void> {
     mockManagementClientToThrowError();
     let errorThrown = false;
     try {
@@ -235,7 +235,7 @@ describe("Retries - MessageSender", () => {
     (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
-  async function mockInitAndVerifyRetries(func: Function): Promise<void> {
+  async function mockInitAndVerifyRetries(func: () => Promise<void>): Promise<void> {
     mockInitToThrowError();
     let errorThrown = false;
     try {
@@ -338,7 +338,7 @@ describe("Retries - Receive methods", () => {
   }
 
   function mockBatchingReceiveToThrowError(): void {
-    const fakeFunction = async function() {
+    const fakeFunction = async function(): Promise<never> {
       numberOfTimesTried++;
       throw new MessagingError("Hello there, I'm an error");
     };
@@ -362,7 +362,7 @@ describe("Retries - Receive methods", () => {
     }
   }
 
-  async function mockReceiveAndVerifyRetries(func: Function): Promise<void> {
+  async function mockReceiveAndVerifyRetries(func: () => Promise<void>): Promise<void> {
     mockBatchingReceiveToThrowError();
     let errorThrown = false;
     try {

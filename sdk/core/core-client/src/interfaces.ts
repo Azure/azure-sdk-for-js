@@ -7,7 +7,9 @@ import {
   HttpMethods,
   PipelineResponse,
   TransferProgressEvent,
-  PipelineRequest
+  PipelineRequest,
+  PipelineOptions,
+  HttpsClient
 } from "@azure/core-https";
 
 /**
@@ -536,4 +538,14 @@ export interface SpanConfig {
    * Service namespace
    */
   namespace: string;
+}
+
+/**
+ * The common set of options that high level clients are expected to expose.
+ */
+export interface CommonClientOptions extends PipelineOptions {
+  /**
+   * The HttpClient that will be used to send HTTP requests.
+   */
+  httpsClient?: HttpsClient;
 }

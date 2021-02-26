@@ -10,13 +10,6 @@ export type CommunicationIdentifier =
   | MicrosoftTeamsUserIdentifier
   | UnknownIdentifier;
 
-export interface WithOptionalRawId {
-  /**
-   * Optional raw id of the identifier.
-   */
-  rawId?: string;
-}
-
 /**
  * An Azure Communication user.
  */
@@ -30,7 +23,11 @@ export interface CommunicationUserIdentifier {
 /**
  * A phone number.
  */
-export interface PhoneNumberIdentifier extends WithOptionalRawId {
+export interface PhoneNumberIdentifier {
+  /**
+   * Optional raw id of the phone number.
+   */
+  rawId?: string;
   /**
    * The phone number in E.164 format.
    */
@@ -40,7 +37,12 @@ export interface PhoneNumberIdentifier extends WithOptionalRawId {
 /**
  * A Microsoft Teams user.
  */
-export interface MicrosoftTeamsUserIdentifier extends WithOptionalRawId {
+export interface MicrosoftTeamsUserIdentifier {
+  /**
+   * Optional raw id of the Microsoft Teams user.
+   */
+  rawId?: string;
+
   /**
    * Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
    */

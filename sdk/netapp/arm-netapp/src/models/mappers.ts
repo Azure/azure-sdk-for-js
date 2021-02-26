@@ -293,6 +293,7 @@ export const ActiveDirectory: msRest.CompositeMapper = {
     className: "ActiveDirectory",
     modelProperties: {
       activeDirectoryId: {
+        nullable: true,
         serializedName: "activeDirectoryId",
         type: {
           name: "String"
@@ -347,6 +348,7 @@ export const ActiveDirectory: msRest.CompositeMapper = {
       },
       organizationalUnit: {
         serializedName: "organizationalUnit",
+        defaultValue: 'CN=Computers',
         type: {
           name: "String"
         }
@@ -419,6 +421,74 @@ export const ActiveDirectory: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      ldapOverTLS: {
+        serializedName: "ldapOverTLS",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AccountEncryption: msRest.CompositeMapper = {
+  serializedName: "accountEncryption",
+  type: {
+    name: "Composite",
+    className: "AccountEncryption",
+    modelProperties: {
+      keySource: {
+        serializedName: "keySource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "systemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -487,6 +557,21 @@ export const NetAppAccount: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "AccountEncryption"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
       }
     }
   }
@@ -553,6 +638,13 @@ export const NetAppAccountPatch: msRest.CompositeMapper = {
               className: "ActiveDirectory"
             }
           }
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "AccountEncryption"
         }
       }
     }
@@ -1140,6 +1232,7 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       snapshotId: {
+        nullable: true,
         serializedName: "properties.snapshotId",
         constraints: {
           MaxLength: 36,
@@ -1176,6 +1269,7 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       mountTargets: {
+        readOnly: true,
         serializedName: "properties.mountTargets",
         type: {
           name: "Sequence",
@@ -1208,6 +1302,7 @@ export const Volume: msRest.CompositeMapper = {
       },
       snapshotDirectoryVisible: {
         serializedName: "properties.snapshotDirectoryVisible",
+        defaultValue: true,
         type: {
           name: "Boolean"
         }
@@ -1221,6 +1316,7 @@ export const Volume: msRest.CompositeMapper = {
       },
       securityStyle: {
         serializedName: "properties.securityStyle",
+        defaultValue: 'unix',
         type: {
           name: "String"
         }
@@ -1241,13 +1337,20 @@ export const Volume: msRest.CompositeMapper = {
       },
       throughputMibps: {
         serializedName: "properties.throughputMibps",
+        defaultValue: 0,
         constraints: {
           InclusiveMaximum: 4500,
-          InclusiveMinimum: 1,
+          InclusiveMinimum: 0,
           MultipleOf: 0.001
         },
         type: {
           name: "Number"
+        }
+      },
+      encryptionKeySource: {
+        serializedName: "properties.encryptionKeySource",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2170,6 +2273,13 @@ export const Backup: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      failureReason: {
+        readOnly: true,
+        serializedName: "properties.failureReason",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2234,6 +2344,13 @@ export const BackupPatch: msRest.CompositeMapper = {
       backupType: {
         readOnly: true,
         serializedName: "properties.backupType",
+        type: {
+          name: "String"
+        }
+      },
+      failureReason: {
+        readOnly: true,
+        serializedName: "properties.failureReason",
         type: {
           name: "String"
         }
@@ -2684,6 +2801,12 @@ export const NetAppAccountList: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2705,6 +2828,12 @@ export const CapacityPoolList: msRest.CompositeMapper = {
               className: "CapacityPool"
             }
           }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

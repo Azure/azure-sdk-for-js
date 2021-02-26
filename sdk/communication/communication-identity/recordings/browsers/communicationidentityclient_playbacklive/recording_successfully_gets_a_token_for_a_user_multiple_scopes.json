@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
    "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-02-18T00:54:38.4131333+00:00\"}",
+   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-02-27T02:15:58.7737297+00:00\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
