@@ -3,7 +3,7 @@
 
 export { createSerializer, MapperTypeNames } from "./serializer";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
-export { createClientPipeline, ClientPipelineOptions } from "./pipeline";
+export { createClientPipeline, InternalClientPipelineOptions } from "./pipeline";
 export {
   OperationSpec,
   OperationArguments,
@@ -38,7 +38,8 @@ export {
   XML_CHARKEY,
   XmlOptions,
   SerializerOptions,
-  RawResponseCallback
+  RawResponseCallback,
+  CommonClientOptions
 } from "./interfaces";
 export {
   deserializationPolicy,

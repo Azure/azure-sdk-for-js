@@ -70,6 +70,7 @@ jobs:
       # Used for generating baseline file.
       # GdnBreakOutputBaselineFile: js
       # GdnBreakOutputBaseline: baseline
+    continueOnError: true
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
     displayName: 'Publish Security Analysis Logs'
     condition: succeededOrFailed()
