@@ -1338,7 +1338,68 @@ describe("Batching Receiver", () => {
 
     it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<
       void
-    > {});
+    > {
+      // Create the sender and receiver.
+      await beforeEachTest("receiveAndDelete");
+
+      // Send a message so we can be sure when the receiver is open and active.
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      const messages1 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      should.equal(
+        messages1.length,
+        1,
+        "Unexpected number of received messages(before disconnect)."
+      );
+
+      const receiverContext = (receiver as ServiceBusSessionReceiverImpl)["_context"];
+      const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
+
+      // Send a message so we have something to receive.
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      // Simulate a disconnect after a message has been received.
+      batchingReceiver["link"]!.once("message", function() {
+        setTimeout(() => {
+          // Simulate a disconnect being called with a non-retryable error.
+          receiverContext.connection["_connection"].idle();
+        }, 0);
+      });
+
+      // Purposefully request more messages than what's available
+      // so that the receiver will have to drain.
+      const messages2 = await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
+
+      messages2.length.should.equal(
+        1,
+        "Unexpected number of messages received(during disconnect)."
+      );
+
+      await sender.sendMessages(TestMessage.getSessionSample());
+
+      try {
+        // New receiveMessages should fail because the session lock would be lost due to the disconnection
+        await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+        assert.fail("Receive messages call should have failed since the lock was lost");
+      } catch (error) {
+        should.equal(
+          error.message,
+          `The session lock has expired on the session with id ${TestMessage.sessionId}`,
+          "Unexpected error thrown"
+        );
+        // wait for the 2nd message to be received.
+        await receiver.close();
+        receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
+          entityNames
+        )) as ServiceBusSessionReceiver;
+        const messages3 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+
+        messages3.length.should.equal(
+          1,
+          "Unexpected number of messages received(upon reconnecting)."
+        );
+      }
+    });
 
     it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {});
   });
