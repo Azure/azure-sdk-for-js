@@ -465,7 +465,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     const formatPlaceHolder = "{documentdb-formattableorderbyquery-filter}";
     if (rewrittenQuery) {
-      sqlQuerySpec = JSON.parse(JSON.stringify(query));
+      sqlQuerySpec = JSON.parse(JSON.stringify(sqlQuerySpec));
       // We hardcode the formattable filter to true for now
       rewrittenQuery = rewrittenQuery.replace(formatPlaceHolder, "true");
       sqlQuerySpec["query"] = rewrittenQuery;

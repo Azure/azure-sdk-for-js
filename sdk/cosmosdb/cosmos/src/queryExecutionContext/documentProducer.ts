@@ -86,7 +86,7 @@ export class DocumentProducer {
     return bufferedResults;
   }
 
-  public fetchFunction(options: FeedOptions): Promise<Response<Resource>> {
+  public fetchFunction = async (options: FeedOptions): Promise<Response<Resource>> => {
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
     const id = getIdFromLink(this.collectionLink);
 
