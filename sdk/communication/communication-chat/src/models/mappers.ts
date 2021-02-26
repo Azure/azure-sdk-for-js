@@ -2,15 +2,13 @@
 // Licensed under the MIT license.
 
 import * as RestModel from "../generated/src/models";
-import { HttpResponse } from "@azure/core-http";
 import { AddChatParticipantsRequest } from "./requests";
 import {
   ChatMessage,
   ChatThread,
   ChatParticipant,
   ChatMessageReadReceipt,
-  ChatMessageContent,
-  WithResponse
+  ChatMessageContent
 } from "./models";
 
 /**
@@ -112,17 +110,4 @@ export const mapToReadReceiptSdkModel = (
   const model = { ...readReceipt, sender: { communicationUserId: readReceipt.senderId } };
   delete (model as any).senderId;
   return model;
-};
-
-/**
- * Attach http response to a model
- */
-export const attachHttpResponse = <T>(
-  model: T,
-  httpResponse: HttpResponse & { bodyAsText: string; parsedBody: any }
-): WithResponse<T> => {
-  const { parsedBody, bodyAsText, ...r } = httpResponse;
-  return Object.defineProperty(model, "_response", {
-    value: r
-  });
 };

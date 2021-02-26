@@ -13,7 +13,6 @@ import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling
 import { CommunicationTokenCredential } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
@@ -33,9 +32,6 @@ export interface AddChatParticipantsRequest extends Omit<RestAddChatParticipants
 }
 
 // @public
-export type AddChatParticipantsResponse = WithResponse<AddChatParticipantsResult>;
-
-// @public
 export interface AddChatParticipantsResult {
     errors?: AddChatParticipantsErrors;
 }
@@ -46,9 +42,9 @@ export type AddParticipantsOptions = OperationOptions;
 // @public
 export class ChatClient {
     constructor(url: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
-    createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResponse>;
-    deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<OperationResponse>;
-    getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<GetChatThreadResponse>;
+    createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResult>;
+    deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<void>;
+    getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<ChatThread>;
     getChatThreadClient(threadId: string): Promise<ChatThreadClient>;
     listChatThreads(options?: ListChatThreadsOptions): PagedAsyncIterableIterator<ChatThreadInfo>;
     off(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
@@ -112,19 +108,18 @@ export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
 export class ChatThreadClient {
     constructor(threadId: string, url: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
     addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
-    deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<OperationResponse>;
-    dispose(): void;
-    getMessage(messageId: string, options?: GetMessageOptions): Promise<GetChatMessageResponse>;
+    deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<void>;
+    getMessage(messageId: string, options?: GetMessageOptions): Promise<ChatMessage>;
     listMessages(options?: ListMessagesOptions): PagedAsyncIterableIterator<ChatMessage>;
     listParticipants(options?: ListParticipantsOptions): PagedAsyncIterableIterator<ChatParticipant>;
     listReadReceipts(options?: ListReadReceiptsOptions): PagedAsyncIterableIterator<ChatMessageReadReceipt>;
-    removeParticipant(participant: CommunicationUserIdentifier, options?: RemoveParticipantOptions): Promise<OperationResponse>;
-    sendMessage(request: SendMessageRequest, options?: SendMessageOptions): Promise<SendChatMessageResponse>;
-    sendReadReceipt(request: SendReadReceiptRequest, options?: SendReadReceiptOptions): Promise<OperationResponse>;
+    removeParticipant(participant: CommunicationUserIdentifier, options?: RemoveParticipantOptions): Promise<void>;
+    sendMessage(request: SendMessageRequest, options?: SendMessageOptions): Promise<SendChatMessageResult>;
+    sendReadReceipt(request: SendReadReceiptRequest, options?: SendReadReceiptOptions): Promise<void>;
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
-    updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<OperationResponse>;
-    updateThread(options?: UpdateThreadOptions): Promise<OperationResponse>;
+    updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
+    updateThread(options?: UpdateThreadOptions): Promise<void>;
     }
 
 // @public
@@ -162,9 +157,6 @@ export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadReques
 }
 
 // @public
-export type CreateChatThreadResponse = WithResponse<CreateChatThreadResult>;
-
-// @public
 export interface CreateChatThreadResult {
     chatThread?: RestChatThread;
     errors?: CreateChatThreadErrors;
@@ -177,13 +169,7 @@ export type DeleteChatThreadOptions = OperationOptions;
 export type DeleteMessageOptions = OperationOptions;
 
 // @public
-export type GetChatMessageResponse = WithResponse<ChatMessage>;
-
-// @public
 export type GetChatThreadOptions = OperationOptions;
-
-// @public
-export type GetChatThreadResponse = WithResponse<ChatThread>;
 
 // @public
 export type GetMessageOptions = OperationOptions;
@@ -204,11 +190,6 @@ export type ListParticipantsOptions = RestListParticipantsOptions;
 
 // @public
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
-
-// @public
-export interface OperationResponse {
-    _response: HttpResponse;
-}
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
@@ -320,9 +301,6 @@ export { SendChatMessageRequest as RestSendMessageOptions }
 export { SendChatMessageRequest as RestSendMessageRequest }
 
 // @public
-export type SendChatMessageResponse = WithResponse<SendChatMessageResult>;
-
-// @public
 export interface SendChatMessageResult {
     id: string;
 }
@@ -353,11 +331,6 @@ export interface UpdateMessageOptions extends RestUpdateMessageOptions, Operatio
 // @public
 export interface UpdateThreadOptions extends RestUpdateThreadOptions, OperationOptions {
 }
-
-// @public
-export type WithResponse<T> = T & {
-    _response: HttpResponse;
-};
 
 
 // (No @packageDocumentation comment for this package)
