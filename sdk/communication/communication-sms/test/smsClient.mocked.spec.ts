@@ -59,6 +59,12 @@ describe("[mocked] SmsClient", async () => {
     }
   };
 
+  const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
+
+  beforeEach(() => {
+    sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
+  })
+
   afterEach(() => {
     sinon.restore();
   });
@@ -73,8 +79,6 @@ describe("[mocked] SmsClient", async () => {
     });
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
-    sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
     sinon.useFakeTimers();
     const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
@@ -114,8 +118,6 @@ describe("[mocked] SmsClient", async () => {
     smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
-    sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
     sinon.useFakeTimers();
     const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
@@ -176,7 +178,7 @@ describe("[mocked] SmsClient", async () => {
     );
   });
 
-  it("retries before throwing an error when service is unreachable", async () => {
+  it("retries with same repeatability id when service is unreachable", async () => {
     const smsClient = new SmsClient(baseUri, new AzureKeyCredential("banana"), {
       httpClient: mockFailingHttpClient
     });
@@ -186,12 +188,37 @@ describe("[mocked] SmsClient", async () => {
       to: ["+18768985487"],
       message: "message"
     };
+
+    const clock = sinon.useFakeTimers();
+    const expectedRequestBody = {
+      from: sendRequest.from,
+      smsRecipients: [
+        {
+          to: "+18768985487",
+          repeatabilityFirstSent: new Date().toUTCString(),
+          repeatabilityRequestId: mockedGuid
+        }
+      ],
+      message: sendRequest.message,
+      smsSendOptions: {
+        enableDeliveryReport: false
+      }
+    };
+
+    let error = null;
     try {
-      await smsClient.send(sendRequest);
-      assert.fail("Should have thrown an error");
+      const promise = smsClient.send(sendRequest);
+      await clock.runAllAsync();
+      await promise;
     } catch (e) {
-      sinon.assert.calledThrice(spy);
-      assert.equal(e.statusCode, 503);
+      error = e;
     }
-  }).timeout(60000);
+    finally {
+      clock.restore();
+    }
+
+    sinon.assert.calledThrice(spy);
+    assert.equal(error.statusCode, 503);
+    assert.deepEqual(JSON.parse(error.request.body), expectedRequestBody);
+  });
 });
