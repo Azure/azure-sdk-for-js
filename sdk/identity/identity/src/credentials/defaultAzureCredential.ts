@@ -46,14 +46,15 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     // In case a user assigned ID has been provided.
     const managedIdentityClientId =
       tokenCredentialOptions?.managedIdentityClientId || process.env.AZURE_CLIENT_ID;
+
     if (managedIdentityClientId) {
       credentials.push(
         new ManagedIdentityCredential(managedIdentityClientId, tokenCredentialOptions)
       );
+    } else {
+      // If the user didn't provide an ID, we'll try with a system assigned ID.
+      credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
     }
-
-    // In case the user provided ID doesn't work, but the system assigned ID works.
-    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
 
     credentials.push(new AzureCliCredential());
     credentials.push(new VisualStudioCodeCredential(tokenCredentialOptions));
