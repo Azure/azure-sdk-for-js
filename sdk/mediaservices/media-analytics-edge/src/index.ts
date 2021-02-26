@@ -1,116 +1,136 @@
 export * from "./generated/models";
-import { MediaGraphInstance, MediaGraphTopology}  from "./generated/models"
-/*   MediaGraphRtspSource as MediaGraphRtspSourceInternal 
-} from "./generated/models"; */
+import { MediaGraphTopology, MediaGraphInstance}  from "./generated/models"
 import {
   MethodRequest as MethodRequestInternal,
-  MediaGraphTopologySetRequest as MediaGraphTopologySetRequestInternal,
-  MediaGraphTopologyGetRequest as MediaGraphTopologyGetRequestInternal,
-  MediaGraphTopologyDeleteRequest as MediaGraphTopologyDeleteRequestInternal,
-  MediaGraphTopologyListRequest as MediaGraphTopologyListRequestInternal,
-  MediaGraphInstanceListRequest as MediaGraphInstanceListRequestInternal,
-  MediaGraphInstanceSetRequest as MediaGraphInstanceSetRequestInternal,
-  MediaGraphInstanceGetRequest as MediaGraphInstanceGetRequestInternal,
-  MediaGraphInstanceDeleteRequest as MediaGraphInstanceDeleteRequestInternal,
-  MediaGraphInstanceActivateRequest as MediaGraphInstanceActivateRequestInternal,
-  MediaGraphInstanceDeActivateRequest as MediaGraphInstanceDeActivateRequestInternal
+  MediaGraphTopologySetRequest,
+  MediaGraphTopologyGetRequest,
+  MediaGraphTopologyDeleteRequest,
+  MediaGraphTopologyListRequest ,
+  MediaGraphInstanceListRequest ,
+  MediaGraphInstanceSetRequest ,
+  MediaGraphInstanceGetRequest ,
+  MediaGraphInstanceDeleteRequest,
+  MediaGraphInstanceActivateRequest,
+  MediaGraphInstanceDeActivateRequest
 } from "./generated/models/mappers";
+export interface MethodRequest {
+  MethodName: string,
+  Payload: { "@apiVersion": string; [x: string]: any };
+}
 
-
-//type RenameProperty<Original, Key extends keyof Original, NewKey extends string> = Pick<Original, Exclude<keyof Original, Key>> & { [P in NewKey]: Original[Key] }
-//export type MediaGraphRtspSource = RenameProperty<MediaGraphRtspSourceInternal, "type", "@type">
-
-export class MethodRequest {
-  public MethodName: string;
-  public Payload: { "@apiVersion": string; [x: string]: any };
-  constructor(methodName: string, payload: object) {
-    this.MethodName = methodName;
-    this.Payload = {
-      ...payload,
-      "@apiVersion": MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue
-    };
+function addApiVersion(payload: MediaGraphInstance|MediaGraphTopology|string) {
+  return { 
+     ...(typeof payload === 'string' ? {"name": payload} : payload ),
+    "@apiVersion": MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue 
   }
 }
 
-export class MediaGraphTopologySetRequest /*implements MethodRequest*/ extends MethodRequest {
-  constructor(graph: MediaGraphTopology) {
-    //init(this, MediaGraphTopologySetRequestInternal.serializedName!, graph)
-    super(MediaGraphTopologySetRequestInternal.serializedName!, graph);
-  }
-}
-
-export class MediaGraphTopologyGetRequest extends MethodRequest {
-  constructor(name: string) {
-    super(MediaGraphTopologyGetRequestInternal.serializedName!, { name });
-  }
-}
-
-export class MediaGraphTopologyDeleteRequest extends MethodRequest {
-  constructor(name: string) {
-    super(MediaGraphTopologyDeleteRequestInternal.serializedName!, { name });
-  }
-}
-
-export class MediaGraphTopologyListRequest extends MethodRequest {
-  constructor() {
-    super(MediaGraphTopologyListRequestInternal.serializedName!, {});
-  }
-}
-
-export class MediaGraphInstanceSetRequest extends MethodRequest {
-  constructor(graph: MediaGraphInstance) {
-    super(MediaGraphInstanceSetRequestInternal.serializedName!, { graph });
-  }
-}
-
-export class MediaGraphInstanceGetRequest extends MethodRequest {
-  constructor(name: string) {
-    super(MediaGraphInstanceGetRequestInternal.serializedName!, { name });
-  }
-}
-
-export class MediaGraphInstanceListRequest extends MethodRequest {
-  constructor() {
-    super(MediaGraphInstanceListRequestInternal.serializedName!, {});
-  }
-}
-
-export class MediaGraphInstanceDeleteRequest extends MethodRequest {
-  constructor(name: string) {
-    super(MediaGraphInstanceDeleteRequestInternal.serializedName!, { name });
-  }
-}
-
-export class MediaGraphInstanceActivateRequest extends MethodRequest {
-  constructor(name: string) {
-    super(MediaGraphInstanceActivateRequestInternal.serializedName!, { name });
-  }
-}
-
-export class MediaGraphInstanceDeActivateRequest extends MethodRequest {
-  constructor(name: string) {
-    super(MediaGraphInstanceDeActivateRequestInternal.serializedName!, { name });
-  }
-}
-
-//export type MediaGraphTopologySetRequest = Omit<MediaGraphTopologySetRequestInternal, "methodName">
-
-/* interface Payload { apiVersion: string; [x: string]: any }
-interface MethodRequest {
-  methodName: string;
-  payload: Payload
-} */
-
-/* function init(that: MethodRequest, methodName: string, payload: object ) {
-  that.methodName = methodName;
-  that.payload = {
-      ...payload,
-      apiVersion: MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue
-    };
-} */
-
-/* export interface MediaGraphSource {
-  type: "#Microsoft.Media.MediaGraphRtspSource" | "#Microsoft.Media.MediaGraphIoTHubMessageSource"
-  name: string
-}
+/**
+ * @param graph - The MediaGraphTopology
+ * @returns A JSON object containing the method name and payload 
  */
+export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): MethodRequest {
+  return {
+    MethodName: MediaGraphTopologySetRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}
+
+/**
+ * @param graphName - The name of graph topology
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphTopologyGetRequest(graphName: string): MethodRequest {
+  return {
+    MethodName: MediaGraphTopologyGetRequest.serializedName!,
+    Payload: addApiVersion(graphName)
+  }
+}
+
+/**
+ * @param graphName - The name of graph topology
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphTopologyDeleteRequest(graphName: string): MethodRequest {
+  return {
+    MethodName: MediaGraphTopologyDeleteRequest.serializedName!,
+    Payload: addApiVersion(graphName)
+  }
+}
+
+/**
+ * @param graph - The MediaGraphTopology
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphTopologyListRequest(graph: MediaGraphTopology): MethodRequest {
+  return {
+    MethodName: MediaGraphTopologyListRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}
+
+/**
+ * @param graph - The MediaGraphInstance
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphInstanceSetRequest(graph: MediaGraphInstance): MethodRequest {
+  return {
+    MethodName: MediaGraphInstanceSetRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}
+
+/**
+ * @param graphName - The name of graph instance
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphInstanceGetRequest(graph: string): MethodRequest {
+  return {
+    MethodName: MediaGraphInstanceGetRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}
+
+/**
+ * @param graphName - The name of graph instance
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphInstanceDeleteRequest(graph: string): MethodRequest {
+  return {
+    MethodName: MediaGraphInstanceDeleteRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}
+
+/**
+ * @param graph - The MediaGraphInstance
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphInstanceListRequest(graph: MediaGraphInstance): MethodRequest {
+  return {
+    MethodName: MediaGraphInstanceListRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}
+
+/**
+ * @param graphName - The name of graph instance
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphInstanceActivateRequest(graph: string): MethodRequest {
+  return {
+    MethodName: MediaGraphInstanceActivateRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}
+
+/**
+ * @param graphName - The name of graph instance
+ * @returns A JSON object containing the method name and payload 
+ */
+export function createMediaGraphInstanceDeActivateRequest(graph: string): MethodRequest {
+  return {
+    MethodName: MediaGraphInstanceDeActivateRequest.serializedName!,
+    Payload: addApiVersion(graph)
+  }
+}

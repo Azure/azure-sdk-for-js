@@ -8,6 +8,15 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export type MethodRequestUnion =
+  | MethodRequest
+  | MediaGraphTopologySetRequest
+  | MediaGraphTopologySetRequestBody
+  | MediaGraphInstanceSetRequest
+  | MediaGraphInstanceSetRequestBody
+  | ItemNonSetRequestBaseUnion
+  | MediaGraphTopologyListRequest
+  | MediaGraphInstanceListRequest;
 export type MediaGraphSourceUnion =
   | MediaGraphSource
   | MediaGraphRtspSource
@@ -39,20 +48,6 @@ export type MediaGraphImageFormatUnion =
   | MediaGraphImageFormatJpeg
   | MediaGraphImageFormatBmp
   | MediaGraphImageFormatPng;
-export type MethodRequestUnion =
-  | MethodRequest
-  | MediaGraphTopologySetRequest
-  | MediaGraphTopologySetRequestBody
-  | MediaGraphInstanceSetRequest
-  | MediaGraphInstanceSetRequestBody
-  | ItemNonSetRequestBaseUnion
-  | MediaGraphTopologyListRequest
-  | MediaGraphInstanceListRequest;
-export type MediaGraphExtensionProcessorBaseUnion =
-  | MediaGraphExtensionProcessorBase
-  | MediaGraphCognitiveServicesVisionExtension
-  | MediaGraphGrpcExtension
-  | MediaGraphHttpExtension;
 export type ItemNonSetRequestBaseUnion =
   | ItemNonSetRequestBase
   | MediaGraphTopologyGetRequest
@@ -61,59 +56,31 @@ export type ItemNonSetRequestBaseUnion =
   | MediaGraphInstanceActivateRequest
   | MediaGraphInstanceDeActivateRequest
   | MediaGraphInstanceDeleteRequest;
+export type MediaGraphExtensionProcessorBaseUnion =
+  | MediaGraphExtensionProcessorBase
+  | MediaGraphCognitiveServicesVisionExtension
+  | MediaGraphGrpcExtension
+  | MediaGraphHttpExtension;
 
-/** Represents an instance of a media graph. */
-export interface MediaGraphInstance {
-  /** The identifier for the media graph instance. */
-  name: string;
-  /** The system data for a resource. This is used by both topologies and instances. */
-  systemData?: MediaGraphSystemData;
-  /** Properties of a media graph instance. */
-  properties?: MediaGraphInstanceProperties;
-}
-
-/** The system data for a resource. This is used by both topologies and instances. */
-export interface MediaGraphSystemData {
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The timestamp of resource last modification (UTC). */
-  lastModifiedAt?: Date;
-}
-
-/** Properties of a media graph instance. */
-export interface MediaGraphInstanceProperties {
-  /** An optional description for the instance. */
-  description?: string;
-  /** The name of the media graph topology that this instance will run. A topology with this name should already have been set in the Edge module. */
-  topologyName?: string;
-  /** List of one or more graph instance parameters. */
-  parameters?: MediaGraphParameterDefinition[];
-  /** Allowed states for a graph instance. */
-  state?: MediaGraphInstanceState;
-}
-
-/** A key-value pair. A media graph topology allows certain values to be parameterized. When an instance is created, the parameters are supplied with arguments specific to that instance. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters. */
-export interface MediaGraphParameterDefinition {
-  /** The name of the parameter defined in the media graph topology. */
-  name: string;
-  /** The value to supply for the named parameter defined in the media graph topology. */
-  value: string;
-}
-
-/** A collection of media graph instances. */
-export interface MediaGraphInstanceCollection {
-  /** A collection of media graph instances. */
-  value?: MediaGraphInstance[];
-  /** A continuation token to use in subsequent calls to enumerate through the graph instance collection. This is used when the collection contains too many results to return in one response. */
-  continuationToken?: string;
-}
-
-/** A collection of media graph topologies. */
-export interface MediaGraphTopologyCollection {
-  /** A collection of media graph topologies. */
-  value?: MediaGraphTopology[];
-  /** A continuation token to use in subsequent calls to enumerate through the graph topologies collection. This is used when the collection contains too many results to return in one response. */
-  continuationToken?: string;
+/** Base Class for Method Requests. */
+export interface MethodRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName:
+    | "GraphTopologySet"
+    | "MediaGraphTopologySetRequestBody"
+    | "GraphInstanceSet"
+    | "MediaGraphInstanceSetRequestBody"
+    | "ItemNonSetRequestBase"
+    | "GraphTopologyList"
+    | "GraphTopologyGet"
+    | "GraphTopologyDelete"
+    | "GraphInstanceList"
+    | "GraphInstanceGet"
+    | "GraphInstanceActivate"
+    | "GraphInstanceDeactivate"
+    | "GraphInstanceDelete";
+  /** api version */
+  apiVersion?: "2.0";
 }
 
 /** The definition of a media graph topology. */
@@ -124,6 +91,14 @@ export interface MediaGraphTopology {
   systemData?: MediaGraphSystemData;
   /** A description of the properties of a media graph topology. */
   properties?: MediaGraphTopologyProperties;
+}
+
+/** The system data for a resource. This is used by both topologies and instances. */
+export interface MediaGraphSystemData {
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The timestamp of resource last modification (UTC). */
+  lastModifiedAt?: Date;
 }
 
 /** A description of the properties of a media graph topology. */
@@ -209,6 +184,36 @@ export interface MediaGraphSink {
   inputs: MediaGraphNodeInput[];
 }
 
+/** Represents an instance of a media graph. */
+export interface MediaGraphInstance {
+  /** The identifier for the media graph instance. */
+  name: string;
+  /** The system data for a resource. This is used by both topologies and instances. */
+  systemData?: MediaGraphSystemData;
+  /** Properties of a media graph instance. */
+  properties?: MediaGraphInstanceProperties;
+}
+
+/** Properties of a media graph instance. */
+export interface MediaGraphInstanceProperties {
+  /** An optional description for the instance. */
+  description?: string;
+  /** The name of the media graph topology that this instance will run. A topology with this name should already have been set in the Edge module. */
+  topologyName?: string;
+  /** List of one or more graph instance parameters. */
+  parameters?: MediaGraphParameterDefinition[];
+  /** Allowed states for a graph instance. */
+  state?: MediaGraphInstanceState;
+}
+
+/** A key-value pair. A media graph topology allows certain values to be parameterized. When an instance is created, the parameters are supplied with arguments specific to that instance. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters. */
+export interface MediaGraphParameterDefinition {
+  /** The name of the parameter defined in the media graph topology. */
+  name: string;
+  /** The value to supply for the named parameter defined in the media graph topology. */
+  value: string;
+}
+
 /** Base class for endpoints. */
 export interface MediaGraphEndpoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -287,26 +292,28 @@ export interface MediaGraphGrpcExtensionDataTransfer {
   mode: MediaGraphGrpcExtensionDataTransferMode;
 }
 
-/** Base Class for Method Requests. */
-export interface MethodRequest {
+/** Represents the MediaGraphTopologySetRequest. */
+export type MediaGraphTopologySetRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName:
-    | "GraphTopologySet"
-    | "MediaGraphTopologySetRequestBody"
-    | "GraphInstanceSet"
-    | "MediaGraphInstanceSetRequestBody"
-    | "ItemNonSetRequestBase"
-    | "GraphTopologyList"
-    | "GraphTopologyGet"
-    | "GraphTopologyDelete"
-    | "GraphInstanceList"
-    | "GraphInstanceGet"
-    | "GraphInstanceActivate"
-    | "GraphInstanceDeactivate"
-    | "GraphInstanceDelete";
-  /** api version */
-  apiVersion?: "2.0";
-}
+  methodName: "GraphTopologySet";
+  /** The definition of a media graph topology. */
+  graph: MediaGraphTopology;
+};
+
+/** Represents the MediaGraphTopologySetRequest body. */
+export type MediaGraphTopologySetRequestBody = MethodRequest &
+  MediaGraphTopology & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    methodName: "MediaGraphTopologySetRequestBody";
+  };
+
+/** Represents the MediaGraphInstanceSetRequest. */
+export type MediaGraphInstanceSetRequest = MethodRequest & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "GraphInstanceSet";
+  /** Represents an instance of a media graph. */
+  instance: MediaGraphInstance;
+};
 
 /** Represents the MediaGraphInstanceSetRequest body. */
 export type MediaGraphInstanceSetRequestBody = MethodRequest &
@@ -315,12 +322,24 @@ export type MediaGraphInstanceSetRequestBody = MethodRequest &
     methodName: "MediaGraphInstanceSetRequestBody";
   };
 
-/** Represents the MediaGraphTopologySetRequest body. */
-export type MediaGraphTopologySetRequestBody = MethodRequest &
-  MediaGraphTopology & {
-    /** Polymorphic discriminator, which specifies the different types this object can be */
-    methodName: "MediaGraphTopologySetRequestBody";
-  };
+export type ItemNonSetRequestBase = MethodRequest & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "ItemNonSetRequestBase";
+  /** method name */
+  name: string;
+};
+
+/** Represents the MediaGraphTopologyListRequest. */
+export type MediaGraphTopologyListRequest = MethodRequest & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "GraphTopologyList";
+};
+
+/** Represents the MediaGraphInstanceListRequest. */
+export type MediaGraphInstanceListRequest = MethodRequest & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "GraphInstanceList";
+};
 
 /** Enables a media graph to capture media from a RTSP server. */
 export type MediaGraphRtspSource = MediaGraphSource & {
@@ -484,63 +503,6 @@ export type MediaGraphImageFormatPng = MediaGraphImageFormat & {
   "@type": "#Microsoft.Media.MediaGraphImageFormatPng";
 };
 
-/** Represents the MediaGraphTopologySetRequest. */
-export type MediaGraphTopologySetRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphTopologySet";
-  /** The definition of a media graph topology. */
-  graph: MediaGraphTopology;
-};
-
-/** Represents the MediaGraphInstanceSetRequest. */
-export type MediaGraphInstanceSetRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceSet";
-  /** Represents an instance of a media graph. */
-  instance: MediaGraphInstance;
-};
-
-export type ItemNonSetRequestBase = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "ItemNonSetRequestBase";
-  /** method name */
-  name: string;
-};
-
-/** Represents the MediaGraphTopologyListRequest. */
-export type MediaGraphTopologyListRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphTopologyList";
-};
-
-/** Represents the MediaGraphInstanceListRequest. */
-export type MediaGraphInstanceListRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceList";
-};
-
-/** A processor that allows the media graph to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes. */
-export type MediaGraphCognitiveServicesVisionExtension = MediaGraphExtensionProcessorBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension";
-};
-
-/** A processor that allows the media graph to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes. */
-export type MediaGraphGrpcExtension = MediaGraphExtensionProcessorBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphGrpcExtension";
-  /** How media should be transferred to the inference engine. */
-  dataTransfer: MediaGraphGrpcExtensionDataTransfer;
-  /** Optional configuration to pass to the gRPC extension. */
-  extensionConfiguration?: string;
-};
-
-/** A processor that allows the media graph to send video frames (mostly at low frame rates e.g. <5 fps) to an external inference container over an HTTP-based RESTful API. Inference results are relayed to downstream nodes. */
-export type MediaGraphHttpExtension = MediaGraphExtensionProcessorBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphHttpExtension";
-};
-
 /** Represents the MediaGraphTopologyGetRequest. */
 export type MediaGraphTopologyGetRequest = ItemNonSetRequestBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -577,29 +539,27 @@ export type MediaGraphInstanceDeleteRequest = ItemNonSetRequestBase & {
   methodName: "GraphInstanceDelete";
 };
 
-/** Known values of {@link MediaGraphInstanceState} that the service accepts. */
-export const enum KnownMediaGraphInstanceState {
-  /** The media graph instance is idle and not processing media. */
-  Inactive = "Inactive",
-  /** The media graph instance is transitioning into the active state. */
-  Activating = "Activating",
-  /** The media graph instance is active and processing media. */
-  Active = "Active",
-  /** The media graph instance is transitioning into the inactive state. */
-  Deactivating = "Deactivating"
-}
+/** A processor that allows the media graph to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes. */
+export type MediaGraphCognitiveServicesVisionExtension = MediaGraphExtensionProcessorBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension";
+};
 
-/**
- * Defines values for MediaGraphInstanceState. \
- * {@link KnownMediaGraphInstanceState} can be used interchangeably with MediaGraphInstanceState,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Inactive**: The media graph instance is idle and not processing media. \
- * **Activating**: The media graph instance is transitioning into the active state. \
- * **Active**: The media graph instance is active and processing media. \
- * **Deactivating**: The media graph instance is transitioning into the inactive state.
- */
-export type MediaGraphInstanceState = string;
+/** A processor that allows the media graph to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes. */
+export type MediaGraphGrpcExtension = MediaGraphExtensionProcessorBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.Media.MediaGraphGrpcExtension";
+  /** How media should be transferred to the inference engine. */
+  dataTransfer: MediaGraphGrpcExtensionDataTransfer;
+  /** Optional configuration to pass to the gRPC extension. */
+  extensionConfiguration?: string;
+};
+
+/** A processor that allows the media graph to send video frames (mostly at low frame rates e.g. <5 fps) to an external inference container over an HTTP-based RESTful API. Inference results are relayed to downstream nodes. */
+export type MediaGraphHttpExtension = MediaGraphExtensionProcessorBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.Media.MediaGraphHttpExtension";
+};
 
 /** Known values of {@link MediaGraphParameterType} that the service accepts. */
 export const enum KnownMediaGraphParameterType {
@@ -661,6 +621,30 @@ export const enum KnownMediaGraphOutputSelectorOperator {
  */
 export type MediaGraphOutputSelectorOperator = string;
 
+/** Known values of {@link MediaGraphInstanceState} that the service accepts. */
+export const enum KnownMediaGraphInstanceState {
+  /** The media graph instance is idle and not processing media. */
+  Inactive = "Inactive",
+  /** The media graph instance is transitioning into the active state. */
+  Activating = "Activating",
+  /** The media graph instance is active and processing media. */
+  Active = "Active",
+  /** The media graph instance is transitioning into the inactive state. */
+  Deactivating = "Deactivating"
+}
+
+/**
+ * Defines values for MediaGraphInstanceState. \
+ * {@link KnownMediaGraphInstanceState} can be used interchangeably with MediaGraphInstanceState,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Inactive**: The media graph instance is idle and not processing media. \
+ * **Activating**: The media graph instance is transitioning into the active state. \
+ * **Active**: The media graph instance is active and processing media. \
+ * **Deactivating**: The media graph instance is transitioning into the inactive state.
+ */
+export type MediaGraphInstanceState = string;
+
 /** Known values of {@link MediaGraphRtspTransport} that the service accepts. */
 export const enum KnownMediaGraphRtspTransport {
   /** HTTP/HTTPS transport. This should be used when HTTP tunneling is desired. */
@@ -674,7 +658,7 @@ export const enum KnownMediaGraphRtspTransport {
  * {@link KnownMediaGraphRtspTransport} can be used interchangeably with MediaGraphRtspTransport,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Http**: HTTP/HTTPS transport. This should be used when HTTP tunneling is desired. \
+ * **Http**: HTTP\/HTTPS transport. This should be used when HTTP tunneling is desired. \
  * **Tcp**: TCP transport. This should be used when HTTP tunneling is NOT desired.
  */
 export type MediaGraphRtspTransport = string;
@@ -773,8 +757,8 @@ export const enum KnownMediaGraphImageFormatRawPixelFormat {
  * **Yuv420p**: Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples). \
  * **Rgb565be**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian. \
  * **Rgb565le**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian. \
- * **Rgb555be**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused/undefined. \
- * **Rgb555le**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused/undefined. \
+ * **Rgb555be**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused\/undefined. \
+ * **Rgb555le**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused\/undefined. \
  * **Rgb24**: Packed RGB 8:8:8, 24bpp, RGBRGB. \
  * **Bgr24**: Packed RGB 8:8:8, 24bpp, BGRBGR. \
  * **Argb**: Packed ARGB 8:8:8:8, 32bpp, ARGBARGB. \

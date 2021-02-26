@@ -6,6 +6,36 @@
 
 import * as coreHttp from '@azure/core-http';
 
+// @public (undocumented)
+export function createMediaGraphInstanceActivateRequest(graph: string): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphInstanceDeActivateRequest(graph: string): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphInstanceDeleteRequest(graph: string): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphInstanceGetRequest(graph: string): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphInstanceListRequest(graph: MediaGraphInstance): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphInstanceSetRequest(graph: MediaGraphInstance): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphTopologyDeleteRequest(graphName: string): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphTopologyGetRequest(graphName: string): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphTopologyListRequest(graph: MediaGraphTopology): MethodRequest;
+
+// @public (undocumented)
+export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): MethodRequest;
+
 // @public
 export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
     endpoint?: string;
@@ -19,15 +49,8 @@ export type ItemNonSetRequestBase = MethodRequest_2 & {
     name: string;
 };
 
-// Warning: (ae-forgotten-export) The symbol "MediaGraphTopologyGetRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphTopologyDeleteRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphInstanceGetRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphInstanceActivateRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphInstanceDeActivateRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphInstanceDeleteRequest" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export type ItemNonSetRequestBaseUnion = ItemNonSetRequestBase | MediaGraphTopologyGetRequest_2 | MediaGraphTopologyDeleteRequest_2 | MediaGraphInstanceGetRequest_2 | MediaGraphInstanceActivateRequest_2 | MediaGraphInstanceDeActivateRequest_2 | MediaGraphInstanceDeleteRequest_2;
+export type ItemNonSetRequestBaseUnion = ItemNonSetRequestBase | MediaGraphTopologyGetRequest | MediaGraphTopologyDeleteRequest | MediaGraphInstanceGetRequest | MediaGraphInstanceActivateRequest | MediaGraphInstanceDeActivateRequest | MediaGraphInstanceDeleteRequest;
 
 // @public
 export const enum KnownMediaGraphGrpcExtensionDataTransferMode {
@@ -241,36 +264,30 @@ export interface MediaGraphInstance {
     systemData?: MediaGraphSystemData;
 }
 
-// @public (undocumented)
-export class MediaGraphInstanceActivateRequest extends MethodRequest {
-    constructor(name: string);
-}
+// @public
+export type MediaGraphInstanceActivateRequest = ItemNonSetRequestBase & {
+    methodName: "GraphInstanceActivate";
+};
 
 // @public
-export interface MediaGraphInstanceCollection {
-    continuationToken?: string;
-    value?: MediaGraphInstance[];
-}
+export type MediaGraphInstanceDeActivateRequest = ItemNonSetRequestBase & {
+    methodName: "GraphInstanceDeactivate";
+};
 
-// @public (undocumented)
-export class MediaGraphInstanceDeActivateRequest extends MethodRequest {
-    constructor(name: string);
-}
+// @public
+export type MediaGraphInstanceDeleteRequest = ItemNonSetRequestBase & {
+    methodName: "GraphInstanceDelete";
+};
 
-// @public (undocumented)
-export class MediaGraphInstanceDeleteRequest extends MethodRequest {
-    constructor(name: string);
-}
+// @public
+export type MediaGraphInstanceGetRequest = ItemNonSetRequestBase & {
+    methodName: "GraphInstanceGet";
+};
 
-// @public (undocumented)
-export class MediaGraphInstanceGetRequest extends MethodRequest {
-    constructor(name: string);
-}
-
-// @public (undocumented)
-export class MediaGraphInstanceListRequest extends MethodRequest {
-    constructor();
-}
+// @public
+export type MediaGraphInstanceListRequest = MethodRequest_2 & {
+    methodName: "GraphInstanceList";
+};
 
 // @public
 export interface MediaGraphInstanceProperties {
@@ -280,10 +297,11 @@ export interface MediaGraphInstanceProperties {
     topologyName?: string;
 }
 
-// @public (undocumented)
-export class MediaGraphInstanceSetRequest extends MethodRequest {
-    constructor(graph: MediaGraphInstance);
-}
+// @public
+export type MediaGraphInstanceSetRequest = MethodRequest_2 & {
+    methodName: "GraphInstanceSet";
+    instance: MediaGraphInstance;
+};
 
 // @public
 export type MediaGraphInstanceSetRequestBody = MethodRequest_2 & MediaGraphInstance & {
@@ -439,25 +457,19 @@ export interface MediaGraphTopology {
 }
 
 // @public
-export interface MediaGraphTopologyCollection {
-    continuationToken?: string;
-    value?: MediaGraphTopology[];
-}
+export type MediaGraphTopologyDeleteRequest = ItemNonSetRequestBase & {
+    methodName: "GraphTopologyDelete";
+};
 
-// @public (undocumented)
-export class MediaGraphTopologyDeleteRequest extends MethodRequest {
-    constructor(name: string);
-}
+// @public
+export type MediaGraphTopologyGetRequest = ItemNonSetRequestBase & {
+    methodName: "GraphTopologyGet";
+};
 
-// @public (undocumented)
-export class MediaGraphTopologyGetRequest extends MethodRequest {
-    constructor(name: string);
-}
-
-// @public (undocumented)
-export class MediaGraphTopologyListRequest extends MethodRequest {
-    constructor();
-}
+// @public
+export type MediaGraphTopologyListRequest = MethodRequest_2 & {
+    methodName: "GraphTopologyList";
+};
 
 // @public
 export interface MediaGraphTopologyProperties {
@@ -468,10 +480,11 @@ export interface MediaGraphTopologyProperties {
     sources?: MediaGraphSourceUnion[];
 }
 
-// @public (undocumented)
-export class MediaGraphTopologySetRequest/*implements MethodRequest*/  extends MethodRequest {
-    constructor(graph: MediaGraphTopology);
-}
+// @public
+export type MediaGraphTopologySetRequest = MethodRequest_2 & {
+    methodName: "GraphTopologySet";
+    graph: MediaGraphTopology;
+};
 
 // @public
 export type MediaGraphTopologySetRequestBody = MethodRequest_2 & MediaGraphTopology & {
@@ -491,8 +504,7 @@ export type MediaGraphUsernamePasswordCredentials = MediaGraphCredentials & {
 };
 
 // @public (undocumented)
-export class MethodRequest {
-    constructor(methodName: string, payload: object);
+export interface MethodRequest {
     // (undocumented)
     MethodName: string;
     // (undocumented)
@@ -502,13 +514,8 @@ export class MethodRequest {
     };
 }
 
-// Warning: (ae-forgotten-export) The symbol "MediaGraphTopologySetRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphInstanceSetRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphTopologyListRequest" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MediaGraphInstanceListRequest" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export type MethodRequestUnion = MethodRequest_2 | MediaGraphTopologySetRequest_2 | MediaGraphTopologySetRequestBody | MediaGraphInstanceSetRequest_2 | MediaGraphInstanceSetRequestBody | ItemNonSetRequestBaseUnion | MediaGraphTopologyListRequest_2 | MediaGraphInstanceListRequest_2;
+export type MethodRequestUnion = MethodRequest_2 | MediaGraphTopologySetRequest | MediaGraphTopologySetRequestBody | MediaGraphInstanceSetRequest | MediaGraphInstanceSetRequestBody | ItemNonSetRequestBaseUnion | MediaGraphTopologyListRequest | MediaGraphInstanceListRequest;
 
 
 // (No @packageDocumentation comment for this package)

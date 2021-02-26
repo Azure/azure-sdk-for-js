@@ -8,165 +8,28 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const MediaGraphInstance: coreHttp.CompositeMapper = {
+export const MethodRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MediaGraphInstance",
+    className: "MethodRequest",
+    uberParent: "MethodRequest",
+    polymorphicDiscriminator: {
+      serializedName: "methodName",
+      clientName: "methodName"
+    },
     modelProperties: {
-      name: {
-        serializedName: "name",
+      methodName: {
+        serializedName: "methodName",
         required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "MediaGraphSystemData"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "MediaGraphInstanceProperties"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphSystemData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MediaGraphSystemData",
-    modelProperties: {
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphInstanceProperties: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MediaGraphInstanceProperties",
-    modelProperties: {
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      topologyName: {
-        serializedName: "topologyName",
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MediaGraphParameterDefinition"
-            }
-          }
-        }
-      },
-      state: {
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphParameterDefinition: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MediaGraphParameterDefinition",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphInstanceCollection: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MediaGraphInstanceCollection",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MediaGraphInstance"
-            }
-          }
-        }
-      },
-      continuationToken: {
-        serializedName: "@continuationToken",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphTopologyCollection: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MediaGraphTopologyCollection",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MediaGraphTopology"
-            }
-          }
-        }
-      },
-      continuationToken: {
-        serializedName: "@continuationToken",
+      apiVersion: {
+        defaultValue: "2.0",
+        isConstant: true,
+        serializedName: "@apiVersion",
         type: {
           name: "String"
         }
@@ -199,6 +62,27 @@ export const MediaGraphTopology: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "MediaGraphTopologyProperties"
+        }
+      }
+    }
+  }
+};
+
+export const MediaGraphSystemData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaGraphSystemData",
+    modelProperties: {
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -316,7 +200,7 @@ export const MediaGraphSource: coreHttp.CompositeMapper = {
       clientName: "@type"
     },
     modelProperties: {
-      type: {
+      "@type": {
         serializedName: "@type",
         required: true,
         type: {
@@ -344,7 +228,7 @@ export const MediaGraphProcessor: coreHttp.CompositeMapper = {
       clientName: "@type"
     },
     modelProperties: {
-      type: {
+      "@type": {
         serializedName: "@type",
         required: true,
         type: {
@@ -440,7 +324,7 @@ export const MediaGraphSink: coreHttp.CompositeMapper = {
       clientName: "@type"
     },
     modelProperties: {
-      type: {
+      "@type": {
         serializedName: "@type",
         required: true,
         type: {
@@ -471,6 +355,98 @@ export const MediaGraphSink: coreHttp.CompositeMapper = {
   }
 };
 
+export const MediaGraphInstance: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaGraphInstance",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "MediaGraphSystemData"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MediaGraphInstanceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const MediaGraphInstanceProperties: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaGraphInstanceProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      topologyName: {
+        serializedName: "topologyName",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaGraphParameterDefinition"
+            }
+          }
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaGraphParameterDefinition: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaGraphParameterDefinition",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MediaGraphEndpoint: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -481,7 +457,7 @@ export const MediaGraphEndpoint: coreHttp.CompositeMapper = {
       clientName: "@type"
     },
     modelProperties: {
-      type: {
+      "@type": {
         serializedName: "@type",
         required: true,
         type: {
@@ -516,7 +492,7 @@ export const MediaGraphCredentials: coreHttp.CompositeMapper = {
       clientName: "@type"
     },
     modelProperties: {
-      type: {
+      "@type": {
         serializedName: "@type",
         required: true,
         type: {
@@ -537,7 +513,7 @@ export const MediaGraphCertificateSource: coreHttp.CompositeMapper = {
       clientName: "@type"
     },
     modelProperties: {
-      type: {
+      "@type": {
         serializedName: "@type",
         required: true,
         type: {
@@ -630,7 +606,7 @@ export const MediaGraphImageFormat: coreHttp.CompositeMapper = {
       clientName: "@type"
     },
     modelProperties: {
-      type: {
+      "@type": {
         serializedName: "@type",
         required: true,
         type: {
@@ -685,30 +661,54 @@ export const MediaGraphGrpcExtensionDataTransfer: coreHttp.CompositeMapper = {
   }
 };
 
-export const MethodRequest: coreHttp.CompositeMapper = {
+export const MediaGraphTopologySetRequest: coreHttp.CompositeMapper = {
+  serializedName: "GraphTopologySet",
   type: {
     name: "Composite",
-    className: "MethodRequest",
+    className: "MediaGraphTopologySetRequest",
     uberParent: "MethodRequest",
-    polymorphicDiscriminator: {
-      serializedName: "methodName",
-      clientName: "methodName"
-    },
+    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      methodName: {
-        serializedName: "methodName",
-        required: true,
-        readOnly: true,
+      ...MethodRequest.type.modelProperties,
+      graph: {
+        serializedName: "graph",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "MediaGraphTopology"
         }
-      },
-      apiVersion: {
-        defaultValue: "2.0",
-        isConstant: true,
-        serializedName: "@apiVersion",
+      }
+    }
+  }
+};
+
+export const MediaGraphTopologySetRequestBody: coreHttp.CompositeMapper = {
+  serializedName: "MediaGraphTopologySetRequestBody",
+  type: {
+    name: "Composite",
+    className: "MediaGraphTopologySetRequestBody",
+    uberParent: "MethodRequest",
+    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MethodRequest.type.modelProperties,
+      ...MediaGraphTopology.type.modelProperties
+    }
+  }
+};
+
+export const MediaGraphInstanceSetRequest: coreHttp.CompositeMapper = {
+  serializedName: "GraphInstanceSet",
+  type: {
+    name: "Composite",
+    className: "MediaGraphInstanceSetRequest",
+    uberParent: "MethodRequest",
+    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MethodRequest.type.modelProperties,
+      instance: {
+        serializedName: "instance",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "MediaGraphInstance"
         }
       }
     }
@@ -729,16 +729,51 @@ export const MediaGraphInstanceSetRequestBody: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaGraphTopologySetRequestBody: coreHttp.CompositeMapper = {
-  serializedName: "MediaGraphTopologySetRequestBody",
+export const ItemNonSetRequestBase: coreHttp.CompositeMapper = {
+  serializedName: "ItemNonSetRequestBase",
   type: {
     name: "Composite",
-    className: "MediaGraphTopologySetRequestBody",
+    className: "ItemNonSetRequestBase",
+    uberParent: "MethodRequest",
+    polymorphicDiscriminator: {
+      serializedName: "methodName",
+      clientName: "methodName"
+    },
+    modelProperties: {
+      ...MethodRequest.type.modelProperties,
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaGraphTopologyListRequest: coreHttp.CompositeMapper = {
+  serializedName: "GraphTopologyList",
+  type: {
+    name: "Composite",
+    className: "MediaGraphTopologyListRequest",
     uberParent: "MethodRequest",
     polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      ...MediaGraphTopology.type.modelProperties
+      ...MethodRequest.type.modelProperties
+    }
+  }
+};
+
+export const MediaGraphInstanceListRequest: coreHttp.CompositeMapper = {
+  serializedName: "GraphInstanceList",
+  type: {
+    name: "Composite",
+    className: "MediaGraphInstanceListRequest",
+    uberParent: "MethodRequest",
+    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MethodRequest.type.modelProperties
     }
   }
 };
@@ -1178,147 +1213,6 @@ export const MediaGraphImageFormatPng: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaGraphTopologySetRequest: coreHttp.CompositeMapper = {
-  serializedName: "GraphTopologySet",
-  type: {
-    name: "Composite",
-    className: "MediaGraphTopologySetRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      graph: {
-        serializedName: "graph",
-        type: {
-          name: "Composite",
-          className: "MediaGraphTopology"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphInstanceSetRequest: coreHttp.CompositeMapper = {
-  serializedName: "GraphInstanceSet",
-  type: {
-    name: "Composite",
-    className: "MediaGraphInstanceSetRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      instance: {
-        serializedName: "instance",
-        type: {
-          name: "Composite",
-          className: "MediaGraphInstance"
-        }
-      }
-    }
-  }
-};
-
-export const ItemNonSetRequestBase: coreHttp.CompositeMapper = {
-  serializedName: "ItemNonSetRequestBase",
-  type: {
-    name: "Composite",
-    className: "ItemNonSetRequestBase",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: {
-      serializedName: "methodName",
-      clientName: "methodName"
-    },
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphTopologyListRequest: coreHttp.CompositeMapper = {
-  serializedName: "GraphTopologyList",
-  type: {
-    name: "Composite",
-    className: "MediaGraphTopologyListRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties
-    }
-  }
-};
-
-export const MediaGraphInstanceListRequest: coreHttp.CompositeMapper = {
-  serializedName: "GraphInstanceList",
-  type: {
-    name: "Composite",
-    className: "MediaGraphInstanceListRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties
-    }
-  }
-};
-
-export const MediaGraphCognitiveServicesVisionExtension: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension",
-  type: {
-    name: "Composite",
-    className: "MediaGraphCognitiveServicesVisionExtension",
-    uberParent: "MediaGraphProcessor",
-    polymorphicDiscriminator: MediaGraphProcessor.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MediaGraphExtensionProcessorBase.type.modelProperties
-    }
-  }
-};
-
-export const MediaGraphGrpcExtension: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.MediaGraphGrpcExtension",
-  type: {
-    name: "Composite",
-    className: "MediaGraphGrpcExtension",
-    uberParent: "MediaGraphProcessor",
-    polymorphicDiscriminator: MediaGraphProcessor.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MediaGraphExtensionProcessorBase.type.modelProperties,
-      dataTransfer: {
-        serializedName: "dataTransfer",
-        type: {
-          name: "Composite",
-          className: "MediaGraphGrpcExtensionDataTransfer"
-        }
-      },
-      extensionConfiguration: {
-        serializedName: "extensionConfiguration",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MediaGraphHttpExtension: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.MediaGraphHttpExtension",
-  type: {
-    name: "Composite",
-    className: "MediaGraphHttpExtension",
-    uberParent: "MediaGraphProcessor",
-    polymorphicDiscriminator: MediaGraphProcessor.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MediaGraphExtensionProcessorBase.type.modelProperties
-    }
-  }
-};
-
 export const MediaGraphTopologyGetRequest: coreHttp.CompositeMapper = {
   serializedName: "GraphTopologyGet",
   type: {
@@ -1397,7 +1291,60 @@ export const MediaGraphInstanceDeleteRequest: coreHttp.CompositeMapper = {
   }
 };
 
+export const MediaGraphCognitiveServicesVisionExtension: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension",
+  type: {
+    name: "Composite",
+    className: "MediaGraphCognitiveServicesVisionExtension",
+    uberParent: "MediaGraphProcessor",
+    polymorphicDiscriminator: MediaGraphProcessor.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MediaGraphExtensionProcessorBase.type.modelProperties
+    }
+  }
+};
+
+export const MediaGraphGrpcExtension: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.Media.MediaGraphGrpcExtension",
+  type: {
+    name: "Composite",
+    className: "MediaGraphGrpcExtension",
+    uberParent: "MediaGraphProcessor",
+    polymorphicDiscriminator: MediaGraphProcessor.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MediaGraphExtensionProcessorBase.type.modelProperties,
+      dataTransfer: {
+        serializedName: "dataTransfer",
+        type: {
+          name: "Composite",
+          className: "MediaGraphGrpcExtensionDataTransfer"
+        }
+      },
+      extensionConfiguration: {
+        serializedName: "extensionConfiguration",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaGraphHttpExtension: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.Media.MediaGraphHttpExtension",
+  type: {
+    name: "Composite",
+    className: "MediaGraphHttpExtension",
+    uberParent: "MediaGraphProcessor",
+    polymorphicDiscriminator: MediaGraphProcessor.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MediaGraphExtensionProcessorBase.type.modelProperties
+    }
+  }
+};
+
 export let discriminators = {
+  MethodRequest: MethodRequest,
   MediaGraphSource: MediaGraphSource,
   MediaGraphProcessor: MediaGraphProcessor,
   MediaGraphSink: MediaGraphSink,
@@ -1405,9 +1352,13 @@ export let discriminators = {
   MediaGraphCredentials: MediaGraphCredentials,
   MediaGraphCertificateSource: MediaGraphCertificateSource,
   MediaGraphImageFormat: MediaGraphImageFormat,
-  MethodRequest: MethodRequest,
-  "MethodRequest.MediaGraphInstanceSetRequestBody": MediaGraphInstanceSetRequestBody,
+  "MethodRequest.GraphTopologySet": MediaGraphTopologySetRequest,
   "MethodRequest.MediaGraphTopologySetRequestBody": MediaGraphTopologySetRequestBody,
+  "MethodRequest.GraphInstanceSet": MediaGraphInstanceSetRequest,
+  "MethodRequest.MediaGraphInstanceSetRequestBody": MediaGraphInstanceSetRequestBody,
+  "MethodRequest.ItemNonSetRequestBase": ItemNonSetRequestBase,
+  "MethodRequest.GraphTopologyList": MediaGraphTopologyListRequest,
+  "MethodRequest.GraphInstanceList": MediaGraphInstanceListRequest,
   "MediaGraphSource.#Microsoft.Media.MediaGraphRtspSource": MediaGraphRtspSource,
   "MediaGraphSource.#Microsoft.Media.MediaGraphIoTHubMessageSource": MediaGraphIoTHubMessageSource,
   "MediaGraphProcessor.#Microsoft.Media.MediaGraphMotionDetectionProcessor": MediaGraphMotionDetectionProcessor,
@@ -1425,18 +1376,13 @@ export let discriminators = {
   "MediaGraphImageFormat.#Microsoft.Media.MediaGraphImageFormatJpeg": MediaGraphImageFormatJpeg,
   "MediaGraphImageFormat.#Microsoft.Media.MediaGraphImageFormatBmp": MediaGraphImageFormatBmp,
   "MediaGraphImageFormat.#Microsoft.Media.MediaGraphImageFormatPng": MediaGraphImageFormatPng,
-  "MethodRequest.GraphTopologySet": MediaGraphTopologySetRequest,
-  "MethodRequest.GraphInstanceSet": MediaGraphInstanceSetRequest,
-  "MethodRequest.ItemNonSetRequestBase": ItemNonSetRequestBase,
-  "MethodRequest.GraphTopologyList": MediaGraphTopologyListRequest,
-  "MethodRequest.GraphInstanceList": MediaGraphInstanceListRequest,
-  "MediaGraphProcessor.#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension": MediaGraphCognitiveServicesVisionExtension,
-  "MediaGraphProcessor.#Microsoft.Media.MediaGraphGrpcExtension": MediaGraphGrpcExtension,
-  "MediaGraphProcessor.#Microsoft.Media.MediaGraphHttpExtension": MediaGraphHttpExtension,
   "MethodRequest.GraphTopologyGet": MediaGraphTopologyGetRequest,
   "MethodRequest.GraphTopologyDelete": MediaGraphTopologyDeleteRequest,
   "MethodRequest.GraphInstanceGet": MediaGraphInstanceGetRequest,
   "MethodRequest.GraphInstanceActivate": MediaGraphInstanceActivateRequest,
   "MethodRequest.GraphInstanceDeactivate": MediaGraphInstanceDeActivateRequest,
-  "MethodRequest.GraphInstanceDelete": MediaGraphInstanceDeleteRequest
+  "MethodRequest.GraphInstanceDelete": MediaGraphInstanceDeleteRequest,
+  "MediaGraphProcessor.#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension": MediaGraphCognitiveServicesVisionExtension,
+  "MediaGraphProcessor.#Microsoft.Media.MediaGraphGrpcExtension": MediaGraphGrpcExtension,
+  "MediaGraphProcessor.#Microsoft.Media.MediaGraphHttpExtension": MediaGraphHttpExtension
 };
