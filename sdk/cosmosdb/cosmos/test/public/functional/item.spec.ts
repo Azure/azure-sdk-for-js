@@ -18,10 +18,6 @@ import {
 } from "../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../src";
 
-/**
- * @hidden
- * @hidden
- */
 interface TestItem {
   id?: string;
   name?: string;
