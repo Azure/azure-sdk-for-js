@@ -5,7 +5,6 @@
 ```ts
 
 import { CommunicationUserIdentifier } from '@azure/communication-common';
-import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
@@ -22,11 +21,11 @@ export class CommunicationIdentityClient {
     constructor(connectionString: string, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
-    createUser(options?: OperationOptions): Promise<CreateUserResponse>;
-    createUserWithToken(scopes: TokenScope[], options?: OperationOptions): Promise<CreateUserWithTokenResponse>;
-    deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
-    getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
-    revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
+    createUser(options?: OperationOptions): Promise<CommunicationUserIdentifier>;
+    createUserWithToken(scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationUserToken>;
+    deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
+    getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationAccessToken>;
+    revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -39,24 +38,7 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 }
 
 // @public
-export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
-
-// @public
-export type CreateUserWithTokenResponse = WithResponse<CommunicationUserToken>;
-
-// @public
-export type IssueTokenResponse = WithResponse<CommunicationAccessToken>;
-
-// @public
 export type TokenScope = "chat" | "voip";
-
-// @public
-export type VoidResponse = WithResponse<{}>;
-
-// @public
-export type WithResponse<T> = T & {
-    _response: HttpResponse;
-};
 
 
 // (No @packageDocumentation comment for this package)

@@ -3,7 +3,6 @@
 
 import { PipelineOptions } from "@azure/core-http";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { WithResponse } from "./common/models";
 
 /**
  * Represents the scope of the token.
@@ -38,18 +37,3 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
    */
   user: CommunicationUserIdentifier;
 }
-
-/**
- * Represents the response from creating a user.
- */
-export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
-
-/**
- * Represents the response from issuing a token.
- */
-export type IssueTokenResponse = WithResponse<CommunicationAccessToken>;
-
-/**
- * Represents the response from creating a user with a token.
- */
-export type CreateUserWithTokenResponse = WithResponse<CommunicationUserToken>;

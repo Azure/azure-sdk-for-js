@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import {
+  CommunicationUserIdentifier,
+  isCommunicationUserIdentifier
+} from "@azure/communication-common";
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../src";
@@ -45,13 +48,18 @@ describe("CommunicationIdentityClient [Playback/Live]", function() {
     assert.instanceOf(expiresOn, Date);
   });
 
+  it("successfully creates a user and gets a token in a single request", async function() {
+    const { user, token, expiresOn } = await client.createUserWithToken(["chat", "voip"]);
+    assert.isTrue(isCommunicationUserIdentifier(user));
+    assert.isString(token);
+    assert.instanceOf(expiresOn, Date);
+  });
+
   it("successfully revokes tokens issued for a user", async function() {
-    const { _response: response } = await client.revokeTokens(user);
-    assert.equal(response.status, 204);
+    await client.revokeTokens(user);
   });
 
   it("successfully deletes a user", async function() {
-    const { _response: response } = await client.deleteUser(user);
-    assert.equal(response.status, 204);
+    await client.deleteUser(user);
   }).timeout(20000);
 });

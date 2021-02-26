@@ -22,13 +22,9 @@ import { createSpan } from "./common/tracing";
 import {
   CommunicationIdentityOptions,
   TokenScope,
-  IssueTokenResponse,
-  CreateUserResponse,
   CommunicationUserToken,
-  CreateUserWithTokenResponse
+  CommunicationAccessToken
 } from "./models";
-import { VoidResponse } from "./common/models";
-import { attachHttpResponse } from "./common/mappers";
 
 const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
   options && !isTokenCredential(options) && !isKeyCredential(options);
@@ -125,15 +121,15 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options: OperationOptions = {}
-  ): Promise<IssueTokenResponse> {
+  ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
-      const { token, expiresOn, _response } = await this.client.issueAccessToken(
+      const { _response, ...result } = await this.client.issueAccessToken(
         user.communicationUserId,
         { scopes },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({ token, expiresOn }, _response);
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -154,14 +150,13 @@ export class CommunicationIdentityClient {
   public async revokeTokens(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-revokeTokens", options);
     try {
-      const { _response } = await this.client.revokeAccessTokens(
+      await this.client.revokeAccessTokens(
         user.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -178,14 +173,15 @@ export class CommunicationIdentityClient {
    *
    * @param options - Additional options for the request.
    */
-  public async createUser(options: OperationOptions = {}): Promise<CreateUserResponse> {
+  public async createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
     try {
-      const { identity, _response } = await this.client.create(
+      const { _response, ...result } = await this.client.create(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const user: CommunicationUserIdentifier = { communicationUserId: identity.id };
-      return attachHttpResponse(user, _response);
+      return {
+        communicationUserId: result.identity.id
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -206,13 +202,13 @@ export class CommunicationIdentityClient {
   public async createUserWithToken(
     scopes: TokenScope[],
     options: OperationOptions = {}
-  ): Promise<CreateUserWithTokenResponse> {
+  ): Promise<CommunicationUserToken> {
     const { span, updatedOptions } = createSpan(
       "CommunicationIdentity-createUserWithToken",
       options
     );
     try {
-      const { identity, accessToken, _response } = await this.client.create({
+      const { identity, accessToken } = await this.client.create({
         body: { createTokenWithScopes: scopes },
         ...operationOptionsToRequestOptionsBase(updatedOptions)
       });
@@ -220,7 +216,7 @@ export class CommunicationIdentityClient {
         ...accessToken!,
         user: { communicationUserId: identity.id }
       };
-      return attachHttpResponse(results, _response);
+      return results;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -241,14 +237,13 @@ export class CommunicationIdentityClient {
   public async deleteUser(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);
     try {
-      const { _response } = await this.client.delete(
+      await this.client.delete(
         user.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

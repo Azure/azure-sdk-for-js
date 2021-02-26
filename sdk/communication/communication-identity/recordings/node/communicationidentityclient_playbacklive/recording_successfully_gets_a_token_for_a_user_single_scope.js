@@ -7,13 +7,15 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities/sanitized/:issueAccessToken', {"scopes":["chat"]})
   .query(true)
-  .reply(200, {"token":"sanitized","expiresOn":"2021-02-18T00:54:33.7759142+00:00"}, [
+  .reply(200, {"token":"sanitized","expiresOn":"2021-02-26T23:52:28.262431+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
   'MS-CV',
-  'hU0ztTR2z0yve0qm4KXXVg.0',
+  '06ZC8yiyO0CNDqoejgXQWA.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -23,7 +25,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'X-Processing-Time',
   '25ms',
   'X-Azure-Ref',
-  '0SmksYAAAAACdSYNsUUEFQb5PMQK4V0sWWVZSMzBFREdFMDMwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0PTg4YAAAAABRPVNGGJLQTafi8jUHZGoEWVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 17 Feb 2021 00:54:34 GMT'
+  'Thu, 25 Feb 2021 23:52:28 GMT'
 ]);

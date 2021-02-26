@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"voip\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-02-18T00:54:38.2543345+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-02-26T23:52:39.3107736+00:00\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
