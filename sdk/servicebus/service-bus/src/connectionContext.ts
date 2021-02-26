@@ -208,10 +208,10 @@ async function callOnDetachedOnSessionReceivers(
  * @internal
  * Helper method to get the number of receivers of specified type from the connectionContext.
  */
-async function getNumberOfReceivers(
+function getNumberOfReceivers(
   connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
   receiverType: ReceiverType
-): Promise<number> {
+): number {
   if (receiverType === "session") {
     const receivers = connectionContext.messageSessions;
     return Object.keys(receivers).length;
