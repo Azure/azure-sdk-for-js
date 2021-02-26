@@ -24,7 +24,7 @@ export function delay<T>(t: number, value?: T): Promise<T | void> {
  * this for any kind of security purpose, find a better source of random.
  * @param min - The smallest integer value allowed.
  * @param max - The largest integer value allowed.
- * @hidden @internal
+ * @internal
  */
 export function getRandomIntegerInclusive(min: number, max: number): number {
   // Make sure inputs are integers.
