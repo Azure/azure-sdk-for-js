@@ -68,8 +68,6 @@ describe("ChatClient", function () {
     it("successfully deletes a thread", async function () {
       await chatClient.deleteChatThread(threadId);
     });
-
-    // TODO add list threads test
   });
 
   describe("Realtime Notifications", function () {
@@ -174,24 +172,6 @@ describe("ChatClient", function () {
       const message = { content: `content` };
       chatThreadClient.sendMessage(message).then((result) => {
         chatThreadClient.deleteMessage(result.id);
-      });
-    }).timeout(8000);
-
-    it("successfully listens to readReceiptReceivedEvents", function (done) {
-      // TODO: Disabled while investigating read receipt notifications
-      this.skip();
-      function listener() {
-        done();
-      }
-
-      chatClient.on("readReceiptReceived", listener);
-
-      // Send read receipt
-      const message = { content: `content` };
-      chatThreadClient.sendMessage(message).then((result) => {
-        chatThreadClient.sendReadReceipt({
-          chatMessageId: result.id
-        });
       });
     }).timeout(8000);
 
