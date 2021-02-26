@@ -23,7 +23,7 @@ export interface SmsClientOptions extends PipelineOptions {
 
 // @public
 export interface SmsSendOptions extends OperationOptions {
-    enableDeliveryReport: boolean;
+    enableDeliveryReport?: boolean;
     tag?: string;
 }
 
