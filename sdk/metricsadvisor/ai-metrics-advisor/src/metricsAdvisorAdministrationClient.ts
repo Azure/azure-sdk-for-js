@@ -134,12 +134,12 @@ export class MetricsAdvisorAdministrationClient {
    */
   public readonly endpointUrl: string;
 
-  /**   
+  /**
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
-  /**   
+  /**
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;

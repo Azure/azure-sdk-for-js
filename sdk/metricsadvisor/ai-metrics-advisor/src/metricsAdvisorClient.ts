@@ -219,7 +219,7 @@ export class MetricsAdvisorClient {
     this.client = new GeneratedClient(this.endpointUrl, this.pipeline);
   }
 
-  /**   
+  /**
    * List alert segments for alerting configuration
    */
   private async *listSegmentOfAlerts(
@@ -295,7 +295,7 @@ export class MetricsAdvisorClient {
     }
   }
 
-  /**   
+  /**
    * List alert items for alerting configuration
    */
   private async *listItemsOfAlerts(
@@ -421,7 +421,7 @@ export class MetricsAdvisorClient {
     };
   }
 
-  /**   
+  /**
    * List anomalies for alerting configuration - segments
    */
   private async *listSegmentsOfAnomaliesForAlert(
@@ -500,7 +500,7 @@ export class MetricsAdvisorClient {
     }
   }
 
-  /**   
+  /**
    * listing anomalies for alerting configuration - items
    */
   private async *listItemsOfAnomaliesForAlert(
@@ -554,7 +554,7 @@ export class MetricsAdvisorClient {
     };
   }
 
-  /**   
+  /**
    * listing incidents for alert - segments
    */
   private async *listSegmentsOfIncidentsForAlert(
@@ -634,7 +634,7 @@ export class MetricsAdvisorClient {
     }
   }
 
-  /**   
+  /**
    * listing incidents for alert - items
    */
   private async *listItemsOfIncidentsForAlert(
@@ -877,7 +877,7 @@ export class MetricsAdvisorClient {
     });
   }
 
-  /**   
+  /**
    * listing anomalies for detection config - segments
    */
 
