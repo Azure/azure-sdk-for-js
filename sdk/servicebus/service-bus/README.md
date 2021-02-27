@@ -366,7 +366,7 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
-### Enable logs
+### Logging
 
 You can set the following environment variable to get the debug logs when using this library.
 
