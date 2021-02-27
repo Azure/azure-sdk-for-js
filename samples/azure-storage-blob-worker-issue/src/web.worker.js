@@ -1,20 +1,14 @@
-import storageBlob, { configureFallback } from "@azure/storage-blob";
-import { DOMParser, XMLSerializer, DOMImplementation, Node } from "xmldom";
-import { parseXML, stringifyXML } from "@azure/core-http";
-
-configureFallback(
-  DOMParser,
-  XMLSerializer,
-  {
-    implementation: new DOMImplementation()
-  },
-  Node
-);
+import "./jsdom.worker";
+import storageBlob, { BlobServiceClient } from "@azure/storage-blob";
 
 console.log("hello from worker!", storageBlob);
+var client = new BlobServiceClient("url");
+var blobClient = client.getContainerClient("container");
+var blob = blobClient.getBlobClient("file");
 
-const x = parseXML("<a><b x='f'>5</b></a>");
-console.log("x", x);
-
-const y = stringifyXML(x);
-console.log("y", y);
+blob
+  .download()
+  .then((resp) => resp.blobBody)
+  .then((body) => body.text())
+  .then(console.log)
+  .catch(console.log);

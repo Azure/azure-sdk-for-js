@@ -3,35 +3,10 @@
 
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./serializer.common";
 
-/**
- * Simple Lazy that allows for deferred value creation.
- * In the event of race conditions the last write wins.
- */
-export class Lazy<T> {
-  private valueFactory: () => T;
-  private _value?: T;
-  private valueFactoryCalled: boolean = false;
+// tslint:disable-next-line:no-null-keyword
+const doc = document.implementation.createDocument(null, null, null);
 
-  /**
-   * Creates a new instance of the Lazy.
-   * @param valueFactory - The function that will be called to produce the value.
-   */
-  constructor(valueFactory: () => T) {
-    this.valueFactory = valueFactory;
-  }
-
-  /**
-   * Gets the value that was created, possibly invoking the valueFactory to create the value.
-   */
-  get value(): T {
-    if (!this.valueFactoryCalled) {
-      this._value = this.valueFactory();
-      this.valueFactoryCalled = true;
-    }
-    return this._value!;
-  }
-}
-
+const parser = new DOMParser();
 export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any> {
   try {
     const updatedOptions: Required<SerializerOptions> = {
@@ -39,7 +14,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
       includeRoot: opts.includeRoot ?? false,
       xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
     };
-    const dom = parser.value.parseFromString(str, "application/xml");
+    const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
 
     let obj;
@@ -55,29 +30,27 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
   }
 }
 
-let doc = new Lazy(() => {
-  return document.implementation.createDocument(null, null, null);
-});
+let errorNS: string | undefined;
 
-let parser = new Lazy(() => new DOMParser());
-
-let errorNS = new Lazy(() => {
-  try {
-    return (
-      parser.value.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
-        .namespaceURI! ?? ""
-    );
-  } catch (ignored) {
-    // Most browsers will return a document containing <parsererror>, but IE will throw.
-    return "";
+function getErrorNamespace(): string {
+  if (errorNS === undefined) {
+    try {
+      errorNS =
+        parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+          .namespaceURI! ?? "";
+    } catch (ignored) {
+      // Most browsers will return a document containing <parsererror>, but IE will throw.
+      errorNS = "";
+    }
   }
-});
+  return errorNS;
+}
 
 function throwIfError(dom: Document): void {
   const parserErrors = dom.getElementsByTagName("parsererror");
-  if (parserErrors.length > 0 && errorNS.value) {
+  if (parserErrors.length > 0 && getErrorNamespace()) {
     for (let i = 0; i < parserErrors.length; i++) {
-      if (parserErrors[i].namespaceURI === errorNS.value) {
+      if (parserErrors[i].namespaceURI === errorNS) {
         throw new Error(parserErrors[i].innerHTML);
       }
     }
@@ -105,7 +78,7 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
   const onlyChildTextValue: string | undefined =
     (firstChildNode &&
       childNodeCount === 1 &&
-      firstChildNode.nodeType === 3 &&
+      firstChildNode.nodeType === Node.TEXT_NODE &&
       firstChildNode.nodeValue) ||
     undefined;
 
@@ -131,7 +104,7 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
     for (let i = 0; i < childNodeCount; i++) {
       const child = node.childNodes[i];
       // Ignore leading/trailing whitespace nodes
-      if (child.nodeType !== 3) {
+      if (child.nodeType !== Node.TEXT_NODE) {
         const childObject: any = domToObject(child, options);
         if (!result[child.nodeName]) {
           result[child.nodeName] = childObject;
@@ -147,6 +120,8 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
   return result;
 }
 
+const serializer = new XMLSerializer();
+
 export function stringifyXML(content: unknown, opts: SerializerOptions = {}): string {
   const updatedOptions: Required<SerializerOptions> = {
     rootName: opts.rootName ?? "root",
@@ -154,7 +129,6 @@ export function stringifyXML(content: unknown, opts: SerializerOptions = {}): st
     xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
   };
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
-  const serializer = new XMLSerializer();
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
   );
@@ -163,7 +137,7 @@ export function stringifyXML(content: unknown, opts: SerializerOptions = {}): st
 function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
-    const attr = doc.value.createAttribute(key);
+    const attr = doc.createAttribute(key);
     attr.value = attrs[key].toString();
     result.push(attr);
   }
@@ -178,7 +152,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     typeof obj === "number" ||
     typeof obj === "boolean"
   ) {
-    const elem = doc.value.createElement(elementName);
+    const elem = doc.createElement(elementName);
     elem.textContent = obj === undefined || obj === null ? "" : obj.toString();
     return [elem];
   } else if (Array.isArray(obj)) {
@@ -190,7 +164,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     }
     return result;
   } else if (typeof obj === "object") {
-    const elem = doc.value.createElement(elementName);
+    const elem = doc.createElement(elementName);
     for (const key of Object.keys(obj)) {
       if (key === XML_ATTRKEY) {
         for (const attr of buildAttributes(obj[key])) {
