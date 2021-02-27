@@ -134,14 +134,12 @@ export class MetricsAdvisorAdministrationClient {
    */
   public readonly endpointUrl: string;
 
-  /**
-   
+  /**   
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
-  /**
-   
+  /**   
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -385,9 +383,6 @@ export class MetricsAdvisorAdministrationClient {
     };
   }
 
-  /**
-   
-   */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
   ): AsyncIterableIterator<DataFeed> {
@@ -398,9 +393,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   
-   */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
     continuationToken?: string
@@ -820,10 +812,6 @@ export class MetricsAdvisorAdministrationClient {
     });
   }
 
-  /**
-   
-   */
-
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions = {}
@@ -1041,10 +1029,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   
-   */
-
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
   ): AsyncIterableIterator<NotificationHookUnion> {
@@ -1183,10 +1167,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   
-   */
-
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
@@ -1200,10 +1180,6 @@ export class MetricsAdvisorAdministrationClient {
     });
     yield resultArray;
   }
-
-  /**
-   
-   */
 
   private async *listItemsOfDetectionConfigurations(
     detectionConfigId: string,
@@ -1339,9 +1315,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   
-   */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
