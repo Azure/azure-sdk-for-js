@@ -125,7 +125,7 @@ describe("Local cryptography public tests", () => {
     });
   });
 
-  it("encrypt & decrypt RSA1_5", async function() {
+  it.only("encrypt & decrypt RSA1_5", async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");

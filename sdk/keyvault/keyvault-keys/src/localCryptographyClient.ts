@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
-
-import {
-  LocalCryptographyUnsupportedError,
-  LocalSupportedAlgorithmName
-} from "./localCryptography/models";
+import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 
 import { JsonWebKey } from "./keysModels";
 import {
@@ -17,7 +12,8 @@ import {
   EncryptParameters
 } from "./cryptographyClientModels";
 import { runOperation } from "./localCryptography/runOperation";
-import { EncryptionAlgorithm, EncryptOptions } from ".";
+import { EncryptOptions } from ".";
+import { LocalCryptographyProvider, localProviders } from "./localCryptography/providers";
 
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.
@@ -43,21 +39,28 @@ export class LocalCryptographyClient {
     encryptParameters: EncryptParameters,
     _options: EncryptOptions = {}
   ): Promise<EncryptResult> {
-    if (!isNode) {
-      throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
+    const provider: LocalCryptographyProvider | undefined =
+      localProviders[encryptParameters.algorithm as string];
+
+    if (!provider) {
+      throw new Error("cant find this algo provider");
     }
-    const result = (await runOperation(
-      this.key,
-      "encrypt",
-      encryptParameters.algorithm as LocalSupportedAlgorithmName,
-      Buffer.from(encryptParameters.plaintext)
-    )) as Buffer;
-    const keyID = this.key.kid;
-    return {
-      result,
-      algorithm: encryptParameters.algorithm as EncryptionAlgorithm,
-      keyID
-    };
+    return provider.encrypt(this.key, encryptParameters, _options);
+    // if (!isNode) {
+    //   throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
+    // }
+    // const result = (await runOperation(
+    //   this.key,
+    //   "encrypt",
+    //   encryptParameters.algorithm as LocalSupportedAlgorithmName,
+    //   Buffer.from(encryptParameters.plaintext)
+    // )) as Buffer;
+    // const keyID = this.key.kid;
+    // return {
+    //   result,
+    //   algorithm: encryptParameters.algorithm as EncryptionAlgorithm,
+    //   keyID
+    // };
   }
 
   /**
