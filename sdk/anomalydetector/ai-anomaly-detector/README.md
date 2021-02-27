@@ -167,6 +167,8 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+
 ## Next steps
 
 Please take a look at the
