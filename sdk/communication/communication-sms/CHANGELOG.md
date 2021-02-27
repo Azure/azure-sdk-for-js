@@ -5,6 +5,10 @@
 ### Added
 
 - `SmsClient` added a constructor that supports `TokenCredential`.
+- support sending a SMS message to multiple phone numbers
+
+### Breaking
+
 
 ## 1.0.0-beta.3 (2020-11-16)
 
