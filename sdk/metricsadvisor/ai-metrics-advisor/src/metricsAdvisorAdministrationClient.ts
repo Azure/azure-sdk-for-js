@@ -1393,7 +1393,6 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   
    */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
