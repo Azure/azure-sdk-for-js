@@ -19,7 +19,7 @@ import {
   instrumentServiceBusMessage,
   TRACEPARENT_PROPERTY
 } from "./diagnostics/instrumentServiceBusMessage";
-import { createMessageSpan } from "./diagnostics/messageSpan";
+import { createMessageSpan } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 import { defaultDataTransformer } from "./dataTransformer";
 
@@ -246,7 +246,12 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options?.parentSpan, this._context.config);
+      const { span: messageSpan } = createMessageSpan(
+        options,
+        this._context.config.entityPath!,
+        this._context.config.host
+      );
+
       message = instrumentServiceBusMessage(message, messageSpan);
       spanContext = messageSpan.context();
       messageSpan.end();
