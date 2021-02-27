@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "e9e4d28818e35133b68bf236d797d9f8";
+module.exports.hash = "4651c35f8f177ec8d15bc909ac8f9ef1";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1327',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,17 +22,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '45c7af3c-e040-4884-a0f6-8be271a30700',
+  'bdf6ae66-48f0-4ef7-bbe9-2bd185280e00',
   'x-ms-ests-server',
-  '2.1.11513.17 - SCUS ProdSlices',
+  '2.1.11513.17 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AqTPmKewrj5JpU995B14YLeMQo4QAQAAANVRy9cOAAAA; expires=Sun, 28-Mar-2021 20:32:22 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Al5Prxqm7lBOm1fIUY36-buMQo4QAQAAAKaEy9cOAAAA; expires=Mon, 29-Mar-2021 00:09:11 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 26 Feb 2021 20:32:22 GMT'
+  'Sat, 27 Feb 2021 00:09:10 GMT',
+  'Content-Length',
+  '1327'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'iaF0JUdcsU+P9VWJm7YYcQ.0',
+  'WtgbpMiiTUWBzdekh0oUCQ.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '669ms',
+  '635ms',
   'X-Azure-Ref',
-  '01lo5YAAAAAAdSrKfyHw0RJ/gfGFUPgMMWVZSMzBFREdFMDMwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0p405YAAAAAB+KIw+P8CaRpu2XQk4xCjeWVZSMzBFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 26 Feb 2021 20:32:23 GMT'
+  'Sat, 27 Feb 2021 00:09:11 GMT'
 ]);
