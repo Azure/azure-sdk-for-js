@@ -1,7 +1,7 @@
-import { XMLSerializer, Node, DOMParser, DOMImplementation } from "xmldom";
 import { JSDOM } from "jsdom";
 
-var dom = new JSDOM();
-["document", "DOMParser", "XMLSerializer", "Node"].forEach((key) => {
-  global[key] = dom.window[key];
-});
+let { window } = new JSDOM();
+self.document = window.document;
+self.DOMParser = window.DOMParser;
+self.XMLSerializer = window.XMLSerializer;
+self.Node = window.Node;

@@ -1,5 +1,5 @@
 import "./jsdom.worker";
-import storageBlob, { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 console.log("hello from worker!", storageBlob);
 var client = new BlobServiceClient("url");
