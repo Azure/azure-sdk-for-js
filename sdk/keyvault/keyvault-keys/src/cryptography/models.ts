@@ -107,4 +107,7 @@ export type LocalSupportedAlgorithmsRecord = Record<
   LocalSupportedAlgorithm | undefined
 >;
 
-export class LocalCryptographyUnsupportedError extends Error {}
+export const LocalCryptographyUnsupportedErrorName = "LocalCryptographyUnsupportedError";
+export class LocalCryptographyUnsupportedError extends Error {
+  name = LocalCryptographyUnsupportedErrorName;
+}

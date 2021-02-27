@@ -173,6 +173,11 @@ export interface SignOptions extends CryptographyOptions {}
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
+ * Options for {@link verifyData}
+ */
+export interface VerifyDataOptions extends CryptographyOptions {}
+
+/**
  * Options for {@link wrapKey}.
  */
 export interface WrapKeyOptions extends KeyOperationsOptions {}

@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
-import { isLocallySupported } from "./localCryptography/algorithms";
-import { LocalCryptographyClient } from "./localCryptographyClient";
-import { JsonWebKey, KeyVaultKey, CryptographyClientOptions } from "./keysModels";
+import { isNode, RequestOptionsBase, TokenCredential } from "@azure/core-http";
+import {
+  JsonWebKey,
+  KeyVaultKey,
+  CryptographyClientOptions,
+  GetKeyOptions,
+  KeyOperation,
+  KnownKeyOperations
+} from "./keysModels";
 import {
   EncryptionAlgorithm,
   KeyWrapAlgorithm,
@@ -24,14 +29,39 @@ import {
   VerifyOptions,
   DecryptParameters
 } from "./cryptographyClientModels";
-import { LocalSupportedAlgorithmName } from "./localCryptography/models";
-import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
+import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
+import { parseKeyVaultKeyId } from "./identifier";
+import { getTracer } from "@azure/core-tracing";
+import {
+  CryptographyProvider,
+  RemoteCryptographyProvider
+} from "./cryptography/remoteCryptographyProvider";
+import { Span } from "@opentelemetry/api";
+import { algorithm } from "./generated/models/parameters";
+import { LocalCryptographyUnsupportedErrorName } from "./cryptography/models";
+import { createHash } from "./cryptography/hash";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
  * or a local {@link JsonWebKey}.
  */
 export class CryptographyClient {
+  private key:
+    | {
+        kind: "identifier";
+        value: string;
+      }
+    | {
+        kind: "KeyVaultKey";
+        value: KeyVaultKey;
+      }
+    | {
+        kind: "JsonWebKey";
+        value: JsonWebKey;
+      };
+  vaultUrl?: string;
+  private credential?: TokenCredential;
+  private pipelineOptions: CryptographyClientOptions | undefined;
   /**
    * Constructs a new instance of the Cryptography client for the given key
    *
@@ -85,31 +115,142 @@ export class CryptographyClient {
     credential?: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
-    if (this.isRemote(key)) {
-      this.concreteClient = {
-        kind: "remote",
-        client: new KeyVaultCryptographyClient(key, credential!, pipelineOptions)
+    let parsed;
+    if (typeof key === "string") {
+      this.key = { kind: "identifier", value: key };
+      parsed = parseKeyVaultKeyId(key);
+
+      if (parsed.name === "") {
+        throw new Error("Could not find 'name' of key in key URL");
+      }
+
+      if (!parsed.version || parsed.version === "") {
+        throw new Error("Could not find 'version' of key in key URL");
+      }
+
+      if (!parsed.vaultUrl || parsed.vaultUrl === "") {
+        throw new Error("Could not find 'vaultUrl' of key in key URL");
+      }
+      this.vaultUrl = parsed.vaultUrl;
+    } else if ("key" in key) {
+      this.key = {
+        kind: "KeyVaultKey",
+        value: key
       };
+      parsed = parseKeyVaultKeyId(key.id!);
+
+      if (parsed.name === "") {
+        throw new Error("Could not find 'name' of key in key URL");
+      }
+
+      if (!parsed.version || parsed.version === "") {
+        throw new Error("Could not find 'version' of key in key URL");
+      }
+
+      if (!parsed.vaultUrl || parsed.vaultUrl === "") {
+        throw new Error("Could not find 'vaultUrl' of key in key URL");
+      }
+      this.vaultUrl = parsed.vaultUrl;
+    } else if ("kid" in key) {
+      this.key = {
+        kind: "JsonWebKey",
+        value: key
+      };
+      parsed = parseKeyVaultKeyId(key.kid!);
     } else {
-      this.concreteClient = {
-        kind: "local",
-        client: new LocalCryptographyClient(key)
-      };
+      throw new Error(
+        "The provided key is malformed as it does not have a value for the `key` property."
+      );
     }
+    this.credential = credential;
+    this.pipelineOptions = pipelineOptions;
   }
 
   /**
-   * Checks whether the client is instantiated in Local or KeyVault model.
-   * A local mode client will only contain a {@link JsonWebKey}.
-   * A KeyVault client will contain either a {@link KeyVaultKey} or a string representing an identifier to the key.
-   * @param key - The key to check for mode.
-   * @internal
+   * The ID of the key used to perform cryptographic operations for the client.
    */
-  private isRemote(key: string | KeyVaultKey | JsonWebKey): key is string | KeyVaultKey {
-    if (typeof key === "string" || (key as KeyVaultKey)?.key) {
-      return true;
+  public get keyId(): string | undefined {
+    return this.getKeyID();
+  }
+
+  /**
+   * @internal
+   * @hidden
+   * Attempts to retrieve the ID of the key.
+   */
+  private getKeyID(): string | undefined {
+    if (this.key.kind === "identifier") {
+      return this.key.value;
+    } else if (this.key.kind === "KeyVaultKey") {
+      return this.key.value.id;
+    } else {
+      return this.key.value.kid;
     }
-    return false;
+  }
+  /**
+   * @internal
+   * @hidden
+   * Retrieves the {@link JsonWebKey} from the Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(keyVaultKey, credentials);
+   * let result = await client.getKey();
+   * ```
+   * @param options - Options for retrieving key.
+   */
+  private async getKeyMaterial(): Promise<JsonWebKey> {
+    // Also exchanges an identifier for an actual key
+    await this.getKey();
+
+    if (this.key.kind === "JsonWebKey") {
+      return this.key.value;
+    } else if (this.key.kind === "KeyVaultKey") {
+      return this.key.value.key!;
+    } else {
+      throw new Error("Failed to exchange Key ID for an actual KeyVault Key.");
+    }
+  }
+
+  async getKey(options: GetKeyOptions = {}): Promise<KeyVaultKey | JsonWebKey> {
+    if (this.key.kind === "identifier") {
+      // Exchange the identifier with the actual key when needed
+      const remoteProvider = new RemoteCryptographyProvider(this.key.value, this.credential!);
+      const key = await remoteProvider.getKey(options);
+      this.key = { kind: "KeyVaultKey", value: key };
+    }
+    return this.key.value;
+  }
+
+  private providers?: CryptographyProvider[];
+  private async getProviders(
+    operation: KeyOperation,
+    algorithm: string
+  ): Promise<CryptographyProvider[]> {
+    if (!this.providers) {
+      const key = await this.getKeyMaterial();
+      this.providers = [];
+
+      // Local crypto providers in node only.
+      if (isNode) {
+        this.providers.push(new RsaCryptographyProvider(key));
+      }
+
+      // The remote provider should be the last provider in the list unless we're in local-only mode.
+      if (this.key.kind === "KeyVaultKey" || this.key.kind === "identifier") {
+        this.providers.push(
+          new RemoteCryptographyProvider(this.key.value, this.credential!, this.pipelineOptions)
+        );
+      }
+    }
+
+    let providers = this.providers.filter((p) => p.supportsOperation(operation));
+
+    if (algorithm) {
+      providers = providers.filter((p) => p.supportsAlgorithm(algorithm));
+    }
+
+    return providers;
   }
 
   /**
@@ -153,22 +294,29 @@ export class CryptographyClient {
       | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
     const [parameters, options] = this.disambiguateEncryptArguments(args);
+    this.ensureValid(await this.getKey(), KnownKeyOperations.Encrypt);
+    const span = this.createSpan("encrypt", options);
 
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.encrypt(parameters, options);
-    } else {
-      if (!isLocallySupported(parameters.algorithm)) {
-        throw new Error(
-          `Algorithm ${parameters.algorithm} is not supported for a local JsonWebKey.`
-        );
+    const providers = await this.getProviders(KnownKeyOperations.Encrypt, parameters.algorithm);
+    for (const provider of providers) {
+      try {
+        return await provider.encrypt(parameters, options);
+      } catch (e) {
+        if (e.name !== LocalCryptographyUnsupportedErrorName) {
+          span.end();
+          throw e;
+        }
       }
-      return this.concreteClient.client.encrypt(parameters, options);
     }
+
+    span.end();
+    // TODO: log all providers tried
+    throw new Error(`Unsupported algorithm ${algorithm} passed to encrypt.`);
   }
 
   private disambiguateEncryptArguments(
     args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?]
-  ): [EncryptParameters, EncryptOptions?] {
+  ): [EncryptParameters, EncryptOptions] {
     if (typeof args[0] === "string") {
       // Sample shape: ["RSA1_5", buffer, options]
       return [
@@ -176,11 +324,11 @@ export class CryptographyClient {
           algorithm: args[0],
           plaintext: args[1]
         } as EncryptParameters,
-        args[2]
+        args[2] || {}
       ];
     } else {
       // Sample shape: [{ algorithm: "RSA1_5", plaintext: buffer }, options]
-      return [args[0], args[1] as EncryptOptions];
+      return [args[0], (args[1] || {}) as EncryptOptions];
     }
   }
 
@@ -225,16 +373,31 @@ export class CryptographyClient {
       | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
     const [parameters, options] = this.disambiguateDecryptArguments(args);
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.decrypt(parameters, options);
-    } else {
-      throw new Error("Decrypting using a local JsonWebKey is not supported.");
+    this.ensureValid(await this.getKey(), KnownKeyOperations.Decrypt);
+    const span = this.createSpan("decrypt", options);
+
+    const providers = await this.getProviders(KnownKeyOperations.Decrypt, parameters.algorithm);
+    for (const provider of providers) {
+      try {
+        return await provider.decrypt(parameters, options);
+      } catch (e) {
+        console.log("e", e);
+        console.log("e.name", e.name);
+        if (e.name !== LocalCryptographyUnsupportedErrorName) {
+          span.end();
+          throw e;
+        }
+      }
     }
+
+    span.end();
+    // TODO: log all providers tried
+    throw new Error(`Unsupported algorithm ${algorithm} passed to encrypt.`);
   }
 
   private disambiguateDecryptArguments(
     args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?]
-  ): [DecryptParameters, DecryptOptions?] {
+  ): [DecryptParameters, DecryptOptions] {
     if (typeof args[0] === "string") {
       // Sample shape: ["RSA1_5", encryptedBuffer, options]
       return [
@@ -242,11 +405,11 @@ export class CryptographyClient {
           algorithm: args[0],
           ciphertext: args[1]
         } as DecryptParameters,
-        args[2]
+        args[2] || {}
       ];
     } else {
       // Sample shape: [{ algorithm: "RSA1_5", ciphertext: encryptedBuffer }, options]
-      return [args[0], args[1] as DecryptOptions];
+      return [args[0], (args[1] || {}) as DecryptOptions];
     }
   }
 
@@ -267,14 +430,24 @@ export class CryptographyClient {
     key: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.wrapKey(algorithm, key, options);
-    } else {
-      if (!isLocallySupported(algorithm)) {
-        throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
+    this.ensureValid(await this.getKey(), KnownKeyOperations.WrapKey);
+    const span = this.createSpan("wrapKey", options);
+
+    const providers = await this.getProviders(KnownKeyOperations.WrapKey, algorithm);
+    for (const provider of providers) {
+      try {
+        return await provider.wrapKey(algorithm, key, options);
+      } catch (e) {
+        if (e.name !== LocalCryptographyUnsupportedErrorName) {
+          span.end();
+          throw e;
+        }
       }
-      return this.concreteClient.client.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
     }
+
+    span.end();
+
+    throw new Error(`Unsupported algorithm ${algorithm} passed to encrypt.`);
   }
 
   /**
@@ -294,11 +467,24 @@ export class CryptographyClient {
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.unwrapKey(algorithm, encryptedKey, options);
-    } else {
-      throw new Error("Unwrapping a key using a local JsonWebKey is not supported.");
+    this.ensureValid(await this.getKey(), KnownKeyOperations.UnwrapKey);
+    const providers = await this.getProviders(KnownKeyOperations.UnwrapKey, algorithm);
+    const span = this.createSpan("encrypt", options);
+
+    for (const provider of providers) {
+      try {
+        return await provider.unwrapKey(algorithm, encryptedKey, options);
+      } catch (e) {
+        if (e !== LocalCryptographyUnsupportedErrorName) {
+          span.end();
+          throw e;
+        }
+      }
     }
+
+    span.end();
+
+    throw new Error("TODO: fill in error details");
   }
 
   /**
@@ -318,11 +504,24 @@ export class CryptographyClient {
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.sign(algorithm, digest, options);
-    } else {
-      throw new Error("Signing a digest using a local JsonWebKey is not supported.");
+    this.ensureValid(await this.getKey(), KnownKeyOperations.Sign);
+    const span = this.createSpan("encrypt", options);
+
+    const providers = await this.getProviders(KnownKeyOperations.Sign, algorithm);
+    for (const provider of providers) {
+      try {
+        return await provider.sign(algorithm, digest, options);
+      } catch (e) {
+        if (e.name !== LocalCryptographyUnsupportedErrorName) {
+          span.end();
+          throw e;
+        }
+      }
     }
+
+    span.end();
+
+    throw new Error("TODO: fill in error details");
   }
 
   /**
@@ -344,11 +543,24 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.verify(algorithm, digest, signature, options);
-    } else {
-      throw new Error("Verifying a digest using a local JsonWebKey is not supported.");
+    this.ensureValid(await this.getKey(), KnownKeyOperations.Verify);
+    const span = this.createSpan("encrypt", options);
+
+    const providers = await this.getProviders(KnownKeyOperations.Verify, algorithm);
+    for (const provider of providers) {
+      try {
+        return provider.verify(algorithm, digest, signature, options);
+      } catch (e) {
+        if (e.name !== LocalCryptographyUnsupportedErrorName) {
+          span.end();
+          throw e;
+        }
+      }
     }
+
+    span.end();
+
+    throw new Error("TODO: fill in error details");
   }
 
   /**
@@ -368,11 +580,24 @@ export class CryptographyClient {
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.signData(algorithm, data, options);
-    } else {
-      throw new Error("Signing data using a local JsonWebKey is not supported.");
+    this.ensureValid(await this.getKey(), KnownKeyOperations.Sign);
+    const span = this.createSpan("encrypt", options);
+
+    const providers = await this.getProviders(KnownKeyOperations.Sign, algorithm);
+    const digest = await createHash(algorithm, data);
+    for (const provider of providers) {
+      try {
+        return await provider.sign(algorithm, digest, options);
+      } catch (e) {
+        if (e.name !== LocalCryptographyUnsupportedErrorName) {
+          span.end();
+          throw e;
+        }
+      }
     }
+
+    span.end();
+    throw new Error("TODO: fill in error details");
   }
 
   /**
@@ -394,36 +619,64 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    if (this.concreteClient.kind === "remote") {
-      return this.concreteClient.client.verifyData(algorithm, data, signature, options);
-    } else {
-      if (!isLocallySupported(algorithm)) {
-        throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
+    this.ensureValid(await this.getKey(), KnownKeyOperations.Verify);
+    const span = this.createSpan("encrypt", options);
+
+    const providers = await this.getProviders(KnownKeyOperations.Verify, algorithm);
+    const digest = await createHash(algorithm, data);
+    // TODO: with just one or two providers there's no reason to loop...
+    for (const provider of providers) {
+      return await provider.verify(algorithm, digest, signature, options);
+    }
+
+    span.end();
+    throw new Error("TODO: fill in error details");
+  }
+
+  /**
+   * @internal
+   * Creates a span using the tracer that was set by the user.
+   * @param methodName - The name of the method creating the span.
+   * @param options - The options for the underlying HTTP request.
+   */
+  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
+    const tracer = getTracer();
+    const span = tracer.startSpan(
+      `CryptographyClient ${methodName}`,
+      requestOptions && requestOptions.spanOptions
+    );
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
+  }
+
+  private ensureValid(key: KeyVaultKey | JsonWebKey, operation?: KeyOperation): void {
+    if ("name" in key) {
+      const attributes = key.properties;
+      const keyOps = key.keyOperations;
+      const { notBefore, expiresOn } = attributes;
+      const now = new Date();
+
+      if (!key.id) {
+        throw new Error(
+          "Only local cryptography operations can be performed on JsonWebKeys without kid"
+        );
       }
-      return this.concreteClient.client.verifyData(
-        algorithm as LocalSupportedAlgorithmName,
-        data,
-        signature
-      );
+
+      if (notBefore && now < notBefore) {
+        throw new Error(`Key ${key.id} can't be used before ${notBefore.toISOString()}`);
+      }
+
+      if (expiresOn && now > expiresOn) {
+        throw new Error(`Key ${key.id} expired at ${expiresOn.toISOString()}`);
+      }
+
+      if (operation && !keyOps?.includes(operation)) {
+        throw new Error(`Operation ${operation} is not supported on key ${key.id}`);
+      }
+    } else {
+      if (operation && !key.keyOps?.includes(operation)) {
+        throw new Error(`Operation ${operation} is not supported on key ${key.kid}`);
+      }
     }
   }
-
-  /**
-   * The base URL to the vault.
-   * Will be empty if called on a local key.
-   */
-  get vaultUrl(): string {
-    return this.concreteClient.client.vaultUrl;
-  }
-
-  /**
-   * The ID of the key used to perform cryptographic operations for the client.
-   */
-  get keyId(): string | undefined {
-    return this.concreteClient.client.keyId;
-  }
-
-  private readonly concreteClient:
-    | { kind: "remote"; client: KeyVaultCryptographyClient }
-    | { kind: "local"; client: LocalCryptographyClient };
 }

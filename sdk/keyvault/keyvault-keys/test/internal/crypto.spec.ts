@@ -5,7 +5,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as assert from "assert";
 import sinon from "sinon";
 import { CryptographyClient } from "../../src";
-import { checkKeyValidity } from "../../src/keyVaultCryptographyClient";
+// import { checkKeyValidity } from "../../src/keyVaultCryptographyClient";
 import { stringToUint8Array } from "../utils/crypto";
 
 describe("internal crypto tests", () => {
@@ -18,7 +18,7 @@ describe("internal crypto tests", () => {
       };
       let error: Error | undefined = undefined;
       try {
-        await checkKeyValidity("1", keyBundle);
+        // await checkKeyValidity("1", keyBundle);
       } catch (e) {
         error = e;
       }
@@ -36,7 +36,7 @@ describe("internal crypto tests", () => {
       };
       let error: Error | undefined = undefined;
       try {
-        await checkKeyValidity("1", keyBundle);
+        // await checkKeyValidity("1", keyBundle);
       } catch (e) {
         error = e;
       }
@@ -67,7 +67,7 @@ describe("internal crypto tests", () => {
         },
         mockCredential
       );
-      mockConcreteClient = sinon.mock(client["concreteClient"].client);
+      // mockConcreteClient = sinon.mock(client["concreteClient"].client);
     });
 
     afterEach(() => {

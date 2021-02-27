@@ -4,17 +4,17 @@
 import { assert } from "chai";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
-import { isRecordMode, Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
-import { convertJWKtoPEM } from "../../src/localCryptography/conversions";
+import { convertJWKtoPEM } from "../../src/cryptography/conversions";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
-describe("CryptographyClient (all decrypts happen remotely)", () => {
+describe.only("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
@@ -51,7 +51,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   // The tests follow
 
-  if (isRecordMode()) {
+  if (!isPlaybackMode()) {
     it("encrypt & decrypt with RSA1_5", async function() {
       const text = this.test!.title;
       const encryptResult = await cryptoClient.encrypt({

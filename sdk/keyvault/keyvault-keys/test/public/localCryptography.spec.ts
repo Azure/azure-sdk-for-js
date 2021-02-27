@@ -17,7 +17,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { localSupportedAlgorithms } from "../../src/localCryptography/algorithms";
+import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {
@@ -188,15 +188,10 @@ describe("Local cryptography public tests", () => {
   });
 
   describe("verify", () => {
-    const localSupportedAlgorithmNames = Object.keys(localSupportedAlgorithms);
+    const rsaProvider = new RsaCryptographyProvider({});
+    const localSupportedAlgorithmNames = Object.keys(rsaProvider.signatureAlgorithmToHashAlgorithm);
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
-      const algorithm = localSupportedAlgorithms[localAlgorithmName as LocalSupportedAlgorithmName];
-      const signAlgorithm = algorithm?.signAlgorithm;
-      if (!signAlgorithm) {
-        continue;
-      }
-
       it(localAlgorithmName, async function(): Promise<void> {
         recorder.skip(
           "browser",
@@ -210,7 +205,7 @@ describe("Local cryptography public tests", () => {
         // Sign is not implemented yet.
         // This boils down to the JWK to PEM conversion, which doesn't support private keys at the moment.
         const signatureValue = this.test!.title;
-        const hash = createHash(signAlgorithm);
+        const hash = createHash(rsaProvider.signatureAlgorithmToHashAlgorithm[localAlgorithmName]);
         hash.update(signatureValue);
         const digest = hash.digest();
         const signature = await cryptoClient.sign(localAlgorithmName as SignatureAlgorithm, digest);
