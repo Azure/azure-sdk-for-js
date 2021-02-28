@@ -15,6 +15,7 @@ import { isNode } from "@azure/core-http";
 import { convertJWKtoPEM } from "./conversions";
 import { LocalCryptographyUnsupportedError, LocalSupportedAlgorithmName } from "./models";
 import { SignatureAlgorithm } from "../cryptographyClientModels";
+import { createHash } from "./hash";
 
 export interface LocalCryptographyProvider {
   encrypt(
@@ -39,11 +40,8 @@ export interface LocalCryptographyProvider {
     signature: Uint8Array,
     options: VerifyOptions
   ): Promise<VerifyResult>;
-  //   const verifier = createVerify(signAlgorithm);
-  //   verifier.update(data);
-  //   verifier.end();
-  //   return verifier.verify(keyPEM, signature);
-  // }
+
+  createHash(algorithm: SignatureAlgorithm, data: Uint8Array): Promise<Buffer>;
 }
 
 export class RsaCryptographyProvider implements LocalCryptographyProvider {
@@ -126,6 +124,10 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
     });
   }
 
+  createHash(algorithm: SignatureAlgorithm, data: Uint8Array): Promise<Buffer> {
+    return createHash(this.signatureAlgorithmToHashAlgorithm[algorithm], data);
+  }
+
   private signatureAlgorithmToHashAlgorithm: { [s: string]: string } = {
     PS256: "SHA256",
     RS256: "SHA256",
@@ -149,7 +151,18 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
 
 export const localCryptographyProviders = [new RsaCryptographyProvider()];
 
-export function findLocalProvider(algorithm: LocalSupportedAlgorithmName) {
+export function isLocallySupported(algorithm: string): boolean {
+  return (
+    isNode &&
+    localCryptographyProviders.some((provider) =>
+      provider.isApplicable(algorithm as LocalSupportedAlgorithmName)
+    )
+  );
+}
+
+export function findLocalProvider(
+  algorithm: LocalSupportedAlgorithmName
+): LocalCryptographyProvider {
   const applicableProviders = localCryptographyProviders.filter((provider) =>
     provider.isApplicable(algorithm)
   );

@@ -10,7 +10,6 @@ import {
   LocalCryptographyOperationName,
   LocalCryptographyUnsupportedError,
   LocalSupportedAlgorithm,
-  LocalSupportedAlgorithmName,
   LocalSupportedAlgorithmsRecord
 } from "./models";
 import { createHash } from "./hash";
@@ -160,12 +159,12 @@ export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   RS512: makeSigner("SHA512")
 };
 
-/**
- * Checks whether a given algorithm name is supported or not.
- * @param algorithm - Name of the algorithm
- * @hidden
- * @internal
- */
-export function isLocallySupported(algorithm: string): boolean {
-  return !!localSupportedAlgorithms[algorithm as LocalSupportedAlgorithmName];
-}
+// /**
+//  * Checks whether a given algorithm name is supported or not.
+//  * @param algorithm - Name of the algorithm
+//  * @hidden
+//  * @internal
+//  */
+// export function isLocallySupported(algorithm: string): boolean {
+//   return !!localSupportedAlgorithms[algorithm as LocalSupportedAlgorithmName];
+// }

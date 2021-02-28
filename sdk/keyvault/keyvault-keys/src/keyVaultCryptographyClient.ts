@@ -18,8 +18,6 @@ import { SDK_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy, setParentSpan } from "../../keyvault-common/src";
 
-import { localSupportedAlgorithms, isLocallySupported } from "./localCryptography/algorithms";
-
 import { LocalCryptographyClient } from "./localCryptographyClient";
 
 import {
@@ -51,10 +49,8 @@ import {
 } from "./cryptographyClientModels";
 import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
-import {
-  LocalCryptographyOperationFunction,
-  LocalSupportedAlgorithmName
-} from "./localCryptography/models";
+import { LocalSupportedAlgorithmName } from "./localCryptography/models";
+import { findLocalProvider, isLocallySupported } from "./localCryptography/providers";
 
 /**
  * Checks whether a key can be used at that specific moment,
@@ -421,13 +417,10 @@ export class KeyVaultCryptographyClient {
     if (!isLocallySupported(algorithm)) {
       throw new Error(`Unsupported algorithm ${algorithm}`);
     }
+
     const localAlgorithm = algorithm as LocalSupportedAlgorithmName;
-
-    // Not supported locally yet
-
-    const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[localAlgorithm]
-      ?.operations.createHash as LocalCryptographyOperationFunction;
-    const digest = await createHash("", Buffer.from(data));
+    const localProvider = findLocalProvider(localAlgorithm);
+    const digest = await localProvider.createHash(localAlgorithm, data);
 
     // Default to the service
 
@@ -472,12 +465,12 @@ export class KeyVaultCryptographyClient {
     const span = this.createSpan("verifyData", requestOptions);
 
     await this.checkPermissions("verify");
-    await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     if (!isLocallySupported(algorithm)) {
       throw new Error(`Unsupported algorithm ${algorithm}`);
     }
+
     const localAlgorithm = algorithm as LocalSupportedAlgorithmName;
 
     if (localCryptographyClient) {
@@ -491,9 +484,8 @@ export class KeyVaultCryptographyClient {
       }
     }
 
-    const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[localAlgorithm]
-      ?.operations.createHash as LocalCryptographyOperationFunction;
-    const digest = await createHash("", Buffer.from(data));
+    const localProvider = findLocalProvider(localAlgorithm);
+    const digest = await localProvider.createHash(localAlgorithm, data);
 
     // Default to the service
 

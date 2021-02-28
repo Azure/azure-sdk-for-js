@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-http";
-import { isLocallySupported } from "./localCryptography/algorithms";
 import { LocalCryptographyClient } from "./localCryptographyClient";
 import { JsonWebKey, KeyVaultKey, CryptographyClientOptions } from "./keysModels";
 import {
@@ -26,6 +25,7 @@ import {
 } from "./cryptographyClientModels";
 import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
+import { isLocallySupported } from "./localCryptography/providers";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
