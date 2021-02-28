@@ -187,7 +187,7 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  describe.only("verify", () => {
+  describe("verify", () => {
     const rsaProvider = new RsaCryptographyProvider();
     const localSupportedAlgorithmNames = Object.keys(rsaProvider.signatureAlgorithmToHashAlgorithm);
 
@@ -217,7 +217,6 @@ describe("Local cryptography public tests", () => {
           digest,
           signature.result
         );
-        // TODO: assert.ok(verifyResult.result) I think this test is broken
         assert.ok(verifyResult);
 
         await testClient.flushKey(keyName);

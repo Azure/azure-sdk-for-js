@@ -1,5 +1,5 @@
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
-import { JsonWebKey } from "../keysModels";
+import { JsonWebKey, KeyOperation } from "../keysModels";
 import { createVerify, publicEncrypt } from "crypto";
 import {
   EncryptOptions,
@@ -87,12 +87,12 @@ export interface LocalCryptographyProvider {
  * An RSA cryptography provider supporting RSA algorithms.
  */
 export class RsaCryptographyProvider implements LocalCryptographyProvider {
-  ensureValid(key?: JsonWebKey) {
+  ensureValid(operationName: string, key?: JsonWebKey) {
     if (!isNode) {
       throw new LocalCryptographyUnsupportedError("This operation is only available in NodeJS");
     }
-    if (key && key.kty! !== "RSA" && key.kty! !== "RSA-HSM") {
-      throw new Error("Key type does not match the algorithm RSA");
+    if (key && key.keyOps && !key.keyOps.includes(operationName as KeyOperation)) {
+      throw new Error(`Key does not support the ${operationName} operation`);
     }
     if (key && key.kty! !== "RSA" && key.kty! !== "RSA-HSM") {
       throw new Error("Key type does not match the algorithm RSA");
@@ -108,7 +108,7 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
     encryptParameters: EncryptParameters,
     _options: EncryptOptions
   ): Promise<EncryptResult> {
-    this.ensureValid(key);
+    this.ensureValid("encrypt", key);
     const keyPEM = convertJWKtoPEM(key);
 
     const padding =
@@ -130,7 +130,7 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
     keyToWrap: Uint8Array,
     _options: WrapKeyOptions
   ): Promise<WrapResult> {
-    this.ensureValid(key);
+    this.ensureValid("wrapKey", key);
     const keyPEM = convertJWKtoPEM(key);
 
     const padding = algorithm === "RSA1_5" ? RSA_PKCS1_PADDING : RSA_PKCS1_OAEP_PADDING;
@@ -149,7 +149,7 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
     signature: Uint8Array,
     _options: VerifyOptions
   ): Promise<VerifyResult> {
-    this.ensureValid(key);
+    this.ensureValid("verify", key);
     const keyPEM = convertJWKtoPEM(key);
 
     const verifyAlgorithm = this.signatureAlgorithmToHashAlgorithm[algorithm];
