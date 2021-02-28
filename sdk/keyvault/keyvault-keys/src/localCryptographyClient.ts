@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LocalSupportedAlgorithmName } from "./localCryptography/models";
+import {
+  LocalCryptographyUnsupportedError,
+  LocalSupportedAlgorithmName
+} from "./localCryptography/models";
 
 import { JsonWebKey } from "./keysModels";
 import {
@@ -9,11 +12,13 @@ import {
   VerifyResult,
   KeyWrapAlgorithm,
   EncryptResult,
-  EncryptParameters
+  EncryptParameters,
+  WrapKeyOptions
 } from "./cryptographyClientModels";
 import { runOperation } from "./localCryptography/runOperation";
 import { EncryptOptions } from ".";
-import { LocalCryptographyProvider, localProviders } from "./localCryptography/providers";
+import { findLocalProvider } from "./localCryptography/providers";
+import { isNode } from "@azure/core-http";
 
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.
@@ -37,18 +42,14 @@ export class LocalCryptographyClient {
    */
   public async encrypt(
     encryptParameters: EncryptParameters,
-    _options: EncryptOptions = {}
+    options: EncryptOptions = {}
   ): Promise<EncryptResult> {
-    const provider: LocalCryptographyProvider | undefined =
-      localProviders[encryptParameters.algorithm as string];
+    const provider = findLocalProvider(encryptParameters.algorithm as LocalSupportedAlgorithmName);
 
-    if (!provider) {
-      throw new Error("cant find this algo provider");
+    if (!isNode) {
+      throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
     }
-    return provider.encrypt(this.key, encryptParameters, _options);
-    // if (!isNode) {
-    //   throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
-    // }
+    return provider.encrypt(this.key, encryptParameters, options);
     // const result = (await runOperation(
     //   this.key,
     //   "encrypt",
@@ -76,12 +77,16 @@ export class LocalCryptographyClient {
    * @param options - Additional options.
    */
   public async wrapKey(
-    algorithm: LocalSupportedAlgorithmName,
-    key: Uint8Array
+    algorithm: KeyWrapAlgorithm,
+    key: Uint8Array,
+    options: WrapKeyOptions
   ): Promise<WrapResult> {
-    const result = (await runOperation(this.key, "wrapKey", algorithm, Buffer.from(key))) as Buffer;
-    const keyID = this.key.kid;
-    return { result, algorithm: algorithm as KeyWrapAlgorithm, keyID };
+    const provider = findLocalProvider(algorithm as LocalSupportedAlgorithmName);
+
+    if (!isNode) {
+      throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
+    }
+    return provider.wrapKey(this.key, algorithm, key, options);
   }
 
   /**

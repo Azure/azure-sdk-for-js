@@ -14,6 +14,7 @@ import {
   LocalSupportedAlgorithmsRecord
 } from "./models";
 import { createHash } from "./hash";
+import { RSA_PKCS1_OAEP_PADDING } from "constants";
 
 /**
  * This file contains the implementation of local supported algorithms, which
@@ -105,7 +106,7 @@ const RSA_OAEP: LocalSupportedAlgorithm = {
   validate: pipeAssertions(assertions.keyOps, assertions.rsa, assertions.nodeOnly),
   operations: {
     async encrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicEncrypt(keyPEM, data);
+      return publicEncrypt({ key: keyPEM, padding: RSA_PKCS1_OAEP_PADDING }, data);
     },
     async wrapKey(keyPEM: string, data: Buffer): Promise<Buffer> {
       return publicEncrypt(keyPEM, data);

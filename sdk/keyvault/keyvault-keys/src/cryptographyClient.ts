@@ -273,7 +273,7 @@ export class CryptographyClient {
       if (!isLocallySupported(algorithm)) {
         throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
       }
-      return this.concreteClient.client.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
+      return this.concreteClient.client.wrapKey(algorithm, key, options);
     }
   }
 

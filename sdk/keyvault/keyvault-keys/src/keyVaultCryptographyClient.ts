@@ -242,7 +242,7 @@ export class KeyVaultCryptographyClient {
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
-        return localCryptographyClient.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
+        return localCryptographyClient.wrapKey(algorithm, key, options);
       } catch (e) {
         if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
