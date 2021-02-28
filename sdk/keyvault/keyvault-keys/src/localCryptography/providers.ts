@@ -1,18 +1,20 @@
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { JsonWebKey } from "../keysModels";
-import { publicEncrypt } from "crypto";
+import { createVerify, publicEncrypt } from "crypto";
 import {
   EncryptOptions,
   EncryptParameters,
   EncryptResult,
   KeyWrapAlgorithm,
   VerifyOptions,
+  VerifyResult,
   WrapKeyOptions,
   WrapResult
 } from "..";
 import { isNode } from "@azure/core-http";
 import { convertJWKtoPEM } from "./conversions";
 import { LocalCryptographyUnsupportedError, LocalSupportedAlgorithmName } from "./models";
+import { SignatureAlgorithm } from "../cryptographyClientModels";
 
 export interface LocalCryptographyProvider {
   encrypt(
@@ -32,10 +34,11 @@ export interface LocalCryptographyProvider {
 
   verifyData(
     key: JsonWebKey,
+    algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions
-  ): Promise<boolean>;
+  ): Promise<VerifyResult>;
   //   const verifier = createVerify(signAlgorithm);
   //   verifier.update(data);
   //   verifier.end();
@@ -101,12 +104,36 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
 
   verifyData(
     key: JsonWebKey,
+    algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions
-  ): Promise<boolean> {
-    throw new Error("Method not implemented.");
+    _options: VerifyOptions
+  ): Promise<VerifyResult> {
+    this.ensureValid(key);
+    const keyPEM = convertJWKtoPEM(key);
+
+    const verifyAlgorithm = this.signatureAlgorithmToHashAlgorithm[algorithm];
+    if (!verifyAlgorithm) {
+      throw new Error(`Invalid signature algorithm ${algorithm} passed to local verifyData`);
+    }
+
+    const verifier = createVerify(verifyAlgorithm);
+    verifier.update(Buffer.from(data));
+    verifier.end();
+    return Promise.resolve({
+      result: verifier.verify(keyPEM, Buffer.from(signature)),
+      keyID: key.kid
+    });
   }
+
+  private signatureAlgorithmToHashAlgorithm: { [s: string]: string } = {
+    PS256: "SHA256",
+    RS256: "SHA256",
+    PS384: "SHA384",
+    RS384: "SHA384",
+    PS512: "SHA512",
+    RS512: "SHA512"
+  };
 
   private applicableAlgorithms: LocalSupportedAlgorithmName[] = [
     "RSA1_5",

@@ -13,10 +13,10 @@ import {
   KeyWrapAlgorithm,
   EncryptResult,
   EncryptParameters,
-  WrapKeyOptions
+  WrapKeyOptions,
+  SignatureAlgorithm
 } from "./cryptographyClientModels";
-import { runOperation } from "./localCryptography/runOperation";
-import { EncryptOptions } from ".";
+import { EncryptOptions, VerifyOptions } from ".";
 import { findLocalProvider } from "./localCryptography/providers";
 import { isNode } from "@azure/core-http";
 
@@ -50,18 +50,6 @@ export class LocalCryptographyClient {
       throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
     }
     return provider.encrypt(this.key, encryptParameters, options);
-    // const result = (await runOperation(
-    //   this.key,
-    //   "encrypt",
-    //   encryptParameters.algorithm as LocalSupportedAlgorithmName,
-    //   Buffer.from(encryptParameters.plaintext)
-    // )) as Buffer;
-    // const keyID = this.key.kid;
-    // return {
-    //   result,
-    //   algorithm: encryptParameters.algorithm as EncryptionAlgorithm,
-    //   keyID
-    // };
   }
 
   /**
@@ -103,19 +91,18 @@ export class LocalCryptographyClient {
    * @param options - Additional options.
    */
   public async verifyData(
-    algorithm: LocalSupportedAlgorithmName,
+    algorithm: SignatureAlgorithm,
     data: Uint8Array,
-    signature: Uint8Array
+    signature: Uint8Array,
+    options: VerifyOptions
   ): Promise<VerifyResult> {
-    const result = (await runOperation(
-      this.key,
-      "verify",
-      algorithm,
-      Buffer.from(data),
-      Buffer.from(signature)
-    )) as boolean;
-    const keyID = this.key.kid;
-    return { result, keyID };
+    const provider = findLocalProvider(algorithm as LocalSupportedAlgorithmName);
+
+    if (!isNode) {
+      throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
+    }
+
+    return provider.verifyData(this.key, algorithm, data, signature, options);
   }
 
   /**

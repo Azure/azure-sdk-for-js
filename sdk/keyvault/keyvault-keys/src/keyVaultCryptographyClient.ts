@@ -482,7 +482,7 @@ export class KeyVaultCryptographyClient {
 
     if (localCryptographyClient) {
       try {
-        return localCryptographyClient.verifyData(localAlgorithm, data, signature);
+        return localCryptographyClient.verifyData(algorithm, data, signature, options);
       } catch (e) {
         if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();

@@ -403,7 +403,8 @@ export class CryptographyClient {
       return this.concreteClient.client.verifyData(
         algorithm as LocalSupportedAlgorithmName,
         data,
-        signature
+        signature,
+        options
       );
     }
   }
