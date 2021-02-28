@@ -14,9 +14,10 @@ import {
   EncryptResult,
   EncryptParameters,
   WrapKeyOptions,
-  SignatureAlgorithm
+  SignatureAlgorithm,
+  VerifyDataOptions
 } from "./cryptographyClientModels";
-import { EncryptOptions, VerifyOptions } from ".";
+import { EncryptOptions } from ".";
 import { findLocalProvider } from "./localCryptography/providers";
 import { isNode } from "@azure/core-http";
 
@@ -94,7 +95,7 @@ export class LocalCryptographyClient {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions
+    options: VerifyDataOptions
   ): Promise<VerifyResult> {
     const provider = findLocalProvider(algorithm as LocalSupportedAlgorithmName);
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { JsonWebKey, KeyOperation } from "../keysModels";
 import { createVerify, publicEncrypt } from "crypto";
@@ -87,7 +90,7 @@ export interface LocalCryptographyProvider {
  * An RSA cryptography provider supporting RSA algorithms.
  */
 export class RsaCryptographyProvider implements LocalCryptographyProvider {
-  ensureValid(operationName: string, key?: JsonWebKey) {
+  ensureValid(operationName: string, key?: JsonWebKey): void {
     if (!isNode) {
       throw new LocalCryptographyUnsupportedError("This operation is only available in NodeJS");
     }
@@ -99,7 +102,7 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
     }
   }
 
-  isApplicable(algorithm: LocalSupportedAlgorithmName) {
+  isApplicable(algorithm: LocalSupportedAlgorithmName): boolean {
     return this.applicableAlgorithms.includes(algorithm);
   }
 

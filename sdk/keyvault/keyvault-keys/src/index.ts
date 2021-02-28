@@ -105,7 +105,8 @@ import {
   AesGcmEncryptParameters,
   AesCbcDecryptParameters,
   AesGcmDecryptParameters,
-  RsaDecryptParameters
+  RsaDecryptParameters,
+  VerifyDataOptions
 } from "./cryptographyClientModels";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
@@ -176,6 +177,7 @@ export {
   UnwrapResult,
   UpdateKeyPropertiesOptions,
   VerifyOptions,
+  VerifyDataOptions,
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
