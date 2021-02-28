@@ -17,15 +17,39 @@ import { LocalCryptographyUnsupportedError, LocalSupportedAlgorithmName } from "
 import { SignatureAlgorithm } from "../cryptographyClientModels";
 import { createHash } from "./hash";
 
+/**
+ * An interface representing a local-only cryptography provider.
+ * @internal
+ */
 export interface LocalCryptographyProvider {
+  /**
+   * Encrypts the given plaintext with the specified cryptography algorithm using the provided key.
+   * @param key - The key to use for encryption.
+   * @param encryptParameters - The encryption parameters.
+   * @param options - Additional options.
+   * @internal
+   */
   encrypt(
     key: JsonWebKey,
     encryptParameters: EncryptParameters,
     options: EncryptOptions
   ): Promise<EncryptResult>;
 
+  /**
+   * Returns whether this provider supports the given encryption algorithm.
+   * @param algorithm - The algorithm to check.
+   * @internal
+   */
   isApplicable(algorithm: LocalSupportedAlgorithmName): boolean;
 
+  /**
+   * Wraps the given key using the specified cryptography algorithm and provided key.
+   * @param key - The key to use for wrapping.
+   * @param algorithm - The encryption algorithm to use to wrap the given key.
+   * @param keyToWrap - The key to wrap.
+   * @param options - Additional options.
+   * @internal
+   */
   wrapKey(
     key: JsonWebKey,
     algorithm: KeyWrapAlgorithm,
@@ -33,6 +57,15 @@ export interface LocalCryptographyProvider {
     options: WrapKeyOptions
   ): Promise<WrapResult>;
 
+  /**
+   * Verify the signed block of data.
+   * @param key - The key to use for verification.
+   * @param algorithm - The encryption algorithm to use for verification.
+   * @param data - The signed block of data to verify.
+   * @param signature  - The signature to verify the block against.
+   * @param options - Additional options.
+   * @internal
+   */
   verifyData(
     key: JsonWebKey,
     algorithm: SignatureAlgorithm,
@@ -41,9 +74,18 @@ export interface LocalCryptographyProvider {
     options: VerifyOptions
   ): Promise<VerifyResult>;
 
+  /**
+   * Hashes a block of data using a given algorithm.
+   * @param algorithm - The encryption algorithm to use for hashing.
+   * @param data - The data to hash.
+   * @internal
+   */
   createHash(algorithm: SignatureAlgorithm, data: Uint8Array): Promise<Buffer>;
 }
 
+/**
+ * An RSA cryptography provider supporting RSA algorithms.
+ */
 export class RsaCryptographyProvider implements LocalCryptographyProvider {
   ensureValid(key?: JsonWebKey) {
     if (!isNode) {
@@ -128,15 +170,6 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
     return createHash(this.signatureAlgorithmToHashAlgorithm[algorithm], data);
   }
 
-  private signatureAlgorithmToHashAlgorithm: { [s: string]: string } = {
-    PS256: "SHA256",
-    RS256: "SHA256",
-    PS384: "SHA384",
-    RS384: "SHA384",
-    PS512: "SHA512",
-    RS512: "SHA512"
-  };
-
   private applicableAlgorithms: LocalSupportedAlgorithmName[] = [
     "RSA1_5",
     "RSA-OAEP",
@@ -147,6 +180,16 @@ export class RsaCryptographyProvider implements LocalCryptographyProvider {
     "PS512",
     "RS512"
   ];
+
+  /** Mapping between signature algorithms and their corresponding hash algorithms. Externally used for testing. */
+  signatureAlgorithmToHashAlgorithm: { [s: string]: string } = {
+    PS256: "SHA256",
+    RS256: "SHA256",
+    PS384: "SHA384",
+    RS384: "SHA384",
+    PS512: "SHA512",
+    RS512: "SHA512"
+  };
 }
 
 export const localCryptographyProviders = [new RsaCryptographyProvider()];

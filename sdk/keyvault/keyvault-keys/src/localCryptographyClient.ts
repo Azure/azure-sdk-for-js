@@ -37,8 +37,8 @@ export class LocalCryptographyClient {
    * let client = new LocalCryptographyClient(jsonWebKey);
    * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
    * ```
-   * @param algorithm - The algorithm to use.
-   * @param plaintext - The text to encrypt.
+   * @param encryptParameters - The encryption parameters.
+   * @param options - Additional options.
    */
   public async encrypt(
     encryptParameters: EncryptParameters,
