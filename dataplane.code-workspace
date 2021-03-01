@@ -57,8 +57,8 @@
       "path": "sdk/core/core-http"
     },
     {
-      "name": "core-https",
-      "path": "sdk/core/core-https"
+      "name": "core-rest-pipeline",
+      "path": "sdk/core/core-rest-pipeline"
     },
     {
       "name": "core-lro",

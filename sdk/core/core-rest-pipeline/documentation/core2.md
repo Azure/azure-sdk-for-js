@@ -4,7 +4,7 @@
 
 Today, in Azure SDKs for JS, one of the primary core packages we ship is `@azure/core-http`. This package forms the runtime for all the auto-generated Azure SDKs by providing the mechanism to route HTTP requests through a pipeline made of different policies such as retry, logging, and tracing. As of this document being written it sits at version 1.1.5. Due to a number factors discussed in this document, there is a desire to create a new major version of this package (i.e. "2.0.0") that would include breaking changes.
 
-Azure customers are indirect consumers of this package via the SDKs for different Azure services. Therefore, a major version change would not be largely disruptive. Currently, in order to preserve compatibility and not complicate the story for servicing, a new package has been created that is currently named `@azure/core-https`. This name is not final.
+Azure customers are indirect consumers of this package via the SDKs for different Azure services. Therefore, a major version change would not be largely disruptive. Currently, in order to preserve compatibility and not complicate the story for servicing, a new package has been created that is named `@azure/core-rest-pipeline`.
 
 ## History, Context, and Motivations
 
@@ -36,9 +36,9 @@ As the JS team has gained experience shipping track 2 client libraries, we reali
 
 ### Separation of Concerns
 
-One major goal of this work is to split the library into three separate packages: `@azure/core-https`, `@azure/core-client`, and `@azure/core-xml`. This is to enable smaller dependency graphs and bundles for individual client libraries.
+One major goal of this work is to split the library into three separate packages: `@azure/core-rest-pipeline`, `@azure/core-client`, and `@azure/core-xml`. This is to enable smaller dependency graphs and bundles for individual client libraries.
 
-The first package, `@azure/core-https` will not be AutoRest-specific and is intended to be usable by any client that wants to make requests using a pipeline in a way that follows our SDK design guidelines.
+The first package, `@azure/core-rest-pipeline` will not be AutoRest-specific and is intended to be usable by any client that wants to make requests using a pipeline in a way that follows our SDK design guidelines.
 
 `@azure/core-client` is intended to be a runtime dependency of any AutoRest-generated client library and has all necessary helpers except for XML (de)serialization. Packages that require XML support will additionally depend upon `@azure/core-xml`.
 
