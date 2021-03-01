@@ -3,7 +3,6 @@
 import { v4 as guid } from "uuid";
 import { Container } from "../../dist";
 
-// tslint:disable:no-console
 export class Worker {
   constructor(private readonly regionName: string, private readonly container: Container) {}
 

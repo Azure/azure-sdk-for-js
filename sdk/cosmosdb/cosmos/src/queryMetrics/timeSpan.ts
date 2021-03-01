@@ -55,7 +55,6 @@ const minMilliSeconds = Number.MIN_SAFE_INTEGER / ticksPerMillisecond;
  * @hidden
  */
 export class TimeSpan {
-  // tslint:disable-next-line:variable-name
   protected _ticks: number;
   constructor(days: number, hours: number, minutes: number, seconds: number, milliseconds: number) {
     // Constructor
