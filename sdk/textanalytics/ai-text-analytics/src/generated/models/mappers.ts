@@ -176,7 +176,6 @@ export const EntitiesTaskParameters: coreHttp.CompositeMapper = {
         }
       },
       stringIndexType: {
-        defaultValue: "TextElements_v8",
         serializedName: "stringIndexType",
         type: {
           name: "String"
@@ -225,7 +224,7 @@ export const PiiTaskParameters: coreHttp.CompositeMapper = {
         constraints: {
           UniqueItems: true
         },
-        serializedName: "piiCategories",
+        serializedName: "pii-categories",
         type: {
           name: "Sequence",
           element: {
@@ -236,7 +235,6 @@ export const PiiTaskParameters: coreHttp.CompositeMapper = {
         }
       },
       stringIndexType: {
-        defaultValue: "TextElements_v8",
         serializedName: "stringIndexType",
         type: {
           name: "String"
@@ -307,7 +305,6 @@ export const EntityLinkingTaskParameters: coreHttp.CompositeMapper = {
         }
       },
       stringIndexType: {
-        defaultValue: "TextElements_v8",
         serializedName: "stringIndexType",
         type: {
           name: "String"

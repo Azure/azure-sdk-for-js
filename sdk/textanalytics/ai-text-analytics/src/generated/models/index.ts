@@ -48,7 +48,7 @@ export interface EntitiesTask {
 
 export interface EntitiesTaskParameters {
   modelVersion?: string;
-  stringIndexType?: StringIndexTypeResponse;
+  stringIndexType?: StringIndexType;
 }
 
 export interface PiiTask {
@@ -60,7 +60,7 @@ export interface PiiTaskParameters {
   modelVersion?: string;
   /** (Optional) describes the PII categories to return */
   piiCategories?: PiiCategory[];
-  stringIndexType?: StringIndexTypeResponse;
+  stringIndexType?: StringIndexType;
 }
 
 export interface KeyPhrasesTask {
@@ -77,7 +77,7 @@ export interface EntityLinkingTask {
 
 export interface EntityLinkingTaskParameters {
   modelVersion?: string;
-  stringIndexType?: StringIndexTypeResponse;
+  stringIndexType?: StringIndexType;
 }
 
 export interface ErrorResponse {
@@ -586,8 +586,8 @@ export interface GeneratedClientHealthHeaders {
   operationLocation?: string;
 }
 
-/** Known values of {@link StringIndexTypeResponse} that the service accepts. */
-export const enum KnownStringIndexTypeResponse {
+/** Known values of {@link StringIndexType} that the service accepts. */
+export const enum KnownStringIndexType {
   /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
   TextElementsV8 = "TextElements_v8",
   /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
@@ -597,15 +597,15 @@ export const enum KnownStringIndexTypeResponse {
 }
 
 /**
- * Defines values for StringIndexTypeResponse. \
- * {@link KnownStringIndexTypeResponse} can be used interchangeably with StringIndexTypeResponse,
+ * Defines values for StringIndexType. \
+ * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
  * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
  * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
  */
-export type StringIndexTypeResponse = string;
+export type StringIndexType = string;
 
 /** Known values of {@link PiiTaskParametersDomain} that the service accepts. */
 export const enum KnownPiiTaskParametersDomain {
@@ -1080,27 +1080,6 @@ export const enum KnownRelationType {
  * **ValueOfExamination**
  */
 export type RelationType = string;
-
-/** Known values of {@link StringIndexType} that the service accepts. */
-export const enum KnownStringIndexType {
-  /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
-  TextElementsV8 = "TextElements_v8",
-  /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
-  UnicodeCodePoint = "UnicodeCodePoint",
-  /** Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript. */
-  Utf16CodeUnit = "Utf16CodeUnit"
-}
-
-/**
- * Defines values for StringIndexType. \
- * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
- * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
- * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
- */
-export type StringIndexType = string;
 /** Defines values for ErrorCodeValue. */
 export type ErrorCodeValue =
   | "InvalidRequest"
