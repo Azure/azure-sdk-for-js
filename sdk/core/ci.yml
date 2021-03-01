@@ -52,8 +52,8 @@ extends:
         safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
-      - name: azure-core-https
-        safeName: azurecorehttps
+      - name: azure-core-rest-pipeline
+        safeName: azurecorerestpipeline
       - name: azure-core-lro
         safeName: azurecorelro
       - name: azure-core-paging

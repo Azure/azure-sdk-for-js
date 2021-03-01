@@ -428,8 +428,8 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-https",
-      "projectFolder": "sdk/core/core-https",
+      "packageName": "@azure/core-rest-pipeline",
+      "projectFolder": "sdk/core/core-rest-pipeline",
       "versionPolicyName": "core"
     },
     {
