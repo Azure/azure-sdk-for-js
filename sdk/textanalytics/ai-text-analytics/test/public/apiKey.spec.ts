@@ -94,7 +94,7 @@ describe("[API Key] TextAnalyticsClient", function() {
     });
 
     describe("#health", function() {
-      it.only("input strings", async function() {
+      it("input strings", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             "Patient does not suffer from high blood pressure.",
