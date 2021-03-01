@@ -55,6 +55,7 @@ export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealt
 // @public
 export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     entities: HealthcareEntity[];
+    relationships: HealthcareEntityRelation[];
 }
 
 // @public
@@ -228,6 +229,18 @@ export interface HealthcareEntity extends Entity {
     assertion?: HealthcareAssertion;
     dataSources: EntityDataSource[];
     relatedEntities: Map<HealthcareEntity, string>;
+}
+
+// @public
+export interface HealthcareEntityRelation {
+    roles: HealthcareRelationRole[];
+    type: RelationType;
+}
+
+// @public
+export interface HealthcareRelationRole {
+    entity: HealthcareEntity;
+    role: string;
 }
 
 // @public
@@ -446,6 +459,9 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     readonly entities: PiiEntity[];
     redactedText: string;
 }
+
+// @public
+export type RelationType = string;
 
 // @public (undocumented)
 export interface SentenceAssessment {

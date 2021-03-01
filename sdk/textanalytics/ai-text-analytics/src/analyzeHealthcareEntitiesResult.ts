@@ -9,7 +9,9 @@ import {
   TextDocumentBatchStatistics,
   HealthcareEntity as GeneratedHealthcareEntity,
   TextAnalyticsError,
-  HealthcareAssertion
+  HealthcareAssertion,
+  RelationType,
+  HealthcareRelationEntity
 } from "./generated/models";
 import {
   makeTextAnalyticsErrorResult,
@@ -56,6 +58,34 @@ export interface HealthcareEntity extends Entity {
 }
 
 /**
+ * A healthcare entity that plays a specific role in a relation.
+ */
+export interface HealthcareRelationRole {
+  /**
+   * A healthcare entity
+   */
+  entity: HealthcareEntity;
+  /**
+   * The role of the healthcare entity in a particular relation.
+   */
+  role: string;
+}
+
+/**
+ * A relationship between two or more healthcare entities.
+ */
+export interface HealthcareEntityRelation {
+  /**
+   * The type of the healthcare relation.
+   */
+  type: RelationType;
+  /**
+   * The list of healthcare entities and their roles in the healthcare relation.
+   */
+  roles: HealthcareRelationRole[];
+}
+
+/**
  * The results of a successful healthcare operation for a single document.
  */
 export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
@@ -63,6 +93,10 @@ export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuc
    * Healthcare entities.
    */
   entities: HealthcareEntity[];
+  /**
+   * Relationships between healthcare entities.
+   */
+  relationships: HealthcareEntityRelation[];
 }
 
 /**
@@ -174,6 +208,23 @@ function makeHealthcareEntitiesGraph(
   }
 }
 
+function makeHealthcareRelations(
+  entities: HealthcareEntity[],
+  relations: HealthcareRelation[]
+): HealthcareEntityRelation[] {
+  return relations.map(
+    (relation: HealthcareRelation): HealthcareEntityRelation => ({
+      type: relation.relationType,
+      roles: relation.entities.map(
+        (role: HealthcareRelationEntity): HealthcareRelationRole => ({
+          entity: entities[parseHealthcareEntityIndex(role.ref)],
+          role: role.role
+        })
+      )
+    })
+  );
+}
+
 /**
  * Creates a healthcare entity in the convenience layer from the one sent by the service.
  * @param document - incoming results sent by the service for a particular document
@@ -187,7 +238,8 @@ export function makeHealthcareEntitiesResult(
   makeHealthcareEntitiesGraph(newEntities, relations);
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    entities: newEntities
+    entities: newEntities,
+    relationships: makeHealthcareRelations(newEntities, relations)
   };
 }
 

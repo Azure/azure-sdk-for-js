@@ -94,7 +94,7 @@ describe("[API Key] TextAnalyticsClient", function() {
     });
 
     describe("#health", function() {
-      it("input strings", async function() {
+      it.only("input strings", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             "Patient does not suffer from high blood pressure.",
@@ -124,6 +124,32 @@ describe("[API Key] TextAnalyticsClient", function() {
           const doc2Entity1Edge1Label = doc2Entity1.relatedEntities.values().next().value;
           assert.equal(doc2Entity1Target1.text, "ibuprofen");
           assert.equal(doc2Entity1Edge1Label, "DosageOfMedication");
+          assert.deepEqual(doc2.relationships[0], {
+            type: "DosageOfMedication",
+            roles: [
+              {
+                entity: doc2.entities[0],
+                role: "Attribute"
+              },
+              {
+                entity: doc2.entities[1],
+                role: "Entity"
+              }
+            ]
+          });
+          assert.deepEqual(doc2.relationships[1], {
+            type: "FrequencyOfMedication",
+            roles: [
+              {
+                entity: doc2.entities[1],
+                role: "Entity"
+              },
+              {
+                entity: doc2.entities[2],
+                role: "Attribute"
+              }
+            ]
+          });
 
           const doc2Entity2 = doc2.entities[1];
           assert.equal(doc2Entity2.text, "ibuprofen");
