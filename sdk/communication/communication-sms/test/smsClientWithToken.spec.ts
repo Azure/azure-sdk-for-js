@@ -15,52 +15,48 @@ if (isNode) {
   dotenv.config();
 }
 
-const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
+describe("SmsClientWithToken [Playback/Live]", async () => {
+  let recorder: Recorder;
 
-if (!isBrowser()) {
-  describe("SmsClientWithToken [Playback/Live]", async () => {
-    let recorder: Recorder;
-
-    beforeEach(async function() {
-      recorder = record(this, recorderConfiguration);
-      if (isPlaybackMode()) {
-        sinon.stub(Uuid, "generateUuid").returns("sanitized");
-        sinon.stub(Date, "now").returns(0);
-      }
-    });
-
-    afterEach(async function() {
-      if (!this.currentTest?.isPending()) {
-        await recorder.stop();
-      }
-      if (isPlaybackMode()) {
-        sinon.restore();
-      }
-    });
-
-    it("successfully issues a token for a user", async function() {
-      const credential = createCredential();
-
-      if (!credential) {
-        this.skip();
-      }
-
-      const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
-        .endpoint;
-      const fromNumber = env.AZURE_PHONE_NUMBER as string;
-      const toNumber = env.AZURE_PHONE_NUMBER as string;
-
-      const smsClient = new SmsClient(endpoint, credential);
-
-      const sendRequest: SmsSendRequest = {
-        from: fromNumber,
-        to: [toNumber],
-        message: "test message"
-      };
-
-      const responses = await smsClient.send(sendRequest);
-      const response = responses[0];
-      assert.equal(response.httpStatusCode, 202);
-    }).timeout(5000);
+  beforeEach(async function() {
+    recorder = record(this, recorderConfiguration);
+    if (isPlaybackMode()) {
+      sinon.stub(Uuid, "generateUuid").returns("sanitized");
+      sinon.stub(Date, "now").returns(0);
+    }
   });
-}
+
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      await recorder.stop();
+    }
+    if (isPlaybackMode()) {
+      sinon.restore();
+    }
+  });
+
+  it("successfully issues a token for a user", async function() {
+    const credential = createCredential();
+
+    if (!credential) {
+      this.skip();
+    }
+
+    const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
+      .endpoint;
+    const fromNumber = env.AZURE_PHONE_NUMBER as string;
+    const toNumber = env.AZURE_PHONE_NUMBER as string;
+
+    const smsClient = new SmsClient(endpoint, credential);
+
+    const sendRequest: SmsSendRequest = {
+      from: fromNumber,
+      to: [toNumber],
+      message: "test message"
+    };
+
+    const responses = await smsClient.send(sendRequest);
+    const response = responses[0];
+    assert.equal(response.httpStatusCode, 202);
+  }).timeout(5000);
+});
