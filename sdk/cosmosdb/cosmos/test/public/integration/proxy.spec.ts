@@ -32,7 +32,7 @@ if (!isBrowser()) {
     const agent = new ProxyAgent(`http://127.0.0.1:${8989}`) as any;
 
     it("nativeApi Client Should successfully execute request", async function() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         proxy.listen(proxyPort, "127.0.0.1", async () => {
           try {
             const client = new CosmosClient({
@@ -45,8 +45,6 @@ if (!isBrowser()) {
               id: addEntropy("ProxyTest")
             });
             resolve();
-          } catch (err) {
-            throw err;
           } finally {
             proxy.close();
           }
