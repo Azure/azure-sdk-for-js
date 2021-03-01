@@ -199,5 +199,10 @@ jobs:
           searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "$(TestResultsFiles)"
           testRunTitle: "$(OSName) - $(TestType) - Integration Tests - [Node $(NodeTestVersion)]"
-        condition: and(always(), ne(variables['TestResultsFiles'], ''))
+        condition: >
+          and(
+            always(),
+            ne(variables['TestResultsFiles'], ''),
+            or(eq(variables['TestType'], 'node'), eq(variables['TestType'], 'browser'))
+          )
         displayName: "Publish $(TestType) integration test results"
