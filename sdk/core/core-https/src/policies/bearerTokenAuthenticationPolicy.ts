@@ -5,7 +5,7 @@ import {
   PipelineResponse,
   PipelineRequest,
   SendRequest,
-  AuthenticationOptions
+  AuthenticationContext
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
@@ -28,6 +28,10 @@ export interface BearerTokenAuthenticationPolicyOptions {
    * The scopes for which the bearer token applies.
    */
   scopes: string | string[];
+  /**
+   * Allows the dynamic discovery of authentication properties.
+   */
+  authenticationContext?: AuthenticationContext;
 }
 
 /**
@@ -39,14 +43,13 @@ export function bearerTokenAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-
-  let authenticationOptions: AuthenticationOptions | undefined;
+  const authenticationContext: AuthenticationContext = options.authenticationContext || {};
 
   async function getToken(tokenOptions: GetTokenOptions): Promise<string | undefined> {
     let accessToken = tokenCache.getCachedToken();
     if (accessToken === undefined) {
       accessToken =
-        (await credential.getToken(authenticationOptions?.scope || scopes, tokenOptions)) ||
+        (await credential.getToken(authenticationContext.scopes || scopes, tokenOptions)) ||
         undefined;
       tokenCache.setCachedToken(accessToken);
     }
@@ -56,14 +59,12 @@ export function bearerTokenAuthenticationPolicy(
   return {
     name: bearerTokenAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      authenticationOptions = request.authenticationOptions;
-
       const token = await getToken({
         abortSignal: request.abortSignal,
         tracingOptions: {
           spanOptions: request.spanOptions
         },
-        claims: request.authenticationOptions?.claims
+        claims: authenticationContext.claims
       });
 
       request.headers.set("Authorization", `Bearer ${token}`);

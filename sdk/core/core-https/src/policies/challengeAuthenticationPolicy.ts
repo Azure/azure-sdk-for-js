@@ -1,18 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  AuthenticationContext
+} from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 export const challengeAuthenticationPolicyName = "challengeAuthenticationPolicy";
 
 export interface ChallengeAuthenticationPolicyOptions {
+  authenticationContext: AuthenticationContext;
   prepareRequest?(request: PipelineRequest): Promise<void>;
   getChallenge?(response: PipelineResponse): string | undefined;
-  processChallenge?(request: PipelineRequest, challenge?: string): Promise<boolean>;
+  processChallenge?(challenge: string, context: AuthenticationContext): Promise<boolean>;
 }
 
 const defaultOptions: ChallengeAuthenticationPolicyOptions = {
+  authenticationContext: {},
   getChallenge(response: PipelineResponse): string | undefined {
     const challenges = response.headers.get("WWW-Authenticate");
     if (response.status === 401 && challenges) {
@@ -29,7 +36,12 @@ export function challengeAuthenticationPolicy(
     ...defaultOptions,
     ...options
   };
-  const { prepareRequest, getChallenge, processChallenge } = completeOptions;
+  const {
+    prepareRequest,
+    getChallenge,
+    processChallenge,
+    authenticationContext
+  } = completeOptions;
 
   return {
     name: challengeAuthenticationPolicyName,
@@ -38,10 +50,11 @@ export function challengeAuthenticationPolicy(
         await prepareRequest(request);
       }
       const response = await next(request);
+      const challenge = getChallenge && getChallenge(response);
       if (
-        getChallenge &&
+        challenge &&
         processChallenge &&
-        (await processChallenge(request, getChallenge(response)))
+        (await processChallenge(challenge, authenticationContext))
       ) {
         return next(request);
       }

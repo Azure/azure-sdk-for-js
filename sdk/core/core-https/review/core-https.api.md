@@ -25,6 +25,8 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
+    // Warning: (ae-forgotten-export) The symbol "AuthenticationContext" needs to be exported by the entry point index.d.ts
+    authenticationContext?: AuthenticationContext;
     credential: TokenCredential;
     scopes: string | string[];
 }
@@ -38,11 +40,13 @@ export const challengeAuthenticationPolicyName = "challengeAuthenticationPolicy"
 // @public (undocumented)
 export interface ChallengeAuthenticationPolicyOptions {
     // (undocumented)
+    authenticationContext?: AuthenticationContext;
+    // (undocumented)
     getChallenge?(response: PipelineResponse): string | undefined;
     // (undocumented)
     prepareRequest?(request: PipelineRequest): Promise<void>;
     // (undocumented)
-    processChallenge?(request: PipelineRequest, challenge?: string): Promise<boolean>;
+    processChallenge?(challenge: string, context: AuthenticationContext): Promise<boolean>;
 }
 
 // @public
@@ -169,8 +173,6 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "AuthenticationOptions" needs to be exported by the entry point index.d.ts
-    authenticationOptions?: AuthenticationOptions;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers: HttpHeaders;

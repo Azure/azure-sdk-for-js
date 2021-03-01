@@ -10,10 +10,10 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   HttpsClient,
-  PipelineRequest,
   PipelineResponse
 } from "../src";
 import { parseCAEChallenges } from "../src/util/parseCAEChallenges";
+import { AuthenticationContext } from "../src/interfaces";
 
 export interface TestChallenge {
   scope: string;
@@ -46,11 +46,10 @@ export function decodeString(value: string): Uint8Array {
   return Buffer.from(value, "base64");
 }
 
-async function processChallenge(request: PipelineRequest, challenge?: string): Promise<boolean> {
-  if (!challenge) {
-    return false;
-  }
-
+async function processChallenge(
+  challenge: string,
+  context: AuthenticationContext
+): Promise<boolean> {
   const challenges: TestChallenge[] = parseCAEChallenges(challenge) || [];
 
   const parsedChallenge = challenges.find((x) => x.claims);
@@ -61,12 +60,8 @@ async function processChallenge(request: PipelineRequest, challenge?: string): P
     cachedChallenge = challenge;
   }
 
-  if (!request.authenticationOptions) {
-    request.authenticationOptions = {};
-  }
-
-  request.authenticationOptions.scope = parsedChallenge.scope;
-  request.authenticationOptions.claims = uint8ArrayToString(decodeString(parsedChallenge.claims));
+  context.scopes = parsedChallenge.scope;
+  context.claims = uint8ArrayToString(decodeString(parsedChallenge.claims));
 
   return true;
 }
@@ -87,8 +82,8 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("ChallengeAuthenticationPolicy", function() {
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
+describe("ChallengeAuthenticationPolicy", function () {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
     const expected = {
       scope: "http://localhost/.default",
       claims: JSON.stringify({
@@ -118,9 +113,10 @@ describe("ChallengeAuthenticationPolicy", function() {
     const credential = new MockRefreshAzureCredential(expiresOn);
 
     const pipeline = createEmptyPipeline();
+    const authenticationContext: AuthenticationContext = {};
     const policies = [
-      challengeAuthenticationPolicy({ processChallenge }),
-      bearerTokenAuthenticationPolicy({ credential, scopes: "" })
+      challengeAuthenticationPolicy({ processChallenge, authenticationContext }),
+      bearerTokenAuthenticationPolicy({ credential, scopes: "", authenticationContext })
     ];
 
     for (let i = 0; i < policies.length; i++) {

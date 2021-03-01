@@ -82,20 +82,6 @@ export type RequestBodyType =
   | null;
 
 /**
- * Authentication options
- */
-export interface AuthenticationOptions {
-  /**
-   * Scopes to overwrite during the get token request.
-   */
-  scope?: string;
-  /**
-   * Claims
-   */
-  claims?: string;
-}
-
-/**
  * Metadata about a request being made by the pipeline.
  */
 export interface PipelineRequest {
@@ -166,11 +152,6 @@ export interface PipelineRequest {
    * Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
-
-  /**
-   * Authentication options
-   */
-  authenticationOptions?: AuthenticationOptions;
 
   /**
    * Callback which fires upon upload progress.
@@ -293,3 +274,17 @@ export type FormDataValue = string | Blob;
  * A simple object that provides form data, as if from a browser form.
  */
 export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
+
+/**
+ * Allows the discovery of authentication properties.
+ */
+export interface AuthenticationContext {
+  /**
+   * Scopes to overwrite during the get token request.
+   */
+  scopes?: string | string[];
+  /**
+   * Claims that can be used by the credential's getToken request.
+   */
+  claims?: string;
+}
