@@ -142,5 +142,5 @@ export {
   Association,
   Certainty,
   Conditionality,
-  RelationType
+  RelationType as HealthcareEntityRelationType
 } from "./generated/models";

@@ -234,8 +234,11 @@ export interface HealthcareEntity extends Entity {
 // @public
 export interface HealthcareEntityRelation {
     roles: HealthcareRelationRole[];
-    type: RelationType;
+    type: HealthcareEntityRelationType;
 }
+
+// @public
+export type HealthcareEntityRelationType = string;
 
 // @public
 export interface HealthcareRelationRole {
@@ -459,9 +462,6 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     readonly entities: PiiEntity[];
     redactedText: string;
 }
-
-// @public
-export type RelationType = string;
 
 // @public (undocumented)
 export interface SentenceAssessment {
