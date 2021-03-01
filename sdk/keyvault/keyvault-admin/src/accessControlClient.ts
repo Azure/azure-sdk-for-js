@@ -42,7 +42,7 @@ import {
 } from "./accessControlModels";
 
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
-import { createSpan, setParentSpan } from "../../keyvault-common/src";
+import { createSpan } from "./tracing";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 
@@ -146,7 +146,7 @@ export class KeyVaultAccessControlClient {
     principalId: string,
     options?: CreateRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
-    const span = createSpan("createRoleAssignment", options);
+    const { span, updatedOptions } = createSpan("createRoleAssignment", options);
 
     if (!(roleScope && name && roleDefinitionId && principalId)) {
       throw new Error(
@@ -166,7 +166,7 @@ export class KeyVaultAccessControlClient {
             principalId
           }
         },
-        setParentSpan(span, options)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -195,7 +195,7 @@ export class KeyVaultAccessControlClient {
     name: string,
     options?: DeleteRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
-    const span = createSpan("deleteRoleAssignment", options);
+    const { span, updatedOptions } = createSpan("deleteRoleAssignment", options);
 
     let response: RoleAssignmentsDeleteResponse;
     try {
@@ -203,7 +203,7 @@ export class KeyVaultAccessControlClient {
         this.vaultUrl,
         roleScope,
         name,
-        setParentSpan(span, options)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -232,7 +232,7 @@ export class KeyVaultAccessControlClient {
     name: string,
     options?: GetRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
-    const span = createSpan("getRoleAssignment", options);
+    const { span, updatedOptions } = createSpan("getRoleAssignment", options);
 
     let response: RoleAssignmentsDeleteResponse;
     try {
@@ -240,7 +240,7 @@ export class KeyVaultAccessControlClient {
         this.vaultUrl,
         roleScope,
         name,
-        setParentSpan(span, options)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -322,11 +322,7 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleAssignmentsOptions = {}
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
-    const span = createSpan("listRoleAssignments", options);
-    const updatedOptions: ListRoleAssignmentsOptions = {
-      ...options,
-      ...setParentSpan(span, options)
-    };
+    const { span, updatedOptions } = createSpan("listRoleAssignments", options);
 
     const iter = this.listRoleAssignmentsAll(roleScope, updatedOptions);
 
@@ -416,11 +412,7 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleDefinitionsOptions = {}
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
-    const span = createSpan("listRoleDefinitions", options);
-    const updatedOptions: ListRoleDefinitionsOptions = {
-      ...options,
-      ...setParentSpan(span, options)
-    };
+    const { span, updatedOptions } = createSpan("listRoleDefinitions", options);
 
     const iter = this.listRoleDefinitionsAll(roleScope, updatedOptions);
 
@@ -455,7 +447,7 @@ export class KeyVaultAccessControlClient {
     name: string,
     options: GetRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {
-    const span = createSpan("getRoleDefinition", options);
+    const { span, updatedOptions } = createSpan("getRoleDefinition", options);
 
     let response: RoleDefinitionsGetResponse;
     try {
@@ -463,7 +455,7 @@ export class KeyVaultAccessControlClient {
         this.vaultUrl,
         roleScope,
         name,
-        setParentSpan(span, options)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -495,7 +487,7 @@ export class KeyVaultAccessControlClient {
     description?: string,
     options: UpsertRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {
-    const span = createSpan("upsertRoleDefinition", options);
+    const { span, updatedOptions } = createSpan("upsertRoleDefinition", options);
 
     let response: RoleDefinitionsCreateOrUpdateResponse;
     try {
@@ -512,7 +504,7 @@ export class KeyVaultAccessControlClient {
             roleType: "CustomRole"
           }
         },
-        setParentSpan(span, options)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -540,7 +532,7 @@ export class KeyVaultAccessControlClient {
     name: string,
     options: DeleteRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {
-    const span = createSpan("deleteRoleDefinition", options);
+    const { span, updatedOptions } = createSpan("deleteRoleDefinition", options);
 
     let response: RoleDefinitionsDeleteResponse;
     try {
@@ -548,7 +540,7 @@ export class KeyVaultAccessControlClient {
         this.vaultUrl,
         roleScope,
         name,
-        setParentSpan(span, options)
+        updatedOptions
       );
     } finally {
       span.end();

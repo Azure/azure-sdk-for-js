@@ -305,7 +305,10 @@ export class Items {
    * @param body - Represents the body of the item. Can contain any number of user defined properties.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    */
-  public async upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
+  public async upsert(
+    body: unknown,
+    options?: RequestOptions
+  ): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Upsert an item.
    *

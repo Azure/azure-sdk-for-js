@@ -83,7 +83,7 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
   resourceType: ResourceType,
   headers: CosmosHeaders,
   masterKey: string
-) {
+): Promise<void> {
   // TODO This should live in cosmos-sign
   if (resourceType === ResourceType.offer) {
     resourceId = resourceId && resourceId.toLowerCase();
@@ -102,7 +102,7 @@ export function getAuthorizationTokenUsingResourceTokens(
   resourceTokens: { [resourceId: string]: string },
   path: string,
   resourceId: string
-) {
+): string {
   if (resourceTokens && Object.keys(resourceTokens).length > 0) {
     // For database account access(through getDatabaseAccount API), path and resourceId are "",
     // so in this case we return the first token to be used for creating the auth header as the

@@ -64,6 +64,7 @@ describe("session tests", () => {
   }
 
   afterEach(async () => {
+    unexpectedError = undefined;
     await serviceBusClient.test.afterEach();
     await serviceBusClient.test.after();
   });
@@ -73,7 +74,6 @@ describe("session tests", () => {
       void
     > {
       let expectedErrorThrown = false;
-      let unexpectedError;
       try {
         await beforeEachTest();
       } catch (error) {
@@ -99,7 +99,6 @@ describe("session tests", () => {
       void
     > {
       let expectedErrorThrown = false;
-      let unexpectedError;
       await beforeEachTest("boo");
       try {
         await serviceBusClient.test.acceptSessionWithPeekLock(

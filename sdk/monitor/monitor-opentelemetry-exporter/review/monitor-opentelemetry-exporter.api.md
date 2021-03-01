@@ -8,26 +8,21 @@ import { ExportResult } from '@opentelemetry/core';
 import { ReadableSpan } from '@opentelemetry/tracing';
 import { SpanExporter } from '@opentelemetry/tracing';
 
-// @public (undocumented)
+// @public
 export interface AzureExporterConfig {
-    // (undocumented)
     apiVersion?: ServiceApiVersion;
-    // (undocumented)
     connectionString?: string;
 }
 
-// @public (undocumented)
+// @public
 export class AzureMonitorTraceExporter implements SpanExporter {
     constructor(options?: AzureExporterConfig);
-    // (undocumented)
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
-    // (undocumented)
     shutdown(): Promise<void>;
 }
 
-// @public (undocumented)
+// @public
 export enum ServiceApiVersion {
-    // (undocumented)
     V2 = "2020-09-15_Preview"
 }
 

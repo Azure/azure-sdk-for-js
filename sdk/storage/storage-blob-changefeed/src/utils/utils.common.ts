@@ -67,12 +67,12 @@ export async function getYearsPaths(
   containerClient: ContainerClient,
   options: GetYearsPathsOptions = {}
 ): Promise<number[]> {
-  const { span, spanOptions } = createSpan("getYearsPaths", options.tracingOptions);
+  const { span, updatedOptions } = createSpan("getYearsPaths", options);
   try {
     const years: number[] = [];
     for await (const item of containerClient.listBlobsByHierarchy("/", {
       abortSignal: options.abortSignal,
-      tracingOptions: { ...options.tracingOptions, spanOptions },
+      tracingOptions: updatedOptions.tracingOptions,
       prefix: CHANGE_FEED_SEGMENT_PREFIX
     })) {
       // TODO: add String.prototype.includes polyfill for IE11
@@ -111,7 +111,7 @@ export async function getSegmentsInYear(
   endTime?: Date,
   options: GetSegmentsInYearOptions = {}
 ): Promise<string[]> {
-  const { span, spanOptions } = createSpan("getSegmentsInYear", options.tracingOptions);
+  const { span, updatedOptions } = createSpan("getSegmentsInYear", options);
 
   try {
     const segments: string[] = [];
@@ -124,7 +124,7 @@ export async function getSegmentsInYear(
     for await (const item of containerClient.listBlobsFlat({
       prefix,
       abortSignal: options.abortSignal,
-      tracingOptions: { ...options.tracingOptions, spanOptions }
+      tracingOptions: updatedOptions.tracingOptions
     })) {
       const segmentTime = parseDateFromSegmentPath(item.name);
       if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {

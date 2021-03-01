@@ -184,10 +184,7 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "BatchDeleteRequest-addSubRequest",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("BatchDeleteRequest-addSubRequest", options);
 
     try {
       this.setBatchType("delete");
@@ -197,10 +194,9 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete({
-            ...options,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          });
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(
+            updatedOptions
+          );
         }
       );
     } catch (e) {
@@ -303,10 +299,7 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "BatchSetTierRequest-addSubRequest",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("BatchSetTierRequest-addSubRequest", options);
 
     try {
       this.setBatchType("setAccessTier");
@@ -318,10 +311,7 @@ export class BlobBatch {
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
             tier,
-            {
-              ...options,
-              tracingOptions: { ...options!.tracingOptions, spanOptions }
-            }
+            updatedOptions
           );
         }
       );

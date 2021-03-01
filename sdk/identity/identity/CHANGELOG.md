@@ -4,7 +4,12 @@
 
 ## 1.2.4-beta.2 (Unreleased)
 
-- Breaking change: `DefaultAzureCredential` now only uses `InteractiveBrowserCredential` in the browser since it's the only credential intended to be used to authenticate within browsers.
+- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13973](https://github.com/Azure/azure-sdk-for-js/pull/13973).
+- `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
+- Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
+- Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
+- Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
+- Bug fix: `ManagedIdentityCredential` now also properly handles `EHOSTUNREACH` errors. Fixes issue [13894](https://github.com/Azure/azure-sdk-for-js/issues/13894).
 
 ## 1.2.4-beta.1 (2021-02-12)
 

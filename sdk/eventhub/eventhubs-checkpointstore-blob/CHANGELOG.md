@@ -1,7 +1,11 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.0 (Unreleased)
 
+- Updates all async methods on `BlobCheckpointStore` to accept
+  an optional `options` parameter that can be used to pass in an
+  `abortSignal` and `tracingOptions`.
+  Resolves issue [#9492](https://github.com/Azure/azure-sdk-for-js/issues/9492).
 
 ## 1.0.1 (2020-08-03)
 

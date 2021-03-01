@@ -6,7 +6,7 @@ token from the STS that can be used to access Mixed Reality services.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/mixedreality/mixedreality-authentication/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/mixedreality-authentication) |
-[API reference documentation](https://aka.ms/azsdk/js/textanalytics/docs) |
+[API reference documentation](https://aka.ms/azsdk/js/mixedreality-authentication/docs) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixedreality-authentication/samples)
 
 ![Mixed Reality service authentication diagram](https://docs.microsoft.com/azure/spatial-anchors/concepts/media/spatial-anchors-authentication-overview.png)
@@ -159,17 +159,17 @@ documentation for the client library you're using to determine if and how this m
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and
-responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at
-runtime by calling `setLogLevel` in the `@azure/logger`:
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
 

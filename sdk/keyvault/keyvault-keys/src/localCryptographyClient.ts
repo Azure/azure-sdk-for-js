@@ -13,10 +13,11 @@ import {
   WrapResult,
   VerifyResult,
   KeyWrapAlgorithm,
-  EncryptResult
+  EncryptResult,
+  EncryptParameters
 } from "./cryptographyClientModels";
 import { runOperation } from "./localCryptography/runOperation";
-import { EncryptionAlgorithm } from ".";
+import { EncryptionAlgorithm, EncryptOptions } from ".";
 
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.
@@ -39,8 +40,8 @@ export class LocalCryptographyClient {
    * @param plaintext - The text to encrypt.
    */
   public async encrypt(
-    algorithm: LocalSupportedAlgorithmName,
-    plaintext: Uint8Array
+    encryptParameters: EncryptParameters,
+    _options: EncryptOptions = {}
   ): Promise<EncryptResult> {
     if (!isNode) {
       throw new LocalCryptographyUnsupportedError("Encryption is only available in NodeJS");
@@ -48,11 +49,15 @@ export class LocalCryptographyClient {
     const result = (await runOperation(
       this.key,
       "encrypt",
-      algorithm,
-      Buffer.from(plaintext)
+      encryptParameters.algorithm as LocalSupportedAlgorithmName,
+      Buffer.from(encryptParameters.plaintext)
     )) as Buffer;
     const keyID = this.key.kid;
-    return { result, algorithm: algorithm as EncryptionAlgorithm, keyID };
+    return {
+      result,
+      algorithm: encryptParameters.algorithm as EncryptionAlgorithm,
+      keyID
+    };
   }
 
   /**

@@ -12,7 +12,7 @@ const itemDefs = JSON.parse(readFileSync("./Shared/Data/Families.json", "utf8"))
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run() {
+async function run(): Promise<void> {
   // ensuring a database & container exists for us to work with
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({ id: containerId });
@@ -38,7 +38,7 @@ async function run() {
   const { resource: item2, headers } = await item.read({
     accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
   });
-  if (!item2 && headers["content-length"] == 0) {
+  if (!item2 && headers["content-length"] === 0) {
     console.log(
       "As expected, no item returned. This is because the etag sent matched the etag on the server. i.e. you have the latest version of the item already"
     );
@@ -54,7 +54,9 @@ async function run() {
   if (!item3 && headers3["content-length"] === 0) {
     throw "Expected item this time. Something is wrong!";
   } else {
-    console.log("This time the read request returned the item because the etag values did not match");
+    console.log(
+      "This time the read request returned the item because the etag values did not match"
+    );
   }
 
   const querySpec = {
@@ -70,7 +72,7 @@ async function run() {
   logStep("Query items in container '" + container.id + "'");
   const { resources: results } = await container.items.query(querySpec).fetchAll();
 
-  if (results.length == 0) {
+  if (results.length === 0) {
     throw "No items found matching";
   } else if (results.length > 1) {
     throw "More than 1 item found matching";
@@ -95,7 +97,9 @@ async function run() {
   const { resource: updatedPerson } = await container.items.upsert(person);
 
   console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
-  console.log("The '" + person.id + "' family has " + updatedPerson.children.length + " children '");
+  console.log(
+    "The '" + person.id + "' family has " + updatedPerson.children.length + " children '"
+  );
 
   logStep("Trying to replace item when item has changed in the database");
   // The replace item above will work even if there's a new version of item on the server from what you originally read
@@ -113,7 +117,7 @@ async function run() {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
   } catch (err) {
-    if (err.code == 412) {
+    if (err.code === 412) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
       throw err;
@@ -133,8 +137,9 @@ async function run() {
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
   console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
 
-  if (upsertedPerson1.id === upsertedPerson2.id)
-    {throw new Error("These two upserted records should have different resource IDs.");}
+  if (upsertedPerson1.id === upsertedPerson2.id) {
+    throw new Error("These two upserted records should have different resource IDs.");
+  }
 
   logStep("Delete item '" + item.id + "'");
   await item.delete();

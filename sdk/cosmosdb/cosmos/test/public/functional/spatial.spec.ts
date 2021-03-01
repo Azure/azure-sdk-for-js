@@ -10,7 +10,7 @@ describe("Spatial Indexes", function() {
     await removeAllDatabases();
   });
 
-  const spatialIndexTest = async function(isUpsertTest: boolean) {
+  const spatialIndexTest = async function(isUpsertTest: boolean): Promise<void> {
     // create database
     const database: Database = await getTestDatabase("validate spatial index");
 
