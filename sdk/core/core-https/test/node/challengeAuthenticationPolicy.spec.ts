@@ -11,9 +11,9 @@ import {
   createPipelineRequest,
   HttpsClient,
   PipelineResponse
-} from "../src";
-import { parseCAEChallenges } from "../src/util/parseCAEChallenges";
-import { AuthenticationContext } from "../src/interfaces";
+} from "../../src";
+import { parseCAEChallenges } from "../../src/util/parseCAEChallenges";
+import { AuthenticationContext } from "../../src/interfaces";
 
 export interface TestChallenge {
   scope: string;
@@ -119,10 +119,8 @@ describe("ChallengeAuthenticationPolicy", function() {
       bearerTokenAuthenticationPolicy({ credential, scopes: "", authenticationContext })
     ];
 
-    for (let i = 0; i < policies.length; i++) {
-      const prev = policies[i - 1];
-      pipeline.addPolicy(policies[i], prev && { afterPolicies: [prev.name] });
-    }
+    pipeline.addPolicy(policies[0]);
+    pipeline.addPolicy(policies[1], { afterPolicies: [policies[0].name] });
 
     const testHttpsClient: HttpsClient = {
       sendRequest: async (req) => {
