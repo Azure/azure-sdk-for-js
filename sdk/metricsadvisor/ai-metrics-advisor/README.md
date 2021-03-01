@@ -86,7 +86,7 @@ API key authorization is used in most of the examples, but you can also authenti
 npm install @azure/identity
 ```
 
-To authenticate using a service principal, you will also need to register an AAD application and grant access to Form Recognizer by assigning the "Cognitive Services User" role to your service principal (note: other roles such as "Owner" will not grant the necessary permissions, only "Cognitive Services User" will suffice to run the examples and the sample code).
+To authenticate using a service principal, you will also need to register an AAD application and grant access to Metrics Advisor by assigning the "Cognitive Services User" role to your service principal (note: other roles such as "Owner" will not grant the necessary permissions, only "Cognitive Services User" will suffice to run the examples and the sample code).
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET.
 We also support Authentication by Azure Active Directoty Credential. You will need the Azure Tenant ID, Azure Client ID and Azure Client Secret as environment variables.
