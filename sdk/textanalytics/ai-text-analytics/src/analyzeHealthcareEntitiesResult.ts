@@ -58,9 +58,14 @@ export interface HealthcareEntity extends Entity {
 }
 
 /**
+ * The type of different roles a healthcare entity can play in a relation.
+ */
+export type HealthcareEntityRelationRoleType = string;
+
+/**
  * A healthcare entity that plays a specific role in a relation.
  */
-export interface HealthcareRelationRole {
+export interface HealthcareEntityRelationRole {
   /**
    * A healthcare entity
    */
@@ -68,7 +73,7 @@ export interface HealthcareRelationRole {
   /**
    * The role of the healthcare entity in a particular relation.
    */
-  role: string;
+  role: HealthcareEntityRelationRoleType;
 }
 
 /**
@@ -78,11 +83,11 @@ export interface HealthcareEntityRelation {
   /**
    * The type of the healthcare relation.
    */
-  type: RelationType;
+  relationType: RelationType;
   /**
    * The list of healthcare entities and their roles in the healthcare relation.
    */
-  roles: HealthcareRelationRole[];
+  roles: HealthcareEntityRelationRole[];
 }
 
 /**
@@ -94,9 +99,9 @@ export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuc
    */
   entities: HealthcareEntity[];
   /**
-   * Relationships between healthcare entities.
+   * Relations between healthcare entities.
    */
-  relationships: HealthcareEntityRelation[];
+  entityRelations: HealthcareEntityRelation[];
 }
 
 /**
@@ -214,9 +219,9 @@ function makeHealthcareRelations(
 ): HealthcareEntityRelation[] {
   return relations.map(
     (relation: HealthcareRelation): HealthcareEntityRelation => ({
-      type: relation.relationType,
+      relationType: relation.relationType,
       roles: relation.entities.map(
-        (role: HealthcareRelationEntity): HealthcareRelationRole => ({
+        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
           role: role.role
         })
@@ -239,7 +244,7 @@ export function makeHealthcareEntitiesResult(
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities: newEntities,
-    relationships: makeHealthcareRelations(newEntities, relations)
+    entityRelations: makeHealthcareRelations(newEntities, relations)
   };
 }
 

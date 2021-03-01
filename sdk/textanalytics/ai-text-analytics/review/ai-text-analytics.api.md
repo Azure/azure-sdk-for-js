@@ -55,7 +55,7 @@ export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealt
 // @public
 export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     entities: HealthcareEntity[];
-    relationships: HealthcareEntityRelation[];
+    entityRelations: HealthcareEntityRelation[];
 }
 
 // @public
@@ -233,18 +233,21 @@ export interface HealthcareEntity extends Entity {
 
 // @public
 export interface HealthcareEntityRelation {
-    roles: HealthcareRelationRole[];
-    type: HealthcareEntityRelationType;
+    relationType: HealthcareEntityRelationType;
+    roles: HealthcareEntityRelationRole[];
 }
+
+// @public
+export interface HealthcareEntityRelationRole {
+    entity: HealthcareEntity;
+    role: HealthcareEntityRelationRoleType;
+}
+
+// @public
+export type HealthcareEntityRelationRoleType = string;
 
 // @public
 export type HealthcareEntityRelationType = string;
-
-// @public
-export interface HealthcareRelationRole {
-    entity: HealthcareEntity;
-    role: string;
-}
 
 // @public
 export type InnerErrorCodeValue = string;
