@@ -10,9 +10,6 @@ stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/ai-metrics-advisor"
-      MatrixFilters:
-        - TestType=node|browser
-        - DependencyVersion=^$|min|max
       Location: "${{ parameters.Location }}"
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)

@@ -5,6 +5,4 @@ stages:
     parameters:
       PackageName: "@azure/mixedreality-authentication"
       ServiceDirectory: mixedreality
-      MatrixFilters:
-        - DependencyVersion=^$|min|max
       Location: eastus2

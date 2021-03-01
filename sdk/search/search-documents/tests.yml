@@ -5,5 +5,3 @@ stages:
     parameters:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
-      MatrixFilters:
-        - DependencyVersion=^$|min|max

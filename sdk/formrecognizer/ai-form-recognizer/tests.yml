@@ -15,9 +15,6 @@ stages:
     parameters:
       PackageName: "@azure/ai-form-recognizer"
       ServiceDirectory: formrecognizer
-      MatrixFilters:
-        - TestType=node|browser
-        - DependencyVersion=^$|min|max
       Location: "${{ parameters.Location }}"
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)

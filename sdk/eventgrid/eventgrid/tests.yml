@@ -5,6 +5,3 @@ stages:
     parameters:
       PackageName: "@azure/eventgrid"
       ServiceDirectory: eventgrid
-      MatrixFilters:
-        - TestType=node|browser
-        - DependencyVersion=^$

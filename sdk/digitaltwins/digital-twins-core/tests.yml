@@ -6,8 +6,7 @@ stages:
       PackageName: "@azure/digital-twins-core"
       ServiceDirectory: digitaltwins
       MatrixFilters:
-        - TestType=node|browser
-        - DependencyVersion=^$
+        - TestType=^(?!sample).*
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

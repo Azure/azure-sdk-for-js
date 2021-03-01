@@ -5,9 +5,6 @@ stages:
     parameters:
       PackageName: "@azure/data-tables"
       ServiceDirectory: tables
-      MatrixFilters:
-        - TestType=node|browser
-        - DependencyVersion=^$
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

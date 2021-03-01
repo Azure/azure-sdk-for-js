@@ -6,8 +6,6 @@ stages:
       PackageName: "@azure/keyvault-certificates"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
-      MatrixFilters:
-        - DependencyVersion=^$|min|max
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

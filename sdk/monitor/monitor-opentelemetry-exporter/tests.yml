@@ -6,7 +6,4 @@ stages:
       TimeoutInMinutes: 15
       PackageName: "@azure/monitor-opentelemetry-exporter"
       ServiceDirectory: monitor
-      MatrixFilters:
-        - TestType=node|browser
-        - DependencyVersion=^$
       PostIntegrationSteps: monitor-additional-steps

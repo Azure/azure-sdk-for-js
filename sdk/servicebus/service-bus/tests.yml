@@ -7,9 +7,6 @@ stages:
       ServiceDirectory: servicebus
       TimeoutInMinutes: 180
       Clouds: 'Public,Canary'
-      MatrixFilters:
-        - TestType=node|browser
-        - DependencyVersion=^$|min|max
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
