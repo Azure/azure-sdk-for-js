@@ -4,9 +4,10 @@
   "description": "Compute Client",
   "version": "1.0.0",
   "dependencies": {
+    "@azure/core-http": "^1.1.4",
     "@azure/core-lro": "^1.0.1",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-http": "^1.1.4",
+    "@azure/identity": "^1.2.3",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -21,13 +22,30 @@
   "module": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "devDependencies": {
-    "typescript": "^3.1.1",
+    "@microsoft/api-extractor": "7.9.10",
+    "@types/mocha": "^8.2.1",
+    "karma": "^5.1.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.8",
+    "mkdirp": "^1.0.4",
+    "mocha": "^7.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^14.0.0",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "uglify-js": "^3.4.9",
-    "@microsoft/api-extractor": "7.9.10",
-    "mkdirp": "^1.0.4"
+    "typescript": "^3.1.1",
+    "uglify-js": "^3.4.9"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js",
   "repository": {
@@ -55,6 +73,10 @@
     "build": "tsc && rollup -c rollup.config.js && npm run minify && mkdirp ./review &&  npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-compute.js.map'\" -o ./dist/arm-compute.min.js ./dist/arm-compute.js",
     "prepack": "npm install && npm run build",
+    "integration-test:node": "mocha dist/myNodeTests.js",
+    "unit-test:node": "TEST_MODE=playback npm run integration-test:node",
+    "test:node:record": "TEST_MODE=record npm run integration-test:node",
+    "clear-recordings": "rm -fr recordings",
     "extract-api": "api-extractor run --local"
   },
   "sideEffects": false,
