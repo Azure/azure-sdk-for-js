@@ -81,20 +81,14 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
         tenant: "<optional tenant for your organization>"
       });
       const client = new Azure.ArmCompute.ComputeManagementClient(creds, subscriptionId);
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.ArmCompute.ComputeManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const resourceName = "testresourceName";
-        client.apps.get(resourceGroupName, resourceName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+      const resourceGroupName = "testresourceGroupName";
+      const resourceName = "testresourceName"; 
+      client.apps.get(resourceGroupName, resourceName).then((result) => {
+        console.log("The result is:");
+        console.log(result);
+      }).catch((err) => {
+        console.log("An error occurred:");
+        console.error(err);
       });
     </script>
   </head>
