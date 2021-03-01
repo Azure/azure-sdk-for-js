@@ -80,7 +80,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmIotcentral.IotCentralClient(creds, subscriptionId);
+      const client = new Azure.ArmCompute.ComputeManagementClient(creds, subscriptionId);
         if (!res.isLoggedIn) {
           // may cause redirects
           authManager.login();
