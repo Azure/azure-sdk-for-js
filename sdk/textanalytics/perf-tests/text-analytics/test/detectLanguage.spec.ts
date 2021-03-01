@@ -13,14 +13,29 @@ import {
 } from "@azure/ai-text-analytics";
 import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 
-export class DetectLanguageTest extends PerfStressTest<DetectLanguageOptions> {
-  options: PerfStressOptionDictionary<DetectLanguageOptions>;
+interface DetectLanguagePerfTestOptions extends DetectLanguageOptions {
+  "documents-count": number;
+}
+
+export class DetectLanguageTest extends PerfStressTest<DetectLanguagePerfTestOptions> {
+  options: PerfStressOptionDictionary<DetectLanguagePerfTestOptions> = {
+    "documents-count": {
+      required: true,
+      description: "Number of documents",
+      shortName: "n",
+      longName: "docs-count",
+      defaultValue: 10
+    }
+  };
   client: TextAnalyticsClient;
   docs: string[] = [];
 
   constructor() {
     super();
-    this.options = {};
+    this.options = this.parsedOptions;
+    this.docs = Array(this.parsedOptions["documents-count"]?.value!).fill(
+      "Detta är ett dokument skrivet på engelska."
+    );
     let credential: TokenCredential | AzureKeyCredential;
 
     try {
@@ -35,9 +50,6 @@ export class DetectLanguageTest extends PerfStressTest<DetectLanguageOptions> {
   }
 
   async runAsync(): Promise<void> {
-    await this.client.detectLanguage(
-      Array(10).fill("Detta är ett dokument skrivet på engelska."),
-      "en"
-    );
+    await this.client.detectLanguage(this.docs, "en");
   }
 }
