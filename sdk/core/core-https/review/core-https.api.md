@@ -18,6 +18,12 @@ export interface AddPipelineOptions {
 }
 
 // @public
+export interface AuthenticationContext {
+    claims?: string;
+    scopes?: string | string[];
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -25,28 +31,23 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
-    // Warning: (ae-forgotten-export) The symbol "AuthenticationContext" needs to be exported by the entry point index.d.ts
     authenticationContext?: AuthenticationContext;
     credential: TokenCredential;
     scopes: string | string[];
 }
 
-// @public (undocumented)
+// @public
 export function challengeAuthenticationPolicy(options: ChallengeAuthenticationPolicyOptions): PipelinePolicy;
 
-// @public (undocumented)
+// @public
 export const challengeAuthenticationPolicyName = "challengeAuthenticationPolicy";
 
-// @public (undocumented)
+// @public
 export interface ChallengeAuthenticationPolicyOptions {
-    // (undocumented)
-    authenticationContext?: AuthenticationContext;
-    // (undocumented)
+    authenticationContext: AuthenticationContext;
     getChallenge?(response: PipelineResponse): string | undefined;
-    // (undocumented)
     prepareRequest?(request: PipelineRequest): Promise<void>;
-    // (undocumented)
-    processChallenge?(challenge: string, context: AuthenticationContext): Promise<boolean>;
+    processChallenge(challenge: string, context: AuthenticationContext): Promise<boolean>;
 }
 
 // @public

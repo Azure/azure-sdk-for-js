@@ -13,7 +13,8 @@ export {
   ProxySettings,
   RawHttpHeaders,
   TransferProgressEvent,
-  RequestBodyType
+  RequestBodyType,
+  AuthenticationContext
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
