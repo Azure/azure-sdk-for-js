@@ -80,7 +80,34 @@ describe("SmsClient", async () => {
   it("throws an exception when sending from a number you don't own", async () => {
     const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string;
 
-    const fromNumber = "+18331234567"; //how can we ensure we don't own this? Use a number with inbound only? Is that such a thing?
+    const fromNumber = "+18332143356"; //how can we ensure we don't own this? Use a number with inbound only? Is that such a thing?
+    const validToNumber = env.AZURE_PHONE_NUMBER as string;
+    const smsClient = new SmsClient(connectionString);
+
+    const request: SmsSendRequest = {
+      from: fromNumber,
+      to: [validToNumber],
+      message: "test message"
+    };
+
+    const options: SmsSendOptions = {
+      enableDeliveryReport: true,
+      tag: "SMS_LIVE_TEST"
+    };
+    assert.isTrue(true);
+
+    try {
+      await smsClient.send(request, options);
+      assert.fail("Should have thrown an error");
+    } catch (e) {
+      assert.equal(e.statusCode, 401);
+    }
+  });
+
+  it("throws an exception when sending from a number with invalid format", async () => {
+    const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string;
+
+    const fromNumber = "+183323212219"; //how can we ensure we don't own this? Use a number with inbound only? Is that such a thing?
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     const smsClient = new SmsClient(connectionString);
 

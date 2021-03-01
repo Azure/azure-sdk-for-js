@@ -45,20 +45,6 @@ describe("[mocked] SmsClient", async () => {
     }
   };
 
-  //Simulate service being unavailable
-  const mockFailingHttpClient: HttpClient = {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
-      return {
-        status: 503,
-        headers: new HttpHeaders(),
-        request: httpRequest,
-        parsedBody: {
-          errorMessage: "The service is unavailable"
-        }
-      };
-    }
-  };
-
   const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
 
   beforeEach(() => {
@@ -176,54 +162,5 @@ describe("[mocked] SmsClient", async () => {
       request.headers.get("authorization") as string,
       /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
     );
-  });
-
-  it("retries with same repeatability id when service is unreachable", async () => {
-    const smsClient = new SmsClient(baseUri, new AzureKeyCredential("banana"), {
-      httpClient: mockFailingHttpClient
-    });
-    const spy = sinon.spy(mockFailingHttpClient, "sendRequest");
-    const sendRequest: SmsSendRequest = {
-      from: "+18768984505651",
-      to: ["+18768985487"],
-      message: "message"
-    };
-
-    const clock = sinon.useFakeTimers();
-    const expectedRequestBody = {
-      from: sendRequest.from,
-      smsRecipients: [
-        {
-          to: "+18768985487",
-          repeatabilityFirstSent: new Date().toUTCString(),
-          repeatabilityRequestId: mockedGuid
-        }
-      ],
-      message: sendRequest.message,
-      smsSendOptions: {
-        enableDeliveryReport: false
-      }
-    };
-
-    //Dummy error body to get around TS Checker
-    let error = {
-      statusCode: 200,
-      request: {
-        body: ""
-      }
-    };
-
-    let catchCalled = false;
-    const promise = smsClient.send(sendRequest);
-    promise.catch((e) => {
-      error = e;
-      catchCalled = true;
-    });
-    await clock.runAllAsync();
-
-    assert.isTrue(catchCalled);
-    sinon.assert.calledThrice(spy);
-    assert.equal(error.statusCode, 503);
-    assert.deepEqual(JSON.parse(error.request.body), expectedRequestBody);
   });
 });
