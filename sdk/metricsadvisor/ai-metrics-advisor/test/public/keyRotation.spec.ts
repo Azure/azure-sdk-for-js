@@ -4,16 +4,12 @@
 import { assert } from "chai";
 
 import { MetricsAdvisorKeyCredential } from "../../src";
-import { testEnv } from "./util/recordedClients";
 
 describe("MetricsAdvisorKeyCredential", () => {
   let credential: MetricsAdvisorKeyCredential;
 
   beforeEach(function() {
-    credential = new MetricsAdvisorKeyCredential(
-      testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-      testEnv.METRICS_ADVISOR_API_KEY
-    );
+    credential = new MetricsAdvisorKeyCredential("key1", "key2");
   });
 
   it("update subscriptionKey", async function() {
