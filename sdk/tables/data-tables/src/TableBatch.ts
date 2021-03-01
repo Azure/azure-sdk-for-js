@@ -9,7 +9,7 @@ import {
   PipelineResponse,
   RestError,
   createEmptyPipeline
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,

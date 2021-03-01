@@ -79,7 +79,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
-    "@azure/core-https": "1.0.0-beta.2",
+    "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "@azure/core-tracing": "1.0.0-beta.1",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"

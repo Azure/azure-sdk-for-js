@@ -8,7 +8,7 @@ import {
   PipelineResponse,
   Pipeline,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
   OperationSpec,
