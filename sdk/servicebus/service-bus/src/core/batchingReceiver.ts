@@ -65,7 +65,8 @@ export class BatchingReceiver extends MessageReceiver {
 
         return this.link;
       },
-      this.receiveMode
+      this.receiveMode,
+      this._outstandingDeliveries
     );
   }
 
@@ -115,6 +116,10 @@ export class BatchingReceiver extends MessageReceiver {
         this.logPrefix,
         this.name
       );
+
+      if (this._outstandingDeliveries.length === 2047) {
+        return [];
+      }
 
       const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
@@ -235,7 +240,8 @@ export class BatchingReceiverLite {
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
-    private _receiveMode: ReceiveMode
+    private _receiveMode: ReceiveMode,
+    private _outstandingDeliveries: number[]
   ) {
     this._createAndEndProcessingSpan = createAndEndProcessingSpan;
 
@@ -439,6 +445,17 @@ export class BatchingReceiverLite {
           `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage`
         );
         reject(errObj);
+      }
+      if (this._receiveMode === "peekLock") {
+        this._outstandingDeliveries.push(context.delivery!.id);
+        if (this._outstandingDeliveries.length === 2047) {
+          // TODO: Make the circular buffer size configurable in rhea
+          logger.verbose(
+            `${loggingPrefix} Batching, circular buffer that contains the incoming deliveries is full, 
+                please settle the messages using settlement methods such as .completeMessage() on the receiver.`
+          );
+          finalAction();
+        }
       }
       if (brokeredMessages.length === args.maxMessageCount) {
         finalAction();

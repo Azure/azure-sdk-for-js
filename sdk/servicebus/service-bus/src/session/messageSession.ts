@@ -33,7 +33,7 @@ import {
   SubscribeOptions
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
 
 /**
@@ -119,6 +119,11 @@ export class MessageSession extends LinkEntity<Receiver> {
   private _batchingReceiverLite: BatchingReceiverLite;
   private _isReceivingMessagesForSubscriber: boolean;
 
+  /**
+   * Maintains a deliveries that are yet to be settled.
+   * Once the limit of 2048(rhea's limit) is reached, receiver doesn't provide anymore messages.
+   */
+  protected _outstandingDeliveries: number[] = [];
   /**
    * Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
@@ -383,14 +388,20 @@ export class MessageSession extends LinkEntity<Receiver> {
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
       },
-      this.receiveMode
+      this.receiveMode,
+      this._outstandingDeliveries
     );
 
     // setting all the handlers
     this._onSettled = (context: EventContext) => {
       const delivery = context.delivery;
 
-      onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
+      onMessageSettled(
+        this.logPrefix,
+        delivery,
+        this._deliveryDispositionMap,
+        this._outstandingDeliveries
+      );
     };
 
     this._notifyError = (args: ProcessErrorArgs) => {
@@ -622,6 +633,23 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         try {
           await this._onMessage(bMessage);
+
+          if (this.receiveMode === "peekLock") {
+            this._outstandingDeliveries.push(context.delivery!.id);
+            if (this._outstandingDeliveries.length === 2047) {
+              // TODO: Make the circular buffer size configurable in rhea
+              this._notifyError?.({
+                error: new ServiceBusError(
+                  `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
+                Or set the "autoComplete" flag to true to let the library complete the messages on your behalf.`,
+                  "GeneralError"
+                ),
+                errorSource: "receive",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host
+              });
+            }
+          }
         } catch (err) {
           logger.logError(
             err,

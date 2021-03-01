@@ -26,7 +26,7 @@ import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
 import { ReceiverHandlers } from "./shared";
 
@@ -236,6 +236,22 @@ export class StreamingReceiver extends MessageReceiver {
 
       try {
         await this._onMessage(bMessage);
+        if (this.receiveMode === "peekLock") {
+          this._outstandingDeliveries.push(context.delivery!.id);
+          if (this._outstandingDeliveries.length === 2047) {
+            // TODO: Make the circular buffer size configurable in rhea
+            this._onError?.({
+              error: new ServiceBusError(
+                `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
+                Or set the "autoComplete" flag to true to let the library complete the messages on your behalf.`,
+                "GeneralError"
+              ),
+              errorSource: "receive",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
+          }
+        }
       } catch (err) {
         logger.logError(
           err,
@@ -245,7 +261,7 @@ export class StreamingReceiver extends MessageReceiver {
           bMessage.messageId,
           this.name
         );
-        this._onError!({
+        this._onError?.({
           error: err,
           errorSource: "processMessageCallback",
           entityPath: this.entityPath,
