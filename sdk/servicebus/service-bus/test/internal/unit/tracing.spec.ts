@@ -4,15 +4,10 @@
 import chai from "chai";
 import { getTracer, NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
 import { CanonicalCode, SpanOptions } from "@opentelemetry/api";
-import {
-  ServiceBusMessage,
-  ServiceBusMessageImpl,
-  ServiceBusReceivedMessage
-} from "../../../src/serviceBusMessage";
+import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
   createProcessingSpan,
-  instrumentServiceBusMessage,
   TRACEPARENT_PROPERTY
 } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { OperationOptionsBase, trace } from "../../../src/modelsToBeSharedWithEventHubs";
@@ -26,6 +21,7 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { OnMessage } from "../../../src/core/messageReceiver";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { MessageSession } from "../../../src/session/messageSession";
+import { instrumentMessage } from "../../../src/diagnostics/tracing";
 const should = chai.should();
 const assert = chai.assert;
 
@@ -291,7 +287,7 @@ describe("Tracing tests", () => {
   }
 
   describe("telemetry", () => {
-    const otherProperties = {
+    const receiverProperties = {
       entityPath: "entityPath"
     };
 
@@ -302,7 +298,7 @@ describe("Tracing tests", () => {
     it("basic span properties are set", async () => {
       const fakeParentSpanContext = new NoOpSpan().context();
 
-      createProcessingSpan([], otherProperties, connectionConfig, {
+      createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
           spanOptions: {
             parent: fakeParentSpanContext
@@ -320,44 +316,77 @@ describe("Tracing tests", () => {
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.ServiceBus",
-        "message_bus.destination": otherProperties.entityPath,
+        "message_bus.destination": receiverProperties.entityPath,
         "peer.address": connectionConfig.host
       });
     });
 
-    it("received events are linked to this span using Diagnostic-Id", async () => {
-      const requiredMessageProperties = {
+    it("already instrumented messages are skipped", () => {
+      const alreadyInstrumentedMessage = {
         body: "hello",
-        enqueuedTimeUtc: new Date()
+        enqueuedTimeUtc: new Date(),
+        applicationProperties: {
+          "Diagnostic-Id": "alreadyhasdiagnosticsid"
+        }
       };
 
-      const firstEvent = tracer.startSpan("a");
-      const thirdEvent = tracer.startSpan("c");
+      const { message, spanContext } = instrumentMessage(alreadyInstrumentedMessage, {}, "", "");
 
-      const receivedMessages: ServiceBusMessage[] = [
-        instrumentServiceBusMessage({ ...requiredMessageProperties }, firstEvent),
-        { applicationProperties: {}, ...requiredMessageProperties }, // no diagnostic ID means it gets skipped
-        instrumentServiceBusMessage({ ...requiredMessageProperties }, thirdEvent)
-      ];
+      assert.equal(
+        message,
+        alreadyInstrumentedMessage,
+        "Messages that are already instrumented do not get copied"
+      );
+      assert.isUndefined(
+        spanContext,
+        "Messages that are already instrumented do not get a new Span (or SpanContext)"
+      );
+      assert.isUndefined(
+        tracer.spanOptions,
+        "No spans should be created for already instrumented messages"
+      );
+    });
 
-      createProcessingSpan(
-        (receivedMessages as any) as ServiceBusReceivedMessage[],
-        otherProperties,
+    it("Round trip test - instrument message as it would be for sending and then receive and process them", async () => {
+      // the sender side...
+      const requiredMessageProperties = {
+        body: "hello",
+        enqueuedTimeUtc: new Date(),
+        applicationProperties: undefined
+      };
+
+      const originalMessage = { ...requiredMessageProperties };
+
+      const { message, spanContext } = instrumentMessage(originalMessage, {}, "", "");
+      assert.ok(
+        spanContext,
+        "A span context should be created when we instrument a message for the first time"
+      );
+      assert.notEqual(message, originalMessage, "Instrumenting a message should copy it");
+
+      assert.ok(tracer.spanOptions, "A span should be created when we instrumented the messsage");
+      const spanContextFromSender = tracer.span?.context();
+      assert.ok(spanContextFromSender);
+
+      tracer.clearTracingData();
+
+      // the receiver side...
+
+      // messages have been received. Now we'll create a span and link the received spans to it.
+      const processingSpan = createProcessingSpan(
+        ([message] as any) as ServiceBusReceivedMessage[],
+        receiverProperties,
         connectionConfig,
         {}
       );
 
-      // middle event, since it has no trace information, doesn't get included
-      // in the telemetry
-      tracer.spanOptions!.links!.length.should.equal(3 - 1);
-      // the test tracer just hands out a string integer that just gets
-      // incremented
-      tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.context().traceId);
+      assert.ok(processingSpan);
+
+      const processingSpanOptions = tracer.spanOptions;
+      assert.ok(processingSpanOptions);
+
+      tracer.spanOptions!.links![0]!.context.traceId.should.equal(spanContextFromSender?.traceId);
       (tracer.spanOptions!.links![0]!.attributes!.enqueuedTime as number).should.equal(
-        requiredMessageProperties.enqueuedTimeUtc.getTime()
-      );
-      tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.context().traceId);
-      (tracer.spanOptions!.links![1]!.attributes!.enqueuedTime as number).should.equal(
         requiredMessageProperties.enqueuedTimeUtc.getTime()
       );
     });
@@ -388,12 +417,20 @@ describe("Tracing tests", () => {
 });
 
 class TestTracer2 extends TestTracer {
-  public spanOptions: SpanOptions | undefined;
-  public spanName: string | undefined;
+  spanName: string | undefined;
+  spanOptions: SpanOptions | undefined;
+  span: TestSpan | undefined;
+
+  clearTracingData() {
+    this.spanName = undefined;
+    this.spanOptions = undefined;
+    this.span = undefined;
+  }
 
   startSpan(nameArg: string, optionsArg?: SpanOptions): TestSpan {
     this.spanName = nameArg;
     this.spanOptions = optionsArg;
-    return super.startSpan(nameArg, optionsArg);
+    this.span = super.startSpan(nameArg, optionsArg);
+    return this.span;
   }
 }
