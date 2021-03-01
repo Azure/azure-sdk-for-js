@@ -6,3 +6,5 @@ stages:
       PackageName: "@azure/event-processor-host"
       ServiceDirectory: eventhub
       TimeoutInMinutes: 90
+      MatrixFilters:
+        - DependencyVersion=^$
