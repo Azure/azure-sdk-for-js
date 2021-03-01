@@ -38,7 +38,8 @@ export interface DeferredPromiseAndTimer {
 export function onMessageSettled(
   logPrefix: string,
   delivery: Delivery | undefined,
-  deliveryDispositionMap: Map<number, DeferredPromiseAndTimer>
+  deliveryDispositionMap: Map<number, DeferredPromiseAndTimer>,
+  _outstandingDeliveries: number[]
 ): void {
   if (delivery) {
     const id = delivery.id;
@@ -66,6 +67,9 @@ export function onMessageSettled(
         id,
         deleteResult
       );
+
+      _outstandingDeliveries = _outstandingDeliveries.filter((item) => item !== id);
+
       if (state && state.error && (state.error.condition || state.error.description)) {
         const error = translateServiceBusError(state.error);
         return promise.reject(error);

@@ -110,6 +110,11 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   autoComplete: boolean;
   /**
+   * Maintains a deliveries that are yet to be settled.
+   * Once the limit of 2048(rhea's limit) is reached, receiver doesn't provide anymore messages.
+   */
+  protected _outstandingDeliveries: number[] = [];
+  /**
    * Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
@@ -171,7 +176,12 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       },
       {
         onSettled: (context: EventContext) => {
-          return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
+          return onMessageSettled(
+            this.logPrefix,
+            context.delivery,
+            this._deliveryDispositionMap,
+            this._outstandingDeliveries
+          );
         },
         ...handlers
       }
