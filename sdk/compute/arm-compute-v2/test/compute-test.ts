@@ -11,7 +11,7 @@ describe("My test", () => {
   let client: ComputeManagementClient;
   let subscriptionId: string;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, env);
     subscriptionId = env.SUBSCRIPTION_ID;
 
@@ -25,18 +25,18 @@ describe("My test", () => {
     client = new ComputeManagementClient(credential, subscriptionId);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
-  it("availability create test", async function () {
+  it("availability create test", async function() {
     const result = await client.availabilitySets.createOrUpdate("qiaozhatest", "jssdktest", {
-      location: "eastuse",
+      location: "eastuse"
     });
     assert.equal(result.name, "jssdktest");
   });
 
-  it("availability get test", async function () {
+  it("availability get test", async function() {
     const result = await client.availabilitySets.get("qiaozhatest", "jssdktest");
     assert.equal(result.name, "jssdktest");
   });
