@@ -3,10 +3,21 @@
 
 import { delay } from "../src";
 import { assert } from "chai";
+import * as sinon from "sinon";
 
 describe("delay", function() {
-  it("should return after the given number of ms", async function() {
-    await delay(1);
-    assert.isTrue(true);
+  afterEach(function() {
+    sinon.restore();
+  });
+
+  it("should resolve after the given number of ms", async function() {
+    const clock = sinon.useFakeTimers();
+    const delayTime = 2500;
+    const delayPromise = delay(delayTime);
+    const time = await clock.nextAsync();
+    clock.restore();
+    assert.strictEqual(time, delayTime);
+    // should be resolved, so we can await it and it will resolve next tick
+    await delayPromise;
   });
 });
