@@ -142,42 +142,25 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
         }
       ).timeout(200000);
 
-      it(clientType + ": new messageBatch after 2047 messages", async function(): Promise<void> {
-        await beforeEachTest(clientType);
-        console.log("sending");
-        await sendMessages();
-        console.log("receiveMessages");
-        const firstBatch = await receiveMessages(2047);
-        console.log("receiveMessages - 2047 done");
-        await verifyMessageCount(numberOfMessagesToSend, entityName);
-        console.log("verifyMessageCount - done");
-        console.log("new batch - attempting");
-        const messages = await receiver.receiveMessages(1);
-        console.log("new batch - done");
-        chai.assert.equal(messages.length, 0, "Unexpected number of messages received");
-        await verifyMessageCount(numberOfMessagesToSend, entityName);
-        console.log("verifyMessageCount - done again");
-        for (const msg of firstBatch) {
-          await receiver.completeMessage(msg);
+      it(
+        clientType + ": new messageBatch returns zero after 2047 messages",
+        async function(): Promise<void> {
+          await beforeEachTest(clientType);
+          await sendMessages();
+          const firstBatch = await receiveMessages(2047);
+          await verifyMessageCount(numberOfMessagesToSend, entityName);
+          const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 4000 });
+          chai.assert.equal(messages.length, 0, "Unexpected number of messages received");
+          await verifyMessageCount(numberOfMessagesToSend, entityName);
+          await Promise.all(firstBatch.map((msg) => receiver.completeMessage(msg)));
+          const leftOver = await receiveMessages(numberOfMessagesToSend - 2047);
+          chai.assert.equal(
+            leftOver.length,
+            numberOfMessagesToSend - 2047,
+            "Unexpected leftover number of messages received"
+          );
         }
-        console.log("completed the messages");
-        const leftOver = await receiveMessages(numberOfMessagesToSend - 2047);
-        console.log("leftover received");
-        chai.assert.equal(
-          leftOver.length,
-          numberOfMessagesToSend - 2047,
-          "Unexpected leftover number of messages received"
-        );
-
-        // TODO:
-        // receives in a loop would receive 2047 messages
-        // new receive will return 0
-        // settle one message
-        // can receive one new message
-        // new receive will return 0
-        // settle all the messages
-        // should be able to receive the rest of the messages
-      }).timeout(200000);
+      ).timeout(200000);
     });
   });
 });
