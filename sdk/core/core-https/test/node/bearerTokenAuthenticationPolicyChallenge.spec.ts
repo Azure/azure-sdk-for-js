@@ -76,7 +76,7 @@ async function processChallenge(challenge: string): Promise<AuthenticationContex
 
   return {
     scopes: [parsedChallenge.scope],
-    challengeClaims: uint8ArrayToString(decodeString(parsedChallenge.claims))
+    claims: uint8ArrayToString(decodeString(parsedChallenge.claims))
   };
 }
 
@@ -91,7 +91,7 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   public getToken(scope: string | string[], options: GetTokenOptions): Promise<AccessToken | null> {
     this.authCount++;
-    this.scopesAndClaims.push({ scope, challengeClaims: options.challengeClaims });
+    this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
     return Promise.resolve(this.tokens.shift()!);
   }
 }

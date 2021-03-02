@@ -19,7 +19,7 @@ export interface AddPipelineOptions {
 
 // @public
 export interface AuthenticationContext {
-    challengeClaims?: string;
+    claims?: string;
     scopes?: string[];
 }
 

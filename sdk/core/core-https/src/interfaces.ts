@@ -284,7 +284,8 @@ export interface AuthenticationContext {
    */
   scopes?: string[];
   /**
-   * Claims that can be used by the credential's getToken request.
+   * Additional claims to be included in the token.
+   * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
    */
-  challengeClaims?: string;
+  claims?: string;
 }
