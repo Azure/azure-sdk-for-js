@@ -298,9 +298,9 @@ export class StreamingReceiver extends MessageReceiver {
           this._receiverHelper.addCredit(1);
         } else if (numberOfEmptyIncomingSlots(this.link) - 1 > 1) {
           this._receiverHelper.addCredit(1);
-          // Instead of this.. have a checkWithTimeout that keeps checking if the if-condition satisfies
-          // If it ever satisfies - add the credit
         } else {
+          // Additionally.. have a checkWithTimeout that keeps checking if the above if-condition satisfies
+          // If it ever satisfies - add the credit
           this._onError?.({
             error: new ServiceBusError(
               `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
