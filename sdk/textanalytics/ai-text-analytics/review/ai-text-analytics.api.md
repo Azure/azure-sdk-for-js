@@ -429,6 +429,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     domainFilter?: PiiEntityDomainType;
+    piiCategories?: PiiCategory[];
     stringIndexType?: StringIndexType;
 }
 

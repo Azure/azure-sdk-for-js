@@ -169,6 +169,10 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * Specifies the list of Pii categories to return.
+   */
+  piiCategories?: PiiCategory[];
 }
 
 /**
@@ -227,7 +231,7 @@ export type RecognizePiiEntitiesAction = {
    */
   stringIndexType?: StringIndexType;
   /**
-   * Specifies the Pii categories to return.
+   * Specifies the list of Pii categories to return.
    */
   piiCategories?: PiiCategory[];
 };
@@ -1071,6 +1075,7 @@ function makePiiEntitiesOptionsModel(
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
-    tracingOptions: params.tracingOptions
+    tracingOptions: params.tracingOptions,
+    piiCategories: params.piiCategories
   };
 }

@@ -603,6 +603,25 @@ describe("[AAD] TextAnalyticsClient", function() {
           );
         }
       });
+
+      it("accepts pii categories", async function() {
+        const [result] = await client.recognizePiiEntities(
+          [
+            {
+              id: "0",
+              text: "Patient name is Joe and SSN is 859-98-0987",
+              language: "en"
+            }
+          ],
+          { piiCategories: ["USSocialSecurityNumber"] }
+        );
+        if (!result.error) {
+          assert.equal(result.entities.length, 1);
+          assert.equal(result.entities[0].text, "859-98-0987");
+          assert.equal(result.entities[0].category, "USSocialSecurityNumber");
+          assert.equal(result.redactedText, "Patient name is Joe and SSN is ***********");
+        }
+      });
     });
 
     describe("#recognizeLinkedEntities", function() {
