@@ -9,6 +9,7 @@ import { ServiceBusAdministrationClient } from "../../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
 import { CreateQueueOptions } from "../../../src";
+import { EntityName } from "./testutils2";
 const should = chai.should();
 
 let client: ServiceBusAdministrationClient;
@@ -181,15 +182,13 @@ export async function recreateSubscription(
  */
 export async function verifyMessageCount(
   expectedMessageCount: number,
-  queueName?: string,
-  topicName?: string,
-  subscriptionName?: string
+  entityName: Pick<EntityName, "queue" | "topic" | "subscription">
 ): Promise<void> {
   getManagementClient();
   should.equal(
-    queueName
-      ? (await client.getQueueRuntimeProperties(queueName)).totalMessageCount
-      : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
+    entityName.queue
+      ? (await client.getQueueRuntimeProperties(entityName.queue)).totalMessageCount
+      : (await client.getSubscriptionRuntimeProperties(entityName.topic!, entityName.subscription!))
           .totalMessageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`

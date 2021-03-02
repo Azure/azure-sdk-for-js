@@ -275,7 +275,7 @@ export class ServiceBusTestHelpers {
     // Relying on Atom mgmt client for the message count verification instead of the `testPeekMsgsLength`
     // because creating the session receivers might encounter timeouts or
     // "MessagingError: No unlocked sessions were available" when there are no available sessions
-    await verifyMessageCount(0, entityNames.queue, entityNames.topic, entityNames.subscription);
+    await verifyMessageCount(0, entityNames);
   }
 
   async after(): Promise<void> {
