@@ -581,8 +581,7 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock",
-        []
+        "peekLock"
       );
 
       assert.isFalse(receiver.isReceivingMessages);
@@ -611,8 +610,7 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock",
-        []
+        "peekLock"
       );
 
       assert.notExists(receiver["_closeHandler"]);
@@ -645,8 +643,7 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock",
-        []
+        "peekLock"
       );
 
       assert.notExists(receiver["_closeHandler"]);
@@ -697,8 +694,7 @@ describe("BatchingReceiver unit tests", () => {
       async () => {
         return fakeRheaReceiver;
       },
-      "peekLock",
-      []
+      "peekLock"
     );
 
     const receiveMessagesPromise = receiver

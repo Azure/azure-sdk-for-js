@@ -58,8 +58,7 @@ describe("Tracing tests", () => {
       createConnectionContextForTests(),
       "my entity path",
       async () => (({} as any) as Receiver),
-      "peekLock",
-      []
+      "peekLock"
     );
 
     br["_createAndEndProcessingSpan"] = createSpanStub;
