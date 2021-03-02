@@ -17,12 +17,11 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
-import { SendMessageRequest } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
-import { Uuid } from "./utils/uuid";
+import { generateSendMessageRequest } from "./utils/smsUtils";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -112,19 +111,19 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class using an Azure KeyCredential.
-   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
+  constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
 
   /**
    * Initializes a new instance of the SmsClient class using a TokenCredential.
-   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
+  constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
 
   constructor(
     connectionStringOrUrl: string,
@@ -166,31 +165,15 @@ export class SmsClient {
    * @param options - Additional request options
    */
   public async send(
-    _sendRequest: SmsSendRequest,
-    _options: SmsSendOptions = { enableDeliveryReport: false }
+    sendRequest: SmsSendRequest,
+    options: SmsSendOptions = { enableDeliveryReport: false }
   ): Promise<SmsSendResult[]> {
-    const { operationOptions, restOptions } = extractOperationOptions(_options);
+    const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);
-
-    const sendRequest: SendMessageRequest = {
-      from: _sendRequest.from,
-      smsRecipients: _sendRequest.to.map((phoneNumberStr) => {
-        return {
-          to: phoneNumberStr,
-          repeatabilityFirstSent: new Date(Date.now()).toUTCString(),
-          repeatabilityRequestId: Uuid.generateUuid()
-        };
-      }),
-      message: _sendRequest.message,
-      smsSendOptions: {
-        enableDeliveryReport: restOptions.enableDeliveryReport ?? false,
-        tag: restOptions.tag
-      }
-    };
 
     try {
       const response = await this.api.sms.send(
-        sendRequest,
+        generateSendMessageRequest(sendRequest, restOptions),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return response.value;

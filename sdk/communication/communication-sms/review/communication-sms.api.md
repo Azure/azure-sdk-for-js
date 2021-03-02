@@ -12,9 +12,9 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
-    constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
-    constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    send(_sendRequest: SmsSendRequest, _options?: SmsSendOptions): Promise<SmsSendResult[]>;
+    constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
+    send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
 }
 
 // @public
