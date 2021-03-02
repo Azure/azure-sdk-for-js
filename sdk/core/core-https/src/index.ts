@@ -68,4 +68,3 @@ export {
   bearerTokenAuthenticationPolicyName
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
-export { delay } from "./util/helpers";

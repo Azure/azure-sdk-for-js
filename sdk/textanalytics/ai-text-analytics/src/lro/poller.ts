@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-https";
 import { OperationOptions } from "@azure/core-client";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { GeneratedClient } from "../generated/generatedClient";
 import { State, TextDocumentInput } from "../generated/models";
+import { delay } from "../util";
 
 /**
  * Common parameters to a Poller.

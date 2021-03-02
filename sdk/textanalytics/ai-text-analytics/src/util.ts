@@ -202,3 +202,13 @@ export function handleInvalidDocumentBatch(error: unknown): any {
     return error;
   }
 }
+
+/**
+ * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @internal
+ * @param timeInMs - The number of milliseconds to be delayed.
+ * @returns Resolved promise
+ */
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
+}
