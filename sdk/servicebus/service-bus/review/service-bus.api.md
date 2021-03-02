@@ -139,7 +139,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export function isServiceBusError(err: any): err is ServiceBusError;
+export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
 export interface MessageHandlers {
