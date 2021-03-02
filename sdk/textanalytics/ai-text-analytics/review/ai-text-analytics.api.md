@@ -334,11 +334,11 @@ export type PagedAsyncIterableAnalyzeBatchActionsResult = PagedAsyncIterableIter
 export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterableIterator<AnalyzeHealthcareEntitiesResult, AnalyzeHealthcareEntitiesResultArray>;
 
 // @public
-export type PiiCategory = string;
-
-// @public
 export interface PiiEntity extends Entity {
 }
+
+// @public
+export type PiiEntityCategory = string;
 
 // @public
 export enum PiiEntityDomainType {
@@ -428,7 +428,7 @@ export type RecognizePiiEntitiesAction = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    piiCategories?: PiiCategory[];
+    categoriesFilter?: PiiEntityCategory[];
 };
 
 // @public
@@ -447,6 +447,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    categoriesFilter?: PiiEntityCategory[];
     domainFilter?: PiiEntityDomainType;
     stringIndexType?: StringIndexType;
 }

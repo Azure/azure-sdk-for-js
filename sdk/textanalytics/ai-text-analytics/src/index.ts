@@ -139,7 +139,7 @@ export {
   TextAnalyticsWarning,
   State as TextAnalyticsOperationStatus,
   HealthcareAssertion,
-  PiiCategory,
+  PiiCategory as PiiEntityCategory,
   Association,
   Certainty,
   Conditionality,
