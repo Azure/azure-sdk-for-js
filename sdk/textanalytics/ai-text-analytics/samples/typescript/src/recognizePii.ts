@@ -43,7 +43,8 @@ export async function main() {
 
   console.log(`There are no PHI entities in this text: ${textNoPHI}`);
   const [resultWithPHI] = await client.recognizePiiEntities([
-    { id: "0", text: textNoPHI, language: "en" }
+    { id: "0", text: textNoPHI, language: "en" },
+    { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
   ]);
   if (!resultWithPHI.error) {
     console.log(`Also there is nothing to redact: ${resultWithPHI.redactedText}`);
