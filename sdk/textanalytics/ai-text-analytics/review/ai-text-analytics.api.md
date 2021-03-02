@@ -228,6 +228,7 @@ export interface HealthcareAssertion {
 export interface HealthcareEntity extends Entity {
     assertion?: HealthcareAssertion;
     dataSources: EntityDataSource[];
+    normalizedText?: string;
     relatedEntities: Map<HealthcareEntity, string>;
 }
 
