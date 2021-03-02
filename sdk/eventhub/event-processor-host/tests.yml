@@ -7,4 +7,5 @@ stages:
       ServiceDirectory: eventhub
       TimeoutInMinutes: 90
       MatrixFilters:
+        - TestType=^(?!browser).*
         - DependencyVersion=^$
