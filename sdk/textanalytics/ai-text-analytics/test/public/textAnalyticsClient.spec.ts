@@ -623,7 +623,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      it.only("output pii categories are accepted as input", async function() {
+      it("output pii categories are accepted as input", async function() {
         const [result1] = await client.recognizePiiEntities([
           {
             id: "0",
