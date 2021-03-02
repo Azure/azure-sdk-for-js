@@ -7,6 +7,7 @@
 - `beginAnalyzeBatchActions` can now process recognize linked entities actions.
 - `beginAnalyzeHealthcareEntities` returns `entityRelations` per document, a list of relations between healthcare entities.
 - `beginAnalyzeHealthcareEntities` entities now include `assertions` instead of `isNegated` which gives more context about the respective entity.
+- [Breaking] `beginAnalyzeHealthcareEntities` no longer returns `relatedEntities`.
 
 ## 5.1.0-beta.4 (2021-02-10)
 

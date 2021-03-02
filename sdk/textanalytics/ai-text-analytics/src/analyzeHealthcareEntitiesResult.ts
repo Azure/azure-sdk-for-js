@@ -53,12 +53,6 @@ export interface HealthcareEntity extends Entity {
    * Entity references in known data sources.
    */
   dataSources: EntityDataSource[];
-  /**
-   * Other healthcare entities related to the current one. It is a directed
-   * relationship where the current entity is the source and the entities in
-   * the map are the target.
-   */
-  relatedEntities: Map<HealthcareEntity, string>;
 }
 
 /**
@@ -186,46 +180,8 @@ function makeHealthcareEntitiesWithoutNeighbors(
     subCategory,
     dataSources:
       links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
-      [],
-    // initialize the neighbors map to be filled later.
-    relatedEntities: new Map()
+      []
   };
-}
-
-/**
- * Connects input healthcare entities as a graph according to the relationship
- * information the service sent.
- * @param entities - healthcare entities represented as isolated nodes
- * @param relations - relationship information between pairs of healthcare entities
- *                  - using JSON pointers
- * @internal
- */
-function makeHealthcareEntitiesGraph(
-  entities: HealthcareEntity[],
-  relations: HealthcareRelation[]
-): void {
-  for (const relation of relations) {
-    const attributeEntities: HealthcareEntity[] = [];
-    const targetEntities: HealthcareEntity[] = [];
-    for (const entity of relation.entities) {
-      const index = parseHealthcareEntityIndex(entity.ref);
-      if (entity.role === "Attribute") {
-        attributeEntities.push(entities[index]);
-      } else {
-        targetEntities.push(entities[index]);
-      }
-    }
-    // Entities with the role Attribute are the source of the relation (causation)
-    // and other entities in the relation are caused by them.
-    // For example: "High blood sugar leads to high blood pressure" – In this
-    // case two symptoms are related to one another, but one is an attribute
-    // (or causation) that leads to another.
-    targetEntities.map((targetEntity: HealthcareEntity) => {
-      attributeEntities.map((attributeEntity: HealthcareEntity) => {
-        attributeEntity.relatedEntities.set(targetEntity, relation.relationType);
-      });
-    });
-  }
 }
 
 function makeHealthcareRelations(
@@ -255,7 +211,6 @@ export function makeHealthcareEntitiesResult(
 ): AnalyzeHealthcareEntitiesSuccessResult {
   const { id, entities, relations, warnings, statistics } = document;
   const newEntities = entities.map(makeHealthcareEntitiesWithoutNeighbors);
-  makeHealthcareEntitiesGraph(newEntities, relations);
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities: newEntities,
