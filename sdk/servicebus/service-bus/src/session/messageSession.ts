@@ -33,8 +33,8 @@ import {
   SubscribeOptions
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/shared";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { abandonMessage, completeMessage, numberOfEmptyIncomingSlots } from "../receivers/shared";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -672,7 +672,24 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
           return;
         } finally {
-          this.receiverHelper.addCredit(1);
+          if (this.receiveMode === "receiveAndDelete") {
+            this._receiverHelper.addCredit(1);
+          } else if (numberOfEmptyIncomingSlots(this.link) - 1 > 1) {
+            this._receiverHelper.addCredit(1);
+            // Instead of this.. have a checkWithTimeout that keeps checking if the if-condition satisfies
+            // If it ever satisfies - add the credit
+          } else {
+            this._notifyError?.({
+              error: new ServiceBusError(
+                `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
+                Or set the "autoComplete" flag to true to let the library complete the messages on your behalf.`,
+                "GeneralError"
+              ),
+              errorSource: "receive",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
+          }
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -709,7 +726,11 @@ export class MessageSession extends LinkEntity<Receiver> {
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this.receiverHelper.addCredit(this.maxConcurrentCalls);
+      const creditsToAdd = Math.min(
+        this.maxConcurrentCalls,
+        numberOfEmptyIncomingSlots(this.link) - 1
+      );
+      this._receiverHelper.addCredit(creditsToAdd);
     } else {
       this._isReceivingMessagesForSubscriber = false;
       const msg =

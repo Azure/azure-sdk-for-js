@@ -26,8 +26,8 @@ import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/shared";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { abandonMessage, completeMessage, numberOfEmptyIncomingSlots } from "../receivers/shared";
 import { ReceiverHandlers } from "./shared";
 
 /**
@@ -294,7 +294,24 @@ export class StreamingReceiver extends MessageReceiver {
         }
         return;
       } finally {
-        this._receiverHelper.addCredit(1);
+        if (this.receiveMode === "receiveAndDelete") {
+          this._receiverHelper.addCredit(1);
+        } else if (numberOfEmptyIncomingSlots(this.link) - 1 > 1) {
+          this._receiverHelper.addCredit(1);
+          // Instead of this.. have a checkWithTimeout that keeps checking if the if-condition satisfies
+          // If it ever satisfies - add the credit
+        } else {
+          this._onError?.({
+            error: new ServiceBusError(
+              `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
+                Or set the "autoComplete" flag to true to let the library complete the messages on your behalf.`,
+              "GeneralError"
+            ),
+            errorSource: "receive",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
+        }
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -434,7 +451,7 @@ export class StreamingReceiver extends MessageReceiver {
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
    *
    * @param onMessage - The message handler to receive servicebus messages.
-   * @param onError - The error handler to receive an error that occurs while receivin messages.
+   * @param onError - The error handler to receive an error that occurs while receiving messages.
    */
   subscribe(onMessage: OnMessage, onError: OnError): void {
     throwErrorIfConnectionClosed(this._context);
@@ -442,7 +459,11 @@ export class StreamingReceiver extends MessageReceiver {
     this._onMessage = onMessage;
     this._onError = onError;
 
-    this._receiverHelper.addCredit(this.maxConcurrentCalls);
+    this._receiverHelper.addCredit(
+      this.receiveMode === "peekLock"
+        ? Math.min(this.maxConcurrentCalls, numberOfEmptyIncomingSlots(this.link) - 1)
+        : this.maxConcurrentCalls
+    );
   }
 
   /**
@@ -503,10 +524,13 @@ export class StreamingReceiver extends MessageReceiver {
         connectionId: this._context.connectionId,
         onError: (args) => this._onError && this._onError(args)
       });
-
-      this._receiverHelper.addCredit(this.maxConcurrentCalls);
+      const creditsToAdd =
+        this.receiveMode === "peekLock"
+          ? Math.min(this.maxConcurrentCalls, numberOfEmptyIncomingSlots(this.link) - 1)
+          : this.maxConcurrentCalls;
+      this._receiverHelper.addCredit(creditsToAdd);
       logger.verbose(
-        `${this.logPrefix} onDetached: link has been reestablished, added ${this.maxConcurrentCalls} credits.`
+        `${this.logPrefix} onDetached: link has been reestablished, added ${creditsToAdd} credits.`
       );
     } finally {
       this._isDetaching = false;

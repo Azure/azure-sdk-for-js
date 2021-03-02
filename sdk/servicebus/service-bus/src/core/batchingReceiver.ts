@@ -21,6 +21,7 @@ import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { numberOfEmptyIncomingSlots } from "../receivers/shared";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -490,15 +491,17 @@ export class BatchingReceiverLite {
       reject(err);
     }, args.abortSignal);
 
-    logger.verbose(
-      `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
-    );
+    const creditsToAdd =
+      this._receiveMode === "peekLock"
+        ? Math.min(args.maxMessageCount, numberOfEmptyIncomingSlots(receiver) - 1)
+        : args.maxMessageCount;
+    logger.verbose(`${loggingPrefix} Adding credit for receiving ${creditsToAdd} messages.`);
 
-    // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
+    // By adding credit here, we let the service know that at max we can handle `creditsToAdd`
     // number of messages concurrently. We will return the user an array of messages that can
-    // be of size upto maxMessageCount. Then the user needs to accordingly dispose
+    // be of size upto `creditsToAdd`. Then the user needs to accordingly dispose
     // (complete/abandon/defer/deadletter) the messages from the array.
-    receiver.addCredit(args.maxMessageCount);
+    receiver.addCredit(creditsToAdd);
 
     logger.verbose(
       `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
