@@ -109,17 +109,19 @@ export const SmsSendResponse: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SmsSendResult" } }
+          element: {
+            type: { name: "Composite", className: "SmsSendResponseItem" }
+          }
         }
       }
     }
   }
 };
 
-export const SmsSendResult: coreHttp.CompositeMapper = {
+export const SmsSendResponseItem: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SmsSendResult",
+    className: "SmsSendResponseItem",
     modelProperties: {
       to: {
         serializedName: "to",

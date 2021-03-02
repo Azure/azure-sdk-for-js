@@ -18,8 +18,4 @@ use-extension:
   "@autorest/typescript": "6.0.0-dev.20200623.2"
 azure-arm: false
 add-credentials: false
-directive:
-  - rename-model:
-      from: SmsSendResponseItem
-      to: SmsSendResult
 ```

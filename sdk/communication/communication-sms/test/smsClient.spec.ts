@@ -38,7 +38,7 @@ describe("SmsClient", async () => {
     const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string;
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
-    const invalidToNumber = "+18332321226444";
+    const invalidToNumber = "+18005551234567";
 
     const recipients = [validToNumber, invalidToNumber];
 

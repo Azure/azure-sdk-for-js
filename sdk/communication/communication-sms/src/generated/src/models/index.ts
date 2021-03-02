@@ -66,13 +66,13 @@ export interface SmsSendOptions {
  * Response for a successful or multi status send Sms request.
  */
 export interface SmsSendResponse {
-  value: SmsSendResult[];
+  value: SmsSendResponseItem[];
 }
 
 /**
  * Response for a single recipient.
  */
-export interface SmsSendResult {
+export interface SmsSendResponseItem {
   /**
    * The recipient's phone number in E.164 format.
    */
@@ -88,7 +88,7 @@ export interface SmsSendResult {
   /**
    * The result of a repeatable request with one of the case-insensitive values accepted or rejected.
    */
-  repeatabilityResult?: SmsSendResultRepeatabilityResult;
+  repeatabilityResult?: SmsSendResponseItemRepeatabilityResult;
   /**
    * Indicates if the message is processed successfully or not.
    */
@@ -100,9 +100,9 @@ export interface SmsSendResult {
 }
 
 /**
- * Defines values for SmsSendResultRepeatabilityResult.
+ * Defines values for SmsSendResponseItemRepeatabilityResult.
  */
-export type SmsSendResultRepeatabilityResult = "accepted" | "rejected";
+export type SmsSendResponseItemRepeatabilityResult = "accepted" | "rejected";
 
 /**
  * Contains response data for the send operation.
