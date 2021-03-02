@@ -37,6 +37,7 @@ import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer } from "../dataTransformer";
+import { isDefined } from "../util/typeGuards";
 
 /**
  * @internal
@@ -169,10 +170,9 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     options: OperationOptionsBase | undefined
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
-    const timeoutInMs =
-      !isDefined(this._retryOptions.timeoutInMs)
-        ? Constants.defaultOperationTimeoutInMs
-        : this._retryOptions.timeoutInMs;
+    const timeoutInMs = !isDefined(this._retryOptions.timeoutInMs)
+      ? Constants.defaultOperationTimeoutInMs
+      : this._retryOptions.timeoutInMs;
 
     const sendEventPromise = async (): Promise<void> => {
       const initStartTime = Date.now();
