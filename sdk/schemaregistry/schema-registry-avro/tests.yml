@@ -5,8 +5,6 @@ stages:
     parameters:
       PackageName: "@azure/schema-registry-avro"
       ServiceDirectory: schemaregistry
-      MatrixFilters:
-        - DependencyVersion=^$
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)

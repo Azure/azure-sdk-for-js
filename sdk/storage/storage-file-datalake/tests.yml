@@ -4,12 +4,10 @@ stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/storage-file-datalake"
-      ServiceDirectory: storage
+      Directory: storage
       TimeoutInMinutes: 90
       Location: canadacentral
       Clouds: 'Preview'
-      MatrixFilters:
-        - DependencyVersion=^$
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

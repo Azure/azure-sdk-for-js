@@ -7,5 +7,4 @@ stages:
       ServiceDirectory: mixedreality
       Location: eastus2
       MatrixFilters:
-        - TestType=^(?!sample).*
         - DependencyVersion=^$

@@ -8,8 +8,6 @@ stages:
       TimeoutInMinutes: 90
       Clouds: Preview
       Location: westus
-      MatrixFilters:
-        - DependencyVersion=^$
       MatrixConfigs:
         - Name: Storage_live_test_base
           Path: sdk/storage/storage-blob/platform-matrix.json
