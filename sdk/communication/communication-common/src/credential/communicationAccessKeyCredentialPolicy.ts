@@ -17,9 +17,10 @@ import { shaHash, shaHMAC } from "./cryptoUtils";
 
 /**
  * Creates an HTTP pipeline policy to authenticate a request
- * using an `KeyCredential`
+ * using an `KeyCredential`.
+ * @hidden
  *
- * @param credential - The key credential
+ * @param credential - The key credential.
  */
 export const createCommunicationAccessKeyCredentialPolicy = (
   credential: KeyCredential
