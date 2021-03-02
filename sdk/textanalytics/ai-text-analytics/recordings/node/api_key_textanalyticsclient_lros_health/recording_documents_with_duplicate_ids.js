@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "d2b34867c5a91500e47cf0303fede1b1";
+module.exports.hash = "e54d5f4d8fca2689c41edeeb26fc3382";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.3/entities/health/jobs', {"documents":[{"id":"1","text":"hello world"},{"id":"1","text":"I did not like the hotel we stayed at."}]})
+  .post('/text/analytics/v3.1-preview.4/entities/health/jobs', {"documents":[{"id":"1","text":"hello world"},{"id":"1","text":"I did not like the hotel we stayed at."}]})
   .query(true)
   .reply(400, {"error":{"code":"InvalidRequest","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Request contains duplicated Ids. Make sure each document has a unique Id."}}}, [
   'Transfer-Encoding',
@@ -13,13 +13,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '5',
+  '6',
   'apim-request-id',
-  '99c7f37d-2277-4baf-a726-3b34dcf6655e',
+  'f47c68c0-d55d-4362-b258-ba5040821ebf',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 30 Dec 2020 17:29:22 GMT'
+  'Tue, 23 Feb 2021 19:35:43 GMT'
 ]);

@@ -7,7 +7,7 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-const validateOfferResponseBody = function(offer: any) {
+const validateOfferResponseBody = function(offer: any): void {
   assert(offer.id, "Id cannot be null");
   assert(offer._rid, "Resource Id (Rid) cannot be null");
   assert(offer._self, "Self Link cannot be null");

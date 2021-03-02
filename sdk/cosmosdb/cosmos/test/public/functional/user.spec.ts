@@ -10,7 +10,7 @@ describe("NodeJS CRUD Tests", function() {
     await removeAllDatabases();
   });
   describe("Validate User CRUD", function() {
-    const userCRUDTest = async function(isUpsertTest: boolean) {
+    const userCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate user CRUD");
 

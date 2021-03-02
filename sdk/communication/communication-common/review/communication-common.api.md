@@ -69,7 +69,7 @@ export const getIdentifierKind: (identifier: CommunicationIdentifier) => Communi
 export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
 
 // @public
-export const isKeyCredential: (credential: any) => credential is KeyCredential;
+export const isKeyCredential: (credential: unknown) => credential is KeyCredential;
 
 // @public
 export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsUserIdentifier;
@@ -81,10 +81,11 @@ export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => i
 export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
 
 // @public
-export interface MicrosoftTeamsUserIdentifier extends WithOptionalRawId {
+export interface MicrosoftTeamsUserIdentifier {
     cloud?: "public" | "dod" | "gcch";
     isAnonymous?: boolean;
     microsoftTeamsUserId: string;
+    rawId?: string;
 }
 
 // @public
@@ -93,14 +94,15 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 }
 
 // @public
-export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
+export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: unknown) => UrlWithCredential;
 
 // @public
 export const parseConnectionString: (connectionString: string) => EndpointCredential;
 
 // @public
-export interface PhoneNumberIdentifier extends WithOptionalRawId {
+export interface PhoneNumberIdentifier {
     phoneNumber: string;
+    rawId?: string;
 }
 
 // @public
@@ -154,11 +156,6 @@ export type UrlWithCredential = {
     url: string;
     credential: TokenCredential | KeyCredential;
 };
-
-// @public (undocumented)
-export interface WithOptionalRawId {
-    rawId?: string;
-}
 
 
 // (No @packageDocumentation comment for this package)

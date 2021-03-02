@@ -17,7 +17,7 @@ const recorderConfiguration: RecorderEnvironmentSetup = {
     AZURE_PHONE_NUMBER: "+18005551234"
   },
   customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
+    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
     (recording: string): string =>
       recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"Sanitized"`)
   ],

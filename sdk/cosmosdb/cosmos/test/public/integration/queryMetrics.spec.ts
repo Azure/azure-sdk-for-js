@@ -67,7 +67,7 @@ describe("QueryMetrics", function() {
   const assertQueryMetricsEquality = function(
     queryMetrics1: QueryMetrics,
     queryMetrics2: QueryMetrics
-  ) {
+  ): void {
     assert.deepEqual(queryMetrics1.indexHitRatio, queryMetrics2.indexHitRatio);
     assert.deepEqual(queryMetrics1.outputDocumentCount, queryMetrics2.outputDocumentCount);
     assert.deepEqual(queryMetrics1.outputDocumentSize, queryMetrics2.outputDocumentSize);

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { PartitionKeyRange, Resource } from "../client";
 import { ClientContext } from "../ClientContext";
 import {
   Constants,
@@ -14,13 +15,13 @@ import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
-import { FetchFunctionCallback, SqlQuerySpec } from "./index";
+import { SqlQuerySpec } from "./index";
 
 /** @hidden */
 export class DocumentProducer {
   private collectionLink: string;
   private query: string | SqlQuerySpec;
-  public targetPartitionKeyRange: any; // TODO: any partitionkeyrange
+  public targetPartitionKeyRange: PartitionKeyRange;
   public fetchResults: FetchResult[];
   public allFetched: boolean;
   private err: Error;
@@ -42,7 +43,7 @@ export class DocumentProducer {
     private clientContext: ClientContext,
     collectionLink: string,
     query: SqlQuerySpec,
-    targetPartitionKeyRange: any, // TODO: any partition key range
+    targetPartitionKeyRange: PartitionKeyRange,
     options: FeedOptions
   ) {
     // TODO: any options
@@ -58,7 +59,6 @@ export class DocumentProducer {
     this.continuationToken = undefined;
     this.respHeaders = getInitialHeader();
 
-    // tslint:disable-next-line:no-shadowed-variable
     this.internalExecutionContext = new DefaultQueryExecutionContext(options, this.fetchFunction);
   }
   /**
@@ -66,7 +66,7 @@ export class DocumentProducer {
    * @returns buffered current items if any
    * @hidden
    */
-  public peekBufferedItems() {
+  public peekBufferedItems(): any[] {
     const bufferedResults = [];
     for (let i = 0, done = false; i < this.fetchResults.length && !done; i++) {
       const fetchResult = this.fetchResults[i];
@@ -85,26 +85,31 @@ export class DocumentProducer {
     return bufferedResults;
   }
 
-  public fetchFunction: FetchFunctionCallback = async (options: any) => {
+  public fetchFunction = async (options: FeedOptions): Promise<Response<Resource>> => {
+    // eslint-disable-next-line no-invalid-this
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
+    // eslint-disable-next-line no-invalid-this
     const id = getIdFromLink(this.collectionLink);
 
+    // eslint-disable-next-line no-invalid-this
     return this.clientContext.queryFeed({
       path,
       resourceType: ResourceType.item,
       resourceId: id,
       resultFn: (result: any) => result.Documents,
+      // eslint-disable-next-line no-invalid-this
       query: this.query,
       options,
+      // eslint-disable-next-line no-invalid-this
       partitionKeyRangeId: this.targetPartitionKeyRange["id"]
     });
   };
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.internalExecutionContext.hasMoreResults() || this.fetchResults.length !== 0;
   }
 
-  public gotSplit() {
+  public gotSplit(): boolean {
     const fetchResult = this.fetchResults[0];
     if (fetchResult.fetchResultType === FetchResultType.Exception) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(fetchResult.error)) {
@@ -115,13 +120,13 @@ export class DocumentProducer {
     return false;
   }
 
-  private _getAndResetActiveResponseHeaders() {
+  private _getAndResetActiveResponseHeaders(): CosmosHeaders {
     const ret = this.respHeaders;
     this.respHeaders = getInitialHeader();
     return ret;
   }
 
-  private _updateStates(err: any, allFetched: boolean) {
+  private _updateStates(err: any, allFetched: boolean): void {
     // TODO: any Error
     if (err) {
       this.err = err;
@@ -138,7 +143,7 @@ export class DocumentProducer {
     this.continuationToken = this.internalExecutionContext.continuationToken;
   }
 
-  private static _needPartitionKeyRangeCacheRefresh(error: any) {
+  private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
     // TODO: error
     return (
       error.code === StatusCodes.Gone &&
@@ -204,7 +209,7 @@ export class DocumentProducer {
    * @returns buffered current item if any
    * @hidden
    */
-  public getTargetParitionKeyRange() {
+  public getTargetParitionKeyRange(): PartitionKeyRange {
     return this.targetPartitionKeyRange;
   }
 

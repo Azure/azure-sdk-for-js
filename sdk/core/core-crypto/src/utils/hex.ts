@@ -4,7 +4,6 @@
 /**
  * Converts an ArrayBuffer to a hexadecimal string.
  * @param buffer - Raw binary data.
- * @hidden
  * @internal
  */
 export function bufferToHex(buffer: ArrayBuffer): string {
@@ -15,7 +14,6 @@ export function bufferToHex(buffer: ArrayBuffer): string {
 /**
  * Converts a byte to a hexadecimal string.
  * @param byte - An integer representation of a byte.
- * @hidden
  * @internal
  */
 function byteToHex(byte: number): string {

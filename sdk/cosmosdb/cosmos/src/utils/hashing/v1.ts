@@ -8,7 +8,7 @@ import MurmurHash from "./murmurHash";
 
 const MAX_STRING_CHARS = 100;
 
-type v1Key = string | number | null | {} | undefined;
+type v1Key = string | number | boolean | null | Record<string, unknown> | undefined;
 
 export function hashV1PartitionKey(partitionKey: v1Key): string {
   const toHash = prefixKeyByType(partitionKey);
@@ -23,7 +23,7 @@ export function hashV1PartitionKey(partitionKey: v1Key): string {
 function prefixKeyByType(key: v1Key): Buffer {
   let bytes: Buffer;
   switch (typeof key) {
-    case "string":
+    case "string": {
       const truncated = key.substr(0, MAX_STRING_CHARS);
       bytes = Buffer.concat([
         Buffer.from(BytePrefix.String, "hex"),
@@ -31,20 +31,25 @@ function prefixKeyByType(key: v1Key): Buffer {
         Buffer.from(BytePrefix.Undefined, "hex")
       ]);
       return bytes;
-    case "number":
+    }
+    case "number": {
       const numberBytes = doubleToByteArrayJSBI(key);
       bytes = Buffer.concat([Buffer.from(BytePrefix.Number, "hex"), numberBytes]);
       return bytes;
-    case "boolean":
+    }
+    case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;
       return Buffer.from(prefix, "hex");
-    case "object":
+    }
+    case "object": {
       if (key === null) {
         return Buffer.from(BytePrefix.Null, "hex");
       }
       return Buffer.from(BytePrefix.Undefined, "hex");
-    case "undefined":
+    }
+    case "undefined": {
       return Buffer.from(BytePrefix.Undefined, "hex");
+    }
     default:
       throw new Error(`Unexpected type: ${typeof key}`);
   }
@@ -52,15 +57,18 @@ function prefixKeyByType(key: v1Key): Buffer {
 
 function encodeByType(key: v1Key): Buffer {
   switch (typeof key) {
-    case "string":
+    case "string": {
       const truncated = key.substr(0, MAX_STRING_CHARS);
       return writeStringForBinaryEncoding(truncated);
-    case "number":
+    }
+    case "number": {
       const encodedJSBI = writeNumberForBinaryEncodingJSBI(key);
       return encodedJSBI;
-    case "boolean":
+    }
+    case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;
       return Buffer.from(prefix, "hex");
+    }
     case "object":
       if (key === null) {
         return Buffer.from(BytePrefix.Null, "hex");

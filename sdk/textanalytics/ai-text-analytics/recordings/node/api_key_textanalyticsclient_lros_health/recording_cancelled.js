@@ -1,33 +1,33 @@
 let nock = require('nock');
 
-module.exports.hash = "7e046d5b499701f2a8646549e6b587d0";
+module.exports.hash = "92e8aef16b4d5c34323ddac582aca6d4";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.3/entities/health/jobs', {"documents":[{"id":"1","text":"Patient does not suffer from high blood pressure.","language":"en"},{"id":"2","text":"Prescribed 100mg ibuprofen, taken twice daily.","language":"en"}]})
+  .post('/text/analytics/v3.1-preview.4/entities/health/jobs', {"documents":[{"id":"1","text":"Patient does not suffer from high blood pressure.","language":"en"},{"id":"2","text":"Prescribed 100mg ibuprofen, taken twice daily.","language":"en"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/98c68cb8-ee6b-4f3d-8871-42fa69370a6a',
+  'https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/0979c78b-5c35-4030-a248-6b7f3ed9d9b2',
   'x-envoy-upstream-service-time',
-  '242',
+  '65',
   'apim-request-id',
-  'd0e14726-745f-433d-970a-e6feb8edda79',
+  '8f9618e2-fc64-4def-b374-ca2eb57c8ed7',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 30 Dec 2020 17:29:23 GMT'
+  'Tue, 23 Feb 2021 19:35:43 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/98c68cb8-ee6b-4f3d-8871-42fa69370a6a')
+  .get('/text/analytics/v3.1-preview.4/entities/health/jobs/0979c78b-5c35-4030-a248-6b7f3ed9d9b2')
   .query(true)
-  .reply(200, {"jobId":"98c68cb8-ee6b-4f3d-8871-42fa69370a6a","lastUpdateDateTime":"2020-12-30T17:29:23Z","createdDateTime":"2020-12-30T17:29:23Z","expirationDateTime":"2020-12-31T17:29:23Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"0979c78b-5c35-4030-a248-6b7f3ed9d9b2","lastUpdateDateTime":"2021-02-23T19:35:44Z","createdDateTime":"2021-02-23T19:35:44Z","expirationDateTime":"2021-02-24T19:35:44Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -35,30 +35,30 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  'ff6113ba-5646-460d-b257-05195759246d',
+  '27c03c59-78c2-4534-9f6e-41f808a60009',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 30 Dec 2020 17:29:23 GMT'
+  'Tue, 23 Feb 2021 19:35:43 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .delete('/text/analytics/v3.1-preview.3/entities/health/jobs/98c68cb8-ee6b-4f3d-8871-42fa69370a6a')
+  .delete('/text/analytics/v3.1-preview.4/entities/health/jobs/0979c78b-5c35-4030-a248-6b7f3ed9d9b2')
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/98c68cb8-ee6b-4f3d-8871-42fa69370a6a',
+  'https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/0979c78b-5c35-4030-a248-6b7f3ed9d9b2',
   'x-envoy-upstream-service-time',
-  '33',
+  '21',
   'apim-request-id',
-  '26a2612d-845b-4de9-b66c-a9981114b70c',
+  '60c2f34b-6f4d-49dd-b19c-bd22137876f4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 30 Dec 2020 17:29:23 GMT'
+  'Tue, 23 Feb 2021 19:35:44 GMT'
 ]);

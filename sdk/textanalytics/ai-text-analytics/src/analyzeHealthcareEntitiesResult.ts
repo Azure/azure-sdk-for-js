@@ -8,7 +8,10 @@ import {
   HealthcareRelation,
   TextDocumentBatchStatistics,
   HealthcareEntity as GeneratedHealthcareEntity,
-  TextAnalyticsError
+  TextAnalyticsError,
+  HealthcareAssertion,
+  RelationType,
+  HealthcareRelationEntity
 } from "./generated/models";
 import {
   makeTextAnalyticsErrorResult,
@@ -17,63 +20,6 @@ import {
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
 import { parseHealthcareEntityIndex } from "./util";
-
-/**
- * The type of different relationships between any two healthcare entities.
- */
-export type HealthcareEntityRelationType =
-  | "DirectionOfBodyStructure"
-  | "DirectionOfExamination"
-  | "RelationOfExamination"
-  | "TimeOfExamination"
-  | "UnitOfExamination"
-  | "ValueOfExamination"
-  | "DirectionOfCondition"
-  | "QualifierOfCondition"
-  | "TimeOfCondition"
-  | "UnitOfCondition"
-  | "ValueOfCondition"
-  | "DosageOfMedication"
-  | "FormOfMedication"
-  | "FrequencyOfMedication"
-  | "RouteOfMedication"
-  | "TimeOfMedication"
-  | "DirectionOfTreatment"
-  | "TimeOfTreatment"
-  | "FrequencyOfTreatment";
-
-/**
- * a type predicate for the healthcare entity relation type
- * @param relation - a healthcare entity relation type
- * @internal
- */
-function isHealthcareEntityRelationType(
-  relation: string
-): relation is HealthcareEntityRelationType {
-  const relationsList = [
-    "DirectionOfBodyStructure",
-    "DirectionOfExamination",
-    "RelationOfExamination",
-    "TimeOfExamination",
-    "UnitOfExamination",
-    "ValueOfExamination",
-    "DirectionOfCondition",
-    "QualifierOfCondition",
-    "TimeOfCondition",
-    "UnitOfCondition",
-    "ValueOfCondition",
-    "DosageOfMedication",
-    "FormOfMedication",
-    "FrequencyOfMedication",
-    "RouteOfMedication",
-    "TimeOfMedication",
-    "DirectionOfTreatment",
-    "TimeOfMedication",
-    "FrequencyOfTreatment"
-  ];
-  const relations = new Set(relationsList);
-  return relations.has(relation);
-}
 
 /**
  * A type representing a reference for the healthcare entity into a specific
@@ -96,9 +42,13 @@ export interface EntityDataSource {
  */
 export interface HealthcareEntity extends Entity {
   /**
+   * Normalized name for the entity. For example, the normalized text for "histologically" is "histologic".
+   */
+  normalizedText?: string;
+  /**
    * Whether the entity is negated.
    */
-  isNegated: boolean;
+  assertion?: HealthcareAssertion;
   /**
    * Entity references in known data sources.
    */
@@ -108,7 +58,40 @@ export interface HealthcareEntity extends Entity {
    * relationship where the current entity is the source and the entities in
    * the map are the target.
    */
-  relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+  relatedEntities: Map<HealthcareEntity, string>;
+}
+
+/**
+ * The type of different roles a healthcare entity can play in a relation.
+ */
+export type HealthcareEntityRelationRoleType = string;
+
+/**
+ * A healthcare entity that plays a specific role in a relation.
+ */
+export interface HealthcareEntityRelationRole {
+  /**
+   * A healthcare entity
+   */
+  entity: HealthcareEntity;
+  /**
+   * The role of the healthcare entity in a particular relation.
+   */
+  name: HealthcareEntityRelationRoleType;
+}
+
+/**
+ * A relationship between two or more healthcare entities.
+ */
+export interface HealthcareEntityRelation {
+  /**
+   * The type of the healthcare relation.
+   */
+  relationType: RelationType;
+  /**
+   * The list of healthcare entities and their roles in the healthcare relation.
+   */
+  roles: HealthcareEntityRelationRole[];
 }
 
 /**
@@ -119,6 +102,10 @@ export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuc
    * Healthcare entities.
    */
   entities: HealthcareEntity[];
+  /**
+   * Relations between healthcare entities.
+   */
+  entityRelations: HealthcareEntityRelation[];
 }
 
 /**
@@ -177,14 +164,25 @@ export interface PagedAnalyzeHealthcareEntitiesResult
 function makeHealthcareEntitiesWithoutNeighbors(
   entity: GeneratedHealthcareEntity
 ): HealthcareEntity {
-  const { category, confidenceScore, isNegated, offset, text, links, subCategory, length } = entity;
+  const {
+    category,
+    confidenceScore,
+    assertion,
+    offset,
+    text,
+    links,
+    subCategory,
+    length,
+    name
+  } = entity;
   return {
     category,
     confidenceScore,
-    isNegated,
+    assertion,
     offset,
     length,
     text,
+    normalizedText: name,
     subCategory,
     dataSources:
       links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
@@ -207,20 +205,44 @@ function makeHealthcareEntitiesGraph(
   relations: HealthcareRelation[]
 ): void {
   for (const relation of relations) {
-    const relationType = relation.relationType;
-    const sourceIndex = parseHealthcareEntityIndex(relation.source);
-    const targetIndex = parseHealthcareEntityIndex(relation.target);
-    const sourceEntity = entities[sourceIndex];
-    const targetEntity = entities[targetIndex];
-    if (isHealthcareEntityRelationType(relationType)) {
-      sourceEntity.relatedEntities.set(targetEntity, relationType);
-      if (relation.bidirectional) {
-        targetEntity.relatedEntities.set(sourceEntity, relationType);
+    const attributeEntities: HealthcareEntity[] = [];
+    const targetEntities: HealthcareEntity[] = [];
+    for (const entity of relation.entities) {
+      const index = parseHealthcareEntityIndex(entity.ref);
+      if (entity.role === "Attribute") {
+        attributeEntities.push(entities[index]);
+      } else {
+        targetEntities.push(entities[index]);
       }
-    } else {
-      throw new Error(`Unrecognized healthcare entity relation type: ${relationType}`);
     }
+    // Entities with the role Attribute are the source of the relation (causation)
+    // and other entities in the relation are caused by them.
+    // For example: "High blood sugar leads to high blood pressure" – In this
+    // case two symptoms are related to one another, but one is an attribute
+    // (or causation) that leads to another.
+    targetEntities.map((targetEntity: HealthcareEntity) => {
+      attributeEntities.map((attributeEntity: HealthcareEntity) => {
+        attributeEntity.relatedEntities.set(targetEntity, relation.relationType);
+      });
+    });
   }
+}
+
+function makeHealthcareRelations(
+  entities: HealthcareEntity[],
+  relations: HealthcareRelation[]
+): HealthcareEntityRelation[] {
+  return relations.map(
+    (relation: HealthcareRelation): HealthcareEntityRelation => ({
+      relationType: relation.relationType,
+      roles: relation.entities.map(
+        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
+          entity: entities[parseHealthcareEntityIndex(role.ref)],
+          name: role.role
+        })
+      )
+    })
+  );
 }
 
 /**
@@ -236,7 +258,8 @@ export function makeHealthcareEntitiesResult(
   makeHealthcareEntitiesGraph(newEntities, relations);
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    entities: newEntities
+    entities: newEntities,
+    entityRelations: makeHealthcareRelations(newEntities, relations)
   };
 }
 

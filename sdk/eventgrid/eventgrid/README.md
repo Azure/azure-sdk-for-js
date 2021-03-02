@@ -223,7 +223,7 @@ await client.send([
 
 ### Deserializing an Event
 
-`EventGridDeserializer` can be used to deserialize events delivered by Event Grid. When deserializing an event, you need to know the schema used to deliver the event. In this example we have events being delivered to an Azure Service Bus Topic in the Cloud Events schema. Using the Service Bus SDK we can recieve these events from the Service Bus Topic and then deserialize them using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
+`EventGridDeserializer` can be used to deserialize events delivered by Event Grid. When deserializing an event, you need to know the schema used to deliver the event. In this example we have events being delivered to an Azure Service Bus Queue in the Cloud Events schema. Using the Service Bus SDK we can receive these events from the Service Bus Queue and then deserialize them using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
 
 ```js
 const { ServiceBusClient } = require("@azure/service-bus");
@@ -239,7 +239,7 @@ const consumer = new EventGridDeserializer();
 async function processMessage(message) {
   // When delivering to a Service Bus Queue or Topic, EventGrid delivers a single event per message.
   // so we just pluck the first one.
-  const event = (await consumer.decodeCloudEvents(message.body))[0];
+  const event = (await consumer.deserializeCloudEvents(message.body))[0];
 
   if (isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", event)) {
     console.log(
@@ -266,14 +266,14 @@ receiver.subscribe({
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to get the debug logging output when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure Event Grid client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export AZURE_LOG_LEVEL=verbose
+setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).

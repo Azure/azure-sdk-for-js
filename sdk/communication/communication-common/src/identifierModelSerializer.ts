@@ -77,6 +77,37 @@ export interface _SerializedMicrosoftTeamsUserIdentifier {
  */
 export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
+const addRawIdIfExisting = <T>(
+  identifier: T,
+  rawId: string | undefined
+): T & { rawId?: string } => {
+  return rawId === undefined ? identifier : { ...identifier, rawId: rawId };
+};
+
+const assertNotNullOrUndefined = <
+  T extends Record<string, unknown>,
+  P extends keyof T,
+  Q extends keyof T[P]
+>(
+  obj: T,
+  prop: Q
+): Required<Required<T>[P]>[Q] => {
+  const subObjName = Object.keys(obj)[0];
+  const subObj = (obj as any)[subObjName];
+  if (prop in subObj) {
+    return subObj[prop];
+  }
+  throw new Error(`Property ${prop} is required for identifier of type ${subObjName}.`);
+};
+
+const assertMaximumOneNestedModel = (identifier: _SerializedCommunicationIdentifier): void => {
+  const { rawId, ...props } = identifier;
+  const keys = Object.keys(props);
+  if (keys.length > 1) {
+    throw new Error(`Only one of the properties in ${JSON.stringify(keys)} should be present.`);
+  }
+};
+
 /**
  * @internal
  * Translates a CommunicationIdentifier to its serialized format for sending a request.
@@ -149,31 +180,4 @@ export const _deserializeCommunicationIdentifier = (
     kind: "unknown",
     id: assertNotNullOrUndefined({ unknown: serializedIdentifier }, "rawId")
   };
-};
-
-const addRawIdIfExisting = <T>(
-  identifier: T,
-  rawId: string | undefined
-): T & { rawId?: string } => {
-  return rawId === undefined ? identifier : { ...identifier, rawId: rawId };
-};
-
-const assertNotNullOrUndefined = <T extends {}, P extends keyof T, Q extends keyof T[P]>(
-  obj: T,
-  prop: Q
-): Required<Required<T>[P]>[Q] => {
-  const subObjName = Object.keys(obj)[0];
-  const subObj = (obj as any)[subObjName];
-  if (prop in subObj) {
-    return subObj[prop];
-  }
-  throw new Error(`Property ${prop} is required for identifier of type ${subObjName}.`);
-};
-
-const assertMaximumOneNestedModel = (identifier: _SerializedCommunicationIdentifier) => {
-  const { rawId, ...props } = identifier;
-  const keys = Object.keys(props);
-  if (keys.length > 1) {
-    throw new Error(`Only one of the properties in ${JSON.stringify(keys)} should be present.`);
-  }
 };

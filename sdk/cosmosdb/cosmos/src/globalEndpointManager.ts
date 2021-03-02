@@ -66,7 +66,7 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
-  public async markCurrentLocationUnavailableForRead(endpoint: string) {
+  public async markCurrentLocationUnavailableForRead(endpoint: string): Promise<void> {
     await this.refreshEndpointList();
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
@@ -74,7 +74,7 @@ export class GlobalEndpointManager {
     }
   }
 
-  public async markCurrentLocationUnavailableForWrite(endpoint: string) {
+  public async markCurrentLocationUnavailableForWrite(endpoint: string): Promise<void> {
     await this.refreshEndpointList();
     const location = this.writeableLocations.find(
       (loc) => loc.databaseAccountEndpoint === endpoint
@@ -100,7 +100,10 @@ export class GlobalEndpointManager {
     return canUse;
   }
 
-  public async resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType) {
+  public async resolveServiceEndpoint(
+    resourceType: ResourceType,
+    operationType: OperationType
+  ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
       return this.defaultEndpoint;
@@ -165,7 +168,7 @@ export class GlobalEndpointManager {
     }
   }
 
-  private refreshEndpoints(databaseAccount: DatabaseAccount) {
+  private refreshEndpoints(databaseAccount: DatabaseAccount): void {
     for (const location of databaseAccount.writableLocations) {
       const existingLocation = this.writeableLocations.find((loc) => loc.name === location.name);
       if (!existingLocation) {
@@ -225,7 +228,7 @@ export class GlobalEndpointManager {
    * @param defaultEndpoint - The default endpoint to use for the endpoint.
    * @param locationName    - The location name for the azure region like "East US".
    */
-  private static getLocationalEndpoint(defaultEndpoint: string, locationName: string) {
+  private static getLocationalEndpoint(defaultEndpoint: string, locationName: string): string {
     // For defaultEndpoint like 'https://contoso.documents.azure.com:443/' parse it to generate URL format
     // This defaultEndpoint should be global endpoint(and cannot be a locational endpoint)
     // and we agreed to document that
@@ -258,7 +261,7 @@ export class GlobalEndpointManager {
   }
 }
 
-function normalizeEndpoint(endpoint: string) {
+function normalizeEndpoint(endpoint: string): string {
   return endpoint
     .split(" ")
     .join("")
