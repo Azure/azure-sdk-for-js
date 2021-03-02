@@ -172,3 +172,18 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
     });
   });
 });
+
+describe("2048 scenarios - subscribe", function(): void {
+  testClientTypes.forEach((clientType) => {
+    it(clientType + ": would be able to receive more than 2048 messages", async function(): Promise<
+      void
+    > {
+      // subscribe - receiveAndDelete
+    });
+    it(clientType + ": would be able to receive more than 2048 messages", async function(): Promise<
+      void
+    > {
+      // subscribe - peekLock
+    });
+  });
+});
