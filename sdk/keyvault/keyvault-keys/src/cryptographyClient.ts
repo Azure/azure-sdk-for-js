@@ -117,21 +117,17 @@ export class CryptographyClient {
     if (typeof key === "string") {
       this.key = { kind: "identifier", value: key };
       parsed = parseKeyVaultKeyId(key);
-    } else if ("key" in key) {
+    } else if ("name" in key) {
       this.key = {
         kind: "KeyVaultKey",
         value: key
       };
       parsed = parseKeyVaultKeyId(key.id!);
-    } else if ("kid" in key) {
+    } else {
       this.key = {
         kind: "JsonWebKey",
         value: key
       };
-    } else {
-      throw new Error(
-        "The provided key is malformed as it does not have a value for the `key` property."
-      );
     }
 
     if (this.key.kind === "identifier" || this.key.kind === "KeyVaultKey") {
