@@ -50,39 +50,36 @@ export class CommunicationIdentityClient {
 
   /**
    * Initializes a new instance of the CommunicationIdentity class using an Azure KeyCredential.
-   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
-    url: string,
+    endpoint: string,
     credential: KeyCredential,
     options?: CommunicationIdentityClientOptions
   );
   /**
    * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
-   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
-    url: string,
+    endpoint: string,
     credential: TokenCredential,
     options?: CommunicationIdentityClientOptions
   );
-  /**
-   * Creates an instance of CommunicationIdentity.
-   *
-   * @param url - The endpoint to the service
-   * @param credential - An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
-   * @param options - Options to configure the HTTP pipeline.
-   */
+
   public constructor(
-    connectionStringOrUrl: string,
+    connectionStringOrEndpoint: string,
     credentialOrOptions?: KeyCredential | CommunicationIdentityClientOptions | TokenCredential,
     maybeOptions: CommunicationIdentityClientOptions = {}
   ) {
-    const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
+    const { url, credential } = parseClientArguments(
+      connectionStringOrEndpoint,
+      credentialOrOptions
+    );
     const options = isCommunicationIdentityClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;

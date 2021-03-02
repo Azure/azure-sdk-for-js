@@ -16,8 +16,7 @@ import {
 import { shaHash, shaHMAC } from "./cryptoUtils";
 
 /**
- * Creates an HTTP pipeline policy to authenticate a request
- * using an `KeyCredential`.
+ * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
  * @hidden
  *
  * @param credential - The key credential.
