@@ -21,6 +21,7 @@ import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { numberOfEmptyIncomingSlots } from "../receivers/shared";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -65,8 +66,7 @@ export class BatchingReceiver extends MessageReceiver {
 
         return this.link;
       },
-      this.receiveMode,
-      this._outstandingDeliveries
+      this.receiveMode
     );
   }
 
@@ -116,10 +116,6 @@ export class BatchingReceiver extends MessageReceiver {
         this.logPrefix,
         this.name
       );
-
-      if (this._outstandingDeliveries.length === 2047) {
-        return [];
-      }
 
       const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
@@ -240,8 +236,7 @@ export class BatchingReceiverLite {
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
-    private _receiveMode: ReceiveMode,
-    private _outstandingDeliveries: number[]
+    private _receiveMode: ReceiveMode
   ) {
     this._createAndEndProcessingSpan = createAndEndProcessingSpan;
 
@@ -284,6 +279,10 @@ export class BatchingReceiverLite {
 
       if (receiver == null) {
         // (was somehow closed in between the init() and the return)
+        return [];
+      }
+
+      if (numberOfEmptyIncomingSlots(receiver) <= 1) {
         return [];
       }
 
@@ -447,14 +446,14 @@ export class BatchingReceiverLite {
         reject(errObj);
       }
       if (this._receiveMode === "peekLock") {
-        this._outstandingDeliveries.push(context.delivery!.id);
-        if (this._outstandingDeliveries.length === 2047) {
+        console.log(numberOfEmptyIncomingSlots(receiver));
+        if (numberOfEmptyIncomingSlots(receiver) === 1) {
           // TODO: Make the circular buffer size configurable in rhea
           logger.verbose(
             `${loggingPrefix} Batching, circular buffer that contains the incoming deliveries is full, 
                 please settle the messages using settlement methods such as .completeMessage() on the receiver.`
           );
-          finalAction();
+          this._closeHandler?.();
         }
       }
       if (brokeredMessages.length === args.maxMessageCount) {

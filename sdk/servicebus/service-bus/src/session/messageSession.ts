@@ -34,7 +34,7 @@ import {
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/shared";
+import { abandonMessage, completeMessage, numberOfEmptyIncomingSlots } from "../receivers/shared";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -119,11 +119,6 @@ export class MessageSession extends LinkEntity<Receiver> {
   private _batchingReceiverLite: BatchingReceiverLite;
   private _isReceivingMessagesForSubscriber: boolean;
 
-  /**
-   * Maintains a deliveries that are yet to be settled.
-   * Once the limit of 2048(rhea's limit) is reached, receiver doesn't provide anymore messages.
-   */
-  protected _outstandingDeliveries: number[] = [];
   /**
    * Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
@@ -388,20 +383,14 @@ export class MessageSession extends LinkEntity<Receiver> {
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
       },
-      this.receiveMode,
-      this._outstandingDeliveries
+      this.receiveMode
     );
 
     // setting all the handlers
     this._onSettled = (context: EventContext) => {
       const delivery = context.delivery;
 
-      onMessageSettled(
-        this.logPrefix,
-        delivery,
-        this._deliveryDispositionMap,
-        this._outstandingDeliveries
-      );
+      onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
     this._notifyError = (args: ProcessErrorArgs) => {
@@ -635,8 +624,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           await this._onMessage(bMessage);
 
           if (this.receiveMode === "peekLock") {
-            this._outstandingDeliveries.push(context.delivery!.id);
-            if (this._outstandingDeliveries.length === 2047) {
+            if (numberOfEmptyIncomingSlots(this.link) === 1) {
               // TODO: Make the circular buffer size configurable in rhea
               this._notifyError?.({
                 error: new ServiceBusError(

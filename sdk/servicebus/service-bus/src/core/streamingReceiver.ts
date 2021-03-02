@@ -27,7 +27,7 @@ import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/shared";
+import { abandonMessage, completeMessage, numberOfEmptyIncomingSlots } from "../receivers/shared";
 import { ReceiverHandlers } from "./shared";
 
 /**
@@ -237,8 +237,7 @@ export class StreamingReceiver extends MessageReceiver {
       try {
         await this._onMessage(bMessage);
         if (this.receiveMode === "peekLock") {
-          this._outstandingDeliveries.push(context.delivery!.id);
-          if (this._outstandingDeliveries.length === 2047) {
+          if (numberOfEmptyIncomingSlots(this.link) === 1) {
             // TODO: Make the circular buffer size configurable in rhea
             this._onError?.({
               error: new ServiceBusError(
