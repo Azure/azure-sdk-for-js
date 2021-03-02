@@ -1,9 +1,9 @@
-import { env, record, Recorder } from "../../../test-utils/recorder/src";
-import { ComputeManagementClient } from "../src/computeManagementClient";
-import * as sourceMapSupport from "source-map-support";
+import pkg from "@azure/test-utils-recorder";
+const { env, record } = pkg;
+import { Recorder } from "@azure/test-utils-recorder";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
-sourceMapSupport.install();
 import { Context } from "mocha";
 
 describe("My test", () => {

@@ -4,7 +4,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 
 /** @type {rollup.RollupFileOptions} */
 const config = {
-  input: "./esm/computeManagementClient.js",
+  input: "./esm/src/computeManagementClient.js",
   external: ["@azure/core-http"],
   output: {
     file: "./dist/arm-compute.js",
