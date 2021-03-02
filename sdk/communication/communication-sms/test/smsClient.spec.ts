@@ -67,14 +67,14 @@ describe("SmsClient", async () => {
     assert.equal(validNumberResult.to, validToNumber);
     assert.isString(validNumberResult.messageId);
     assert.isTrue(validNumberResult.successful);
-    assert.isNull(validNumberResult.errorMessage);
+    assert.notExists(validNumberResult.errorMessage, "no error message for success");
 
     const invalidNumberResult = results[1];
     assert.equal(invalidNumberResult.httpStatusCode, 400);
     assert.equal(invalidNumberResult.to, invalidToNumber);
-    assert.isNull(invalidNumberResult.messageId, "no message id for errors");
+    assert.notExists(invalidNumberResult.messageId, "no message id for errors");
     assert.isFalse(invalidNumberResult.successful);
-    assert.isNotNull(invalidNumberResult.errorMessage);
+    assert.exists(invalidNumberResult.errorMessage);
   });
 
   it("throws an exception when sending from a number you don't own", async () => {

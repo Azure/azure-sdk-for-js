@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"from\":\"+18005551234\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"},{\"to\":\"+18005551234567\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+18005551234\",\"messageId\":\"sanitized\",\"httpStatusCode\":202,\"errorMessage\":null,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+18005551234567\",\"messageId\":null,\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"repeatabilityResult\":null,\"successful\":false}]}",
+   "response": "{\"value\":[{\"to\":\"+18005551234\",\"messageId\":\"sanitized\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+18005551234567\",\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"successful\":false}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "112a176408afa078043139862c980c5a"
+ "hash": "bd3def70923dd57d06679f1f174900aa"
 }
