@@ -10,7 +10,6 @@ import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import { CoreHTTPDownloadWithSASTest } from "./core-http.spec";
 import { NodeFetchDownloadWithSASTest } from "./node-fetch.spec";
 import { CoreHTTPSDownloadWithSASTest } from "./core-https.spec";
-import { NoOp } from "./noop.spec";
 
 console.log("=== Starting the perfStress test ===");
 
@@ -24,7 +23,6 @@ const perfStressProgram = new PerfStressProgram(
     CoreHTTPDownloadWithSASTest,
     CoreHTTPSDownloadWithSASTest,
     NodeFetchDownloadWithSASTest,
-    NoOp
   ])
 );
 

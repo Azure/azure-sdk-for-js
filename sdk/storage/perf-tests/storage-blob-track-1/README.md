@@ -7,8 +7,6 @@
 5. Create a storage account and populate the `.env` file with `STORAGE_CONNECTION_STRING` variable.
 6. Run the tests as follows
 
-   - no-op
-     - `npm run perf-test:node -- NoOp --duration 7`
    - download
      - `npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
    - upload
