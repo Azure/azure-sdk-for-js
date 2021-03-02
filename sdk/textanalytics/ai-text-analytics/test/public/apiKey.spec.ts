@@ -129,11 +129,11 @@ describe("[API Key] TextAnalyticsClient", function() {
             roles: [
               {
                 entity: doc2.entities[0],
-                role: "Attribute"
+                name: "Attribute"
               },
               {
                 entity: doc2.entities[1],
-                role: "Entity"
+                name: "Entity"
               }
             ]
           });
@@ -142,11 +142,11 @@ describe("[API Key] TextAnalyticsClient", function() {
             roles: [
               {
                 entity: doc2.entities[1],
-                role: "Entity"
+                name: "Entity"
               },
               {
                 entity: doc2.entities[2],
-                role: "Attribute"
+                name: "Attribute"
               }
             ]
           });

@@ -73,7 +73,7 @@ export interface HealthcareEntityRelationRole {
   /**
    * The role of the healthcare entity in a particular relation.
    */
-  role: HealthcareEntityRelationRoleType;
+  name: HealthcareEntityRelationRoleType;
 }
 
 /**
@@ -223,7 +223,7 @@ function makeHealthcareRelations(
       roles: relation.entities.map(
         (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
-          role: role.role
+          name: role.role
         })
       )
     })

@@ -240,7 +240,7 @@ export interface HealthcareEntityRelation {
 // @public
 export interface HealthcareEntityRelationRole {
     entity: HealthcareEntity;
-    role: HealthcareEntityRelationRoleType;
+    name: HealthcareEntityRelationRoleType;
 }
 
 // @public
