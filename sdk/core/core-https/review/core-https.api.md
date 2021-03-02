@@ -19,8 +19,8 @@ export interface AddPipelineOptions {
 
 // @public
 export interface AuthenticationContext {
-    claims?: string;
-    scopes?: string | string[];
+    challengeClaims?: string;
+    scopes?: string[];
 }
 
 // @public
@@ -31,23 +31,13 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
-    authenticationContext?: AuthenticationContext;
+    challenge?: {
+        prepareRequest?(request: PipelineRequest): Promise<void>;
+        getChallenge?(response: PipelineResponse): string | undefined;
+        processChallenge(challenge: string): Promise<AuthenticationContext | undefined>;
+    };
     credential: TokenCredential;
     scopes: string | string[];
-}
-
-// @public
-export function challengeAuthenticationPolicy(options: ChallengeAuthenticationPolicyOptions): PipelinePolicy;
-
-// @public
-export const challengeAuthenticationPolicyName = "challengeAuthenticationPolicy";
-
-// @public
-export interface ChallengeAuthenticationPolicyOptions {
-    authenticationContext: AuthenticationContext;
-    getChallenge?(response: PipelineResponse): string | undefined;
-    prepareRequest?(request: PipelineRequest): Promise<void>;
-    processChallenge(challenge: string, context: AuthenticationContext): Promise<boolean>;
 }
 
 // @public

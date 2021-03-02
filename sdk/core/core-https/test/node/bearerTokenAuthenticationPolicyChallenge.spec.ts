@@ -5,14 +5,12 @@ import { assert } from "chai";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
-  challengeAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
   HttpsClient,
   PipelineResponse
 } from "../../src";
-import { parseCAEChallenges } from "../../src/util/parseCAEChallenges";
 import { AuthenticationContext } from "../../src/interfaces";
 
 export interface TestChallenge {
@@ -46,11 +44,27 @@ export function decodeString(value: string): Uint8Array {
   return Buffer.from(value, "base64");
 }
 
-async function processChallenge(
-  challenge: string,
-  context: AuthenticationContext
-): Promise<boolean> {
-  const challenges: TestChallenge[] = parseCAEChallenges(challenge) || [];
+// Converts:
+//     Bearer a="b", c="d", Bearer d="e", f="g"
+// Into:
+//     [ { a: 'b', c: 'd' }, { d: 'e', f: 'g"' } ]
+// Important:
+//     Do not use this in production, as values might contain the strings we use to split things up.
+function parseCAEChallenge(challenges: string): any[] {
+  return challenges
+    .split("Bearer ")
+    .filter((x) => x)
+    .map((challenge) =>
+      challenge
+        .split('", ')
+        .filter((x) => x)
+        .map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')))
+        .reduce((a, b) => ({ ...a, ...b }), {})
+    );
+}
+
+async function processChallenge(challenge: string): Promise<AuthenticationContext> {
+  const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
 
   const parsedChallenge = challenges.find((x) => x.claims);
   if (!parsedChallenge) {
@@ -60,29 +74,29 @@ async function processChallenge(
     cachedChallenge = challenge;
   }
 
-  context.scopes = parsedChallenge.scope;
-  context.claims = uint8ArrayToString(decodeString(parsedChallenge.claims));
-
-  return true;
+  return {
+    scopes: [parsedChallenge.scope],
+    challengeClaims: uint8ArrayToString(decodeString(parsedChallenge.claims))
+  };
 }
 
 class MockRefreshAzureCredential implements TokenCredential {
-  private _expiresOnTimestamp: number;
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; claims: string | undefined }[] = [];
+  public tokens: (AccessToken | null)[];
 
-  constructor(expiresOnTimestamp: number) {
-    this._expiresOnTimestamp = expiresOnTimestamp;
+  constructor(tokens: (AccessToken | null)[]) {
+    this.tokens = tokens;
   }
 
   public getToken(scope: string | string[], options: GetTokenOptions): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({ scope, claims: options.claims });
-    return Promise.resolve({ token: "mock-token", expiresOnTimestamp: this._expiresOnTimestamp });
+    return Promise.resolve(this.tokens.shift()!);
   }
 }
 
-describe("ChallengeAuthenticationPolicy", function() {
+describe("bearerTokenAuthenticationPolicy with challenge", function() {
   it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
     const expected = {
       scope: "http://localhost/.default",
@@ -110,17 +124,20 @@ describe("ChallengeAuthenticationPolicy", function() {
     ];
 
     const expiresOn = Date.now() + 5000;
-    const credential = new MockRefreshAzureCredential(expiresOn);
+    const tokens = [null, { token: "mock-token", expiresOnTimestamp: expiresOn }];
+    const credential = new MockRefreshAzureCredential(tokens);
 
     const pipeline = createEmptyPipeline();
-    const authenticationContext: AuthenticationContext = {};
-    const policies = [
-      challengeAuthenticationPolicy({ processChallenge, authenticationContext }),
-      bearerTokenAuthenticationPolicy({ credential, scopes: "", authenticationContext })
-    ];
+    const policy = bearerTokenAuthenticationPolicy({
+      // Intentionally left empty, as it should be replaced by the challenge.
+      scopes: "",
+      credential,
+      challenge: {
+        processChallenge
+      }
+    });
 
-    pipeline.addPolicy(policies[0]);
-    pipeline.addPolicy(policies[1], { afterPolicies: [policies[0].name] });
+    pipeline.addPolicy(policy);
 
     const testHttpsClient: HttpsClient = {
       sendRequest: async (req) => {
@@ -142,7 +159,7 @@ describe("ChallengeAuthenticationPolicy", function() {
         claims: undefined
       },
       {
-        scope: expected.scope,
+        scope: [expected.scope],
         claims: expected.claims
       }
     ]);

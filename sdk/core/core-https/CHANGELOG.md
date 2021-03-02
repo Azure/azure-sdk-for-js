@@ -4,7 +4,7 @@
 
 - Changed from exposing `DefaultHttpsClient` as a class directly, to providing `createDefaultHttpsClient()` to instantiate the appropriate runtime class.
 - Fix an issue when passing in proxy hosts. [PR 13911](https://github.com/Azure/azure-sdk-for-js/pull/13911)
-- Added a `challengeAuthenticationPolicy` with features to support [CAE](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
+- Added a `challenge` optional property to the `bearerTokenAuthenticationPolicy` that gives it support to process [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
 
 ## 1.0.0-beta.1 (2021-02-04)
 

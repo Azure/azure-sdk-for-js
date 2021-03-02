@@ -282,9 +282,9 @@ export interface AuthenticationContext {
   /**
    * Scopes to overwrite during the get token request.
    */
-  scopes?: string | string[];
+  scopes?: string[];
   /**
    * Claims that can be used by the credential's getToken request.
    */
-  claims?: string;
+  challengeClaims?: string;
 }

@@ -68,9 +68,4 @@ export {
   BearerTokenAuthenticationPolicyOptions,
   bearerTokenAuthenticationPolicyName
 } from "./policies/bearerTokenAuthenticationPolicy";
-export {
-  challengeAuthenticationPolicy,
-  ChallengeAuthenticationPolicyOptions,
-  challengeAuthenticationPolicyName
-} from "./policies/challengeAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
