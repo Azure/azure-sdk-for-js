@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "@azure/core-tracing";
+import { extractSpanContextFromTraceParentHeader } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext } from "../connectionContext";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
@@ -13,34 +13,6 @@ import { createServiceBusSpan } from "./tracing";
  * @hidden
  */
 export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
-
-/**
- * Populates the `ServiceBusMessage` with `SpanContext` info to support trace propagation.
- * Creates and returns a copy of the passed in `ServiceBusMessage` unless the `ServiceBusMessage`
- * has already been instrumented.
- * @param message - The `ServiceBusMessage` to instrument.
- * @param span - The `Span` containing the context to propagate tracing information.
- * @hidden
- * @internal
- */
-export function instrumentServiceBusMessage(
-  message: ServiceBusMessage,
-  span: Span
-): ServiceBusMessage {
-  if (message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]) {
-    return message;
-  }
-
-  // create a copy so the original isn't modified
-  message = { ...message, applicationProperties: { ...message.applicationProperties } };
-
-  const traceParent = getTraceParentHeader(span.context());
-  if (traceParent) {
-    message.applicationProperties![TRACEPARENT_PROPERTY] = traceParent;
-  }
-
-  return message;
-}
 
 /**
  * Extracts the `SpanContext` from an `ServiceBusMessage` if the context exists.
