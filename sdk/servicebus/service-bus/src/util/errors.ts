@@ -6,6 +6,7 @@ import Long from "long";
 import { ConnectionContext } from "../connectionContext";
 import { isServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ReceiveMode } from "../models";
+import { isDefined } from "./typeGuards";
 
 /**
  * Error message to use when EntityPath in connection string does not match the
@@ -57,7 +58,7 @@ export function getSenderClosedErrorMsg(entityPath: string): string {
  * @param sessionId - If using session receiver, then the id of the session
  */
 export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string): string {
-  if (sessionId == undefined) {
+  if (!isDefined(sessionId)) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
       `Please create a new receiver using the "createReceiver" method on the ServiceBusClient.`
@@ -75,7 +76,7 @@ export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string
  * @param sessionId - If using session receiver, then the id of the session
  */
 export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: string): string {
-  if (sessionId == undefined) {
+  if (!isDefined(sessionId)) {
     return `The receiver for "${entityPath}" is already receiving messages.`;
   }
   return `The receiver for session "${sessionId}" for "${entityPath}" is already receiving messages.`;

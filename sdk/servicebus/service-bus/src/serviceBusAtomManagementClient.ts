@@ -71,6 +71,7 @@ import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
+import { isDefined } from "./util/typeGuards";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
@@ -2207,8 +2208,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOperationOptions
       );
       if (
-        response.parsedBody == undefined ||
-        (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+        !isDefined(response.parsedBody) ||
+        (Array.isArray(response.parsedBody) && response.parsedBody.length === 0)
       ) {
         const err = new RestError(
           `The messaging entity "${name}" being requested cannot be found.`,

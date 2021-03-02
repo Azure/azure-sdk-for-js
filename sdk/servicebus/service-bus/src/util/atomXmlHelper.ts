@@ -20,6 +20,7 @@ import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
 import { isJSONLikeObject } from "./utils";
+import { isDefined } from "./typeGuards";
 
 /**
  * @internal
@@ -100,7 +101,7 @@ export async function executeAtomXmlOperation(
  */
 export function sanitizeSerializableObject(resource: { [key: string]: any }): void {
   Object.keys(resource).forEach(function(property) {
-    if (resource[property] == undefined) {
+    if (!isDefined(resource[property])) {
       delete resource[property];
     } else if (isJSONLikeObject(resource[property])) {
       sanitizeSerializableObject(resource[property]);
@@ -385,9 +386,9 @@ export function buildError(response: HttpOperationResponse): RestError {
     errorMessage = errorBody;
   } else {
     if (
-      errorBody == undefined ||
-      errorBody.Error == undefined ||
-      errorBody.Error.Detail == undefined
+      !isDefined(errorBody) ||
+      !isDefined(errorBody.Error) ||
+      !isDefined(errorBody.Error.Detail)
     ) {
       errorMessage =
         "Detailed error message information not available. Look at the 'code' property on error for more information.";
@@ -414,18 +415,18 @@ export function buildError(response: HttpOperationResponse): RestError {
  * information and other data present in the received `response` object.
  */
 function getErrorCode(response: HttpOperationResponse, errorMessage: string): string {
-  if (response.status == 401) {
+  if (response.status === 401) {
     return "UnauthorizedRequestError";
   }
-  if (response.status == 404) {
+  if (response.status === 404) {
     return "MessageEntityNotFoundError";
   }
-  if (response.status == 409) {
-    if (response.request.method == "DELETE") {
+  if (response.status === 409) {
+    if (response.request.method === "DELETE") {
       return "ServiceError";
     }
 
-    if (response.request.method == "PUT" && response.request.headers.get("If-Match") == "*") {
+    if (response.request.method === "PUT" && response.request.headers.get("If-Match") === "*") {
       return "ServiceError";
     }
 
@@ -436,18 +437,18 @@ function getErrorCode(response: HttpOperationResponse, errorMessage: string): st
     return "MessageEntityAlreadyExistsError";
   }
 
-  if (response.status == 403) {
+  if (response.status === 403) {
     if (errorMessage && errorMessage.toLowerCase().includes("subcode=40301")) {
       return "InvalidOperationError";
     }
     return "QuotaExceededError";
   }
 
-  if (response.status == 400) {
+  if (response.status === 400) {
     return "ServiceError";
   }
 
-  if (response.status == 503) {
+  if (response.status === 503) {
     return "ServerBusyError";
   }
 

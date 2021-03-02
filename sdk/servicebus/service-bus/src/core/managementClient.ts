@@ -49,6 +49,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer } from "../dataTransformer";
+import { isDefined } from "../util/typeGuards";
 
 /**
  * @internal
@@ -301,7 +302,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
-    const actionAfterTimeout = (reject: (reason?: any) => void) => {
+    const actionAfterTimeout = (reject: (reason?: any) => void): void => {
       const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
       const e: Error = {
         name: "OperationTimeoutError",
@@ -462,7 +463,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         Buffer.from(fromSequenceNumber.toBytesBE())
       );
       messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
-      if (sessionId != undefined) {
+      if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
       const request: RheaMessage = {

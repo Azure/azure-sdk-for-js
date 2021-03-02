@@ -9,6 +9,7 @@ import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
+import { isDefined } from "./typeGuards";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -175,7 +176,7 @@ export function getString(value: unknown, nameOfProperty: string): string {
  * or undefined if not passed in.
  */
 export function getStringOrUndefined(value: any): string | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   return value.toString();
@@ -202,7 +203,7 @@ export function getInteger(value: unknown, nameOfProperty: string): number {
  * or undefined if not passed in.
  */
 export function getIntegerOrUndefined(value: any): number | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   const result = parseInt(value.toString());
@@ -238,7 +239,7 @@ export function getBoolean(value: unknown, nameOfProperty: string): boolean {
  * or undefined if not passed in.
  */
 export function getBooleanOrUndefined(value: any): boolean | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   return (
@@ -281,7 +282,7 @@ export function isJSONLikeObject(value: any): boolean {
  */
 export function getMessageCountDetails(value: any): MessageCountDetails {
   const xmlnsPrefix = getXMLNSPrefix(value);
-  if (value == undefined) {
+  if (!isDefined(value)) {
     value = {};
   }
   return {
@@ -384,7 +385,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
     return undefined;
   }
 
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
 
@@ -405,7 +406,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
  */
 function buildAuthorizationRule(value: any): AuthorizationRule {
   let accessRights;
-  if (value["Rights"] != undefined) {
+  if (isDefined(value["Rights"])) {
     accessRights = value["Rights"]["AccessRights"];
   }
 
@@ -429,7 +430,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
  * or undefined if not passed in.
  */
 export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
-  if (authorizationRules == undefined) {
+  if (!isDefined(authorizationRules)) {
     return undefined;
   }
 

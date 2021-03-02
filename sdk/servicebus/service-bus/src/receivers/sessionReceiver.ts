@@ -238,7 +238,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.
    */
-  async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
+  async setSessionState(state: unknown, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async (): Promise<void> => {
