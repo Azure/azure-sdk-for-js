@@ -172,7 +172,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
   /**
    * Specifies the list of Pii categories to return.
    */
-  piiCategories?: PiiCategory[];
+  categoriesFilter?: PiiCategory[];
 }
 
 /**
@@ -233,7 +233,7 @@ export type RecognizePiiEntitiesAction = {
   /**
    * Specifies the list of Pii categories to return.
    */
-  piiCategories?: PiiCategory[];
+  categoriesFilter?: PiiCategory[];
 };
 
 /**
@@ -1076,6 +1076,6 @@ function makePiiEntitiesOptionsModel(
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
     tracingOptions: params.tracingOptions,
-    piiCategories: params.piiCategories
+    piiCategories: params.categoriesFilter
   };
 }
