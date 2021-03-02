@@ -96,8 +96,8 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function () {
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
+describe("bearerTokenAuthenticationPolicy with challenge", function() {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
     const expected = {
       scope: "http://localhost/.default",
       challengeClaims: JSON.stringify({
