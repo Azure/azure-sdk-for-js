@@ -3,48 +3,48 @@
 
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
-import {
-  ChatClient,
-  ChatParticipant,
-  ChatThread,
-  ChatThreadInfo,
-  CommunicationIdentifierModel,
-  CreateChatThreadResult,
-  ChatMessage,
-  ChatMessageReadReceipt,
-  ChatThreadClient
-} from "../../src";
+import * as RestModel from "../../src/generated/src/models";
+import { ChatClient, ChatParticipant, ChatThreadClient } from "../../src";
+import { CommunicationIdentifierModel } from "../../src/generated/src";
 import { baseUri, generateToken } from "./connectionUtils";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
-  rawId: "rawId"
+  communicationUser: { id: "id" }
 };
 
-export const mockParticipant: ChatParticipant = {
+export const mockParticipant: RestModel.ChatParticipant = {
   communicationIdentifier: mockCommunicationIdentifier,
   displayName: "displayName",
   shareHistoryTime: new Date("2020-05-26T18:06:06Z")
 };
 
-export const mockThread: ChatThread = {
+export const mockSdkModelParticipant: ChatParticipant = {
+  id: {
+    communicationUserId: mockParticipant.communicationIdentifier.communicationUser?.id!
+  },
+  displayName: mockParticipant.displayName,
+  shareHistoryTime: mockParticipant.shareHistoryTime
+};
+
+export const mockThread: RestModel.ChatThread = {
   id: "threadid",
   topic: "topic",
   createdByCommunicationIdentifier: mockCommunicationIdentifier,
   createdOn: new Date("2020-06-26T18:06:06Z")
 };
 
-export const mockCreateThreadResult: CreateChatThreadResult = {
+export const mockCreateThreadResult: RestModel.CreateChatThreadResult = {
   chatThread: mockThread,
   errors: undefined
 };
 
-export const mockThreadInfo: ChatThreadInfo = {
+export const mockThreadInfo: RestModel.ChatThreadInfo = {
   id: "threadid",
   topic: "topic",
   lastMessageReceivedOn: new Date("2020-06-26T18:06:06Z")
 };
 
-export const mockMessage: ChatMessage = {
+export const mockMessage: RestModel.ChatMessage = {
   id: "id",
   type: "text",
   version: "version",
@@ -59,7 +59,7 @@ export const mockMessage: ChatMessage = {
   deletedOn: new Date("2020-06-26T18:06:06Z")
 };
 
-export const mockChatMessageReadReceipt: ChatMessageReadReceipt = {
+export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
   senderCommunicationIdentifier: mockCommunicationIdentifier,
   chatMessageId: mockMessage.id,
   readOn: new Date("2020-06-26T18:06:06Z")

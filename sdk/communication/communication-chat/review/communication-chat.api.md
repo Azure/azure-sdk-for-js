@@ -10,6 +10,7 @@ import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
 import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
 import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
 import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
+import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
@@ -81,7 +82,7 @@ export interface ChatMessage {
     deletedOn?: Date;
     editedOn?: Date;
     id: string;
-    senderCommunicationIdentifier?: CommunicationIdentifierModel;
+    sender?: CommunicationIdentifier;
     senderDisplayName?: string;
     sequenceId: string;
     type: ChatMessageType;
@@ -90,7 +91,7 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageContent {
-    initiatorCommunicationIdentifier?: CommunicationIdentifierModel;
+    initiator?: CommunicationIdentifier;
     message?: string;
     participants?: ChatParticipant[];
     topic?: string;
@@ -100,7 +101,7 @@ export interface ChatMessageContent {
 export interface ChatMessageReadReceipt {
     chatMessageId: string;
     readOn: Date;
-    senderCommunicationIdentifier: CommunicationIdentifierModel;
+    sender: CommunicationIdentifier;
 }
 
 // @public
@@ -108,14 +109,14 @@ export type ChatMessageType = string;
 
 // @public
 export interface ChatParticipant {
-    communicationIdentifier: CommunicationIdentifierModel;
     displayName?: string;
+    id: CommunicationIdentifier;
     shareHistoryTime?: Date;
 }
 
 // @public
 export interface ChatThread {
-    createdByCommunicationIdentifier: CommunicationIdentifierModel;
+    readonly createdBy?: CommunicationIdentifier;
     createdOn: Date;
     deletedOn?: Date;
     id: string;
@@ -131,7 +132,7 @@ export class ChatThreadClient {
     listMessages(options?: ListMessagesOptions): PagedAsyncIterableIterator<ChatMessage>;
     listParticipants(options?: ListParticipantsOptions): PagedAsyncIterableIterator<ChatParticipant>;
     listReadReceipts(options?: ListReadReceiptsOptions): PagedAsyncIterableIterator<ChatMessageReadReceipt>;
-    removeParticipant(participant: CommunicationIdentifierModel, options?: RemoveParticipantOptions): Promise<void>;
+    removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     sendMessage(request: SendMessageRequest, options?: SendMessageOptions): Promise<SendChatMessageResult>;
     sendReadReceipt(request: SendReadReceiptRequest, options?: SendReadReceiptOptions): Promise<void>;
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
@@ -153,28 +154,12 @@ export interface ChatThreadInfo {
 }
 
 // @public
-export type CommunicationCloudEnvironmentModel = string;
-
-// @public
 export interface CommunicationError {
     code: string;
     readonly details?: CommunicationError[];
     readonly innerError?: CommunicationError;
     message: string;
     readonly target?: string;
-}
-
-// @public
-export interface CommunicationIdentifierModel {
-    communicationUser?: CommunicationUserIdentifierModel;
-    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
-    phoneNumber?: PhoneNumberIdentifierModel;
-    rawId?: string;
-}
-
-// @public
-export interface CommunicationUserIdentifierModel {
-    id: string;
 }
 
 // @public
@@ -216,22 +201,15 @@ export type ListChatThreadsOptions = RestListChatThreadsOptions;
 export type ListMessagesOptions = RestListMessagesOptions;
 
 // @public
+export interface ListPageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export type ListParticipantsOptions = RestListParticipantsOptions;
 
 // @public
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
-
-// @public
-export interface MicrosoftTeamsUserIdentifierModel {
-    cloud?: CommunicationCloudEnvironmentModel;
-    isAnonymous?: boolean;
-    userId: string;
-}
-
-// @public
-export interface PhoneNumberIdentifierModel {
-    value: string;
-}
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
@@ -271,27 +249,19 @@ export interface RestUpdateMessageOptions {
 }
 
 // @public
-interface SendChatMessageRequest {
-    content: string;
-    senderDisplayName?: string;
-    type?: ChatMessageType;
-}
-
-export { SendChatMessageRequest as RestSendMessageOptions }
-
-export { SendChatMessageRequest as RestSendMessageRequest }
-
-// @public
 export interface SendChatMessageResult {
     id: string;
 }
 
 // @public
-export interface SendMessageOptions extends Omit<SendChatMessageRequest, "content">, OperationOptions {
+export interface SendMessageOptions extends OperationOptions {
+    senderDisplayName?: string;
+    type?: ChatMessageType;
 }
 
 // @public
-export interface SendMessageRequest extends Omit<SendChatMessageRequest, "type" | "senderDisplayName"> {
+export interface SendMessageRequest {
+    content: string;
 }
 
 // @public

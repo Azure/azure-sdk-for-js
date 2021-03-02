@@ -6,35 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChatApiClient } from "../chatApiClient";
 import {
-  ChatMessageReadReceipt,
-  ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsOptionalParams,
-  ChatMessage,
-  ChatThreadListChatMessagesNextOptionalParams,
-  ChatThreadListChatMessagesOptionalParams,
-  ChatParticipant,
-  ChatThreadListChatParticipantsNextOptionalParams,
-  ChatThreadListChatParticipantsOptionalParams,
   ChatThreadListChatReadReceiptsResponse,
   SendReadReceiptRequest,
   SendChatMessageRequest,
   ChatThreadSendChatMessageResponse,
+  ChatThreadListChatMessagesOptionalParams,
   ChatThreadListChatMessagesResponse,
   ChatThreadGetChatMessageResponse,
   UpdateChatMessageRequest,
+  ChatThreadListChatParticipantsOptionalParams,
   ChatThreadListChatParticipantsResponse,
   CommunicationIdentifierModel,
   AddChatParticipantsRequest,
   ChatThreadAddChatParticipantsResponse,
   UpdateChatThreadRequest,
+  ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
+  ChatThreadListChatMessagesNextOptionalParams,
   ChatThreadListChatMessagesNextResponse,
+  ChatThreadListChatParticipantsNextOptionalParams,
   ChatThreadListChatParticipantsNextResponse
 } from "../models";
 
@@ -55,145 +51,7 @@ export class ChatThread {
    * @param chatThreadId Thread id to get the chat message read receipts for.
    * @param options The options parameters.
    */
-  public listChatReadReceipts(
-    chatThreadId: string,
-    options?: ChatThreadListChatReadReceiptsOptionalParams
-  ): PagedAsyncIterableIterator<ChatMessageReadReceipt> {
-    const iter = this.listChatReadReceiptsPagingAll(chatThreadId, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listChatReadReceiptsPagingPage(chatThreadId, options);
-      }
-    };
-  }
-
-  private async *listChatReadReceiptsPagingPage(
-    chatThreadId: string,
-    options?: ChatThreadListChatReadReceiptsOptionalParams
-  ): AsyncIterableIterator<ChatMessageReadReceipt[]> {
-    let result = await this._listChatReadReceipts(chatThreadId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listChatReadReceiptsNext(chatThreadId, continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listChatReadReceiptsPagingAll(
-    chatThreadId: string,
-    options?: ChatThreadListChatReadReceiptsOptionalParams
-  ): AsyncIterableIterator<ChatMessageReadReceipt> {
-    for await (const page of this.listChatReadReceiptsPagingPage(chatThreadId, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets a list of messages from a thread.
-   * @param chatThreadId The thread id of the message.
-   * @param options The options parameters.
-   */
-  public listChatMessages(
-    chatThreadId: string,
-    options?: ChatThreadListChatMessagesOptionalParams
-  ): PagedAsyncIterableIterator<ChatMessage> {
-    const iter = this.listChatMessagesPagingAll(chatThreadId, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listChatMessagesPagingPage(chatThreadId, options);
-      }
-    };
-  }
-
-  private async *listChatMessagesPagingPage(
-    chatThreadId: string,
-    options?: ChatThreadListChatMessagesOptionalParams
-  ): AsyncIterableIterator<ChatMessage[]> {
-    let result = await this._listChatMessages(chatThreadId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listChatMessagesNext(chatThreadId, continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listChatMessagesPagingAll(
-    chatThreadId: string,
-    options?: ChatThreadListChatMessagesOptionalParams
-  ): AsyncIterableIterator<ChatMessage> {
-    for await (const page of this.listChatMessagesPagingPage(chatThreadId, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets the participants of a thread.
-   * @param chatThreadId Thread id to get participants for.
-   * @param options The options parameters.
-   */
-  public listChatParticipants(
-    chatThreadId: string,
-    options?: ChatThreadListChatParticipantsOptionalParams
-  ): PagedAsyncIterableIterator<ChatParticipant> {
-    const iter = this.listChatParticipantsPagingAll(chatThreadId, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listChatParticipantsPagingPage(chatThreadId, options);
-      }
-    };
-  }
-
-  private async *listChatParticipantsPagingPage(
-    chatThreadId: string,
-    options?: ChatThreadListChatParticipantsOptionalParams
-  ): AsyncIterableIterator<ChatParticipant[]> {
-    let result = await this._listChatParticipants(chatThreadId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listChatParticipantsNext(chatThreadId, continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listChatParticipantsPagingAll(
-    chatThreadId: string,
-    options?: ChatThreadListChatParticipantsOptionalParams
-  ): AsyncIterableIterator<ChatParticipant> {
-    for await (const page of this.listChatParticipantsPagingPage(chatThreadId, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets chat message read receipts for a thread.
-   * @param chatThreadId Thread id to get the chat message read receipts for.
-   * @param options The options parameters.
-   */
-  private _listChatReadReceipts(
+  listChatReadReceipts(
     chatThreadId: string,
     options?: ChatThreadListChatReadReceiptsOptionalParams
   ): Promise<ChatThreadListChatReadReceiptsResponse> {
@@ -256,7 +114,7 @@ export class ChatThread {
    * @param chatThreadId The thread id of the message.
    * @param options The options parameters.
    */
-  private _listChatMessages(
+  listChatMessages(
     chatThreadId: string,
     options?: ChatThreadListChatMessagesOptionalParams
   ): Promise<ChatThreadListChatMessagesResponse> {
@@ -363,7 +221,7 @@ export class ChatThread {
    * @param chatThreadId Thread id to get participants for.
    * @param options The options parameters.
    */
-  private _listChatParticipants(
+  listChatParticipants(
     chatThreadId: string,
     options?: ChatThreadListChatParticipantsOptionalParams
   ): Promise<ChatThreadListChatParticipantsResponse> {
@@ -449,7 +307,7 @@ export class ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatReadReceipts method.
    * @param options The options parameters.
    */
-  private _listChatReadReceiptsNext(
+  listChatReadReceiptsNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatReadReceiptsNextOptionalParams
@@ -471,7 +329,7 @@ export class ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatMessages method.
    * @param options The options parameters.
    */
-  private _listChatMessagesNext(
+  listChatMessagesNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatMessagesNextOptionalParams
@@ -493,7 +351,7 @@ export class ChatThread {
    * @param nextLink The nextLink from the previous successful call to the ListChatParticipants method.
    * @param options The options parameters.
    */
-  private _listChatParticipantsNext(
+  listChatParticipantsNext(
     chatThreadId: string,
     nextLink: string,
     options?: ChatThreadListChatParticipantsNextOptionalParams

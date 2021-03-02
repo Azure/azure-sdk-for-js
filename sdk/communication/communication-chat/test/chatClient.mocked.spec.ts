@@ -4,9 +4,13 @@
 import sinon from "sinon";
 import { assert } from "chai";
 import { ChatClient, CreateChatThreadRequest } from "../src";
+import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
-import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+import {
+  AzureCommunicationTokenCredential,
+  CommunicationUserIdentifier
+} from "@azure/communication-common";
 import {
   mockThread,
   generateHttpClient,
@@ -14,7 +18,6 @@ import {
   mockThreadInfo,
   mockCreateThreadResult
 } from "./utils/mockClient";
-import { ChatThreadsInfoCollection } from "../src/generated/src";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 
@@ -60,12 +63,16 @@ describe("[Mocked] ChatClient", async () => {
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const response = await chatClient.getChatThread(mockThread.id!);
-    const expected = mockThread;
+    const { createdBy: responseUser, ...response } = await chatClient.getChatThread(mockThread.id!);
+    const { createdByCommunicationIdentifier: expectedIdentifier, ...expected } = mockThread;
 
     sinon.assert.calledOnce(spy);
 
     assert.deepEqual(response, expected);
+    assert.equal(
+      (responseUser as CommunicationUserIdentifier)?.communicationUserId,
+      expectedIdentifier.communicationUser?.id
+    );
 
     const request = spy.getCall(0).args[0];
 
@@ -77,7 +84,7 @@ describe("[Mocked] ChatClient", async () => {
   });
 
   it("makes successful list threads request", async () => {
-    const mockResponse: ChatThreadsInfoCollection = {
+    const mockResponse: RestModel.ChatThreadsInfoCollection = {
       value: [mockThreadInfo, mockThreadInfo]
     };
 

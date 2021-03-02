@@ -38,8 +38,16 @@ import {
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
-import { ChatThreadInfo, ChatApiClient, CreateChatThreadRequest, CreateChatThreadResult, ChatThread } from "./generated/src";
+import { mapToChatThreadSdkModel, mapToChatParticipantRestModel } from "./models/mappers";
+import {
+  ChatThreadInfo,
+  CreateChatThreadResult,
+  ChatThread,
+  ListPageSettings
+} from "./models/models";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
+import { ChatApiClient } from "./generated/src";
+import { CreateChatThreadRequest } from "./models/requests";
 
 /**
  * The client to do chat operations
@@ -120,7 +128,12 @@ export class ChatClient {
 
     try {
       const { _response, ...result } = await this.client.chat.createChatThread(
-        request,
+        {
+          topic: request.topic,
+          participants: request.participants?.map((participant) =>
+            mapToChatParticipantRestModel(participant)
+          )
+        },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
@@ -152,7 +165,7 @@ export class ChatClient {
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
+      return mapToChatThreadSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -161,6 +174,41 @@ export class ChatClient {
       throw e;
     } finally {
       span.end();
+    }
+  }
+
+  private async *listChatThreadsPage(
+    continuationState: ListPageSettings,
+    options: ListChatThreadsOptions = {}
+  ): AsyncIterableIterator<ChatThreadInfo[]> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    if (!continuationState.continuationToken) {
+      const currentSetResponse = await this.client.chat.listChatThreads(requestOptions);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      }
+    }
+
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.chat.listChatThreadsNext(
+        continuationState.continuationToken,
+        requestOptions
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      } else {
+        break;
+      }
+    }
+  }
+
+  private async *listChatThreadsAll(
+    options: ListChatThreadsOptions
+  ): AsyncIterableIterator<ChatThreadInfo> {
+    for await (const page of this.listChatThreadsPage({}, options)) {
+      yield* page;
     }
   }
 
@@ -173,7 +221,18 @@ export class ChatClient {
   ): PagedAsyncIterableIterator<ChatThreadInfo> {
     const { span, updatedOptions } = createSpan("ChatClient-ListChatThreads", options);
     try {
-      return this.client.chat.listChatThreads(updatedOptions);
+      const iter = this.listChatThreadsAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: (settings: ListPageSettings = {}) => {
+          return this.listChatThreadsPage(settings, updatedOptions);
+        }
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

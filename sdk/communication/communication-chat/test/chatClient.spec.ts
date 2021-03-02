@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CommunicationIdentifier } from "@azure/communication-common";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient, CommunicationIdentifierModel } from "../src";
-import {
-  createTestUser,
-  createRecorder,
-  createChatClient,
-  getCommunicationIdentifier
-} from "./utils/recordedClient";
+import { ChatClient, ChatThreadClient, CreateChatThreadRequest } from "../src";
+import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
 
 describe("ChatClient", function() {
   let threadId: string;
@@ -17,8 +13,8 @@ describe("ChatClient", function() {
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
 
-  let testUser: CommunicationIdentifierModel;
-  let testUser2: CommunicationIdentifierModel;
+  let testUser: CommunicationIdentifier;
+  let testUser2: CommunicationIdentifier;
 
   this.afterAll(async function() {
     // await deleteTestUser(testUser);
@@ -40,13 +36,13 @@ describe("ChatClient", function() {
     const communicationUserToken = await createTestUser();
     chatClient = createChatClient(communicationUserToken.token);
 
-    testUser = getCommunicationIdentifier(communicationUserToken.user);
-    testUser2 = getCommunicationIdentifier((await createTestUser()).user);
+    testUser = communicationUserToken.user;
+    testUser2 = (await createTestUser()).user;
 
     // Create a thread
-    const request = {
+    const request: CreateChatThreadRequest = {
       topic: "test topic",
-      participants: [{ communicationIdentifier: testUser }, { communicationIdentifier: testUser2 }]
+      participants: [{ id: testUser }, { id: testUser2 }]
     };
 
     const chatThreadResult = await chatClient.createChatThread(request);
