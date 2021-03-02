@@ -83,7 +83,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
       const client = new Azure.ArmCompute.ComputeManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const availabilitySetsName = "availabilitySets"; 
-      client.availabilitySets.get(resourceGroupName, availabilitySetsName}).then((result) => {
+      client.availabilitySets.get(resourceGroupName, availabilitySetsName).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
