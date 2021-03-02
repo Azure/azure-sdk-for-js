@@ -135,15 +135,11 @@ export class MetricsAdvisorAdministrationClient {
   public readonly endpointUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -387,10 +383,6 @@ export class MetricsAdvisorAdministrationClient {
     };
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
   ): AsyncIterableIterator<DataFeed> {
@@ -401,10 +393,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
     continuationToken?: string
@@ -803,11 +791,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
-
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
@@ -824,11 +807,6 @@ export class MetricsAdvisorAdministrationClient {
       value: segment._response
     });
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
@@ -1003,11 +981,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
-
   private async *listSegmentOfHooks(
     continuationToken?: string,
     maxPageSize?: number,
@@ -1047,11 +1020,6 @@ export class MetricsAdvisorAdministrationClient {
       continuationToken = segmentResponse.nextLink;
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
@@ -1191,11 +1159,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
-
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
@@ -1209,11 +1172,6 @@ export class MetricsAdvisorAdministrationClient {
     });
     yield resultArray;
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfDetectionConfigurations(
     detectionConfigId: string,
@@ -1349,10 +1307,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
@@ -1431,8 +1385,6 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
-   * @hidden
    */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
