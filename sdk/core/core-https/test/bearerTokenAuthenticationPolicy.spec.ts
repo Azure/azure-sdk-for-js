@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { TokenCredential, AccessToken } from "@azure/core-auth";
-import {} from "../src/policies/bearerTokenAuthenticationPolicy";
+import { } from "../src/policies/bearerTokenAuthenticationPolicy";
 import { DefaultTokenRefreshBufferMs } from "../src/accessTokenCache";
 import {
   PipelinePolicy,
@@ -15,8 +15,8 @@ import {
   SendRequest
 } from "../src";
 
-describe("BearerTokenAuthenticationPolicy", function() {
-  it("correctly adds an Authentication header with the Bearer token", async function() {
+describe("BearerTokenAuthenticationPolicy", function () {
+  it("correctly adds an Authentication header with the Bearer token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
@@ -42,7 +42,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
       fakeGetToken.calledWith(tokenScopes, {
         abortSignal: undefined,
         tracingOptions: { spanOptions: undefined },
-        claims: undefined
+        challengeClaims: undefined
       }),
       "fakeGetToken called incorrectly."
     );

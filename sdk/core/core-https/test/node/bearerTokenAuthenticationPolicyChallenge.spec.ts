@@ -82,7 +82,7 @@ async function processChallenge(challenge: string): Promise<AuthenticationContex
 
 class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
-  public scopesAndClaims: { scope: string | string[]; claims: string | undefined }[] = [];
+  public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
   public tokens: (AccessToken | null)[];
 
   constructor(tokens: (AccessToken | null)[]) {
@@ -91,16 +91,16 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   public getToken(scope: string | string[], options: GetTokenOptions): Promise<AccessToken | null> {
     this.authCount++;
-    this.scopesAndClaims.push({ scope, claims: options.claims });
+    this.scopesAndClaims.push({ scope, challengeClaims: options.challengeClaims });
     return Promise.resolve(this.tokens.shift()!);
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function() {
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
+describe("bearerTokenAuthenticationPolicy with challenge", function () {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
     const expected = {
       scope: "http://localhost/.default",
-      claims: JSON.stringify({
+      challengeClaims: JSON.stringify({
         access_token: { foo: "bar" }
       })
     };
@@ -110,7 +110,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected.scope}", claims="${encodeString(
-            expected.claims
+            expected.challengeClaims
           )}"`
         }),
         request,
@@ -156,11 +156,11 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.deepEqual(credential.scopesAndClaims, [
       {
         scope: "",
-        claims: undefined
+        challengeClaims: undefined
       },
       {
         scope: [expected.scope],
-        claims: expected.claims
+        challengeClaims: expected.challengeClaims
       }
     ]);
   });

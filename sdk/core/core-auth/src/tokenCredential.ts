@@ -28,7 +28,7 @@ export interface GetTokenOptions {
   /**
    * Challenge claims
    */
-  claims?: string;
+  challengeClaims?: string;
   /**
    * The signal which can be used to abort requests.
    */

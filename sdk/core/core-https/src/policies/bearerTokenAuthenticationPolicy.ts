@@ -86,7 +86,7 @@ export function bearerTokenAuthenticationPolicy(
   ): Promise<string | undefined> {
     let accessToken = tokenCache.getCachedToken();
     const getTokenOptions: GetTokenOptions = {
-      claims: context?.challengeClaims,
+      challengeClaims: context?.challengeClaims,
       abortSignal: request.abortSignal,
       tracingOptions: {
         spanOptions: request.spanOptions
