@@ -10,10 +10,11 @@ export const isNode =
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
  * @param t - The number of milliseconds to be delayed.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
  * @returns Resolved promise
  */
-export function delay(t: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), t));
+export function delay<T>(t: number, value?: T): Promise<T | void> {
+  return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
 /**
