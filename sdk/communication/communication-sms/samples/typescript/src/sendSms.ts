@@ -21,21 +21,17 @@ export const main = async () => {
 
   const client = new SmsClient(connectionString);
 
-  // Your E.164 formatted phone number used to send SMS
-  const from = "<phone number>";
-
-  // The list of E.164 formatted phone numbers to which message is being send
-  const to = ["+12345678901", "+14251234567", "+12061234567"];
-
-  // The message being sent
-  const message = "Hello World via SMS!";
-
   // Send SMS message
-  const sendResults = await client.send(
-    { from, to, message },
-    { enableDeliveryReport: true, tag: "customTag" }
-  );
-  for await (const sendResult of sendResults) {
+  const sendResults = await client.send({ 
+      from: "<phone number>", // Your E.164 formatted phone number used to send SMS
+      to: ["<phone number>", "<phone number>", "<phone number>"], // The list of E.164 formatted phone numbers to which message is being send
+      message: "Hello World via SMS!" // The message being sent
+    }, { 
+      enableDeliveryReport: true, 
+      tag: "customTag" 
+    });
+
+  for (const sendResult of sendResults) {
     console.log(`MessageId: ${sendResult.messageId} Sent to: ${sendResult.to}`);
   }
 };
