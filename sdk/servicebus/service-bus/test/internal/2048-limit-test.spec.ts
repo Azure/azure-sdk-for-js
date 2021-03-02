@@ -21,10 +21,10 @@ let sender: ServiceBusSender;
 let receiver: ServiceBusReceiver;
 
 const testClientTypes = [
-  // TestClientType.PartitionedQueue,
-  // TestClientType.PartitionedQueueWithSessions,
-  TestClientType.UnpartitionedQueue
-  // TestClientType.UnpartitionedQueueWithSessions
+  TestClientType.PartitionedQueue,
+  TestClientType.PartitionedQueueWithSessions,
+  TestClientType.UnpartitionedQueue,
+  TestClientType.UnpartitionedQueueWithSessions
 ];
 
 async function beforeEachTest(
@@ -108,10 +108,11 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
     });
   });
 
-  describe("peekLock", () => {
+  describe("peekLock: can receive a max of 2047 messages when not being settled", () => {
     testClientTypes.forEach((clientType) => {
       it(
-        clientType + ": can receive a max of 2047 messages when not being settled",
+        clientType +
+          ": deliveryCount will be incremented for 2047 messages if closed the receiver and received again",
         async function(): Promise<void> {
           await beforeEachTest(clientType);
           await sendMessages();
@@ -122,30 +123,26 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityName);
           const messages = await receiveMessages(numberOfMessagesToSend);
-          console.log(messages.length);
-          const delCount = new Array(10).fill(0, 0, 10);
-          for (const message of messages) {
-            if (message.deliveryCount) {
-              delCount[message.deliveryCount]++;
+          if (!entityName.usesSessions) {
+            // Delivery count isn't incremented for sessionful messages.
+            // TODO: Log an issue, check with the service team?
+            const delCount = new Array(10).fill(0, 0, 10);
+            for (const message of messages) {
+              if (message.deliveryCount) {
+                delCount[message.deliveryCount]++;
+              }
             }
+            chai.assert.equal(
+              delCount[1],
+              2047,
+              "Unexpected number of messages have deliveryCount = 1"
+            );
           }
-          console.log(delCount);
           await verifyMessageCount(0, entityName);
-          // TODO:
-          // - Close the client
-          // - Receive all the messages again
-          // - Settle the messages
-          // - Delivery count should have been 1(or incremented) for 2048 of the messages
-          // - Rest 952 messages should have zero delivery count
-          // This makes sure there is no message loss
-          // Observation:
-          // - 2050 messages have deliveryCount=1 instead of the expected 2047 messages
         }
-      );
+      ).timeout(200000);
 
-      it.only(clientType + ": new messageBatch after 2047 messages", async function(): Promise<
-        void
-      > {
+      it(clientType + ": new messageBatch after 2047 messages", async function(): Promise<void> {
         await beforeEachTest(clientType);
         console.log("sending");
         await sendMessages();
