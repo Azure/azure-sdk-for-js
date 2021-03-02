@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AbortSignalLike,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+
+import { AbortSignalLike } from "@azure/abort-controller";
 
 import {
   GeneratedClientAnalyzeResponse as BeginAnalyzeResponse,
@@ -182,10 +180,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
       options || {}
     );
     try {
-      const response = await this.client.analyzeStatus(
-        operationId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.analyzeStatus(operationId, finalOptions);
       const result = createAnalyzeBatchActionsResult(response, this.documents);
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
@@ -214,10 +209,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
       options || {}
     );
     try {
-      const response = await this.client.analyzeStatus(
-        operationId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.analyzeStatus(operationId, finalOptions);
       switch (response.status) {
         case "notStarted":
         case "running":
@@ -267,7 +259,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
           tasks: actions,
           displayName: options?.displayName
         },
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+        ...finalOptions
       });
     } catch (e) {
       const exception = handleInvalidDocumentBatch(e);
