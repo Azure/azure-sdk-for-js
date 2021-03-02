@@ -11,17 +11,23 @@ import {
 } from "@azure/core-http";
 //import { CanonicalCode } from "@opentelemetry/api";
 
+import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
+
 import { RemoteRenderingRestClient } from "./generated";
 import { RemoteRenderingRestClientOptionalParams } from "./generated/models/index";
 
 import { RemoteRenderingClientOptions } from "./options";
-import { MixedRealityTokenCredential } from "../authentication/MixedRealityTokenCredential"
+import { MixedRealityTokenCredential } from "../authentication/mixedRealityTokenCredential";
+import { StaticAccessTokenCredential } from "../authentication/staticAccessTokenCredential";
+
+import { MixedRealityStsClientOptions } from "@azure/mixedreality-authentication";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 //import { createSpan } from "./tracing";
 
-import { constructAuthenticationEndpointFromDomain } from "../../mixedreality-authentication/src/util/authenticationEndpoint";
+import { constructAuthenticationEndpointFromDomain } from "../../../mixedreality/mixedreality-authentication/src/util/authenticationEndpoint";
+import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
 /**
  * The client class used to interact with the App Configuration service.
@@ -40,7 +46,37 @@ export class RemoteRenderingClient {
     endpoint: string,
     accountId: string,
     accountDomain: string,
-    tokenCredential: TokenCredential,
+    credential: AzureKeyCredential,
+    options: RemoteRenderingClientOptions
+  );
+  
+  /**
+   * Creates an instance of a MixedRealityStsClient.
+   * @param accountId The Mixed Reality service account identifier.
+   * @param accountDomain The Mixed Reality service account domain.
+   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
+   * @param options Additional client options.
+   */
+  constructor(
+    endpoint: string,
+    accountId: string,
+    accountDomain: string,
+    credential: TokenCredential,
+    options: RemoteRenderingClientOptions
+  );
+
+  /**
+   * Creates an instance of a MixedRealityStsClient.
+   * @param accountId The Mixed Reality service account identifier.
+   * @param accountDomain The Mixed Reality service account domain.
+   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
+   * @param options Additional client options.
+   */
+  constructor(
+    endpoint: string,
+    accountId: string,
+    accountDomain: string,
+    credential: TokenCredential | AzureKeyCredential | AccessToken,
     options: RemoteRenderingClientOptions = {}
   ) {
     // The below code helps us set a proper User-Agent header on all requests
@@ -69,14 +105,19 @@ export class RemoteRenderingClient {
       }
     };
 
-    const authenticationEndpoint =
-      options.authenticationEndpointUrl ??
-      constructAuthenticationEndpointFromDomain(accountDomain);
+    const tokenCredential : TokenCredential = 
+      (credential as AzureKeyCredential) ? new MixedRealityAccountKeyCredential(accountId, credential as AzureKeyCredential) :
+      (credential as AccessToken) ? new StaticAccessTokenCredential(credential as AccessToken) :
+      (credential as TokenCredential);
 
-    const mrTokenCredential: TokenCredential = new MixedRealityTokenCredential(
+    const authenticationEndpoint =
+      options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(accountDomain);
+
+    const mrTokenCredential: TokenCredential = MixedRealityTokenCredential.getMixedRealityCredential(
       accountId,
       authenticationEndpoint,
-      tokenCredential
+      tokenCredential,
+      { customEndpointUrl: authenticationEndpoint }
     );
 
     const authPolicy = bearerTokenAuthenticationPolicy(mrTokenCredential, `${endpoint}/.default`);
@@ -91,7 +132,4 @@ export class RemoteRenderingClient {
     this.client = new RemoteRenderingRestClient(endpoint, clientOptions);
   }
 
-  constructor() {
-    
-  }
 }
