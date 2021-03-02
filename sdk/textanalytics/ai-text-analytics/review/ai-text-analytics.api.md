@@ -5,11 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { HttpsClient } from '@azure/core-https';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-https';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
@@ -566,10 +565,9 @@ export class TextAnalyticsClient {
 }
 
 // @public
-export interface TextAnalyticsClientOptions extends PipelineOptions {
+export interface TextAnalyticsClientOptions extends CommonClientOptions {
     defaultCountryHint?: string;
     defaultLanguage?: string;
-    httpsClient?: HttpsClient;
 }
 
 // @public

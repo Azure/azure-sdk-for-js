@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClientPipeline } from "@azure/core-client";
-import {
-  PipelineOptions,
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-  HttpsClient
-} from "@azure/core-https";
+import { createClientPipeline, CommonClientOptions } from "@azure/core-client";
+import { InternalPipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-https";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
@@ -92,12 +87,7 @@ const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 /**
  * Client options used to configure TextAnalytics API requests.
  */
-export interface TextAnalyticsClientOptions extends PipelineOptions {
-  /**
-   * The HttpsClient implementation to use for outgoing HTTP requests.
-   * Defaults to DefaultHttpsClient.
-   */
-  httpsClient?: HttpsClient;
+export interface TextAnalyticsClientOptions extends CommonClientOptions {
   /**
    * The default country hint to use. Defaults to "us".
    */
