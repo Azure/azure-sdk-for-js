@@ -21,8 +21,8 @@
   "types": "types/latest/template.d.ts",
   "typesVersions": {
     "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
+      "*": [
+        "types/3.1/template.d.ts"
       ]
     }
   },
