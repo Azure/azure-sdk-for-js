@@ -120,10 +120,6 @@ describe("[API Key] TextAnalyticsClient", function() {
           assert.ok(doc2.entities);
           const doc2Entity1 = doc2.entities[0];
           assert.equal(doc2Entity1.text, "100mg");
-          const doc2Entity1Target1 = doc2Entity1.relatedEntities.keys().next().value;
-          const doc2Entity1Edge1Label = doc2Entity1.relatedEntities.values().next().value;
-          assert.equal(doc2Entity1Target1.text, "ibuprofen");
-          assert.equal(doc2Entity1Edge1Label, "DosageOfMedication");
           assert.deepEqual(doc2.entityRelations[0], {
             relationType: "DosageOfMedication",
             roles: [
@@ -156,10 +152,6 @@ describe("[API Key] TextAnalyticsClient", function() {
 
           const doc2Entity3 = doc2.entities[2];
           assert.equal(doc2Entity3.text, "twice daily");
-          const doc2Entity3Target1 = doc2Entity3.relatedEntities.keys().next().value;
-          const doc2Entity3Edge1Label = doc2Entity3.relatedEntities.values().next().value;
-          assert.equal(doc2Entity3Target1.text, "ibuprofen");
-          assert.equal(doc2Entity3Edge1Label, "FrequencyOfMedication");
         }
       });
 
