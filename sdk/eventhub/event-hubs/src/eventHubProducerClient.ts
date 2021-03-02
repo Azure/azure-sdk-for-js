@@ -13,7 +13,7 @@ import { logErrorStackTrace, logger } from "./log";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   CreateBatchOptions,
-  EventHubClientOptions,
+  EventHubProducerClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
@@ -43,9 +43,9 @@ export class EventHubProducerClient {
   private _context: ConnectionContext;
 
   /**
-   * The options passed by the user when creating the EventHubClient instance.
+   * The options passed by the user when creating the EventHubProducerClient instance.
    */
-  private _clientOptions: EventHubClientOptions;
+  private _clientOptions: EventHubProducerClientOptions;
   /**
    * Map of partitionId to senders
    */
@@ -79,7 +79,7 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(connectionString: string, options?: EventHubProducerClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -93,7 +93,11 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(
+    connectionString: string,
+    eventHubName: string,
+    options?: EventHubProducerClientOptions
+  ); // eslint-disable-line @azure/azure-sdk/ts-naming-options
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -112,13 +116,13 @@ export class EventHubProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
-    options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options?: EventHubProducerClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    eventHubNameOrOptions2?: string | EventHubClientOptions,
-    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
-    options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    eventHubNameOrOptions2?: string | EventHubProducerClientOptions,
+    credentialOrOptions3?: TokenCredential | EventHubProducerClientOptions,
+    options4?: EventHubProducerClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(
       fullyQualifiedNamespaceOrConnectionString1,

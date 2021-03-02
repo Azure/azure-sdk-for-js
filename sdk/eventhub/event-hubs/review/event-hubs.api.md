@@ -117,9 +117,9 @@ export interface EventHubConsumerClientOptions extends EventHubClientOptions {
 
 // @public
 export class EventHubProducerClient {
-    constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(connectionString: string, options?: EventHubProducerClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubProducerClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubProducerClientOptions);
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     get eventHubName(): string;
@@ -130,6 +130,11 @@ export class EventHubProducerClient {
     sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
     }
+
+// @public
+export interface EventHubProducerClientOptions extends EventHubClientOptions {
+    enableIdempotentPartitions?: boolean;
+}
 
 // @public
 export interface EventHubProperties {
