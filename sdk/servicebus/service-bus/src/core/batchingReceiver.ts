@@ -446,7 +446,6 @@ export class BatchingReceiverLite {
         reject(errObj);
       }
       if (this._receiveMode === "peekLock") {
-        console.log(numberOfEmptyIncomingSlots(receiver));
         if (numberOfEmptyIncomingSlots(receiver) === 1) {
           // TODO: Make the circular buffer size configurable in rhea
           logger.verbose(
