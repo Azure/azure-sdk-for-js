@@ -81,12 +81,8 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
     }
   }
 
-  async function receiveMessages(receiveMode: "peekLock" | "receiveAndDelete" = "peekLock") {
+  async function receiveMessages(numberOfMessagesToReceive: number) {
     let numberOfMessagesReceived = 0;
-    let numberOfMessagesToReceive = numberOfMessagesToSend;
-    if (receiveMode === "peekLock") {
-      numberOfMessagesToReceive = 2047;
-    }
     while (numberOfMessagesReceived < numberOfMessagesToReceive) {
       numberOfMessagesReceived += (await receiver.receiveMessages(50, { maxWaitTimeInMs: 3000 }))
         .length;
@@ -100,12 +96,12 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
 
   describe("receiveAndDelete", () => {
     testClientTypes.forEach((clientType) => {
-      it(
+      it.only(
         clientType + ": would be able to receive more than 2048 messages",
         async function(): Promise<void> {
           await beforeEachTest(clientType, "receiveAndDelete");
           await sendMessages();
-          await receiveMessages("receiveAndDelete");
+          await receiveMessages(numberOfMessagesToSend);
           await verifyMessageCount(0, entityName);
         }
       );
@@ -114,13 +110,14 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
 
   describe("peekLock", () => {
     testClientTypes.forEach((clientType) => {
-      it(
-        clientType + ": can receive upto 2048 messages without message loss",
+      it.only(
+        clientType + ": can receive a max of 2048 messages when not being settled",
         async function(): Promise<void> {
           await beforeEachTest(clientType);
           await sendMessages();
-          await receiveMessages();
+          await receiveMessages(2047);
           await verifyMessageCount(numberOfMessagesToSend, entityName);
+
           // TODO:
           // - Close the client
           // - Receive all the messages again
@@ -130,12 +127,13 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           // This makes sure there is no message loss
         }
       );
+
       it(
         clientType + ": can receive upto 2048 messages without message loss",
         async function(): Promise<void> {
           await beforeEachTest(clientType);
           await sendMessages();
-          await receiveMessages();
+          await receiveMessages(2047);
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           // TODO:
           // receives in a loop would receive 2047 messages
