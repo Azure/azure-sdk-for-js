@@ -13,8 +13,8 @@ export const isNode =
  * @param value - The value to be resolved with after a timeout of t milliseconds.
  * @returns Resolved promise
  */
-export function delay<T>(t: number, value?: T): Promise<T | void> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
 /**

@@ -51,6 +51,9 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
+export function delay(timeInMs: number): Promise<void>;
+
+// @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
 
 // @public
