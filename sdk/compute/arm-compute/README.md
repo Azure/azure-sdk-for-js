@@ -83,7 +83,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
       const client = new Azure.ArmCompute.ComputeManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName"; 
-      client.apps.get(resourceGroupName, resourceName).then((result) => {
+      client.get(resourceGroupName, resourceName).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
