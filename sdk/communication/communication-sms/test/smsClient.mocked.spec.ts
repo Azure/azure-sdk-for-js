@@ -10,6 +10,7 @@ import {
 } from "@azure/core-http";
 
 import { Uuid } from "../src/utils/uuid";
+import { generateSendMessageRequest } from "../src/utils/smsUtils";
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
@@ -81,21 +82,7 @@ describe("[mocked] SmsClient", async () => {
     assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
 
-    const expectedRequestBody = {
-      from: sendRequest.from,
-      smsRecipients: [
-        {
-          to: "+15558985487",
-          repeatabilityFirstSent: new Date().toUTCString(),
-          repeatabilityRequestId: mockedGuid
-        }
-      ],
-      message: sendRequest.message,
-      smsSendOptions: {
-        enableDeliveryReport: false
-      }
-    };
-
+    const expectedRequestBody = generateSendMessageRequest(sendRequest);
     assert.deepEqual(JSON.parse(request.body), expectedRequestBody);
   });
 
@@ -120,21 +107,7 @@ describe("[mocked] SmsClient", async () => {
     assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
 
-    const expectedRequestBody = {
-      from: sendRequest.from,
-      smsRecipients: [
-        {
-          to: "+15558985487",
-          repeatabilityFirstSent: new Date().toUTCString(),
-          repeatabilityRequestId: mockedGuid
-        }
-      ],
-      message: sendRequest.message,
-      smsSendOptions: {
-        enableDeliveryReport: false
-      }
-    };
-
+    const expectedRequestBody = generateSendMessageRequest(sendRequest);
     assert.deepEqual(JSON.parse(request.body), expectedRequestBody);
   });
 

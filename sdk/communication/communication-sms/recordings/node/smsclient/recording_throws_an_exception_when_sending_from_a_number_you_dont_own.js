@@ -1,25 +1,25 @@
 let nock = require('nock');
 
-module.exports.hash = "69daddbeee9ad5816537f013fb3696fd";
+module.exports.hash = "f38147cf4714b3fc3c6e0a4fc0f68c73";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/sms', {"from":"+18332143356","smsRecipients":[{"to":"+18005551234","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
+  .post('/sms', {"from":"+15552143356","smsRecipients":[{"to":"+18005551234","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
   .query(true)
-  .reply(401, "", [
+  .reply(400, {"From":["Invalid From phone number format"]}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
   'Request-Context',
   'appId=',
   'MS-CV',
-  'n7Abnl/k6kmDepSpcEJKpg.0',
-  'api-supported-versions',
-  '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
+  '2z5pUIiPbkudlflp6Ml0RQ.0',
   'X-Processing-Time',
-  '428ms',
+  '12ms',
   'X-Azure-Ref',
-  '0lE09YAAAAAD3ztPDC5qbS5ILih2kSpf+WVZSMzBFREdFMDMwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0/qw9YAAAAAA8T61x4oGWTJ4KIe8JpvTQWVZSMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Mon, 01 Mar 2021 20:24:52 GMT',
-  'Content-Length',
-  '0'
+  'Tue, 02 Mar 2021 03:11:58 GMT'
 ]);

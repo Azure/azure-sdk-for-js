@@ -35,7 +35,7 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
     }
   });
 
-  it("successfully issues a token for a user", async function() {
+  it("sends a SMS when url and token credential are provided", async function() {
     const credential = createCredential();
 
     if (!credential) {
