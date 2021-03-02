@@ -22,16 +22,19 @@ async function main() {
   const client = new SmsClient(connectionString);
 
   // Send SMS message
-  const sendResults = await client.send({ 
-    from: "<phone number>", // Your E.164 formatted phone number used to send SMS
-    to: ["<phone number>", "<phone number>", "<phone number>"], // The list of E.164 formatted phone numbers to which message is being send
-    message: "Hello World via SMS!" // The message being sent
-  }, { 
-    enableDeliveryReport: true, 
-    tag: "customTag" 
-  });
+  const sendResults = await client.send(
+    {
+      from: "<phone number>", // Your E.164 formatted phone number used to send SMS
+      to: ["<phone number>", "<phone number>", "<phone number>"], // The list of E.164 formatted phone numbers to which message is being send
+      message: "Hello World via SMS!" // The message being sent
+    },
+    {
+      enableDeliveryReport: true,
+      tag: "customTag"
+    }
+  );
   for (const sendResult of sendResults) {
-    console.log(`MessageId: ${sendResult.messageId} Sent to: ${sendResult.to}`);
+    console.log("result: ", sendResult);
   }
 }
 
