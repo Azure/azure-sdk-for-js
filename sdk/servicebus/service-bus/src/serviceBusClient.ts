@@ -18,7 +18,7 @@ import {
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
-import { isDefined, objectHasProperty } from "./util/typeGuards";
+import { isDefined } from "./util/typeGuards";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -457,7 +457,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     options = optionsOrSubscriptionName2;
   }
   let receiveMode: ReceiveMode;
-  if (!objectHasProperty(options, "receiveMode") || options.receiveMode === "peekLock") {
+  if (!options || !isDefined(options.receiveMode) || options.receiveMode === "peekLock") {
     receiveMode = "peekLock";
   } else if (options.receiveMode === "receiveAndDelete") {
     receiveMode = "receiveAndDelete";

@@ -39,7 +39,7 @@ export function isObjectWithProperties<Thing extends unknown, PropertyName exten
  * @param property - The name of the property that should appear in the object.
  * @internal
  */
-export function objectHasProperty<Thing extends unknown, PropertyName extends string>(
+function objectHasProperty<Thing extends unknown, PropertyName extends string>(
   thing: Thing,
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {
