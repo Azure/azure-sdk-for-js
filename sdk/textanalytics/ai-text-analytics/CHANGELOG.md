@@ -8,7 +8,7 @@
 - `beginAnalyzeHealthcareEntities` returns `entityRelations` per document, a list of relations between healthcare entities.
 - `beginAnalyzeHealthcareEntities` entities now include `assertions` instead of `isNegated` which gives more context about the respective entity.
 - [Breaking] `beginAnalyzeHealthcareEntities` no longer returns `relatedEntities`.
-- `recognizePiiEntities` takes a new option, `piiCategories`, that specifies a list of Pii categories to return.
+- `recognizePiiEntities` takes a new option, `categoriesFilter`, that specifies a list of Pii categories to return.
 
 ## 5.1.0-beta.4 (2021-02-10)
 
