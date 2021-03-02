@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, RequestOptionsBase, TokenCredential } from "@azure/core-http";
+import { isNode, OperationOptions, TokenCredential } from "@azure/core-http";
 import {
   JsonWebKey,
   KeyVaultKey,
@@ -31,15 +31,12 @@ import {
 } from "./cryptographyClientModels";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { parseKeyVaultKeyId } from "./identifier";
-import { getTracer } from "@azure/core-tracing";
-import {
-  CryptographyProvider,
-  RemoteCryptographyProvider
-} from "./cryptography/remoteCryptographyProvider";
+import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
+import { CryptographyProvider } from "./cryptography/CryptographyProvider";
 import { Span } from "@opentelemetry/api";
-import { algorithm } from "./generated/models/parameters";
-import { LocalCryptographyUnsupportedErrorName } from "./cryptography/models";
 import { createHash } from "./cryptography/hash";
+import { KeyVaultKeyId } from ".";
+import { createSpan } from "./tracing";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -59,7 +56,7 @@ export class CryptographyClient {
         kind: "JsonWebKey";
         value: JsonWebKey;
       };
-  vaultUrl?: string;
+  vaultUrl: string;
   private credential?: TokenCredential;
   private pipelineOptions: CryptographyClientOptions | undefined;
   /**
@@ -115,52 +112,36 @@ export class CryptographyClient {
     credential?: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
-    let parsed;
+    let parsed: KeyVaultKeyId | undefined = undefined;
+
     if (typeof key === "string") {
       this.key = { kind: "identifier", value: key };
       parsed = parseKeyVaultKeyId(key);
-
-      if (parsed.name === "") {
-        throw new Error("Could not find 'name' of key in key URL");
-      }
-
-      if (!parsed.version || parsed.version === "") {
-        throw new Error("Could not find 'version' of key in key URL");
-      }
-
-      if (!parsed.vaultUrl || parsed.vaultUrl === "") {
-        throw new Error("Could not find 'vaultUrl' of key in key URL");
-      }
-      this.vaultUrl = parsed.vaultUrl;
     } else if ("key" in key) {
       this.key = {
         kind: "KeyVaultKey",
         value: key
       };
       parsed = parseKeyVaultKeyId(key.id!);
-
-      if (parsed.name === "") {
-        throw new Error("Could not find 'name' of key in key URL");
-      }
-
-      if (!parsed.version || parsed.version === "") {
-        throw new Error("Could not find 'version' of key in key URL");
-      }
-
-      if (!parsed.vaultUrl || parsed.vaultUrl === "") {
-        throw new Error("Could not find 'vaultUrl' of key in key URL");
-      }
-      this.vaultUrl = parsed.vaultUrl;
     } else if ("kid" in key) {
       this.key = {
         kind: "JsonWebKey",
         value: key
       };
-      parsed = parseKeyVaultKeyId(key.kid!);
     } else {
       throw new Error(
         "The provided key is malformed as it does not have a value for the `key` property."
       );
+    }
+
+    if (this.key.kind === "identifier" || this.key.kind === "KeyVaultKey") {
+      if (!parsed?.vaultUrl) {
+        throw new Error("Could not find 'vaultUrl' of key in key URL");
+      }
+
+      this.vaultUrl = parsed.vaultUrl;
+    } else {
+      this.vaultUrl = "";
     }
     this.credential = credential;
     this.pipelineOptions = pipelineOptions;
@@ -170,15 +151,6 @@ export class CryptographyClient {
    * The ID of the key used to perform cryptographic operations for the client.
    */
   public get keyId(): string | undefined {
-    return this.getKeyID();
-  }
-
-  /**
-   * @internal
-   * @hidden
-   * Attempts to retrieve the ID of the key.
-   */
-  private getKeyID(): string | undefined {
     if (this.key.kind === "identifier") {
       return this.key.value;
     } else if (this.key.kind === "KeyVaultKey") {
@@ -187,6 +159,7 @@ export class CryptographyClient {
       return this.key.value.kid;
     }
   }
+
   /**
    * @internal
    * @hidden
@@ -201,18 +174,19 @@ export class CryptographyClient {
    */
   private async getKeyMaterial(): Promise<JsonWebKey> {
     // Also exchanges an identifier for an actual key
-    await this.getKey();
+    await this.fetchKey();
 
-    if (this.key.kind === "JsonWebKey") {
-      return this.key.value;
-    } else if (this.key.kind === "KeyVaultKey") {
-      return this.key.value.key!;
-    } else {
-      throw new Error("Failed to exchange Key ID for an actual KeyVault Key.");
+    switch (this.key.kind) {
+      case "JsonWebKey":
+        return this.key.value;
+      case "KeyVaultKey":
+        return this.key.value.key!;
+      default:
+        throw new Error("Failed to exchange Key ID for an actual KeyVault Key.");
     }
   }
 
-  async getKey(options: GetKeyOptions = {}): Promise<KeyVaultKey | JsonWebKey> {
+  async fetchKey(options: GetKeyOptions = {}): Promise<KeyVaultKey | JsonWebKey> {
     if (this.key.kind === "identifier") {
       // Exchange the identifier with the actual key when needed
       const remoteProvider = new RemoteCryptographyProvider(this.key.value, this.credential!);
@@ -223,10 +197,10 @@ export class CryptographyClient {
   }
 
   private providers?: CryptographyProvider[];
-  private async getProviders(
+  private async getProvider(
     operation: KeyOperation,
     algorithm: string
-  ): Promise<CryptographyProvider[]> {
+  ): Promise<CryptographyProvider> {
     if (!this.providers) {
       const key = await this.getKeyMaterial();
       this.providers = [];
@@ -244,13 +218,20 @@ export class CryptographyClient {
       }
     }
 
+    // Return the filtered list of providers based on the criteria.
     let providers = this.providers.filter((p) => p.supportsOperation(operation));
-
     if (algorithm) {
       providers = providers.filter((p) => p.supportsAlgorithm(algorithm));
     }
 
-    return providers;
+    if (providers.length === 0) {
+      throw new Error(
+        `Unable to support operation: "${operation}" with algorithm: "${algorithm}"
+        ${this.key.kind === "JsonWebKey" ? " using a local JsonWebKey" : ""}`
+      );
+    }
+    // Return the first provider that supports this request
+    return providers[0];
   }
 
   /**
@@ -293,25 +274,23 @@ export class CryptographyClient {
       | [EncryptParameters, EncryptOptions?]
       | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Encrypt);
     const [parameters, options] = this.disambiguateEncryptArguments(args);
-    this.ensureValid(await this.getKey(), KnownKeyOperations.Encrypt);
-    const span = this.createSpan("encrypt", options);
 
-    const providers = await this.getProviders(KnownKeyOperations.Encrypt, parameters.algorithm);
-    for (const provider of providers) {
-      try {
-        return await provider.encrypt(parameters, options);
-      } catch (e) {
-        if (e.name !== LocalCryptographyUnsupportedErrorName) {
-          span.end();
-          throw e;
-        }
-      }
-    }
+    const { span, updatedOptions } = this.createSpan("encrypt", options);
+
+    const provider = await this.getProvider(KnownKeyOperations.Encrypt, parameters.algorithm);
+    const result = await provider.encrypt(parameters, updatedOptions);
 
     span.end();
-    // TODO: log all providers tried
-    throw new Error(`Unsupported algorithm ${algorithm} passed to encrypt.`);
+    return result;
+  }
+
+  private createSpan(
+    methodName: string,
+    options: OperationOptions
+  ): { span: Span; updatedOptions: OperationOptions } {
+    return createSpan(`CryptographyClient ${methodName}`, options);
   }
 
   private disambiguateEncryptArguments(
@@ -372,27 +351,15 @@ export class CryptographyClient {
       | [DecryptParameters, DecryptOptions?]
       | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Decrypt);
     const [parameters, options] = this.disambiguateDecryptArguments(args);
-    this.ensureValid(await this.getKey(), KnownKeyOperations.Decrypt);
-    const span = this.createSpan("decrypt", options);
 
-    const providers = await this.getProviders(KnownKeyOperations.Decrypt, parameters.algorithm);
-    for (const provider of providers) {
-      try {
-        return await provider.decrypt(parameters, options);
-      } catch (e) {
-        console.log("e", e);
-        console.log("e.name", e.name);
-        if (e.name !== LocalCryptographyUnsupportedErrorName) {
-          span.end();
-          throw e;
-        }
-      }
-    }
+    const { span, updatedOptions } = this.createSpan("decrypt", options);
 
+    const provider = await this.getProvider(KnownKeyOperations.Decrypt, parameters.algorithm);
+    const result = await provider.decrypt(parameters, updatedOptions);
     span.end();
-    // TODO: log all providers tried
-    throw new Error(`Unsupported algorithm ${algorithm} passed to encrypt.`);
+    return result;
   }
 
   private disambiguateDecryptArguments(
@@ -430,24 +397,13 @@ export class CryptographyClient {
     key: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
-    this.ensureValid(await this.getKey(), KnownKeyOperations.WrapKey);
-    const span = this.createSpan("wrapKey", options);
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.WrapKey);
+    const { span, updatedOptions } = this.createSpan("wrapKey", options);
 
-    const providers = await this.getProviders(KnownKeyOperations.WrapKey, algorithm);
-    for (const provider of providers) {
-      try {
-        return await provider.wrapKey(algorithm, key, options);
-      } catch (e) {
-        if (e.name !== LocalCryptographyUnsupportedErrorName) {
-          span.end();
-          throw e;
-        }
-      }
-    }
-
+    const provider = await this.getProvider(KnownKeyOperations.WrapKey, algorithm);
+    const result = await provider.wrapKey(algorithm, key, updatedOptions);
     span.end();
-
-    throw new Error(`Unsupported algorithm ${algorithm} passed to encrypt.`);
+    return result;
   }
 
   /**
@@ -467,24 +423,14 @@ export class CryptographyClient {
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    this.ensureValid(await this.getKey(), KnownKeyOperations.UnwrapKey);
-    const providers = await this.getProviders(KnownKeyOperations.UnwrapKey, algorithm);
-    const span = this.createSpan("encrypt", options);
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.UnwrapKey);
+    const { span, updatedOptions } = this.createSpan("unwrapKey", options);
 
-    for (const provider of providers) {
-      try {
-        return await provider.unwrapKey(algorithm, encryptedKey, options);
-      } catch (e) {
-        if (e !== LocalCryptographyUnsupportedErrorName) {
-          span.end();
-          throw e;
-        }
-      }
-    }
+    const provider = await this.getProvider(KnownKeyOperations.UnwrapKey, algorithm);
+    const result = await provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
 
     span.end();
-
-    throw new Error("TODO: fill in error details");
+    return result;
   }
 
   /**
@@ -504,24 +450,14 @@ export class CryptographyClient {
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    this.ensureValid(await this.getKey(), KnownKeyOperations.Sign);
-    const span = this.createSpan("encrypt", options);
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
+    const { span, updatedOptions } = this.createSpan("sign", options);
 
-    const providers = await this.getProviders(KnownKeyOperations.Sign, algorithm);
-    for (const provider of providers) {
-      try {
-        return await provider.sign(algorithm, digest, options);
-      } catch (e) {
-        if (e.name !== LocalCryptographyUnsupportedErrorName) {
-          span.end();
-          throw e;
-        }
-      }
-    }
+    const provider = await this.getProvider(KnownKeyOperations.Sign, algorithm);
+    const result = await provider.sign(algorithm, digest, updatedOptions);
 
     span.end();
-
-    throw new Error("TODO: fill in error details");
+    return result;
   }
 
   /**
@@ -543,24 +479,14 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    this.ensureValid(await this.getKey(), KnownKeyOperations.Verify);
-    const span = this.createSpan("encrypt", options);
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
+    const { span, updatedOptions } = this.createSpan("verify", options);
 
-    const providers = await this.getProviders(KnownKeyOperations.Verify, algorithm);
-    for (const provider of providers) {
-      try {
-        return provider.verify(algorithm, digest, signature, options);
-      } catch (e) {
-        if (e.name !== LocalCryptographyUnsupportedErrorName) {
-          span.end();
-          throw e;
-        }
-      }
-    }
+    const provider = await this.getProvider(KnownKeyOperations.Verify, algorithm);
+    const result = await provider.verify(algorithm, digest, signature, updatedOptions);
 
     span.end();
-
-    throw new Error("TODO: fill in error details");
+    return result;
   }
 
   /**
@@ -580,24 +506,16 @@ export class CryptographyClient {
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    this.ensureValid(await this.getKey(), KnownKeyOperations.Sign);
-    const span = this.createSpan("encrypt", options);
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
+    const { span } = this.createSpan("signData", options);
 
-    const providers = await this.getProviders(KnownKeyOperations.Sign, algorithm);
+    const provider = await this.getProvider(KnownKeyOperations.Sign, algorithm);
     const digest = await createHash(algorithm, data);
-    for (const provider of providers) {
-      try {
-        return await provider.sign(algorithm, digest, options);
-      } catch (e) {
-        if (e.name !== LocalCryptographyUnsupportedErrorName) {
-          span.end();
-          throw e;
-        }
-      }
-    }
+
+    const result = await provider.sign(algorithm, digest, options);
 
     span.end();
-    throw new Error("TODO: fill in error details");
+    return result;
   }
 
   /**
@@ -619,49 +537,26 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    this.ensureValid(await this.getKey(), KnownKeyOperations.Verify);
-    const span = this.createSpan("encrypt", options);
+    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
+    const { span } = this.createSpan("encrypt", options);
 
-    const providers = await this.getProviders(KnownKeyOperations.Verify, algorithm);
+    const provider = await this.getProvider(KnownKeyOperations.Verify, algorithm);
     const digest = await createHash(algorithm, data);
-    // TODO: with just one or two providers there's no reason to loop...
-    for (const provider of providers) {
-      return await provider.verify(algorithm, digest, signature, options);
-    }
+
+    const result = await provider.verify(algorithm, digest, signature, options);
 
     span.end();
-    throw new Error("TODO: fill in error details");
-  }
-
-  /**
-   * @internal
-   * Creates a span using the tracer that was set by the user.
-   * @param methodName - The name of the method creating the span.
-   * @param options - The options for the underlying HTTP request.
-   */
-  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(
-      `CryptographyClient ${methodName}`,
-      requestOptions && requestOptions.spanOptions
-    );
-    span.setAttribute("az.namespace", "Microsoft.KeyVault");
-    return span;
+    return result;
   }
 
   private ensureValid(key: KeyVaultKey | JsonWebKey, operation?: KeyOperation): void {
-    if ("name" in key) {
+    if ("properties" in key) {
       const attributes = key.properties;
       const keyOps = key.keyOperations;
       const { notBefore, expiresOn } = attributes;
       const now = new Date();
 
-      if (!key.id) {
-        throw new Error(
-          "Only local cryptography operations can be performed on JsonWebKeys without kid"
-        );
-      }
-
+      // Check KeyVault Key Expiration
       if (notBefore && now < notBefore) {
         throw new Error(`Key ${key.id} can't be used before ${notBefore.toISOString()}`);
       }
@@ -670,10 +565,12 @@ export class CryptographyClient {
         throw new Error(`Key ${key.id} expired at ${expiresOn.toISOString()}`);
       }
 
+      // Check Key operations
       if (operation && !keyOps?.includes(operation)) {
         throw new Error(`Operation ${operation} is not supported on key ${key.id}`);
       }
     } else {
+      // Check JsonWebKey Key operations
       if (operation && !key.keyOps?.includes(operation)) {
         throw new Error(`Operation ${operation} is not supported on key ${key.kid}`);
       }

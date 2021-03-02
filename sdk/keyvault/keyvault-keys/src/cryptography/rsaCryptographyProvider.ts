@@ -1,4 +1,4 @@
-import { CryptographyProvider } from "./remoteCryptographyProvider";
+import { CryptographyProvider } from "./CryptographyProvider";
 
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { JsonWebKey, KeyOperation, KnownKeyOperations } from "../keysModels";
@@ -111,11 +111,6 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     _options: VerifyOptions
   ): Promise<VerifyResult> {
     const keyPEM = convertJWKtoPEM(this.key);
-
-    const verifyAlgorithm = this.signatureAlgorithmToHashAlgorithm[algorithm];
-    if (!verifyAlgorithm) {
-      throw new Error(`Invalid signature algorithm ${algorithm} passed to local verifyData`);
-    }
 
     const verifier = createVerify(algorithm, digest);
     return Promise.resolve({

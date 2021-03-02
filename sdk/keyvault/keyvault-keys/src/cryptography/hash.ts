@@ -10,7 +10,9 @@ import { createHash as cryptoCreateHash, createVerify as cryptoCreateVerify, Ver
 export async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
   const hashAlgorithm = algorithmToHashAlgorithm[algorithm];
   if (!hashAlgorithm) {
-    throw new Error(`Invalid algorithm ${algorithm} passed to createHash.`);
+    throw new Error(
+      `Invalid algorithm ${algorithm} passed to createHash. This likely means that ${algorithm} is not supported locally.`
+    );
   }
   const hash = cryptoCreateHash(hashAlgorithm);
   hash.update(Buffer.from(data));
@@ -25,7 +27,9 @@ export async function createHash(algorithm: string, data: Uint8Array): Promise<B
 export function createVerify(algorithm: string, data: Uint8Array): Verify {
   const verifyAlgorithm = algorithmToHashAlgorithm[algorithm];
   if (!verifyAlgorithm) {
-    throw new Error(`Invalid algorithm ${algorithm} passed to verify.`);
+    throw new Error(
+      `Invalid algorithm ${algorithm} passed to verify. This likely means that ${algorithm} is not supported locally.`
+    );
   }
   const verifier = cryptoCreateVerify(verifyAlgorithm);
   verifier.update(Buffer.from(data));

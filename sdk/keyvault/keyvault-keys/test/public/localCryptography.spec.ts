@@ -63,26 +63,45 @@ describe("Local cryptography public tests", () => {
     });
 
     describe("when using an unsupported algorithm", function() {
-      const expectedErrorMessage = "Algorithm foo is not supported for a local JsonWebKey.";
-
       it("throws on encrypt", async function() {
         await assert.isRejected(
           cryptoClientFromKey.encrypt("foo", Buffer.from("bar")),
-          expectedErrorMessage
+          /using a local JsonWebKey/
         );
       });
 
       it("throws on wrapKey", async function() {
         await assert.isRejected(
           cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar")),
-          "Algorithm A128KW is not supported for a local JsonWebKey."
+          /using a local JsonWebKey/
+        );
+      });
+
+      it("throws on sign", async function() {
+        await assert.isRejected(
+          cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar")),
+          /using a local JsonWebKey/
+        );
+      });
+
+      it("throws on signData", async function() {
+        await assert.isRejected(
+          cryptoClientFromKey.signData("PS360", Buffer.from("bar")),
+          /using a local JsonWebKey/
+        );
+      });
+
+      it("throws on verify", async function() {
+        await assert.isRejected(
+          cryptoClientFromKey.verify("PS360", Buffer.from("bar"), Buffer.from("baz")),
+          /using a local JsonWebKey/
         );
       });
 
       it("throws on verifyData", async function() {
         await assert.isRejected(
-          cryptoClientFromKey.verifyData("foo", Buffer.from("bar"), Buffer.from("baz")),
-          expectedErrorMessage
+          cryptoClientFromKey.verifyData("PS360", Buffer.from("bar"), Buffer.from("baz")),
+          /using a local JsonWebKey/
         );
       });
     });
@@ -91,35 +110,14 @@ describe("Local cryptography public tests", () => {
       it("throws on decrypt", async function() {
         await assert.isRejected(
           cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar")),
-          "Decrypting using a local JsonWebKey is not supported."
+          /using a local JsonWebKey/
         );
       });
 
       it("throws on unwrapKey", async function() {
         await assert.isRejected(
           cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar")),
-          "Unwrapping a key using a local JsonWebKey is not supported."
-        );
-      });
-
-      it("throws on sign", async function() {
-        await assert.isRejected(
-          cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar")),
-          "Signing a digest using a local JsonWebKey is not supported."
-        );
-      });
-
-      it("throws on verify", async function() {
-        await assert.isRejected(
-          cryptoClientFromKey.verify("RSA1_5", Buffer.from("bar"), Buffer.from("baz")),
-          "Verifying a digest using a local JsonWebKey is not supported."
-        );
-      });
-
-      it("throws on signData", async function() {
-        await assert.isRejected(
-          cryptoClientFromKey.signData("RSA1_5", Buffer.from("bar")),
-          "Signing data using a local JsonWebKey is not supported."
+          /using a local JsonWebKey/
         );
       });
     });

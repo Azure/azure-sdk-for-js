@@ -16,6 +16,6 @@ export const createSpan: <T extends {
   span: Span;
   updatedOptions: T;
 } = createSpanFunction({
-  packagePrefix: "KeyClient",
+  packagePrefix: "KeysClient",
   namespace: "Microsoft.KeyVault"
 });
