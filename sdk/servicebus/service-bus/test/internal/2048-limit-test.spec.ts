@@ -3,14 +3,13 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusAdministrationClient, ServiceBusSender } from "../../src";
+import { ServiceBusSender } from "../../src";
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver } from "../../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  EntityName,
-  getConnectionString
+  EntityName
 } from "../public/utils/testutils2";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 
@@ -80,15 +79,6 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
       );
       await sender.sendMessages(batch);
     }
-    console.log(
-      `Sent ${
-        (
-          await new ServiceBusAdministrationClient(getConnectionString()).getQueueRuntimeProperties(
-            entityName.queue!
-          )
-        ).activeMessageCount
-      } messages!!!`
-    );
   }
 
   async function receiveMessages(receiveMode: "peekLock" | "receiveAndDelete" = "peekLock") {
@@ -115,7 +105,7 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
         async function(): Promise<void> {
           await beforeEachTest(clientType, "receiveAndDelete");
           await sendMessages();
-          await receiveMessages();
+          await receiveMessages("receiveAndDelete");
           await verifyMessageCount(0, entityName);
         }
       );
