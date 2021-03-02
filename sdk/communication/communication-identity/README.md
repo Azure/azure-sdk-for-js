@@ -34,7 +34,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new AzureKeyCredential(KEY);
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new CommunicationIdentityClient(ENDPOINT, credential);
 ```
 
 ### Using a connection string
@@ -42,7 +42,7 @@ const client = new CommunicationIdentityClient(HOST, credential);
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
-const connectionString = `endpoint=HOST;accessKey=KEY`;
+const connectionString = `endpoint=ENDPOINT;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
 ```
 
@@ -52,7 +52,7 @@ const client = new CommunicationIdentityClient(connectionString);
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new DefaultAzureCredential();
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new CommunicationIdentityClient(ENDPOINT, credential);
 ```
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal].
