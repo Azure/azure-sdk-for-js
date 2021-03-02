@@ -42,6 +42,10 @@ export interface EntityDataSource {
  */
 export interface HealthcareEntity extends Entity {
   /**
+   * Normalized name for the entity. For example, the normalized text for "histologically" is "histologic".
+   */
+  normalizedText?: string;
+  /**
    * Whether the entity is negated.
    */
   assertion?: HealthcareAssertion;
@@ -160,7 +164,17 @@ export interface PagedAnalyzeHealthcareEntitiesResult
 function makeHealthcareEntitiesWithoutNeighbors(
   entity: GeneratedHealthcareEntity
 ): HealthcareEntity {
-  const { category, confidenceScore, assertion, offset, text, links, subCategory, length } = entity;
+  const {
+    category,
+    confidenceScore,
+    assertion,
+    offset,
+    text,
+    links,
+    subCategory,
+    length,
+    name
+  } = entity;
   return {
     category,
     confidenceScore,
@@ -168,6 +182,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
     offset,
     length,
     text,
+    normalizedText: name,
     subCategory,
     dataSources:
       links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
