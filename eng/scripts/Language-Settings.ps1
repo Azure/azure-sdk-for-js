@@ -8,7 +8,7 @@ $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=con
 
 function Confirm-NodeInstallation
 {
-  if ((Get-Command npm | Measure-Object).Count -eq 0 ) 
+  if (!(Get-Command npm -ErrorAction SilentlyContinue))
   {
     LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
     exit 1
