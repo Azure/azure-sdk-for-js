@@ -67,8 +67,8 @@ describe("[mocked] SmsClient", async () => {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     sinon.useFakeTimers();
     const sendRequest: SmsSendRequest = {
-      from: "+18768984505651",
-      to: ["+18768985487"],
+      from: "+15558984505651",
+      to: ["+15558985487"],
       message: "message"
     };
 
@@ -85,7 +85,7 @@ describe("[mocked] SmsClient", async () => {
       from: sendRequest.from,
       smsRecipients: [
         {
-          to: "+18768985487",
+          to: "+15558985487",
           repeatabilityFirstSent: new Date().toUTCString(),
           repeatabilityRequestId: mockedGuid
         }
@@ -106,8 +106,8 @@ describe("[mocked] SmsClient", async () => {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     sinon.useFakeTimers();
     const sendRequest: SmsSendRequest = {
-      from: "+18768984505651",
-      to: ["+18768985487"],
+      from: "+15558984505651",
+      to: ["+15558985487"],
       message: "message"
     };
 
@@ -124,7 +124,7 @@ describe("[mocked] SmsClient", async () => {
       from: sendRequest.from,
       smsRecipients: [
         {
-          to: "+18768985487",
+          to: "+15558985487",
           repeatabilityFirstSent: new Date().toUTCString(),
           repeatabilityRequestId: mockedGuid
         }
@@ -144,8 +144,8 @@ describe("[mocked] SmsClient", async () => {
     });
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const sendRequest: SmsSendRequest = {
-      from: "+18768984505651",
-      to: ["+18768985487"],
+      from: "+15558984505651",
+      to: ["+15558985487"],
       message: "message"
     };
     const _responses = await smsClient.send(sendRequest);
