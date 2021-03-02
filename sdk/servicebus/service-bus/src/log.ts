@@ -55,7 +55,7 @@ export const managementClientLogger = createServiceBusLogger("service-bus:manage
  */
 export function logErrorStackTrace(_logger: AzureLogger, error: unknown): void {
   if (isObjectWithProperties(error, ["stack"]) && error.stack) {
-    logger.verbose(error.stack);
+    _logger.verbose(error.stack);
   }
 }
 
