@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusAdministrationClient, ServiceBusSender } from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
+import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver } from "../../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
@@ -20,11 +20,12 @@ let serviceBusClient: ServiceBusClientForTests;
 let entityName: EntityName;
 let sender: ServiceBusSender;
 let receiver: ServiceBusReceiver;
+
 const testClientTypes = [
-  // TestClientType.PartitionedQueue
-  // TestClientType.PartitionedQueueWithSessions,
-  TestClientType.UnpartitionedQueue
-  // TestClientType.UnpartitionedQueueWithSessions
+  TestClientType.PartitionedQueue,
+  TestClientType.PartitionedQueueWithSessions,
+  TestClientType.UnpartitionedQueue,
+  TestClientType.UnpartitionedQueueWithSessions
 ];
 
 async function beforeEachTest(
@@ -69,7 +70,11 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
     while (current < numberOfMessagesToSend) {
       const batch = await sender.createMessageBatch();
       while (
-        batch.tryAddMessage({ body: `message-${current}` }) &&
+        batch.tryAddMessage(
+          entityName.usesSessions
+            ? { body: `message-${current}`, sessionId: TestMessage.sessionId }
+            : { body: `message-${current}` }
+        ) &&
         current++ &&
         current < numberOfMessagesToSend
       );
@@ -108,6 +113,11 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           1000} seconds. Total received so far = ${numberOfMessagesReceived}`
       );
     }
+    chai.assert.equal(
+      numberOfMessagesReceived,
+      numberOfMessagesToReceive,
+      "Unexpected number of messages received"
+    );
   }
 
   describe("receiveAndDelete", () => {
@@ -140,6 +150,23 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           // - Delivery count should have been 1(or incremented) for 2048 of the messages
           // - Rest 952 messages should have zero delivery count
           // This makes sure there is no message loss
+        }
+      );
+      it(
+        clientType + ": can receive upto 2048 messages without message loss",
+        async function(): Promise<void> {
+          await beforeEachTest(clientType);
+          await sendMessages();
+          await receiveMessages();
+          await verifyMessageCount(numberOfMessagesToSend, entityName);
+          // TODO:
+          // receives in a loop would receive 2047 messages
+          // new receive will return 0
+          // settle one message
+          // can receive one new message
+          // new receive will return 0
+          // settle all the messages
+          // should be able to receive the rest of the messages
         }
       );
     });
