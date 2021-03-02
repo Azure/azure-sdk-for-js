@@ -1,7 +1,7 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
-    parameters:
-      PackageName: "@azure/communication-chat"
-      ServiceDirectory: communication
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/communication-chat"
+    ResourceServiceDirectory: communication

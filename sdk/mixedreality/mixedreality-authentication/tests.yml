@@ -1,10 +1,8 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
-    parameters:
-      PackageName: "@azure/mixedreality-authentication"
-      ServiceDirectory: mixedreality
-      Location: eastus2
-      MatrixFilters:
-        - DependencyVersion=^$
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/mixedreality-authentication"
+    ResourceServiceDirectory: mixedreality
+    ResourceGroupLocation: eastus2

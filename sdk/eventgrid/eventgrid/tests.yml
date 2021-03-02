@@ -1,9 +1,8 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
-    parameters:
-      PackageName: "@azure/eventgrid"
-      ServiceDirectory: eventgrid
-      MatrixFilters:
-        - DependencyVersion: ^$
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/eventgrid"
+    ResourceServiceDirectory: eventgrid
+    TestSamples: false
