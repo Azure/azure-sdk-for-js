@@ -9,7 +9,9 @@ import {
   TextDocumentBatchStatistics,
   HealthcareEntity as GeneratedHealthcareEntity,
   TextAnalyticsError,
-  HealthcareAssertion
+  HealthcareAssertion,
+  RelationType,
+  HealthcareRelationEntity
 } from "./generated/models";
 import {
   makeTextAnalyticsErrorResult,
@@ -56,6 +58,39 @@ export interface HealthcareEntity extends Entity {
 }
 
 /**
+ * The type of different roles a healthcare entity can play in a relation.
+ */
+export type HealthcareEntityRelationRoleType = string;
+
+/**
+ * A healthcare entity that plays a specific role in a relation.
+ */
+export interface HealthcareEntityRelationRole {
+  /**
+   * A healthcare entity
+   */
+  entity: HealthcareEntity;
+  /**
+   * The role of the healthcare entity in a particular relation.
+   */
+  name: HealthcareEntityRelationRoleType;
+}
+
+/**
+ * A relationship between two or more healthcare entities.
+ */
+export interface HealthcareEntityRelation {
+  /**
+   * The type of the healthcare relation.
+   */
+  relationType: RelationType;
+  /**
+   * The list of healthcare entities and their roles in the healthcare relation.
+   */
+  roles: HealthcareEntityRelationRole[];
+}
+
+/**
  * The results of a successful healthcare operation for a single document.
  */
 export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
@@ -63,6 +98,10 @@ export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuc
    * Healthcare entities.
    */
   entities: HealthcareEntity[];
+  /**
+   * Relations between healthcare entities.
+   */
+  entityRelations: HealthcareEntityRelation[];
 }
 
 /**
@@ -174,6 +213,23 @@ function makeHealthcareEntitiesGraph(
   }
 }
 
+function makeHealthcareRelations(
+  entities: HealthcareEntity[],
+  relations: HealthcareRelation[]
+): HealthcareEntityRelation[] {
+  return relations.map(
+    (relation: HealthcareRelation): HealthcareEntityRelation => ({
+      relationType: relation.relationType,
+      roles: relation.entities.map(
+        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
+          entity: entities[parseHealthcareEntityIndex(role.ref)],
+          name: role.role
+        })
+      )
+    })
+  );
+}
+
 /**
  * Creates a healthcare entity in the convenience layer from the one sent by the service.
  * @param document - incoming results sent by the service for a particular document
@@ -187,7 +243,8 @@ export function makeHealthcareEntitiesResult(
   makeHealthcareEntitiesGraph(newEntities, relations);
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    entities: newEntities
+    entities: newEntities,
+    entityRelations: makeHealthcareRelations(newEntities, relations)
   };
 }
 
