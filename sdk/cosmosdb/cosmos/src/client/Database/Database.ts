@@ -43,7 +43,7 @@ export class Database {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createDatabaseUri(this.id);
   }
 
@@ -111,7 +111,6 @@ export class Database {
 
   /**
    * Gets offer on database. If none exists, returns an OfferResponse with undefined.
-   * @param options
    */
   public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
     const { resource: record } = await this.read();

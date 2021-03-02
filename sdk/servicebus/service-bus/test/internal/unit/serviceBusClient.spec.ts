@@ -16,7 +16,7 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl
 } from "../../../src/receivers/sessionReceiver";
-import { AbortController } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -297,7 +297,7 @@ describe("serviceBusClient unit tests", () => {
     function validateWebsocketInfo(
       connectionContext: ConnectionContext,
       providedWebsocketConstructorOptions: any
-    ) {
+    ): void {
       assert.equal(
         connectionContext.config.webSocketEndpointPath,
         "$servicebus/websocket",
@@ -341,7 +341,10 @@ describe("serviceBusClient unit tests", () => {
     });
   });
 });
-function createAbortSignal() {
+function createAbortSignal(): {
+  signal: AbortSignalLike;
+  abortedPropertyWasChecked: boolean;
+} {
   const abortSignal = new AbortController().signal;
   const result = {
     signal: abortSignal,

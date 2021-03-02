@@ -37,6 +37,6 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
     this.baseUri = options.endpoint || "{vaultBaseUrl}";
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "7.2-preview";
+    this.apiVersion = options.apiVersion || "7.2";
   }
 }

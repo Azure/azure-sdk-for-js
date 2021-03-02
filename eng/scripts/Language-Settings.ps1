@@ -13,9 +13,17 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgNa
   {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
-    if ($pkgName -eq "$jsStylePkgName")
+    if ($pkgName -eq "$jsStylePkgName" -or $pkgName -eq $projectJson.name)
     {
-      return [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
+      $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+      if ($projectJson.name.StartsWith("@azure/arm"))
+      {
+        $pkgProp.SdkType = "mgmt"
+      }
+      $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+      $pkgProp.ArtifactName = $jsStylePkgName
+      return $pkgProp
     }
   }
   return $null
@@ -106,8 +114,8 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 {
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
-  foreach ($Item in $PublishedDocs) 
-  {    
+  foreach ($Item in $PublishedDocs)
+  {
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
 
@@ -118,7 +126,7 @@ function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
       # set default package name
       $PkgName = "azure-$($Item.BaseName)"
       if ($pkgs -and $pkgs.Count -eq 1)
-      {        
+      {
         $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
         $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
       }
@@ -157,7 +165,7 @@ function Get-javascript-GithubIoDocIndex()
 function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $monikerId = $null)
 {
   $pkgJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo)
-  
+
   if (-not (Test-Path $pkgJsonLoc))
   {
     Write-Error "Unable to locate package json at location $pkgJsonLoc, exiting."
@@ -192,7 +200,7 @@ function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $moniker
     }
     else
     {
-      $newItem = New-Object PSObject -Property @{ 
+      $newItem = New-Object PSObject -Property @{
         name = $name
       }
 
@@ -212,19 +220,28 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   [regex]$pattern = "azure-"
   $pkgName = $pattern.replace($packageName, "", 1)
   $packageDir = Join-Path $artifactDir $pkgName "temp"
-  Write-Host "Searching for *.api.json in path $($packageDir)"
-  $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
-  if (!$files)
+  if (Test-Path $packageDir)
   {
-    Write-Host "$($packageDir) does not have api review json for package"
-    return $null
+    Write-Host "Searching for *.api.json in path $($packageDir)"
+    $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
+    if (!$files)
+    {
+      Write-Host "$($packageDir) does not have api review json for package"
+      Write-Host "API Extractor must be enabled for $($packageName). Please ensure api-extractor.json is present in package directory and api extract script included in build script"
+      return $null
+    }
+    elseif ($files.Count -ne 1)
+    {
+      Write-Host "$($packageDir) should contain only one api review for $($packageName)"
+      Write-Host "No of Packages $($files.Count)"
+      return $null
+    }
   }
-  elseif ($files.Count -ne 1)
+  else
   {
-    Write-Host "$($packageDir) should contain only one api review for $($packageName)"
-    Write-Host "No of Packages $($files.Count)"
+    Write-Host "$($pkgName) does not have api review json"
     return $null
-  }
+  }  
 
   $packages = @{
     $files[0].Name = $files[0].FullName
@@ -240,7 +257,8 @@ function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $
   }
   Push-Location "$EngDir/tools/versioning"
   npm install
-  node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
+  $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
+  node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
   Pop-Location
 }
 

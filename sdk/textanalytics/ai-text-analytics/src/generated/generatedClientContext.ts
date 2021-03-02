@@ -29,7 +29,7 @@ export class GeneratedClientContext extends ServiceClient {
       ...options,
       baseUri:
         options?.endpoint ||
-        (endpoint.slice(-1) === "/" ? endpoint : endpoint + "/") + "text/analytics/v3.1-preview.3"
+        (endpoint.slice(-1) === "/" ? endpoint : endpoint + "/") + "text/analytics/v3.1-preview.4"
     };
 
     super(optionsWithDefaults);

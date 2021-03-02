@@ -7,19 +7,13 @@
  * Once all the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link BlobSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
- *
- * @export
- * @class ContainerSASPermissions
  */
 export class ContainerSASPermissions {
   /**
    * Creates an {@link ContainerSASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
-   * @static
-   * @param {string} permissions
-   * @returns {ContainerSASPermissions}
-   * @memberof ContainerSASPermissions
+   * @param permissions -
    */
   public static parse(permissions: string) {
     const containerSASPermissions = new ContainerSASPermissions();
@@ -68,10 +62,7 @@ export class ContainerSASPermissions {
    * Creates a {@link ContainerSASPermissions} from a raw object which contains same keys as it
    * and boolean values for them.
    *
-   * @static
-   * @param {ContainerSASPermissionsLike} permissionLike
-   * @returns {ContainerSASPermissions}
-   * @memberof ContainerSASPermissions
+   * @param permissionLike -
    */
   public static from(permissionLike: ContainerSASPermissionsLike): ContainerSASPermissions {
     const containerSASPermissions = new ContainerSASPermissions();
@@ -110,81 +101,51 @@ export class ContainerSASPermissions {
 
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public read: boolean = false;
 
   /**
    * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public add: boolean = false;
 
   /**
    * Specifies Create access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public create: boolean = false;
 
   /**
    * Specifies Write access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public write: boolean = false;
 
   /**
    * Specifies Delete access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public delete: boolean = false;
 
   /**
    * Specifies Delete version access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public deleteVersion: boolean = false;
 
   /**
    * Specifies List access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public list: boolean = false;
 
   /**
    * Specfies Tag access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public tag: boolean = false;
 
   /**
    * Specifies Move access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public move: boolean = false;
 
   /**
    * Specifies Execute access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissions
    */
   public execute: boolean = false;
 
@@ -195,8 +156,6 @@ export class ContainerSASPermissions {
    * The order of the characters should be as specified here to ensure correctness.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @returns {string}
-   * @memberof ContainerSASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];
@@ -241,81 +200,51 @@ export class ContainerSASPermissions {
 export interface ContainerSASPermissionsLike {
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   read?: boolean;
 
   /**
    * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   add?: boolean;
 
   /**
    * Specifies Create access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   create?: boolean;
 
   /**
    * Specifies Write access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   write?: boolean;
 
   /**
    * Specifies Delete access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   delete?: boolean;
 
   /**
    * Specifies Delete version access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   deleteVersion?: boolean;
 
   /**
    * Specifies List access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   list?: boolean;
 
   /**
    * Specfies Tag access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   tag?: boolean;
 
   /**
    * Specifies Move access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   move?: boolean;
 
   /**
    * Specifies Execute access granted.
-   *
-   * @type {boolean}
-   * @memberof ContainerSASPermissionsLike
    */
   execute?: boolean;
 }

@@ -12,6 +12,9 @@ import {
   AnalyzeHealthcareOperationState
 } from "./operation";
 
+/**
+ * @internal
+ */
 export interface HealthcarePollerOptions extends AnalysisPollerOptions {
   readonly modelVersion?: string;
   readonly includeStatistics?: boolean;
@@ -28,6 +31,7 @@ export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<
 
 /**
  * Class that represents a poller that waits for the healthcare results.
+ * @internal
  */
 export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
   AnalyzeHealthcareOperationState,

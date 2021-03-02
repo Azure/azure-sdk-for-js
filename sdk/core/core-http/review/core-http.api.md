@@ -157,8 +157,8 @@ export const Constants: {
 // @public (undocumented)
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
-// @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+// @public @deprecated
+export function createSpanFunction(args: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
     span: Span;
     updatedOptions: T;
 };
@@ -798,7 +798,7 @@ export interface SimpleMapperType {
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
-// @public
+// @public @deprecated
 export interface SpanConfig {
     namespace: string;
     packagePrefix: string;

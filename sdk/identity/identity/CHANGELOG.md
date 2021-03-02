@@ -2,10 +2,22 @@
 
 ## 1.2.4 (Unreleased)
 
+## 1.2.4-beta.2 (Unreleased)
+
+- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13973](https://github.com/Azure/azure-sdk-for-js/pull/13973).
+- `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
+- Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
+- Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
+- Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
+- Bug fix: `ManagedIdentityCredential` now also properly handles `EHOSTUNREACH` errors. Fixes issue [13894](https://github.com/Azure/azure-sdk-for-js/issues/13894).
+
+## 1.2.4-beta.1 (2021-02-12)
+
+- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
 
 ## 1.2.3 (2021-02-09)
 
-- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`.
+- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).
 - The 'keytar' dependency has been updated to the latest version.
 - No longer overrides global Axios defaults. This includes an update in `@azure/identity`'s source, and an update of the `@azure/msal-node` dependency. Fixes issue [13343](https://github.com/Azure/azure-sdk-for-js/issues/13343).
 

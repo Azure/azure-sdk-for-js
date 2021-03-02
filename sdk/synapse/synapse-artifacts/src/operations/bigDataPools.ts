@@ -14,7 +14,7 @@ export class BigDataPools {
 
   /**
    * Initialize a new instance of the class BigDataPools class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -22,15 +22,13 @@ export class BigDataPools {
 
   /**
    * List Big Data Pools
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-list",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options);
+
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
@@ -48,20 +46,18 @@ export class BigDataPools {
 
   /**
    * Get Big Data Pool
-   * @param bigDataPoolName - The Big Data Pool name
-   * @param options - The options parameters.
+   * @param bigDataPoolName The Big Data Pool name
+   * @param options The options parameters.
    */
   async get(
     bigDataPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<BigDataPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
+
     const operationArguments: coreHttp.OperationArguments = {
       bigDataPoolName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);

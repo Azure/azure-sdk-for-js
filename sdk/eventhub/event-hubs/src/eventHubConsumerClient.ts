@@ -420,7 +420,7 @@ export class EventHubConsumerClient {
    * @param options - Configures the way events are received.
    * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of
    * events to the handler provided to receive events as well as the start position. For example,
-   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
+   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }`
    */
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
@@ -447,7 +447,7 @@ export class EventHubConsumerClient {
    * @param options - Configures the way events are received.
    * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of
    * events to the handler provided to receive events as well as the start position. For example,
-   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
+   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }`
    */
 
   subscribe(

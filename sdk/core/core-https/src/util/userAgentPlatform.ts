@@ -4,14 +4,14 @@
 import * as os from "os";
 
 /**
- * @hidden @internal
+ * @internal
  */
 export function getHeaderName(): string {
   return "User-Agent";
 }
 
 /**
- * @hidden @internal
+ * @internal
  */
 export function setPlatformSpecificData(map: Map<string, string>): void {
   map.set("Node", process.version);

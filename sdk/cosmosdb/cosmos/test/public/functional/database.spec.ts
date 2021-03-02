@@ -20,7 +20,7 @@ describe("NodeJS CRUD Tests", function() {
   });
 
   describe("Validate Database CRUD", async function() {
-    const databaseCRUDTest = async function() {
+    const databaseCRUDTest = async function(): Promise<void> {
       // read databases
       const { resources: databases } = await client.databases.readAll().fetchAll();
       assert.equal(databases.constructor, Array, "Value should be an array");

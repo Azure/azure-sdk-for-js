@@ -28,6 +28,9 @@ import { createSpan } from "../../tracing";
 import { logger } from "../../logger";
 export { State };
 
+/**
+ * @internal
+ */
 interface AnalyzeResultsWithPagination {
   result: AnalyzeBatchActionsResult;
   top?: number;
@@ -35,7 +38,7 @@ interface AnalyzeResultsWithPagination {
 }
 
 /**
- * The metadata for beginAnalyzeBatchActionsoperations.
+ * The metadata for beginAnalyzeBatchActions operations.
  */
 export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata {
   /**
@@ -50,12 +53,11 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
    * Number of actions still in progress.
    */
   actionsInProgressCount?: number;
-  /**
-   * The operation's display name.
-   */
-  displayName?: string;
 }
 
+/**
+ * @internal
+ */
 interface AnalyzeBatchActionsOperationStatus {
   done: boolean;
   /**
@@ -67,6 +69,9 @@ interface AnalyzeBatchActionsOperationStatus {
   operationMetdata?: AnalyzeBatchActionsOperationMetadata;
 }
 
+/**
+ * @internal
+ */
 interface BeginAnalyzeInternalOptions extends OperationOptions {
   displayName?: string;
 }
@@ -87,10 +92,6 @@ export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
-  /**
-   * Optional display name for the operation.
-   */
-  displayName?: string;
 }
 
 /**
@@ -103,6 +104,7 @@ export interface AnalyzeBatchActionsOperationState
 /**
  * Class that represents a poller that waits for results of the analyze
  * operation.
+ * @internal
  */
 export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperation<
   AnalyzeBatchActionsOperationState,
@@ -223,8 +225,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
               status: response.status,
               actionsSucceededCount: response.tasks.completed,
               actionsFailedCount: response.tasks.failed,
-              actionsInProgressCount: response.tasks.inProgress,
-              displayName: response.displayName
+              actionsInProgressCount: response.tasks.inProgress
             }
           };
         }
@@ -285,8 +286,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
       const response = await this.beginAnalyzeBatchActions(this.documents, this.actions, {
         tracingOptions: this.options.tracingOptions,
         requestOptions: this.options.requestOptions,
-        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.abortSignal,
-        displayName: this.options.displayName
+        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.abortSignal
       });
       if (!response.operationLocation) {
         throw new Error(
@@ -309,7 +309,6 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
     state.actionsSucceededCount = operationStatus.operationMetdata?.actionsSucceededCount;
     state.actionsFailedCount = operationStatus.operationMetdata?.actionsFailedCount;
     state.actionsInProgressCount = operationStatus.operationMetdata?.actionsInProgressCount;
-    state.displayName = operationStatus.operationMetdata?.displayName;
 
     if (!state.isCompleted && operationStatus.done) {
       if (typeof options.fireProgress === "function") {

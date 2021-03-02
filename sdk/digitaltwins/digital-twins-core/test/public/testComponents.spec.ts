@@ -13,7 +13,7 @@ const MODEL_ID = "dtmi:samples:DTComponentTestsModel;1";
 const COMPONENT_ID = "dtmi:samples:DTComponentTestsComponent;1";
 const DIGITAL_TWIN_ID = "DTComponentTestsTempTwin";
 
-const component = {
+const testComponent = {
   "@id": COMPONENT_ID,
   "@type": "Interface",
   "@context": "dtmi:dtdl:context;2",
@@ -32,7 +32,7 @@ const component = {
   ]
 };
 
-const model = {
+const testModel = {
   "@id": MODEL_ID,
   "@type": "Interface",
   "@context": "dtmi:dtdl:context;2",
@@ -81,7 +81,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     await recorder.stop();
   });
 
-  async function deleteModels() {
+  async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
     } catch (Exception) {}
@@ -91,23 +91,23 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     } catch (Exception) {}
   }
 
-  async function createModel() {
-    const simpleModels = [component, model];
+  async function createModel(): Promise<void> {
+    const simpleModels = [testComponent, testModel];
     await client.createModels(simpleModels);
   }
 
-  async function setUpModels() {
+  async function setUpModels(): Promise<void> {
     await deleteModels();
     await createModel();
   }
 
-  async function deleteDigitalTwin(digitalTwinId: string) {
+  async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
     } catch (Exception) {}
   }
 
-  async function createDigitalTwin(digitalTwinId: string) {
+  async function createDigitalTwin(digitalTwinId: string): Promise<void> {
     await deleteDigitalTwin(digitalTwinId);
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(temporary_twin));
   }

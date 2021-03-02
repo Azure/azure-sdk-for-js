@@ -22,7 +22,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
   let reservationId: string;
   let areaCode: string;
   let poller: PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>;
-  let countryCode = "US";
+  const countryCode = "US";
   const phonePlanIds: string[] = [];
 
   beforeEach(function() {
@@ -46,7 +46,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
 
     let phonePlanGroupId: string = "";
     for await (const phonePlanGroup of client.listPhonePlanGroups(countryCode)) {
-      if (phonePlanGroup.phoneNumberType == "Geographic") {
+      if (phonePlanGroup.phoneNumberType === "Geographic") {
         assert.isString(phonePlanGroup.phonePlanGroupId);
         ({ phonePlanGroupId } = phonePlanGroup);
         assert.isString(phonePlanGroupId);

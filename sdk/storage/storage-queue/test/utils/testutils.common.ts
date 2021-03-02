@@ -5,7 +5,7 @@ import { padStart } from "../../src/utils/utils.common";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 export function isBrowser(): boolean {
-  return typeof window !== "undefined";
+  return typeof self !== "undefined";
 }
 
 const mockAccountName = "fakestorageaccount";

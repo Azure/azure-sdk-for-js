@@ -5,7 +5,7 @@ import { createClientLogger } from "@azure/logger";
 import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
- * The @azure/logger configuration for this package.
+ * The `@azure/logger` configuration for this package.
  * This will output logs using the `azure:event-hubs` namespace prefix.
  */
 export const logger = createClientLogger("event-hubs");

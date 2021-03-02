@@ -7,19 +7,13 @@ import { CredentialPolicy } from "../policies/CredentialPolicy";
 /**
  * Credential is an abstract class for Azure Storage HTTP requests signing. This
  * class will host an credentialPolicyCreator factory which generates CredentialPolicy.
- *
- * @export
- * @abstract
- * @class Credential
  */
 export abstract class Credential implements RequestPolicyFactory {
   /**
    * Creates a RequestPolicy object.
    *
-   * @param {RequestPolicy} _nextPolicy
-   * @param {RequestPolicyOptions} _options
-   * @returns {RequestPolicy}
-   * @memberof Credential
+   * @param _nextPolicy -
+   * @param _options -
    */
   public create(
     // tslint:disable-next-line:variable-name

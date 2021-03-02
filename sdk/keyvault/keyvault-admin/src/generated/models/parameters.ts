@@ -69,7 +69,7 @@ export const roleDefinitionName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "7.2-preview",
+    defaultValue: "7.2",
     isConstant: true,
     serializedName: "api-version",
     type: {

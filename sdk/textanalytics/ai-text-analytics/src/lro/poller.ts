@@ -9,6 +9,7 @@ import { State, TextDocumentInput } from "../generated/models";
 
 /**
  * Common parameters to a Poller.
+ * @internal
  */
 export interface AnalysisPollerOptions {
   readonly client: GeneratedClient;
@@ -53,6 +54,7 @@ export interface AnalysisPollOperationState<TResult>
 
 /**
  * Common properties and methods of analysis Pollers.
+ * @internal
  */
 export abstract class AnalysisPoller<TState, TResult> extends Poller<TState, TResult> {
   /**
@@ -70,6 +72,7 @@ export abstract class AnalysisPoller<TState, TResult> extends Poller<TState, TRe
 
 /**
  * Common properties and methods of polling operations.
+ * @internal
  */
 export abstract class AnalysisPollOperation<TState, TResult>
   implements PollOperation<TState, TResult> {

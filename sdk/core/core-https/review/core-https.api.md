@@ -30,6 +30,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export function createDefaultHttpsClient(): HttpsClient;
+
+// @public
 export function createEmptyPipeline(): Pipeline;
 
 // @public
@@ -48,15 +51,13 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
-export class DefaultHttpsClient implements HttpsClient {
-    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-}
-
-// @public
 export function delay(t: number): Promise<void>;
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export const exponentialRetryPolicyName = "exponentialRetryPolicy";
 
 // @public
 export interface ExponentialRetryPolicyOptions {
@@ -64,9 +65,6 @@ export interface ExponentialRetryPolicyOptions {
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
 }
-
-// @public
-export const expontentialRetryPolicyName = "exponentialRetryPolicy";
 
 // @public
 export type FormDataMap = {
@@ -140,7 +138,6 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
-    httpsClient?: HttpsClient;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: ExponentialRetryPolicyOptions;

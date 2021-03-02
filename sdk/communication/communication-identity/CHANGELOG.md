@@ -1,5 +1,13 @@
 # Release History
 
+## 1.0.0-beta.5 (Unreleased)
+
+### Breaking Changes
+
+- `CommunicationIdentityClient` method `issueToken` renamed to `getToken`.
+- Renamed `CommunicationIdentityOptions` to `CommunicationIdentityClientOptions`.
+- Removed `_response` from returned models.
+
 ## 1.0.0-beta.4 (2021-02-09)
 
 ### Added

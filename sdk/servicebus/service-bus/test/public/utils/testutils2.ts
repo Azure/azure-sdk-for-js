@@ -7,7 +7,8 @@ import {
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
-  ServiceBusClientOptions
+  ServiceBusClientOptions,
+  ServiceBusSender
 } from "../../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -123,13 +124,11 @@ async function createTestEntities(
   return relatedEntities;
 }
 
-export async function drainAllMessages(receiver: ServiceBusReceiver) {
-  while (true) {
+export async function drainAllMessages(receiver: ServiceBusReceiver): Promise<void> {
+  let pendingMsgs = true;
+  while (pendingMsgs) {
     const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
-
-    if (messages.length === 0) {
-      break;
-    }
+    pendingMsgs = messages.length > 0;
   }
 
   await receiver.close();
@@ -330,7 +329,7 @@ export class ServiceBusTestHelpers {
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return await this.acceptSessionWithPeekLock(entityNames, TestMessage.sessionId, options);
+      return this.acceptSessionWithPeekLock(entityNames, TestMessage.sessionId, options);
     }
 
     return this.addToCleanup(
@@ -347,7 +346,7 @@ export class ServiceBusTestHelpers {
   async acceptNextSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     options?: ServiceBusSessionReceiverOptions
-  ) {
+  ): Promise<ServiceBusSessionReceiver> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"
@@ -444,7 +443,9 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  async createSender(entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">) {
+  async createSender(
+    entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">
+  ): Promise<ServiceBusSender> {
     return this.addToCleanup(
       entityNames.queue
         ? this._serviceBusClient.createSender(entityNames.queue)
@@ -503,19 +504,17 @@ export function createServiceBusClientForTests(
 
 export async function drainReceiveAndDeleteReceiver(receiver: ServiceBusReceiver): Promise<void> {
   try {
-    while (true) {
+    let pendingMsgs = true;
+    while (pendingMsgs) {
       const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
-
-      if (messages.length === 0) {
-        break;
-      }
+      pendingMsgs = messages.length > 0;
     }
   } finally {
     await receiver.close();
   }
 }
 
-export function getConnectionString() {
+export function getConnectionString(): string {
   if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
     throw new Error(
       `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}. If you're in a unit test you should not be depending on the deployed environment!`

@@ -19,6 +19,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [optimisticConcurrencyViaEtag.ts][optimisticconcurrencyviaetag] | set values using etags to prevent accidental overwrites                                        |
 | [setReadOnlySample.ts][setreadonlysample]                       | mark settings as read-only to prevent modification                                             |
 | [getSettingOnlyIfChanged.ts][getsettingonlyifchanged]           | get a setting only if it has changed since the last time you got it                            |
+| [listConfigurationSettings.ts][listconfigurationsettings]       | list several configuration settings based on wildcards                                         |
 | [listRevisions.ts][listrevisions]                               | list the revisions of a key, allowing you to see previous values and when they were set        |
 
 ## Prerequisites
@@ -74,6 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [optimisticconcurrencyviaetag]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/typescript/src/optimisticConcurrencyViaEtag.ts
 [setreadonlysample]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/typescript/src/setReadOnlySample.ts
 [getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/typescript/src/getSettingOnlyIfChanged.ts
+[listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/typescript/src/listConfigurationSettings.ts
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/typescript/src/listRevisions.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
 [azappconfig]: https://docs.microsoft.com/azure/azure-app-configuration/

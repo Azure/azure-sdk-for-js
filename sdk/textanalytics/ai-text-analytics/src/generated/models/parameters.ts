@@ -136,7 +136,6 @@ export const modelVersion: OperationQueryParameter = {
 export const stringIndexType: OperationQueryParameter = {
   parameterPath: ["options", "stringIndexType"],
   mapper: {
-    defaultValue: "TextElements_v8",
     serializedName: "stringIndexType",
     type: {
       name: "String"
@@ -152,6 +151,25 @@ export const domain: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const piiCategories: OperationQueryParameter = {
+  parameterPath: ["options", "piiCategories"],
+  mapper: {
+    constraints: {
+      UniqueItems: true
+    },
+    serializedName: "piiCategories",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "CSV"
 };
 
 export const input1: OperationParameter = {

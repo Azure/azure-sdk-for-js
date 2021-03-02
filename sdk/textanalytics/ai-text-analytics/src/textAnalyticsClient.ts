@@ -17,7 +17,8 @@ import {
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
-  TextDocumentInput
+  TextDocumentInput,
+  PiiCategory
 } from "./generated/models";
 import {
   DetectLanguageResultArray,
@@ -133,7 +134,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * Whether to mine the opinions of a sentence and conduct more  granular
    * analysis around the aspects of a product or service (also known as
    * aspect-based sentiment analysis). If set to true, the returned
-   * `SentenceSentiment` objects will have property `mined_opinions` containing
+   * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
@@ -172,6 +173,10 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * Specifies the list of Pii categories to return.
+   */
+  categoriesFilter?: PiiCategory[];
 }
 
 /**
@@ -229,6 +234,10 @@ export type RecognizePiiEntitiesAction = {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * Specifies the list of Pii categories to return.
+   */
+  categoriesFilter?: PiiCategory[];
 };
 
 /**
@@ -241,6 +250,23 @@ export interface ExtractKeyPhrasesAction {
    */
   modelVersion?: string;
 }
+
+/**
+ * Options for an entities linking action.
+ */
+export type RecognizeLinkedEntitiesAction = {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+};
 
 /**
  * Description of collection of actions for the analyze API to perform on input documents
@@ -258,6 +284,10 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of key phrases recognition actions.
    */
   extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+  /**
+   * A collection of descriptions of entities linking actions.
+   */
+  recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -415,13 +445,7 @@ export class TextAnalyticsClient {
         finalOptions
       );
 
-      return makeDetectLanguageResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeDetectLanguageResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -506,13 +530,7 @@ export class TextAnalyticsClient {
         addStrEncodingParam(finalOptions)
       );
 
-      return makeRecognizeCategorizedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
     } catch (e) {
       /**
        * This special logic handles REST exception with code
@@ -677,13 +695,7 @@ export class TextAnalyticsClient {
         finalOptions
       );
 
-      return makeExtractKeyPhrasesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeExtractKeyPhrasesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -839,13 +851,7 @@ export class TextAnalyticsClient {
         addStrEncodingParam(finalOptions)
       );
 
-      return makeRecognizeLinkedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -978,7 +984,6 @@ export class TextAnalyticsClient {
         tracingOptions: realOptions.tracingOptions,
         abortSignal: realOptions.abortSignal
       },
-      displayName: realOptions.displayName,
       includeStatistics: realOptions.includeStatistics,
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom
@@ -989,6 +994,9 @@ export class TextAnalyticsClient {
   }
 }
 
+/**
+ * @internal
+ */
 function addEncodingParamToAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions
@@ -1005,6 +1013,9 @@ function isStringArray(documents: any[]): documents is string[] {
   return typeof documents[0] === "string";
 }
 
+/**
+ * @internal
+ */
 function convertToDetectLanguageInput(
   inputs: string[],
   countryHint: string
@@ -1023,6 +1034,9 @@ function convertToDetectLanguageInput(
   );
 }
 
+/**
+ * @internal
+ */
 function convertToTextDocumentInput(inputs: string[], language: string): TextDocumentInput[] {
   return inputs.map(
     (text: string, index): TextDocumentInput => {
@@ -1039,7 +1053,6 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
  * Creates the options the service expects for the analyze sentiment API from the user friendly ones.
  * @param params - the user friendly parameters
  * @internal
- * @hidden
  */
 function makeAnalyzeSentimentOptionsModel(
   params: AnalyzeSentimentOptions
@@ -1059,7 +1072,6 @@ function makeAnalyzeSentimentOptionsModel(
  * Creates the options the service expects for the recognize pii entities API from the user friendly ones.
  * @param params - the user friendly parameters
  * @internal
- * @hidden
  */
 function makePiiEntitiesOptionsModel(
   params: RecognizePiiEntitiesOptions
@@ -1071,6 +1083,7 @@ function makePiiEntitiesOptionsModel(
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
-    tracingOptions: params.tracingOptions
+    tracingOptions: params.tracingOptions,
+    piiCategories: params.categoriesFilter
   };
 }

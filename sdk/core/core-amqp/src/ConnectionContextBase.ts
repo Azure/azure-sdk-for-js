@@ -101,6 +101,7 @@ export interface CreateConnectionContextBaseParameters {
   operationTimeoutInMs?: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const ConnectionContextBase = {
   /**
    * Creates the base connection context.
@@ -141,9 +142,9 @@ export const ConnectionContextBase = {
 
     if (
       parameters.config.webSocket ||
-      (!isNode && typeof window !== "undefined" && (window as any).WebSocket)
+      (!isNode && typeof self !== "undefined" && (self as any).WebSocket)
     ) {
-      const socket = parameters.config.webSocket || (window as any).WebSocket;
+      const socket = parameters.config.webSocket || (self as any).WebSocket;
       const host = parameters.config.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};
@@ -169,13 +170,13 @@ export const ConnectionContextBase = {
       config: parameters.config,
       refreshConnection() {
         const newConnection = new Connection(connectionOptions);
-        const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
+        const newConnectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
         this.wasConnectionCloseCalled = false;
-        this.connectionLock = connectionLock;
+        this.connectionLock = newConnectionLock;
         this.negotiateClaimLock = `${Constants.negotiateClaim} - ${generate_uuid()}`;
         this.connection = newConnection;
         this.connectionId = newConnection.id;
-        this.cbsSession = new CbsClient(newConnection, connectionLock);
+        this.cbsSession = new CbsClient(newConnection, newConnectionLock);
       }
     };
 

@@ -17,7 +17,7 @@ logSampleHeader("Alter Query Throughput");
 const client = new CosmosClient({ endpoint, key });
 
 // ensuring a database exists for us to work with
-async function run() {
+async function run(): Promise<void> {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   logStep(`Create container with id : ${containerId}`);
@@ -56,7 +56,6 @@ async function updateOfferForCollection(
   oldOfferDefinition: OfferDefinition
 ): Promise<void> {
   if (!oldOfferDefinition || !oldOfferDefinition.content) throw "found invalid offer";
-  const oldRups = oldOfferDefinition.content.offerThroughput;
   const newOfferDefinition: OfferDefinition = {
     ...oldOfferDefinition,
     content: {
@@ -82,6 +81,8 @@ async function updateOfferForCollection(
       })
   );
 
+  const flat = <T>(nestedArrays: T[][]): T[] => [].concat(...nestedArrays);
+
   const containers: (ContainerDefinition & Resource)[] = flat(
     containerResponses.map(
       (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
@@ -90,8 +91,9 @@ async function updateOfferForCollection(
 
   logStep("Finding container to offerDefinition");
   const container = containers.find(
-    (container: ContainerDefinition & Resource) =>
-      container._rid === oldOfferDefinition.offerResourceId && container.id === collectionName
+    (containerParam: ContainerDefinition & Resource) =>
+      containerParam._rid === oldOfferDefinition.offerResourceId &&
+      containerParam.id === collectionName
   );
 
   if (container) {
@@ -109,5 +111,3 @@ async function asyncForEach<T>(
     await callback(array[index]);
   }
 }
-
-const flat = <T>(nestedArrays: T[][]): T[] => [].concat(...nestedArrays);

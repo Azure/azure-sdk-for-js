@@ -63,6 +63,8 @@ export {
   IndexingPolicy,
   IpAddressOrRange,
   Location,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityUserAssignedIdentitiesValue,
   MongoDBCollectionCreateUpdateParameters,
   MongoDBCollectionGetPropertiesOptions,
   MongoDBCollectionGetPropertiesResource,

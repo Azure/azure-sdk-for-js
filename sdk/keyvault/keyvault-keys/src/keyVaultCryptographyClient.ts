@@ -5,18 +5,13 @@ import {
   TokenCredential,
   createPipelineFromOptions,
   isTokenCredential,
-  RequestOptionsBase,
-  signingPolicy,
-  operationOptionsToRequestOptionsBase
+  signingPolicy
 } from "@azure/core-http";
-
-import { getTracer } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/api";
 
 import { logger } from "./log";
 import { SDK_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { challengeBasedAuthenticationPolicy, setParentSpan } from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { localSupportedAlgorithms, isLocallySupported } from "./localCryptography/algorithms";
 
@@ -32,7 +27,6 @@ import {
 } from "./keysModels";
 
 import {
-  EncryptionAlgorithm,
   KeyWrapAlgorithm,
   WrapResult,
   UnwrapResult,
@@ -46,7 +40,9 @@ import {
   WrapKeyOptions,
   UnwrapKeyOptions,
   SignOptions,
-  VerifyOptions
+  VerifyOptions,
+  EncryptParameters,
+  DecryptParameters
 } from "./cryptographyClientModels";
 import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
@@ -54,6 +50,13 @@ import {
   LocalCryptographyOperationFunction,
   LocalSupportedAlgorithmName
 } from "./localCryptography/models";
+
+import { createSpanFunction } from "@azure/core-tracing";
+
+const createSpan = createSpanFunction({
+  namespace: "Microsoft.KeyVault",
+  packagePrefix: "CryptographyClient"
+});
 
 /**
  * Checks whether a key can be used at that specific moment,
@@ -100,8 +103,7 @@ export class KeyVaultCryptographyClient {
    * @param options - Options for retrieving key.
    */
   private async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("getKey", requestOptions);
+    const { updatedOptions } = createSpan("getKey", options);
 
     if (typeof this.key === "string") {
       if (!this.name || this.name === "") {
@@ -111,7 +113,7 @@ export class KeyVaultCryptographyClient {
         this.vaultUrl,
         this.name,
         options && options.version ? options.version : this.version ? this.version : "",
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
       this.keyBundle = keyBundle;
       return keyBundle.key! as JsonWebKey;
@@ -133,20 +135,21 @@ export class KeyVaultCryptographyClient {
    * @param options - Additional options.
    */
   public async encrypt(
-    algorithm: EncryptionAlgorithm,
-    plaintext: Uint8Array,
+    encryptParameters: EncryptParameters,
     options: EncryptOptions = {}
   ): Promise<EncryptResult> {
-    const localCryptographyClient = await this.getLocalCryptographyClient();
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("encrypt", requestOptions);
-
+    const { algorithm, plaintext, ...params } = encryptParameters;
+    const { span, updatedOptions } = createSpan("encrypt", {
+      ...options,
+      ...params
+    });
     await this.checkPermissions("encrypt");
+    const localCryptographyClient = await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
-        return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
+        return localCryptographyClient.encrypt(encryptParameters, options);
       } catch (e) {
         if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
@@ -165,36 +168,31 @@ export class KeyVaultCryptographyClient {
         this.version,
         algorithm,
         plaintext,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
     }
 
-    return { result: result.result!, algorithm, keyID: this.getKeyID() };
+    return {
+      algorithm: encryptParameters.algorithm,
+      result: result.result!,
+      keyID: this.getKeyID(),
+      additionalAuthenticatedData: result.additionalAuthenticatedData,
+      authenticationTag: result.authenticationTag,
+      iv: result.iv
+    };
   }
 
-  /**
-   * Decrypts the given ciphertext with the specified cryptography algorithm
-   *
-   * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.decrypt("RSA1_5", encryptedBuffer);
-   * ```
-   * @param algorithm - The algorithm to use.
-   * @param ciphertext - The text to decrypt.
-   * @param options - Additional options.
-   */
-
   public async decrypt(
-    algorithm: EncryptionAlgorithm,
-    ciphertext: Uint8Array,
+    decryptParameters: DecryptParameters,
     options: DecryptOptions = {}
   ): Promise<DecryptResult> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("decrypt", requestOptions);
-
+    const { algorithm, ciphertext, ...params } = decryptParameters;
+    const { span, updatedOptions } = createSpan("decrypt", {
+      ...options,
+      ...params
+    });
     await this.checkPermissions("decrypt");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
@@ -208,13 +206,17 @@ export class KeyVaultCryptographyClient {
         this.version,
         algorithm,
         ciphertext,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
     }
 
-    return { result: result.result!, keyID: this.getKeyID(), algorithm };
+    return {
+      result: result.result!,
+      keyID: this.getKeyID(),
+      algorithm
+    };
   }
 
   /**
@@ -235,8 +237,7 @@ export class KeyVaultCryptographyClient {
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
     const localCryptographyClient = await this.getLocalCryptographyClient();
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("decrypt", requestOptions);
+    const { span, updatedOptions } = createSpan("decrypt", options);
 
     await this.checkPermissions("wrapKey");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
@@ -262,7 +263,7 @@ export class KeyVaultCryptographyClient {
         this.version,
         algorithm,
         key,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -288,8 +289,7 @@ export class KeyVaultCryptographyClient {
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("unwrapKey", requestOptions);
+    const { span, updatedOptions } = createSpan("unwrapKey", options);
 
     await this.checkPermissions("unwrapKey");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
@@ -304,7 +304,7 @@ export class KeyVaultCryptographyClient {
         this.version,
         algorithm,
         encryptedKey,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -330,8 +330,7 @@ export class KeyVaultCryptographyClient {
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("sign", requestOptions);
+    const { span, updatedOptions } = createSpan("sign", options);
 
     await this.checkPermissions("sign");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
@@ -344,7 +343,7 @@ export class KeyVaultCryptographyClient {
         this.version,
         algorithm,
         digest,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -372,8 +371,7 @@ export class KeyVaultCryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("verify", requestOptions);
+    const { span, updatedOptions } = createSpan("verify", options);
 
     await this.checkPermissions("verify");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
@@ -387,7 +385,7 @@ export class KeyVaultCryptographyClient {
         algorithm,
         digest,
         signature,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -413,8 +411,7 @@ export class KeyVaultCryptographyClient {
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("signData", requestOptions);
+    const { span, updatedOptions } = createSpan("signData", options);
 
     await this.checkPermissions("sign");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
@@ -440,7 +437,7 @@ export class KeyVaultCryptographyClient {
         this.version,
         algorithm,
         digest,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -469,8 +466,7 @@ export class KeyVaultCryptographyClient {
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
     const localCryptographyClient = await this.getLocalCryptographyClient();
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("verifyData", requestOptions);
+    const { span, updatedOptions } = createSpan("verifyData", options);
 
     await this.checkPermissions("verify");
     await this.getLocalCryptographyClient();
@@ -507,7 +503,7 @@ export class KeyVaultCryptographyClient {
         algorithm,
         digest,
         signature,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -657,23 +653,6 @@ export class KeyVaultCryptographyClient {
     this.vaultUrl = parsed.vaultUrl;
     this.name = parsed.name;
     this.version = parsed.version;
-  }
-
-  /**
-   * @internal
-   * @hidden
-   * Creates a span using the tracer that was set by the user.
-   * @param methodName - The name of the method creating the span.
-   * @param options - The options for the underlying HTTP request.
-   */
-  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(
-      `CryptographyClient ${methodName}`,
-      requestOptions && requestOptions.spanOptions
-    );
-    span.setAttribute("az.namespace", "Microsoft.KeyVault");
-    return span;
   }
 
   /**

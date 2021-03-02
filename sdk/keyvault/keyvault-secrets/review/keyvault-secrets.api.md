@@ -126,7 +126,7 @@ export class SecretClient {
 
 // @public
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1";
+    serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 // @public
@@ -137,12 +137,14 @@ export interface SecretPollerOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface SecretProperties {
+    readonly certificateKeyId?: string;
     contentType?: string;
     readonly createdOn?: Date;
     enabled?: boolean;
     readonly expiresOn?: Date;
     id?: string;
-    readonly keyId?: URL;
+    // @deprecated
+    readonly keyId?: unknown;
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;

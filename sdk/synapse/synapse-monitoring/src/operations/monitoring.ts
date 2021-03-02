@@ -19,7 +19,7 @@ export class Monitoring {
 
   /**
    * Initialize a new instance of the class Monitoring class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: MonitoringClient) {
     this.client = client;
@@ -27,17 +27,14 @@ export class Monitoring {
 
   /**
    * Get list of spark applications for the workspace.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async getSparkJobList(
     options?: MonitoringGetSparkJobListOptionalParams
   ): Promise<MonitoringGetSparkJobListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "MonitoringClient-getSparkJobList",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("MonitoringClient-getSparkJobList", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -58,17 +55,14 @@ export class Monitoring {
 
   /**
    * Get SQL OD/DW Query for the workspace.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async getSqlJobQueryString(
     options?: MonitoringGetSqlJobQueryStringOptionalParams
   ): Promise<MonitoringGetSqlJobQueryStringResponse> {
-    const { span, updatedOptions } = createSpan(
-      "MonitoringClient-getSqlJobQueryString",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("MonitoringClient-getSqlJobQueryString", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

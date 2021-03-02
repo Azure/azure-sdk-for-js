@@ -658,7 +658,6 @@ export class EventHubReceiver extends LinkEntity {
    * @param abortSignal - An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @returns Promise<ReceivedEventData[]>.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    * @throws MessagingError if an error is encountered while receiving a message.
    * @throws Error if the underlying connection or receiver has been closed.
@@ -674,7 +673,7 @@ export class EventHubReceiver extends LinkEntity {
     const receivedEvents: ReceivedEventData[] = [];
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         // if this consumer was closed,
         // resolve the operation's promise with the events collected thus far in case
         // the promise hasn't already been resolved.

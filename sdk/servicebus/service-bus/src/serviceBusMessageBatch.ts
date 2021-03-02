@@ -15,11 +15,7 @@ import {
   Message as RheaMessage
 } from "rhea-promise";
 import { SpanContext } from "@opentelemetry/api";
-import {
-  instrumentServiceBusMessage,
-  TRACEPARENT_PROPERTY
-} from "./diagnostics/instrumentServiceBusMessage";
-import { createMessageSpan } from "./diagnostics/messageSpan";
+import { instrumentMessage } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 import { defaultDataTransformer } from "./dataTransformer";
 
@@ -61,7 +57,7 @@ export interface ServiceBusMessageBatch {
    * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
    * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
-   * @readonly.
+   * @readonly
    */
   readonly maxSizeInBytes: number;
 
@@ -165,7 +161,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param annotations - The message annotations to set on the batch.
    * @param applicationProperties - The application properties to set on the batch.
    * @param messageProperties - The message properties to set on the batch.
-   * @returns {Buffer}
    */
   private _generateBatch(
     encodedMessages: Buffer[],
@@ -231,27 +226,22 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next message.
    *
-   * @param message - An individual service bus message.
+   * @param originalMessage - An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
+  public tryAddMessage(originalMessage: ServiceBusMessage, options: TryAddOptions = {}): boolean {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", originalMessage);
     throwIfNotValidServiceBusMessage(
-      message,
+      originalMessage,
       "Provided value for 'message' must be of type ServiceBusMessage."
     );
 
-    // check if the event has already been instrumented
-    const previouslyInstrumented = Boolean(
-      message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]
+    const { message, spanContext } = instrumentMessage(
+      originalMessage,
+      options,
+      this._context.config.entityPath!,
+      this._context.config.host
     );
-    let spanContext: SpanContext | undefined;
-    if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options?.parentSpan, this._context.config);
-      message = instrumentServiceBusMessage(message, messageSpan);
-      spanContext = messageSpan.context();
-      messageSpan.end();
-    }
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toRheaMessage(message);

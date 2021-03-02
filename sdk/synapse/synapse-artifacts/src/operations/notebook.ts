@@ -27,7 +27,7 @@ export class Notebook {
 
   /**
    * Initialize a new instance of the class Notebook class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +35,7 @@ export class Notebook {
 
   /**
    * Lists Notebooks.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listNotebooksByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,7 +77,7 @@ export class Notebook {
 
   /**
    * Lists a summary of Notebooks.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listNotebookSummaryByWorkSpace(
     options?: coreHttp.OperationOptions
@@ -119,17 +119,17 @@ export class Notebook {
 
   /**
    * Lists Notebooks.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getNotebooksByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<NotebookGetNotebooksByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getNotebooksByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -150,17 +150,17 @@ export class Notebook {
 
   /**
    * Lists a summary of Notebooks.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getNotebookSummaryByWorkSpace(
     options?: coreHttp.OperationOptions
   ): Promise<NotebookGetNotebookSummaryByWorkSpaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getNotebookSummaryByWorkSpace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -181,23 +181,20 @@ export class Notebook {
 
   /**
    * Creates or updates a Note Book.
-   * @param notebookName - The notebook name.
-   * @param notebook - Note book resource definition.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param notebook Note book resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateNotebook(
     notebookName: string,
     notebook: NotebookResource,
     options?: NotebookCreateOrUpdateNotebookOptionalParams
   ): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateNotebook",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       notebook,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -231,20 +228,17 @@ export class Notebook {
 
   /**
    * Gets a Note Book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
    */
   async getNotebook(
     notebookName: string,
     options?: NotebookGetNotebookOptionalParams
   ): Promise<NotebookGetNotebookResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getNotebook",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -265,20 +259,17 @@ export class Notebook {
 
   /**
    * Deletes a Note book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
    */
   async deleteNotebook(
     notebookName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteNotebook",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -312,23 +303,20 @@ export class Notebook {
 
   /**
    * Renames a notebook.
-   * @param notebookName - The notebook name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renameNotebook(
     notebookName: string,
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameNotebook",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameNotebook", options);
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -362,9 +350,9 @@ export class Notebook {
 
   /**
    * GetNotebooksByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetNotebooksByWorkspace
+   * @param nextLink The nextLink from the previous successful call to the GetNotebooksByWorkspace
    *                 method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getNotebooksByWorkspaceNext(
     nextLink: string,
@@ -372,11 +360,11 @@ export class Notebook {
   ): Promise<NotebookGetNotebooksByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getNotebooksByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -397,9 +385,9 @@ export class Notebook {
 
   /**
    * GetNotebookSummaryByWorkSpaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetNotebookSummaryByWorkSpace
+   * @param nextLink The nextLink from the previous successful call to the GetNotebookSummaryByWorkSpace
    *                 method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getNotebookSummaryByWorkSpaceNext(
     nextLink: string,
@@ -407,11 +395,11 @@ export class Notebook {
   ): Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getNotebookSummaryByWorkSpaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

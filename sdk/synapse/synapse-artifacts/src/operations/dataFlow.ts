@@ -25,7 +25,7 @@ export class DataFlow {
 
   /**
    * Initialize a new instance of the class DataFlow class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -33,7 +33,7 @@ export class DataFlow {
 
   /**
    * Lists data flows.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listDataFlowsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -75,23 +75,20 @@ export class DataFlow {
 
   /**
    * Creates or updates a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param dataFlow - Data flow resource definition.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param dataFlow Data flow resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateDataFlow(
     dataFlowName: string,
     dataFlow: DataFlowResource,
     options?: DataFlowCreateOrUpdateDataFlowOptionalParams
   ): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateDataFlow",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       dataFlow,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -125,20 +122,17 @@ export class DataFlow {
 
   /**
    * Gets a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param options The options parameters.
    */
   async getDataFlow(
     dataFlowName: string,
     options?: DataFlowGetDataFlowOptionalParams
   ): Promise<DataFlowGetDataFlowResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getDataFlow",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -159,20 +153,17 @@ export class DataFlow {
 
   /**
    * Deletes a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param options The options parameters.
    */
   async deleteDataFlow(
     dataFlowName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteDataFlow",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -206,23 +197,20 @@ export class DataFlow {
 
   /**
    * Renames a dataflow.
-   * @param dataFlowName - The data flow name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renameDataFlow(
     dataFlowName: string,
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameDataFlow",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -256,17 +244,17 @@ export class DataFlow {
 
   /**
    * Lists data flows.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getDataFlowsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowGetDataFlowsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getDataFlowsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -287,9 +275,9 @@ export class DataFlow {
 
   /**
    * GetDataFlowsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetDataFlowsByWorkspace
+   * @param nextLink The nextLink from the previous successful call to the GetDataFlowsByWorkspace
    *                 method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getDataFlowsByWorkspaceNext(
     nextLink: string,
@@ -297,11 +285,11 @@ export class DataFlow {
   ): Promise<DataFlowGetDataFlowsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getDataFlowsByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

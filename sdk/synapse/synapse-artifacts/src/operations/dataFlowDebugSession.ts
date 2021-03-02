@@ -27,7 +27,7 @@ export class DataFlowDebugSession {
 
   /**
    * Initialize a new instance of the class DataFlowDebugSession class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +35,7 @@ export class DataFlowDebugSession {
 
   /**
    * Query all active data flow debug sessions.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listQueryDataFlowDebugSessionsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,8 +77,8 @@ export class DataFlowDebugSession {
 
   /**
    * Creates a data flow debug session.
-   * @param request - Data flow debug session definition
-   * @param options - The options parameters.
+   * @param request Data flow debug session definition
+   * @param options The options parameters.
    */
   async createDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
@@ -86,11 +86,11 @@ export class DataFlowDebugSession {
   ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createDataFlowDebugSession",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -124,17 +124,17 @@ export class DataFlowDebugSession {
 
   /**
    * Query all active data flow debug sessions.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _queryDataFlowDebugSessionsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -155,20 +155,17 @@ export class DataFlowDebugSession {
 
   /**
    * Add a data flow into debug session.
-   * @param request - Data flow debug session definition with debug content.
-   * @param options - The options parameters.
+   * @param request Data flow debug session definition with debug content.
+   * @param options The options parameters.
    */
   async addDataFlow(
     request: DataFlowDebugPackage,
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-addDataFlow",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-addDataFlow", options);
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -189,8 +186,8 @@ export class DataFlowDebugSession {
 
   /**
    * Deletes a data flow debug session.
-   * @param request - Data flow debug session definition for deletion
-   * @param options - The options parameters.
+   * @param request Data flow debug session definition for deletion
+   * @param options The options parameters.
    */
   async deleteDataFlowDebugSession(
     request: DeleteDataFlowDebugSessionRequest,
@@ -198,11 +195,11 @@ export class DataFlowDebugSession {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteDataFlowDebugSession",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -223,20 +220,17 @@ export class DataFlowDebugSession {
 
   /**
    * Execute a data flow debug command.
-   * @param request - Data flow debug command definition.
-   * @param options - The options parameters.
+   * @param request Data flow debug command definition.
+   * @param options The options parameters.
    */
   async executeCommand(
     request: DataFlowDebugCommandRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-executeCommand",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-executeCommand", options);
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -270,9 +264,9 @@ export class DataFlowDebugSession {
 
   /**
    * QueryDataFlowDebugSessionsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the
+   * @param nextLink The nextLink from the previous successful call to the
    *                 QueryDataFlowDebugSessionsByWorkspace method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _queryDataFlowDebugSessionsByWorkspaceNext(
     nextLink: string,
@@ -280,11 +274,11 @@ export class DataFlowDebugSession {
   ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

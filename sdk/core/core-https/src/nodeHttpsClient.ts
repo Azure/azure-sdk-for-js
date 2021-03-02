@@ -60,8 +60,9 @@ class ReportTransform extends Transform {
 
 /**
  * A HttpsClient implementation that uses Node's "https" module to send HTTPS requests.
+ * @internal
  */
-export class NodeHttpsClient implements HttpsClient {
+class NodeHttpsClient implements HttpsClient {
   private keepAliveAgent?: https.Agent;
   private proxyAgent?: https.Agent;
 
@@ -197,9 +198,17 @@ export class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
+        let parsedUrl: URL;
+        try {
+          parsedUrl = new URL(proxySettings.host);
+        } catch (_error) {
+          throw new Error(`Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`);
+        }
+
         const proxyAgentOptions: HttpsProxyAgentOptions = {
-          host: proxySettings.host,
+          hostname: parsedUrl.hostname,
           port: proxySettings.port,
+          protocol: parsedUrl.protocol,
           headers: request.headers.toJSON()
         };
         if (proxySettings.username && proxySettings.password) {
@@ -305,4 +314,12 @@ function getBodyLength(body: RequestBodyType): number | null {
   } else {
     return null;
   }
+}
+
+/**
+ * Create a new HttpsClient instance for the NodeJS environment.
+ * @internal
+ */
+export function createNodeHttpsClient(): HttpsClient {
+  return new NodeHttpsClient();
 }

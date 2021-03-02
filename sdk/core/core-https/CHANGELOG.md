@@ -4,6 +4,9 @@
 
 - Export `delay` function.
 
+- Changed from exposing `DefaultHttpsClient` as a class directly, to providing `createDefaultHttpsClient()` to instantiate the appropriate runtime class.
+- Fix an issue when passing in proxy hosts. [PR 13911](https://github.com/Azure/azure-sdk-for-js/pull/13911)
+
 ## 1.0.0-beta.1 (2021-02-04)
 
 - Changes from `core-http`:

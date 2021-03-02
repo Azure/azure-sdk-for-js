@@ -96,8 +96,12 @@ describe("StreamingReceiver unit tests", () => {
       );
 
       streamingReceiver.subscribe(
-        async (_msg) => {},
-        async (_err) => {}
+        async (_msg) => {
+          /** Nothing to do here */
+        },
+        async (_err) => {
+          /** Nothing to do here */
+        }
       );
 
       assert.equal(
@@ -133,8 +137,12 @@ describe("StreamingReceiver unit tests", () => {
       );
 
       streamingReceiver.subscribe(
-        async (_msg) => {},
-        async (_err) => {}
+        async (_msg) => {
+          /** Nothing to do here */
+        },
+        async (_err) => {
+          /** Nothing to do here */
+        }
       );
 
       assert.equal(
@@ -160,8 +168,12 @@ describe("StreamingReceiver unit tests", () => {
       defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
-        async (_msg) => {},
-        async (_err) => {}
+        async (_msg) => {
+          /** Nothing to do here */
+        },
+        async (_err) => {
+          /** Nothing to do here */
+        }
       );
 
       assert.isTrue(streamingReceiver.isReceivingMessages);
@@ -186,8 +198,12 @@ describe("StreamingReceiver unit tests", () => {
       defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
-        async (_msg) => {},
-        async (_err) => {}
+        async (_msg) => {
+          /** Nothing to do here */
+        },
+        async (_err) => {
+          /** Nothing to do here */
+        }
       );
 
       assert.isTrue(streamingReceiver.isReceivingMessages);
@@ -212,8 +228,12 @@ describe("StreamingReceiver unit tests", () => {
       defaultInitArgs.assert();
 
       streamingReceiver.subscribe(
-        async (_msg) => {},
-        async (_err) => {}
+        async (_msg) => {
+          /** Nothing to do here */
+        },
+        async (_err) => {
+          /** Nothing to do here */
+        }
       );
 
       assert.isTrue(
@@ -465,7 +485,7 @@ function assertError(
   err: any,
   expected: { name: string; message: string; retryable: boolean | undefined },
   assertMessage?: string
-) {
+): void {
   assert.deepEqual(
     {
       name: err.name,
@@ -481,7 +501,7 @@ function assertErrors(
   actualErrors: any[],
   expectedErrors: { name: string; message: string; retryable: boolean | undefined }[],
   assertMessage?: string
-) {
+): void {
   const simpleActualErrors = actualErrors.map((err) => ({
     name: err.name,
     message: err.message,

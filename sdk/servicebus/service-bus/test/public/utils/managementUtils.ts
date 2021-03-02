@@ -17,8 +17,8 @@ let client: ServiceBusAdministrationClient;
  * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
  * a new instance constructed based on the connection string configured in environment.
  */
-async function getManagementClient() {
-  if (client == undefined) {
+function getManagementClient(): ServiceBusAdministrationClient {
+  if (client === undefined) {
     const env = getEnvVars();
     client = new ServiceBusAdministrationClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   }
@@ -35,7 +35,7 @@ async function retry(
   operationCallback: () => void,
   breakConditionCallback: () => Promise<boolean>,
   operationDescription: string
-) {
+): Promise<void> {
   const retryAttempts = 5;
   const retryDelayInMs = 1000;
 
@@ -60,7 +60,7 @@ async function retry(
   }
 
   if (!succeeded) {
-    if (lastKnownError != undefined) {
+    if (lastKnownError !== undefined) {
       lastKnownError.message = operationDescription + " : " + lastKnownError.message;
       throw lastKnownError;
     } else {
@@ -76,17 +76,17 @@ export async function recreateQueue(
   queueName: string,
   parameters?: Omit<CreateQueueOptions, "name">
 ): Promise<void> {
-  await getManagementClient();
+  getManagementClient();
 
-  const deleteQueueOperation = async () => {
+  const deleteQueueOperation = async (): Promise<void> => {
     await client.deleteQueue(queueName);
   };
 
-  const createQueueOperation = async () => {
+  const createQueueOperation = async (): Promise<void> => {
     await client.createQueue(queueName, parameters);
   };
 
-  const checkIfQueueExistsOperation = async () => {
+  const checkIfQueueExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getQueue(queueName);
     } catch (err) {
@@ -97,7 +97,7 @@ export async function recreateQueue(
 
   await retry(
     deleteQueueOperation,
-    async () => {
+    async (): Promise<boolean> => {
       return !(await checkIfQueueExistsOperation());
     },
     `Delete queue "${queueName}"`
@@ -112,17 +112,17 @@ export async function recreateTopic(
   topicName: string,
   parameters?: Omit<CreateTopicOptions, "name">
 ): Promise<void> {
-  await getManagementClient();
+  getManagementClient();
 
-  const deleteTopicOperation = async () => {
+  const deleteTopicOperation = async (): Promise<void> => {
     await client.deleteTopic(topicName);
   };
 
-  const createTopicOperation = async () => {
+  const createTopicOperation = async (): Promise<void> => {
     await client.createTopic(topicName, parameters);
   };
 
-  const checkIfTopicExistsOperation = async () => {
+  const checkIfTopicExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getTopic(topicName);
     } catch (err) {
@@ -149,18 +149,18 @@ export async function recreateSubscription(
   subscriptionName: string,
   parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">
 ): Promise<void> {
-  await getManagementClient();
+  getManagementClient();
   /*
     Unlike Queues/Topics, there is no need to delete the subscription because
     `recreateTopic` is called before `recreateSubscription` which would
     delete the topic and the subscriptions before creating a new topic.
   */
 
-  const createSubscriptionOperation = async () => {
+  const createSubscriptionOperation = async (): Promise<void> => {
     await client.createSubscription(topicName, subscriptionName, parameters);
   };
 
-  const checkIfSubscriptionExistsOperation = async () => {
+  const checkIfSubscriptionExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getSubscription(topicName, subscriptionName);
     } catch (err) {
@@ -178,8 +178,6 @@ export async function recreateSubscription(
 
 /**
  * Utility that verifies the message count of an entity.
- *
- * @returns {Promise<void>}
  */
 export async function verifyMessageCount(
   expectedMessageCount: number,
@@ -187,7 +185,7 @@ export async function verifyMessageCount(
   topicName?: string,
   subscriptionName?: string
 ): Promise<void> {
-  await getManagementClient();
+  getManagementClient();
   should.equal(
     queueName
       ? (await client.getQueueRuntimeProperties(queueName)).totalMessageCount

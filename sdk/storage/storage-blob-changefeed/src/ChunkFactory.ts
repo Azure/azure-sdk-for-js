@@ -12,17 +12,11 @@ import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants";
 
 /**
  * Options to configure {@link ChunkFactory.create} operation.
- *
- * @export
- * @interface CreateChunkOptions
  */
 export interface CreateChunkOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof CreateChunkOptions
    */
   abortSignal?: AbortSignalLike;
 }

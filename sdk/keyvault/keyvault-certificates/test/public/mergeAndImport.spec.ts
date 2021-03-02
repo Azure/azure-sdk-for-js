@@ -84,7 +84,6 @@ describe("Certificates client - merge and import certificates", () => {
 
     await client.importCertificate(certificateNames[1], buffer, {
       policy: {
-        subject: "a conceptual policy, so that we can pass the contentType",
         contentType: "application/x-pem-file"
       }
     });

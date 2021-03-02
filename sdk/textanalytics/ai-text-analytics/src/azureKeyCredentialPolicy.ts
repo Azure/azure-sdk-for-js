@@ -14,6 +14,7 @@ export const textAnalyticsAzureKeyCredentialPolicyName = "textAnalyticsAzureKeyC
 /**
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for Text Analytics
+ * @internal
  */
 export function textAnalyticsAzureKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {

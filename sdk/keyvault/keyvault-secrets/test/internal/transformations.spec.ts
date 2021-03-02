@@ -50,7 +50,8 @@ describe("Transformations", () => {
         managed: true,
         vaultUrl: "https://azure_keyvault.vault.azure.net",
         version: "1",
-        name: "abc123"
+        name: "abc123",
+        certificateKeyId: "test_kid"
       }
     };
 

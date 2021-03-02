@@ -12,4 +12,4 @@ export type WithResponse<T> = T & { _response: HttpResponse };
 /**
  * Represents a generic HTTP response
  */
-export type VoidResponse = WithResponse<{}>;
+export type VoidResponse = WithResponse<Record<string, unknown>>;
