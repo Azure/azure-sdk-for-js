@@ -791,10 +791,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   
-   */
-
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
@@ -984,10 +980,6 @@ export class MetricsAdvisorAdministrationClient {
       span.end();
     }
   }
-
-  /**
-   
-   */
 
   private async *listSegmentOfHooks(
     continuationToken?: string,
