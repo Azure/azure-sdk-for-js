@@ -29,11 +29,10 @@ import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { OperationNames } from "./models/private";
-import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
-import { getParentSpan, OperationOptions } from "./util/operationOptions";
-import { getTracer } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/api";
+import { OperationOptions } from "./util/operationOptions";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+import { createEventHubSpan } from "./diagnostics/tracing";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
 
 /**
@@ -163,10 +162,12 @@ export class ManagementClient extends LinkEntity {
     options: OperationOptions & { retryOptions?: RetryOptions } = {}
   ): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan(
+    const { span: clientSpan } = createEventHubSpan(
       "getEventHubProperties",
-      getParentSpan(options.tracingOptions)
+      options,
+      this._context.config
     );
+
     try {
       const securityToken = await this.getSecurityToken();
       const request: Message = {
@@ -227,9 +228,10 @@ export class ManagementClient extends LinkEntity {
     );
     partitionId = String(partitionId);
 
-    const clientSpan = this._createClientSpan(
+    const { span: clientSpan } = createEventHubSpan(
       "getPartitionProperties",
-      getParentSpan(options.tracingOptions)
+      options,
+      this._context.config
     );
 
     try {
@@ -472,23 +474,5 @@ export class ManagementClient extends LinkEntity {
 
   private _isMgmtRequestResponseLinkOpen(): boolean {
     return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
-  }
-
-  private _createClientSpan(
-    operationName: OperationNames,
-    parentSpan?: Span | SpanContext | null,
-    internal: boolean = false
-  ): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
-      kind: internal ? SpanKind.INTERNAL : SpanKind.CLIENT,
-      parent: parentSpan
-    });
-
-    span.setAttribute("az.namespace", "Microsoft.EventHub");
-    span.setAttribute("message_bus.destination", this._context.config.entityPath);
-    span.setAttribute("peer.address", this._context.config.host);
-
-    return span;
   }
 }

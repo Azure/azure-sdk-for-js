@@ -17,7 +17,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
 import { SendMessageRequest, AddChatParticipantsRequest } from "./models/requests";
 import { ChatApiClient, AddChatParticipantsResult, SendReadReceiptRequest } from "./generated/src";
-import { ListPageSettings, OperationResponse } from "./models/models";
+import { ListPageSettings, SendChatMessageResult } from "./models/models";
 import {
   ChatThreadClientOptions,
   SendMessageOptions,
@@ -33,17 +33,10 @@ import {
   SendReadReceiptOptions,
   ListReadReceiptsOptions
 } from "./models/options";
-import {
-  ChatMessage,
-  ChatParticipant,
-  GetChatMessageResponse,
-  ChatMessageReadReceipt,
-  SendChatMessageResponse
-} from "./models/models";
+import { ChatMessage, ChatParticipant, ChatMessageReadReceipt } from "./models/models";
 import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
-  attachHttpResponse,
   mapToChatParticipantSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
@@ -64,7 +57,6 @@ export class ChatThreadClient {
 
   private readonly tokenCredential: CommunicationTokenCredential;
   private readonly client: ChatApiClient;
-  private disposed = false;
 
   private timeOfLastTypingRequest: Date | undefined = undefined;
 
@@ -109,11 +101,11 @@ export class ChatThreadClient {
    * Updates a thread's properties.
    * @param options - Operation options.
    */
-  public async updateThread(options: UpdateThreadOptions = {}): Promise<OperationResponse> {
+  public async updateThread(options: UpdateThreadOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateThread", options);
 
     try {
-      return await this.client.chatThread.updateChatThread(
+      await this.client.chatThread.updateChatThread(
         this.threadId,
         { topic: options.topic },
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -138,18 +130,19 @@ export class ChatThreadClient {
   public async sendMessage(
     request: SendMessageRequest,
     options: SendMessageOptions = {}
-  ): Promise<SendChatMessageResponse> {
+  ): Promise<SendChatMessageResult> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-SendMessage", options);
 
     try {
       // reset typing notification clock
       this.timeOfLastTypingRequest = undefined;
 
-      return await this.client.chatThread.sendChatMessage(
+      const { _response, ...result } = await this.client.chatThread.sendChatMessage(
         this.threadId,
         { ...request, ...options },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -170,17 +163,16 @@ export class ChatThreadClient {
   public async getMessage(
     messageId: string,
     options: GetMessageOptions = {}
-  ): Promise<GetChatMessageResponse> {
+  ): Promise<ChatMessage> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-GetMessage", options);
 
     try {
-      const response = await this.client.chatThread.getChatMessage(
+      const { _response, ...result } = await this.client.chatThread.getChatMessage(
         this.threadId,
         messageId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const message = mapToChatMessageSdkModel(response);
-      return attachHttpResponse(message, response._response);
+      return mapToChatMessageSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -266,14 +258,11 @@ export class ChatThreadClient {
    * @param messageId - The message id of the message.
    * @param options - Operation options.
    */
-  public async deleteMessage(
-    messageId: string,
-    options: DeleteMessageOptions = {}
-  ): Promise<OperationResponse> {
+  public async deleteMessage(messageId: string, options: DeleteMessageOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-DeleteMessage", options);
 
     try {
-      return await this.client.chatThread.deleteChatMessage(
+      await this.client.chatThread.deleteChatMessage(
         this.threadId,
         messageId,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -294,14 +283,11 @@ export class ChatThreadClient {
    * @param messageId - The message id of the message.
    * @param options - Operation options.
    */
-  public async updateMessage(
-    messageId: string,
-    options: UpdateMessageOptions = {}
-  ): Promise<OperationResponse> {
+  public async updateMessage(messageId: string, options: UpdateMessageOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateMessage", options);
 
     try {
-      return await this.client.chatThread.updateChatMessage(
+      await this.client.chatThread.updateChatMessage(
         this.threadId,
         messageId,
         options,
@@ -330,11 +316,12 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipants", options);
 
     try {
-      return await this.client.chatThread.addChatParticipants(
+      const { _response, ...result } = await this.client.chatThread.addChatParticipants(
         this.threadId,
         mapToAddChatParticipantsRequestRestModel(request),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -427,11 +414,11 @@ export class ChatThreadClient {
   public async removeParticipant(
     participant: CommunicationUserIdentifier,
     options: RemoveParticipantOptions = {}
-  ): Promise<OperationResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveParticipant", options);
 
     try {
-      return await this.client.chatThread.removeChatParticipant(
+      await this.client.chatThread.removeChatParticipant(
         this.threadId,
         participant.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -492,11 +479,11 @@ export class ChatThreadClient {
   public async sendReadReceipt(
     request: SendReadReceiptRequest,
     options: SendReadReceiptOptions = {}
-  ): Promise<OperationResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-SendReadReceipt", options);
 
     try {
-      return await this.client.chatThread.sendChatReadReceipt(
+      await this.client.chatThread.sendChatReadReceipt(
         this.threadId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -583,16 +570,6 @@ export class ChatThreadClient {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Dispose method.
-   */
-  public dispose(): void {
-    if (this.disposed) {
-      return;
-    }
-    this.disposed = true;
   }
 
   private canPostTypingNotification(dateNow: Date): boolean {

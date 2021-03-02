@@ -18,28 +18,27 @@ parameters:
 stages:
   - stage: Build
     jobs:
-      - template: ../jobs/archetype-sdk-client.yml
+      - template: /eng/pipelines/templates/jobs/archetype-sdk-client.yml
         parameters:
           Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
 
-      - template: ../jobs/archetype-sdk-integration.yml
-        parameters:
-          PackageName: "@azure/cosmos"
-          TestBrowser: false
-          TestSamples: false
-          Matrix:
-            Windows_Node8:
-              Pool: azsdk-pool-mms-win-2019-general
-              OSVmImage: MMS2019
-              NodeTestVersion: "8.x"
-              TestType: "node"
-          PreIntegrationSteps: cosmos-integration-public
-          PostIntegrationSteps: cosmos-additional-steps
-          EnvVars:
-            MOCHA_TIMEOUT: 100000
-            NODE_TLS_REJECT_UNAUTHORIZED: 0
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/cosmos"
+      MatrixFilters:
+        - TestType=node
+        - DependencyVersion=^$
+        - NodeTestVersion=8.x
+        - Pool=.*mms-win-2019.*
+      PreSteps:
+        - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml
+      PostSteps:
+        - template: /eng/pipelines/templates/steps/cosmos-additional-steps.yml
+      EnvVars:
+        MOCHA_TIMEOUT: 100000
+        NODE_TLS_REJECT_UNAUTHORIZED: 0
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:

@@ -294,7 +294,6 @@ export function isIotHubConnectionString(connectionString: string): boolean {
 }
 
 /**
- * @hidden
  * @internal
  */
 export function isString(s: unknown): s is string {
@@ -302,7 +301,6 @@ export function isString(s: unknown): s is string {
 }
 
 /**
- * @hidden
  * @internal
  */
 export function isNumber(n: unknown): n is number {

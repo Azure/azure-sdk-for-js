@@ -48,8 +48,8 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     const tracer = getTracer();
     const tracingOptions = operationOptions?.tracingOptions || {};
     const spanOptions: SpanOptions = {
-      ...tracingOptions.spanOptions,
-      kind: SpanKind.INTERNAL
+      kind: SpanKind.INTERNAL,
+      ...tracingOptions.spanOptions
     };
 
     const span = tracer.startSpan(`${args.packagePrefix}.${operationName}`, spanOptions);

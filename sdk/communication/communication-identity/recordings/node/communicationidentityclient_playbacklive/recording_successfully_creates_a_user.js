@@ -12,8 +12,10 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
   'MS-CV',
-  'M7l4JzinuEeH3P2qMBqi6Q.0',
+  'DBZ2aUNNp0WW8gDqW03Qvg.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -21,9 +23,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2020-07-20-preview2, 2021-03-07',
   'X-Processing-Time',
-  '20ms',
+  '18ms',
   'X-Azure-Ref',
-  '0SmksYAAAAACwXbuxbgIZR5C1poAHADmdWVZSMzBFREdFMDMwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '01lk4YAAAAAArOa+bmeN+TI86BVu6l4AzWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 17 Feb 2021 00:54:34 GMT'
+  'Fri, 26 Feb 2021 02:15:50 GMT'
 ]);

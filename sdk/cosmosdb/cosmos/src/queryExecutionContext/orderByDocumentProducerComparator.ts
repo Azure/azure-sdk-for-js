@@ -40,13 +40,13 @@ export class OrderByDocumentProducerComparator {
   private targetPartitionKeyRangeDocProdComparator(
     docProd1: DocumentProducer,
     docProd2: DocumentProducer
-  ) {
+  ): 0 | 1 | -1 {
     const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
     const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
     return a === b ? 0 : a > b ? 1 : -1;
   }
 
-  public compare(docProd1: DocumentProducer, docProd2: DocumentProducer) {
+  public compare(docProd1: DocumentProducer, docProd2: DocumentProducer): number {
     // Need to check for split, since we don't want to dereference "item" of undefined / exception
     if (docProd1.gotSplit()) {
       return -1;
@@ -79,7 +79,7 @@ export class OrderByDocumentProducerComparator {
   }
 
   // TODO: This smells funny
-  public compareValue(item1: any, type1: string, item2: any, type2: string) {
+  public compareValue(item1: unknown, type1: string, item2: unknown, type2: string): number {
     if (type1 === "object" || type2 === "object") {
       throw new Error("Tried to compare an object type");
     }
@@ -109,13 +109,13 @@ export class OrderByDocumentProducerComparator {
     return compFunc(item1, item2);
   }
 
-  private compareOrderByItem(orderByItem1: any, orderByItem2: any) {
+  private compareOrderByItem(orderByItem1: any, orderByItem2: any): number {
     const type1 = this.getType(orderByItem1);
     const type2 = this.getType(orderByItem2);
     return this.compareValue(orderByItem1["item"], type1, orderByItem2["item"], type2);
   }
 
-  private validateOrderByItems(res1: string[], res2: string[]) {
+  private validateOrderByItems(res1: string[], res2: string[]): void {
     if (res1.length !== res2.length) {
       throw new Error(`Expected ${res1.length}, but got ${res2.length}.`);
     }
@@ -134,7 +134,18 @@ export class OrderByDocumentProducerComparator {
     }
   }
 
-  private getType(orderByItem: any) {
+  private getType(
+    orderByItem: any
+  ):
+    | "string"
+    | "number"
+    | "bigint"
+    | "boolean"
+    | "symbol"
+    | "undefined"
+    | "object"
+    | "function"
+    | "NoValue" {
     // TODO: any item?
     if (orderByItem === undefined || orderByItem.item === undefined) {
       return "NoValue";
@@ -146,7 +157,7 @@ export class OrderByDocumentProducerComparator {
     return type;
   }
 
-  private getOrderByItems(res: any) {
+  private getOrderByItems(res: any): any {
     // TODO: any res?
     return res["orderByItems"];
   }

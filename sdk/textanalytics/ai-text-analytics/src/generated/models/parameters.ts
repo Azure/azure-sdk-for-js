@@ -137,7 +137,6 @@ export const modelVersion: OperationQueryParameter = {
 export const stringIndexType: OperationQueryParameter = {
   parameterPath: ["options", "stringIndexType"],
   mapper: {
-    defaultValue: "TextElements_v8",
     serializedName: "stringIndexType",
     type: {
       name: "String"

@@ -38,17 +38,8 @@ import {
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
-import {
-  CreateChatThreadResponse,
-  GetChatThreadResponse,
-  ListPageSettings,
-  OperationResponse
-} from "./models/models";
-import {
-  mapToChatThreadSdkModel,
-  attachHttpResponse,
-  mapToChatParticipantRestModel
-} from "./models/mappers";
+import { ChatThread, CreateChatThreadResult, ListPageSettings } from "./models/models";
+import { mapToChatThreadSdkModel, mapToChatParticipantRestModel } from "./models/mappers";
 import { ChatThreadInfo, ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
@@ -129,11 +120,11 @@ export class ChatClient {
   public async createChatThread(
     request: CreateChatThreadRequest,
     options: CreateChatThreadOptions = {}
-  ): Promise<CreateChatThreadResponse> {
+  ): Promise<CreateChatThreadResult> {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
-      return await this.client.chat.createChatThread(
+      const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
           participants: request.participants?.map((participant) =>
@@ -142,6 +133,7 @@ export class ChatClient {
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -162,16 +154,15 @@ export class ChatClient {
   public async getChatThread(
     threadId: string,
     options: GetChatThreadOptions = {}
-  ): Promise<GetChatThreadResponse> {
+  ): Promise<ChatThread> {
     const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
 
     try {
-      const response = await this.client.chat.getChatThread(
+      const { _response, ...result } = await this.client.chat.getChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const thread = mapToChatThreadSdkModel(response);
-      return attachHttpResponse(thread, response._response);
+      return mapToChatThreadSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -258,11 +249,11 @@ export class ChatClient {
   public async deleteChatThread(
     threadId: string,
     options: DeleteChatThreadOptions = {}
-  ): Promise<OperationResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatClient-DeleteChatThread", options);
 
     try {
-      return await this.client.chat.deleteChatThread(
+      await this.client.chat.deleteChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

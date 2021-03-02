@@ -29,7 +29,7 @@ export interface OperationResponse {
   resourceBody?: JSONObject;
 }
 
-export function isKeyInRange(min: string, max: string, key: string) {
+export function isKeyInRange(min: string, max: string, key: string): boolean {
   const isAfterMinInclusive = key.localeCompare(min) >= 0;
   const isBeforeMax = key.localeCompare(max) < 0;
   return isAfterMinInclusive && isBeforeMax;
@@ -58,7 +58,7 @@ export type OperationInput =
   | ReplaceOperationInput;
 
 export interface CreateOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Create;
@@ -66,7 +66,7 @@ export interface CreateOperationInput {
 }
 
 export interface UpsertOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Upsert;
@@ -74,19 +74,19 @@ export interface UpsertOperationInput {
 }
 
 export interface ReadOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
   operationType: typeof BulkOperationType.Read;
   id: string;
 }
 
 export interface DeleteOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   operationType: typeof BulkOperationType.Delete;
   id: string;
 }
 
 export interface ReplaceOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Replace;
@@ -126,7 +126,7 @@ export function hasResource(
   return (operation as OperationWithItem).resourceBody !== undefined;
 }
 
-export function getPartitionKeyToHash(operation: Operation, partitionProperty: string) {
+export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {
   const toHashKey = hasResource(operation)
     ? (operation.resourceBody as any)[partitionProperty]
     : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||

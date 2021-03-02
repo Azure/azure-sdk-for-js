@@ -97,13 +97,12 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     const {
       sender: responseUser,
-      content: repsonseContent,
-      _response,
+      content: responseContent,
       ...responseMessage
     } = await chatThreadClient.getMessage(mockMessage.id!);
     const { senderId: expectedId, content: expectedContent, ...expectedMessage } = mockMessage;
     const { participants: expectedParticipants, ...expectedContents } = expectedContent!;
-    const { participants: responseParticipants, ...repsonseContents } = repsonseContent!;
+    const { participants: responseParticipants, ...repsonseContents } = responseContent!;
 
     sinon.assert.calledOnce(spy);
     assert.deepEqual(responseMessage, expectedMessage);

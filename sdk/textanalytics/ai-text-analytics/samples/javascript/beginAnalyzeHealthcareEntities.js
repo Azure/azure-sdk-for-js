@@ -41,18 +41,22 @@ async function main() {
     if (!result.error) {
       console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
-        console.log(
-          `\t- Entity ${entity.text} of type ${entity.category} ${
-            entity.relatedEntities.size > 0 ? "and it is related to the following entities" : ""
-          }`
-        );
-        for (const edge of entity.relatedEntities) {
-          console.log(`\t\t- ${edge[0].text} with the relationship being ${edge[1]}`);
-        }
+        console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
         if (entity.dataSources.length > 0) {
           console.log("\t and it can be referenced in the following data sources:");
           for (const ds of entity.dataSources) {
             console.log(`\t\t- ${ds.name} with Entity ID: ${ds.entityId}`);
+          }
+        }
+      }
+      if (result.entityRelations.length > 0) {
+        console.log(`\tRecognized relations between entities:`);
+        for (const relation of result.entityRelations) {
+          console.log(
+            `\t\t- Relation of type ${relation.relationType} found between the following entities:`
+          );
+          for (const role of relation.roles) {
+            console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);
           }
         }
       }

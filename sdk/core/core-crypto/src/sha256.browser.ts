@@ -11,7 +11,6 @@ let subtleCrypto: SubtleCrypto | undefined;
 
 /**
  * Returns a cached reference to the Web API crypto.subtle object.
- * @hidden
  * @internal
  */
 function getCrypto(): SubtleCrypto {
