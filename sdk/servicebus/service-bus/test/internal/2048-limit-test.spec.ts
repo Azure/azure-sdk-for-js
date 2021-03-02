@@ -92,26 +92,14 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
   }
 
   async function receiveMessages(receiveMode: "peekLock" | "receiveAndDelete" = "peekLock") {
-    const startedAt = new Date();
-    // const testDurationInMs = 50000;
-    let maxMessageCount = 50;
-    let maxWaitTimeInMs = 3000;
     let numberOfMessagesReceived = 0;
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     let numberOfMessagesToReceive = numberOfMessagesToSend;
     if (receiveMode === "peekLock") {
       numberOfMessagesToReceive = 2047;
     }
     while (numberOfMessagesReceived < numberOfMessagesToReceive) {
-      console.log(`New receive started... ${elapsedTime / 1000} seconds`);
-      numberOfMessagesReceived += (
-        await receiver.receiveMessages(maxMessageCount, { maxWaitTimeInMs })
-      ).length;
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      console.log(
-        `Receive ended... ${elapsedTime /
-          1000} seconds. Total received so far = ${numberOfMessagesReceived}`
-      );
+      numberOfMessagesReceived += (await receiver.receiveMessages(50, { maxWaitTimeInMs: 3000 }))
+        .length;
     }
     chai.assert.equal(
       numberOfMessagesReceived,
