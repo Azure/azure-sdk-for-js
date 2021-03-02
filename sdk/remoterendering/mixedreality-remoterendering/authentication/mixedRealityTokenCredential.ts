@@ -8,13 +8,12 @@ import {
   MixedRealityStsClientOptions
 } from "@azure/mixedreality-authentication";
 import { StaticAccessTokenCredential } from "./staticAccessTokenCredential";
-import { v4 as uuid } from "uuid";
 
 export class MixedRealityTokenCredential implements TokenCredential {
   private stsClient: MixedRealityStsClient;
 
   constructor(
-    accountId: uuid,
+    accountId: string,
     accountDomain: string,
     credential: TokenCredential,
     options: MixedRealityStsClientOptions
@@ -22,12 +21,12 @@ export class MixedRealityTokenCredential implements TokenCredential {
     this.stsClient = new MixedRealityStsClient(accountId, accountDomain, credential, options);
   }
 
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  getToken(_scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     return this.stsClient.getToken(options);
   }
 
   static getMixedRealityCredential(
-    accountId: uuid,
+    accountId: string,
     accountDomain: string,
     credential: TokenCredential,
     options: MixedRealityStsClientOptions
