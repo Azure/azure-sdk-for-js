@@ -170,7 +170,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const timeoutInMs =
-      this._retryOptions.timeoutInMs === undefined
+      !isDefined(this._retryOptions.timeoutInMs)
         ? Constants.defaultOperationTimeoutInMs
         : this._retryOptions.timeoutInMs;
 
