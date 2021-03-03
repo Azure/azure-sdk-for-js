@@ -25,7 +25,7 @@ export function getUserAgentHeaderName(): string {
  */
 export function getUserAgentValue(prefix?: string): string {
   const runtimeInfo = new Map<string, string>();
-  runtimeInfo.set("core-https", SDK_VERSION);
+  runtimeInfo.set("core-rest-pipeline", SDK_VERSION);
   setPlatformSpecificData(runtimeInfo);
   const defaultAgent = getUserAgentString(runtimeInfo);
   const userAgentValue = prefix ? `${prefix} ${defaultAgent}` : defaultAgent;

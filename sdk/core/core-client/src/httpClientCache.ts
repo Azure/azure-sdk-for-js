@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpsClient, createDefaultHttpsClient } from "@azure/core-https";
+import { HttpsClient, createDefaultHttpsClient } from "@azure/core-rest-pipeline";
 
 let cachedHttpsClient: HttpsClient | undefined;
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createPipelineRequest } from "@azure/core-https";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 import { createSerializer, MapperTypeNames } from "../src";
 import { serializeRequestBody } from "../src/serializationPolicy";

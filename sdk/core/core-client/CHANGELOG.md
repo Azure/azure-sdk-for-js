@@ -10,5 +10,5 @@
 - First release of package, see README.md for details.
 - Changes from related functionality in `core-http`:
   - Replace URLBuilder with runtime-supported URL primitive.
-  - Rewrite `ServiceClient` on top of `core-https` and remove unused codepaths.
+  - Rewrite `ServiceClient` on top of `core-rest-pipeline` and remove unused codepaths.
   - Remove `_response` on operation results and replace with `onResponse` callback.

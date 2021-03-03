@@ -1,5 +1,5 @@
 {
-  "name": "@azure/core-https",
+  "name": "@azure/core-rest-pipeline",
   "version": "1.0.0-beta.2",
   "description": "Isomorphic client library for making HTTPS requests in node.js and browser.",
   "sdk-type": "client",
@@ -14,7 +14,7 @@
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
-  "types": "types/latest/core-https.d.ts",
+  "types": "types/latest/core-rest-pipeline.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/src/*": [
@@ -76,7 +76,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-https/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-rest-pipeline/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {

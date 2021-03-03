@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { createClientPipeline, CommonClientOptions } from "@azure/core-client";
-import { InternalPipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-https";
+import {
+  InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy
+} from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";

@@ -10,7 +10,7 @@ import {
   PipelineRequest,
   PipelineOptions,
   HttpsClient
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 
 /**
  * Default key used to access the XML attributes.

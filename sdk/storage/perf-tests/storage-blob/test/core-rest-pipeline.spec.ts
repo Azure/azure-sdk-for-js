@@ -7,7 +7,7 @@ import {
   HttpsClient,
   createPipelineRequest,
   PipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import { drainStream } from "@azure/test-utils-perfstress";
 
 export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
