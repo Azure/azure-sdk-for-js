@@ -92,9 +92,9 @@ To refresh the user token, issue another token with the same user.
 { token } = await client.getToken(user, ["chat"]);
 ```
 
-### Creating a user together with a token in a single request
+### Creating a user and a token in a single request
 
-For convenience, use `createUserWithToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
+For convenience, use `createUserAndToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
 
 ```typescript
 let { user, token } = await client.createUserWithToken(["chat"]);
