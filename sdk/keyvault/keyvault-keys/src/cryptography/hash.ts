@@ -24,7 +24,9 @@ export async function createHash(algorithm: string, data: Uint8Array): Promise<B
   const hashAlgorithm = algorithmToHashAlgorithm[algorithm];
   if (!hashAlgorithm) {
     throw new Error(
-      `Invalid algorithm ${algorithm} passed to createHash. This likely means that ${algorithm} is not supported locally.`
+      `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(
+        algorithmToHashAlgorithm
+      ).join(", ")}`
     );
   }
   const hash = cryptoCreateHash(hashAlgorithm);
@@ -41,7 +43,9 @@ export function createVerify(algorithm: string, data: Uint8Array): Verify {
   const verifyAlgorithm = algorithmToHashAlgorithm[algorithm];
   if (!verifyAlgorithm) {
     throw new Error(
-      `Invalid algorithm ${algorithm} passed to verify. This likely means that ${algorithm} is not supported locally.`
+      `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(
+        algorithmToHashAlgorithm
+      ).join(", ")}`
     );
   }
   const verifier = cryptoCreateVerify(verifyAlgorithm);

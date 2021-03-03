@@ -193,8 +193,7 @@ describe("internal crypto tests", () => {
     it("throws a validation error", () => {
       const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
       assert.throws(
-        () =>
-          rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }, {}),
+        () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
         "Key type does not match the algorithm RSA"
       );
     });

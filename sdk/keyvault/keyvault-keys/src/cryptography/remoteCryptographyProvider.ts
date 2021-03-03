@@ -177,11 +177,11 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   }
 
   // The remote client supports all algorithms and all operations.
-  supportsAlgorithm(_algorithm: string): boolean {
+  supportsAlgorithm(): boolean {
     return true;
   }
 
-  supportsOperation(_operation: string): boolean {
+  supportsOperation(): boolean {
     return true;
   }
 

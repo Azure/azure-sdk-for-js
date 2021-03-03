@@ -201,6 +201,10 @@ export class CryptographyClient {
     }
   }
 
+  /**
+   * Standardizes the arguments of multiple overloads into a single shape.
+   * @param args - The encrypt arguments
+   */
   private disambiguateEncryptArguments(
     args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?]
   ): [EncryptParameters, EncryptOptions] {
@@ -273,6 +277,10 @@ export class CryptographyClient {
     }
   }
 
+  /**
+   * Standardizes the arguments of multiple overloads into a single shape.
+   * @param args - The decrypt arguments
+   */
   private disambiguateDecryptArguments(
     args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?]
   ): [DecryptParameters, DecryptOptions] {
@@ -472,9 +480,8 @@ export class CryptographyClient {
    * Example usage:
    * ```ts
    * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.getKey();
+   * let result = await client.getKeyMaterial();
    * ```
-   * @param options - Options for retrieving key.
    */
   private async getKeyMaterial(): Promise<JsonWebKey> {
     const key = await this.fetchKey();
