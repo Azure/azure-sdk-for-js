@@ -20,8 +20,7 @@ import { PerfStressTest } from "@azure/test-utils-perfstress";
 export class MyTest extends PerfStressTest<string> {
   public options = {};
 
-  async runAsync(): Promise<void> {
-  }
+  async runAsync(): Promise<void> {}
 }
 ```
 
@@ -40,11 +39,7 @@ import { MyTest } from "./myTest.spec";
 
 console.log("=== Starting a PerfStress test for MyClient ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([
-    MyTest,
-  ])
-);
+const perfStressProgram = new PerfStressProgram(selectPerfStressTest([MyTest]));
 
 perfStressProgram.run();
 ```
