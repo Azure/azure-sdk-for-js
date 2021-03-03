@@ -52,13 +52,13 @@ perfStressProgram.run();
 Add the following script to the list of scripts in your `package.json`:
 
 ```json
-  "perfstress-test:node": "rushx build && node dist-esm/test/index.spec.js",
+  "perf-test:node": "rushx build && node dist-esm/test/index.spec.js",
 ```
 
 Now you'll be able to call your new PerfStress test as follows:
 
 ```
-npm run perfstress-test:node -- MyTest --warmup 2 --duration 4 --iterations 2
+npm run perf-test:node -- MyTest --warmup 2 --duration 4 --iterations 2
 ```
 
 ## KeyConcepts
