@@ -209,8 +209,7 @@ function createDefaultPipeline(options: ServiceClientOptions): Pipeline {
 
 function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {
   if (options.credentialScopes) {
-    const scopes = options.credentialScopes;
-    return Array.isArray(scopes) ? scopes.map((scope) => scope) : scopes;
+    return options.credentialScopes;
   }
 
   if (options.baseUri) {
