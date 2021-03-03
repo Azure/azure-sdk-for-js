@@ -196,12 +196,12 @@ export class CommunicationIdentityClient {
    * @param scopes - Scopes to include in the token.
    * @param options - Additional options for the request.
    */
-  public async createUserWithToken(
+  public async createUserAndToken(
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
     const { span, updatedOptions } = createSpan(
-      "CommunicationIdentity-createUserWithToken",
+      "CommunicationIdentity-createUserAndToken",
       options
     );
     try {
