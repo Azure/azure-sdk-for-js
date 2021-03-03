@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/operationsMappers";
+import * as Mappers from "../models/peeringServiceCountriesMappers";
 import * as Parameters from "../models/parameters";
 import { PeeringManagementClientContext } from "../peeringManagementClientContext";
 
-/** Class representing a Operations. */
-export class Operations {
+/** Class representing a PeeringServiceCountries. */
+export class PeeringServiceCountries {
   private readonly client: PeeringManagementClientContext;
 
   /**
-   * Create a Operations.
+   * Create a PeeringServiceCountries.
    * @param {PeeringManagementClientContext} client Reference to the service client.
    */
   constructor(client: PeeringManagementClientContext) {
@@ -26,55 +26,55 @@ export class Operations {
   }
 
   /**
-   * Lists all of the available API operations for peering resources.
+   * Lists all of the available countries for peering service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListResponse>
+   * @returns Promise<Models.PeeringServiceCountriesListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.PeeringServiceCountriesListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  list(callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceCountryListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): Promise<Models.PeeringServiceCountriesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback) as Promise<Models.PeeringServiceCountriesListResponse>;
   }
 
   /**
-   * Lists all of the available API operations for peering resources.
+   * Lists all of the available countries for peering service.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListNextResponse>
+   * @returns Promise<Models.PeeringServiceCountriesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringServiceCountriesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceCountryListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): Promise<Models.PeeringServiceCountriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OperationsListNextResponse>;
+      callback) as Promise<Models.PeeringServiceCountriesListNextResponse>;
   }
 }
 
@@ -82,7 +82,10 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Peering/operations",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceCountries",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
   queryParameters: [
     Parameters.apiVersion
   ],
@@ -91,7 +94,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.PeeringServiceCountryListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -115,7 +118,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.PeeringServiceCountryListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
