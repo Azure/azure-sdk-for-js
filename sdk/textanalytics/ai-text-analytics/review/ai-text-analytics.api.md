@@ -160,6 +160,22 @@ export interface Entity {
     text: string;
 }
 
+// @public (undocumented)
+export interface EntityAssertion {
+    association?: EntityAssociation;
+    certainty?: EntityCertainty;
+    conditionality?: EntityConditionality;
+}
+
+// @public
+export type EntityAssociation = "subject" | "other";
+
+// @public
+export type EntityCertainty = "Positive" | "PositivePossible" | "NeutralPossible" | "NegativePossible" | "Negative";
+
+// @public
+export type EntityConditionality = "Hypothetical" | "Conditional";
+
 // @public
 export interface EntityDataSource {
     entityId: string;
@@ -210,26 +226,10 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 
 // @public
 export interface HealthcareEntity extends Entity {
-    assertion?: HealthcareEntityAssertion;
+    assertion?: EntityAssertion;
     dataSources: EntityDataSource[];
     normalizedText?: string;
 }
-
-// @public (undocumented)
-export interface HealthcareEntityAssertion {
-    association?: HealthcareEntityAssociation;
-    certainty?: HealthcareEntityCertainty;
-    conditionality?: HealthcareEntityConditionality;
-}
-
-// @public
-export type HealthcareEntityAssociation = "subject" | "other";
-
-// @public
-export type HealthcareEntityCertainty = "Positive" | "PositivePossible" | "NeutralPossible" | "NegativePossible" | "Negative";
-
-// @public
-export type HealthcareEntityConditionality = "Hypothetical" | "Conditional";
 
 // @public
 export interface HealthcareEntityRelation {
