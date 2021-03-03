@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
+import { deserializeCommunicationIdentifier,serializeCommunicationIdentifier, SerializedCommunicationIdentifier } from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
 import { AddChatParticipantsRequest } from "./requests";
 import {
@@ -11,81 +11,6 @@ import {
   ChatMessageReadReceipt,
   ChatMessageContent
 } from "./models";
-
-const addRawIdIfExisting = <T>(
-  identifier: T,
-  rawId: string | undefined
-): T & { rawId?: string } => {
-  return rawId === undefined ? identifier : { ...identifier, rawId: rawId };
-};
-
-/**
- * @internal
- * Translates a CommunicationIdentifier to its serialized format for sending a request.
- * @param identifier - The CommunicationIdentifier to be serialized.
- */
-export const _serializeCommunicationIdentifier = (
-  identifier: CommunicationIdentifier
-): RestModel.CommunicationIdentifierModel => {
-  const identifierKind = getIdentifierKind(identifier);
-  switch (identifierKind.kind) {
-    case "communicationUser":
-      return { communicationUser: { id: identifierKind.communicationUserId } };
-    case "phoneNumber":
-      return addRawIdIfExisting(
-        { phoneNumber: { value: identifierKind.phoneNumber } },
-        identifierKind.rawId
-      );
-    case "microsoftTeamsUser":
-      return addRawIdIfExisting(
-        {
-          microsoftTeamsUser: {
-            userId: identifierKind.microsoftTeamsUserId,
-            isAnonymous: identifierKind.isAnonymous ?? false,
-            cloud: identifierKind.cloud ?? "public"
-          }
-        },
-        identifierKind.rawId
-      );
-    case "unknown":
-      return { rawId: identifierKind.id };
-    default:
-      throw new Error(`Can't serialize an identifier with kind ${(identifierKind as any).kind}`);
-  }
-};
-
-/**
- * @internal
- * Translates the serialized format of a communication identifier to CommunicationIdentifier.
- * @param serializedIdentifier - The SerializedCommunicationIdentifier to be deserialized.
- */
-export const _deserializeCommunicationIdentifier = (
-  serializedIdentifier: RestModel.CommunicationIdentifierModel
-): CommunicationIdentifier => {
-  const { communicationUser, microsoftTeamsUser, phoneNumber } = serializedIdentifier;
-  if (communicationUser) {
-    return {
-      communicationUserId: communicationUser.id
-    };
-  }
-  if (phoneNumber) {
-    return {
-      phoneNumber: phoneNumber.value,
-      rawId: serializedIdentifier.rawId
-    };
-  }
-  if (microsoftTeamsUser) {
-    return {
-      microsoftTeamsUserId: microsoftTeamsUser.userId,
-      isAnonymous: microsoftTeamsUser.isAnonymous,
-      cloud: microsoftTeamsUser.cloud as "public" | "dod" | "gcch" | undefined,
-      rawId: serializedIdentifier.rawId
-    };
-  }
-  return {
-    id: serializedIdentifier.rawId ?? "Unknown"
-  };
-};
 
 /**
  * @internal
@@ -97,7 +22,7 @@ export const mapToChatParticipantRestModel = (
   const { id, ...rest } = chatParticipant;
   return {
     ...rest,
-    communicationIdentifier: _serializeCommunicationIdentifier(id)
+    communicationIdentifier: serializeCommunicationIdentifier(id)
   };
 };
 
@@ -139,7 +64,7 @@ export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): Ch
   const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
   if (senderCommunicationIdentifier) {
     return {
-      sender: _deserializeCommunicationIdentifier(senderCommunicationIdentifier),
+      sender: deserializeCommunicationIdentifier(senderCommunicationIdentifier as SerializedCommunicationIdentifier),
       content: contentSdkModel,
       ...otherChatMessage
     };
@@ -171,7 +96,7 @@ export const mapToChatParticipantSdkModel = (
   const { communicationIdentifier, ...rest } = chatParticipant;
   return {
     ...rest,
-    id: _deserializeCommunicationIdentifier(communicationIdentifier)
+    id: deserializeCommunicationIdentifier(communicationIdentifier as SerializedCommunicationIdentifier)
   };
 };
 
@@ -184,7 +109,7 @@ export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatT
   if (createdByCommunicationIdentifier)
     return {
       ...rest,
-      createdBy: _deserializeCommunicationIdentifier(createdByCommunicationIdentifier)
+      createdBy: deserializeCommunicationIdentifier(createdByCommunicationIdentifier as SerializedCommunicationIdentifier)
     };
   else {
     return { ...rest };
@@ -201,6 +126,6 @@ export const mapToReadReceiptSdkModel = (
   const { senderCommunicationIdentifier, ...rest } = readReceipt;
   return {
     ...rest,
-    sender: _deserializeCommunicationIdentifier(senderCommunicationIdentifier)
+    sender: deserializeCommunicationIdentifier(senderCommunicationIdentifier as SerializedCommunicationIdentifier)
   };
 };

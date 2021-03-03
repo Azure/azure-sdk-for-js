@@ -3,7 +3,7 @@
 
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
-import { CommunicationIdentifier, CommunicationTokenCredential } from "@azure/communication-common";
+import { CommunicationIdentifier, CommunicationTokenCredential, serializeCommunicationIdentifier } from "@azure/communication-common";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -30,8 +30,7 @@ import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   mapToChatParticipantSdkModel,
-  mapToReadReceiptSdkModel,
-  _serializeCommunicationIdentifier
+  mapToReadReceiptSdkModel
 } from "./models/mappers";
 import {
   ChatThreadClientOptions,
@@ -50,7 +49,6 @@ import {
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-import { _SerializedCommunicationIdentifier } from "../../communication-common/types/src/identifierModelSerializer";
 const minimumTypingIntervalInMilliSeconds: number = 8000;
 
 /**
@@ -428,7 +426,7 @@ export class ChatThreadClient {
     try {
       await this.client.chatThread.removeChatParticipant(
         this.threadId,
-        _serializeCommunicationIdentifier(participant),
+        serializeCommunicationIdentifier(participant),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
