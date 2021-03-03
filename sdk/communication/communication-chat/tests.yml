@@ -1,7 +1,9 @@
 trigger: none
 
-extends:
-  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-  parameters:
-    PackageName: "@azure/communication-chat"
-    ResourceServiceDirectory: communication
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/communication-chat"
+      ServiceDirectory: communication
+      MatrixFilters:
+        - DependencyVersion=^$

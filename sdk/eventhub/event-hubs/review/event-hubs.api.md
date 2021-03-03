@@ -9,7 +9,6 @@ import { MessagingError } from '@azure/core-amqp';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
@@ -289,7 +288,7 @@ export { TokenCredential }
 
 // @public
 export interface TryAddOptions {
-    parentSpan?: Span | SpanContext;
+    tracingOptions?: OperationTracingOptions;
 }
 
 export { WebSocketImpl }

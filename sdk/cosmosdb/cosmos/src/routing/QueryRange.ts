@@ -32,7 +32,6 @@ export class QueryRange {
     this.isMaxInclusive = isMaxInclusive;
   }
   public overlaps(other: QueryRange): boolean {
-    // tslint:disable-next-line:no-this-assignment
     const range1 = this; // eslint-disable-line @typescript-eslint/no-this-alias
     const range2 = other;
     if (range1 === undefined || range2 === undefined) {

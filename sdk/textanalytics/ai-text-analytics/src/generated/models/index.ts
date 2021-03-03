@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
 
 /** Contains a set of input documents to be analyzed by the service. */
 export interface MultiLanguageBatchInput {
@@ -48,7 +48,7 @@ export interface EntitiesTask {
 
 export interface EntitiesTaskParameters {
   modelVersion?: string;
-  stringIndexType?: StringIndexTypeResponse;
+  stringIndexType?: StringIndexType;
 }
 
 export interface PiiTask {
@@ -60,7 +60,7 @@ export interface PiiTaskParameters {
   modelVersion?: string;
   /** (Optional) describes the PII categories to return */
   piiCategories?: PiiCategory[];
-  stringIndexType?: StringIndexTypeResponse;
+  stringIndexType?: StringIndexType;
 }
 
 export interface KeyPhrasesTask {
@@ -77,7 +77,7 @@ export interface EntityLinkingTask {
 
 export interface EntityLinkingTaskParameters {
   modelVersion?: string;
-  stringIndexType?: StringIndexTypeResponse;
+  stringIndexType?: StringIndexType;
 }
 
 export interface ErrorResponse {
@@ -586,8 +586,8 @@ export interface GeneratedClientHealthHeaders {
   operationLocation?: string;
 }
 
-/** Known values of {@link StringIndexTypeResponse} that the service accepts. */
-export const enum KnownStringIndexTypeResponse {
+/** Known values of {@link StringIndexType} that the service accepts. */
+export const enum KnownStringIndexType {
   /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
   TextElementsV8 = "TextElements_v8",
   /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
@@ -597,15 +597,15 @@ export const enum KnownStringIndexTypeResponse {
 }
 
 /**
- * Defines values for StringIndexTypeResponse. \
- * {@link KnownStringIndexTypeResponse} can be used interchangeably with StringIndexTypeResponse,
+ * Defines values for StringIndexType. \
+ * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
  * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
  * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
  */
-export type StringIndexTypeResponse = string;
+export type StringIndexType = string;
 
 /** Known values of {@link PiiTaskParametersDomain} that the service accepts. */
 export const enum KnownPiiTaskParametersDomain {
@@ -1080,27 +1080,6 @@ export const enum KnownRelationType {
  * **ValueOfExamination**
  */
 export type RelationType = string;
-
-/** Known values of {@link StringIndexType} that the service accepts. */
-export const enum KnownStringIndexType {
-  /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
-  TextElementsV8 = "TextElements_v8",
-  /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
-  UnicodeCodePoint = "UnicodeCodePoint",
-  /** Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript. */
-  Utf16CodeUnit = "Utf16CodeUnit"
-}
-
-/**
- * Defines values for StringIndexType. \
- * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
- * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
- * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
- */
-export type StringIndexType = string;
 /** Defines values for ErrorCodeValue. */
 export type ErrorCodeValue =
   | "InvalidRequest"
@@ -1144,23 +1123,17 @@ export type TargetRelationType = "assessment" | "target";
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** Collection of documents to analyze and tasks to execute. */
   body?: AnalyzeBatchInput;
 }
 
 /** Contains response data for the analyze operation. */
-export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientAnalyzeHeaders;
-  };
-};
+export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeStatusOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -1170,20 +1143,11 @@ export interface GeneratedClientAnalyzeStatusOptionalParams
 }
 
 /** Contains response data for the analyzeStatus operation. */
-export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnalyzeJobState;
-  };
-};
+export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState;
 
 /** Optional parameters. */
 export interface GeneratedClientHealthStatusOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -1193,29 +1157,14 @@ export interface GeneratedClientHealthStatusOptionalParams
 }
 
 /** Contains response data for the healthStatus operation. */
-export type GeneratedClientHealthStatusResponse = HealthcareJobState & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: HealthcareJobState;
-  };
-};
+export type GeneratedClientHealthStatusResponse = HealthcareJobState;
 
 /** Contains response data for the cancelHealthJob operation. */
-export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCancelHealthJobHeaders;
-  };
-};
+export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientHealthOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
@@ -1223,17 +1172,11 @@ export interface GeneratedClientHealthOptionalParams
 }
 
 /** Contains response data for the health operation. */
-export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientHealthHeaders;
-  };
-};
+export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1243,20 +1186,11 @@ export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
 }
 
 /** Contains response data for the entitiesRecognitionGeneral operation. */
-export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: EntitiesResult;
-  };
-};
+export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1270,20 +1204,11 @@ export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
 }
 
 /** Contains response data for the entitiesRecognitionPii operation. */
-export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: PiiResult;
-  };
-};
+export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesLinkingOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1293,20 +1218,11 @@ export interface GeneratedClientEntitiesLinkingOptionalParams
 }
 
 /** Contains response data for the entitiesLinking operation. */
-export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: EntityLinkingResult;
-  };
-};
+export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult;
 
 /** Optional parameters. */
 export interface GeneratedClientKeyPhrasesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1314,20 +1230,11 @@ export interface GeneratedClientKeyPhrasesOptionalParams
 }
 
 /** Contains response data for the keyPhrases operation. */
-export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: KeyPhraseResult;
-  };
-};
+export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult;
 
 /** Optional parameters. */
 export interface GeneratedClientLanguagesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1335,20 +1242,11 @@ export interface GeneratedClientLanguagesOptionalParams
 }
 
 /** Contains response data for the languages operation. */
-export type GeneratedClientLanguagesResponse = LanguageResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: LanguageResult;
-  };
-};
+export type GeneratedClientLanguagesResponse = LanguageResult;
 
 /** Optional parameters. */
 export interface GeneratedClientSentimentOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -1360,20 +1258,10 @@ export interface GeneratedClientSentimentOptionalParams
 }
 
 /** Contains response data for the sentiment operation. */
-export type GeneratedClientSentimentResponse = SentimentResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SentimentResponse;
-  };
-};
+export type GeneratedClientSentimentResponse = SentimentResponse;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

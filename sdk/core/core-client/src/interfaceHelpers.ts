@@ -6,7 +6,7 @@ import { OperationSpec, OperationParameter } from "./interfaces";
 
 /**
  * Gets the list of status codes for streaming responses.
- * @internal @hidden
+ * @internal
  */
 export function getStreamingResponseStatusCodes(operationSpec: OperationSpec): Set<number> {
   const result = new Set<number>();
@@ -26,7 +26,7 @@ export function getStreamingResponseStatusCodes(operationSpec: OperationSpec): S
  * Get the path to this parameter's value as a dotted string (a.b.c).
  * @param parameter - The parameter to get the path string for.
  * @returns The path to this parameter's value as a dotted string.
- * @internal @hidden
+ * @internal
  */
 export function getPathStringFromParameter(parameter: OperationParameter): string {
   const { parameterPath, mapper } = parameter;

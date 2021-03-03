@@ -6,7 +6,7 @@
  */
 
 /**
- * @hidden @internal
+ * @internal
  */
 export function getHeaderName(): string {
   return "x-ms-useragent";
@@ -18,7 +18,7 @@ interface NavigatorEx extends Navigator {
 }
 
 /**
- * @hidden @internal
+ * @internal
  */
 export function setPlatformSpecificData(map: Map<string, string>): void {
   const navigator = self.navigator as NavigatorEx;

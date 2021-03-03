@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PipelineOptions,
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { createClientPipeline, CommonClientOptions } from "@azure/core-client";
+import { InternalPipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-https";
+import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
@@ -47,7 +41,7 @@ import {
 } from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
   AddParamsToTask,
   addStrEncodingParam,
@@ -93,7 +87,7 @@ const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 /**
  * Client options used to configure TextAnalytics API requests.
  */
-export interface TextAnalyticsClientOptions extends PipelineOptions {
+export interface TextAnalyticsClientOptions extends CommonClientOptions {
   /**
    * The default country hint to use. Defaults to "us".
    */
@@ -169,6 +163,10 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * Specifies the list of Pii categories to return.
+   */
+  categoriesFilter?: PiiCategory[];
 }
 
 /**
@@ -227,9 +225,9 @@ export type RecognizePiiEntitiesAction = {
    */
   stringIndexType?: StringIndexType;
   /**
-   * Specifies the Pii categories to return.
+   * Specifies the list of Pii categories to return.
    */
-  piiCategories?: PiiCategory[];
+  categoriesFilter?: PiiCategory[];
 };
 
 /**
@@ -343,22 +341,26 @@ export class TextAnalyticsClient {
     }
 
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : createTextAnalyticsAzureKeyCredentialPolicy(credential);
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : textAnalyticsAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+          additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
         }
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    const pipeline = createClientPipeline(internalPipelineOptions);
+    pipeline.addPolicy(authPolicy);
 
-    this.client = new GeneratedClient(this.endpointUrl, pipeline);
+    this.client = new GeneratedClient(this.endpointUrl, {
+      pipeline,
+      httpsClient: options.httpsClient
+    });
   }
 
   /**
@@ -430,7 +432,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        finalOptions
       );
 
       return makeDetectLanguageResultArray(realInputs, result);
@@ -515,7 +517,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        addStrEncodingParam(finalOptions)
       );
 
       return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
@@ -604,7 +606,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
+        setStrEncodingParam(finalOptions)
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -680,7 +682,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        finalOptions
       );
 
       return makeExtractKeyPhrasesResultArray(realInputs, result);
@@ -758,7 +760,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
+        setStrEncodingParam(finalOptions)
       );
 
       return makeRecognizePiiEntitiesResultArray(realInputs, result);
@@ -836,7 +838,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        addStrEncodingParam(finalOptions)
       );
 
       return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
@@ -1071,6 +1073,7 @@ function makePiiEntitiesOptionsModel(
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
-    tracingOptions: params.tracingOptions
+    tracingOptions: params.tracingOptions,
+    piiCategories: params.categoriesFilter
   };
 }

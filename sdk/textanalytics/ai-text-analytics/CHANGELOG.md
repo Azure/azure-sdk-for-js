@@ -5,7 +5,10 @@
 - We are now targeting the service's v3.1-preview.4 API as the default instead of v3.1-preview.3.
 - [Breaking] Aspects in opinions mining are now called targets and each individual opinion is now called an assessment. The new naming simplifies the naming of different parts of the response.
 - `beginAnalyzeBatchActions` can now process recognize linked entities actions.
+- `beginAnalyzeHealthcareEntities` returns `entityRelations` per document, a list of relations between healthcare entities.
 - `beginAnalyzeHealthcareEntities` entities now include `assertions` instead of `isNegated` which gives more context about the respective entity.
+- [Breaking] `beginAnalyzeHealthcareEntities` no longer returns `relatedEntities`.
+- `recognizePiiEntities` takes a new option, `categoriesFilter`, that specifies a list of Pii categories to return.
 
 ## 5.1.0-beta.4 (2021-02-10)
 

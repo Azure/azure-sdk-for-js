@@ -59,7 +59,6 @@ export class DocumentProducer {
     this.continuationToken = undefined;
     this.respHeaders = getInitialHeader();
 
-    // tslint:disable-next-line:no-shadowed-variable
     this.internalExecutionContext = new DefaultQueryExecutionContext(options, this.fetchFunction);
   }
   /**

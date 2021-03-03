@@ -6,6 +6,10 @@
   an optional `options` parameter that can be used to pass in an
   `abortSignal` and `tracingOptions`.
 
+### Tracing updates
+
+- Tracing options for `EventDataBatch.tryAdd` now match the shape of `OperationOptions`.
+
 ## 5.4.0 (2021-02-09)
 
 - Adds the `customEndpointAddress` field to `EventHubClientOptions`.

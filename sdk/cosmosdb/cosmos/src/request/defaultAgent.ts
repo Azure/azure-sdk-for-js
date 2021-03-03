@@ -7,9 +7,7 @@ import { Agent } from "http";
  */
 export let defaultHttpsAgent: Agent;
 
-// tslint:disable-next-line:no-var-requires
 const https = require("https"); // eslint-disable-line @typescript-eslint/no-require-imports
-// tslint:disable-next-line:no-var-requires
 const tls = require("tls"); // eslint-disable-line @typescript-eslint/no-require-imports
 
 // minVersion only available in Node 10+
@@ -25,7 +23,6 @@ if (tls.DEFAULT_MIN_VERSION) {
     secureProtocol: "TLSv1_2_method"
   });
 }
-// tslint:disable-next-line:no-var-requires
 const http = require("http"); // eslint-disable-line @typescript-eslint/no-require-imports
 /**
  * @internal
