@@ -82,7 +82,6 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
         parsedDepMinVersion.major == parsedPackageVersion.major &&
         parsedDepMinVersion.minor == parsedPackageVersion.minor &&
         parsedDepMinVersion.patch == parsedPackageVersion.patch &&
-        rushPackages[depName].json["sdk-type"] === "client" &&
         !rushPackages[depName].json["private"]
       ) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
@@ -99,13 +98,6 @@ const updateInternalDependencyVersions = (rushPackages, package, buildId) => {
   rushPackages = updateDependencySection(
     rushPackages,
     rushPackages[package].json.dependencies,
-    buildId
-  );
-
-  console.log("checking devDependencies ..");
-  rushPackages = updateDependencySection(
-    rushPackages,
-    rushPackages[package].json.devDependencies,
     buildId
   );
 
@@ -144,7 +136,6 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
       parsedDepMinVersion.minor == parsedPackageVersion.minor &&
       parsedDepMinVersion.patch == parsedPackageVersion.patch &&
       rushPackages[depName].newVer !== undefined &&
-      rushPackages[depName].json["sdk-type"] === "client" &&
       !rushPackages[depName].json["private"]
     ) {
 
