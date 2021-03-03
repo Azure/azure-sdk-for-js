@@ -448,6 +448,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-util",
+      "projectFolder": "sdk/core/core-util",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-xml",
       "projectFolder": "sdk/core/core-xml",
       "versionPolicyName": "core"

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-https";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { StringIndexType as GeneratedStringIndexType } from "./generated";
@@ -187,7 +187,7 @@ export function handleInvalidDocumentBatch(error: unknown): any {
   const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
   if (innerMessage) {
     return innerCode === "InvalidDocumentBatch"
-      ? new RestError(innerMessage, innerCode, castError.statusCode)
+      ? new RestError(innerMessage, { code: innerCode, statusCode: castError.statusCode })
       : error;
   } else {
     // unfortunately, the service currently does not follow the swagger definition
@@ -201,4 +201,14 @@ export function handleInvalidDocumentBatch(error: unknown): any {
     );
     return error;
   }
+}
+
+/**
+ * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @internal
+ * @param timeInMs - The number of milliseconds to be delayed.
+ * @returns Resolved promise
+ */
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }

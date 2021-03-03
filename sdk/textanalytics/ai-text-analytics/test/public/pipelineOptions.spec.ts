@@ -6,14 +6,14 @@ import { assert } from "chai";
 import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../src";
 import { createClient } from "./utils/recordedClient";
 
-import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-https";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
       const client = createClient("APIKey", {
-        httpClient: {
-          sendRequest: async (request: WebResource): Promise<HttpOperationResponse> => ({
+        httpsClient: {
+          sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => ({
             status: 200,
             request,
             bodyAsText: JSON.stringify({
@@ -23,7 +23,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
               errors: [],
               modelVersion: "2019-10-01"
             }),
-            headers: new HttpHeaders({})
+            headers: createHttpHeaders()
           })
         }
       });
