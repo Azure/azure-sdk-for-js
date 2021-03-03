@@ -67,7 +67,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-client": "1.0.0-beta.2",
-    "@azure/core-https": "1.0.0-beta.2",
+    "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",

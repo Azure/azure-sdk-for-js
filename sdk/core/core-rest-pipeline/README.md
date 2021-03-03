@@ -85,7 +85,7 @@ const customPolicy = {
 };
 ```
 
-Most policies only concern themselves with either the request or the response, but there are some exceptions such as the [LogPolicy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-https/src/policies/logPolicy.ts) which logs information from each.
+Most policies only concern themselves with either the request or the response, but there are some exceptions such as the [LogPolicy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-rest-pipeline/src/policies/logPolicy.ts) which logs information from each.
 
 ### Pipelines
 
@@ -129,7 +129,7 @@ export interface AddPolicyOptions {
 
 `beforePolicies` are policies that the new policy must execute before and `afterPolicies` are policies that the new policy must happen after. Similarly, `afterPhase` means the policy must only execute after the specified phase has occurred.
 
-This syntax allows custom policy authors to express any necessary relationships between their own policies and the built-in policies provided by `@azure/core-https` when creating a pipeline using `createPipelineFromOptions`.
+This syntax allows custom policy authors to express any necessary relationships between their own policies and the built-in policies provided by `@azure/core-rest-pipeline` when creating a pipeline using `createPipelineFromOptions`.
 
 Implementers are also able to remove policies by name or phase, in the case that they wish to modify an existing `Pipeline` without having to create a new one using `createEmptyPipeline`. The `clone` method is particularly useful when recreating a `Pipeline` without modifying the original.
 
@@ -151,4 +151,4 @@ If you run into issues while using this library, please feel free to [file an is
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-https%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-rest-pipeline%2FREADME.png)

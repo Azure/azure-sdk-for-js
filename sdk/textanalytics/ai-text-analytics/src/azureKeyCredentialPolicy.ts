@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { KeyCredential } from "@azure/core-auth";
-import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  PipelinePolicy
+} from "@azure/core-rest-pipeline";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 

@@ -59,9 +59,9 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "dist-browser/azure-core-https.js",
+      file: "dist-browser/azure-core-rest-pipeline.js",
       format: "umd",
-      name: "Azure.Core.HTTPS",
+      name: "Azure.Core.RestPipeline",
       sourcemap: true
     },
     preserveSymlinks: false,
