@@ -32,7 +32,7 @@ import { parseKeyVaultKeyId } from "../identifier";
 import { LATEST_API_VERSION } from "../keysModels";
 import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./hash";
-import { CryptographyProvider } from "./CryptographyProvider";
+import { CryptographyProvider } from "./models";
 
 /**
  * The remote cryptography provider is used to run crypto operations against KeyVault.
@@ -217,8 +217,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   ): Promise<UnwrapResult> {
     const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-unwrapKey", options);
 
-    // Default to the service
-
     let result;
     try {
       result = await this.client.unwrapKey(
@@ -307,62 +305,71 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   /**
    * The base URL to the vault.
    */
-  public readonly vaultUrl: string;
+  readonly vaultUrl: string;
 
   /**
    * The ID of the key used to perform cryptographic operations for the client.
    */
-  public get keyId(): string | undefined {
+  get keyId(): string | undefined {
     return this.getKeyID();
   }
 
+  /**
+   * Gets the {@link KeyVaultKey} used for cryptography operations, fetching it
+   * from KeyVault if necessary.
+   * @param options - Additional options.
+   */
   public async getKey(options: GetKeyOptions): Promise<KeyVaultKey> {
     const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-getKey", options);
 
-    if (typeof this.key === "string") {
-      if (!this.name || this.name === "") {
-        throw new Error("getKey requires a key with a name");
+    try {
+      if (typeof this.key === "string") {
+        if (!this.name || this.name === "") {
+          throw new Error("getKey requires a key with a name");
+        }
+        const response = await this.client.getKey(
+          this.vaultUrl,
+          this.name,
+          options && options.version ? options.version : this.version ? this.version : "",
+          updatedOptions
+        );
+        this.key = getKeyFromKeyBundle(response);
       }
-      const response = await this.client.getKey(
-        this.vaultUrl,
-        this.name,
-        options && options.version ? options.version : this.version ? this.version : "",
-        updatedOptions
-      );
-      this.key = getKeyFromKeyBundle(response);
+      return this.key;
+    } finally {
+      span.end();
     }
-    span.end();
-
-    return this.key;
   }
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
 
   /**
    * A reference to the key used for the cryptographic operations.
-   * Based on what was provided to the CryptographyClient constructor, it can be either a string with the URL of a Key Vault Key, or an already parsed {@link JsonWebKey}.
+   * Based on what was provided to the CryptographyClient constructor,
+   * it can be either a string with the URL of a Key Vault Key, or an already parsed {@link KeyVaultKey}.
+   * @internal
    */
   private key: string | KeyVaultKey;
 
   /**
    * Name of the key the client represents
+   * @internal
    */
   private name: string;
 
   /**
    * Version of the key the client represents
+   * @internal
    */
   private version: string;
 
   /**
-   * @internal
-   * @hidden
    * Attempts to retrieve the ID of the key.
+   * @internal
    */
   private getKeyID(): string | undefined {
     let kid;

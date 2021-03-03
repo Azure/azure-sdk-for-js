@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CryptographyProvider } from "./CryptographyProvider";
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { JsonWebKey, KeyOperation, KnownKeyOperations } from "../keysModels";
 import { publicEncrypt } from "crypto";
@@ -17,7 +16,11 @@ import {
   WrapResult
 } from "..";
 import { convertJWKtoPEM } from "./conversions";
-import { LocalCryptographyUnsupportedError, LocalSupportedAlgorithmName } from "./models";
+import {
+  CryptographyProvider,
+  LocalCryptographyUnsupportedError,
+  LocalSupportedAlgorithmName
+} from "./models";
 import {
   DecryptOptions,
   DecryptParameters,
@@ -33,9 +36,6 @@ import {
  * An RSA cryptography provider supporting RSA algorithms.
  */
 export class RsaCryptographyProvider implements CryptographyProvider {
-  private key: JsonWebKey;
-  providerName = "RSA Provider";
-
   constructor(key: JsonWebKey) {
     this.key = key;
   }
@@ -121,6 +121,16 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     });
   }
 
+  /**
+   * The {@link JsonWebKey} used to perform crypto operations.
+   * @internal
+   */
+  private key: JsonWebKey;
+
+  /**
+   * The set of algorithms this provider supports
+   * @internal
+   */
   private applicableAlgorithms: LocalSupportedAlgorithmName[] = [
     "RSA1_5",
     "RSA-OAEP",
@@ -132,13 +142,20 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     "RS512"
   ];
 
+  /**
+   * The set of operations this provider supports
+   * @internal
+   */
   private applicableOperations: KeyOperation[] = [
     KnownKeyOperations.Encrypt,
     KnownKeyOperations.Verify,
     KnownKeyOperations.WrapKey
   ];
 
-  /** Mapping between signature algorithms and their corresponding hash algorithms. Externally used for testing. */
+  /**
+   * Mapping between signature algorithms and their corresponding hash algorithms. Externally used for testing.
+   * @internal
+   */
   signatureAlgorithmToHashAlgorithm: { [s: string]: string } = {
     PS256: "SHA256",
     RS256: "SHA256",

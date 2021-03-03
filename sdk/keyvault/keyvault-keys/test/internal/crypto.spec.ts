@@ -7,10 +7,10 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import sinon from "sinon";
 import { CryptographyClient, KeyVaultKey } from "../../src";
-import { CryptographyProvider } from "../../src/cryptography/CryptographyProvider";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
+import { CryptographyProvider } from "../../src/cryptography/models";
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {

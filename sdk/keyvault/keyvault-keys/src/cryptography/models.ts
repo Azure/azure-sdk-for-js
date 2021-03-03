@@ -1,34 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JsonWebKey } from "../keysModels";
-
-/**
- * TypeScript fancy for making plain objects require at least one key-value pair of another set of key-values.
- */
-export type RequireAtLeastOne<T> = {
-  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
-}[keyof T];
-
-/**
- * Union type representing the names of the supported local cryptography operations.
- * @internal
- * @hidden
- */
-export type LocalCryptographyOperationName = "encrypt" | "wrapKey" | "createHash" | "verify";
-
-/**
- * Abstract representation of a assertion.
- * Assertions verify that the requirements to execute a local cryptography operation are met.
- * @param key - The JSON Web Key that will be used during the local operation.
- * @param operationName - The name of the operation, as in "encrypt", "decrypt", "sign", etc.
- * @internal
- * @hidden
- */
-export type LocalAssertion = (
-  key?: JsonWebKey,
-  operationName?: LocalCryptographyOperationName
-) => void;
+import {
+  DecryptOptions,
+  DecryptParameters,
+  DecryptResult,
+  EncryptOptions,
+  EncryptParameters,
+  EncryptResult,
+  KeyOperation,
+  KeyWrapAlgorithm,
+  SignatureAlgorithm,
+  SignOptions,
+  SignResult,
+  UnwrapKeyOptions,
+  UnwrapResult,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  WrapResult
+} from "..";
 
 /**
  * A union type representing the names of all of the locally supported algorithms.
@@ -43,71 +34,102 @@ export type LocalSupportedAlgorithmName =
   | "PS512"
   | "RS512";
 
-/**
- * Abstract representation of a Local Cryptography Operation function.
- * @param keyPEM - The string representation of a PEM key.
- * @param data - The data used on the cryptography operation, in Buffer type.
- * @internal
- * @hidden
- */
-export type LocalCryptographyOperationFunction = (keyPEM: string, data: Buffer) => Promise<Buffer>;
+export class LocalCryptographyUnsupportedError extends Error {}
 
 /**
- * Abstract representation of a Local Cryptography Operation function, this time with an additional signature buffer.
- * @param keyPEM - The string representation of a PEM key.
- * @param data - The data used on the cryptography operation, in Buffer type.
- * @param signature - The signature used on the cryptography operation, in Buffer type.
+ * Represents an object that can perform cryptography operations.
  * @internal
- * @hidden
  */
-export type LocalCryptographyOperationFunctionWithSignature = (
-  keyPEM: string,
-  data: Buffer,
-  signature: Buffer
-) => Promise<boolean>;
-
-/**
- * Key-value map of local cryptography operations.
- * @internal
- * @hidden
- */
-export type LocalCryptographyOperations = Record<
-  LocalCryptographyOperationName,
-  LocalCryptographyOperationFunction | LocalCryptographyOperationFunctionWithSignature
->;
-
-/**
- * Abstract representation of a locally supported cryptography algorithm, with its assertions,
- * and its operations.
- * @internal
- * @hidden
- */
-export interface LocalSupportedAlgorithm {
+export interface CryptographyProvider {
   /**
-   * List of assertions that need to pass in order to execute this cryptography operation.
+   * Encrypts the given plaintext with the specified encryption parameters.
+   * @internal
+   *
+   * @param encryptParameters - The encryption parameters, keyed on the encryption algorithm chosen.
+   * @param options - Additional options.
    */
-  validate: LocalAssertion;
-  /**
-   * Optional algorithm used to sign or validate data.
-   */
-  signAlgorithm?: string;
-  /**
-   * List of local cryptography operations supported by an algorithm.
-   */
-  operations: RequireAtLeastOne<LocalCryptographyOperations>;
-}
+  encrypt(encryptParameters: EncryptParameters, options: EncryptOptions): Promise<EncryptResult>;
 
-/**
- * A Record containing all of the locally supported algorithms.
- * @internal
- * @hidden
- */
-export type LocalSupportedAlgorithmsRecord = Record<
-  LocalSupportedAlgorithmName,
-  LocalSupportedAlgorithm | undefined
->;
+  /**
+   * Decrypts the given ciphertext with the specified decryption parameters.
+   * @internal
+   *
+   * @param decryptParameters - The decryption parameters.
+   * @param options - Additional options.
+   */
+  decrypt(decryptParameters: DecryptParameters, options: DecryptOptions): Promise<DecryptResult>;
 
-export const LocalCryptographyUnsupportedErrorName = "LocalCryptographyUnsupportedError";
-export class LocalCryptographyUnsupportedError extends Error {
-  name = LocalCryptographyUnsupportedErrorName;
+  /**
+   * Returns true if the provider supports this specific crypto algorithm.
+   * @internal
+   *
+   * @param algorithm - The algorithm to use.
+   */
+  supportsAlgorithm(algorithm: string): boolean;
+
+  /**
+   * Returns true if the provider supports this specific crypto operation.
+   * @internal
+   *
+   * @param opertion - The key operation to use.
+   */
+  supportsOperation(opertion: KeyOperation): boolean;
+
+  /**
+   * Wraps the given key using the specified cryptography algorithm
+   * @internal
+   *
+   * @param algorithm - The encryption algorithm to use to wrap the given key.
+   * @param keyToWrap - The key to wrap.
+   * @param options - Additional options.
+   */
+  wrapKey(
+    algorithm: KeyWrapAlgorithm,
+    keyToWrap: Uint8Array,
+    options: WrapKeyOptions
+  ): Promise<WrapResult>;
+
+  /**
+   * Unwraps the given wrapped key using the specified cryptography algorithm
+   * @internal
+   *
+   * @param algorithm - The decryption algorithm to use to unwrap the key.
+   * @param encryptedKey - The encrypted key to unwrap.
+   * @param options - Additional options.
+   */
+  unwrapKey(
+    algorithm: KeyWrapAlgorithm,
+    encryptedKey: Uint8Array,
+    options: UnwrapKeyOptions
+  ): Promise<UnwrapResult>;
+
+  /**
+   * Cryptographically sign the digest of a message
+   * @internal
+   *
+   * @param algorithm - The signing algorithm to use.
+   * @param digest - The digest of the data to sign.
+   * @param options - Additional options.
+   */
+  sign(
+    algorithm: SignatureAlgorithm,
+    digest: Uint8Array,
+    options: SignOptions
+  ): Promise<SignResult>;
+
+  /**
+   * Verify the signed message digest
+   * @internal
+   *
+   * @param algorithm - The signing algorithm to use to verify with.
+   * @param digest - The digest to verify.
+   * @param signature - The signature to verify the digest against.
+   * @param options - Additional options.
+   */
+  verify(
+    algorithm: SignatureAlgorithm,
+    digest: Uint8Array,
+    signature: Uint8Array,
+    options: VerifyOptions
+  ): Promise<VerifyResult>;
 }
