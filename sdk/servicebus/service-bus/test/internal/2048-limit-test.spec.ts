@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusReceivedMessage, ServiceBusSender } from "../../src";
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver } from "../../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
@@ -19,6 +19,7 @@ let serviceBusClient: ServiceBusClientForTests;
 let entityName: EntityName;
 let sender: ServiceBusSender;
 let receiver: ServiceBusReceiver;
+const numberOfMessagesToSend = 3000;
 
 const testClientTypes = [
   TestClientType.PartitionedQueue,
@@ -49,9 +50,24 @@ function afterEachTest(): Promise<void> {
   return serviceBusClient.test.afterEach();
 }
 
-describe("2048 scenarios - receiveBatch in a loop", function(): void {
-  const numberOfMessagesToSend = 3000;
+async function sendMessages(numberOfMessagesToSend: number) {
+  let current = 0;
+  while (current < numberOfMessagesToSend) {
+    const batch = await sender.createMessageBatch();
+    while (
+      batch.tryAddMessage(
+        entityName.usesSessions
+          ? { body: `message-${current}`, sessionId: TestMessage.sessionId }
+          : { body: `message-${current}` }
+      ) &&
+      current++ &&
+      current < numberOfMessagesToSend
+    );
+    await sender.sendMessages(batch);
+  }
+}
 
+describe("2048 scenarios - receiveBatch in a loop", function(): void {
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
@@ -63,23 +79,6 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
-
-  async function sendMessages() {
-    let current = 0;
-    while (current < numberOfMessagesToSend) {
-      const batch = await sender.createMessageBatch();
-      while (
-        batch.tryAddMessage(
-          entityName.usesSessions
-            ? { body: `message-${current}`, sessionId: TestMessage.sessionId }
-            : { body: `message-${current}` }
-        ) &&
-        current++ &&
-        current < numberOfMessagesToSend
-      );
-      await sender.sendMessages(batch);
-    }
-  }
 
   async function receiveMessages(numberOfMessagesToReceive: number) {
     let messages: ServiceBusReceivedMessage[] = [];
@@ -100,7 +99,7 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
         clientType + ": would be able to receive more than 2047 messages",
         async function(): Promise<void> {
           await beforeEachTest(clientType, "receiveAndDelete");
-          await sendMessages();
+          await sendMessages(numberOfMessagesToSend);
           await receiveMessages(numberOfMessagesToSend);
           await verifyMessageCount(0, entityName);
         }
@@ -115,7 +114,7 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           ": deliveryCount will be incremented for 2047 messages if closed the receiver and received again",
         async function(): Promise<void> {
           await beforeEachTest(clientType);
-          await sendMessages();
+          await sendMessages(numberOfMessagesToSend);
           await receiveMessages(2047);
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           await serviceBusClient.close();
@@ -146,7 +145,7 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
         clientType + ": new messageBatch returns zero after 2047 messages",
         async function(): Promise<void> {
           await beforeEachTest(clientType);
-          await sendMessages();
+          await sendMessages(numberOfMessagesToSend);
           const firstBatch = await receiveMessages(2047);
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 4000 });
@@ -166,16 +165,53 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
 });
 
 describe("2048 scenarios - subscribe", function(): void {
-  testClientTypes.forEach((clientType) => {
-    it(clientType + ": would be able to receive more than 2048 messages", async function(): Promise<
-      void
-    > {
-      // subscribe - receiveAndDelete
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
+
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  describe("receiveAndDelete", () => {
+    testClientTypes.forEach((clientType) => {
+      it(
+        clientType + ": would be able to receive more than 2048 messages",
+        async function(): Promise<void> {
+          await beforeEachTest(clientType, "receiveAndDelete");
+          await sendMessages(numberOfMessagesToSend);
+          let numberOfMessagesReceived = 0;
+          receiver.subscribe(
+            {
+              async processMessage(_msg: ServiceBusReceivedMessage) {
+                numberOfMessagesReceived++;
+              },
+              async processError() {}
+            },
+            { maxConcurrentCalls: 2000 }
+          );
+          chai.assert.equal(
+            await checkWithTimeout(() => numberOfMessagesReceived > 2050, 1000, 100000),
+            true,
+            "Could not receive the messages in expected time."
+          );
+        }
+      );
     });
-    it(clientType + ": would be able to receive more than 2048 messages", async function(): Promise<
-      void
-    > {
-      // subscribe - peekLock
+  });
+
+  describe("peekLock", () => {
+    testClientTypes.forEach((clientType) => {
+      it(
+        clientType + ": would be able to receive more than 2048 messages",
+        async function(): Promise<void> {
+          // subscribe - peekLock
+        }
+      );
     });
   });
 });
