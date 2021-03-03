@@ -12,6 +12,7 @@ import {
   EntityName
 } from "../public/utils/testutils2";
 import { verifyMessageCount } from "../public/utils/managementUtils";
+import { delay } from "rhea-promise";
 
 chai.use(chaiAsPromised);
 
@@ -52,19 +53,24 @@ function afterEachTest(): Promise<void> {
 
 async function sendMessages(numberOfMessagesToSend: number) {
   let current = 0;
+  const messageBodies = [];
   while (current < numberOfMessagesToSend) {
     const batch = await sender.createMessageBatch();
+    let body = `message-${current}`;
     while (
       batch.tryAddMessage(
-        entityName.usesSessions
-          ? { body: `message-${current}`, sessionId: TestMessage.sessionId }
-          : { body: `message-${current}` }
+        entityName.usesSessions ? { body, sessionId: TestMessage.sessionId } : { body }
       ) &&
-      current++ &&
       current < numberOfMessagesToSend
-    );
+    ) {
+      messageBodies.push(body);
+      current++;
+      body = `message-${current}`;
+    }
+
     await sender.sendMessages(batch);
   }
+  return messageBodies;
 }
 
 describe("2048 scenarios - receiveBatch in a loop", function(): void {
@@ -195,10 +201,16 @@ describe("2048 scenarios - subscribe", function(): void {
             { maxConcurrentCalls: 2000 }
           );
           chai.assert.equal(
-            await checkWithTimeout(() => numberOfMessagesReceived > 2050, 1000, 100000),
+            await checkWithTimeout(
+              () => numberOfMessagesReceived === numberOfMessagesToSend,
+              1000,
+              100000
+            ),
             true,
-            "Could not receive the messages in expected time."
+            `Could not receive the messages in expected time. RECEIVED=${numberOfMessagesReceived}, SENT=${numberOfMessagesToSend}`
           );
+          await verifyMessageCount(0, entityName);
+          await receiver.close();
         }
       );
     });
@@ -206,12 +218,81 @@ describe("2048 scenarios - subscribe", function(): void {
 
   describe("peekLock", () => {
     testClientTypes.forEach((clientType) => {
-      it(
-        clientType + ": would be able to receive more than 2048 messages",
-        async function(): Promise<void> {
-          // subscribe - peekLock
-        }
-      );
+      it(clientType + ": receives more than 2048 messages once settled", async function(): Promise<
+        void
+      > {
+        // subscribe - peekLock
+        // - send
+        // - receive 2048 messages
+        // - do not settle them
+        // - wait for 10 seconds
+        // - make sure no new messages were received
+        // - settle one message
+        // - wait for 30 seconds
+        // - we should receive one new message by now
+        // - settle all the messages
+        // - rest would have been received
+        // - settle all of them
+        // - verifyMessageCount
+        await beforeEachTest(clientType);
+        let sentBodies = await sendMessages(numberOfMessagesToSend);
+        const receivedBodies: any[] = [];
+        let numberOfMessagesReceived = 0;
+        let received2047 = false;
+        const firstBatch: ServiceBusReceivedMessage[] = [];
+        const secondBatch: ServiceBusReceivedMessage[] = [];
+        receiver.subscribe(
+          {
+            async processMessage(msg: ServiceBusReceivedMessage) {
+              numberOfMessagesReceived++;
+              receivedBodies.push(msg.body);
+              if (!received2047) {
+                firstBatch.push(msg);
+              } else {
+                secondBatch.push(msg);
+              }
+            },
+            async processError() {}
+          },
+          {
+            maxConcurrentCalls: 2000,
+            autoCompleteMessages: false
+          }
+        );
+        received2047 = await checkWithTimeout(
+          () => numberOfMessagesReceived === 2047,
+          1000,
+          100000
+        );
+        await delay(10000);
+        chai.assert.equal(
+          numberOfMessagesReceived,
+          2047,
+          "Unexpected - messages were not settled, so new messages should not have been received"
+        );
+        await receiver.completeMessage(firstBatch.shift()!); // settle the first message
+        chai.assert.equal(
+          await checkWithTimeout(() => numberOfMessagesReceived >= 2048, 1000, 30000),
+          true,
+          "Unexpected - one message was settled, count should have been 2048"
+        );
+        await Promise.all(firstBatch.map((msg) => receiver.completeMessage(msg)));
+        chai.assert.equal(
+          await checkWithTimeout(
+            () => {
+              sentBodies = sentBodies.filter((sentBody) => !receivedBodies.includes(sentBody));
+              return sentBodies.length === 0;
+            },
+            1000,
+            100000
+          ),
+          true,
+          "Unexpected - all the sent messages should have been received"
+        );
+        await Promise.all(secondBatch.map((msg) => receiver.completeMessage(msg)));
+        await verifyMessageCount(0, entityName);
+        await receiver.close();
+      }).timeout(200000);
     });
   });
 });
