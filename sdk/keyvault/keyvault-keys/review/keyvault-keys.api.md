@@ -93,14 +93,11 @@ export class CryptographyClient {
     encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
     // @deprecated
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
-    // (undocumented)
-    getKey(options?: GetKeyOptions): Promise<KeyVaultKey | JsonWebKey>;
     get keyId(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
-    // (undocumented)
-    vaultUrl?: string;
+    get vaultUrl(): string;
     verify(algorithm: SignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: SignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;

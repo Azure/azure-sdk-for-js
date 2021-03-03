@@ -5,6 +5,19 @@ import { createHash as cryptoCreateHash, createVerify as cryptoCreateVerify, Ver
 
 /**
  * @internal
+ * Mapping between signature algorithms and their corresponding hash algorithms. Externally used for testing.
+ **/
+const algorithmToHashAlgorithm: { [s: string]: string } = {
+  PS256: "SHA256",
+  RS256: "SHA256",
+  PS384: "SHA384",
+  RS384: "SHA384",
+  PS512: "SHA512",
+  RS512: "SHA512"
+};
+
+/**
+ * @internal
  * Use the platform-local hashing functionality
  */
 export async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
@@ -36,16 +49,3 @@ export function createVerify(algorithm: string, data: Uint8Array): Verify {
   verifier.end();
   return verifier;
 }
-
-/**
- * @internal
- * Mapping between signature algorithms and their corresponding hash algorithms. Externally used for testing.
- **/
-const algorithmToHashAlgorithm: { [s: string]: string } = {
-  PS256: "SHA256",
-  RS256: "SHA256",
-  PS384: "SHA384",
-  RS384: "SHA384",
-  PS512: "SHA512",
-  RS512: "SHA512"
-};

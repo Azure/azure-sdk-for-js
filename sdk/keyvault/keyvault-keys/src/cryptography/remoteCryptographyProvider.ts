@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createPipelineFromOptions, isTokenCredential, signingPolicy } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import {
@@ -31,6 +34,10 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./hash";
 import { CryptographyProvider } from "./CryptographyProvider";
 
+/**
+ * The remote cryptography provider is used to run crypto operations against KeyVault.
+ * @internal
+ */
 export class RemoteCryptographyProvider implements CryptographyProvider {
   constructor(
     key: string | KeyVaultKey,
@@ -110,7 +117,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     const { algorithm, plaintext, ...params } = encryptParameters;
     const requestOptions = { ...options, ...params };
     const { span, updatedOptions } = createSpan(
-      "RemoteCryptographyProvider.encrypt",
+      "RemoteCryptographyProvider-encrypt",
       requestOptions
     );
 
@@ -145,7 +152,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     const { algorithm, ciphertext, ...params } = decryptParameters;
     const requestOptions = { ...options, ...params };
     const { span, updatedOptions } = createSpan(
-      "RemoteCryptographyProvider.decrypt",
+      "RemoteCryptographyProvider-decrypt",
       requestOptions
     );
 
@@ -184,7 +191,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     keyToWrap: Uint8Array,
     options: WrapKeyOptions
   ): Promise<WrapResult> {
-    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider.wrapKey", options);
+    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-wrapKey", options);
 
     let result;
     try {
@@ -208,7 +215,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions
   ): Promise<UnwrapResult> {
-    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider.unwrapKey", options);
+    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-unwrapKey", options);
 
     // Default to the service
 
@@ -230,7 +237,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   }
 
   async sign(algorithm: string, digest: Uint8Array, options: SignOptions): Promise<SignResult> {
-    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider.sign", options);
+    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-sign", options);
 
     let result;
     try {
@@ -255,7 +262,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     signature: Uint8Array,
     options: VerifyOptions
   ): Promise<VerifyResult> {
-    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider.verify", options);
+    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-verify", options);
 
     let response;
     try {
@@ -276,7 +283,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   }
 
   async signData(algorithm: string, data: Uint8Array, options: SignOptions): Promise<SignResult> {
-    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider.signData", options);
+    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-signData", options);
 
     const digest = await createHash(algorithm, data);
 
@@ -310,7 +317,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   }
 
   public async getKey(options: GetKeyOptions): Promise<KeyVaultKey> {
-    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider.getKey", options);
+    const { span, updatedOptions } = createSpan("RemoteCryptographyProvider-getKey", options);
 
     if (typeof this.key === "string") {
       if (!this.name || this.name === "") {

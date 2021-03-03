@@ -1,5 +1,7 @@
-import { CryptographyProvider } from "./CryptographyProvider";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
+import { CryptographyProvider } from "./CryptographyProvider";
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { JsonWebKey, KeyOperation, KnownKeyOperations } from "../keysModels";
 import { publicEncrypt } from "crypto";
