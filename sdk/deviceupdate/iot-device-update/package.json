@@ -59,10 +59,18 @@
     "tsconfig.json"
   ],
   "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:test": "echo skip",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:debug": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "test:browser": "echo skip",
     "test:node": "echo skip",
     "test": "echo skip",
@@ -74,6 +82,7 @@
     "integration-test": "echo skip",
     "execute:samples": "echo skip",
     "extract-api": "api-extractor run --local",
+    "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
