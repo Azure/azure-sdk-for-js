@@ -5,12 +5,11 @@ import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfs
 import { StorageBlobDownloadTest } from "./download.spec";
 import { StorageBlobUploadTest } from "./upload.spec";
 import { StorageBlobListTest } from "./listBlobs.spec";
-import { NoOp } from "./noop.spec";
 
 console.log("=== Starting the perfStress test ===");
 
 const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([StorageBlobDownloadTest, StorageBlobUploadTest, StorageBlobListTest, NoOp])
+  selectPerfStressTest([StorageBlobDownloadTest, StorageBlobUploadTest, StorageBlobListTest])
 );
 
 perfStressProgram.run();
