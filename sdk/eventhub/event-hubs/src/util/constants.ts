@@ -12,4 +12,9 @@ export const packageJsonInfo = {
 /**
  * @internal
  */
-export const idempotentProducerCapability = "com.microsoft:idempotent-producer";
+export const idempotentProducerAmqpPropertyNames = {
+  capability: "com.microsoft:idempotent-producer",
+  epoch: "com.microsoft:producer-epoch",
+  producerId: "com.microsoft:producer-id",
+  producerSequenceNumber: "com.microsoft:producer-sequence-number"
+} as const;

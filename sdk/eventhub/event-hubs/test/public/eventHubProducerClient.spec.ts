@@ -174,5 +174,45 @@ describe("EventHubProducerClient", function() {
         ]);
       });
     });
+
+    describe("getPartitionPublishingProperties", function() {
+      it("retrieves partition publishing properties", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const partitionIds = await producerClient.getPartitionIds();
+
+        for (const partitionId of partitionIds) {
+          const props = await producerClient.getPartitionPublishingProperties(partitionId);
+          should.equal(
+            props.isIdempotentPublishingEnabled,
+            true,
+            "Unexpected value for isIdempotentPublishingEnabled"
+          );
+          should.equal(props.partitionId, partitionId, "Unexpected value for partitionId");
+          should.exist(
+            props.lastPublishedSequenceNumber,
+            "Expected lastPublishedSequenceNumber to exist"
+          );
+          should.exist(props.ownerLevel, "Expected ownerLevel to exist");
+          should.exist(props.producerGroupId, "Expected producerGroupId to exist");
+        }
+      });
+
+      it("throws an error if no partitionId is provided", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        try {
+          await producerClient.getPartitionPublishingProperties(undefined as any);
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.equal(err.name, "TypeError");
+          should.not.equal(err.message, TEST_FAILURE);
+        }
+      });
+    });
   });
 });

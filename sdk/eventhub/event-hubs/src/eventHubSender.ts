@@ -26,14 +26,14 @@ import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
-import { SendOptions } from "./models/public";
+import { PartitionPublishingProperties, SendOptions } from "./models/public";
 
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { defaultDataTransformer } from "./dataTransformer";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
-import { idempotentProducerCapability } from "./util/constants";
+import { idempotentProducerAmqpPropertyNames } from "./util/constants";
 
 /**
  * @internal
@@ -84,7 +84,7 @@ export class EventHubSender extends LinkEntity {
    */
   private _sender?: AwaitableSender;
 
-  private _isIdempotentProducer?: boolean;
+  private _isIdempotentProducer: boolean;
 
   private _hasPendingSend?: boolean;
 
@@ -243,6 +243,46 @@ export class EventHubSender extends LinkEntity {
   }
 
   /**
+   * Get the information about the state of publishing for a partition as observed by the `EventHubSender`.
+   * This data can always be read, but will only be populated with information relevant to the active features
+   * for the producer client.
+   */
+  async getPartitionPublishingProperties(
+    options: {
+      retryOptions?: RetryOptions;
+      abortSignal?: AbortSignalLike;
+    } = {}
+  ): Promise<PartitionPublishingProperties> {
+    const properties: PartitionPublishingProperties = {
+      isIdempotentPublishingEnabled: this._isIdempotentProducer,
+      partitionId: this.partitionId ?? ""
+    };
+
+    if (this._isIdempotentProducer) {
+      await this._createLinkIfNotOpen(options);
+      if (!this._sender) {
+        // createLinkIfNotOpen should throw if `this._sender` can't be created, but just in case it gets
+        // deleted while setting up token refreshing, make sure it exists.
+        throw new Error(
+          `Failed to retrieve partition publishing properties for partition "${this.partitionId}".`
+        );
+      }
+
+      const {
+        [idempotentProducerAmqpPropertyNames.epoch]: ownerLevel,
+        [idempotentProducerAmqpPropertyNames.producerId]: producerGroupId,
+        [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: lastPublishedSequenceNumber
+      } = this._sender.properties ?? {};
+
+      properties.ownerLevel = parseInt(ownerLevel, 10);
+      properties.producerGroupId = String(producerGroupId);
+      properties.lastPublishedSequenceNumber = parseInt(lastPublishedSequenceNumber, 10);
+    }
+
+    return properties;
+  }
+
+  /**
    * Send a batch of EventData to the EventHub. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
@@ -351,7 +391,7 @@ export class EventHubSender extends LinkEntity {
       sendTimeoutInSeconds: timeoutInMs / 1000
     };
     if (this._isIdempotentProducer) {
-      srOptions.desired_capabilities = idempotentProducerCapability;
+      srOptions.desired_capabilities = idempotentProducerAmqpPropertyNames.capability;
       srOptions.properties = {};
     }
     logger.verbose("Creating sender with options: %O", srOptions);

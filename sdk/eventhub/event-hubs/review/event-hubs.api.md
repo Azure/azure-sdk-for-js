@@ -127,6 +127,7 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getPartitionPublishingProperties(partitionId: string, options?: OperationOptions): Promise<PartitionPublishingProperties>;
     sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
     }
@@ -225,6 +226,15 @@ export interface PartitionProperties {
     lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;
     partitionId: string;
+}
+
+// @public
+export interface PartitionPublishingProperties {
+    isIdempotentPublishingEnabled: boolean;
+    lastPublishedSequenceNumber?: number;
+    ownerLevel?: number;
+    partitionId: string;
+    producerGroupId?: string;
 }
 
 // @public

@@ -16,7 +16,8 @@ export {
   CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetEventHubPropertiesOptions
+  GetEventHubPropertiesOptions,
+  PartitionPublishingProperties
 } from "./models/public";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";

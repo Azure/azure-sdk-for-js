@@ -17,6 +17,7 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
+  PartitionPublishingProperties,
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
@@ -177,6 +178,7 @@ export class EventHubProducerClient {
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
     const { enableIdempotentPartitions } = this._clientOptions;
+    const partitionId = isDefined(options.partitionId) ? String(options.partitionId) : undefined;
 
     if (enableIdempotentPartitions && isDefined(options.partitionKey)) {
       throw new Error(
@@ -184,16 +186,19 @@ export class EventHubProducerClient {
       );
     }
 
-    if (isDefined(options.partitionId) && isDefined(options.partitionKey)) {
+    if (partitionId && isDefined(options.partitionKey)) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
 
-    let sender = this._sendersMap.get("");
+    let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
       sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(this._clientOptions.enableIdempotentPartitions)
+        enableIdempotentProducer: Boolean(
+          partitionId && this._clientOptions.enableIdempotentPartitions
+        ),
+        partitionId
       });
-      this._sendersMap.set("", sender);
+      this._sendersMap.set(partitionId || "", sender);
     }
 
     let maxMessageSize = await sender.getMaxMessageSize({
@@ -218,6 +223,57 @@ export class EventHubProducerClient {
       options.partitionKey,
       options.partitionId
     );
+  }
+
+  /**
+   * Get the information about the state of publishing for a partition as observed by the `EventHubProducerClient`.
+   * This data can always be read, but will only be populated with information relevant to the active features
+   * for the producer client.
+
+   *
+   * Example usage:
+   * ```ts
+   * const client = new EventHubProducerClient(connectionString);
+   * const props = await client.getPartitionPublishingProperties("0");
+   * console.log(`
+   *   Partition "${props.partitionId}"
+   *   Idempotent publishing enabled is ${props.isIdempotentPublishingEnabled}
+   *   Producer Group Id is ${props.producerGroupId ?? "not set"}
+   *   Owner Level is ${props.ownerLevel ?? "not set"}
+   *   Last published sequence number is ${props.lastPublishedSequenceNumber ?? "not set"}
+   * `);
+   * ```
+   *
+   * @param partitionId - Id of the partition from which to retrieve publishing properties.
+   * @param options - The set of options to apply to the operation call.
+   * - `abortSignal`  : A signal the request to cancel the send operation.
+   * @returns Promise<void>
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   */
+  async getPartitionPublishingProperties(
+    partitionId: string,
+    options: OperationOptions = {}
+  ): Promise<PartitionPublishingProperties> {
+    if (!isDefined(partitionId)) {
+      throw new TypeError(
+        `getPartitionPublishingProperties called without required argument "partitionId"`
+      );
+    }
+
+    if (typeof partitionId === "number") {
+      partitionId = String(partitionId);
+    }
+
+    let sender = this._sendersMap.get(partitionId);
+    if (!sender) {
+      sender = EventHubSender.create(this._context, {
+        enableIdempotentProducer: Boolean(this._clientOptions.enableIdempotentPartitions),
+        partitionId
+      });
+      this._sendersMap.set(partitionId, sender);
+    }
+
+    return sender.getPartitionPublishingProperties(options);
   }
 
   /**
@@ -331,7 +387,9 @@ export class EventHubProducerClient {
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
       sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(this._clientOptions.enableIdempotentPartitions),
+        enableIdempotentProducer: Boolean(
+          isDefined(partitionId) && this._clientOptions.enableIdempotentPartitions
+        ),
         partitionId
       });
       this._sendersMap.set(partitionId || "", sender);
