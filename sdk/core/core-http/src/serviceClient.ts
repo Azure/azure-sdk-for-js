@@ -60,6 +60,7 @@ import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
+import { URL } from "./url";
 import { getCachedDefaultHttpClient } from "./httpClientCache";
 
 /**
@@ -1051,7 +1052,9 @@ function getCredentialScopes(
 ): string | string[] | undefined {
   if (options?.credentialScopes) {
     const scopes = options.credentialScopes;
-    return Array.isArray(scopes) ? scopes.map((scope) => scope) : scopes;
+    return Array.isArray(scopes)
+      ? scopes.map((scope) => new URL(scope).toString())
+      : new URL(scopes).toString();
   }
 
   if (baseUri) {

@@ -87,7 +87,7 @@
     "integration-test:browser": "echo skip",
     "integration-test:node": "echo skip",
     "integration-test": "echo skip",
-    "execute:samples": "echo skip",
+    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "api-extractor run --local",
     "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",

@@ -50,7 +50,7 @@ export class DeviceUpdateClientContext extends coreHttp.ServiceClient {
     }
 
     if (!options.credentialScopes) {
-      options.credentialScopes = ["6ee392c4-d339-4083-b04d-6b7947c6cf78/.default"];
+      options.credentialScopes = ["https://api.adu.microsoft.com/.default"];
     }
 
     super(credentials, options);
