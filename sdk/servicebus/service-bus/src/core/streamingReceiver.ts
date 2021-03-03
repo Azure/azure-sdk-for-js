@@ -19,12 +19,11 @@ import {
   retry,
   MessagingError,
   RetryOptions,
-  ConditionErrorNameMapper,
-  defaultLock
+  ConditionErrorNameMapper
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
-import { AmqpError, delay, EventContext, generate_uuid, OnAmqpEvent } from "rhea-promise";
+import { AmqpError, delay, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
@@ -61,7 +60,6 @@ export class StreamingReceiver extends MessageReceiver {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
-  private _addCreditLock = generate_uuid();
   /**
    *Retry policy options that determine the mode, number of retries, retry interval etc.
    */
@@ -352,9 +350,7 @@ export class StreamingReceiver extends MessageReceiver {
         while (numberOfEmptyIncomingSlots(this.link) <= 1) {
           await delay(1000);
           if (numberOfEmptyIncomingSlots(this.link) > 1) {
-            await defaultLock.acquire(this._addCreditLock, async () => {
-              this._receiverHelper.addCredit(1);
-            });
+            this._receiverHelper.addCredit(1);
           }
         }
       }
