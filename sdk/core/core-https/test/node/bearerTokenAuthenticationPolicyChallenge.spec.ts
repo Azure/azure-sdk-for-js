@@ -170,4 +170,109 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     ]);
     assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
+
+  it("tests that the challenge is processed even we already had a token", async function() {
+    const expected = [
+      {
+        scope: "http://localhost/.default",
+        challengeClaims: JSON.stringify({
+          access_token: { foo: "bar" }
+        })
+      },
+      {
+        scope: "http://localhost/.default2",
+        challengeClaims: JSON.stringify({
+          access_token: { foo2: "bar2" }
+        })
+      }
+    ];
+
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const responses: PipelineResponse[] = [
+      {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Bearer scope="${expected[0].scope}", claims="${encodeString(
+            expected[0].challengeClaims
+          )}"`
+        }),
+        request,
+        status: 401
+      },
+      {
+        headers: createHttpHeaders(),
+        request,
+        status: 200
+      },
+      {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Bearer scope="${expected[1].scope}", claims="${encodeString(
+            expected[1].challengeClaims
+          )}"`
+        }),
+        request,
+        status: 401
+      },
+      {
+        headers: createHttpHeaders(),
+        request,
+        status: 200
+      }
+    ];
+
+    const expiresOn = Date.now() + 5000;
+    const getTokenResponses = [
+      { token: "mock-token", expiresOnTimestamp: expiresOn },
+      { token: "mock-token2", expiresOnTimestamp: expiresOn }
+    ];
+    const credential = new MockRefreshAzureCredential([...getTokenResponses]);
+
+    const pipeline = createEmptyPipeline();
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
+      // Intentionally left empty, as it should be replaced by the challenge.
+      scopes: "",
+      credential,
+      challenge: {
+        processChallenge
+      }
+    });
+    pipeline.addPolicy(bearerPolicy);
+
+    const finalSendRequestHeaders: (string | undefined)[] = [];
+
+    const testHttpsClient: HttpsClient = {
+      sendRequest: async (req) => {
+        finalSendRequestHeaders.push(req.headers.get("Authorization"));
+        if (responses.length) {
+          const response = responses.shift()!;
+          response.request = req;
+          return response;
+        }
+        throw new Error("No responses found");
+      }
+    };
+
+    await pipeline.sendRequest(testHttpsClient, request);
+    await pipeline.sendRequest(testHttpsClient, request);
+
+    // Our goal is to test that:
+    // - After a second challenge was received, we processed it and retrieved the token again.
+
+    assert.equal(credential.authCount, 2);
+    assert.deepEqual(credential.scopesAndClaims, [
+      {
+        scope: [expected[0].scope],
+        challengeClaims: expected[0].challengeClaims
+      },
+      {
+        scope: [expected[1].scope],
+        challengeClaims: expected[1].challengeClaims
+      }
+    ]);
+    assert.deepEqual(finalSendRequestHeaders, [
+      undefined,
+      `Bearer ${getTokenResponses[0].token}`,
+      `Bearer ${getTokenResponses[0].token}`,
+      `Bearer ${getTokenResponses[1].token}`
+    ]);
+  });
 });

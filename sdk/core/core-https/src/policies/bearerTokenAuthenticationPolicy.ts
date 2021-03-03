@@ -119,46 +119,43 @@ export function bearerTokenAuthenticationPolicy(
     return request;
   }
 
-  /**
-   * Uses the challenge parameters to:
-   * - Prepare the outgoing request (if the `prepareRequest` method has been provided).
-   * - Send an initial request to receive the challenge if it fails.
-   * - Process a challenge if the response contains it.
-   * - Retrieve a token with the challenge information, then re-send the request.
-   */
-  async function challengePolicy(
-    request: PipelineRequest,
-    next: SendRequest
-  ): Promise<PipelineResponse> {
-    if (prepareRequest) {
-      await prepareRequest(request);
-    }
-
-    const response = await next(request);
-    const challenge = getChallenge(response);
-
-    if (challenge && processChallenge) {
-      const context = await processChallenge(challenge);
-      const token = await retrieveToken(request, context);
-      return next(assignToken(request, token));
-    }
-    return response;
-  }
-
   return {
     name: bearerTokenAuthenticationPolicyName,
     /**
-     * If there's no cached token and we have challenge options, this policy will try to authenticate using the challenges.
-     * If there's an access token in the cache, it will avoid any challenge processing.
+     * If there's no challenge parameter:
+     * - It will try to retrieve the token using the cache, or the credential's getToken.
+     * - Then it will try the next policy with or without the retrieved token.
+     *
+     * It uses the challenge parameters to:
+     * - Skip a first attempt to get the token from the credential if there's no cached token,
+     *   since it expects the token to be retrievable only after the challenge.
+     * - Prepare the outgoing request if the `prepareRequest` method has been provided.
+     * - Send an initial request to receive the challenge if it fails.
+     * - Process a challenge if the response contains it.
+     * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       let accessToken = tokenCache.getCachedToken();
-      if (!accessToken && processChallenge) {
-        return await challengePolicy(request, next);
-      } else {
-        const token = await retrieveToken(request);
+      let token: string | undefined;
+      if (!accessToken && !processChallenge) {
+        token = await retrieveToken(request);
+        request = assignToken(request, token);
+      }
+
+      if (prepareRequest) {
+        await prepareRequest(request);
+      }
+
+      const response = await next(request);
+      const challenge = getChallenge(response);
+
+      if (challenge && processChallenge) {
+        const context = await processChallenge(challenge);
+        const token = await retrieveToken(request, context);
         return next(assignToken(request, token));
       }
+
+      return response;
     }
   };
 }
