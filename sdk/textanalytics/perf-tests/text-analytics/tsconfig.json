@@ -1,11 +1,10 @@
 {
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ES2015",
     "declarationDir": "./typings/latest",
-    "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
+    "noEmit": true
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
