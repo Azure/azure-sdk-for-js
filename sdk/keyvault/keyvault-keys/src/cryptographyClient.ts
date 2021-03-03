@@ -27,15 +27,14 @@ import {
   EncryptParameters,
   SignOptions,
   VerifyOptions,
-  DecryptParameters
+  DecryptParameters,
+  CryptographyClientKey
 } from "./cryptographyClientModels";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
-import { parseKeyVaultKeyId } from "./identifier";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { CryptographyProvider } from "./cryptography/CryptographyProvider";
 import { Span } from "@opentelemetry/api";
 import { createHash } from "./cryptography/hash";
-import { KeyVaultKeyId } from ".";
 import { createSpan } from "./tracing";
 
 /**
@@ -43,22 +42,16 @@ import { createSpan } from "./tracing";
  * or a local {@link JsonWebKey}.
  */
 export class CryptographyClient {
-  private key:
-    | {
-        kind: "identifier";
-        value: string;
-      }
-    | {
-        kind: "KeyVaultKey";
-        value: KeyVaultKey;
-      }
-    | {
-        kind: "JsonWebKey";
-        value: JsonWebKey;
-      };
-  vaultUrl: string;
-  private credential?: TokenCredential;
-  private pipelineOptions: CryptographyClientOptions | undefined;
+  /**
+   * The key the CryptographyClient currently holds.
+   */
+  private key: CryptographyClientKey;
+
+  /**
+   * The remote provider, which would be undefined if used in local mode.
+   */
+  private remoteProvider?: RemoteCryptographyProvider;
+
   /**
    * Constructs a new instance of the Cryptography client for the given key
    *
@@ -112,41 +105,40 @@ export class CryptographyClient {
     credential?: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
-    let parsed: KeyVaultKeyId | undefined = undefined;
-
     if (typeof key === "string") {
-      this.key = { kind: "identifier", value: key };
-      parsed = parseKeyVaultKeyId(key);
+      // Key URL for remote-local operations.
+      this.key = {
+        kind: "identifier",
+        value: key
+      };
+      this.remoteProvider = new RemoteCryptographyProvider(key, credential!, pipelineOptions);
     } else if ("name" in key) {
+      // KeyVault key for remote-local operations.
       this.key = {
         kind: "KeyVaultKey",
         value: key
       };
-      parsed = parseKeyVaultKeyId(key.id!);
+      this.remoteProvider = new RemoteCryptographyProvider(key, credential!, pipelineOptions);
     } else {
+      // JsonWebKey for local-only operations.
       this.key = {
         kind: "JsonWebKey",
         value: key
       };
     }
+  }
 
-    if (this.key.kind === "identifier" || this.key.kind === "KeyVaultKey") {
-      if (!parsed?.vaultUrl) {
-        throw new Error("Could not find 'vaultUrl' of key in key URL");
-      }
-
-      this.vaultUrl = parsed.vaultUrl;
-    } else {
-      this.vaultUrl = "";
-    }
-    this.credential = credential;
-    this.pipelineOptions = pipelineOptions;
+  /**
+   * The base URL to the vault. If a local {@link JsonWebKey} is used vaultUrl will be empty.
+   */
+  get vaultUrl(): string {
+    return this.remoteProvider?.vaultUrl || "";
   }
 
   /**
    * The ID of the key used to perform cryptographic operations for the client.
    */
-  public get keyId(): string | undefined {
+  get keyId(): string | undefined {
     if (this.key.kind === "identifier") {
       return this.key.value;
     } else if (this.key.kind === "KeyVaultKey") {
@@ -158,7 +150,6 @@ export class CryptographyClient {
 
   /**
    * @internal
-   * @hidden
    * Retrieves the {@link JsonWebKey} from the Key Vault.
    *
    * Example usage:
@@ -169,52 +160,60 @@ export class CryptographyClient {
    * @param options - Options for retrieving key.
    */
   private async getKeyMaterial(): Promise<JsonWebKey> {
-    // Also exchanges an identifier for an actual key
-    await this.fetchKey();
+    const key = await this.fetchKey();
 
-    switch (this.key.kind) {
+    switch (key.kind) {
       case "JsonWebKey":
-        return this.key.value;
+        return key.value;
       case "KeyVaultKey":
-        return this.key.value.key!;
+        return key.value.key!;
       default:
         throw new Error("Failed to exchange Key ID for an actual KeyVault Key.");
     }
   }
 
-  async fetchKey(options: GetKeyOptions = {}): Promise<KeyVaultKey | JsonWebKey> {
+  /**
+   * Returns the underlying key used for cryptographic operations.
+   * If needed, fetches the key from KeyVault and exchanges the ID for the actual key.
+   * @param options - The additional options.
+   */
+  private async fetchKey(options: GetKeyOptions = {}): Promise<CryptographyClientKey> {
     if (this.key.kind === "identifier") {
       // Exchange the identifier with the actual key when needed
-      const remoteProvider = new RemoteCryptographyProvider(this.key.value, this.credential!);
-      const key = await remoteProvider.getKey(options);
+      const key = await this.remoteProvider!.getKey(options);
       this.key = { kind: "KeyVaultKey", value: key };
     }
-    return this.key.value;
+    return this.key;
   }
 
   private providers?: CryptographyProvider[];
+  /**
+   * Gets the provider that support this algorithm and operation.
+   * The available providers are ordered by priority such that the first provider that supports this
+   * operation is the one we should use.
+   * @param operation - The {@link KeyOperation}.
+   * @param algorithm - The algorithm to use.
+   */
   private async getProvider(
     operation: KeyOperation,
     algorithm: string
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
-      const key = await this.getKeyMaterial();
+      const keyMaterial = await this.getKeyMaterial();
       this.providers = [];
 
       // Local crypto providers in node only.
       if (isNode) {
-        this.providers.push(new RsaCryptographyProvider(key));
+        this.providers.push(new RsaCryptographyProvider(keyMaterial));
       }
 
-      // The remote provider should be the last provider in the list unless we're in local-only mode.
-      if (this.key.kind === "KeyVaultKey" || this.key.kind === "identifier") {
-        this.providers.push(
-          new RemoteCryptographyProvider(this.key.value, this.credential!, this.pipelineOptions)
-        );
+      // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
+      // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.
+      if (this.remoteProvider) {
+        this.providers.push(this.remoteProvider);
       }
     }
 
-    // Return the filtered list of providers based on the criteria.
     let providers = this.providers.filter((p) => p.supportsOperation(operation));
     if (algorithm) {
       providers = providers.filter((p) => p.supportsAlgorithm(algorithm));
@@ -226,6 +225,7 @@ export class CryptographyClient {
         ${this.key.kind === "JsonWebKey" ? " using a local JsonWebKey" : ""}`
       );
     }
+
     // Return the first provider that supports this request
     return providers[0];
   }
@@ -280,13 +280,6 @@ export class CryptographyClient {
 
     span.end();
     return result;
-  }
-
-  private createSpan(
-    methodName: string,
-    options: OperationOptions
-  ): { span: Span; updatedOptions: OperationOptions } {
-    return createSpan(`CryptographyClient ${methodName}`, options);
   }
 
   private disambiguateEncryptArguments(
@@ -545,30 +538,36 @@ export class CryptographyClient {
     return result;
   }
 
-  private ensureValid(key: KeyVaultKey | JsonWebKey, operation?: KeyOperation): void {
-    if ("properties" in key) {
-      const attributes = key.properties;
-      const keyOps = key.keyOperations;
-      const { notBefore, expiresOn } = attributes;
+  private createSpan(
+    methodName: string,
+    options: OperationOptions
+  ): { span: Span; updatedOptions: OperationOptions } {
+    return createSpan(`CryptographyClient ${methodName}`, options);
+  }
+
+  private ensureValid(key: CryptographyClientKey, operation?: KeyOperation): void {
+    if (key.kind === "KeyVaultKey") {
+      const keyOps = key.value.keyOperations;
+      const { notBefore, expiresOn } = key.value.properties;
       const now = new Date();
 
       // Check KeyVault Key Expiration
       if (notBefore && now < notBefore) {
-        throw new Error(`Key ${key.id} can't be used before ${notBefore.toISOString()}`);
+        throw new Error(`Key ${key.value.id} can't be used before ${notBefore.toISOString()}`);
       }
 
       if (expiresOn && now > expiresOn) {
-        throw new Error(`Key ${key.id} expired at ${expiresOn.toISOString()}`);
+        throw new Error(`Key ${key.value.id} expired at ${expiresOn.toISOString()}`);
       }
 
       // Check Key operations
-      if (operation && !keyOps?.includes(operation)) {
-        throw new Error(`Operation ${operation} is not supported on key ${key.id}`);
+      if (operation && keyOps && !keyOps?.includes(operation)) {
+        throw new Error(`Operation ${operation} is not supported on key ${key.value.id}`);
       }
-    } else {
+    } else if (key.kind === "JsonWebKey") {
       // Check JsonWebKey Key operations
-      if (operation && !key.keyOps?.includes(operation)) {
-        throw new Error(`Operation ${operation} is not supported on key ${key.kid}`);
+      if (operation && key.value.keyOps && !key.value.keyOps?.includes(operation)) {
+        throw new Error(`Operation ${operation} is not supported on key ${key.value.kid}`);
       }
     }
   }

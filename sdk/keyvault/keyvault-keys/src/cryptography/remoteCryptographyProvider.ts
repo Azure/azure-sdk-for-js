@@ -70,34 +70,37 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     );
 
     let parsed;
+    this.key = key;
+
+    let keyId: string;
     if (typeof key === "string") {
-      this.key = key;
-      parsed = parseKeyVaultKeyId(this.key);
-    } else if (key.key) {
-      this.key = key;
-      parsed = parseKeyVaultKeyId(this.key.id!);
+      keyId = key;
     } else {
-      throw new Error(
-        "The provided key is malformed as it does not have a value for the `key` property."
-      );
+      keyId = key.id!;
     }
 
-    console.log("key", key);
-    if (parsed.name === "") {
-      throw new Error("Could not find 'name' of key in key URL");
-    }
+    try {
+      parsed = parseKeyVaultKeyId(keyId);
+      if (parsed.name === "") {
+        throw new Error("Could not find 'name' of key in key URL");
+      }
 
-    if (!parsed.version || parsed.version === "") {
-      throw new Error("Could not find 'version' of key in key URL");
-    }
+      if (!parsed.version || parsed.version === "") {
+        throw new Error("Could not find 'version' of key in key URL");
+      }
 
-    if (!parsed.vaultUrl || parsed.vaultUrl === "") {
-      throw new Error("Could not find 'vaultUrl' of key in key URL");
-    }
+      if (!parsed.vaultUrl || parsed.vaultUrl === "") {
+        throw new Error("Could not find 'vaultUrl' of key in key URL");
+      }
 
-    this.vaultUrl = parsed.vaultUrl;
-    this.name = parsed.name;
-    this.version = parsed.version;
+      this.vaultUrl = parsed.vaultUrl;
+      this.name = parsed.name;
+      this.version = parsed.version;
+    } catch (err) {
+      logger.error(err);
+
+      throw new Error(`${keyId} is not a valid Key Vault key ID`);
+    }
   }
 
   async encrypt(

@@ -2,43 +2,58 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-http";
-import * as assert from "assert";
-import Sinon from "sinon";
+import chai, { assert } from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 import sinon from "sinon";
 import { CryptographyClient, KeyVaultKey } from "../../src";
 import { CryptographyProvider } from "../../src/cryptography/CryptographyProvider";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
+import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
 
-describe.only("internal crypto tests", () => {
+describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
     getToken: () => Promise.resolve(null)
   };
+
+  describe("with a Key identifier", () => {
+    it("parses the vaultUrl", () => {
+      const client = new CryptographyClient(
+        "https://my.vault.azure.net/keys/keyId/v1",
+        tokenCredential
+      );
+      assert.equal(client.vaultUrl, "https://my.vault.azure.net");
+    });
+
+    it("throws if id is invalid", () => {
+      assert.throws(
+        () => new CryptographyClient("foo", tokenCredential),
+        /not a valid Key Vault key ID/
+      );
+    });
+  });
+
   describe("with a KeyVault Key", () => {
     let key: KeyVaultKey;
     beforeEach(() => {
       key = {
         name: "key",
-        id: "https://azure_keyvault.vault.azure.net/key1/v1",
+        id: "https://azure_keyvault.vault.azure.net/keys/keyId/v1",
         properties: {
           name: "key",
           vaultUrl: "foo"
         }
       };
     });
+
     describe("checkKeyValidity", () => {
       it("Checking that the key's notBefore is respected", async function() {
         const notBefore = new Date(Date.now() + 60 * 1000 * 60 * 24); // Now + 24h
         key.properties.notBefore = notBefore;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
-        let error: Error | undefined = undefined;
-        try {
-          await cryptoClient.sign("RSA1_5", stringToUint8Array("foo"));
-        } catch (e) {
-          error = e;
-        }
-        assert.equal(
-          error?.message,
+        await assert.isRejected(
+          cryptoClient.encrypt("RSA1_5", stringToUint8Array("")),
           `Key ${key.id} can't be used before ${notBefore.toISOString()}`
         );
       });
@@ -47,22 +62,54 @@ describe.only("internal crypto tests", () => {
         const expiresOn = new Date(Date.now() - 60 * 1000 * 60 * 24); // Now - 24h
         key.properties.expiresOn = expiresOn;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
-        let error: Error | undefined = undefined;
-        try {
-          await cryptoClient.encrypt("RSA1_5", stringToUint8Array("Foo"));
-        } catch (e) {
-          error = e;
-        }
-        assert.equal(error?.message, `Key ${key.id} expired at ${expiresOn.toISOString()}`);
+        await assert.isRejected(
+          cryptoClient.encrypt("RSA1_5", stringToUint8Array("")),
+          `Key ${key.id} expired at ${expiresOn.toISOString()}`
+        );
       });
+
+      it("validates key operations", async () => {
+        const cryptoClient = new CryptographyClient(key, tokenCredential);
+        key.keyOperations = ["encrypt"];
+        await assert.isRejected(cryptoClient.decrypt("RSA1_5", stringToUint8Array("")));
+      });
+
+      it("parses the vaultUrl", () => {
+        const client = new CryptographyClient(key, tokenCredential);
+        assert.equal(client.vaultUrl, "https://azure_keyvault.vault.azure.net");
+      });
+      it("throws if id is invalid", () => {
+        key.id = "invalid_id";
+        assert.throws(
+          () => new CryptographyClient(key, tokenCredential),
+          /not a valid Key Vault key ID/
+        );
+      });
+    });
+  });
+
+  describe("with a JsonWebKey", () => {
+    let key: JsonWebKey;
+
+    beforeEach(() => {
+      key = {};
+    });
+
+    it("validates key operations", async () => {
+      const cryptoClient = new CryptographyClient(key);
+      key.keyOps = ["encrypt"];
+      await assert.isRejected(
+        cryptoClient.decrypt("RSA1_5", stringToUint8Array("")),
+        /Operation decrypt is not supported/
+      );
     });
   });
 
   describe("Parameter passing to encrypt / decrypt", function() {
     let client: CryptographyClient;
     let cryptoProvider: CryptographyProvider;
-    let encryptStub: Sinon.SinonStub;
-    let decryptStub: Sinon.SinonStub;
+    let encryptStub: sinon.SinonStub;
+    let decryptStub: sinon.SinonStub;
 
     beforeEach(() => {
       const key = {
