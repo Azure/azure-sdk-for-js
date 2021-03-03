@@ -2,23 +2,35 @@
 // Licensed under the MIT license.
 
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
-import { JsonWebKey, KeyOperation, KnownKeyOperations } from "../keysModels";
 import { publicEncrypt } from "crypto";
 import { createVerify } from "./hash";
-import { EncryptParameters, EncryptResult, KeyWrapAlgorithm, VerifyResult, WrapResult } from "..";
+import {
+  JsonWebKey,
+  KeyOperation,
+  KnownKeyOperations,
+  DecryptOptions,
+  EncryptOptions,
+  EncryptParameters,
+  EncryptResult,
+  KeyWrapAlgorithm,
+  UnwrapKeyOptions,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  DecryptParameters,
+  DecryptResult,
+  SignatureAlgorithm,
+  SignOptions,
+  SignResult,
+  UnwrapResult,
+  WrapResult
+} from "..";
 import { convertJWKtoPEM } from "./conversions";
 import {
   CryptographyProvider,
   LocalCryptographyUnsupportedError,
   LocalSupportedAlgorithmName
 } from "./models";
-import {
-  DecryptParameters,
-  DecryptResult,
-  SignatureAlgorithm,
-  SignResult,
-  UnwrapResult
-} from "../cryptographyClientModels";
 
 /**
  * An RSA cryptography provider supporting RSA algorithms.
@@ -36,7 +48,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     return this.applicableOperations.includes(operation);
   }
 
-  encrypt(encryptParameters: EncryptParameters): Promise<EncryptResult> {
+  encrypt(encryptParameters: EncryptParameters, _options?: EncryptOptions): Promise<EncryptResult> {
     this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
 
@@ -53,13 +65,20 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     });
   }
 
-  decrypt(_decryptParameters: DecryptParameters): Promise<DecryptResult> {
+  decrypt(
+    _decryptParameters: DecryptParameters,
+    _options?: DecryptOptions
+  ): Promise<DecryptResult> {
     throw new LocalCryptographyUnsupportedError(
       "Decrypting using a local JsonWebKey is not supported."
     );
   }
 
-  wrapKey(algorithm: KeyWrapAlgorithm, keyToWrap: Uint8Array): Promise<WrapResult> {
+  wrapKey(
+    algorithm: KeyWrapAlgorithm,
+    keyToWrap: Uint8Array,
+    _options?: WrapKeyOptions
+  ): Promise<WrapResult> {
     this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
 
@@ -72,13 +91,21 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     });
   }
 
-  unwrapKey(): Promise<UnwrapResult> {
+  unwrapKey(
+    _algorithm: KeyWrapAlgorithm,
+    _encryptedKey: Uint8Array,
+    _options?: UnwrapKeyOptions
+  ): Promise<UnwrapResult> {
     throw new LocalCryptographyUnsupportedError(
       "Unwrapping a key using a local JsonWebKey is not supported."
     );
   }
 
-  sign(): Promise<SignResult> {
+  sign(
+    _algorithm: SignatureAlgorithm,
+    _digest: Uint8Array,
+    _options?: SignOptions
+  ): Promise<SignResult> {
     throw new LocalCryptographyUnsupportedError(
       "Signing a digest using a local JsonWebKey is not supported."
     );
@@ -87,7 +114,8 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   verify(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
-    signature: Uint8Array
+    signature: Uint8Array,
+    _options?: VerifyOptions
   ): Promise<VerifyResult> {
     this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);

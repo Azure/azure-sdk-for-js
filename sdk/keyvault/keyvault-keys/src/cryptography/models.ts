@@ -48,7 +48,7 @@ export interface CryptographyProvider {
    * @param encryptParameters - The encryption parameters, keyed on the encryption algorithm chosen.
    * @param options - Additional options.
    */
-  encrypt(encryptParameters: EncryptParameters, options: EncryptOptions): Promise<EncryptResult>;
+  encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
 
   /**
    * Decrypts the given ciphertext with the specified decryption parameters.
@@ -57,7 +57,7 @@ export interface CryptographyProvider {
    * @param decryptParameters - The decryption parameters.
    * @param options - Additional options.
    */
-  decrypt(decryptParameters: DecryptParameters, options: DecryptOptions): Promise<DecryptResult>;
+  decrypt(decryptParameters: DecryptParameters, options?: DecryptOptions): Promise<DecryptResult>;
 
   /**
    * Returns true if the provider supports this specific crypto algorithm.
@@ -86,7 +86,7 @@ export interface CryptographyProvider {
   wrapKey(
     algorithm: KeyWrapAlgorithm,
     keyToWrap: Uint8Array,
-    options: WrapKeyOptions
+    options?: WrapKeyOptions
   ): Promise<WrapResult>;
 
   /**
@@ -100,7 +100,7 @@ export interface CryptographyProvider {
   unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options: UnwrapKeyOptions
+    options?: UnwrapKeyOptions
   ): Promise<UnwrapResult>;
 
   /**
@@ -114,7 +114,7 @@ export interface CryptographyProvider {
   sign(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
-    options: SignOptions
+    options?: SignOptions
   ): Promise<SignResult>;
 
   /**
@@ -130,6 +130,6 @@ export interface CryptographyProvider {
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions
+    options?: VerifyOptions
   ): Promise<VerifyResult>;
 }

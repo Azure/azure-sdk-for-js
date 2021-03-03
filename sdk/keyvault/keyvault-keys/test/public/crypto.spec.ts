@@ -2,17 +2,16 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createHash, publicEncrypt } from "crypto";
-import * as constants from "constants";
+import { createHash } from "crypto";
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
-import { convertJWKtoPEM } from "../../src/cryptography/conversions";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
+import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
@@ -68,12 +67,14 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
     it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
       const text = this.test!.title;
-      const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
-      const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-      const encrypted = publicEncrypt(padded, Buffer.from(text));
+      const localProvider = new RsaCryptographyProvider(keyVaultKey.key!);
+      const encryptResult = await localProvider.encrypt({
+        algorithm: "RSA1_5",
+        plaintext: Buffer.from(text)
+      });
       const decryptResult = await cryptoClient.decrypt({
         algorithm: "RSA1_5",
-        ciphertext: encrypted
+        ciphertext: encryptResult.result
       });
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
@@ -81,10 +82,13 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
     it("encrypt & decrypt with RSA-OAEP", async function() {
       const text = this.test!.title;
-      const encryptResult = await cryptoClient.encrypt({
-        algorithm: "RSA-OAEP",
-        plaintext: stringToUint8Array(text)
-      });
+      const encryptResult = await cryptoClient.encrypt(
+        {
+          algorithm: "RSA-OAEP",
+          plaintext: stringToUint8Array(text)
+        },
+        {}
+      );
       const decryptResult = await cryptoClient.decrypt({
         algorithm: "RSA-OAEP",
         ciphertext: encryptResult.result
@@ -95,12 +99,14 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
     it("manually encrypt locally and decrypt remotely, both with RSA-OAEP", async function() {
       const text = this.test!.title;
-      // Encrypting outside the client since the client will intentionally
-      const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
-      const encrypted = publicEncrypt(keyPEM, Buffer.from(text));
+      const localProvider = new RsaCryptographyProvider(keyVaultKey.key!);
+      const encryptResult = await localProvider.encrypt({
+        algorithm: "RSA-OAEP",
+        plaintext: Buffer.from(text)
+      });
       const decryptResult = await cryptoClient.decrypt({
         algorithm: "RSA-OAEP",
-        ciphertext: encrypted
+        ciphertext: encryptResult.result
       });
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
@@ -125,7 +131,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
   }
 
-  // Local encryption is only supported in NodeJS.
   it("sign and verify with RS256", async function(): Promise<void> {
     const signatureValue = this.test!.title;
     const hash = createHash("sha256");
