@@ -202,7 +202,9 @@ class NodeHttpsClient implements HttpsClient {
         try {
           parsedUrl = new URL(proxySettings.host);
         } catch (_error) {
-          throw new Error(`Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`);
+          throw new Error(
+            `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`
+          );
         }
 
         const proxyAgentOptions: HttpsProxyAgentOptions = {
@@ -217,7 +219,7 @@ class NodeHttpsClient implements HttpsClient {
         this.proxyAgent = (new HttpsProxyAgent(proxyAgentOptions) as unknown) as https.Agent;
       }
       return this.proxyAgent;
-    } else if (request.keepAlive) {
+    } else if (!request.disableKeepAlive) {
       if (!this.keepAliveAgent) {
         this.keepAliveAgent = new https.Agent({
           keepAlive: true

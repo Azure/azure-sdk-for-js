@@ -139,9 +139,9 @@ export interface PipelineRequest {
   proxySettings?: ProxySettings;
 
   /**
-   * If the connection should be reused.
+   * If the connection should not be reused.
    */
-  keepAlive?: boolean;
+  disableKeepAlive?: boolean;
 
   /**
    * Used to abort the request later.

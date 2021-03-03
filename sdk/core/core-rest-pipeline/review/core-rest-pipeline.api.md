@@ -154,9 +154,9 @@ export interface PipelinePolicy {
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
     body?: RequestBodyType;
+    disableKeepAlive?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
-    keepAlive?: boolean;
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
@@ -173,9 +173,9 @@ export interface PipelineRequest {
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
     body?: RequestBodyType;
+    disableKeepAlive?: boolean;
     formData?: FormDataMap;
     headers?: HttpHeaders;
-    keepAlive?: boolean;
     method?: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;

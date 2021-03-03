@@ -74,9 +74,9 @@ export interface PipelineRequestOptions {
   proxySettings?: ProxySettings;
 
   /**
-   * If the connection should be reused. Defaults to true.
+   * If the connection should not be reused.
    */
-  keepAlive?: boolean;
+  disableKeepAlive?: boolean;
 
   /**
    * Used to abort the request later.
@@ -107,7 +107,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public formData?: FormDataMap;
   public streamResponseStatusCodes?: Set<number>;
   public proxySettings?: ProxySettings;
-  public keepAlive: boolean;
+  public disableKeepAlive: boolean;
   public abortSignal?: AbortSignalLike;
   public requestId: string;
   public spanOptions?: SpanOptions;
@@ -121,7 +121,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.method = options.method ?? "GET";
     this.timeout = options.timeout ?? 0;
     this.formData = options.formData;
-    this.keepAlive = options.keepAlive ?? true;
+    this.disableKeepAlive = options.disableKeepAlive ?? false;
     this.proxySettings = options.proxySettings;
     this.streamResponseStatusCodes = options.streamResponseStatusCodes;
     this.withCredentials = options.withCredentials ?? false;
