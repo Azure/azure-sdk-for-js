@@ -124,6 +124,17 @@ export function AddParamsToTask<X>(action: X): { parameters?: X } {
 }
 
 /**
+ * Set the modelVersion property with default if it does not exist in x.
+ * @param options - operation options bag that has a {@link StringIndexType}
+ * @internal
+ */
+export function setModelVersionParam<X extends { modelVersion?: string }>(
+  x: X
+): X & { modelVersion: string } {
+  return { ...x, modelVersion: x.modelVersion || "latest" };
+}
+
+/**
  * @internal
  */
 export interface PageParam {

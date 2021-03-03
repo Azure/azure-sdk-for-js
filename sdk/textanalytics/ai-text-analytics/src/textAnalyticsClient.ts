@@ -46,6 +46,7 @@ import {
   AddParamsToTask,
   addStrEncodingParam,
   handleInvalidDocumentBatch,
+  setModelVersionParam,
   setStrEncodingParam,
   StringIndexType
 } from "./util";
@@ -964,7 +965,7 @@ export class TextAnalyticsClient {
       realInputs = documents;
       realOptions = (languageOrOptions as BeginAnalyzeBatchActionsOptions) || {};
     }
-    const compiledActions = addEncodingParamToAnalyzeInput(actions);
+    const compiledActions = compileAnalyzeInput(actions);
     const poller = new BeginAnalyzeBatchActionsPoller({
       client: this.client,
       documents: realInputs,
@@ -987,15 +988,27 @@ export class TextAnalyticsClient {
 /**
  * @internal
  */
-function addEncodingParamToAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
+function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
+  return (value: T1) => fn2(fn1(value));
+}
+
+/**
+ * @internal
+ */
+function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
-    entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions
-      ?.map(setStrEncodingParam)
-      .map(AddParamsToTask),
-    entityRecognitionTasks: actions.recognizeEntitiesActions
-      ?.map(setStrEncodingParam)
-      .map(AddParamsToTask),
-    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask)
+    entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions?.map(
+      compose(setStrEncodingParam, AddParamsToTask)
+    ),
+    entityRecognitionTasks: actions.recognizeEntitiesActions?.map(
+      compose(setStrEncodingParam, AddParamsToTask)
+    ),
+    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask),
+    // setting the mode version is necessary because the service always expects it
+    // https://github.com/Azure/azure-sdk-for-js/issues/14079
+    entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
+      compose(setStrEncodingParam, compose(setModelVersionParam, AddParamsToTask))
+    )
   };
 }
 
