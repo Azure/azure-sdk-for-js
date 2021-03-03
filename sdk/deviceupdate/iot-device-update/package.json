@@ -20,7 +20,7 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
-  "types": "./dist-esm/index.d.ts",
+  "types": "./types/iot-device-update.d.ts",
   "devDependencies": {
     "uuid": "^8.3.0",
     "@types/uuid": "^8.0.0",
@@ -34,7 +34,8 @@
     "uglify-js": "^3.4.9",
     "@microsoft/api-extractor": "7.7.11",
     "mkdirp": "^1.0.4",
-    "typedoc": "0.15.2"
+    "typedoc": "0.15.2",
+    "rimraf": "^3.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js",
   "repository": {
@@ -69,8 +70,8 @@
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "echo skip",
+    "lint": "echo skip",
     "test:browser": "echo skip",
     "test:node": "echo skip",
     "test": "echo skip",
