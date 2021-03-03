@@ -4,31 +4,6 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions } from "@azure/core-tracing";
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
-declare global {
-  /**
-   * Stub declaration of the browser-only Blob type.
-   * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
-   */
-  interface Blob {}
-
-  interface File extends Blob {}
-
-  /** Provides a way to easily construct a set of key/value pairs representing form fields and their values, which can then be easily sent using the XMLHttpRequest.send() method. It uses the same format a form would use if the encoding type were set to "multipart/form-data". */
-  interface FormData {
-    append(name: string, value: string | Blob, fileName?: string): void;
-    delete(name: string): void;
-    get(name: string): string | File | null;
-    getAll(name: string): Array<string | File>;
-    has(name: string): boolean;
-    set(name: string, value: string | Blob, fileName?: string): void;
-    forEach(
-      callbackfn: (value: string | File, key: string, parent: FormData) => void,
-      thisArg?: any
-    ): void;
-  }
-}
-
 /**
  * A HttpHeaders collection represented as a simple JSON object.
  */

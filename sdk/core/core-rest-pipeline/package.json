@@ -14,11 +14,11 @@
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
-  "types": "types/latest/core-rest-pipeline.d.ts",
+  "types": "core-rest-pipeline.shims.d.ts",
   "typesVersions": {
     "<3.6": {
-      "types/latest/src/*": [
-        "types/3.1/src/*"
+      "types/latest/*": [
+        "types/3.1/*"
       ]
     }
   },
@@ -59,9 +59,11 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/",
-    "README.md",
-    "LICENSE"
+    "types/3.1/core-rest-pipeline.d.ts",
+    "types/latest/core-rest-pipeline.d.ts",
+    "core-rest-pipeline.shims.d.ts",
+    "LICENSE",
+    "README.md"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [

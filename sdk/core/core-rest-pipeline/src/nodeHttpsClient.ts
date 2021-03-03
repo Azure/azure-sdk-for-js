@@ -202,7 +202,9 @@ class NodeHttpsClient implements HttpsClient {
         try {
           parsedUrl = new URL(proxySettings.host);
         } catch (_error) {
-          throw new Error(`Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`);
+          throw new Error(
+            `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`
+          );
         }
 
         const proxyAgentOptions: HttpsProxyAgentOptions = {
