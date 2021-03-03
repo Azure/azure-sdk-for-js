@@ -138,10 +138,10 @@ export {
   TokenSentimentValue,
   TextAnalyticsWarning,
   State as TextAnalyticsOperationStatus,
-  HealthcareAssertion,
+  HealthcareAssertion as HealthcareEntityAssertion,
   PiiCategory as PiiEntityCategory,
-  Association,
-  Certainty,
-  Conditionality,
+  Association as HealthcareEntityAssociation,
+  Certainty as HealthcareEntityCertainty,
+  Conditionality as HealthcareEntityConditionality,
   RelationType as HealthcareEntityRelationType
 } from "./generated/models";

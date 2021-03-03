@@ -1102,9 +1102,9 @@ export type Conditionality = "Hypothetical" | "Conditional";
 /** Defines values for Certainty. */
 export type Certainty =
   | "Positive"
-  | "Positive Possible"
-  | "Neutral Possible"
-  | "Negative Possible"
+  | "PositivePossible"
+  | "NeutralPossible"
+  | "NegativePossible"
   | "Negative";
 /** Defines values for Association. */
 export type Association = "subject" | "other";
