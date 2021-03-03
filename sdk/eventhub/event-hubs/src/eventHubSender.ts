@@ -88,6 +88,8 @@ export class EventHubSender extends LinkEntity {
 
   private _hasPendingSend?: boolean;
 
+  private _cachedPublishingProperties?: PartitionPublishingProperties;
+
   /**
    * Creates a new EventHubSender instance.
    * @hidden
@@ -253,6 +255,11 @@ export class EventHubSender extends LinkEntity {
       abortSignal?: AbortSignalLike;
     } = {}
   ): Promise<PartitionPublishingProperties> {
+    if (this._cachedPublishingProperties) {
+      // Send a copy of the properties so it can't be mutated downstream.
+      return { ...this._cachedPublishingProperties };
+    }
+
     const properties: PartitionPublishingProperties = {
       isIdempotentPublishingEnabled: this._isIdempotentProducer,
       partitionId: this.partitionId ?? ""
@@ -279,7 +286,10 @@ export class EventHubSender extends LinkEntity {
       properties.lastPublishedSequenceNumber = parseInt(lastPublishedSequenceNumber, 10);
     }
 
-    return properties;
+    this._cachedPublishingProperties = properties;
+
+    // Send a copy of the properties so it can't be mutated downstream.
+    return { ...properties };
   }
 
   /**
