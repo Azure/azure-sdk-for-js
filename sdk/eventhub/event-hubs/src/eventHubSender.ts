@@ -33,6 +33,18 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { defaultDataTransformer } from "./dataTransformer";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
+
+/**
+ * @internal
+ */
+export interface EventHubSenderOptions {
+  enableIdempotentProducer: boolean;
+  /**
+   * The EventHub partition id to which the sender wants to send the event data.
+   */
+  partitionId?: string;
+}
+
 /**
  * Describes the EventHubSender that will send event data to EventHub.
  * @internal
@@ -71,20 +83,27 @@ export class EventHubSender extends LinkEntity {
    */
   private _sender?: AwaitableSender;
 
+  private _isIdempotentProducer?: boolean;
+
+  private _hasPendingSend?: boolean;
+
   /**
    * Creates a new EventHubSender instance.
    * @hidden
    * @param context - The connection context.
-   * @param partitionId - The EventHub partition id to which the sender
-   * wants to send the event data.
+   * @param options - Options used to configure the EventHubSender.
    */
-  constructor(context: ConnectionContext, partitionId?: string) {
+  constructor(
+    context: ConnectionContext,
+    { partitionId, enableIdempotentProducer }: EventHubSenderOptions
+  ) {
     super(context, {
       name: context.config.getSenderAddress(partitionId),
       partitionId: partitionId
     });
     this.address = context.config.getSenderAddress(partitionId);
     this.audience = context.config.getSenderAudience(partitionId);
+    this._isIdempotentProducer = enableIdempotentProducer;
 
     this._onAmqpError = (eventContext: EventContext) => {
       const senderError = eventContext.sender && eventContext.sender.error;
@@ -240,6 +259,15 @@ export class EventHubSender extends LinkEntity {
         this._context.connectionId,
         this.name
       );
+      if (this._isIdempotentProducer && this._hasPendingSend) {
+        throw new Error(
+          `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentPartitions" is set to true.`
+        );
+      }
+
+      if (this._isIdempotentProducer) {
+        this._hasPendingSend = true;
+      }
 
       let encodedBatchMessage: Buffer | undefined;
       if (isEventDataBatch(events)) {
@@ -290,6 +318,10 @@ export class EventHubSender extends LinkEntity {
       );
       logErrorStackTrace(err);
       throw err;
+    } finally {
+      if (this._isIdempotentProducer) {
+        this._hasPendingSend = false;
+      }
     }
   }
 
@@ -560,10 +592,10 @@ export class EventHubSender extends LinkEntity {
    * Creates a new sender to the given event hub, and optionally to a given partition if it is
    * not present in the context or returns the one present in the context.
    * @hidden
-   * @param partitionId - Partition ID to which it will send event data.
+   * @param options - Options used to configure the EventHubSender.
    */
-  static create(context: ConnectionContext, partitionId?: string): EventHubSender {
-    const ehSender: EventHubSender = new EventHubSender(context, partitionId);
+  static create(context: ConnectionContext, options: EventHubSenderOptions): EventHubSender {
+    const ehSender: EventHubSender = new EventHubSender(context, options);
     if (!context.senders[ehSender.name]) {
       context.senders[ehSender.name] = ehSender;
     }

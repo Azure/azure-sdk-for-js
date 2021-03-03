@@ -130,5 +130,49 @@ describe("EventHubProducerClient", function() {
         }
       });
     });
+
+    describe("concurrent sends", function() {
+      it("are limited to one per partition", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        try {
+          const batch1 = await producerClient.createBatch({ partitionId: "0" });
+          batch1.tryAdd({ body: "one" });
+
+          await Promise.all([
+            producerClient.sendBatch(batch1),
+            producerClient.sendBatch([{ body: "two" }], { partitionId: "0" })
+          ]);
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.not.equal(err.message, TEST_FAILURE);
+        }
+      });
+
+      it("has no impact on serial sends", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const batch1 = await producerClient.createBatch({ partitionId: "0" });
+        batch1.tryAdd({ body: "one" });
+
+        await producerClient.sendBatch(batch1);
+        await producerClient.sendBatch([{ body: "two" }], { partitionId: "0" });
+      });
+
+      it("are isolated per partition", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        await Promise.all([
+          producerClient.sendBatch([{ body: "one" }], { partitionId: "0" }),
+          producerClient.sendBatch([{ body: "two" }], { partitionId: "1" })
+        ]);
+      });
+    });
   });
 });
