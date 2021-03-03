@@ -22,7 +22,7 @@ const perfStressProgram = new PerfStressProgram(
     StorageBlobDownloadWithSASTest,
     CoreHTTPDownloadWithSASTest,
     CoreHTTPSDownloadWithSASTest,
-    NodeFetchDownloadWithSASTest,
+    NodeFetchDownloadWithSASTest
   ])
 );
 
