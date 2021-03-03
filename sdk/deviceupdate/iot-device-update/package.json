@@ -22,7 +22,11 @@
   "module": "./dist-esm/index.js",
   "types": "./dist-esm/index.d.ts",
   "devDependencies": {
+    "uuid": "^8.3.0",
+    "@types/uuid": "^8.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/identity": "^1.1.0",
+    "dotenv": "^8.2.0",
     "typescript": "4.1.2",
     "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^3.4.0",
