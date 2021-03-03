@@ -345,8 +345,8 @@ export class StreamingReceiver extends MessageReceiver {
         }
       }
 
-      // Wait for the user to clear the deliveries before adding more credits
       if (numberOfEmptyIncomingSlots(this.link) <= 1) {
+        // Wait for the user to clear the deliveries before adding more credits
         while (numberOfEmptyIncomingSlots(this.link) <= 1) {
           await delay(1000);
           if (numberOfEmptyIncomingSlots(this.link) > 1) {
