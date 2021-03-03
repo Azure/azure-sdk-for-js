@@ -14,7 +14,6 @@ import {
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
-import { CommunicationIdentifierModel } from "../../src/generated/src/models/index";
 
 if (isNode) {
   dotenv.config();
@@ -42,14 +41,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 export async function createTestUser(): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
   return await identityClient.createUserWithToken(["chat"]);
-}
-
-export function getCommunicationIdentifier(
-  user: CommunicationUserIdentifier
-): CommunicationIdentifierModel {
-  return {
-    communicationUser: { id: user.communicationUserId }
-  };
 }
 
 export async function deleteTestUser(testUser: CommunicationUserIdentifier) {
