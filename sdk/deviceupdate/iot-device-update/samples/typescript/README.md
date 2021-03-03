@@ -12,9 +12,9 @@ urlFragment: azure-iot-device-update-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Device Update for IoT Hub in some common scenarios.
 
-| **File Name**                          | **Description**                                                     |
-| -------------------------------------- | ------------------------------------------------------------------- |
-| [updates.ts][alternativedocumentinput] | Shows how to use some list operations for Device Update for IoT Hub |
+| **File Name**         | **Description**                                                     |
+| --------------------- | ------------------------------------------------------------------- |
+| [updates.ts][updates] | Shows how to use some list operations for Device Update for IoT Hub |
 
 ## Prerequisites
 
@@ -58,8 +58,8 @@ node dist/updates.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[updates]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/deviceupdate/iot-device-update/samples/typescript/src/updates.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/iot-device-update
+[updates]: https://github.com/Azure/azure-sdk-for-js/blob/c9514676793d3155efe3629d02d1170806e7a838/sdk/deviceupdate/iot-device-update/samples/typescript/src/updates.ts
+[apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/deviceupdate/iot-device-update/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/blob/c9514676793d3155efe3629d02d1170806e7a838/sdk/deviceupdate/iot-device-update/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
