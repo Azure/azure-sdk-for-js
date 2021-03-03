@@ -76,32 +76,6 @@ describe("ServiceClient", function() {
       }
     };
 
-    it("should throw if scopes contain an invalid url", async function() {
-      const credential: TokenCredential = {
-        getToken: async (_scopes) => {
-          return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
-      };
-      try {
-        let request: OperationRequest;
-        const client = new ServiceClient({
-          httpsClient: {
-            sendRequest: (req) => {
-              request = req;
-              return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-            }
-          },
-          credential,
-          credentialScopes: ["https://microsoft.com", "lalala"]
-        });
-
-        await client.sendOperationRequest(testOperationArgs, testOperationSpec);
-        assert.fail();
-      } catch (error) {
-        assert.include(error.message, `Invalid URL`);
-      }
-    });
-
     it("should throw is no scope or baseUri are defined", async function() {
       const credential: TokenCredential = {
         getToken: async (_scopes) => {
@@ -159,6 +133,33 @@ describe("ServiceClient", function() {
 
     it("should use the provided scope", async function() {
       const authScope = "https://microsoft.com/baseuri/.default";
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, authScope);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpsClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          }
+        },
+        credential,
+        credentialScopes: authScope
+      });
+
+      await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+
+    it("should use the provided scope", async function() {
+      const authScope = "noUrl/.default";
       const credential: TokenCredential = {
         getToken: async (scopes) => {
           assert.equal(scopes, authScope);

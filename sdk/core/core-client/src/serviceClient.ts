@@ -18,7 +18,6 @@ import {
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { flattenResponse } from "./utils";
-import { URL } from "./url";
 import { getCachedDefaultHttpsClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
 import { createClientPipeline } from "./pipeline";
@@ -211,9 +210,7 @@ function createDefaultPipeline(options: ServiceClientOptions): Pipeline {
 function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {
   if (options.credentialScopes) {
     const scopes = options.credentialScopes;
-    return Array.isArray(scopes)
-      ? scopes.map((scope) => new URL(scope).toString())
-      : new URL(scopes).toString();
+    return Array.isArray(scopes) ? scopes.map((scope) => scope) : scopes;
   }
 
   if (options.baseUri) {
