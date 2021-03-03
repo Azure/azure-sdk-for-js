@@ -6,9 +6,10 @@ import { bearerTokenAuthenticationPolicy, RequestPolicyFactory } from "@azure/co
 import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAccessKeyCredentialPolicy";
 /**
  * Creates a pipeline policy to authenticate request based
- * on the credential passed in
+ * on the credential passed in.
+ * @hidden
  *
- * @param credential - The key credential
+ * @param credential - The KeyCredential or TokenCredential.
  */
 export const createCommunicationAuthPolicy = (
   credential: KeyCredential | TokenCredential

@@ -58,6 +58,9 @@
 # PRLabel: %Communication
 /sdk/communication/ @acsdevx-msft
 
+# PRLabel: %Container Registry
+/sdk/containerregistry/ @jeremymeng
+
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
 

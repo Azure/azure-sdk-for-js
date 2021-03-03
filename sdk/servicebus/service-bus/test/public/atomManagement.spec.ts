@@ -18,6 +18,7 @@ import { EntityStatus, EntityAvailabilityStatus } from "../../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
+import { TestConstants } from "./testConstants";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -1570,15 +1571,15 @@ describe(`createSubscription() using different variations to the input parameter
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         }
       ],
       enablePartitioning: true,
@@ -1602,15 +1603,15 @@ describe(`createSubscription() using different variations to the input parameter
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         }
       ],
       enablePartitioning: true,
@@ -1875,15 +1876,15 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           claimType: "SharedAccessKey",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         }
       ],
       enablePartitioning: true,
@@ -1905,15 +1906,15 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           claimType: "SharedAccessKey",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         }
       ],
       maxDeliveryCount: 5,
@@ -1947,15 +1948,15 @@ describe(`createRule() using different variations to the input parameter "ruleOp
             claimType: "SharedAccessKey",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           },
           {
             claimType: "SharedAccessKey",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           }
         ],
         enablePartitioning: true,
@@ -2012,15 +2013,15 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          primaryKey: TestConstants.primaryKey,
+          secondaryKey: TestConstants.secondaryKey
         }
       ],
 
@@ -2429,8 +2430,8 @@ async function createEntity(
             claimType: "SharedAccessKey",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           }
         ]
       };
@@ -2676,8 +2677,8 @@ async function updateEntity(
             claimType: "SharedAccessKey",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           }
         ]
       };

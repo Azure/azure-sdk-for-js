@@ -58,7 +58,7 @@ export class CosmosClient {
    * Creates a new {@link CosmosClient} object. See {@link CosmosClientOptions} for more details on what options you can use.
    * @param options - bag of options; require at least endpoint and auth to be configured
    */
-  constructor(options: CosmosClientOptions); // tslint:disable-line:unified-signatures
+  constructor(options: CosmosClientOptions);
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);

@@ -27,16 +27,12 @@ describe("NodeJS CRUD Tests", function() {
 
       // create a trigger
       const beforeCreateTriggersCount = triggers.length;
-      // tslint:disable:no-var-keyword
-      // tslint:disable:prefer-const
       const triggerDefinition: TriggerDefinition = {
         id: "sample trigger",
         body: "serverScript() { var x = 10; }",
         triggerType: TriggerType.Pre,
         triggerOperation: TriggerOperation.All
       };
-      // tslint:enable:no-var-keyword
-      // tslint:enable:prefer-const
 
       const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
 
@@ -99,11 +95,6 @@ describe("NodeJS CRUD Tests", function() {
     const triggers: TriggerDefinition[] = [
       {
         id: "t1",
-        // tslint:disable:no-var-keyword
-        // tslint:disable:prefer-const
-        // tslint:disable:curly
-        // tslint:disable:no-string-throw
-        // tslint:disable:object-literal-shorthand
         body: function() {
           const item = getContext()
             .getRequest()
@@ -158,11 +149,6 @@ describe("NodeJS CRUD Tests", function() {
         triggerOperation: TriggerOperation.Delete
       }
     ];
-    // tslint:enable:no-var-keyword
-    // tslint:enable:prefer-const
-    // tslint:enable:curly
-    // tslint:enable:no-string-throw
-    // tslint:enable:object-literal-shorthand
 
     it("should do trigger operations successfully with create", async function() {
       for (const trigger of triggers) {

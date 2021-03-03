@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import {
   AnalyzeBatchInput as AnalyzeBatchInputMapper,
   MultiLanguageBatchInput as MultiLanguageBatchInputMapper,
@@ -137,7 +136,6 @@ export const modelVersion: OperationQueryParameter = {
 export const stringIndexType: OperationQueryParameter = {
   parameterPath: ["options", "stringIndexType"],
   mapper: {
-    defaultValue: "TextElements_v8",
     serializedName: "stringIndexType",
     type: {
       name: "String"
@@ -171,7 +169,7 @@ export const piiCategories: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const input1: OperationParameter = {

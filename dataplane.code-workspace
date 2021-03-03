@@ -73,6 +73,10 @@
       "path": "sdk/core/core-tracing"
     },
     {
+      "name": "core-util",
+      "path": "sdk/core/core-util"
+    },
+    {
       "name": "core-xml",
       "path": "sdk/core/core-xml"
     },

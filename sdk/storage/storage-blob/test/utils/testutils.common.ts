@@ -113,7 +113,7 @@ export class SimpleTokenCredential implements TokenCredential {
 }
 
 export function isBrowser(): boolean {
-  return typeof window !== "undefined";
+  return typeof self !== "undefined";
 }
 
 export function getUniqueName(prefix: string): string {

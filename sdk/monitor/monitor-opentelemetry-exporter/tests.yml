@@ -1,10 +1,12 @@
 trigger: none
 
-extends:
-  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-  parameters:
-    TimeoutInMinutes: 15
-    PackageName: "@azure/monitor-opentelemetry-exporter"
-    ResourceServiceDirectory: monitor
-    TestSamples: false
-    PostIntegrationSteps: monitor-additional-steps
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      TimeoutInMinutes: 15
+      PackageName: "@azure/monitor-opentelemetry-exporter"
+      ServiceDirectory: monitor
+      MatrixFilters:
+        - DependencyVersion=^$
+      PostSteps:
+        - template: /eng/pipelines/templates/steps/monitor-additional-steps.yml

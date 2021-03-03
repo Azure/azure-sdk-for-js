@@ -84,7 +84,10 @@ export {
   AnalyzeHealthcareEntitiesSuccessResult,
   AnalyzeHealthcareEntitiesErrorResult,
   HealthcareEntity,
-  EntityDataSource
+  EntityDataSource,
+  HealthcareEntityRelation,
+  HealthcareEntityRelationRole,
+  HealthcareEntityRelationRoleType
 } from "./analyzeHealthcareEntitiesResult";
 export {
   PagedAnalyzeBatchActionsResult,
@@ -136,8 +139,9 @@ export {
   TextAnalyticsWarning,
   State as TextAnalyticsOperationStatus,
   HealthcareAssertion,
-  PiiCategory,
+  PiiCategory as PiiEntityCategory,
   Association,
   Certainty,
-  Conditionality
+  Conditionality,
+  RelationType as HealthcareEntityRelationType
 } from "./generated/models";
