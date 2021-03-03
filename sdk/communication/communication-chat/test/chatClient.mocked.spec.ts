@@ -70,6 +70,7 @@ describe("[Mocked] ChatClient", async () => {
     sinon.assert.calledOnce(spy);
 
     assert.deepEqual(response, expected);
+    assert.equal(responseUser?.kind, "communicationUser");
     assert.equal(
       (responseUser as CommunicationUserIdentifier)?.communicationUserId,
       expectedIdentifier.communicationUser?.id

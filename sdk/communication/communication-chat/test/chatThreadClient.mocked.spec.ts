@@ -110,6 +110,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     sinon.assert.calledOnce(spy);
     assert.deepEqual(responseMessage, expectedMessage);
+    assert.equal(responseUser?.kind, "communicationUser");
     assert.equal(
       (responseUser as CommunicationUserIdentifier)?.communicationUserId,
       expectedIdentifier?.communicationUser?.id
@@ -151,6 +152,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       if (!expectedIdentifier) {
         assert.isUndefined(responseUser);
       } else {
+        assert.equal(responseUser?.kind, "communicationUser");
         assert.equal(
           (responseUser as CommunicationUserIdentifier)?.communicationUserId,
           expectedIdentifier?.communicationUser?.id
@@ -338,6 +340,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       const { sender, ...requestReceipt } = readReceipt;
       const { senderCommunicationIdentifier, ...expectedReceipt } = mockChatMessageReadReceipt;
 
+      assert.equal(sender?.kind, "communicationUser");
       assert.equal(
         (sender as CommunicationUserIdentifier)?.communicationUserId,
         senderCommunicationIdentifier.communicationUser?.id

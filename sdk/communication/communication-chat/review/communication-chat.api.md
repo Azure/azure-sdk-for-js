@@ -11,6 +11,7 @@ import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
 import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
 import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
 import { CommunicationIdentifier } from '@azure/communication-common';
+import { CommunicationIdentifierKind } from '@azure/communication-common';
 import { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
@@ -82,7 +83,7 @@ export interface ChatMessage {
     deletedOn?: Date;
     editedOn?: Date;
     id: string;
-    sender?: CommunicationIdentifier;
+    sender?: CommunicationIdentifierKind;
     senderDisplayName?: string;
     sequenceId: string;
     type: ChatMessageType;
@@ -91,7 +92,7 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageContent {
-    initiator?: CommunicationIdentifier;
+    initiator?: CommunicationIdentifierKind;
     message?: string;
     participants?: ChatParticipant[];
     topic?: string;
@@ -101,7 +102,7 @@ export interface ChatMessageContent {
 export interface ChatMessageReadReceipt {
     chatMessageId: string;
     readOn: Date;
-    sender: CommunicationIdentifier;
+    sender: CommunicationIdentifierKind;
 }
 
 // @public
@@ -116,7 +117,7 @@ export interface ChatParticipant {
 
 // @public
 export interface ChatThread {
-    readonly createdBy?: CommunicationIdentifier;
+    readonly createdBy?: CommunicationIdentifierKind;
     createdOn: Date;
     deletedOn?: Date;
     id: string;
