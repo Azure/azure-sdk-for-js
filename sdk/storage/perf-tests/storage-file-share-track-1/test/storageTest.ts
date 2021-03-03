@@ -8,7 +8,7 @@ import {
   DirectoryURL,
   StorageURL,
   SharedKeyCredential,
-  Aborter,
+  Aborter
 } from "@azure/storage-file";
 
 // Expects the .env file at the same level as the "test" folder

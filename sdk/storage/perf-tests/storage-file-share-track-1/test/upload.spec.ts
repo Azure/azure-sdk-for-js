@@ -9,7 +9,9 @@ import { generateUuid } from "@azure/core-http";
 interface StorageFileShareUploadTestOptions {
   size: number;
 }
-export class StorageFileShareUploadTest extends StorageFileShareTest<StorageFileShareUploadTestOptions> {
+export class StorageFileShareUploadTest extends StorageFileShareTest<
+  StorageFileShareUploadTestOptions
+> {
   fileClient: FileURL;
   buffer: Buffer;
   public options: PerfStressOptionDictionary<StorageFileShareUploadTestOptions> = {
@@ -18,8 +20,8 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<StorageFile
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024,
-    },
+      defaultValue: 1024
+    }
   };
 
   constructor() {

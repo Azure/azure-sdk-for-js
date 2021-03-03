@@ -17,15 +17,17 @@ interface StorageFileShareDownloadTestOptions {
 
 const localDirName = "temp";
 
-export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<StorageFileShareDownloadTestOptions> {
+export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
+  StorageFileShareDownloadTestOptions
+> {
   public options: PerfStressOptionDictionary<StorageFileShareDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024,
-    },
+      defaultValue: 1024
+    }
   };
   static fileName = generateUuid();
   fileClient: ShareFileClient;
