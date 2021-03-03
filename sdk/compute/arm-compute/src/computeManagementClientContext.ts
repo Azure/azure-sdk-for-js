@@ -14,7 +14,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-compute";
-const packageVersion = "15.0.1";
+const packageVersion = "15.1.0";
 
 export class ComputeManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
