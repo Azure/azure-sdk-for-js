@@ -6,6 +6,7 @@
   "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
+    "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.10",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
@@ -15,7 +16,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
