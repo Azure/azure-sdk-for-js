@@ -23,7 +23,7 @@ import {
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
-import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
+import { AmqpError, delay, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
@@ -234,6 +234,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
       });
 
+      let bufferLimitReached = false;
       try {
         await this._onMessage(bMessage);
       } catch (err) {
@@ -294,11 +295,10 @@ export class StreamingReceiver extends MessageReceiver {
         }
         return;
       } finally {
-        if (this.receiveMode === "receiveAndDelete") {
-          this._receiverHelper.addCredit(1);
-        } else if (numberOfEmptyIncomingSlots(this.link) - 1 > 1) {
+        if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(this.link) > 1) {
           this._receiverHelper.addCredit(1);
         } else {
+          bufferLimitReached = true;
           // Additionally.. have a checkWithTimeout that keeps checking if the above if-condition satisfies
           // If it ever satisfies - add the credit
           this._onError?.({
@@ -345,6 +345,16 @@ export class StreamingReceiver extends MessageReceiver {
             fullyQualifiedNamespace: this._context.config.host
           });
         }
+      }
+
+      if (bufferLimitReached) {
+        // Wait for the user to clear the deliveries before adding more credits
+        let bufferHasCapacity = false;
+        while (!bufferHasCapacity) {
+          await delay(1000);
+          bufferHasCapacity = numberOfEmptyIncomingSlots(this.link) > 1;
+        }
+        this._receiverHelper.addCredit(1);
       }
     };
   }
