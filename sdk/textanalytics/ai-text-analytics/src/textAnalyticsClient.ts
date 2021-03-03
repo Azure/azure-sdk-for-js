@@ -548,8 +548,9 @@ export class TextAnalyticsClient {
   /**
    * Runs a predictive model to identify the positive, negative, neutral, or mixed
    * sentiment contained in the input strings, as well as scores indicating
-   * the model's confidence in each of the predicted sentiments.
-   * For a list of languages supported by this operation, @see
+   * the model's confidence in each of the predicted sentiments. Optionally it
+   * can also identify targets in the text and assessments about it through
+   * opinion mining. For a list of languages supported by this operation, @see
    * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
@@ -557,7 +558,7 @@ export class TextAnalyticsClient {
         language in `TextAnalyticsClientOptions`.  
         If set to an empty string, the service will apply a model
         where the lanuage is explicitly set to "None".
-   * @param options - Optional parameters for the operation.
+   * @param options - Optional parameters that includes enabling opinion mining.
    */
   public async analyzeSentiment(
     documents: string[],
@@ -567,11 +568,12 @@ export class TextAnalyticsClient {
   /**
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
    * sentiment contained in the input documents, as well as scores indicating
-   * the model's confidence in each of the predicted sentiments.
-   * For a list of languages supported by this operation, @see
+   * the model's confidence in each of the predicted sentiments.Optionally it
+   * can also identify targets in the text and assessments about it through
+   * opinion mining. For a list of languages supported by this operation, @see
    * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
-   * @param options - Options for the operation.
+   * @param options - Optional parameters that includes enabling opinion mining.
    */
   public async analyzeSentiment(
     documents: TextDocumentInput[],
