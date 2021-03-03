@@ -33,6 +33,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { defaultDataTransformer } from "./dataTransformer";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
+import { idempotentProducerCapability } from "./util/constants";
 
 /**
  * @internal
@@ -349,6 +350,10 @@ export class EventHubSender extends LinkEntity {
       onSessionClose: this._onSessionClose,
       sendTimeoutInSeconds: timeoutInMs / 1000
     };
+    if (this._isIdempotentProducer) {
+      srOptions.desired_capabilities = idempotentProducerCapability;
+      srOptions.properties = {};
+    }
     logger.verbose("Creating sender with options: %O", srOptions);
     return srOptions;
   }
