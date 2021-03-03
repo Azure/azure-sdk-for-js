@@ -1,0 +1,65 @@
+{
+  "name": "@azure/iot-device-update",
+  "author": "Microsoft Corporation",
+  "description": "Device Update for IoT Hub is an Azure service that enables customers to publish update for their IoT devices to the cloud, and then deploy that update to their devices (approve updates to groups of devices managed and provisioned in IoT Hub). It leverages the proven security and reliability of the Windows Update platform, optimized for IoT devices. It works globally and knows when and how to update devices, enabling customers to focus on their business goals and let Device Update for IoT Hub handle the updates.",
+  "version": "1.0.0-beta.1",
+  "dependencies": {
+    "@azure/core-paging": "^1.1.1",
+    "@azure/core-http": "^1.2.0",
+    "@azure/core-tracing": "1.0.0-beta.1",
+    "@opentelemetry/api": "^0.10.2",
+    "tslib": "^2.0.0"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/index.js",
+  "types": "./dist-esm/index.d.ts",
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "typescript": "4.1.2",
+    "rollup": "^1.16.3",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "uglify-js": "^3.4.9",
+    "@microsoft/api-extractor": "7.7.11",
+    "mkdirp": "^1.0.4"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "README.md",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "extract-api": "api-extractor run --local",
+    "pack": "npm pack 2>&1"
+  },
+  "sideEffects": false,
+  "autoPublish": true
+}
