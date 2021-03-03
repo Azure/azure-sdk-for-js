@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.0-beta.1 (Unreleased)
+## 1.0.0-preview.10 (2021-03-04)
+
+- Internal improvements to make future opentelemetry updates simpler.
 
 ## 1.0.0-preview.9 (2020-08-04)
 
