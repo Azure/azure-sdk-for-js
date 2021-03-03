@@ -86,21 +86,18 @@ describe("ServiceClient", function() {
         }
       };
       let request: WebResource;
-      try {
-        const client = new ServiceClient(cred, {
-          httpClient: {
-            sendRequest: (req) => {
-              request = req;
-              return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-            }
-          },
-          credentialScopes
-        });
-        await client.sendOperationRequest(testArgs, testOperationSpec);
-        assert.fail("Expected to throw");
-      } catch (error) {
-        assert.include(error.message, `Invalid URL`);
-      }
+
+      const client = new ServiceClient(cred, {
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+          }
+        },
+        credentialScopes
+      });
+      await client.sendOperationRequest(testArgs, testOperationSpec);
+      assert.ok("Didn't throw");
     });
 
     it("should throw when there is no credentialScopes or baseUri", async () => {
