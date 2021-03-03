@@ -49,7 +49,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer } from "../dataTransformer";
-import { isDefined } from "../util/typeGuards";
+import { isDefined, isObjectWithProperties } from "../util/typeGuards";
 
 /**
  * @internal
@@ -1257,7 +1257,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       typeof filter !== "boolean" &&
       typeof filter !== "string" &&
       !correlationProperties.some((validProperty) =>
-        Object.hasOwnProperty.call(filter, validProperty)
+        isObjectWithProperties(filter, [validProperty])
       )
     ) {
       throw new TypeError(
