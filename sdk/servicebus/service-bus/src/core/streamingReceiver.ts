@@ -345,7 +345,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
       }
 
-      if (numberOfEmptyIncomingSlots(this.link) <= 1) {
+      if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
         // Wait for the user to clear the deliveries before adding more credits
         while (numberOfEmptyIncomingSlots(this.link) <= 1) {
           await delay(1000);

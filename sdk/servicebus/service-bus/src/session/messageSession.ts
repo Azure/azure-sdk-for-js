@@ -724,7 +724,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
         }
 
-        if (numberOfEmptyIncomingSlots(this.link) <= 1) {
+        if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
           // Wait for the user to clear the deliveries before adding more credits
           while (numberOfEmptyIncomingSlots(this.link) <= 1) {
             await delay(1000);
@@ -737,10 +737,10 @@ export class MessageSession extends LinkEntity<Receiver> {
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      const creditsToAdd = Math.min(
-        this.maxConcurrentCalls,
-        numberOfEmptyIncomingSlots(this.link) - 1
-      );
+      const creditsToAdd =
+        this.receiveMode === "peekLock"
+          ? Math.min(this.maxConcurrentCalls, numberOfEmptyIncomingSlots(this.link) - 1)
+          : this.maxConcurrentCalls;
       this._receiverHelper.addCredit(creditsToAdd);
     } else {
       this._isReceivingMessagesForSubscriber = false;
