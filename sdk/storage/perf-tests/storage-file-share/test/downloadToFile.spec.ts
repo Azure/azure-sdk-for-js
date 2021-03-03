@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-import { ShareFileClient } from "../../../src";
+import { ShareFileClient } from "@azure/storage-file-share";
 import fs from "fs";
 import util from "util";
 const fileExists = util.promisify(fs.exists);
@@ -10,24 +10,22 @@ const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
 import { StorageFileShareTest } from "./storageTest.spec";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 interface StorageFileShareDownloadTestOptions {
   size: number;
 }
 
 const localDirName = "temp";
 
-export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
-  StorageFileShareDownloadTestOptions
-> {
+export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<StorageFileShareDownloadTestOptions> {
   public options: PerfStressOptionDictionary<StorageFileShareDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
   static fileName = generateUuid();
   fileClient: ShareFileClient;

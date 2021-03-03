@@ -3,11 +3,11 @@
 
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 
-import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "../../../src";
+import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "@azure/storage-file-share";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 dotenv.config();
 
 export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOptions> {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import fs from "fs";
 import util from "util";
-import { ShareFileClient } from "../../../src";
+import { ShareFileClient } from "@azure/storage-file-share";
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
@@ -19,9 +19,7 @@ interface StorageFileShareUploadFromFileTestOptions {
 const localDirName = "temp";
 const localFileName = `${localDirName}/upload-from-test-temp-file.txt`;
 
-export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
-  StorageFileShareUploadFromFileTestOptions
-> {
+export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<StorageFileShareUploadFromFileTestOptions> {
   fileClient: ShareFileClient;
   public options: PerfStressOptionDictionary<StorageFileShareUploadFromFileTestOptions> = {
     size: {
@@ -29,8 +27,8 @@ export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
 
   constructor() {

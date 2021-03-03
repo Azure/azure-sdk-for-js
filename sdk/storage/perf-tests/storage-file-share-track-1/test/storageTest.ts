@@ -8,13 +8,13 @@ import {
   DirectoryURL,
   StorageURL,
   SharedKeyCredential,
-  Aborter
+  Aborter,
 } from "@azure/storage-file";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
 import { generateUuid } from "@azure/core-http";
-dotenv.config({ path: "../../../.env" });
+dotenv.config();
 
 export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOptions> {
   shareServiceClient: ServiceURL;

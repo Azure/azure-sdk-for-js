@@ -10,22 +10,20 @@ interface StorageFileShareDownloadTestOptions {
   size: number;
 }
 
-export class StorageFileShareDownloadTest extends StorageFileShareTest<
-  StorageFileShareDownloadTestOptions
-> {
-  buffer = Buffer.alloc(this.parsedOptions.size.value!);
+export class StorageFileShareDownloadTest extends StorageFileShareTest<StorageFileShareDownloadTestOptions> {
   public options: PerfStressOptionDictionary<StorageFileShareDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
 
   static fileName = generateUuid();
   fileClient: FileURL;
+  buffer: Buffer;
 
   constructor() {
     super();
@@ -33,6 +31,7 @@ export class StorageFileShareDownloadTest extends StorageFileShareTest<
       this.directoryClient,
       StorageFileShareDownloadTest.fileName
     );
+    this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
   public async globalSetup() {
