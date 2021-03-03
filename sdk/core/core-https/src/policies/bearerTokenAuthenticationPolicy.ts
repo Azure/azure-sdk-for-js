@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
-  AuthenticationContext
-} from "../interfaces";
+import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "../accessTokenCache";
@@ -15,6 +10,21 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "../accessTokenCache"
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
  */
 export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
+
+/**
+ * The processing of the challenge should return in any (or both) of these properties.
+ */
+export interface BearerTokenChallengeResult {
+  /**
+   * Scopes to overwrite during the get token request.
+   */
+  scopes?: string[];
+  /**
+   * Additional claims to be included in the token.
+   * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
+   */
+  claims?: string;
+}
 
 /**
  * Options to configure the bearerTokenAuthenticationPolicy
@@ -48,7 +58,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
     /**
      * Updates  the authentication context based on the challenge.
      */
-    processChallenge(challenge: string): Promise<AuthenticationContext | undefined>;
+    processChallenge(challenge: string): Promise<BearerTokenChallengeResult | undefined>;
   };
 }
 
@@ -57,9 +67,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
  */
 function defaultGetChallenge(response: PipelineResponse): string | undefined {
-  const challenges = response.headers.get("WWW-Authenticate");
-  if (response.status === 401 && challenges) {
-    return challenges;
+  const challenge = response.headers.get("WWW-Authenticate");
+  if (response.status === 401 && challenge) {
+    return challenge;
   }
   return;
 }
@@ -71,18 +81,17 @@ function defaultGetChallenge(response: PipelineResponse): string | undefined {
 export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
-  const { credential, scopes } = options;
+  const { credential, scopes, challenge } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const { prepareRequest, getChallenge = defaultGetChallenge, processChallenge } =
-    options.challenge || {};
+  const { prepareRequest, getChallenge = defaultGetChallenge, processChallenge } = challenge ?? {};
 
   /**
-   * getToken will call to the underlying credential's getToken request with properties coming from the request,
+   * retrieveToken will call to the underlying credential's getToken request with properties coming from the request,
    * as well as properties coming from parsing the CAE challenge, if any.
    */
-  async function getToken(
+  async function retrieveToken(
     request: PipelineRequest,
-    context?: AuthenticationContext
+    context?: BearerTokenChallengeResult
   ): Promise<string | undefined> {
     let accessToken = tokenCache.getCachedToken();
     const getTokenOptions: GetTokenOptions = {
@@ -104,13 +113,16 @@ export function bearerTokenAuthenticationPolicy(
    * Populates the token in the request headers.
    */
   function assignToken(request: PipelineRequest, token?: string): PipelineRequest {
-    request.headers.set("Authorization", `Bearer ${token}`);
+    if (token) {
+      request.headers.set("Authorization", `Bearer ${token}`);
+    }
     return request;
   }
 
   /**
    * Uses the challenge parameters to:
    * - Prepare the outgoing request (if the `prepareRequest` method has been provided).
+   * - Send an initial request to receive the challenge if it fails.
    * - Process a challenge if the response contains it.
    * - Retrieve a token with the challenge information, then re-send the request.
    */
@@ -121,11 +133,13 @@ export function bearerTokenAuthenticationPolicy(
     if (prepareRequest) {
       await prepareRequest(request);
     }
+
     const response = await next(request);
     const challenge = getChallenge(response);
+
     if (challenge && processChallenge) {
       const context = await processChallenge(challenge);
-      const token = await getToken(request, context);
+      const token = await retrieveToken(request, context);
       return next(assignToken(request, token));
     }
     return response;
@@ -133,12 +147,17 @@ export function bearerTokenAuthenticationPolicy(
 
   return {
     name: bearerTokenAuthenticationPolicyName,
+    /**
+     * If there's no cached token and we have challenge options, this policy will try to authenticate using the challenges.
+     * If there's an access token in the cache, it will avoid any challenge processing.
+     */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const token = await getToken(request);
-      if (token) {
-        return next(assignToken(request, token));
-      } else {
+      let accessToken = tokenCache.getCachedToken();
+      if (!accessToken && processChallenge) {
         return await challengePolicy(request, next);
+      } else {
+        const token = await retrieveToken(request);
+        return next(assignToken(request, token));
       }
     }
   };

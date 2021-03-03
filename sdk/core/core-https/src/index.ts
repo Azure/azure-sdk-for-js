@@ -13,8 +13,7 @@ export {
   ProxySettings,
   RawHttpHeaders,
   TransferProgressEvent,
-  RequestBodyType,
-  AuthenticationContext
+  RequestBodyType
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
@@ -66,6 +65,7 @@ export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
 export {
   bearerTokenAuthenticationPolicy,
   BearerTokenAuthenticationPolicyOptions,
-  bearerTokenAuthenticationPolicyName
+  bearerTokenAuthenticationPolicyName,
+  BearerTokenChallengeResult
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";

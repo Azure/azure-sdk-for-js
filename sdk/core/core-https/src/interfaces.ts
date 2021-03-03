@@ -274,18 +274,3 @@ export type FormDataValue = string | Blob;
  * A simple object that provides form data, as if from a browser form.
  */
 export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
-
-/**
- * Allows the discovery of authentication properties.
- */
-export interface AuthenticationContext {
-  /**
-   * Scopes to overwrite during the get token request.
-   */
-  scopes?: string[];
-  /**
-   * Additional claims to be included in the token.
-   * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
-   */
-  claims?: string;
-}

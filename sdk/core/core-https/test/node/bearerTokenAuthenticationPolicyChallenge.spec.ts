@@ -11,7 +11,7 @@ import {
   HttpsClient,
   PipelineResponse
 } from "../../src";
-import { AuthenticationContext } from "../../src/interfaces";
+import { BearerTokenChallengeResult } from "../../src/policies/bearerTokenAuthenticationPolicy";
 
 export interface TestChallenge {
   scope: string;
@@ -63,7 +63,7 @@ function parseCAEChallenge(challenges: string): any[] {
     );
 }
 
-async function processChallenge(challenge: string): Promise<AuthenticationContext> {
+async function processChallenge(challenge: string): Promise<BearerTokenChallengeResult> {
   const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
 
   const parsedChallenge = challenges.find((x) => x.claims);
@@ -83,16 +83,16 @@ async function processChallenge(challenge: string): Promise<AuthenticationContex
 class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
-  public tokens: (AccessToken | null)[];
+  public getTokenResponses: (AccessToken | null)[];
 
-  constructor(tokens: (AccessToken | null)[]) {
-    this.tokens = tokens;
+  constructor(getTokenResponses: (AccessToken | null)[]) {
+    this.getTokenResponses = getTokenResponses;
   }
 
   public getToken(scope: string | string[], options: GetTokenOptions): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
-    return Promise.resolve(this.tokens.shift()!);
+    return Promise.resolve(this.getTokenResponses.shift()!);
   }
 }
 
@@ -124,11 +124,11 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     ];
 
     const expiresOn = Date.now() + 5000;
-    const tokens = [null, { token: "mock-token", expiresOnTimestamp: expiresOn }];
-    const credential = new MockRefreshAzureCredential(tokens);
+    const getTokenResponse = { token: "mock-token", expiresOnTimestamp: expiresOn };
+    const credential = new MockRefreshAzureCredential([getTokenResponse]);
 
     const pipeline = createEmptyPipeline();
-    const policy = bearerTokenAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: "",
       credential,
@@ -136,11 +136,13 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
         processChallenge
       }
     });
+    pipeline.addPolicy(bearerPolicy);
 
-    pipeline.addPolicy(policy);
+    const finalSendRequestHeaders: (string | undefined)[] = [];
 
     const testHttpsClient: HttpsClient = {
       sendRequest: async (req) => {
+        finalSendRequestHeaders.push(req.headers.get("Authorization"));
         if (responses.length) {
           const response = responses.shift()!;
           response.request = req;
@@ -152,16 +154,20 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     await pipeline.sendRequest(testHttpsClient, request);
 
-    assert.equal(credential.authCount, 2);
+    // Our goal is to test that:
+    // - Only one getToken request was sent.
+    // - That the only getToken request contained the scope and the claims of the challenge.
+    // - That the HTTP requests that were sent were:
+    //   - Once without the token, to retrieve the challenge.
+    //   - A final one with the token.
+
+    assert.equal(credential.authCount, 1);
     assert.deepEqual(credential.scopesAndClaims, [
-      {
-        scope: "",
-        challengeClaims: undefined
-      },
       {
         scope: [expected.scope],
         challengeClaims: expected.challengeClaims
       }
     ]);
+    assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 });
