@@ -188,4 +188,15 @@ describe("internal crypto tests", () => {
       });
     });
   });
+
+  describe("With an invalid RSA key", () => {
+    it("throws a validation error", () => {
+      const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
+      assert.throws(
+        () =>
+          rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }, {}),
+        "Key type does not match the algorithm RSA"
+      );
+    });
+  });
 });

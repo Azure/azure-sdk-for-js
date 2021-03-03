@@ -49,6 +49,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   }
 
   encrypt(encryptParameters: EncryptParameters, _options: EncryptOptions): Promise<EncryptResult> {
+    this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
 
     const padding =
@@ -75,6 +76,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     keyToWrap: Uint8Array,
     _options: WrapKeyOptions
   ): Promise<WrapResult> {
+    this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
 
     const padding = algorithm === "RSA1_5" ? RSA_PKCS1_PADDING : RSA_PKCS1_OAEP_PADDING;
@@ -112,6 +114,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     signature: Uint8Array,
     _options: VerifyOptions
   ): Promise<VerifyResult> {
+    this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
 
     const verifier = createVerify(algorithm, digest);
@@ -164,4 +167,10 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     PS512: "SHA512",
     RS512: "SHA512"
   };
+
+  private ensureValid() {
+    if (this.key && this.key.kty! !== "RSA" && this.key.kty! !== "RSA-HSM") {
+      throw new Error("Key type does not match the algorithm RSA");
+    }
+  }
 }
