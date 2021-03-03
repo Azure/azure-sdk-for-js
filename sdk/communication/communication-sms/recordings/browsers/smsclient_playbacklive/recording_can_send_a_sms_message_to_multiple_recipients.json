@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/sms",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"from\":\"+18005551234\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"},{\"to\":\"+18005551234567\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
+   "status": 202,
+   "response": "{\"value\":[{\"to\":\"+18005551234\",\"messageId\":\"Outgoing_202103032217512193b013-c9b0-4b17-b3cd-7b58d56fbd49_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+18005551234567\",\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"successful\":false}]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "6a7ad8c1a0194ea41368ee5512beac90"
+}

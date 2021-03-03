@@ -16,8 +16,6 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
     (recording: string): string =>
-      recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"sanitized"`),
-    (recording: string): string =>
       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
     (recording: string): string =>
       recording.replace(

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "df24495de2b72f064c84a8137f2c3e8b";
+module.exports.hash = "3102c37ceec3c08dea8261c3cf15aab0";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,17 +22,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd82cd895-9eb1-4286-ba4d-6749459e6d00',
+  'a3760121-bdb9-4732-8f46-26936f6a0500',
   'x-ms-ests-server',
-  '2.1.11513.17 - WUS2 ProdSlices',
+  '2.1.11530.15 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=ArKGQrcsIaZGni-Do6DoNCyMQo4QAQAAAJaBz9cOAAAA; expires=Thu, 01-Apr-2021 00:45:10 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Am3Mium8z6VPoP3CSgn_eH6MQo4QAQAAAAQC0tcOAAAA; expires=Fri, 02-Apr-2021 22:17:40 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 02 Mar 2021 00:45:09 GMT',
+  'Wed, 03 Mar 2021 22:17:40 GMT',
   'Content-Length',
   '1327'
 ]);
@@ -40,7 +40,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/sms', {"from":"+18005551234","smsRecipients":[{"to":"+18005551234","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":false}})
   .query(true)
-  .reply(202, {"value":[{"to":"+18005551234","messageId":"sanitized","httpStatusCode":202,"errorMessage":null,"repeatabilityResult":"accepted","successful":true}]}, [
+  .reply(202, {"value":[{"to":"+18005551234","messageId":"Outgoing_20210303221741a4b64065-cfa4-4409-9ae0-886b23f6f45f_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'XD+VwVlvukmm3UX3Pe6m1g.0',
+  'yiFELe6E0UStYJ9DTqSwrw.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '701ms',
+  '752ms',
   'X-Azure-Ref',
-  '0loo9YAAAAAB6vgNHqKwIRJP8zqNoVbCIWVZSMzBFREdFMDMwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0BQtAYAAAAAAhwsh7/hinQ7nCYMV7s0QHWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 02 Mar 2021 00:45:10 GMT'
+  'Wed, 03 Mar 2021 22:17:40 GMT'
 ]);

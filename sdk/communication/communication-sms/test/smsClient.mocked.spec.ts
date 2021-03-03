@@ -90,7 +90,7 @@ describe("[mocked] SmsClient", async () => {
     });
   };
 
-  describe("when instantiating client with connection string", async () => {
+  describe("when client instantiated with connection string", async () => {
     const connectionString = `endpoint=${baseUri};accesskey=banana`;
     before(async () => {
       sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
