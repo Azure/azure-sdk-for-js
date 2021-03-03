@@ -29,5 +29,5 @@ extends:
     ServiceDirectory: deviceupdate
     IncludeRelease: false
     Artifacts:
-      - name: azure-deviceupdate
-        safeName: deviceupdate
+      - name: azure-iot-device-update
+        safeName: azureiotdeviceupdate
