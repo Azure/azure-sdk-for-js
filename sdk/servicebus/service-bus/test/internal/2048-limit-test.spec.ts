@@ -58,10 +58,10 @@ async function sendMessages(numberOfMessagesToSend: number) {
     const batch = await sender.createMessageBatch();
     let body = `message-${current}`;
     while (
+      current < numberOfMessagesToSend &&
       batch.tryAddMessage(
         entityName.usesSessions ? { body, sessionId: TestMessage.sessionId } : { body }
-      ) &&
-      current < numberOfMessagesToSend
+      )
     ) {
       messageBodies.push(body);
       current++;
