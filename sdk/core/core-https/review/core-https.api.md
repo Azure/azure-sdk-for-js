@@ -27,7 +27,6 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 export interface BearerTokenAuthenticationPolicyOptions {
     challenge?: {
         prepareRequest?(request: PipelineRequest): Promise<void>;
-        getChallenge?(response: PipelineResponse): string | undefined;
         processChallenge(challenge: string): Promise<BearerTokenChallengeResult | undefined>;
     };
     credential: TokenCredential;

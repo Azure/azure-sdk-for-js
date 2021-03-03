@@ -50,28 +50,10 @@ export interface BearerTokenAuthenticationPolicyOptions {
      */
     prepareRequest?(request: PipelineRequest): Promise<void>;
     /**
-     * Defines how to get the challenge from the PipelineResponse.
-     * By default we will retrieve the challenge only if the response status code was 401,
-     * and if the response contained the header "WWW-Authenticate" with a non-empty value.
-     */
-    getChallenge?(response: PipelineResponse): string | undefined;
-    /**
      * Updates  the authentication context based on the challenge.
      */
     processChallenge(challenge: string): Promise<BearerTokenChallengeResult | undefined>;
   };
-}
-
-/**
- * By default we will retrieve the challenge only if the response status code was 401,
- * and if the response contained the header "WWW-Authenticate" with a non-empty value.
- */
-function defaultGetChallenge(response: PipelineResponse): string | undefined {
-  const challenge = response.headers.get("WWW-Authenticate");
-  if (response.status === 401 && challenge) {
-    return challenge;
-  }
-  return;
 }
 
 /**
@@ -83,7 +65,7 @@ export function bearerTokenAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes, challenge } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const { prepareRequest, getChallenge = defaultGetChallenge, processChallenge } = challenge ?? {};
+  const { prepareRequest, processChallenge } = challenge ?? {};
 
   /**
    * retrieveToken will call to the underlying credential's getToken request with properties coming from the request,
@@ -117,6 +99,18 @@ export function bearerTokenAuthenticationPolicy(
       request.headers.set("Authorization", `Bearer ${token}`);
     }
     return request;
+  }
+
+  /**
+   * We will retrieve the challenge only if the response status code was 401,
+   * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+   */
+  function getChallenge(response: PipelineResponse): string | undefined {
+    const challenge = response.headers.get("WWW-Authenticate");
+    if (response.status === 401 && challenge) {
+      return challenge;
+    }
+    return;
   }
 
   return {
