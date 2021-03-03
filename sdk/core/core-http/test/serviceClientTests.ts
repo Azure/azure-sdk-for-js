@@ -77,6 +77,29 @@ describe("ServiceClient", function() {
       }
     };
 
+    it("should work when credentialScopes is not url ", async () => {
+      const credentialScopes = ["/lalala//", "https://microsoft.com"];
+      const cred: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.deepEqual(scopes, credentialScopes);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+      let request: WebResource;
+
+      const client = new ServiceClient(cred, {
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+          }
+        },
+        credentialScopes
+      });
+      await client.sendOperationRequest(testArgs, testOperationSpec);
+      assert.ok("Didn't throw");
+    });
+
     it("should throw when there is no credentialScopes or baseUri", async () => {
       const cred: TokenCredential = {
         getToken: async (_scopes) => {
@@ -104,7 +127,7 @@ describe("ServiceClient", function() {
     });
 
     it("should use the provided scope", async () => {
-      const scope = "nourl/.default";
+      const scope = "https://microsoft.com/.default";
       const cred: TokenCredential = {
         getToken: async (scopes) => {
           assert.equal(scopes, scope);
