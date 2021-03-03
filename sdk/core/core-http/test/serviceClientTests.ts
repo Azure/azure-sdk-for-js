@@ -77,9 +77,11 @@ describe("ServiceClient", function() {
       }
     };
 
-    it("should throw when there is a non fqdm as credentialScopes", async () => {
+    it("should work when credentialScopes is not url ", async () => {
+      const credentialScopes = ["/lalala//", "https://microsoft.com"];
       const cred: TokenCredential = {
-        getToken: async (_scopes) => {
+        getToken: async (scopes) => {
+          assert.deepEqual(scopes, credentialScopes);
           return { token: "testToken", expiresOnTimestamp: 11111 };
         }
       };
@@ -92,7 +94,7 @@ describe("ServiceClient", function() {
               return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
             }
           },
-          credentialScopes: ["/lalala//", "https://microsoft.com"]
+          credentialScopes
         });
         await client.sendOperationRequest(testArgs, testOperationSpec);
         assert.fail("Expected to throw");
