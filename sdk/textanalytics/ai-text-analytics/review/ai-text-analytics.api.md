@@ -91,9 +91,6 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 export interface AssessmentSentiment extends SentenceAssessment {
 }
 
-// @public
-export type Association = "subject" | "other";
-
 export { AzureKeyCredential }
 
 // @public
@@ -113,12 +110,6 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 // @public
 export interface CategorizedEntity extends Entity {
 }
-
-// @public
-export type Certainty = "Positive" | "Positive Possible" | "Neutral Possible" | "Negative Possible" | "Negative";
-
-// @public
-export type Conditionality = "Hypothetical" | "Conditional";
 
 // @public
 export interface DetectedLanguage {
@@ -217,19 +208,28 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
     keyPhrases: string[];
 }
 
-// @public (undocumented)
-export interface HealthcareAssertion {
-    association?: Association;
-    certainty?: Certainty;
-    conditionality?: Conditionality;
-}
-
 // @public
 export interface HealthcareEntity extends Entity {
-    assertion?: HealthcareAssertion;
+    assertion?: HealthcareEntityAssertion;
     dataSources: EntityDataSource[];
     normalizedText?: string;
 }
+
+// @public (undocumented)
+export interface HealthcareEntityAssertion {
+    association?: HealthcareEntityAssociation;
+    certainty?: HealthcareEntityCertainty;
+    conditionality?: HealthcareEntityConditionality;
+}
+
+// @public
+export type HealthcareEntityAssociation = "subject" | "other";
+
+// @public
+export type HealthcareEntityCertainty = "Positive" | "PositivePossible" | "NeutralPossible" | "NegativePossible" | "Negative";
+
+// @public
+export type HealthcareEntityConditionality = "Hypothetical" | "Conditional";
 
 // @public
 export interface HealthcareEntityRelation {
