@@ -5,7 +5,9 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
+  "browser": {
+    "./dist-esm/src/isNode.js": "./dist-esm/src/isNode.browser.js"
+  },
   "types": "types/latest/core-util.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -35,7 +37,7 @@
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test:browser && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test:node && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && npm run unit-test:node && npm run build && npm run unit-test:browser && npm run integration-test:node && npm run integration-test:browser",
+    "test": "npm run unit-test:node && npm run build && npm run unit-test:browser && npm run integration-test:node && npm run integration-test:browser",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
