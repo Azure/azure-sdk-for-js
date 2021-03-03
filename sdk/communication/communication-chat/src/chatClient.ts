@@ -24,7 +24,8 @@ import { getSignalingClient } from "./signaling/signalingClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  generateUuid
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -127,6 +128,9 @@ export class ChatClient {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
+      // We generate an UUID if user not provides repeatabilityRequestId.
+      updatedOptions.repeatabilityRequestId =
+        updatedOptions.repeatabilityRequestId ?? generateUuid();
       const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
