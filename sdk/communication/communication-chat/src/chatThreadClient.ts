@@ -3,7 +3,11 @@
 
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
-import { CommunicationIdentifier, CommunicationTokenCredential, serializeCommunicationIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  CommunicationTokenCredential,
+  serializeCommunicationIdentifier
+} from "@azure/communication-common";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,

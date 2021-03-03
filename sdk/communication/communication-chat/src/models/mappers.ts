@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { deserializeCommunicationIdentifier,serializeCommunicationIdentifier, SerializedCommunicationIdentifier } from "@azure/communication-common";
+import {
+  deserializeCommunicationIdentifier,
+  serializeCommunicationIdentifier,
+  SerializedCommunicationIdentifier
+} from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
 import { AddChatParticipantsRequest } from "./requests";
 import {
@@ -64,7 +68,9 @@ export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): Ch
   const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
   if (senderCommunicationIdentifier) {
     return {
-      sender: deserializeCommunicationIdentifier(senderCommunicationIdentifier as SerializedCommunicationIdentifier),
+      sender: deserializeCommunicationIdentifier(
+        senderCommunicationIdentifier as SerializedCommunicationIdentifier
+      ),
       content: contentSdkModel,
       ...otherChatMessage
     };
@@ -96,7 +102,9 @@ export const mapToChatParticipantSdkModel = (
   const { communicationIdentifier, ...rest } = chatParticipant;
   return {
     ...rest,
-    id: deserializeCommunicationIdentifier(communicationIdentifier as SerializedCommunicationIdentifier)
+    id: deserializeCommunicationIdentifier(
+      communicationIdentifier as SerializedCommunicationIdentifier
+    )
   };
 };
 
@@ -109,7 +117,9 @@ export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatT
   if (createdByCommunicationIdentifier)
     return {
       ...rest,
-      createdBy: deserializeCommunicationIdentifier(createdByCommunicationIdentifier as SerializedCommunicationIdentifier)
+      createdBy: deserializeCommunicationIdentifier(
+        createdByCommunicationIdentifier as SerializedCommunicationIdentifier
+      )
     };
   else {
     return { ...rest };
@@ -126,6 +136,8 @@ export const mapToReadReceiptSdkModel = (
   const { senderCommunicationIdentifier, ...rest } = readReceipt;
   return {
     ...rest,
-    sender: deserializeCommunicationIdentifier(senderCommunicationIdentifier as SerializedCommunicationIdentifier)
+    sender: deserializeCommunicationIdentifier(
+      senderCommunicationIdentifier as SerializedCommunicationIdentifier
+    )
   };
 };
