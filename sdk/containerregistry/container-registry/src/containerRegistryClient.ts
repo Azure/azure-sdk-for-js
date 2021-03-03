@@ -107,7 +107,10 @@ export class ContainerRegistryClient {
     );
 
     try {
-      const result = await this.client.repository.getAttributes(name, updatedOptions);
+      const result = await this.client.containerRegistry.getRepositoryAttributes(
+        name,
+        updatedOptions
+      );
       return result;
     } catch (e) {
       // There are different standard codes available for different errors:

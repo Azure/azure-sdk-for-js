@@ -7,13 +7,9 @@
  */
 
 import {
-  V2Support,
-  Manifests,
-  Blob,
-  Repository,
-  Tag,
-  RefreshTokens,
-  AccessTokens
+  ContainerRegistry,
+  ContainerRegistryRepository,
+  ContainerRegistryBlob
 } from "./operations";
 import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams } from "./models";
@@ -27,20 +23,12 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   constructor(url: string, options?: GeneratedClientOptionalParams) {
     super(url, options);
-    this.v2Support = new V2Support(this);
-    this.manifests = new Manifests(this);
-    this.blob = new Blob(this);
-    this.repository = new Repository(this);
-    this.tag = new Tag(this);
-    this.refreshTokens = new RefreshTokens(this);
-    this.accessTokens = new AccessTokens(this);
+    this.containerRegistry = new ContainerRegistry(this);
+    this.containerRegistryRepository = new ContainerRegistryRepository(this);
+    this.containerRegistryBlob = new ContainerRegistryBlob(this);
   }
 
-  v2Support: V2Support;
-  manifests: Manifests;
-  blob: Blob;
-  repository: Repository;
-  tag: Tag;
-  refreshTokens: RefreshTokens;
-  accessTokens: AccessTokens;
+  containerRegistry: ContainerRegistry;
+  containerRegistryRepository: ContainerRegistryRepository;
+  containerRegistryBlob: ContainerRegistryBlob;
 }

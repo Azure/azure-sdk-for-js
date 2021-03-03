@@ -33,9 +33,9 @@ export interface GetAttributesOptions extends OperationOptions {
 // @public
 export interface RepositoryAttributes {
     changeableAttributes?: ChangeableAttributes;
-    createdTime?: string;
+    createdTime?: Date;
     imageName?: string;
-    lastUpdateTime?: string;
+    lastUpdateTime?: Date;
     manifestCount?: number;
     registry?: string;
     tagCount?: number;

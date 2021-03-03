@@ -11,19 +11,19 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
 import {
-  RepositoryGetListOptionalParams,
-  RepositoryGetListResponse,
-  RepositoryGetAttributesResponse,
-  RepositoryDeleteResponse,
-  RepositoryUpdateAttributesOptionalParams
+  ContainerRegistryGetRepositoriesOptionalParams,
+  ContainerRegistryGetRepositoriesResponse,
+  ContainerRegistryGetRepositoryAttributesResponse,
+  ContainerRegistryDeleteRepositoryResponse,
+  ContainerRegistryUpdateRepositoryAttributesOptionalParams
 } from "../models";
 
-/** Class representing a Repository. */
-export class Repository {
+/** Class representing a ContainerRegistry. */
+export class ContainerRegistry {
   private readonly client: GeneratedClient;
 
   /**
-   * Initialize a new instance of the class Repository class.
+   * Initialize a new instance of the class ContainerRegistry class.
    * @param client Reference to the service client
    */
   constructor(client: GeneratedClient) {
@@ -31,19 +31,35 @@ export class Repository {
   }
 
   /**
-   * List repositories
+   * Tells whether this Docker Registry instance supports Docker Registry HTTP API v2
    * @param options The options parameters.
    */
-  getList(
-    options?: RepositoryGetListOptionalParams
-  ): Promise<RepositoryGetListResponse> {
+  checkDockerV2Support(
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getListOperationSpec
-    ) as Promise<RepositoryGetListResponse>;
+      checkDockerV2SupportOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * List repositories
+   * @param options The options parameters.
+   */
+  getRepositories(
+    options?: ContainerRegistryGetRepositoriesOptionalParams
+  ): Promise<ContainerRegistryGetRepositoriesResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getRepositoriesOperationSpec
+    ) as Promise<ContainerRegistryGetRepositoriesResponse>;
   }
 
   /**
@@ -51,18 +67,18 @@ export class Repository {
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
    */
-  getAttributes(
+  getRepositoryAttributes(
     name: string,
     options?: coreHttp.OperationOptions
-  ): Promise<RepositoryGetAttributesResponse> {
+  ): Promise<ContainerRegistryGetRepositoryAttributesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getAttributesOperationSpec
-    ) as Promise<RepositoryGetAttributesResponse>;
+      getRepositoryAttributesOperationSpec
+    ) as Promise<ContainerRegistryGetRepositoryAttributesResponse>;
   }
 
   /**
@@ -70,18 +86,18 @@ export class Repository {
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
    */
-  delete(
+  deleteRepository(
     name: string,
     options?: coreHttp.OperationOptions
-  ): Promise<RepositoryDeleteResponse> {
+  ): Promise<ContainerRegistryDeleteRepositoryResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      deleteOperationSpec
-    ) as Promise<RepositoryDeleteResponse>;
+      deleteRepositoryOperationSpec
+    ) as Promise<ContainerRegistryDeleteRepositoryResponse>;
   }
 
   /**
@@ -89,9 +105,9 @@ export class Repository {
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
    */
-  updateAttributes(
+  updateRepositoryAttributes(
     name: string,
-    options?: RepositoryUpdateAttributesOptionalParams
+    options?: ContainerRegistryUpdateRepositoryAttributesOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
@@ -99,20 +115,33 @@ export class Repository {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      updateAttributesOperationSpec
+      updateRepositoryAttributesOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getListOperationSpec: coreHttp.OperationSpec = {
+const checkDockerV2SupportOperationSpec: coreHttp.OperationSpec = {
+  path: "/v2/",
+  httpMethod: "GET",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  urlParameters: [Parameters.url],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getRepositoriesOperationSpec: coreHttp.OperationSpec = {
   path: "/acr/v1/_catalog",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.Repositories,
-      headersMapper: Mappers.RepositoryGetListHeaders
+      headersMapper: Mappers.ContainerRegistryGetRepositoriesHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -123,7 +152,7 @@ const getListOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getAttributesOperationSpec: coreHttp.OperationSpec = {
+const getRepositoryAttributesOperationSpec: coreHttp.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "GET",
   responses: {
@@ -138,7 +167,7 @@ const getAttributesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteRepositoryOperationSpec: coreHttp.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "DELETE",
   responses: {
@@ -153,7 +182,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateAttributesOperationSpec: coreHttp.OperationSpec = {
+const updateRepositoryAttributesOperationSpec: coreHttp.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "PATCH",
   responses: {
@@ -164,7 +193,7 @@ const updateAttributesOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.value,
   urlParameters: [Parameters.url, Parameters.name],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
