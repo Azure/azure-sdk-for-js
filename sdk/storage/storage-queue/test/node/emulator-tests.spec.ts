@@ -12,7 +12,7 @@ describe("Emulator Tests", () => {
   const messageContent = "Hello World";
   let queueName: string;
   let queueClient: QueueClient;
-  const env = isBrowser() ? (window as any).__env__ : process.env;
+  const env = isBrowser() ? (self as any).__env__ : process.env;
   beforeEach(async function() {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();

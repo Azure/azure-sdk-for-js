@@ -5,11 +5,12 @@ import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { Span, SpanContext } from "@opentelemetry/api";
+import { SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from "./diagnostics/messageSpan";
+import { createMessageSpan } from "./diagnostics/tracing";
 import { defaultDataTransformer } from "./dataTransformer";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -43,9 +44,9 @@ export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is Eve
  */
 export interface TryAddOptions {
   /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while adding events.
+   * The options to use when creating Spans for tracing.
    */
-  parentSpan?: Span | SpanContext;
+  tracingOptions?: OperationTracingOptions;
 }
 
 /**
@@ -287,7 +288,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     );
     let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options.parentSpan, this._context.config);
+      const { span: messageSpan } = createMessageSpan(options, this._context.config);
       eventData = instrumentEventData(eventData, messageSpan);
       spanContext = messageSpan.context();
       messageSpan.end();

@@ -85,37 +85,6 @@ const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("
 const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 ```
 
-### Send your first search query
-
-To get running immediately, we're going to connect to a well known sandbox Search service provided by Microsoft. This means you do not need an Azure subscription or Azure Cognitive Search service to try out this query.
-
-```js
-const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
-
-// We'll connect to the Azure Cognitive Search public sandbox and send a
-// query to its "nycjobs" index built from a public dataset of available jobs
-// in New York.
-const indexName = "nycjobs";
-const apiKey = "252044BE3886FE4A8E3BAA4F595114BB";
-
-// Create a SearchClient to send queries
-const client = new SearchClient(
-  `https://azs-playground.search.windows.net/`,
-  indexName,
-  new AzureKeyCredential(apiKey)
-);
-
-async function main() {
-  // Let's get the top 5 jobs related to Microsoft
-  const searchResults = await client.search("Microsoft", { top: 5 });
-  for await (const result of searchResults.results) {
-    console.log(`${result.document.business_title}\n${result.document.job_description}\n`);
-  }
-}
-
-main();
-```
-
 ## Key concepts
 An Azure Cognitive Search service contains one or more indexes that provide persistent storage of searchable data in the form of JSON documents.  _(If you're brand new to search, you can make a very rough analogy between indexes and database tables.)_  The @azure/search-documents client library
 exposes operations on these resources through three main client types.
@@ -425,14 +394,14 @@ When retrieving results, a `facets` property will be available that will indicat
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to get the debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure Cognitive Search client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export AZURE_LOG_LEVEL=verbose*
+setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).

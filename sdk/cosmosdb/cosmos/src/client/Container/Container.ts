@@ -8,7 +8,7 @@ import {
   isResourceValid,
   ResourceType
 } from "../../common";
-import { PartitionKeyDefinition } from "../../documents";
+import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
@@ -80,7 +80,7 @@ export class Container {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createDocumentCollectionUri(this.database.id, this.id);
   }
 
@@ -106,7 +106,7 @@ export class Container {
    * @example Replace an item
    * `const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});`
    */
-  public item(id: string, partitionKeyValue?: any): Item {
+  public item(id: string, partitionKeyValue?: PartitionKey): Item {
     return new Item(this, id, partitionKeyValue, this.clientContext);
   }
 

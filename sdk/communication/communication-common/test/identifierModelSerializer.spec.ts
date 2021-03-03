@@ -3,46 +3,46 @@
 
 import { assert } from "chai";
 import {
-  _serializeCommunicationIdentifier,
-  _deserializeCommunicationIdentifier,
+  serializeCommunicationIdentifier,
+  deserializeCommunicationIdentifier,
   CommunicationIdentifier,
-  _SerializedCommunicationIdentifier,
+  SerializedCommunicationIdentifier,
   CommunicationIdentifierKind
 } from "../src";
 
 const assertSerialize = (
   identifier: CommunicationIdentifier,
-  expected: _SerializedCommunicationIdentifier
+  expected: SerializedCommunicationIdentifier
 ): void => {
-  assert.deepEqual(_serializeCommunicationIdentifier(identifier), expected);
+  assert.deepEqual(serializeCommunicationIdentifier(identifier), expected);
 };
 
 const assertDeserialize = (
-  serializedIdentifier: _SerializedCommunicationIdentifier,
+  serializedIdentifier: SerializedCommunicationIdentifier,
   expected: CommunicationIdentifierKind
 ): void => {
-  assert.deepEqual(_deserializeCommunicationIdentifier(serializedIdentifier), expected);
+  assert.deepEqual(deserializeCommunicationIdentifier(serializedIdentifier), expected);
 };
 
 const assertThrowsMissingProperty = <
-  P extends keyof _SerializedCommunicationIdentifier,
-  Q extends keyof Required<_SerializedCommunicationIdentifier>[P]
+  P extends keyof SerializedCommunicationIdentifier,
+  Q extends keyof Required<SerializedCommunicationIdentifier>[P]
 >(
-  serializedIdentifier: _SerializedCommunicationIdentifier,
+  serializedIdentifier: SerializedCommunicationIdentifier,
   identifierType: P,
   missingPropertyName: Q
 ): void => {
   assert.throws(() => {
-    _deserializeCommunicationIdentifier(serializedIdentifier);
+    deserializeCommunicationIdentifier(serializedIdentifier);
   }, `Property ${missingPropertyName} is required for identifier of type ${identifierType}.`);
 };
 
 const assertThrowsTooManyProperties = (
-  serializedIdentifier: _SerializedCommunicationIdentifier
+  serializedIdentifier: SerializedCommunicationIdentifier
 ): void => {
-  const { rawId, ...props } = serializedIdentifier;
+  const { rawId: _rawId, ...props } = serializedIdentifier;
   assert.throws(() => {
-    _deserializeCommunicationIdentifier(serializedIdentifier);
+    deserializeCommunicationIdentifier(serializedIdentifier);
   }, `Only one of the properties in ${JSON.stringify(Object.keys(props))} should be present.`);
 };
 
@@ -243,13 +243,13 @@ describe("Identifier model serializer", () => {
     );
 
     assert.throws(() => {
-      _deserializeCommunicationIdentifier({ someProp: true } as any);
+      deserializeCommunicationIdentifier({ someProp: true } as any);
     }, `Property rawId is required for identifier of type unknown.`);
   });
 
   it("ignores additional properties", () => {
     assert.doesNotThrow(() => {
-      _deserializeCommunicationIdentifier({
+      deserializeCommunicationIdentifier({
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: true,

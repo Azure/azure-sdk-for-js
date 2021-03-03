@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../tsconfig.package",
+  "compilerOptions": {
+    "target": "ES2015",
+    "declarationDir": "./typings/latest",
+    "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
+    "noEmit": true
+  },
+  "compileOnSave": true,
+  "exclude": ["node_modules"],
+  "include": ["./test/**/*.ts"]
+}

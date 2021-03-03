@@ -393,6 +393,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/container-registry",
+      "projectFolder": "sdk/containerregistry/container-registry",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
       "versionPolicyName": "core"
@@ -440,6 +445,11 @@
     {
       "packageName": "@azure/core-tracing",
       "projectFolder": "sdk/core/core-tracing",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/core-util",
+      "projectFolder": "sdk/core/core-util",
       "versionPolicyName": "core"
     },
     {
@@ -631,6 +641,11 @@
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
+      "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-blob",
