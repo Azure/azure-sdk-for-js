@@ -25,8 +25,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
   "sideEffects": false,
   "dependencies": {
-    "@azure/iot-device-update": "../..",
-    "@azure/ai-text-analytics": "latest",
+    "@azure/iot-device-update": "latest",
     "@azure/identity": "latest",
     "dotenv": "^8.2.0",
     "uuid": "^8.1.0"
