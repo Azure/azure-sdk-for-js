@@ -1,0 +1,24 @@
+{
+  "name": "function-image-upload-resize-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@azure/storage-blob": "^12.1.2",
+    "jimp": "^0.13.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure-Samples/storage-blob-resize-function-node-v10.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Azure-Samples/storage-blob-resize-function-node-v10/issues"
+  },
+  "homepage": "https://github.com/Azure-Samples/storage-blob-resize-function-node-v10#readme"
+}

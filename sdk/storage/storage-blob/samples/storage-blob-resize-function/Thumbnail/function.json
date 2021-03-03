@@ -1,0 +1,18 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "type": "eventGridTrigger",
+      "name": "eventGridEvent",
+      "direction": "in"
+    },
+    {
+      "type": "blob",
+      "name": "inputBlob",
+      "path": "{data.url}",
+      "connection": "AZURE_STORAGE_CONNECTION_STRING",
+      "direction": "in",
+      "datatype": "binary"
+    }
+  ]
+}
