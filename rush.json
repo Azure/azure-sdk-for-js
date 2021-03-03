@@ -643,6 +643,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-eventgrid",
+      "projectFolder": "sdk/eventgrid/perf-tests/eventgrid",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-ai-text-analytics",
       "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
       "versionPolicyName": "test"
