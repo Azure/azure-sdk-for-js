@@ -1,14 +1,10 @@
 {
-  "name": "azure-iot-device-update-samples-ts",
+  "name": "azure-iot-device-update-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Cognitive Services Text Analytics client library samples for TypeScript",
+  "description": "Azure Cognitive Services Text Analytics client library samples for Javascript",
   "engine": {
     "node": ">=8.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -19,7 +15,7 @@
     "Cognitive Services",
     "Text Analytics",
     "Node.js",
-    "TypeScript"
+    "Javascript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

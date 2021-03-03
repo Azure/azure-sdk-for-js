@@ -6,7 +6,9 @@
     "strict": true,
     "alwaysStrict": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "lib": ["ESNext.AsyncIterable"]
+
   },
   "include": ["src/**.ts"],
   "exclude": ["node_modules"]

@@ -1,6 +1,6 @@
-import { DeviceUpdateClient } from "../../../";
-import { DefaultAzureCredential } from "@azure/identity";
-import { config } from "dotenv";
+const { DeviceUpdateClient } = require("@azure/iot-device-update");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { config } = require("dotenv");
 
 config();
 
