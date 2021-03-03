@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
+import { Constants, delay, ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -620,6 +620,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           this.receiveMode
         );
 
+        let bufferLimitReached = false;
         try {
           await this._onMessage(bMessage);
         } catch (err) {
@@ -672,11 +673,13 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
           return;
         } finally {
-          if (this.receiveMode === "receiveAndDelete") {
-            this._receiverHelper.addCredit(1);
-          } else if (numberOfEmptyIncomingSlots(this.link) - 1 > 1) {
+          if (
+            this.receiveMode === "receiveAndDelete" ||
+            numberOfEmptyIncomingSlots(this.link) > 1
+          ) {
             this._receiverHelper.addCredit(1);
           } else {
+            bufferLimitReached = true;
             // Additionally.. have a checkWithTimeout that keeps checking if the above if-condition satisfies
             // If it ever satisfies - add the credit
             this._notifyError?.({
@@ -721,6 +724,16 @@ export class MessageSession extends LinkEntity<Receiver> {
               fullyQualifiedNamespace: this._context.config.host
             });
           }
+        }
+
+        if (bufferLimitReached) {
+          // Wait for the user to clear the deliveries before adding more credits
+          let bufferHasCapacity = false;
+          while (!bufferHasCapacity) {
+            await delay(1000);
+            bufferHasCapacity = numberOfEmptyIncomingSlots(this.link) > 1;
+          }
+          this._receiverHelper.addCredit(1);
         }
       };
       // setting the "message" event listener.
