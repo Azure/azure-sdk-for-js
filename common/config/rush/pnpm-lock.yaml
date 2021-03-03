@@ -43,6 +43,7 @@ dependencies:
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
@@ -8809,6 +8810,7 @@ packages:
       '@types/node': 8.10.66
       assert: 1.5.0
       chai: 4.3.0
+      cross-env: 7.0.3
       eslint: 7.20.0
       events: 3.2.0
       karma: 5.2.3
@@ -8841,7 +8843,7 @@ packages:
     dev: false
     name: '@rush-temp/core-lro'
     resolution:
-      integrity: sha512-rmOOOAVy2ARW+f9uBSRHrvOoY6KIE3LsfLLDDWZUhZdGOuhbdQVjMmOt0Wy/HTRo+Zxh/c5WAYAbTXqZfARP1Q==
+      integrity: sha512-PKEMNt6k7V6j5faOpNM+jFMnz9GKF5sCsJmwXkJ7ERdHIJFcKtgd0RuQKA+JTY+i01u3UnQhzxITfELU3wRZfA==
       tarball: file:projects/core-lro.tgz
     version: 0.0.0
   file:projects/core-paging.tgz:
@@ -8938,7 +8940,7 @@ packages:
     dev: false
     name: '@rush-temp/core-util'
     resolution:
-      integrity: sha512-4OU5OFYftkpFRv1aRCZaYrY34EfykkCVgzXXO2NW4EyU9QXtgM2cZvEEzP/elvBXUxCJfG/qtByBeEqjL2pqwA==
+      integrity: sha512-OImydy+qxO0N84cf43gplu2RmV/TAlWN/BXt/sDRdAfNPVnKz91LODK4lZdwQW7ounVRp4FN8MdsfgCyiEnajQ==
       tarball: file:projects/core-util.tgz
     version: 0.0.0
   file:projects/core-xml.tgz:
@@ -9910,6 +9912,21 @@ packages:
       integrity: sha512-Wfak3T6DRQr5CH2DFIOOpsHf1jWps/pkwoLUC185vsw5dO5F1BSnYBRfhBzAWWNr1ot1R60Puy+whBcK0lq8Rw==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
+  file:projects/perf-ai-text-analytics.tgz:
+    dependencies:
+      '@azure/identity': 1.2.3
+      '@types/dotenv': 8.2.0
+      '@types/node': 8.10.66
+      dotenv: 8.2.0
+      ts-node: 8.10.2_typescript@4.1.2
+      tslib: 2.1.0
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/perf-ai-text-analytics'
+    resolution:
+      integrity: sha512-F+eeV+aopIGTZp8/7sq8QGdNFqVQw5qGaZFEHi6paj/NDAk/2xb0lUMupAgkxHrH243PdvM2+Xr6s0CC3p4XFw==
+      tarball: file:projects/perf-ai-text-analytics.tgz
+    version: 0.0.0
   file:projects/perf-storage-blob.tgz:
     dependencies:
       '@types/dotenv': 8.2.0
@@ -9918,13 +9935,14 @@ packages:
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
       node-fetch: 2.6.1
+      ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.1.0
       typescript: 4.1.2
       uuid: 8.3.2
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-ZZQ4YkQ+XG58fZ+la3Gm6pgCkZJkFMfjacNkgkWJs7USxGAfh4atkSDCXL+rDyhc9W1OALwC4tuVRkaXCSmyUg==
+      integrity: sha512-U5zCPyEZxncGaINCHSpdYEoDttTYSNTKVCqzCqP1TRavjM3RBY2ulM99YHTIQcj4l0m8IpH0ousaugFVgd68XA==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
@@ -10680,6 +10698,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.0
       cross-env: 7.0.3
       dotenv: 8.2.0
+      downlevel-dts: 0.4.0
       eslint: 7.20.0
       inherits: 2.0.4
       karma: 5.2.3
@@ -10707,7 +10726,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-pEmmjxvEE493reTCIY95srFHxG/f3nqzcjIwjtoP/nq19qB8RuFpqHf5uIFsShMl/t/jNNpeyeX1w+3Diy+dcg==
+      integrity: sha512-vDIEM+G9J4AdjHkdyKddr9xE5QmzY0aDsqB6EIU51xKfUk4dsmSnpwKbmj2wiESNqHIQUCEfQaAp5sYKUyKneQ==
       tarball: file:projects/template.tgz
     version: 0.0.0
   file:projects/test-utils-multi-version.tgz:
@@ -10883,6 +10902,7 @@ specifiers:
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
