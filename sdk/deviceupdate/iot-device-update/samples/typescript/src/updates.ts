@@ -1,4 +1,4 @@
-import { DeviceUpdateClient } from "../../..";
+import { DeviceUpdateClient } from "../../../dist-esm";
 import { DefaultAzureCredential } from "@azure/identity";
 import { config } from "dotenv";
 
@@ -7,13 +7,18 @@ config();
 const accountEndpoint = process.env["ACCOUNT_ENDPOINT"] || "<ACCOUNT_ENDPOINT>";
 const instanceId = process.env["INSTANCE_ID"] || "<INSTANCE_ID>";
 
-async function checkDeviceUpdates() {
+/**
+ * Get a list of all update providers that have been imported to Device Update for IoT Hub
+ */
+async function listProviders() {
   const credentials = new DefaultAzureCredential();
   const client = new DeviceUpdateClient(credentials, accountEndpoint, instanceId);
 
-  const result = await client.devices.getDevice("1");
+  const providers = client.updates.listProviders();
 
-  console.log(result);
+  for await (const provider of providers) {
+    console.log(provider);
+  }
 }
 
-checkDeviceUpdates();
+listProviders().catch(console.error);
