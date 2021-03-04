@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-datalake";
-const packageVersion = "1.0.0";
+const packageVersion = "12.4.0";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
@@ -41,7 +41,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
     super(undefined, options);
 
     this.resource = 'filesystem';
-    this.version = '2020-04-08';
+    this.version = '2020-06-12';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;
