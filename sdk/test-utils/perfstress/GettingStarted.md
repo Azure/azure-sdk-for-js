@@ -117,6 +117,10 @@ import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfs
 import { `ServiceNameAPIName`Test } from "./api-name.spec";
 import { `ServiceNameAPIName2`Test } from "./api-name2.spec";
 
+// Expects the .env file at the same level
+import * as dotenv from "dotenv";
+dotenv.config();
+
 console.log("=== Starting the perfStress test ===");
 
 const perfStressProgram = new PerfStressProgram(selectPerfStressTest([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]));
@@ -136,11 +140,7 @@ import {
   ServiceNameClient
 } from "@azure/<service-sdk>";
 
-// Expects the .env file at the same level
-import * as dotenv from "dotenv";
-dotenv.config();
-
-export abstract class `ServiceName`Test<TOptions> extends PerfStressTest<TOptions> {
+export abstract class `ServiceName`Test<TOptions = {}> extends PerfStressTest<TOptions> {
   serviceNameClient: ServiceNameClient;
 
   constructor() {
@@ -167,21 +167,9 @@ import { ServiceNameClient } from "@azure/<service-sdk>";
 import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
 import { `ServiceName`Test } from "./serviceNameTest.spec";
 
-interface `ServiceNameAPIName`TestOptions {
-  newOption: number;
-}
-
-export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPIName`TestOptions> {
-  // More details regarding the options in the next section
-  public options: PerfStressOptionDictionary<`ServiceNameAPIName`TestOptions> = {
-    newOption: {
-      required: true,
-      description: "A new option",
-      shortName: "sz",
-      longName: "newOption",
-      defaultValue: 10240
-    }
-  };
+export class `ServiceNameAPIName`Test extends ServiceNameTest {
+  // The next section talks about the custom options that you can provide for a test
+  public options: PerfStressOptionDictionary = {};
 
   serviceNameClient: `ServiceName`Client;
 
