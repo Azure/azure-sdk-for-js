@@ -1,6 +1,7 @@
 {
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
+    "module": "CommonJS",
     "target": "ES2015",
     "declarationDir": "./typings/latest",
     "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
