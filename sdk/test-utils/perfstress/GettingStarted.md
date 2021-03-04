@@ -29,7 +29,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
    ```
        {
-         "packageName": "@azure-tests/<service-sdk>",
+         "packageName": "@azure-tests/perf-<service-sdk>",
          "projectFolder": "sdk/<service>/perf-tests/<service-sdk>",
          "versionPolicyName": "test"
        }
