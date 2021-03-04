@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, toRheaMessage } from "./eventData";
+import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
@@ -11,6 +11,7 @@ import { convertTryAddOptionsForCompatibility, createMessageSpan } from "./diagn
 import { defaultDataTransformer } from "./dataTransformer";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import { PartitionPublishingProperties } from "./models/public";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -102,6 +103,14 @@ export interface EventDataBatch {
   readonly maxSizeInBytes: number;
 
   /**
+   * The publishing sequence number assigned to the first event in the batch at the time
+   * the batch was successfully published.
+   * If the producer was not configured to apply sequence numbering or if the batch
+   * has not yet been successfully published, the value will be `undefined`.
+   */
+  readonly startingPublishedSequenceNumber?: number;
+
+  /**
    * Adds an event to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
@@ -118,7 +127,13 @@ export interface EventDataBatch {
    *
    * @internal
    */
-  _generateMessage(): Buffer;
+  _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
+
+  /**
+   * Sets startingPublishSequenceNumber to the pending publish sequence number.
+   * @internal
+   */
+  _commitPublish(): void;
 
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
@@ -176,6 +191,22 @@ export class EventDataBatchImpl implements EventDataBatch {
    * A common annotation is the partition key.
    */
   private _batchAnnotations?: MessageAnnotations;
+  /**
+   * Indicates that the batch should be treated as idempotent.
+   */
+  private _isIdempotent: boolean;
+  /**
+   * The sequence number assigned to the first event in the batch while
+   * the batch is being sent to the service.
+   */
+  private _pendingStartingSequenceNumber?: number;
+  /**
+   * The publishing sequence number assigned to the first event in the batch at the time
+   * the batch was successfully published.
+   * If the producer was not configured to apply sequence numbering or if the batch
+   * has not yet been successfully published, the value will be `undefined`.
+   */
+  private _startingPublishSequenceNumber?: number;
 
   /**
    * EventDataBatch should not be constructed using `new EventDataBatch()`
@@ -185,11 +216,13 @@ export class EventDataBatchImpl implements EventDataBatch {
   constructor(
     context: ConnectionContext,
     maxSizeInBytes: number,
+    isIdempotent: boolean,
     partitionKey?: string,
     partitionId?: string
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
+    this._isIdempotent = isIdempotent;
     this._partitionKey = isDefined(partitionKey) ? String(partitionKey) : partitionKey;
     this._partitionId = isDefined(partitionId) ? String(partitionId) : partitionId;
     this._sizeInBytes = 0;
@@ -240,6 +273,16 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
+   * The publishing sequence number assigned to the first event in the batch at the time
+   * the batch was successfully published.
+   * If the producer was not configured to apply sequence numbering or if the batch
+   * has not yet been successfully published, the value will be `undefined`.
+   */
+  get startingPublishedSequenceNumber(): number | undefined {
+    return this._startingPublishSequenceNumber;
+  }
+
+  /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
    */
@@ -251,8 +294,27 @@ export class EventDataBatchImpl implements EventDataBatch {
    * Generates an AMQP message that contains the provided encoded events and annotations.
    * @param encodedEvents - The already encoded events to include in the AMQP batch.
    * @param annotations - The message annotations to set on the batch.
+   * @param publishingProps - Idempotent publishing properties used to decorate the events in the batch while sending.
    */
-  private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
+  private _generateBatch(
+    encodedEvents: Buffer[],
+    annotations: MessageAnnotations | undefined,
+    publishingProps?: PartitionPublishingProperties
+  ): Buffer {
+    if (this._isIdempotent && publishingProps) {
+      // We need to decode the encoded events, add the idempotent annotations, and re-encode them.
+      // We can't lazily encode the events because we rely on `message.encode` to capture the
+      // byte length of anything not in `event.body`.
+      // Events can't be decorated ahead of time because the publishing properties aren't known
+      // until the events are being sent to the service.
+      const decodedEvents = (encodedEvents.map(message.decode) as unknown) as RheaMessage[];
+      const decoratedEvents = this._decorateRheaMessagesWithPublishingProps(
+        decodedEvents,
+        publishingProps
+      );
+      encodedEvents = decoratedEvents.map(message.encode);
+    }
+
     const batchEnvelope: RheaMessage = {
       body: message.data_sections(encodedEvents)
     };
@@ -260,6 +322,56 @@ export class EventDataBatchImpl implements EventDataBatch {
       batchEnvelope.message_annotations = annotations;
     }
     return message.encode(batchEnvelope);
+  }
+
+  /**
+   * Uses the publishingProps to add idempotent properties as message annotations to rhea messages.
+   */
+  private _decorateRheaMessagesWithPublishingProps(
+    events: RheaMessage[],
+    publishingProps: PartitionPublishingProperties
+  ): RheaMessage[] {
+    if (!this._isIdempotent) {
+      return events;
+    }
+
+    const { lastPublishedSequenceNumber = 0, ownerLevel, producerGroupId } = publishingProps;
+    const startingSequenceNumber = lastPublishedSequenceNumber + 1;
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      populateIdempotentMessageAnnotations(event, {
+        ownerLevel,
+        producerGroupId,
+        publishSequenceNumber: startingSequenceNumber + i
+      });
+    }
+
+    this._pendingStartingSequenceNumber = startingSequenceNumber;
+    return events;
+  }
+
+  /**
+   * Annotates a rhea message with placeholder idempotent properties if the batch is idempotent.
+   * This is necessary so that we can accurately calculate the size of the batch while adding events.
+   * Placeholder values are used because real values won't be known until we attempt to send the batch.
+   */
+  private _decorateRheaMessageWithPlaceholderIdempotencyProps(event: RheaMessage): RheaMessage {
+    if (!this._isIdempotent) {
+      return event;
+    }
+
+    if (!event.message_annotations) {
+      event.message_annotations = {};
+    }
+
+    // Set placeholder values for these annotations.
+    populateIdempotentMessageAnnotations(event, {
+      ownerLevel: 0,
+      publishSequenceNumber: 0,
+      producerGroupId: 0
+    });
+
+    return event;
   }
 
   /**
@@ -272,8 +384,15 @@ export class EventDataBatchImpl implements EventDataBatch {
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
-  _generateMessage(): Buffer {
-    return this._generateBatch(this._encodedMessages, this._batchAnnotations);
+  _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer {
+    return this._generateBatch(this._encodedMessages, this._batchAnnotations, publishingProps);
+  }
+
+  /**
+   * Sets startingPublishSequenceNumber to the pending publish sequence number.
+   */
+  _commitPublish(): void {
+    this._startingPublishSequenceNumber = this._pendingStartingSequenceNumber;
   }
 
   /**
@@ -303,6 +422,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     // Convert EventData to RheaMessage.
     const amqpMessage = toRheaMessage(eventData, this._partitionKey);
     amqpMessage.body = defaultDataTransformer.encode(eventData.body);
+    this._decorateRheaMessageWithPlaceholderIdempotencyProps(amqpMessage);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

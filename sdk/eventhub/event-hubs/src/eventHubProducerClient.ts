@@ -186,6 +186,12 @@ export class EventHubProducerClient {
       );
     }
 
+    if (enableIdempotentPartitions && !partitionId) {
+      throw new Error(
+        `"partitionId" must be specified while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+      );
+    }
+
     if (partitionId && isDefined(options.partitionKey)) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
@@ -193,9 +199,7 @@ export class EventHubProducerClient {
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
       sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(
-          partitionId && this._clientOptions.enableIdempotentPartitions
-        ),
+        enableIdempotentProducer: Boolean(enableIdempotentPartitions),
         partitionId
       });
       this._sendersMap.set(partitionId || "", sender);
@@ -220,8 +224,9 @@ export class EventHubProducerClient {
     return new EventDataBatchImpl(
       this._context,
       maxMessageSize,
+      Boolean(enableIdempotentPartitions),
       options.partitionKey,
-      options.partitionId
+      partitionId
     );
   }
 
@@ -387,9 +392,7 @@ export class EventHubProducerClient {
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
       sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(
-          isDefined(partitionId) && this._clientOptions.enableIdempotentPartitions
-        ),
+        enableIdempotentProducer: Boolean(enableIdempotentPartitions),
         partitionId
       });
       this._sendersMap.set(partitionId || "", sender);

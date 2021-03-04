@@ -22,7 +22,14 @@ import {
   retry,
   translate
 } from "@azure/core-amqp";
-import { EventData, toRheaMessage } from "./eventData";
+import {
+  commitIdempotentSequenceNumbers,
+  EventData,
+  EventDataInternal,
+  populateIdempotentMessageAnnotations,
+  rollbackIdempotentSequenceNumbers,
+  toRheaMessage
+} from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
@@ -33,7 +40,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { defaultDataTransformer } from "./dataTransformer";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
-import { idempotentProducerAmqpPropertyNames } from "./util/constants";
+import {
+  idempotentProducerAmqpPropertyNames,
+  PENDING_PUBLISH_SEQ_NUM_SYMBOL
+} from "./util/constants";
 
 /**
  * @internal
@@ -88,7 +98,7 @@ export class EventHubSender extends LinkEntity {
 
   private _hasPendingSend?: boolean;
 
-  private _cachedPublishingProperties?: PartitionPublishingProperties;
+  private _localPublishingProperties?: PartitionPublishingProperties;
 
   /**
    * Creates a new EventHubSender instance.
@@ -192,6 +202,7 @@ export class EventHubSender extends LinkEntity {
    */
   async close(): Promise<void> {
     try {
+      this._localPublishingProperties = undefined;
       if (this._sender) {
         logger.info(
           "[%s] Closing the Sender for the entity '%s'.",
@@ -255,9 +266,9 @@ export class EventHubSender extends LinkEntity {
       abortSignal?: AbortSignalLike;
     } = {}
   ): Promise<PartitionPublishingProperties> {
-    if (this._cachedPublishingProperties) {
+    if (this._localPublishingProperties) {
       // Send a copy of the properties so it can't be mutated downstream.
-      return { ...this._cachedPublishingProperties };
+      return { ...this._localPublishingProperties };
     }
 
     const properties: PartitionPublishingProperties = {
@@ -282,11 +293,11 @@ export class EventHubSender extends LinkEntity {
       } = this._sender.properties ?? {};
 
       properties.ownerLevel = parseInt(ownerLevel, 10);
-      properties.producerGroupId = String(producerGroupId);
+      properties.producerGroupId = parseInt(producerGroupId, 10);
       properties.lastPublishedSequenceNumber = parseInt(lastPublishedSequenceNumber, 10);
     }
 
-    this._cachedPublishingProperties = properties;
+    this._localPublishingProperties = properties;
 
     // Send a copy of the properties so it can't be mutated downstream.
     return { ...properties };
@@ -316,54 +327,34 @@ export class EventHubSender extends LinkEntity {
         );
       }
 
+      const eventCount = isEventDataBatch(events) ? events.count : events.length;
+      if (eventCount === 0) {
+        logger.info(`[${this._context.connectionId}] No events were passed to sendBatch.`);
+        return;
+      }
+
       if (this._isIdempotentProducer) {
         this._hasPendingSend = true;
       }
 
-      let encodedBatchMessage: Buffer | undefined;
-      if (isEventDataBatch(events)) {
-        if (events.count === 0) {
-          logger.info(
-            `[${this._context.connectionId}] Empty batch was passsed. No events to send.`
-          );
-          return;
-        }
-        encodedBatchMessage = events._generateMessage();
-      } else {
-        if (events.length === 0) {
-          logger.info(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
-          return;
-        }
-        const partitionKey = (options && options.partitionKey) || undefined;
-        const messages: RheaMessage[] = [];
-        // Convert EventData to RheaMessage.
-        for (let i = 0; i < events.length; i++) {
-          const rheaMessage = toRheaMessage(events[i], partitionKey);
-          rheaMessage.body = defaultDataTransformer.encode(events[i].body);
-          messages[i] = rheaMessage;
-        }
-        // Encode every amqp message and then convert every encoded message to amqp data section
-        const batchMessage: RheaMessage = {
-          body: message.data_sections(messages.map(message.encode))
-        };
-
-        // Set message_annotations of the first message as
-        // that of the envelope (batch message).
-        if (messages[0].message_annotations) {
-          batchMessage.message_annotations = messages[0].message_annotations;
-        }
-
-        // Finally encode the envelope (batch message).
-        encodedBatchMessage = message.encode(batchMessage);
-      }
       logger.info(
         "[%s] Sender '%s', sending encoded batch message.",
         this._context.connectionId,
-        this.name,
-        encodedBatchMessage
+        this.name
       );
-      return await this._trySendBatch(encodedBatchMessage, options);
+      await this._trySendBatch(events, options);
+      if (this._isIdempotentProducer) {
+        commitIdempotentSequenceNumbers(events);
+        if (this._localPublishingProperties) {
+          const { lastPublishedSequenceNumber = 0 } = this._localPublishingProperties;
+          // Increment the lastPublishedSequenceNumber based on the number of events published.
+          this._localPublishingProperties.lastPublishedSequenceNumber =
+            lastPublishedSequenceNumber + eventCount;
+        }
+      }
+      return;
     } catch (err) {
+      rollbackIdempotentSequenceNumbers(events);
       logger.warning(
         `An error occurred while sending the batch message ${err?.name}: ${err?.message}`
       );
@@ -374,6 +365,25 @@ export class EventHubSender extends LinkEntity {
         this._hasPendingSend = false;
       }
     }
+  }
+
+  /**
+   * @param sender - The rhea sender that contains the idempotent producer properties.
+   */
+  private _populateLocalPublishingProperties(sender: AwaitableSender): void {
+    const {
+      [idempotentProducerAmqpPropertyNames.epoch]: ownerLevel,
+      [idempotentProducerAmqpPropertyNames.producerId]: producerGroupId,
+      [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: lastPublishedSequenceNumber
+    } = sender.properties ?? {};
+
+    this._localPublishingProperties = {
+      isIdempotentPublishingEnabled: this._isIdempotentProducer,
+      partitionId: this.partitionId ?? "",
+      lastPublishedSequenceNumber,
+      ownerLevel,
+      producerGroupId
+    };
   }
 
   private _deleteFromCache(): void {
@@ -419,7 +429,7 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<void>
    */
   private async _trySendBatch(
-    rheaMessage: RheaMessage | Buffer,
+    events: EventData[] | EventDataBatch,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
@@ -427,11 +437,12 @@ export class EventHubSender extends LinkEntity {
     const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     retryOptions.timeoutInMs = timeoutInMs;
 
-    const initStartTime = Date.now();
-    await this._createLinkIfNotOpen(options);
-    const timeTakenByInit = Date.now() - initStartTime;
-
     const sendEventPromise = async (): Promise<void> => {
+      const initStartTime = Date.now();
+      await this._createLinkIfNotOpen(options);
+      const publishingProps = await this.getPartitionPublishingProperties(options);
+      const timeTakenByInit = Date.now() - initStartTime;
+
       logger.verbose(
         "[%s] Sender '%s', credit: %d available: %d",
         this._context.connectionId,
@@ -495,7 +506,8 @@ export class EventHubSender extends LinkEntity {
       this._sender!.sendTimeoutInSeconds =
         (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
       try {
-        const delivery = await this._sender!.send(rheaMessage, undefined, 0x80013700, {
+        const encodedMessage = this._transformEvents(events, publishingProps, options);
+        const delivery = await this._sender!.send(encodedMessage, undefined, 0x80013700, {
           abortSignal
         });
         logger.info(
@@ -604,7 +616,10 @@ export class EventHubSender extends LinkEntity {
           this.name
         );
 
+        // Clear existing publishing properties.
+        this._localPublishingProperties = undefined;
         this._sender = await this._context.connection.createAwaitableSender(options);
+        this._populateLocalPublishingProperties(this._sender);
         this.isConnecting = false;
         logger.verbose(
           "[%s] Sender '%s' created with sender options: %O",
@@ -640,6 +655,52 @@ export class EventHubSender extends LinkEntity {
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
+    }
+  }
+
+  private _transformEvents(
+    events: EventData[] | EventDataBatch,
+    publishingProps: PartitionPublishingProperties,
+    options: SendOptions = {}
+  ): Buffer {
+    if (isEventDataBatch(events)) {
+      return events._generateMessage(publishingProps);
+    } else {
+      const eventCount = events.length;
+      // convert events to rhea messages
+      const rheaMessages: RheaMessage[] = [];
+      for (let i = 0; i < eventCount; i++) {
+        const event = events[i];
+        const rheaMessage = toRheaMessage(event, options.partitionKey);
+        rheaMessage.body = defaultDataTransformer.encode(event.body);
+
+        // populate idempotent message annotations
+        const { lastPublishedSequenceNumber = 0 } = publishingProps;
+        const startingSequenceNumber = lastPublishedSequenceNumber + 1;
+        const pendingPublishSequenceNumber = startingSequenceNumber + i;
+        populateIdempotentMessageAnnotations(rheaMessage, {
+          ...publishingProps,
+          publishSequenceNumber: pendingPublishSequenceNumber
+        });
+
+        // Set pending seq number on event
+        (event as EventDataInternal)[PENDING_PUBLISH_SEQ_NUM_SYMBOL] = pendingPublishSequenceNumber;
+        rheaMessages.push(rheaMessage);
+      }
+
+      // Encode every amqp message and then convert every encoded message to amqp data section
+      const batchMessage: RheaMessage = {
+        body: message.data_sections(rheaMessages.map(message.encode))
+      };
+
+      // Set message_annotations of the first message as
+      // that of the envelope (batch message).
+      if (rheaMessages[0].message_annotations) {
+        batchMessage.message_annotations = { ...rheaMessages[0].message_annotations };
+      }
+
+      // Finally encode the envelope (batch message).
+      return message.encode(batchMessage);
     }
   }
 

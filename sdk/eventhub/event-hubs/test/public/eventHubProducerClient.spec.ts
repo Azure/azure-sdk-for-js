@@ -90,25 +90,19 @@ describe("EventHubProducerClient", function() {
         await producerClient.sendBatch([{ body: "test" }], { partitionId: "0" });
       });
 
-      it("throws an error if partitionId not set by createBatch nor sendBatch", async function() {
+      it("throws an error if partitionId not set by createBatch", async function() {
         producerClient = new EventHubProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
-        // Don't set partitionId on the batch to send.
-        const batch = await producerClient.createBatch();
-        batch.tryAdd({
-          body: "test"
-        });
-
         try {
-          // Don't set partitionId on the sendBatch call.
-          await producerClient.sendBatch(batch);
+          // Don't set partitionId, this should trigger the error.
+          await producerClient.createBatch();
           throw new Error(TEST_FAILURE);
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be supplied and "partitionKey" must not be provided while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `"partitionId" must be specified while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });

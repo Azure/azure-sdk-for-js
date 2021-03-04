@@ -55,13 +55,16 @@ export interface EventData {
     properties?: {
         [key: string]: any;
     };
+    readonly publishedSequenceNumber?: number;
 }
 
 // @public
 export interface EventDataBatch {
+    // @internal
+    _commitPublish(): void;
     readonly count: number;
     // @internal
-    _generateMessage(): Buffer;
+    _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
     readonly maxSizeInBytes: number;
     // @internal
     readonly _messageSpanContexts: SpanContext[];
@@ -70,6 +73,7 @@ export interface EventDataBatch {
     // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
+    readonly startingPublishedSequenceNumber?: number;
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
@@ -234,7 +238,7 @@ export interface PartitionPublishingProperties {
     lastPublishedSequenceNumber?: number;
     ownerLevel?: number;
     partitionId: string;
-    producerGroupId?: string;
+    producerGroupId?: number;
 }
 
 // @public
