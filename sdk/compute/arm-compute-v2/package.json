@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-compute",
+  "name": "@azure/arm-compute-v2",
   "author": "Microsoft Corporation",
   "description": "Compute Client",
   "version": "1.0.0",
@@ -24,9 +24,9 @@
   "module": "./esm/src/index.js",
   "types": "./esm/src/index.d.ts",
   "devDependencies": {
+    "@azure/arm-compute": "file:../arm-compute/azure-arm-compute-15.0.0.tgz",
+    "@azure/test-utils-recorder": "file:../../test-utils/recorder/azure-test-utils-recorder-1.0.0.tgz",
     "@microsoft/api-extractor": "7.9.10",
-    "@azure/test-utils-recorder": "C:\\Users\\qiaozha\\work\\code\\azure-sdk-for-js\\sdk\\test-utils\\recorder\\azure-test-utils-recorder-1.0.0.tgz",
-    "@azure/arm-compute": "C:\\Users\\qiaozha\\work\\code\\azure-sdk-for-js\\sdk\\compute\\arm-compute-v2\\azure-arm-compute-1.0.0.tgz",
     "@types/mocha": "^8.2.1",
     "mkdirp": "^1.0.4",
     "mocha": "^7.2.0",
