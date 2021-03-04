@@ -9,7 +9,8 @@
     "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
-    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
+    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
+    "./dist-esm/src/utils/batchHeaders.js": "./dist-esm/src/utils/batchHeaders.browser.js"
   },
   "types": "types/latest/data-tables.d.ts",
   "scripts": {
