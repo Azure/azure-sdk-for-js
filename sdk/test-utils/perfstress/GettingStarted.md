@@ -1,6 +1,21 @@
 # Writing Performance Tests
 
-## Setting up the project
+## [Index](#index)
+
+- [Setting up the project](#Setting-up-the-project)
+  - [Track 2](#Setting-up-the-project)
+  - [Track 1](#For-perf-testing-track-1-version-of-the-same-package)
+- [Writing perf tests](#writing-perf-tests)
+  - [Entry Point](#Entry-point)
+  - [Base Class](#Base-Class)
+  - [Test File](#Test-file)
+  - [Custom Options](#custom-options)
+- [Executing the perf tests](#executing-the-perf-tests)
+  - [Command to run](#Command-to-run)
+  - [Adding Readme/Instructions](#Adding-Readme/Instructions)
+  - [Testing an older track 2 version](#Testing-an-older-track-2-version)
+
+## [Setting up the project](#Setting-up-the-project)
 
 To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the steps below.
 
@@ -51,7 +66,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
      "module": "commonjs"
    ```
 
-### For perf-testing track 1 version of the same package
+### [For perf-testing track 1 version of the same package](#For-perf-testing-track-1-version-of-the-same-package)
 
 (_Skip this section if your service does not have or does not care about a track-1 version._)
 
@@ -91,177 +106,145 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 5. Repeat the step 6 from the previous section for the track-1 too.
 
-## Writing perf tests
+## [Writing perf tests](#writing-perf-tests)
 
-## Running the perf tests
+### [Entry Point](#Entry-point)
 
-4. Pom file structure:
+Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
+```js
+import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { `ServiceNameAPIName`Test } from "./api-name.spec";
+import { `ServiceNameAPIName2`Test } from "./api-name2.spec";
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+console.log("=== Starting the perfStress test ===");
 
+const perfStressProgram = new PerfStressProgram(selectPerfStressTest([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]));
 
-<parent>
-  <groupId>com.azure</groupId>
-  <artifactId>azure-client-sdk-parent</artifactId>
-  <version>1.7.0</version> <!-- {x-version-update;com.azure:azure-client-sdk-parent;current} -->
-  <relativePath>../../parents/azure-client-sdk-parent</relativePath>
-</parent>
-
-<modelVersion>4.0.0</modelVersion>
-
-<groupId>com.azure</groupId>
-<artifactId>azure-<service-name>-perf</artifactId>
-<version>1.0.0-beta.1</version> <!-- {x-version-update;com.azure:azure-storage-perf;current} -->
-<packaging>jar</packaging>
-
-<dependencies>
-  <dependency>
-    <groupId>com.azure</groupId>
-    <artifactId><sdk-artifact-id></artifactId>
-    <version><sdk-version></version> <!-- {x-version-update;com.azure:azure-storage-blob;current} -->
-  </dependency>
-  <dependency>
-    <groupId>com.azure</groupId>
-    <artifactId>perf-test-core</artifactId>
-    <version>1.0.0-beta.1</version> <!-- {x-version-update;com.azure:perf-test-core;current} -->
-  </dependency>
-</dependencies>
-
-<build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-assembly-plugin</artifactId>
-      <version>3.2.0</version> <!-- {x-version-update;org.apache.maven.plugins:maven-assembly-plugin;external_dependency} -->
-      <executions>
-        <execution>
-          <phase>package</phase>
-          <goals>
-            <goal>single</goal>
-          </goals>
-          <configuration>
-            <archive>
-              <manifest>
-                <mainClass>
-                  com.azure.<service>.<sub-service>.<your-main-class-from-step-1-below>
-                </mainClass>
-              </manifest>
-            </archive>
-            <descriptorRefs>
-              <descriptorRef>jar-with-dependencies</descriptorRef>
-            </descriptorRefs>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-  </plugins>
-</build>
-</project>
+perfStressProgram.run();
 ```
 
-3. **Main Class**: The project's main class should follow the following structure:
+### [Base Class](#Base-Class)
 
-```xml
-/**
- * Runs the <Service-Name> performance test.
- *
- * <p>To run from command line. Package the project into a jar with dependencies via mvn clean package.
- * Then run the program via java -jar 'compiled-jar-with-dependencies-path' </p>
- *
- * <p> To run from IDE, set all the required environment variables in IntelliJ via Run -&gt; EditConfigurations section.
- * Then run the App's main method via IDE.</p>
- */
-public class App {
-    public static void main(String[] args) {
-        Class<?>[] testClasses;
+Base class would have all the common code that would be repeated for each of the tests - common code such as creating the client, creating a base resource, etc.
 
-        try {
-            testClasses = new Class<?>[] {
-                Class.forName("com.azure.<service>.<sub-package>.perf.<APIName>Test"),
-                Class.forName("com.azure.<service>.<sub-package>.perf.<APIName>Test")
-            };
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+Create a new file such as `serviceName.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
-        PerfStressProgram.run(testClasses, args);
-    }
+```js
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import {
+  ServiceNameClient
+} from "@azure/<service-sdk>";
+
+// Expects the .env file at the same level
+import * as dotenv from "dotenv";
+dotenv.config();
+
+export abstract class `ServiceName`Test<TOptions> extends PerfStressTest<TOptions> {
+  serviceNameClient: ServiceNameClient;
+
+  constructor() {
+    super();
+    // Setting up the serviceNameClient
+  }
+
+  public async globalSetup() {
+    // .createResources() using serviceNameClient
+  }
+
+  public async globalCleanup() {
+    // .deleteResources() using serviceNameClient
+  }
 }
 ```
 
-4. Performance Test Class Structure:
-   Create your performance Test classes under the `com.azure.<service>.<sub-package>.perf` package.
+### [Test File](#Test-file)
 
-Create abstract test classes for doing client setup and clean up that is shared across all performance test classes.
+Following code shows how the individual perf test files would look like.
 
-![](https://jogiles.blob.core.windows.net/azure-sdk-wiki/java-perf-tests.png)
+```js
+import { ServiceNameClient } from "@azure/<service-sdk>";
+import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
+import { `ServiceName`Test } from "./serviceNameTest.spec";
 
-The leaf nodes will be the performance test classes. Here is the sample structure of abstract Test class:
+interface `ServiceNameAPIName`TestOptions {
+  newOption: number;
+}
 
-```java
-public abstract class ServiceTest<TOptions extends PerfStressOptions> extends PerfStressTest<TOptions> {
-    protected final <ServiceClientName> serviceClientName;
-    protected final <ServiceClientAsyncName> serviceClientAsyncName;
-    public ServiceTest(TOptions options) {
-        super(options);
-
-        // Setup the service client
+export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPIName`TestOptions> {
+  public options: PerfStressOptionDictionary<`ServiceNameAPIName`TestOptions> = {
+    newOption: {
+      required: true,
+      description: "A new option",
+      shortName: "sz",
+      longName: "newOption",
+      defaultValue: 10240
     }
+  };
+
+  serviceNameClient: `ServiceName`Client;
+
+  constructor() {
+    super();
+    // Setting up the client
+  }
+
+  public async globalSetup() {
+    await super.globalSetup(); // Calling base class' setup
+    // Add any additional setup
+  }
+
+  async runAsync(): Promise<void> {
+    // call the method on `serviceNameClient` that you're interested in testing
+  }
 }
 ```
 
-Here is the sample structure of Performance Test class:
+It is not mandatory to have separate base class and test classes. If there is nothing common among the testing scenarios of your service, feel free to merge base class with the test class to only have a single test class instead.
 
-```java
-// The Options class specifies the options bundle which can be passed via command-line arguments.
-// The default options class PerfStressOptions is available in the framework.
-// To provide any custom options bundle. Create your options class extending from PerfStressOptions and specify it // below.
-public class <API-NAME>Test extends ServiceTest<{OptionsClass}> {
-    public <API-NAME>Test({OptionsClass} options) {
-        super(options);
-    // Optional Client setup is any child client needs to be setup specifically for this test.
+### [Custom Options](#custom-options)
+
+As seen in the previous section, you can specify custom options along with the default options from the performance framework. You can access the options in the class using `this.parsedOptions`.
+
+Parsed options include the default options such as duration, iterations, parallel, etc offered by the perf framework as well as the custom options provided in the TestClass.
+
+```js
+interface `ServiceNameAPIName`TestOptions {
+  newOption: number;
+}
+
+export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPIName`TestOptions> {
+  public options: PerfStressOptionDictionary<`ServiceNameAPIName`TestOptions> = {
+    newOption: {
+      required: true,
+      description: "A new option",
+      shortName: "sz",
+      longName: "newOption",
+      defaultValue: 10240
     }
-
-    // Required resource setup goes here.
-    public Mono<Void> globalSetupAsync() {
-        return super.globalSetupAsync()
-                    .then(<service-call-to-perform-setup>)
-                    .then();
-    }
-
-
-    // Perform the API call to be tested here
-    @Override
-    public void run() {
-        serviceClient.apiCall();
-    }
-
-    // Perform the Async API call to be tested here
-    @Override
-    public Mono<Void> runAsync() {
-        return serviceAsyncClient.apiCall()
-            .map(<process-output>
-            }).then();
-    }
-
+  };
 }
 ```
 
-For Reference, look at Storage Performance Tests setup structure [here](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/storage/azure-storage-perf).
+## [Executing the perf tests](#executing-the-perf-tests)
 
-### Specifying Custom Options
+### [Command to run](#Command-to-run)
 
-The `PerfStressOptions` class in the performance framework comes with default options bundle applicable to any generic performance test. If there is a need to provide custom options to the performance test then a custom options class needs to be created extending `PerfStressOptions` and then it should be referenced in the performance test class setup above.
+To run a particular test, use `npm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
 
-![](https://github.com/g2vinay/KVSpec/blob/master/PerfOptions.png)
+- Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 2`
 
-## Executing the performance test.
+### [Adding Readme/Instructions](#Adding-Readme/Instructions)
 
-1. Compile the performance project into a standalone jar.
-   `mvn clean package -f <path-to-perf-project-pom>`
+Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob/README.md) and [storage-blob-perf-tests-readme-track-1](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/README.md) and have similar set of instructions for your perf project.
 
-2. Execute the perf test: `java -jar <path-to-packaged-jar-with-dependencies-from-step-1> <options-for-the-test>`
+### [Testing an older track 2 version](#Testing-an-older-track-2-version)
+
+- Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to test version 12.2.0
+  - In the track 2 perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
+  - Add a new exception in `common\config\rush\common-versions.json` under `allowedAlternativeVersions`
+    - `"@azure/<service-sdk>": [..., "12.2.0"]`
+- `rush update` (generates a new pnpm-lock file)
+- Navigate to `sdk\storage\perf-tests\<service-sdk>`
+- `rush build -t perf-test-<service-sdk>`
+- Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 2`
