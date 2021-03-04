@@ -19,52 +19,69 @@
 
 To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the steps below.
 
-1. Create a new folder for the perf tests.
+1.  Create a new folder for the perf tests.
 
-   Path- `sdk/<service>/perf-tests/<service-sdk>`
+    Path- `sdk/<service>/perf-tests/<service-sdk>`
 
-   (Create the `perf-tests` folder if that doesn't exist)
+    (Create the `perf-tests` folder if that doesn't exist)
 
-2. This new perf test project will be managed by the rush infrastructure in the repository, with the package name `@azure-tests/<service-sdk>`. To allow rush to manage the project, add the following entry in `rush.json`
+2.  This new perf test project will be managed by the rush infrastructure in the repository, with the package name `@azure-tests/<service-sdk>`. To allow rush to manage the project, add the following entry in `rush.json`
 
-   ```
-       {
-         "packageName": "@azure-tests/perf-<service-sdk>",
-         "projectFolder": "sdk/<service>/perf-tests/<service-sdk>",
-         "versionPolicyName": "test"
+    ```
+        {
+          "packageName": "@azure-tests/perf-<service-sdk>",
+          "projectFolder": "sdk/<service>/perf-tests/<service-sdk>",
+          "versionPolicyName": "test"
+        }
+
+    ```
+
+3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/test`
+4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-file-datalake/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+
+    Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
+
+    ```json
+      "dependencies": {
+         "@azure/<service-sdk>": "^<version-in-master-branch>",
+         "@azure/test-utils-perfstress": "^1.0.0"
        }
+    ```
 
-   ```
+    _Note: `"@azure/test-utils-perfstress"` is not a published npm package._
 
-3. Tests will live under `sdk/<service>/perf-tests/<service-sdk>/test`
-4. Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-file-datalake/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+    Set the name of the package and mark it as private.
 
-   Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
+    ```json
+     "name": "@azure-tests/perf-<service-sdk>",
+     "private": true,
+    ```
 
-   ```json
-     "dependencies": {
-        "@azure/<service-sdk>": "^<version-in-master-branch>",
-        "@azure/test-utils-perfstress": "^1.0.0"
-      }
-   ```
+5.  Run `rush update` and commit the changes to the `pnpm-lock` file.
+6.  Copy the `tsconfig.json`, `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/perf-tests/<service-sdk>`.
 
-   _Note: `"@azure/test-utils-perfstress"` is not a published npm package._
+    TSCONFIG
 
-   Set the name of the package and mark it as private.
+    - Modify the "extends" string in the copied tsconfig by adding ".." since the perf tests project is located a level below the actual SDK.
+    - Set the `compilerOptions.module` to `commonjs` in the `tsconfig` to allow running the tests with `ts-node`.
 
-   ```json
-    "name": "@azure-tests/perf-<service-sdk>",
-    "private": true,
-   ```
+    In the end, your tsconfig may look something like below.
 
-5. Run `rush update` and commit the changes to the `pnpm-lock` file.
-6. Copy the `tsconfig.json`, `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/perf-tests/<service-sdk>`.
-
-   Set the `compilerOptions.module` to `commonjs` in the `tsconfig` to allow running the tests with `ts-node`.
-
-   ```json
-     "module": "commonjs"
-   ```
+    ```
+        {
+          "extends": "../../../../tsconfig.package",
+          "compilerOptions": {
+            "module": "CommonJS",
+            "target": "ES2015",
+            "declarationDir": "./typings/latest",
+            "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
+            "noEmit": true
+          },
+          "compileOnSave": true,
+          "exclude": ["node_modules"],
+          "include": ["./test/**/*.ts"]
+        }
+    ```
 
 ### [For perf-testing track 1 version of the same package](#For-perf-testing-track-1-version-of-the-same-package)
 
