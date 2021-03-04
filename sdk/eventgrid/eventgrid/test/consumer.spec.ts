@@ -44,18 +44,6 @@ describe("EventGridDeserializer", function() {
       assert.deepStrictEqual(events[1], testData.customTestEvent2.eventGridSchema.expected);
     });
 
-    it("deserializes system events correctly", async () => {
-      const events = await consumer.deserializeEventGridEvents(
-        testData.containerRegistryPushedEvent.eventGridSchema.encodedEvent
-      );
-
-      assert.lengthOf(events, 1);
-      assert.deepStrictEqual(
-        events[0],
-        testData.containerRegistryPushedEvent.eventGridSchema.expected
-      );
-    });
-
     it("fails when a required property is missing", () => {
       const o = { ...testData.customTestEvent1.eventGridSchema.expected };
       for (const property of [
@@ -116,18 +104,6 @@ describe("EventGridDeserializer", function() {
       assert.lengthOf(events, 2);
       assert.deepStrictEqual(events[0], testData.customTestEvent1.cloudEventSchema.expected);
       assert.deepStrictEqual(events[1], testData.customTestEvent2.cloudEventSchema.expected);
-    });
-
-    it("deserializes system events correctly", async () => {
-      const events = await consumer.deserializeCloudEvents(
-        testData.containerRegistryPushedEvent.cloudEventSchema.encodedEvent
-      );
-
-      assert.lengthOf(events, 1);
-      assert.deepStrictEqual(
-        events[0],
-        testData.containerRegistryPushedEvent.cloudEventSchema.expected
-      );
     });
 
     it("fails when a required property is missing", () => {
