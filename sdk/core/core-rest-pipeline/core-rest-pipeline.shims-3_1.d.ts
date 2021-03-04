@@ -7,4 +7,4 @@ declare global {
   interface File {}
 }
 
-export * from "./types/latest/core-rest-pipeline";
+export * from "./types/3.1/core-rest-pipeline";

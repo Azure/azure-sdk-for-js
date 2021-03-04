@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "types/latest/src/index.d.ts",
+  "mainEntryPointFilePath": "./core-rest-pipeline.shims.d.ts",
   "docModel": {
     "enabled": true
   },

@@ -17,8 +17,8 @@
   "types": "core-rest-pipeline.shims.d.ts",
   "typesVersions": {
     "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
+      "core-rest-pipeline.shims.d.ts": [
+        "core-rest-pipeline.shims-3_1.d.ts"
       ]
     }
   },
