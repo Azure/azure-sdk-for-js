@@ -29,7 +29,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
    ```
        {
-         "packageName": "@azure-tests/<service-sdk>",
+         "packageName": "@azure-tests/perf-<service-sdk>",
          "projectFolder": "sdk/<service>/perf-tests/<service-sdk>",
          "versionPolicyName": "test"
        }
@@ -42,7 +42,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
    Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
 
    ```json
-     "devDependencies": {
+     "dependencies": {
         "@azure/<service-sdk>": "^<version-in-master-branch>",
         "@azure/test-utils-perfstress": "^1.0.0"
       }
@@ -114,8 +114,8 @@ Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
 import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
-import { `ServiceNameAPIName`Test } from "./api-name.spec";
-import { `ServiceNameAPIName2`Test } from "./api-name2.spec";
+import { `ServiceNameAPI1Name`Test } from "./api1-name.spec";
+import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
@@ -227,7 +227,7 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
 
 To run a particular test, use `npm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
 
-- Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 2`
+- Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
 ### [Adding Readme/Instructions](#Adding-Readme/Instructions)
 
