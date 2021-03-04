@@ -46,6 +46,8 @@ dependencies:
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
+  '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
+  '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -9967,6 +9969,38 @@ packages:
       integrity: sha512-XH39ryT7Z7qkQH/X+6IgKNdxXNmkRT/ZR+Z1qS2JDMpWDo8Nb+R+9z9NGbauhIWEuUNsan03ea/b9HNUJhPE3A==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
+  file:projects/perf-storage-file-datalake.tgz:
+    dependencies:
+      '@types/dotenv': 8.2.0
+      '@types/node': 8.10.66
+      '@types/uuid': 8.3.0
+      dotenv: 8.2.0
+      ts-node: 8.10.2_typescript@4.1.2
+      tslib: 2.1.0
+      typescript: 4.1.2
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-storage-file-datalake'
+    resolution:
+      integrity: sha512-VscCQLT6S7IFt97Q5OSDcORCLZ8KoTP12ZWe7SQ85Fg9sWLkSWeBEjb+rAXbe3AY1LJ9QbUGkPJMrHKcHZENqw==
+      tarball: file:projects/perf-storage-file-datalake.tgz
+    version: 0.0.0
+  file:projects/perf-storage-file-share.tgz:
+    dependencies:
+      '@types/dotenv': 8.2.0
+      '@types/node': 8.10.66
+      '@types/uuid': 8.3.0
+      dotenv: 8.2.0
+      ts-node: 8.10.2_typescript@4.1.2
+      tslib: 2.1.0
+      typescript: 4.1.2
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-storage-file-share'
+    resolution:
+      integrity: sha512-dws/AI/wd6ftN2xH/Njfok0jjERvFxBs5MPYGKbG1uJ9BsXRIpyXcOh2ukxHCnoyes2FsvsjucDDt5ehYuerhw==
+      tarball: file:projects/perf-storage-file-share.tgz
+    version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
       '@azure/identity': 1.2.3
@@ -10927,6 +10961,8 @@ specifiers:
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
+  '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
+  '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz

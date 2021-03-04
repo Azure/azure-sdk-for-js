@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import fs from "fs";
 import util from "util";
-import { ShareFileClient } from "../../../src";
+import { ShareFileClient } from "@azure/storage-file-share";
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);

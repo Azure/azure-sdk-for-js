@@ -3,8 +3,8 @@
 
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageDFSTest } from "./storageTest.spec";
-import { DataLakeFileClient } from "../../../src";
-import { generateUuid } from "@azure/core-http";
+import { DataLakeFileClient } from "@azure/storage-file-datalake";
+import { v4 as generateUuid } from "uuid";
 interface StorageDFSAppendTestOptions {
   size: number;
 }

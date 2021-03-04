@@ -8,11 +8,11 @@ import {
   StorageSharedKeyCredential,
   DataLakeFileSystemClient,
   DataLakeDirectoryClient
-} from "../../../src";
+} from "@azure/storage-file-datalake";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 dotenv.config();
 
 export abstract class StorageDFSTest<TOptions> extends PerfStressTest<TOptions> {

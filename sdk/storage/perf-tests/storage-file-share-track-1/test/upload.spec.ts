@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-import { ShareFileClient } from "../../../src";
-import { StorageFileShareTest } from "./storageTest.spec";
+import { Aborter, FileURL } from "@azure/storage-file";
+import { StorageFileShareTest } from "./storageTest";
+import { generateUuid } from "@azure/core-http";
 
 interface StorageFileShareUploadTestOptions {
   size: number;
 }
-
 export class StorageFileShareUploadTest extends StorageFileShareTest<
   StorageFileShareUploadTestOptions
 > {
-  fileClient: ShareFileClient;
-  buffer = Buffer.alloc(this.parsedOptions.size.value!);
+  fileClient: FileURL;
+  buffer: Buffer;
   public options: PerfStressOptionDictionary<StorageFileShareUploadTestOptions> = {
     size: {
       required: true,
@@ -28,10 +27,15 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<
   constructor() {
     super();
     const fileName = generateUuid();
-    this.fileClient = this.directoryClient.getFileClient(fileName);
+    this.fileClient = FileURL.fromDirectoryURL(this.directoryClient, fileName);
+    this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
+  }
+
+  async setup() {
+    await this.fileClient.create(Aborter.none, this.parsedOptions.size.value!);
   }
 
   async runAsync(): Promise<void> {
-    await this.fileClient.uploadData(this.buffer);
+    await this.fileClient.uploadRange(Aborter.none, this.buffer, 0, this.parsedOptions.size.value!);
   }
 }

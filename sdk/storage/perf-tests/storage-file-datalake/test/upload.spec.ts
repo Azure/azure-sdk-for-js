@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-import { DataLakeFileClient } from "../../../src";
+import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { StorageDFSTest } from "./storageTest.spec";
 
 interface StorageFileShareUploadTestOptions {
