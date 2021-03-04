@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-identity",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "SDK for Azure Communication service which facilitates user token administration.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -66,13 +66,13 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/communication-common": "1.0.0-beta.5",
+    "@azure/communication-common": "1.0.0-beta.6",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/logger": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@opentelemetry/api": "^0.10.2",
     "events": "^3.0.0",
     "tslib": "^2.0.0"

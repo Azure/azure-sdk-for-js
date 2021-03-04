@@ -56,7 +56,7 @@ export class PhoneNumberPollOperationBase<TState, TResult>
   }
 
   /**
-   * @summary Serializes the Poller operation.
+   * Serializes the Poller operation.
    */
   public toString(): string {
     return JSON.stringify({
@@ -160,7 +160,7 @@ export class PhoneNumberReservationPollOperationBase<TState, TResult>
   }
 
   /**
-   * @summary Serializes the Poller operation.
+   * Serializes the Poller operation.
    */
   public toString(): string {
     return JSON.stringify({

@@ -2,6 +2,7 @@ omitted_paths:
   - documentation/ServicePrincipal/*
   - eng/*
   - sdk/*/arm-*
+  - sdk/*/perf-tests/*
   - sdk/core/README.md
   - sdk/cognitiveservices/*
   - sdk/communication/*/test/README.md

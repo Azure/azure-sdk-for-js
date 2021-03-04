@@ -15,8 +15,13 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
     dispose(): void;
-    getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
+    getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
     }
+
+// @public
+export interface CommunicationGetTokenOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public
 export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | UnknownIdentifier;
@@ -27,7 +32,7 @@ export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKin
 // @public
 export interface CommunicationTokenCredential {
     dispose(): void;
-    getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
+    getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
@@ -53,8 +58,8 @@ export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCrede
 // @public
 export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCredential) => RequestPolicyFactory;
 
-// @internal
-export const _deserializeCommunicationIdentifier: (serializedIdentifier: _SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
+// @public
+export const deserializeCommunicationIdentifier: (serializedIdentifier: SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
 export interface EndpointCredential {
@@ -69,7 +74,7 @@ export const getIdentifierKind: (identifier: CommunicationIdentifier) => Communi
 export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
 
 // @public
-export const isKeyCredential: (credential: any) => credential is KeyCredential;
+export const isKeyCredential: (credential: unknown) => credential is KeyCredential;
 
 // @public
 export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsUserIdentifier;
@@ -81,10 +86,11 @@ export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => i
 export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
 
 // @public
-export interface MicrosoftTeamsUserIdentifier extends WithOptionalRawId {
+export interface MicrosoftTeamsUserIdentifier {
     cloud?: "public" | "dod" | "gcch";
     isAnonymous?: boolean;
     microsoftTeamsUserId: string;
+    rawId?: string;
 }
 
 // @public
@@ -93,14 +99,15 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 }
 
 // @public
-export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
+export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: unknown) => UrlWithCredential;
 
 // @public
 export const parseConnectionString: (connectionString: string) => EndpointCredential;
 
 // @public
-export interface PhoneNumberIdentifier extends WithOptionalRawId {
+export interface PhoneNumberIdentifier {
     phoneNumber: string;
+    rawId?: string;
 }
 
 // @public
@@ -108,34 +115,34 @@ export interface PhoneNumberKind extends PhoneNumberIdentifier {
     kind: "phoneNumber";
 }
 
-// @internal
-export const _serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => _SerializedCommunicationIdentifier;
+// @public
+export const serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => SerializedCommunicationIdentifier;
 
-// @internal
-export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
+// @public
+export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
-// @internal
-export interface _SerializedCommunicationIdentifier {
-    communicationUser?: _SerializedCommunicationUserIdentifier;
-    microsoftTeamsUser?: _SerializedMicrosoftTeamsUserIdentifier;
-    phoneNumber?: _SerializedPhoneNumberIdentifier;
+// @public
+export interface SerializedCommunicationIdentifier {
+    communicationUser?: SerializedCommunicationUserIdentifier;
+    microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
+    phoneNumber?: SerializedPhoneNumberIdentifier;
     rawId?: string;
 }
 
-// @internal
-export interface _SerializedCommunicationUserIdentifier {
+// @public
+export interface SerializedCommunicationUserIdentifier {
     id: string;
 }
 
-// @internal
-export interface _SerializedMicrosoftTeamsUserIdentifier {
-    cloud?: _SerializedCommunicationCloudEnvironment;
+// @public
+export interface SerializedMicrosoftTeamsUserIdentifier {
+    cloud?: SerializedCommunicationCloudEnvironment;
     isAnonymous?: boolean;
     userId: string;
 }
 
-// @internal
-export interface _SerializedPhoneNumberIdentifier {
+// @public
+export interface SerializedPhoneNumberIdentifier {
     value: string;
 }
 
@@ -154,11 +161,6 @@ export type UrlWithCredential = {
     url: string;
     credential: TokenCredential | KeyCredential;
 };
-
-// @public (undocumented)
-export interface WithOptionalRawId {
-    rawId?: string;
-}
 
 
 // (No @packageDocumentation comment for this package)

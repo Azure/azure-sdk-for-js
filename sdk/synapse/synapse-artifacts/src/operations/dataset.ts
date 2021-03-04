@@ -25,7 +25,7 @@ export class Dataset {
 
   /**
    * Initialize a new instance of the class Dataset class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -33,7 +33,7 @@ export class Dataset {
 
   /**
    * Lists datasets.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listDatasetsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -75,17 +75,14 @@ export class Dataset {
 
   /**
    * Lists datasets.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getDatasetsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<DatasetGetDatasetsByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_getDatasetsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_getDatasetsByWorkspace", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -106,23 +103,20 @@ export class Dataset {
 
   /**
    * Creates or updates a dataset.
-   * @param datasetName - The dataset name.
-   * @param dataset - Dataset resource definition.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param dataset Dataset resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateDataset(
     datasetName: string,
     dataset: DatasetResource,
     options?: DatasetCreateOrUpdateDatasetOptionalParams
   ): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateDataset",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateDataset", options);
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       dataset,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -156,20 +150,17 @@ export class Dataset {
 
   /**
    * Gets a dataset.
-   * @param datasetName - The dataset name.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
    */
   async getDataset(
     datasetName: string,
     options?: DatasetGetDatasetOptionalParams
   ): Promise<DatasetGetDatasetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getDataset",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getDataset", options);
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -190,20 +181,17 @@ export class Dataset {
 
   /**
    * Deletes a dataset.
-   * @param datasetName - The dataset name.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param options The options parameters.
    */
   async deleteDataset(
     datasetName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteDataset",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteDataset", options);
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -237,23 +225,20 @@ export class Dataset {
 
   /**
    * Renames a dataset.
-   * @param datasetName - The dataset name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param datasetName The dataset name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renameDataset(
     datasetName: string,
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameDataset",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameDataset", options);
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -287,8 +272,8 @@ export class Dataset {
 
   /**
    * GetDatasetsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetDatasetsByWorkspace method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetDatasetsByWorkspace method.
+   * @param options The options parameters.
    */
   private async _getDatasetsByWorkspaceNext(
     nextLink: string,
@@ -296,11 +281,11 @@ export class Dataset {
   ): Promise<DatasetGetDatasetsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getDatasetsByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

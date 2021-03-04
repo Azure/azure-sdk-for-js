@@ -126,7 +126,7 @@ describe("Multi-region tests", function() {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -170,7 +170,7 @@ describe("Multi-region tests", function() {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;

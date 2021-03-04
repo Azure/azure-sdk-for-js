@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AbortSignalLike,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+
+import { AbortSignalLike } from "@azure/abort-controller";
 
 import {
   GeneratedClientAnalyzeResponse as BeginAnalyzeResponse,
@@ -55,10 +53,6 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
    * Number of actions still in progress.
    */
   actionsInProgressCount?: number;
-  /**
-   * The operation's display name.
-   */
-  displayName?: string;
 }
 
 /**
@@ -98,10 +92,6 @@ export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
-  /**
-   * Optional display name for the operation.
-   */
-  displayName?: string;
 }
 
 /**
@@ -190,10 +180,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
       options || {}
     );
     try {
-      const response = await this.client.analyzeStatus(
-        operationId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.analyzeStatus(operationId, finalOptions);
       const result = createAnalyzeBatchActionsResult(response, this.documents);
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
@@ -222,10 +209,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
       options || {}
     );
     try {
-      const response = await this.client.analyzeStatus(
-        operationId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.analyzeStatus(operationId, finalOptions);
       switch (response.status) {
         case "notStarted":
         case "running":
@@ -241,8 +225,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
               status: response.status,
               actionsSucceededCount: response.tasks.completed,
               actionsFailedCount: response.tasks.failed,
-              actionsInProgressCount: response.tasks.inProgress,
-              displayName: response.displayName
+              actionsInProgressCount: response.tasks.inProgress
             }
           };
         }
@@ -276,7 +259,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
           tasks: actions,
           displayName: options?.displayName
         },
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+        ...finalOptions
       });
     } catch (e) {
       const exception = handleInvalidDocumentBatch(e);
@@ -303,8 +286,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
       const response = await this.beginAnalyzeBatchActions(this.documents, this.actions, {
         tracingOptions: this.options.tracingOptions,
         requestOptions: this.options.requestOptions,
-        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.abortSignal,
-        displayName: this.options.displayName
+        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.abortSignal
       });
       if (!response.operationLocation) {
         throw new Error(
@@ -327,7 +309,6 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
     state.actionsSucceededCount = operationStatus.operationMetdata?.actionsSucceededCount;
     state.actionsFailedCount = operationStatus.operationMetdata?.actionsFailedCount;
     state.actionsInProgressCount = operationStatus.operationMetdata?.actionsInProgressCount;
-    state.displayName = operationStatus.operationMetdata?.displayName;
 
     if (!state.isCompleted && operationStatus.done) {
       if (typeof options.fireProgress === "function") {

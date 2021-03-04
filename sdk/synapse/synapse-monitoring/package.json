@@ -8,6 +8,7 @@
   "version": "1.0.0-beta.3",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
@@ -64,8 +65,7 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "build:test": "echo skipped",
-    "lint:fix": "eslint package.json api-extractor.json src --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src --ext .ts -f html -o synapse-monitoring-lintReport.html || exit 0",
+    "lint": "echo skipped",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

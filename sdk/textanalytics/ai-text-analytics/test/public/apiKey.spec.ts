@@ -111,14 +111,7 @@ describe("[API Key] TextAnalyticsClient", function() {
           assert.ok(doc1.id);
           assert.ok(doc1.entities);
           const doc1Entity1 = doc1.entities[0];
-          assert.equal(doc1Entity1.text, "high");
-          const doc1Entity1Target1 = doc1Entity1.relatedEntities.keys().next().value;
-          const doc1Entity1Edge1Label = doc1Entity1.relatedEntities.values().next().value;
-          assert.equal(doc1Entity1Target1.text, "blood pressure");
-          assert.equal(doc1Entity1Edge1Label, "ValueOfExamination");
-
-          const doc1Entity2 = doc1.entities[1];
-          assert.equal(doc1Entity2.text, "blood pressure");
+          assert.equal(doc1Entity1.text, "high blood pressure");
         }
 
         const doc2 = (await result.next()).value;
@@ -127,20 +120,38 @@ describe("[API Key] TextAnalyticsClient", function() {
           assert.ok(doc2.entities);
           const doc2Entity1 = doc2.entities[0];
           assert.equal(doc2Entity1.text, "100mg");
-          const doc2Entity1Target1 = doc2Entity1.relatedEntities.keys().next().value;
-          const doc2Entity1Edge1Label = doc2Entity1.relatedEntities.values().next().value;
-          assert.equal(doc2Entity1Target1.text, "ibuprofen");
-          assert.equal(doc2Entity1Edge1Label, "DosageOfMedication");
+          assert.deepEqual(doc2.entityRelations[0], {
+            relationType: "DosageOfMedication",
+            roles: [
+              {
+                entity: doc2.entities[0],
+                name: "Attribute"
+              },
+              {
+                entity: doc2.entities[1],
+                name: "Entity"
+              }
+            ]
+          });
+          assert.deepEqual(doc2.entityRelations[1], {
+            relationType: "FrequencyOfMedication",
+            roles: [
+              {
+                entity: doc2.entities[1],
+                name: "Entity"
+              },
+              {
+                entity: doc2.entities[2],
+                name: "Attribute"
+              }
+            ]
+          });
 
           const doc2Entity2 = doc2.entities[1];
           assert.equal(doc2Entity2.text, "ibuprofen");
 
           const doc2Entity3 = doc2.entities[2];
           assert.equal(doc2Entity3.text, "twice daily");
-          const doc2Entity3Target1 = doc2Entity3.relatedEntities.keys().next().value;
-          const doc2Entity3Edge1Label = doc2Entity3.relatedEntities.values().next().value;
-          assert.equal(doc2Entity3Target1.text, "ibuprofen");
-          assert.equal(doc2Entity3Edge1Label, "FrequencyOfMedication");
         }
       });
 

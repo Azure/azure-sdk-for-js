@@ -4,8 +4,17 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage, delay, ProcessErrorArgs, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
-import { getAlreadyReceivingErrorMsg, InvalidOperationForPeekedMessage } from "../../src/util/errors";
+import {
+  ServiceBusMessage,
+  delay,
+  ProcessErrorArgs,
+  ServiceBusSender,
+  ServiceBusReceivedMessage
+} from "../../src";
+import {
+  getAlreadyReceivingErrorMsg,
+  InvalidOperationForPeekedMessage
+} from "../../src/util/errors";
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import {
@@ -19,6 +28,10 @@ import {
 } from "../public/utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
+import {
+  ServiceBusSessionReceiver,
+  ServiceBusSessionReceiverImpl
+} from "../../src/receivers/sessionReceiver";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -34,9 +47,16 @@ let sender: ServiceBusSender;
 let receiver: ServiceBusReceiver;
 let deadLetterReceiver: ServiceBusReceiver;
 
-async function beforeEachTest(entityType: TestClientType): Promise<void> {
+async function beforeEachTest(
+  entityType: TestClientType,
+  receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
+): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
-  receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
+  if (receiveMode === "receiveAndDelete") {
+    receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+  } else {
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
+  }
 
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -864,36 +884,21 @@ describe("Batching Receiver", () => {
   });
 
   describe(noSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
-    let serviceBusClient: ServiceBusClientForTests;
-    let sender: ServiceBusSender;
-    let receiver: ServiceBusReceiver;
-
-    async function beforeEachTest(
-      receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
-    ): Promise<void> {
+    before(() => {
       serviceBusClient = createServiceBusClientForTests();
-      const entityNames = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
-      if (receiveMode == "receiveAndDelete") {
-        receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
-      } else {
-        receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
-      }
+    });
 
-      sender = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
-      );
-    }
+    after(() => {
+      return serviceBusClient.test.after();
+    });
 
     afterEach(async () => {
-      if (serviceBusClient) {
-        await serviceBusClient.test.afterEach();
-        await serviceBusClient.test.after();
-      }
+      await afterEachTest();
     });
 
     it("can receive and settle messages after a disconnect", async function(): Promise<void> {
       // Create the sender and receiver.
-      await beforeEachTest();
+      await beforeEachTest(noSessionTestClientType);
 
       // Send a message so we can be sure when the receiver is open and active.
       await sender.sendMessages(TestMessage.getSample());
@@ -936,7 +941,7 @@ describe("Batching Receiver", () => {
       void
     > {
       // Create the sender and receiver.
-      await beforeEachTest("receiveAndDelete");
+      await beforeEachTest(noSessionTestClientType, "receiveAndDelete");
 
       // The first time `receiveMessages` is called the receiver link is created.
       // The `receiver_drained` handler is only added after the link is created,
@@ -952,24 +957,15 @@ describe("Batching Receiver", () => {
       // Send a message so we have something to receive.
       await sender.sendMessages(TestMessage.getSample());
 
-      // Since the receiver has already been initialized,
-      // the `receiver_drained` handler is attached as soon
-      // as receiveMessages is invoked.
-      // We remove the `receiver_drained` timeout after `receiveMessages`
-      // does it's initial setup by wrapping it in a `setTimeout`.
-      // This triggers the `receiver_drained` handler removal on the next
-      // tick of the event loop; after the handler has been attached.
-      setTimeout(() => {
-        // remove `receiver_drained` event
-        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
-      }, 0);
-
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
       const addCredit = batchingReceiver["link"]!.addCredit;
       batchingReceiver["link"]!.addCredit = function(credits) {
+        // This makes sure the receiveMessages doesn't end because of draining before the disconnect is triggered
+        // Meaning.. the "resolving the messages" can only happen through the onDetached triggered by disconnect
+        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
         addCredit.call(this, credits);
         if (batchingReceiver["link"]!.drain) {
           didRequestDrain = true;
@@ -997,7 +993,7 @@ describe("Batching Receiver", () => {
 
     it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
       // Create the sender and receiver.
-      await beforeEachTest();
+      await beforeEachTest(noSessionTestClientType);
 
       // The first time `receiveMessages` is called the receiver link is created.
       // The `receiver_drained` handler is only added after the link is created,
@@ -1065,7 +1061,7 @@ describe("Batching Receiver", () => {
       void
     > {
       // Create the sender and receiver.
-      await beforeEachTest("receiveAndDelete");
+      await beforeEachTest(noSessionTestClientType, "receiveAndDelete");
 
       // The first time `receiveMessages` is called the receiver link is created.
       // The `receiver_drained` handler is only added after the link is created,
@@ -1107,7 +1103,7 @@ describe("Batching Receiver", () => {
 
     it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
       // Create the sender and receiver.
-      await beforeEachTest();
+      await beforeEachTest(noSessionTestClientType);
 
       // The first time `receiveMessages` is called the receiver link is created.
       // The `receiver_drained` handler is only added after the link is created,
@@ -1145,6 +1141,82 @@ describe("Batching Receiver", () => {
       const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
       messages.length.should.equal(1, "Unexpected number of messages received.");
+    });
+  });
+
+  describe(withSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
+    let serviceBusClient: ServiceBusClientForTests;
+    let sender: ServiceBusSender;
+    let receiver: ServiceBusSessionReceiver;
+
+    async function beforeEachTest(
+      receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
+    ): Promise<void> {
+      serviceBusClient = createServiceBusClientForTests();
+      const entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
+      if (receiveMode == "receiveAndDelete") {
+        receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
+          entityNames
+        )) as ServiceBusSessionReceiver;
+      } else {
+        receiver = (await serviceBusClient.test.createPeekLockReceiver(
+          entityNames
+        )) as ServiceBusSessionReceiver;
+      }
+
+      sender = serviceBusClient.test.addToCleanup(
+        serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      );
+    }
+
+    afterEach(async () => {
+      if (serviceBusClient) {
+        await serviceBusClient.test.afterEach();
+        await serviceBusClient.test.after();
+      }
+    });
+
+    it(`throws "session lock has expired" after a disconnect`, async function(): Promise<void> {
+      // Create the sender and receiver.
+      await beforeEachTest();
+
+      // Send a message so we can be sure when the receiver is open and active.
+      const message = TestMessage.getSessionSample();
+      await sender.sendMessages(message);
+
+      let settledMessageCount = 0;
+
+      const messages1 = await receiver.receiveMessages(1);
+      for (const message of messages1) {
+        await receiver.completeMessage(message);
+        settledMessageCount++;
+      }
+
+      settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
+
+      const connectionContext = (receiver as any)["_context"];
+      const refreshConnection = connectionContext.refreshConnection;
+      let refreshConnectionCalled = 0;
+      connectionContext.refreshConnection = function(...args: any) {
+        refreshConnectionCalled++;
+        refreshConnection.apply(this, args);
+      };
+
+      // Simulate a disconnect being called with a non-retryable error.
+      (receiver as ServiceBusSessionReceiverImpl)["_context"].connection["_connection"].idle();
+
+      // send a second message to trigger the message handler again.
+      await sender.sendMessages(TestMessage.getSessionSample());
+      try {
+        await receiver.receiveMessages(1);
+        assert.fail("receiveMessages should have failed");
+      } catch (error) {
+        should.equal(
+          error.message,
+          `The session lock has expired on the session with id ${message.sessionId}`
+        );
+      }
+      refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
     });
   });
 });

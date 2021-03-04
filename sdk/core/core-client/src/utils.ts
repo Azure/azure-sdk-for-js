@@ -7,7 +7,7 @@ import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./
  * Returns true if the given value is a basic/primitive type
  * (string, number, boolean, null, undefined).
  * @param value - Value to test
- * @hidden @internal
+ * @internal
  */
 export function isPrimitiveType(value: unknown): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
@@ -18,7 +18,7 @@ const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?
 /**
  * Returns true if the given string is in ISO 8601 format.
  * @param value - The value to be validated for ISO 8601 duration format.
- * @hidden @internal
+ * @internal
  */
 export function isDuration(value: string): boolean {
   return validateISODuration.test(value);
@@ -31,7 +31,7 @@ const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F
  *
  * @param uuid - The uuid that needs to be validated.
  *
- * @hidden @internal
+ * @internal
  */
 export function isValidUuid(uuid: string): boolean {
   return validUuidRegex.test(uuid);

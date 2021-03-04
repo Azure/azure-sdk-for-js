@@ -43,6 +43,7 @@ export interface AmqpAnnotatedMessage {
 /**
  * Describes the operations that can be performed on(or to get) the AmqpAnnotatedMessage.
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const AmqpAnnotatedMessage = {
   /**
    * Takes RheaMessage(`Message` type from "rhea") and returns it in the AmqpAnnotatedMessage format.

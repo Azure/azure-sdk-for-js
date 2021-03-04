@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
@@ -11,870 +11,104 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:26 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:10 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "bc8154ff-e8bc-4080-b115-1471b8ce7300"
+    "x-ms-ests-server": "2.1.11513.14 - NCUS ProdSlices",
+    "x-ms-request-id": "3b226d3f-e41d-4cba-9c44-118a60042500"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze",
    "query": {},
    "requestBody": "{\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\",\"language\":\"\"},{\"id\":\"2\",\"text\":\"I did not like the hotel we stayed at.\",\"language\":\"\"},{\"id\":\"3\",\"text\":\"The restaurant had really good food.\"}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "cd8c93c3-28c1-4c0e-a71b-a1f74b9830e3",
-    "date": "Wed, 30 Dec 2020 18:09:27 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+    "apim-request-id": "c2b487b2-9956-447b-a28d-9db6edfdf544",
+    "date": "Wed, 24 Feb 2021 02:29:12 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "412"
+    "x-envoy-upstream-service-time": "278"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:27Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:27Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:12Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:12Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "fac80e61-c257-4137-b89f-5d8b7300b164",
+    "apim-request-id": "7bce536a-dcd6-42ff-9167-6b80dae664c7",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:27 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
+    "x-envoy-upstream-service-time": "10"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:27Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:27Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:12Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:12Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "b8e2ee44-02c8-4245-a452-63f6694aaeb6",
+    "apim-request-id": "62ddc662-0c48-4d91-89e3-2b49de8041b5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:27 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
+    "x-envoy-upstream-service-time": "11"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:12Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:12Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
    "responseHeaders": {
-    "apim-request-id": "de66dcf2-6341-42ad-a5ee-7203d4435a7e",
+    "apim-request-id": "7267bca8-3e0b-40e0-9423-321d6b0fc3bb",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:29 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:14 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "79"
+    "x-envoy-upstream-service-time": "11"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "8aec5450-cc28-4f9f-a14d-4702727da8bc",
+    "apim-request-id": "a45a02c9-227f-4953-acef-6b185381a5f7",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:31 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "142"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a49139b8-2f49-4491-82de-ca8e286d1636",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:34 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "165"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "e6532d8d-71e7-419a-9f42-7a3106b12525",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:36 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "161"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f89966e4-7ef1-4198-aa8c-9042cd0d5596",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:38 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "174"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "96fc1d8c-12f1-474e-8267-8aca209f322f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:40 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "121"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "c886e2eb-52a9-4eef-8774-397dc02cc222",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:42 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "164"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a3b98b64-5cf2-420d-bb8c-f199ae1743c0",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:44 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "144"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "9e84637a-37d4-40c5-8194-20bf5949fce6",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:48 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "198"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "6b000266-a838-492e-bea0-777b06c93ff8",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:50 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "192"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f6161d57-c97d-4b62-b66b-ff3d0a382b41",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:52 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "160"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a7e6c245-cd4a-4b23-bb76-5367fee972d7",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:54 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "134"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "56ae6838-b14b-4a14-97ef-46f2ba10c391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:56 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "159"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:59 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "ed5ac0c3-07d5-4153-9a78-fd34b4ee7300"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "db4ff915-5c14-4bec-9a66-e13366799517",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:09:58 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "181"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "bb817640-8153-4df5-8c3d-44e3b9fdb206",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:00 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "196"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "48fe5043-9db7-4a9a-aed2-eb9dab7ff21a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:03 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "186"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "0e119fe6-b733-4a5c-9c5f-c491d729b4bc",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:05 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "152"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "e2feb0e8-89d1-4394-8f41-a49aae27028a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:07 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "163"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a0892192-ae32-46c4-916f-df679f2f208c",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:09 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "124"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "64d518c4-ba61-42de-a8b2-6e14da6fd31a",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:11 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "115"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "19648b2d-1cad-404f-933e-883e8fedde41",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:14 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "174"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "3622addd-f33d-413c-b650-de810933fb57",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:16 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "432"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "d4ac1bf4-d5ce-4f7c-8ba9-19012a72b77e",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:18 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "188"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "16ae2df6-f866-4ef3-ba4a-89f0d145cddc",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:21 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "126"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "da1719b5-c421-4e49-ba2a-49eaf8f717c3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:23 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "117"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "3ba4eb9c-3603-459c-90c8-cdcb34861533",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:25 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "118"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "7790bd23-5722-4ed5-a3b0-d11c5a6f05ad",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:28 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "174"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:30 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "bc8154ff-e8bc-4080-b115-147184e07300"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "00588fb6-201d-44be-b26b-a88c962504a0",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:30 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "200"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "864d9084-9be7-457e-a772-6b3b53031ec1",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:32 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "172"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "1b561836-9cb0-4a02-b3e1-3e43eac1db6e",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:34 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "120"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "15a2139a-65fe-4635-b90b-accf35636d2b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:36 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "119"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "cb8b843c-98c4-4b3d-a86b-a51efd1d4983",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:38 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "142"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "cde2e554-2e17-4967-94c5-13e91b4c88ee",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:40 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "171"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f2f8efd4-667e-471a-8818-4e972ec351f5",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:43 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "211"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "8efcc7c6-591b-41ca-9942-c6efe27004bb",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:45 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "170"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "ed76e968-2203-47ad-86a0-4a2656b3ed41",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:47 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "207"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "911f3e47-1e80-438f-9eb7-fa43a86e140c",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:49 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "218"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "79e8121d-652f-4758-9e0b-ca1223cafe42",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:51 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "165"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "16f0164a-4bf8-4a35-9d50-1afeef481781",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:54 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "204"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "0c8f1dd6-7182-4296-a43a-7a62e36ed3b3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:56 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:16 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -883,346 +117,55 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "673e1dae-14c1-40ed-bbf6-2ae8eb1f7be4",
+    "apim-request-id": "05717513-077e-4f0e-a993-2be454cf126a",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:10:59 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "189"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:00 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
-    "x-ms-request-id": "6b0f333d-2c6f-4f08-8fd0-12d2def47100"
+    "x-envoy-upstream-service-time": "122"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "4974f7b8-f3d5-4d41-8a94-e8dff1dbe36d",
+    "apim-request-id": "299d6eff-be2e-4bb7-ad8d-0e5b91f21a92",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:01 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:20 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "195"
+    "x-envoy-upstream-service-time": "120"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "b49743f3-d3a9-4c96-bf81-33ac8dcd1d5e",
+    "apim-request-id": "c8204a66-23d3-4994-965b-b3bb95305166",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:03 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "385"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "9392278d-7bfc-43f7-8569-afe5d42efcec",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:06 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "163"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "ea7c032e-754e-4b4c-bf33-ccc29b27fde1",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:08 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "196"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "05ef1acd-83d9-451a-92ac-523b189e5181",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:10 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "188"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "050e4d5c-d66b-4dfd-82f5-b8750b4e854c",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:12 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "187"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a4a20512-c41d-4852-96b2-a31645e2653c",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:14 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "162"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "9ad6f142-ba8f-4e56-8f21-a502e10fb93e",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:17 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "152"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "b1960559-e286-4854-8015-de3631d78b0b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:19 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "209"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "48eed2d3-00c7-49a2-b92a-a4711316dae8",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:21 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "192"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "63885c2f-8c58-4058-8b26-6166adc7d5b7",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:23 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "194"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "a9e8ea06-6f01-404e-94bc-bc12adb67aa5",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:25 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "253"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "38de2b1c-7ed1-4890-9b7b-def40b568989",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:28 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "209"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "81823121-eeb8-4f5f-a7f4-4023162d774b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:30 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "162"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:32 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
-    "x-ms-request-id": "619cd4c3-466d-4380-80f6-a4067cc77100"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "491f7781-20c9-4a84-9b06-23ebb8b3254d",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:32 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:22 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -1231,59 +174,559 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "96431b3c-aa98-49d3-a868-73b84de5ae49",
+    "apim-request-id": "9fe93858-ddc6-4bd2-ac6e-18e6ee0078ee",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:34 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:26 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "164"
+    "x-envoy-upstream-service-time": "172"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant had really good food.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "38423cd9-e91a-4586-a03e-5bf74d3ef40b",
+    "apim-request-id": "e888daad-7277-412d-accf-9233774ca7c4",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:36 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:28 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "186"
+    "x-envoy-upstream-service-time": "178"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.3/analyze/jobs/03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"03dac98b-9bf8-414a-8bda-d0af240673ff_637448832000000000\",\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\",\"createdDateTime\":\"2020-12-30T18:09:27Z\",\"expirationDateTime\":\"2020-12-31T18:09:27Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2020-12-30T18:09:29Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.83}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.76}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.7}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant had really good food.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2020-12-30T18:09:29.3864846Z\",\"results\":{\"inTerminalState\":true,\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "1182f29f-7f52-48e8-a4b9-d97d2c9bae5c",
+    "apim-request-id": "79b38b92-9443-4a4d-8c64-9e412fef014c",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Dec 2020 18:11:37 GMT",
+    "date": "Wed, 24 Feb 2021 02:29:30 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "243"
+    "x-envoy-upstream-service-time": "128"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "2dba32ee-037a-4a57-8a45-9819dcf9ae21",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "112"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "ccfe9b2f-1a9a-41f6-bc6a-41131240837f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:34 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "167"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "fad8974d-353e-4b29-8ece-5ea0641ef1a0",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:36 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "201"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "3dfc83ed-36f1-4529-bb18-24592494f8d4",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:38 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "138"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "635c306a-01b1-4dfd-830c-899dd966d30d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "142"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1326",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:43 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11530.11 - WUS2 ProdSlices",
+    "x-ms-request-id": "e894ffaf-6bb7-474d-aff9-7872b7520400"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "10e150bc-5cc7-4af4-861c-46c8cabf8e21",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:43 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "6c5fa45a-4b72-48e9-a75c-efaa97c7fa79",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:45 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "204"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "7709019e-c3ca-4450-91a6-2dd6d8428794",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:47 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "152"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "71bbdfb3-12f0-471b-9a6d-001b21dba5f2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "116"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "f82b32d9-a727-4a8e-a3fb-8b44dcba4038",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "866"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "fa39411f-8932-4290-940e-86e1aae40197",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:55 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "162"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9ae3ed44-0846-4dc6-b19d-1820d4b3da2d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:57 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "184"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "73d80ea0-24b2-49ac-b401-d3e8fe9403b5",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:29:59 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "215"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "b859c3b0-15fa-490d-9f3d-83c39a61961a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:02 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "682"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d11796eb-d891-422a-9985-393c149c2c9d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:04 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "187"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "5e93f0f2-214d-4ce4-bd67-ac3c1fcfbfb1",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:06 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "187"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "220d7a7e-2d7e-4308-b166-fd2b3087a6c1",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "159"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "2053c14f-fcd6-4377-bb5e-b2735c12b975",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:12 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "908"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:14 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
+    "x-ms-request-id": "c077c39a-79dd-4029-9d1c-815ca0bc2100"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "6c44d5fb-decd-48dd-bde0-15fb1a5a6397",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:14 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "151"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "a9de4754-5d51-4b31-b45f-6396a783df92",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:16 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "168"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "4b291e87-c90f-4837-b20e-73930c77bc03",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "239"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":2,\"failed\":0,\"inProgress\":1,\"total\":3,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant had really good food.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "72d0713a-ea3d-4b26-9407-3b77b9d43a9a",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:20 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "210"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.95}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant had really good food.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "b7856e52-aa33-4cb4-988f-2c00898cc455",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:22 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "214"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/71f531bf-0a08-4d0a-80e1-ebfea8607f2f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"71f531bf-0a08-4d0a-80e1-ebfea8607f2f\",\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\",\"createdDateTime\":\"2021-02-24T02:29:12Z\",\"expirationDateTime\":\"2021-02-25T02:29:12Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-02-24T02:29:15Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"park\",\"category\":\"Location\",\"offset\":17,\"length\":4,\"confidenceScore\":0.95}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"hotel\",\"category\":\"Location\",\"offset\":19,\"length\":5,\"confidenceScore\":0.89}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"restaurant\",\"category\":\"Location\",\"subcategory\":\"Structural\",\"offset\":4,\"length\":10,\"confidenceScore\":0.87}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"I will go to the park.\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I did not like the hotel we stayed at.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"The restaurant had really good food.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-02-24T02:29:15.1196478Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"park\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"hotel\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"restaurant\",\"good food\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "803ee9d9-e925-4fe5-abad-95f792662485",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 24 Feb 2021 02:30:23 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "249"
    }
   }
  ],
@@ -1291,5 +734,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "1e48438f78ed6d4a81942297a8b93b23"
+ "hash": "f9b80fdf2ba90984784b9d7e5b0209f1"
 }

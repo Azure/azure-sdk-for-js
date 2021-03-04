@@ -27,7 +27,7 @@ export class SparkJobDefinition {
 
   /**
    * Initialize a new instance of the class SparkJobDefinition class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +35,7 @@ export class SparkJobDefinition {
 
   /**
    * Lists spark job definitions.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listSparkJobDefinitionsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,17 +77,17 @@ export class SparkJobDefinition {
 
   /**
    * Lists spark job definitions.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getSparkJobDefinitionsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -108,9 +108,9 @@ export class SparkJobDefinition {
 
   /**
    * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param sparkJobDefinition - Spark Job Definition resource definition.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param sparkJobDefinition Spark Job Definition resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -119,12 +119,12 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateSparkJobDefinition",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
       sparkJobDefinition,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -158,20 +158,17 @@ export class SparkJobDefinition {
 
   /**
    * Gets a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   async getSparkJobDefinition(
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getSparkJobDefinition",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getSparkJobDefinition", options);
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -192,8 +189,8 @@ export class SparkJobDefinition {
 
   /**
    * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   async deleteSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -201,11 +198,11 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteSparkJobDefinition",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -239,8 +236,8 @@ export class SparkJobDefinition {
 
   /**
    * Executes the spark job definition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param options The options parameters.
    */
   async executeSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -248,11 +245,11 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-executeSparkJobDefinition",
-      this.getOperationOptions(options, "location")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "location")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -287,9 +284,9 @@ export class SparkJobDefinition {
 
   /**
    * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName - The spark job definition name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionName The spark job definition name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renameSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -298,12 +295,12 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-renameSparkJobDefinition",
-      this.getOperationOptions(options, "undefined")
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -337,20 +334,17 @@ export class SparkJobDefinition {
 
   /**
    * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
-   * @param options - The options parameters.
+   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
+   * @param options The options parameters.
    */
   async debugSparkJobDefinition(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-debugSparkJobDefinition",
-      this.getOperationOptions(options, "location")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-debugSparkJobDefinition", options);
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionAzureResource,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "location")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -385,9 +379,9 @@ export class SparkJobDefinition {
 
   /**
    * GetSparkJobDefinitionsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the
+   * @param nextLink The nextLink from the previous successful call to the
    *                 GetSparkJobDefinitionsByWorkspace method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getSparkJobDefinitionsByWorkspaceNext(
     nextLink: string,
@@ -395,11 +389,11 @@ export class SparkJobDefinition {
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

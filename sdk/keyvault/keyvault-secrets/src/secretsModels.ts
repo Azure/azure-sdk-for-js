@@ -7,7 +7,7 @@ import { DeletionRecoveryLevel } from "./generated/models";
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.1";
+export const LATEST_API_VERSION = "7.2";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -16,7 +16,7 @@ export interface SecretClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1";
+  serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 /**
@@ -83,8 +83,18 @@ export interface SecretProperties {
    * this field specifies the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
+   * @deprecated Please use {@link SecretProperties.certificateKeyId} instead. This field will always be undefined.
    */
-  readonly keyId?: URL;
+  readonly keyId?: unknown;
+
+  /**
+   * If this is a secret backing a KV certificate, then
+   * this field specifies the identifier of the corresponding key backing the KV certificate.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly certificateKeyId?: string;
+
   /**
    * True if the secret's lifetime is managed by
    * key vault. If this is a secret backing a certificate, then managed will be

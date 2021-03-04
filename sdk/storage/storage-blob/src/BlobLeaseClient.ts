@@ -9,7 +9,7 @@ import { Blob as StorageBlob, Container } from "./generated/src/operations";
 import { ModifiedAccessConditions } from "./models";
 import { CommonOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { BlobClient } from "./Clients";
 import { ContainerClient } from "./ContainerClient";
 
@@ -81,33 +81,21 @@ export type LeaseOperationResponse = Lease & {
 
 /**
  * Configures lease operations.
- *
- * @export
- * @interface LeaseOperationOptions
  */
 export interface LeaseOperationOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof LeaseOperationOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when changing the lease.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof LeaseOperationOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * A client that manages leases for a {@link ContainerClient} or a {@link BlobClient}.
- *
- * @export
- * @class BlobLeaseClient
  */
 export class BlobLeaseClient {
   private _leaseId: string;
@@ -119,8 +107,6 @@ export class BlobLeaseClient {
    * Gets the lease Id.
    *
    * @readonly
-   * @memberof BlobLeaseClient
-   * @type {string}
    */
   public get leaseId(): string {
     return this._leaseId;
@@ -130,8 +116,6 @@ export class BlobLeaseClient {
    * Gets the url.
    *
    * @readonly
-   * @memberof BlobLeaseClient
-   * @type {string}
    */
   public get url(): string {
     return this._url;
@@ -139,9 +123,8 @@ export class BlobLeaseClient {
 
   /**
    * Creates an instance of BlobLeaseClient.
-   * @param {(ContainerClient | BlobClient)} client The client to make the lease operation requests.
-   * @param {string} leaseId Initial proposed lease id.
-   * @memberof BlobLeaseClient
+   * @param client - The client to make the lease operation requests.
+   * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
@@ -172,19 +155,15 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
-   * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
-   * @memberof BlobLeaseClient
+   * @param duration - Must be between 15 to 60 seconds, or infinite (-1)
+   * @param options - option to configure lease management operations.
+   * @returns Response data for acquire lease operation.
    */
   public async acquireLease(
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan(
-      "BlobLeaseClient-acquireLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-acquireLease", options);
 
     if (
       this._isContainer &&
@@ -206,7 +185,7 @@ export class BlobLeaseClient {
           ifTags: options.conditions?.tagConditions
         },
         proposedLeaseId: this._leaseId,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -225,16 +204,15 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {string} proposedLeaseId the proposed new lease Id.
-   * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
-   * @memberof BlobLeaseClient
+   * @param proposedLeaseId - the proposed new lease Id.
+   * @param options - option to configure lease management operations.
+   * @returns Response data for change lease operation.
    */
   public async changeLease(
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-changeLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-changeLease", options);
 
     if (
       this._isContainer &&
@@ -257,7 +235,7 @@ export class BlobLeaseClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions
           },
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
       this._leaseId = proposedLeaseId;
@@ -280,15 +258,11 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
-   * @memberof BlobLeaseClient
+   * @param options - option to configure lease management operations.
+   * @returns Response data for release lease operation.
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan(
-      "BlobLeaseClient-releaseLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-releaseLease", options);
 
     if (
       this._isContainer &&
@@ -308,7 +282,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -327,12 +301,11 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {LeaseOperationOptions} [options={}] Optional option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for renew lease operation.
-   * @memberof BlobLeaseClient
+   * @param options - Optional option to configure lease management operations.
+   * @returns Response data for renew lease operation.
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-renewLease", options);
 
     if (
       this._isContainer &&
@@ -352,7 +325,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -372,17 +345,15 @@ export class BlobLeaseClient {
    * and
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @static
-   * @param {number} breakPeriod Break period
-   * @param {LeaseOperationOptions} [options={}] Optional options to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.
-   * @memberof BlobLeaseClient
+   * @param breakPeriod - Break period
+   * @param options - Optional options to configure lease management operations.
+   * @returns Response data for break lease operation.
    */
   public async breakLease(
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-breakLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("BlobLeaseClient-breakLease", options);
 
     if (
       this._isContainer &&
@@ -403,7 +374,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
     } catch (e) {

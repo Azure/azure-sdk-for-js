@@ -6,9 +6,9 @@ These packages are generally not used directly by consumers, but are used as dep
 
 ## Core "v1" and Core "v2"
 
-The package `@azure/core-http` is heavily based on `@azure/ms-rest-js` and inherited legacy API surface and concepts that sometimes conflicted with our design principles. A full explanation is available here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-https/documentation/core2.md
+The package `@azure/core-http` is heavily based on `@azure/ms-rest-js` and inherited legacy API surface and concepts that sometimes conflicted with our design principles. A full explanation is available here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-rest-pipeline/documentation/core2.md
 
-For the purposes of this document, understand that "core v1" refers to the package `@azure/core-http` and is considered legacy. "Core v2" refers to the packages `@azure/core-https`, `@azure/core-client`, and `@azure/core-xml`.
+For the purposes of this document, understand that "core v1" refers to the package `@azure/core-http` and is considered legacy. "Core v2" refers to the packages `@azure/core-rest-pipeline`, `@azure/core-client`, and `@azure/core-xml`.
 
 ## Common Patterns for REST
 
@@ -20,7 +20,7 @@ Many service operations require client libraries to make one or more HTTP calls 
 
 The `Pipeline` is what manages these common behaviors, which are grouped into items called `PipelinePolicy`s. Each client library configures its own `Pipeline` using a set of standard `PipelineOptions`.
 
-For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-https#key-concepts
+For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-rest-pipeline#key-concepts
 
 ### ServiceClient
 

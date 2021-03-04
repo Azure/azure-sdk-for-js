@@ -5,24 +5,15 @@
 /**
  * Range for Service Operations.
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-the-range-header-for-file-service-operations
- *
- * @export
- * @interface Range
  */
 export interface Range {
   /**
    * StartByte, larger than or equal 0.
-   *
-   * @type {string}
-   * @memberof Range
    */
   offset: number;
   /**
    * Optional. Count of bytes, larger than 0.
    * If not provided, will return bytes from offset to the end.
-   *
-   * @type {string}
-   * @memberof Range
    */
   count?: number;
 }
@@ -32,9 +23,8 @@ export interface Range {
  *
  * "bytes=255-" or "bytes=0-511"
  *
- * @export
- * @param {Range} range A range of byte positions.
- * @returns {string} The string representation for the byte range.
+ * @param range - A range of byte positions.
+ * @returns The string representation for the byte range.
  */
 export function rangeToString(range: Range): string {
   if (range.offset < 0) {

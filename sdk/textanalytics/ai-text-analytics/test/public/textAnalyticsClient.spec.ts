@@ -17,8 +17,8 @@ import {
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
-  MinedOpinion,
-  OpinionSentiment,
+  Opinion,
+  AssessmentSentiment,
   PiiEntityDomainType
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
@@ -90,7 +90,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.equal(result.error.code, "UnsupportedLanguageCode");
       });
 
-      it("service has a bug when referencing opinions in doc #6 or greater", async function() {
+      it("service has a bug when referencing assessments in doc #6 or greater", async function() {
         const documents = [
           "The food was unacceptable",
           "The rooms were beautiful. The AC was good and quiet.",
@@ -111,24 +111,26 @@ describe("[AAD] TextAnalyticsClient", function() {
           result6.error === undefined &&
           result7.error === undefined
         ) {
-          const opinion1 = result1.sentences[0].minedOpinions[0].opinions[0];
-          const opinion2 = result6.sentences[0].minedOpinions[0].opinions[0];
-          assert.notDeepEqual(opinion1, opinion2);
+          const Assessment1 = result1.sentences[0].opinions[0].assessments[0];
+          const Assessment2 = result6.sentences[0].opinions[0].assessments[0];
+          assert.notDeepEqual(Assessment1, Assessment2);
 
-          const listAllOpinions = (acc: string[], sentence: SentenceSentiment): string[] =>
+          const listAllAssessments = (acc: string[], sentence: SentenceSentiment): string[] =>
             acc.concat(
-              sentence.minedOpinions.reduce(
-                (opinions: string[], aspect: MinedOpinion) =>
-                  opinions.concat(aspect.opinions.map((opinion: OpinionSentiment) => opinion.text)),
+              sentence.opinions.reduce(
+                (assessments: string[], opinion: Opinion) =>
+                  assessments.concat(
+                    opinion.assessments.map((assessment: AssessmentSentiment) => assessment.text)
+                  ),
                 []
               )
             );
-          const allOpinions1 = result1.sentences.reduce(listAllOpinions, []);
-          assert.deepEqual(allOpinions1, ["unacceptable"]);
-          const allOpinions2 = result6.sentences.reduce(listAllOpinions, []);
-          assert.deepEqual(allOpinions2, ["nice", "old", "dirty"]);
-          const allOpinions7 = result7.sentences.reduce(listAllOpinions, []);
-          assert.deepEqual(allOpinions7, ["smelled"]);
+          const allAssessments1 = result1.sentences.reduce(listAllAssessments, []);
+          assert.deepEqual(allAssessments1, ["unacceptable"]);
+          const allAssessments2 = result6.sentences.reduce(listAllAssessments, []);
+          assert.deepEqual(allAssessments2, ["nice", "old", "dirty"]);
+          const allAssessments7 = result7.sentences.reduce(listAllAssessments, []);
+          assert.deepEqual(allAssessments7, ["smelled"]);
         }
       });
 
@@ -168,12 +170,12 @@ describe("[AAD] TextAnalyticsClient", function() {
         assertAllSuccess(results);
         results.map((result) =>
           (result as AnalyzeSentimentSuccessResult).sentences.map((sentence) =>
-            assert.isEmpty(sentence.minedOpinions)
+            assert.isEmpty(sentence.opinions)
           )
         );
       });
 
-      it("client gets positive mined opinions", async function() {
+      it("client gets positive mined assessments", async function() {
         const documents = [
           {
             text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
@@ -188,40 +190,40 @@ describe("[AAD] TextAnalyticsClient", function() {
         assertAllSuccess(results);
         const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
         documentSentiment.sentences.map((sentence) =>
-          sentence.minedOpinions?.map((opinion) => {
-            const aspect = opinion.aspect;
-            assert.equal("design", aspect.text);
-            assert.equal("positive", aspect.sentiment);
-            assert.isAtLeast(aspect.confidenceScores.positive, 0);
-            assert.isAtLeast(aspect.confidenceScores.negative, 0);
-            assert.equal(aspect.offset, 32);
-            assert.equal(aspect.length, 6);
-            assert.equal(aspect.text.length, aspect.length);
+          sentence.opinions?.map((opinion) => {
+            const Target = opinion.target;
+            assert.equal("design", Target.text);
+            assert.equal("positive", Target.sentiment);
+            assert.isAtLeast(Target.confidenceScores.positive, 0);
+            assert.isAtLeast(Target.confidenceScores.negative, 0);
+            assert.equal(Target.offset, 32);
+            assert.equal(Target.length, 6);
+            assert.equal(Target.text.length, Target.length);
 
-            const sleekOpinion = opinion.opinions[0];
-            assert.equal("sleek", sleekOpinion.text);
-            assert.equal("positive", sleekOpinion.sentiment);
-            assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
-            assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
-            assert.isFalse(sleekOpinion.isNegated);
-            assert.equal(sleekOpinion.offset, 9);
-            assert.equal(sleekOpinion.length, 5);
-            assert.equal(sleekOpinion.text.length, sleekOpinion.length);
+            const sleekAssessment = opinion.assessments[0];
+            assert.equal("sleek", sleekAssessment.text);
+            assert.equal("positive", sleekAssessment.sentiment);
+            assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
+            assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
+            assert.isFalse(sleekAssessment.isNegated);
+            assert.equal(sleekAssessment.offset, 9);
+            assert.equal(sleekAssessment.length, 5);
+            assert.equal(sleekAssessment.text.length, sleekAssessment.length);
 
-            const premiumOpinion = opinion.opinions[1];
-            assert.equal("premium", premiumOpinion.text);
-            assert.equal("positive", premiumOpinion.sentiment);
-            assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
-            assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
-            assert.isFalse(premiumOpinion.isNegated);
-            assert.equal(premiumOpinion.offset, 15);
-            assert.equal(premiumOpinion.length, 7);
-            assert.equal(premiumOpinion.text.length, premiumOpinion.length);
+            const premiumAssessment = opinion.assessments[1];
+            assert.equal("premium", premiumAssessment.text);
+            assert.equal("positive", premiumAssessment.sentiment);
+            assert.isAtLeast(premiumAssessment.confidenceScores.positive, 0);
+            assert.isAtLeast(premiumAssessment.confidenceScores.positive, 0);
+            assert.isFalse(premiumAssessment.isNegated);
+            assert.equal(premiumAssessment.offset, 15);
+            assert.equal(premiumAssessment.length, 7);
+            assert.equal(premiumAssessment.text.length, premiumAssessment.length);
           })
         );
       });
 
-      it("client gets negative mined opinions", async function() {
+      it("client gets negative mined assessments", async function() {
         const documents = [
           {
             text: "The food and service is not good",
@@ -236,47 +238,47 @@ describe("[AAD] TextAnalyticsClient", function() {
         assertAllSuccess(results);
         const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
         documentSentiment.sentences.map((sentence) => {
-          const foodAspect = sentence.minedOpinions?.[0].aspect;
-          assert.equal("food", foodAspect?.text);
-          assert.equal("negative", foodAspect?.sentiment);
+          const foodTarget = sentence.opinions?.[0].target;
+          assert.equal("food", foodTarget?.text);
+          assert.equal("negative", foodTarget?.sentiment);
 
-          const foodAspectPositiveScore = foodAspect?.confidenceScores.positive!;
-          const foodAspectNegativeScore = foodAspect?.confidenceScores.negative!;
+          const foodTargetPositiveScore = foodTarget?.confidenceScores.positive!;
+          const foodTargetNegativeScore = foodTarget?.confidenceScores.negative!;
 
-          assert.isAtLeast(foodAspectPositiveScore, 0);
-          assert.isAtLeast(foodAspectNegativeScore, 0);
-          assert.equal(foodAspectPositiveScore + foodAspectNegativeScore, 1);
+          assert.isAtLeast(foodTargetPositiveScore, 0);
+          assert.isAtLeast(foodTargetNegativeScore, 0);
+          assert.equal(foodTargetPositiveScore + foodTargetNegativeScore, 1);
 
-          const serviceAspect = sentence.minedOpinions?.[1].aspect;
-          assert.equal("service", serviceAspect?.text);
-          assert.equal("negative", serviceAspect?.sentiment);
+          const serviceTarget = sentence.opinions?.[1].target;
+          assert.equal("service", serviceTarget?.text);
+          assert.equal("negative", serviceTarget?.sentiment);
 
-          const serviceAspectPositiveScore = serviceAspect?.confidenceScores.positive!;
-          const serviceAspectNegativeScore = serviceAspect?.confidenceScores.negative!;
+          const serviceTargetPositiveScore = serviceTarget?.confidenceScores.positive!;
+          const serviceTargetNegativeScore = serviceTarget?.confidenceScores.negative!;
 
-          assert.isAtLeast(serviceAspectPositiveScore, 0);
-          assert.isAtLeast(serviceAspectNegativeScore, 0);
-          assert.equal(serviceAspectPositiveScore + serviceAspectNegativeScore, 1);
+          assert.isAtLeast(serviceTargetPositiveScore, 0);
+          assert.isAtLeast(serviceTargetNegativeScore, 0);
+          assert.equal(serviceTargetPositiveScore + serviceTargetNegativeScore, 1);
 
-          const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
-          const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
+          const foodAssessment = sentence.opinions?.[0].assessments[0];
+          const serviceAssessment = sentence.opinions?.[1].assessments[0];
 
-          assert.deepEqual(foodOpinion!, serviceOpinion!);
+          assert.deepEqual(foodAssessment!, serviceAssessment!);
 
-          assert.equal("good", foodOpinion?.text);
-          assert.equal("negative", foodOpinion?.sentiment);
+          assert.equal("good", foodAssessment?.text);
+          assert.equal("negative", foodAssessment?.sentiment);
 
-          const foodOpinionPositiveScore = foodOpinion?.confidenceScores.positive!;
-          const foodOpinionNegativeScore = foodOpinion?.confidenceScores.negative!;
+          const foodAssessmentPositiveScore = foodAssessment?.confidenceScores.positive!;
+          const foodAssessmentNegativeScore = foodAssessment?.confidenceScores.negative!;
 
-          assert.isAtLeast(foodOpinionPositiveScore, 0);
-          assert.isAtLeast(foodOpinionNegativeScore, 0);
-          assert.equal(foodOpinionPositiveScore + foodOpinionNegativeScore, 1);
-          assert.isTrue(foodOpinion?.isNegated);
+          assert.isAtLeast(foodAssessmentPositiveScore, 0);
+          assert.isAtLeast(foodAssessmentNegativeScore, 0);
+          assert.equal(foodAssessmentPositiveScore + foodAssessmentNegativeScore, 1);
+          assert.isTrue(foodAssessment?.isNegated);
         });
       });
 
-      it("client gets no mined opinions", async function() {
+      it("client gets no mined assessments", async function() {
         const documents = [
           {
             text: "today is a hot day",
@@ -290,7 +292,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.equal(results.length, 1);
         assertAllSuccess(results);
         const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
-        assert.isEmpty(documentSentiment.sentences[0].minedOpinions);
+        assert.isEmpty(documentSentiment.sentences[0].opinions);
       });
     });
 
@@ -590,13 +592,63 @@ describe("[AAD] TextAnalyticsClient", function() {
           { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
         );
         if (!result.error) {
-          assert.equal(result.entities.length, 1);
-          assert.equal(result.entities[0].text, "333-333-3333");
-          assert.equal(result.entities[0].category, "Phone Number");
+          assert.equal(result.entities.length, 2);
+          assert.equal(result.entities[0].text, "Microsoft");
+          assert.equal(result.entities[0].category, "Organization");
+          assert.equal(result.entities[1].text, "333-333-3333");
+          assert.equal(result.entities[1].category, "PhoneNumber");
           assert.equal(
             result.redactedText,
-            "I work at Microsoft and my phone number is ************"
+            "I work at ********* and my phone number is ************"
           );
+        }
+      });
+
+      it("accepts pii categories", async function() {
+        const [result] = await client.recognizePiiEntities(
+          [
+            {
+              id: "0",
+              text: "Patient name is Joe and SSN is 859-98-0987",
+              language: "en"
+            }
+          ],
+          { categoriesFilter: ["USSocialSecurityNumber"] }
+        );
+        if (!result.error) {
+          assert.equal(result.entities.length, 1);
+          assert.equal(result.entities[0].text, "859-98-0987");
+          assert.equal(result.entities[0].category, "USSocialSecurityNumber");
+          assert.equal(result.redactedText, "Patient name is Joe and SSN is ***********");
+        }
+      });
+
+      it("output pii categories are accepted as input", async function() {
+        const [result1] = await client.recognizePiiEntities([
+          {
+            id: "0",
+            text: "Patient name is Joe and SSN is 859-98-0987",
+            language: "en"
+          }
+        ]);
+        if (!result1.error) {
+          const entity2 = result1.entities[1];
+          const [result2] = await client.recognizePiiEntities(
+            [
+              {
+                id: "0",
+                text: "Patient name is Joe and SSN is 859-98-0987",
+                language: "en"
+              }
+            ],
+            { categoriesFilter: [entity2.category] }
+          );
+          if (!result2.error) {
+            assert.equal(result2.entities.length, 1);
+            assert.equal(result2.entities[0].text, entity2.text);
+            assert.equal(result2.entities[0].category, entity2.category);
+            assert.equal(result2.redactedText, "Patient name is Joe and SSN is ***********");
+          }
         }
       });
     });
@@ -687,7 +739,7 @@ describe("[AAD] TextAnalyticsClient", function() {
     describe("#String encoding", function() {
       describe("#Default encoding (utf16CodeUnit)", function() {
         it("emoji", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -698,7 +750,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("emoji with skin tone modifier", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩🏻 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -709,7 +761,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("family emoji", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩‍👩‍👧‍👧 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -720,7 +772,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -731,7 +783,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("diacritics nfc", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "año SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -742,7 +794,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("diacritics nfd", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "año SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -753,7 +805,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("korean nfc", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "아가 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -764,7 +816,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("korean nfd", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "아가 SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -775,7 +827,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         });
 
         it("zalgo", async function() {
-          checkOffsetAndLength(
+          await checkOffsetAndLength(
             client,
             "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987",
             "Utf16CodeUnit",
@@ -787,76 +839,88 @@ describe("[AAD] TextAnalyticsClient", function() {
       });
       describe("#UnicodeCodePoint", function() {
         it("emoji", async function() {
-          checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "UnicodeCodePoint", 7, 11); // offset was 8 with UTF16
+          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "UnicodeCodePoint", 7, 11); // offset was 8 with UTF16
         });
 
         it("emoji with skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11); // offset was 10 with UTF16
         });
 
         it("family emoji", async function() {
-          checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
+          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", "UnicodeCodePoint", 17, 11); // offset was 25 with UTF16
+          await checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "UnicodeCodePoint",
+            17,
+            11
+          ); // offset was 25 with UTF16
         });
 
         it("diacritics nfc", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
         });
 
         it("diacritics nfd", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 10, 11);
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 10, 11);
         });
 
         it("korean nfc", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
         });
 
         it("korean nfd", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
         });
 
         it("zalgo", async function() {
-          checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
+          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
         });
       });
       describe("#TextElements_v8", function() {
         it("emoji", async function() {
-          checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElements_v8", 7, 11); // offset was 8 with UTF16
+          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElements_v8", 7, 11); // offset was 8 with UTF16
         });
 
         it("emoji with skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElements_v8", 8, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElements_v8", 8, 11); // offset was 10 with UTF16
         });
 
         it("family emoji", async function() {
-          checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElements_v8", 13, 11); // offset was 17 with UTF16
+          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElements_v8", 13, 11); // offset was 17 with UTF16
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          checkOffsetAndLength(client, "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", "TextElements_v8", 17, 11); // offset was 25 with UTF16
+          await checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "TextElements_v8",
+            17,
+            11
+          ); // offset was 25 with UTF16
         });
 
         it("diacritics nfc", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11);
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11);
         });
 
         it("diacritics nfd", async function() {
-          checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 10 with UTF16
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 10 with UTF16
         });
 
         it("korean nfc", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
         });
 
         it("korean nfd", async function() {
-          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
         });
 
         it("zalgo", async function() {
-          checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 121 with UTF16
+          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 121 with UTF16
         });
       });
     });
@@ -997,6 +1061,47 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
+      it("single entities linking action", async function() {
+        const docs = [
+          "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
+          "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
+        ];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            recognizeLinkedEntitiesActions: [{}]
+          },
+          "en",
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        for await (const page of result) {
+          const entitiesResult = page.recognizeLinkedEntitiesResults;
+          if (entitiesResult.length === 1) {
+            const action = entitiesResult[0];
+            if (!action.error) {
+              assert.equal(action.results.length, 2);
+              for (const doc of action.results) {
+                if (!doc.error) {
+                  assert.notEqual(doc.entities.length, 0);
+                  for (const entity of doc.entities) {
+                    assert.isDefined(entity.name);
+                    assert.isDefined(entity.url);
+                    assert.isDefined(entity.dataSource);
+                    assert.isDefined(entity.dataSourceEntityId);
+                  }
+                }
+              }
+            }
+          } else {
+            assert.fail("expected an array of entity linking results but did not get one.");
+          }
+        }
+      });
+
       it("single pii entities recognition action", async function() {
         const docs = [
           { id: "1", text: "My SSN is 859-98-0987." },
@@ -1027,19 +1132,20 @@ describe("[AAD] TextAnalyticsClient", function() {
               assert.equal(actionResults.length, 3);
               const doc1 = actionResults[0];
               const doc2 = actionResults[1];
-              const doc3 = actionResults[2];
+              // const doc3 = actionResults[2];
               if (!doc1.error) {
                 assert.equal(doc1.entities[0].text, "859-98-0987");
-                assert.equal(doc1.entities[0].category, "U.S. Social Security Number (SSN)");
+                assert.equal(doc1.entities[0].category, "USSocialSecurityNumber");
               }
               if (!doc2.error) {
                 assert.equal(doc2.entities[0].text, "111000025");
-                // assert.equal(doc2.entities[0].category, "ABA Routing Number")  # Service is currently returning PhoneNumber here
+                assert.equal(doc2.entities[1].category, "ABARoutingNumber");
               }
-              if (!doc3.error) {
-                assert.equal(doc3.entities[0].text, "998.214.865-68");
-                assert.equal(doc3.entities[0].category, "Brazil CPF Number");
-              }
+              // the service is not able to detect the brazil cpf number
+              // if (!doc3.error) {
+              //   assert.equal(doc3.entities[0].text, "998.214.865-68");
+              //   assert.equal(doc3.entities[0].category, "Brazil CPF Number");
+              // }
               for (const doc of actionResults) {
                 if (!doc.error) {
                   for (const entity of doc.entities) {
@@ -1690,8 +1796,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
           },
           {
-            updateIntervalInMs: pollingInterval,
-            displayName: "testJob"
+            updateIntervalInMs: pollingInterval
           }
         );
         poller.onProgress(() => {
@@ -1708,7 +1813,6 @@ describe("[AAD] TextAnalyticsClient", function() {
             poller.getOperationState().actionsInProgressCount,
             "actionsInProgressCount is undefined!"
           );
-          assert.equal(poller.getOperationState().displayName, "testJob");
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);
@@ -1723,8 +1827,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             ]
           },
           {
-            updateIntervalInMs: pollingInterval,
-            displayName: "testJob"
+            updateIntervalInMs: pollingInterval
           }
         );
         const pollerResult = await poller.pollUntilDone();

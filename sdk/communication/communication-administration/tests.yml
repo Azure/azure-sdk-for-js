@@ -1,11 +1,13 @@
 trigger: none
 
-extends:
-  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-  parameters:
-    PackageName: "@azure/communication-administration"
-    ResourceServiceDirectory: communication
-    EnvVars:
-      AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-      AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-      AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/communication-administration"
+      ServiceDirectory: communication
+      MatrixFilters:
+        - DependencyVersion=^$
+      EnvVars:
+        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

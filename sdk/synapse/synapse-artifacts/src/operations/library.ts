@@ -23,7 +23,7 @@ export class Library {
 
   /**
    * Initialize a new instance of the class Library class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -31,7 +31,7 @@ export class Library {
 
   /**
    * Lists Library.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource> {
     const iter = this.listPagingAll(options);
@@ -71,15 +71,12 @@ export class Library {
 
   /**
    * Lists Library.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _list(options?: coreHttp.OperationOptions): Promise<LibraryListOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_list",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_list", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
@@ -97,21 +94,18 @@ export class Library {
 
   /**
    * Flush Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async flush(
     libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-flush",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-flush", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -142,20 +136,17 @@ export class Library {
 
   /**
    * Get Operation result for Library
-   * @param operationId - operation id for which status is requested
-   * @param options - The options parameters.
+   * @param operationId operation id for which status is requested
+   * @param options The options parameters.
    */
   async getOperationResult(
     operationId: string,
     options?: coreHttp.OperationOptions
   ): Promise<LibraryGetOperationResultResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getOperationResult",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getOperationResult", options);
     const operationArguments: coreHttp.OperationArguments = {
       operationId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -176,21 +167,18 @@ export class Library {
 
   /**
    * Delete Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async delete(
     libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-delete",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-delete", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -221,18 +209,15 @@ export class Library {
 
   /**
    * Get Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
@@ -251,24 +236,21 @@ export class Library {
   /**
    * Creates a library with the library name. Use query param 'comp=appendblock' to append the data to
    * the library resource created using the create operation.
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param content - Library file chunk. Use this content in with append operation.
-   * @param options - The options parameters.
+   * @param content Library file chunk. Use this content in with append operation.
+   * @param options The options parameters.
    */
   async createOrAppend(
     libraryName: string,
     content: coreHttp.HttpRequestBody,
     options?: LibraryCreateOrAppendOptionalParams
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrAppend",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrAppend", options);
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       content,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -302,20 +284,17 @@ export class Library {
 
   /**
    * ListNext
-   * @param nextLink - The nextLink from the previous successful call to the List method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
    */
   private async _listNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<LibraryListNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_listNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_listNext", options);
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

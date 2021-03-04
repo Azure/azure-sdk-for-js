@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities/sanitized/:issueAccessToken",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
+   "status": 200,
+   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-02-27T02:15:58.7737297+00:00\"}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "4df5e08a154accf55994e959080c7cae"
+}

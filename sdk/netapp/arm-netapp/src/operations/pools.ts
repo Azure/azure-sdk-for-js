@@ -206,6 +206,35 @@ export class Pools {
       beginDeleteMethodOperationSpec,
       options);
   }
+
+  /**
+   * List all capacity pools in the NetApp Account
+   * @summary Describe all Capacity Pools
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PoolsListNextResponse>
+   */
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPoolList>, callback?: msRest.ServiceCallback<Models.CapacityPoolList>): Promise<Models.PoolsListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNextOperationSpec,
+      callback) as Promise<Models.PoolsListNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -290,7 +319,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.CapacityPool
     },
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -350,6 +378,30 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityPoolList
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

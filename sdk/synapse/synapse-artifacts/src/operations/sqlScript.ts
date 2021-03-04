@@ -25,7 +25,7 @@ export class SqlScript {
 
   /**
    * Initialize a new instance of the class SqlScript class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -33,7 +33,7 @@ export class SqlScript {
 
   /**
    * Lists sql scripts.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listSqlScriptsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -75,17 +75,17 @@ export class SqlScript {
 
   /**
    * Lists sql scripts.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getSqlScriptsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<SqlScriptGetSqlScriptsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSqlScriptsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -106,23 +106,20 @@ export class SqlScript {
 
   /**
    * Creates or updates a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param sqlScript - Sql Script resource definition.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param sqlScript Sql Script resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdateSqlScript(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
   ): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateSqlScript",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       sqlScript,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -156,20 +153,17 @@ export class SqlScript {
 
   /**
    * Gets a sql script.
-   * @param sqlScriptName - The sql script name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
    */
   async getSqlScript(
     sqlScriptName: string,
     options?: SqlScriptGetSqlScriptOptionalParams
   ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getSqlScript",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -190,20 +184,17 @@ export class SqlScript {
 
   /**
    * Deletes a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
    */
   async deleteSqlScript(
     sqlScriptName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteSqlScript",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -237,23 +228,20 @@ export class SqlScript {
 
   /**
    * Renames a sqlScript.
-   * @param sqlScriptName - The sql script name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renameSqlScript(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameSqlScript",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameSqlScript", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -287,9 +275,9 @@ export class SqlScript {
 
   /**
    * GetSqlScriptsByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
+   * @param nextLink The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
    *                 method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getSqlScriptsByWorkspaceNext(
     nextLink: string,
@@ -297,11 +285,11 @@ export class SqlScript {
   ): Promise<SqlScriptGetSqlScriptsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSqlScriptsByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

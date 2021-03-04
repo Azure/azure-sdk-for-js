@@ -10,7 +10,7 @@ logSampleHeader("Database Management");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run() {
+async function run(): Promise<void> {
   logStep("Create database, if it doesn't already exist");
   await client.databases.createIfNotExists({ id: databaseId });
   console.log("Database with id " + databaseId + " created.");

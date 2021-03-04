@@ -20,7 +20,7 @@ export class PipelineRun {
 
   /**
    * Initialize a new instance of the class PipelineRun class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -28,8 +28,8 @@ export class PipelineRun {
 
   /**
    * Query pipeline runs in the workspace based on input filter conditions.
-   * @param filterParameters - Parameters to filter the pipeline run.
-   * @param options - The options parameters.
+   * @param filterParameters Parameters to filter the pipeline run.
+   * @param options The options parameters.
    */
   async queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
@@ -37,11 +37,11 @@ export class PipelineRun {
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-queryPipelineRunsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       filterParameters,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -62,20 +62,17 @@ export class PipelineRun {
 
   /**
    * Get a pipeline run by its run ID.
-   * @param runId - The pipeline run identifier.
-   * @param options - The options parameters.
+   * @param runId The pipeline run identifier.
+   * @param options The options parameters.
    */
   async getPipelineRun(
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<PipelineRunGetPipelineRunResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getPipelineRun",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipelineRun", options);
     const operationArguments: coreHttp.OperationArguments = {
       runId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -96,10 +93,10 @@ export class PipelineRun {
 
   /**
    * Query activity runs based on input filter conditions.
-   * @param pipelineName - The pipeline name.
-   * @param runId - The pipeline run identifier.
-   * @param filterParameters - Parameters to filter the activity runs.
-   * @param options - The options parameters.
+   * @param pipelineName The pipeline name.
+   * @param runId The pipeline run identifier.
+   * @param filterParameters Parameters to filter the activity runs.
+   * @param options The options parameters.
    */
   async queryActivityRuns(
     pipelineName: string,
@@ -107,15 +104,12 @@ export class PipelineRun {
     filterParameters: RunFilterParameters,
     options?: coreHttp.OperationOptions
   ): Promise<PipelineRunQueryActivityRunsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-queryActivityRuns",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-queryActivityRuns", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       runId,
       filterParameters,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -136,20 +130,17 @@ export class PipelineRun {
 
   /**
    * Cancel a pipeline run by its run ID.
-   * @param runId - The pipeline run identifier.
-   * @param options - The options parameters.
+   * @param runId The pipeline run identifier.
+   * @param options The options parameters.
    */
   async cancelPipelineRun(
     runId: string,
     options?: PipelineRunCancelPipelineRunOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-cancelPipelineRun",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelPipelineRun", options);
     const operationArguments: coreHttp.OperationArguments = {
       runId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

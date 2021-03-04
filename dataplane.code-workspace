@@ -57,8 +57,8 @@
       "path": "sdk/core/core-http"
     },
     {
-      "name": "core-https",
-      "path": "sdk/core/core-https"
+      "name": "core-rest-pipeline",
+      "path": "sdk/core/core-rest-pipeline"
     },
     {
       "name": "core-lro",
@@ -71,6 +71,10 @@
     {
       "name": "core-tracing",
       "path": "sdk/core/core-tracing"
+    },
+    {
+      "name": "core-util",
+      "path": "sdk/core/core-util"
     },
     {
       "name": "core-xml",
@@ -233,8 +237,16 @@
       "path": "sdk/digitaltwins/digital-twins-core"
     },
     {
+      "name": "mixedreality-authentication",
+      "path": "sdk/mixedreality/mixedreality-authentication"
+    },
+    {
       "name": "attestation",
       "path": "sdk/attestation/attestation"
+    },
+    {
+      "name": "iot-device-update",
+      "path": "sdk/deviceupdate/iot-device-update"
     }
   ],
   "settings": {

@@ -7,7 +7,7 @@ export class ClientSideMetrics {
   /**
    * Adds one or more ClientSideMetrics to a copy of this instance and returns the result.
    */
-  public add(...clientSideMetricsArray: ClientSideMetrics[]) {
+  public add(...clientSideMetricsArray: ClientSideMetrics[]): ClientSideMetrics {
     let requestCharge = this.requestCharge;
     for (const clientSideMetrics of clientSideMetricsArray) {
       if (clientSideMetrics == null) {
@@ -22,7 +22,7 @@ export class ClientSideMetrics {
 
   public static readonly zero = new ClientSideMetrics(0);
 
-  public static createFromArray(...clientSideMetricsArray: ClientSideMetrics[]) {
+  public static createFromArray(...clientSideMetricsArray: ClientSideMetrics[]): ClientSideMetrics {
     if (clientSideMetricsArray == null) {
       throw new Error("clientSideMetricsArray is null or undefined item(s)");
     }

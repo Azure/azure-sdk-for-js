@@ -27,7 +27,7 @@ export class Pipeline {
 
   /**
    * Initialize a new instance of the class Pipeline class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +35,7 @@ export class Pipeline {
 
   /**
    * Lists pipelines.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listPipelinesByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,17 +77,17 @@ export class Pipeline {
 
   /**
    * Lists pipelines.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getPipelinesByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<PipelineGetPipelinesByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getPipelinesByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -108,23 +108,20 @@ export class Pipeline {
 
   /**
    * Creates or updates a pipeline.
-   * @param pipelineName - The pipeline name.
-   * @param pipeline - Pipeline resource definition.
-   * @param options - The options parameters.
+   * @param pipelineName The pipeline name.
+   * @param pipeline Pipeline resource definition.
+   * @param options The options parameters.
    */
   async createOrUpdatePipeline(
     pipelineName: string,
     pipeline: PipelineResource,
     options?: PipelineCreateOrUpdatePipelineOptionalParams
   ): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdatePipeline",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdatePipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       pipeline,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -158,20 +155,17 @@ export class Pipeline {
 
   /**
    * Gets a pipeline.
-   * @param pipelineName - The pipeline name.
-   * @param options - The options parameters.
+   * @param pipelineName The pipeline name.
+   * @param options The options parameters.
    */
   async getPipeline(
     pipelineName: string,
     options?: PipelineGetPipelineOptionalParams
   ): Promise<PipelineGetPipelineResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getPipeline",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -192,20 +186,17 @@ export class Pipeline {
 
   /**
    * Deletes a pipeline.
-   * @param pipelineName - The pipeline name.
-   * @param options - The options parameters.
+   * @param pipelineName The pipeline name.
+   * @param options The options parameters.
    */
   async deletePipeline(
     pipelineName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deletePipeline",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deletePipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -239,23 +230,20 @@ export class Pipeline {
 
   /**
    * Renames a pipeline.
-   * @param pipelineName - The pipeline name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param pipelineName The pipeline name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   async renamePipeline(
     pipelineName: string,
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renamePipeline",
-      this.getOperationOptions(options, "undefined")
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renamePipeline", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       request,
-      options: updatedOptions
+      options: this.getOperationOptions(updatedOptions, "undefined")
     };
     const sendOperation = async (
       args: coreHttp.OperationArguments,
@@ -289,20 +277,17 @@ export class Pipeline {
 
   /**
    * Creates a run of a pipeline.
-   * @param pipelineName - The pipeline name.
-   * @param options - The options parameters.
+   * @param pipelineName The pipeline name.
+   * @param options The options parameters.
    */
   async createPipelineRun(
     pipelineName: string,
     options?: PipelineCreatePipelineRunOptionalParams
   ): Promise<PipelineCreatePipelineRunResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createPipelineRun",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createPipelineRun", options);
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -323,9 +308,9 @@ export class Pipeline {
 
   /**
    * GetPipelinesByWorkspaceNext
-   * @param nextLink - The nextLink from the previous successful call to the GetPipelinesByWorkspace
+   * @param nextLink The nextLink from the previous successful call to the GetPipelinesByWorkspace
    *                 method.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getPipelinesByWorkspaceNext(
     nextLink: string,
@@ -333,11 +318,11 @@ export class Pipeline {
   ): Promise<PipelineGetPipelinesByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getPipelinesByWorkspaceNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

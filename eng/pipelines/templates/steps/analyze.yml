@@ -88,3 +88,5 @@ steps:
     inputs:
       artifactName: reports
       path: $(Build.ArtifactStagingDirectory)
+
+  - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

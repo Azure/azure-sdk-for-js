@@ -18,7 +18,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3cbc984
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+  "@autorest/typescript": "6.0.0-dev.20210223.1"
 disable-async-iterators: true
 hide-clients: true
 ```
@@ -650,5 +650,41 @@ directive:
             "nextLinkName": null
           }
         }
+      }
+```
+
+### Make Sealed enums
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties
+    transform: >
+      if($) {
+          let props = Object.keys($);
+          for(let i = 0; i < props.length; i++) {
+              
+              if ($[props[i]] &&  $[props[i]]["x-ms-enum"]) {
+                  $[props[i]]["x-ms-enum"].modelAsString = false;
+              } else if ($[props[i]] && $[props[i]]["enum"]) {
+                $[props[i]]["x-ms-enum"] = {modelAsString: false, name: props[i] }
+              }
+          }
+      }
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..get.parameters
+    transform: >
+      if($) {
+          for(let i = 0; i < $.length; i++) {
+              if ($[i] &&  $[i]["x-ms-enum"]) {
+                  $[i]["x-ms-enum"].modelAsString = false;
+              } else if ($[i] && $[i]["enum"]) {
+                $[i]["x-ms-enum"] = {modelAsString: false, name: props[i] }
+              }
+          }
       }
 ```

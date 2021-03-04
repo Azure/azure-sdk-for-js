@@ -1,5 +1,7 @@
 # Release History
 
+## 1.0.0-beta.6 (Unreleased)
+
 ## 1.0.0-beta.5 (2021-02-09)
 
 ### Breaking Changes
@@ -8,6 +10,7 @@
 - Removed `id` from `CommunicationUserIdentifier`.
 - Renamed `id` to `rawId` in `PhoneNumberIdentifier`.
 - Renamed `id` to `rawId` in `MicrosoftTeamsUserIdentifier`.
+- Replaced `abortSignal?` argument in `CommunicationTokenCredential.getToken` with `options?: CommunicationGetTokenOptions`.
 
 ## 1.0.0-beta.4 (2021-01-25)
 

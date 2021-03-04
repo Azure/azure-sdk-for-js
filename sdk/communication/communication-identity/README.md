@@ -34,7 +34,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new AzureKeyCredential(KEY);
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new CommunicationIdentityClient(ENDPOINT, credential);
 ```
 
 ### Using a connection string
@@ -42,7 +42,7 @@ const client = new CommunicationIdentityClient(HOST, credential);
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
-const connectionString = `endpoint=HOST;accessKey=KEY`;
+const connectionString = `endpoint=ENDPOINT;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
 ```
 
@@ -52,7 +52,7 @@ const client = new CommunicationIdentityClient(connectionString);
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new DefaultAzureCredential();
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new CommunicationIdentityClient(ENDPOINT, credential);
 ```
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal].
@@ -77,24 +77,24 @@ const user = await client.createUser();
 
 ### Creating and refreshing a user token
 
-Use the `issueToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
+Use the `getToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
 
 - `chat` (Chat)
 - `voip` (Voice over IP)
 
 ```typescript
-let { token } = await client.issueToken(user, ["chat"]);
+let { token } = await client.getToken(user, ["chat"]);
 ```
 
 To refresh the user token, issue another token with the same user.
 
 ```typescript
-{ token } = await client.issueToken(user, ["chat"]);
+{ token } = await client.getToken(user, ["chat"]);
 ```
 
-### Creating a user together with a token in a single request
+### Creating a user and a token in a single request
 
-For convenience, use `createUserWithToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
+For convenience, use `createUserAndToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
 
 ```typescript
 let { user, token } = await client.createUserWithToken(["chat"]);

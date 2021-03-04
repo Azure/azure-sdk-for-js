@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { StringIndexType as GeneratedStringIndexType } from "./generated";
@@ -50,27 +50,27 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
 /**
  * @internal
  */
-export interface OpinionIndex {
+export interface AssessmentIndex {
   document: number;
   sentence: number;
-  opinion: number;
+  assessment: number;
 }
 
 /**
  * @internal
  */
-export function parseOpinionIndex(pointer: string): OpinionIndex {
-  const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/opinions\/(\d+)/);
+export function parseAssessmentIndex(pointer: string): AssessmentIndex {
+  const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/assessments\/(\d+)/);
   const res = regex.exec(pointer);
   if (res !== null) {
-    const opinionIndex: OpinionIndex = {
+    const assessmentIndex: AssessmentIndex = {
       document: parseInt(res[1]),
       sentence: parseInt(res[2]),
-      opinion: parseInt(res[3])
+      assessment: parseInt(res[3])
     };
-    return opinionIndex;
+    return assessmentIndex;
   } else {
-    throw new Error(`Pointer "${pointer}" is not a valid opinion pointer`);
+    throw new Error(`Pointer "${pointer}" is not a valid Assessment pointer`);
   }
 }
 
@@ -121,6 +121,17 @@ export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStrin
  */
 export function AddParamsToTask<X>(action: X): { parameters?: X } {
   return { parameters: action };
+}
+
+/**
+ * Set the modelVersion property with default if it does not exist in x.
+ * @param options - operation options bag that has a {@link StringIndexType}
+ * @internal
+ */
+export function setModelVersionParam<X extends { modelVersion?: string }>(
+  x: X
+): X & { modelVersion: string } {
+  return { ...x, modelVersion: x.modelVersion || "latest" };
 }
 
 /**
@@ -187,7 +198,7 @@ export function handleInvalidDocumentBatch(error: unknown): any {
   const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
   if (innerMessage) {
     return innerCode === "InvalidDocumentBatch"
-      ? new RestError(innerMessage, innerCode, castError.statusCode)
+      ? new RestError(innerMessage, { code: innerCode, statusCode: castError.statusCode })
       : error;
   } else {
     // unfortunately, the service currently does not follow the swagger definition
@@ -201,4 +212,14 @@ export function handleInvalidDocumentBatch(error: unknown): any {
     );
     return error;
   }
+}
+
+/**
+ * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @internal
+ * @param timeInMs - The number of milliseconds to be delayed.
+ * @returns Resolved promise
+ */
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }

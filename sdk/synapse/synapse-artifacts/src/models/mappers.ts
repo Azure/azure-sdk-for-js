@@ -21419,7 +21419,7 @@ export const DataFlowDebugSessionExecuteCommandHeaders: coreHttp.CompositeMapper
   }
 };
 
-export const discriminators = {
+export let discriminators = {
   LinkedService: LinkedService,
   Dataset: Dataset,
   Activity: Activity,

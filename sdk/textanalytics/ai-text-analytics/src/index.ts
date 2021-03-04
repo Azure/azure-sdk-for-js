@@ -30,7 +30,8 @@ export {
   AnalysisPollOperationState,
   OperationMetadata,
   AnalyzeBatchActionsOperationMetadata,
-  StringIndexType
+  StringIndexType,
+  RecognizeLinkedEntitiesAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -58,9 +59,9 @@ export {
   AnalyzeSentimentErrorResult,
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
-  MinedOpinion,
-  AspectSentiment,
-  OpinionSentiment
+  Opinion,
+  TargetSentiment,
+  AssessmentSentiment
 } from "./analyzeSentimentResult";
 export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 export {
@@ -84,7 +85,9 @@ export {
   AnalyzeHealthcareEntitiesErrorResult,
   HealthcareEntity,
   EntityDataSource,
-  HealthcareEntityRelationType
+  HealthcareEntityRelation,
+  HealthcareEntityRelationRole,
+  HealthcareEntityRelationRoleType
 } from "./analyzeHealthcareEntitiesResult";
 export {
   PagedAnalyzeBatchActionsResult,
@@ -100,7 +103,10 @@ export {
   RecognizePiiEntitiesActionErrorResult,
   RecognizePiiEntitiesActionSuccessResult,
   ExtractKeyPhrasesActionErrorResult,
-  ExtractKeyPhrasesActionSuccessResult
+  ExtractKeyPhrasesActionSuccessResult,
+  RecognizeLinkedEntitiesActionResult,
+  RecognizeLinkedEntitiesActionSuccessResult,
+  RecognizeLinkedEntitiesActionErrorResult
 } from "./analyzeBatchActionsResult";
 export {
   ErrorCode,
@@ -127,9 +133,15 @@ export {
   KnownWarningCode,
   LinkedEntity,
   Match,
-  SentenceOpinion,
-  AspectConfidenceScoreLabel,
+  SentenceAssessment,
+  TargetConfidenceScoreLabel,
   TokenSentimentValue,
   TextAnalyticsWarning,
-  State as TextAnalyticsOperationStatus
+  State as TextAnalyticsOperationStatus,
+  HealthcareAssertion as EntityAssertion,
+  PiiCategory as PiiEntityCategory,
+  Association as EntityAssociation,
+  Certainty as EntityCertainty,
+  Conditionality as EntityConditionality,
+  RelationType as HealthcareEntityRelationType
 } from "./generated/models";

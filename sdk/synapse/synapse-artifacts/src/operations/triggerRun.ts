@@ -14,7 +14,7 @@ export class TriggerRun {
 
   /**
    * Initialize a new instance of the class TriggerRun class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -22,23 +22,20 @@ export class TriggerRun {
 
   /**
    * Rerun single trigger instance by runId.
-   * @param triggerName - The trigger name.
-   * @param runId - The pipeline run identifier.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param runId The pipeline run identifier.
+   * @param options The options parameters.
    */
   async rerunTriggerInstance(
     triggerName: string,
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-rerunTriggerInstance",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-rerunTriggerInstance", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -59,23 +56,20 @@ export class TriggerRun {
 
   /**
    * Cancel single trigger instance by runId.
-   * @param triggerName - The trigger name.
-   * @param runId - The pipeline run identifier.
-   * @param options - The options parameters.
+   * @param triggerName The trigger name.
+   * @param runId The pipeline run identifier.
+   * @param options The options parameters.
    */
   async cancelTriggerInstance(
     triggerName: string,
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-cancelTriggerInstance",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelTriggerInstance", options);
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -96,8 +90,8 @@ export class TriggerRun {
 
   /**
    * Query trigger runs.
-   * @param filterParameters - Parameters to filter the pipeline run.
-   * @param options - The options parameters.
+   * @param filterParameters Parameters to filter the pipeline run.
+   * @param options The options parameters.
    */
   async queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
@@ -105,11 +99,11 @@ export class TriggerRun {
   ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-queryTriggerRunsByWorkspace",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       filterParameters,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

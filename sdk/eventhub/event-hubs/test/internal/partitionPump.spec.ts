@@ -15,7 +15,7 @@ describe("PartitionPump", () => {
   describe("telemetry", () => {
     const eventHubProperties = {
       host: "thehost",
-      eventHubName: "theeventhubname"
+      entityPath: "theeventhubname"
     };
 
     class TestTracer2 extends TestTracer {
@@ -51,7 +51,7 @@ describe("PartitionPump", () => {
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.EventHub",
-        "message_bus.destination": eventHubProperties.eventHubName,
+        "message_bus.destination": eventHubProperties.entityPath,
         "peer.address": eventHubProperties.host
       });
 

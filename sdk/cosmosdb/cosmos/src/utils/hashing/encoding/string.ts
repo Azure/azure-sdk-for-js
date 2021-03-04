@@ -3,7 +3,7 @@
 
 import { BytePrefix } from "./prefix";
 
-export function writeStringForBinaryEncoding(payload: string) {
+export function writeStringForBinaryEncoding(payload: string): Buffer {
   let outputStream = Buffer.from(BytePrefix.String, "hex");
   const MAX_STRING_BYTES_TO_APPEND = 100;
   const byteArray = [...Buffer.from(payload)];
