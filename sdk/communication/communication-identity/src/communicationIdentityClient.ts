@@ -112,7 +112,7 @@ export class CommunicationIdentityClient {
   /**
    * Creates a scoped user token.
    *
-   * @param user - The user whose tokens are being revoked.
+   * @param user - The user whose tokens are being issued.
    * @param scopes - Scopes to include in the token.
    * @param options - Additional options for the request.
    */
