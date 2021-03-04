@@ -16,15 +16,16 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
 import { apiVersion } from "../src/generated/src/models/parameters";
-import { SmsClient, SmsSendRequest, SmsSendResult } from "../src/smsClient";
+import { SmsClient, SmsSendRequest } from "../src/smsClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 
 describe("[mocked] SmsClient", async () => {
   const baseUri = "https://contoso.api.fake:443";
+  const connectionString = `endpoint=${baseUri};accesskey=banana`;
   const dateHeader = isNode ? "date" : "x-ms-date";
-  let smsClient: SmsClient;
-  let spy: sinon.SinonSpy;
+  let sendRequestSpy: sinon.SinonSpy;
+  let uuidStub: sinon.SinonStub;
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
       return {
@@ -53,31 +54,39 @@ describe("[mocked] SmsClient", async () => {
     to: ["+15558985487"],
     message: "message"
   };
-  let testResults: SmsSendResult[];
 
-  //Helper functions
-  const shouldReturnCorrectValues = () => {
-    it("returns the correct results", () => {
-      const _response = testResults[0];
-      sinon.assert.calledOnce(spy);
-      assert.equal(_response.httpStatusCode, 202);
-      assert.equal(_response.messageId, "id");
+  it("can instantiate with a connection string", async () => {
+    new SmsClient(connectionString);
+  });
+
+  it("can instantiate with a url and KeyCredential ", async () => {
+    new SmsClient(baseUri, new AzureKeyCredential("banana"));
+  });
+
+  describe("when sending an SMS", () => {
+    let smsClient: SmsClient;
+    beforeEach(() => {
+      uuidStub = sinon.stub(Uuid, "generateUuid");
+      uuidStub.returns(mockedGuid);
+      sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
+      sinon.useFakeTimers();
+      smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
     });
-  };
 
-  const shouldSendCorrectRequest = () => {
-    it("sends with the correct request body", () => {
-      const request = spy.getCall(0).args[0];
+    it("sends with the correct request body", async () => {
+      await smsClient.send(testSendRequest);
+
+      const request = sendRequestSpy.getCall(0).args[0];
       assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
       assert.equal(request.method, "POST");
       const expectedRequestBody = generateSendMessageRequest(testSendRequest);
       assert.deepEqual(JSON.parse(request.body), expectedRequestBody);
     });
-  };
 
-  const shouldSetCorrectHeaders = () => {
-    it("sends with the correct headers", () => {
-      const request = spy.getCall(0).args[0];
+    it("sends with the correct headers", async () => {
+      await smsClient.send(testSendRequest);
+
+      const request = sendRequestSpy.getCall(0).args[0];
       if (isNode) {
         assert.equal(request.headers.get("host"), "contoso.api.fake:443");
       }
@@ -88,45 +97,24 @@ describe("[mocked] SmsClient", async () => {
         /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
       );
     });
-  };
 
-  describe("when client instantiated with connection string", async () => {
-    const connectionString = `endpoint=${baseUri};accesskey=banana`;
-    before(async () => {
-      sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
-      spy = sinon.spy(mockHttpClient, "sendRequest");
-      sinon.useFakeTimers();
+    it("returns the correct results", async () => {
+      const smsTestResults = await smsClient.send(testSendRequest);
 
-      smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
-      testResults = await smsClient.send(testSendRequest);
+      const smsTestResult = smsTestResults[0];
+      sinon.assert.calledOnce(sendRequestSpy);
+      assert.equal(smsTestResult.httpStatusCode, 202);
+      assert.equal(smsTestResult.messageId, "id");
     });
 
-    shouldSendCorrectRequest();
-    shouldSetCorrectHeaders();
-    shouldReturnCorrectValues();
-
-    after(() => {
-      sinon.restore();
-    });
-  });
-
-  describe("when instantiating client with url and KeyCredential", async () => {
-    before(async () => {
-      sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
-      spy = sinon.spy(mockHttpClient, "sendRequest");
-      sinon.useFakeTimers();
-
-      smsClient = new SmsClient(baseUri, new AzureKeyCredential("banana"), {
-        httpClient: mockHttpClient
-      });
-      testResults = await smsClient.send(testSendRequest);
+    it("generates a new repeatability id each time", async () => {
+      await smsClient.send(testSendRequest);
+      assert.isTrue(uuidStub.calledOnce);
+      await smsClient.send(testSendRequest);
+      assert.isTrue(uuidStub.calledTwice);
     });
 
-    shouldSendCorrectRequest();
-    shouldSetCorrectHeaders();
-    shouldReturnCorrectValues();
-
-    after(() => {
+    afterEach(() => {
       sinon.restore();
     });
   });
