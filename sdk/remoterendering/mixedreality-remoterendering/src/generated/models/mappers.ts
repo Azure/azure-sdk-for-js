@@ -306,7 +306,7 @@ export const RenderingSession: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "RenderingSession",
     modelProperties: {
-      id: {
+      sessionId: {
         serializedName: "id",
         required: true,
         type: {
@@ -342,7 +342,7 @@ export const RenderingSession: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      hostname: {
+      host: {
         serializedName: "hostname",
         readOnly: true,
         type: {
@@ -384,7 +384,7 @@ export const RenderingSession: coreHttp.CompositeMapper = {
           className: "RemoteRenderingServiceError"
         }
       },
-      creationTime: {
+      createdOn: {
         serializedName: "creationTime",
         readOnly: true,
         type: {

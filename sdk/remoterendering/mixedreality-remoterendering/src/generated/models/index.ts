@@ -125,7 +125,7 @@ export interface RenderingSessionOptions {
 /** The properties of a rendering session. */
 export interface RenderingSession {
   /** The ID of the session supplied when the session was created. */
-  id: string;
+  sessionId: string;
   /**
    * The TCP port at which the Azure Remote Rendering Inspector tool is hosted.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -145,7 +145,7 @@ export interface RenderingSession {
    * The hostname under which the rendering session is reachable.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly hostname?: string;
+  readonly host?: string;
   /**
    * The time in minutes the session will run after reaching the 'Ready' state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -169,7 +169,7 @@ export interface RenderingSession {
    * The time when the rendering session was created. Date and time in ISO 8601 format.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly creationTime?: Date;
+  readonly createdOn?: Date;
 }
 
 /** Settings used to update the session. */

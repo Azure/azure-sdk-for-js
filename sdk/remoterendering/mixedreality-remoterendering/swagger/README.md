@@ -154,6 +154,30 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
+    where: $.definitions.session_properties.properties.id
+    transform: >
+      $["x-ms-client-name"] = "sessionId";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.session_properties.properties.hostname
+    transform: >
+      $["x-ms-client-name"] = "host";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.session_properties.properties.creationTime
+    transform: >
+      $["x-ms-client-name"] = "createdOn";
+```
+
+```yaml
+directive:
+  - from: swagger-document
     where: $.definitions.session_size
     transform: >
       $["x-ms-client-name"] = "RenderingServerSize";
