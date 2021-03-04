@@ -108,7 +108,7 @@ describe("createSpan", () => {
     assert.deepEqual(updatedOptions, expected);
   });
 
-  it("namespace and packagePrefix can be undefined (and thus ignored)", () => {
+  it("namespace and packagePrefix can be empty (and thus ignored)", () => {
     const tracer = new TestTracer();
 
     const testSpan = new TestSpan(
@@ -124,8 +124,8 @@ describe("createSpan", () => {
     setTracer(tracer);
 
     const cf = createSpanFunction({
-      namespace: undefined,
-      packagePrefix: undefined
+      namespace: "",
+      packagePrefix: ""
     });
 
     const { span, updatedOptions } = cf("myVerbatimOperationName", {

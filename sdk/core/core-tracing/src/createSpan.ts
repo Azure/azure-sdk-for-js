@@ -13,13 +13,17 @@ import { OperationTracingOptions } from "./interfaces";
  */
 export interface CreateSpanFunctionArgs {
   /**
-   * Package name prefix
+   * Package name prefix.
+   *
+   * NOTE: if this is empty no prefix will be applied to created Span names.
    */
-  packagePrefix: string | undefined;
+  packagePrefix: string;
   /**
    * Service namespace
+   *
+   * NOTE: if this is empty no `az.namespace` attribute will be added to created Spans.
    */
-  namespace: string | undefined;
+  namespace: string;
 }
 
 /**
@@ -52,17 +56,16 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
       ...tracingOptions.spanOptions
     };
 
-    const spanName =
-      args.packagePrefix !== undefined ? `${args.packagePrefix}.${operationName}` : operationName;
+    const spanName = args.packagePrefix ? `${args.packagePrefix}.${operationName}` : operationName;
     const span = tracer.startSpan(spanName, spanOptions);
 
-    if (args.namespace !== undefined) {
+    if (args.namespace) {
       span.setAttribute("az.namespace", args.namespace);
     }
 
     let newSpanOptions = tracingOptions.spanOptions || {};
 
-    if (span.isRecording() && args.namespace !== undefined) {
+    if (span.isRecording() && args.namespace) {
       newSpanOptions = {
         ...tracingOptions.spanOptions,
         parent: span.context(),
