@@ -10,6 +10,7 @@ import {
   SpanOptions
 } from "@azure/core-tracing";
 import { ServiceBusMessage } from "../serviceBusMessage";
+import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * Creates a span using the global tracer.
@@ -178,4 +179,41 @@ export function extractSpanContextFromServiceBusMessage(
 
   const diagnosticId = message.applicationProperties[TRACEPARENT_PROPERTY] as string;
   return extractSpanContextFromTraceParentHeader(diagnosticId);
+}
+
+/**
+ * Converts TryAddOptions into the modern shape (OperationOptions) when needed.
+ * (this is something we can eliminate at the next major release of EH _or_ when
+ * we release with the GA version of opentelemetry).
+ *
+ * @internal
+ */
+export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOptions): TryAddOptions {
+  // @ts-ignore parentSpan is deprecated and this is compat code to translate it until we can get rid of it.
+  const possibleParentSpan = tryAddOptions.parentSpan;
+
+  if (!possibleParentSpan) {
+    // assume that the options are already in the modern shape.
+    return tryAddOptions;
+  }
+
+  const convertedOptions: TryAddOptions = {
+    ...tryAddOptions,
+    tracingOptions: {
+      spanOptions: {
+        parent: isSpan(possibleParentSpan) ? possibleParentSpan.context() : possibleParentSpan
+      }
+    }
+  };
+
+  return convertedOptions;
+}
+
+function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is Span {
+  if (possibleSpan == null) {
+    return false;
+  }
+
+  const x = possibleSpan as Span;
+  return typeof x.context === "function";
 }
