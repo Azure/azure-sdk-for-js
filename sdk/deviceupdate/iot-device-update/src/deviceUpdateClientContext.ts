@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { DeviceUpdateClientOptionalParams } from "./models";
 
 const packageName = "@azure/iot-device-update";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class DeviceUpdateClientContext extends coreHttp.ServiceClient {
   accountEndpoint: string;
