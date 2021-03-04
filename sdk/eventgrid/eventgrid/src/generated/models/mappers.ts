@@ -4674,15 +4674,112 @@ export const WebAppServicePlanUpdatedEventDataSku: CompositeMapper = {
   }
 };
 
-export const ACSChatEventBase: CompositeMapper = {
+export const CommunicationIdentifierModel: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatEventBase",
+    className: "CommunicationIdentifierModel",
     modelProperties: {
-      recipientId: {
-        serializedName: "recipientId",
+      rawId: {
+        serializedName: "rawId",
         type: {
           name: "String"
+        }
+      },
+      communicationUser: {
+        serializedName: "communicationUser",
+        type: {
+          name: "Composite",
+          className: "CommunicationUserIdentifierModel"
+        }
+      },
+      phoneNumber: {
+        serializedName: "phoneNumber",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel"
+        }
+      },
+      microsoftTeamsUser: {
+        serializedName: "microsoftTeamsUser",
+        type: {
+          name: "Composite",
+          className: "MicrosoftTeamsUserIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationUserIdentifierModel: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationUserIdentifierModel",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumberIdentifierModel: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumberIdentifierModel",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MicrosoftTeamsUserIdentifierModel: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MicrosoftTeamsUserIdentifierModel",
+    modelProperties: {
+      userId: {
+        serializedName: "userId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isAnonymous: {
+        serializedName: "isAnonymous",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatEventBaseProperties: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatEventBaseProperties",
+    modelProperties: {
+      recipientCommunicationIdentifier: {
+        serializedName: "recipientCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       transactionId: {
@@ -4701,10 +4798,25 @@ export const ACSChatEventBase: CompositeMapper = {
   }
 };
 
-export const ACSChatThreadMember: CompositeMapper = {
+export const AcsChatEventInThreadBaseProperties: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadMember",
+    className: "AcsChatEventInThreadBaseProperties",
+    modelProperties: {
+      threadId: {
+        serializedName: "threadId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadParticipantProperties: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadParticipantProperties",
     modelProperties: {
       displayName: {
         serializedName: "displayName",
@@ -4712,10 +4824,11 @@ export const ACSChatThreadMember: CompositeMapper = {
           name: "String"
         }
       },
-      memberId: {
-        serializedName: "memberId",
+      participantCommunicationIdentifier: {
+        serializedName: "participantCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       }
     }
@@ -5083,22 +5196,23 @@ export const MapsGeofenceResultEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatMessageEventBase: CompositeMapper = {
+export const AcsChatMessageEventBaseProperties: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMessageEventBase",
+    className: "AcsChatMessageEventBaseProperties",
     modelProperties: {
-      ...ACSChatEventBase.type.modelProperties,
+      ...AcsChatEventBaseProperties.type.modelProperties,
       messageId: {
         serializedName: "messageId",
         type: {
           name: "String"
         }
       },
-      senderId: {
-        serializedName: "senderId",
+      senderCommunicationIdentifier: {
+        serializedName: "senderCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       senderDisplayName: {
@@ -5129,16 +5243,157 @@ export const ACSChatMessageEventBase: CompositeMapper = {
   }
 };
 
-export const ACSChatThreadEventBase: CompositeMapper = {
+export const AcsChatThreadEventBaseProperties: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadEventBase",
+    className: "AcsChatThreadEventBaseProperties",
     modelProperties: {
-      ...ACSChatEventBase.type.modelProperties,
+      ...AcsChatEventBaseProperties.type.modelProperties,
       createTime: {
         serializedName: "createTime",
         type: {
           name: "DateTime"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageEventInThreadBaseProperties: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageEventInThreadBaseProperties",
+    modelProperties: {
+      ...AcsChatEventInThreadBaseProperties.type.modelProperties,
+      messageId: {
+        serializedName: "messageId",
+        type: {
+          name: "String"
+        }
+      },
+      senderCommunicationIdentifier: {
+        serializedName: "senderCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      senderDisplayName: {
+        serializedName: "senderDisplayName",
+        type: {
+          name: "String"
+        }
+      },
+      composeTime: {
+        serializedName: "composeTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadEventInThreadBaseProperties: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadEventInThreadBaseProperties",
+    modelProperties: {
+      ...AcsChatEventInThreadBaseProperties.type.modelProperties,
+      createTime: {
+        serializedName: "createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatParticipantAddedToThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatParticipantAddedToThreadEventData",
+    modelProperties: {
+      ...AcsChatEventInThreadBaseProperties.type.modelProperties,
+      time: {
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      addedByCommunicationIdentifier: {
+        serializedName: "addedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantAdded: {
+        serializedName: "participantAdded",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipantProperties"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatParticipantRemovedFromThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatParticipantRemovedFromThreadEventData",
+    modelProperties: {
+      ...AcsChatEventInThreadBaseProperties.type.modelProperties,
+      time: {
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      removedByCommunicationIdentifier: {
+        serializedName: "removedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantRemoved: {
+        serializedName: "participantRemoved",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipantProperties"
         }
       },
       version: {
@@ -5213,12 +5468,12 @@ export const AcsSmsReceivedEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatMessageReceivedEventData: CompositeMapper = {
+export const AcsChatMessageReceivedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMessageReceivedEventData",
+    className: "AcsChatMessageReceivedEventData",
     modelProperties: {
-      ...ACSChatMessageEventBase.type.modelProperties,
+      ...AcsChatMessageEventBaseProperties.type.modelProperties,
       messageBody: {
         serializedName: "messageBody",
         type: {
@@ -5229,12 +5484,12 @@ export const ACSChatMessageReceivedEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatMessageEditedEventData: CompositeMapper = {
+export const AcsChatMessageEditedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMessageEditedEventData",
+    className: "AcsChatMessageEditedEventData",
     modelProperties: {
-      ...ACSChatMessageEventBase.type.modelProperties,
+      ...AcsChatMessageEventBaseProperties.type.modelProperties,
       messageBody: {
         serializedName: "messageBody",
         type: {
@@ -5251,12 +5506,12 @@ export const ACSChatMessageEditedEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatMessageDeletedEventData: CompositeMapper = {
+export const AcsChatMessageDeletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMessageDeletedEventData",
+    className: "AcsChatMessageDeletedEventData",
     modelProperties: {
-      ...ACSChatMessageEventBase.type.modelProperties,
+      ...AcsChatMessageEventBaseProperties.type.modelProperties,
       deleteTime: {
         serializedName: "deleteTime",
         type: {
@@ -5267,16 +5522,17 @@ export const ACSChatMessageDeletedEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatThreadCreatedWithUserEventData: CompositeMapper = {
+export const AcsChatThreadCreatedWithUserEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadCreatedWithUserEventData",
+    className: "AcsChatThreadCreatedWithUserEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      createdBy: {
-        serializedName: "createdBy",
+      ...AcsChatThreadEventBaseProperties.type.modelProperties,
+      createdByCommunicationIdentifier: {
+        serializedName: "createdByCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       properties: {
@@ -5286,14 +5542,14 @@ export const ACSChatThreadCreatedWithUserEventData: CompositeMapper = {
           value: { type: { name: "any" } }
         }
       },
-      members: {
-        serializedName: "members",
+      participants: {
+        serializedName: "participants",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ACSChatThreadMember"
+              className: "AcsChatThreadParticipantProperties"
             }
           }
         }
@@ -5302,16 +5558,17 @@ export const ACSChatThreadCreatedWithUserEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatThreadWithUserDeletedEventData: CompositeMapper = {
+export const AcsChatThreadWithUserDeletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadWithUserDeletedEventData",
+    className: "AcsChatThreadWithUserDeletedEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      deletedBy: {
-        serializedName: "deletedBy",
+      ...AcsChatThreadEventBaseProperties.type.modelProperties,
+      deletedByCommunicationIdentifier: {
+        serializedName: "deletedByCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       deleteTime: {
@@ -5324,16 +5581,17 @@ export const ACSChatThreadWithUserDeletedEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatThreadPropertiesUpdatedPerUserEventData: CompositeMapper = {
+export const AcsChatThreadPropertiesUpdatedPerUserEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadPropertiesUpdatedPerUserEventData",
+    className: "AcsChatThreadPropertiesUpdatedPerUserEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      editedBy: {
-        serializedName: "editedBy",
+      ...AcsChatThreadEventBaseProperties.type.modelProperties,
+      editedByCommunicationIdentifier: {
+        serializedName: "editedByCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       editTime: {
@@ -5353,58 +5611,203 @@ export const ACSChatThreadPropertiesUpdatedPerUserEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatMemberAddedToThreadWithUserEventData: CompositeMapper = {
+export const AcsChatParticipantAddedToThreadWithUserEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMemberAddedToThreadWithUserEventData",
+    className: "AcsChatParticipantAddedToThreadWithUserEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
+      ...AcsChatThreadEventBaseProperties.type.modelProperties,
       time: {
         serializedName: "time",
         type: {
           name: "DateTime"
         }
       },
-      addedBy: {
-        serializedName: "addedBy",
-        type: {
-          name: "String"
-        }
-      },
-      memberAdded: {
-        serializedName: "memberAdded",
+      addedByCommunicationIdentifier: {
+        serializedName: "addedByCommunicationIdentifier",
         type: {
           name: "Composite",
-          className: "ACSChatThreadMember"
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantAdded: {
+        serializedName: "participantAdded",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipantProperties"
         }
       }
     }
   }
 };
 
-export const ACSChatMemberRemovedFromThreadWithUserEventData: CompositeMapper = {
+export const AcsChatParticipantRemovedFromThreadWithUserEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMemberRemovedFromThreadWithUserEventData",
+    className: "AcsChatParticipantRemovedFromThreadWithUserEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
+      ...AcsChatThreadEventBaseProperties.type.modelProperties,
       time: {
         serializedName: "time",
         type: {
           name: "DateTime"
         }
       },
-      removedBy: {
-        serializedName: "removedBy",
+      removedByCommunicationIdentifier: {
+        serializedName: "removedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantRemoved: {
+        serializedName: "participantRemoved",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipantProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageReceivedInThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageReceivedInThreadEventData",
+    modelProperties: {
+      ...AcsChatMessageEventInThreadBaseProperties.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageEditedInThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageEditedInThreadEventData",
+    modelProperties: {
+      ...AcsChatMessageEventInThreadBaseProperties.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
         type: {
           name: "String"
         }
       },
-      memberRemoved: {
-        serializedName: "memberRemoved",
+      editTime: {
+        serializedName: "editTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageDeletedInThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageDeletedInThreadEventData",
+    modelProperties: {
+      ...AcsChatMessageEventInThreadBaseProperties.type.modelProperties,
+      deleteTime: {
+        serializedName: "deleteTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadCreatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadCreatedEventData",
+    modelProperties: {
+      ...AcsChatThreadEventInThreadBaseProperties.type.modelProperties,
+      createdByCommunicationIdentifier: {
+        serializedName: "createdByCommunicationIdentifier",
         type: {
           name: "Composite",
-          className: "ACSChatThreadMember"
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      participants: {
+        serializedName: "participants",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsChatThreadParticipantProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadDeletedEventData",
+    modelProperties: {
+      ...AcsChatThreadEventInThreadBaseProperties.type.modelProperties,
+      deletedByCommunicationIdentifier: {
+        serializedName: "deletedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      deleteTime: {
+        serializedName: "deleteTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadPropertiesUpdatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadPropertiesUpdatedEventData",
+    modelProperties: {
+      ...AcsChatThreadEventInThreadBaseProperties.type.modelProperties,
+      editedByCommunicationIdentifier: {
+        serializedName: "editedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      editTime: {
+        serializedName: "editTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }

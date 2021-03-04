@@ -1819,22 +1819,62 @@ export interface WebAppServicePlanUpdatedEventDataSku {
   capacity?: string;
 }
 
+/** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+export interface CommunicationIdentifierModel {
+  /** Raw Id of the identifier. Optional in requests, required in responses. */
+  rawId?: string;
+  /** The communication user. */
+  communicationUser?: CommunicationUserIdentifierModel;
+  /** The phone number. */
+  phoneNumber?: PhoneNumberIdentifierModel;
+  /** The Microsoft Teams user. */
+  microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+}
+
+/** A user that got created with an Azure Communication Services resource. */
+export interface CommunicationUserIdentifierModel {
+  /** The Id of the communication user. */
+  id: string;
+}
+
+/** A phone number. */
+export interface PhoneNumberIdentifierModel {
+  /** The phone number in E.164 format. */
+  value: string;
+}
+
+/** A Microsoft Teams user. */
+export interface MicrosoftTeamsUserIdentifierModel {
+  /** The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user. */
+  userId: string;
+  /** True if the Microsoft Teams user is anonymous. By default false if missing. */
+  isAnonymous?: boolean;
+  /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
+  cloud?: CommunicationCloudEnvironmentModel;
+}
+
 /** Schema of common properties of all chat events */
-export interface ACSChatEventBase {
-  /** The MRI of the target user */
-  recipientId?: string;
+export interface AcsChatEventBaseProperties {
+  /** The communication identifier of the target user */
+  recipientCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The transaction id will be used as co-relation vector */
   transactionId?: string;
   /** The chat thread id */
   threadId?: string;
 }
 
-/** Schema of the chat thread member */
-export interface ACSChatThreadMember {
+/** Schema of common properties of all thread-level chat events */
+export interface AcsChatEventInThreadBaseProperties {
+  /** The chat thread id */
+  threadId?: string;
+}
+
+/** Schema of the chat thread participant */
+export interface AcsChatThreadParticipantProperties {
   /** The name of the user */
   displayName?: string;
-  /** The MRI of the user */
-  memberId?: string;
+  /** The communication identifier of the user */
+  participantCommunicationIdentifier?: CommunicationIdentifierModel;
 }
 
 /** Schema for details of a delivery attempt */
@@ -1947,11 +1987,11 @@ export type MapsGeofenceExitedEventData = MapsGeofenceEventProperties & {};
 export type MapsGeofenceResultEventData = MapsGeofenceEventProperties & {};
 
 /** Schema of common properties of all chat message events */
-export type ACSChatMessageEventBase = ACSChatEventBase & {
+export type AcsChatMessageEventBaseProperties = AcsChatEventBaseProperties & {
   /** The chat message id */
   messageId?: string;
-  /** The MRI of the sender */
-  senderId?: string;
+  /** The communication identifier of the sender */
+  senderCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The display name of the sender */
   senderDisplayName?: string;
   /** The original compose time of the message */
@@ -1963,9 +2003,57 @@ export type ACSChatMessageEventBase = ACSChatEventBase & {
 };
 
 /** Schema of common properties of all chat thread events */
-export type ACSChatThreadEventBase = ACSChatEventBase & {
+export type AcsChatThreadEventBaseProperties = AcsChatEventBaseProperties & {
   /** The original creation time of the thread */
   createTime?: Date;
+  /** The version of the thread */
+  version?: number;
+};
+
+/** Schema of common properties of all thread-level chat message events */
+export type AcsChatMessageEventInThreadBaseProperties = AcsChatEventInThreadBaseProperties & {
+  /** The chat message id */
+  messageId?: string;
+  /** The communication identifier of the sender */
+  senderCommunicationIdentifier?: CommunicationIdentifierModel;
+  /** The display name of the sender */
+  senderDisplayName?: string;
+  /** The original compose time of the message */
+  composeTime?: Date;
+  /** The type of the message */
+  type?: string;
+  /** The version of the message */
+  version?: number;
+};
+
+/** Schema of common properties of all chat thread events */
+export type AcsChatThreadEventInThreadBaseProperties = AcsChatEventInThreadBaseProperties & {
+  /** The original creation time of the thread */
+  createTime?: Date;
+  /** The version of the thread */
+  version?: number;
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatParticipantAddedToThread event. */
+export type AcsChatParticipantAddedToThreadEventData = AcsChatEventInThreadBaseProperties & {
+  /** The time at which the user was added to the thread */
+  time?: Date;
+  /** The communication identifier of the user who added the user */
+  addedByCommunicationIdentifier?: CommunicationIdentifierModel;
+  /** The details of the user who was added */
+  participantAdded?: AcsChatThreadParticipantProperties;
+  /** The version of the thread */
+  version?: number;
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatParticipantRemovedFromThread event. */
+export type AcsChatParticipantRemovedFromThreadEventData = AcsChatEventInThreadBaseProperties & {
+  /** The time at which the user was removed to the thread */
+  time?: Date;
+  /** The communication identifier of the user who removed the user */
+  removedByCommunicationIdentifier?: CommunicationIdentifierModel;
+  /** The details of the user who was removed */
+  participantRemoved?: AcsChatThreadParticipantProperties;
   /** The version of the thread */
   version?: number;
 };
@@ -1991,13 +2079,13 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
 };
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageReceived event. */
-export type ACSChatMessageReceivedEventData = ACSChatMessageEventBase & {
+export type AcsChatMessageReceivedEventData = AcsChatMessageEventBaseProperties & {
   /** The body of the chat message */
   messageBody?: string;
 };
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageEdited event. */
-export type ACSChatMessageEditedEventData = ACSChatMessageEventBase & {
+export type AcsChatMessageEditedEventData = AcsChatMessageEventBaseProperties & {
   /** The body of the chat message */
   messageBody?: string;
   /** The time at which the message was edited */
@@ -2005,57 +2093,105 @@ export type ACSChatMessageEditedEventData = ACSChatMessageEventBase & {
 };
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageDeleted event. */
-export type ACSChatMessageDeletedEventData = ACSChatMessageEventBase & {
+export type AcsChatMessageDeletedEventData = AcsChatMessageEventBaseProperties & {
   /** The time at which the message was deleted */
   deleteTime?: Date;
 };
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadCreatedWithUser event. */
-export type ACSChatThreadCreatedWithUserEventData = ACSChatThreadEventBase & {
-  /** The MRI of the creator of the thread */
-  createdBy?: string;
+export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBaseProperties & {
+  /** The communication identifier of the user who created the thread */
+  createdByCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The thread properties */
   properties?: { [propertyName: string]: any };
-  /** The list of properties of users who are part of the thread */
-  members?: ACSChatThreadMember[];
+  /** The list of properties of participants who are part of the thread */
+  participants?: AcsChatThreadParticipantProperties[];
 };
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadWithUserDeleted event. */
-export type ACSChatThreadWithUserDeletedEventData = ACSChatThreadEventBase & {
-  /** The MRI of the user who deleted the thread */
-  deletedBy?: string;
+export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBaseProperties & {
+  /** The communication identifier of the user who deleted the thread */
+  deletedByCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The deletion time of the thread */
   deleteTime?: Date;
 };
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser event. */
-export type ACSChatThreadPropertiesUpdatedPerUserEventData = ACSChatThreadEventBase & {
-  /** The MRI of the user who updated the thread properties */
-  editedBy?: string;
+export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventBaseProperties & {
+  /** The communication identifier of the user who updated the thread properties */
+  editedByCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
   editTime?: Date;
   /** The updated thread properties */
   properties?: { [propertyName: string]: any };
 };
 
-/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMemberAddedToThreadWithUser event. */
-export type ACSChatMemberAddedToThreadWithUserEventData = ACSChatThreadEventBase & {
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatParticipantAddedToThreadWithUser event. */
+export type AcsChatParticipantAddedToThreadWithUserEventData = AcsChatThreadEventBaseProperties & {
   /** The time at which the user was added to the thread */
   time?: Date;
-  /** The MRI of the user who added the user */
-  addedBy?: string;
+  /** The communication identifier of the user who added the user */
+  addedByCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The details of the user who was added */
-  memberAdded?: ACSChatThreadMember;
+  participantAdded?: AcsChatThreadParticipantProperties;
 };
 
-/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMemberRemovedFromThreadWithUser event. */
-export type ACSChatMemberRemovedFromThreadWithUserEventData = ACSChatThreadEventBase & {
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser event. */
+export type AcsChatParticipantRemovedFromThreadWithUserEventData = AcsChatThreadEventBaseProperties & {
   /** The time at which the user was removed to the thread */
   time?: Date;
-  /** The MRI of the user who removed the user */
-  removedBy?: string;
+  /** The communication identifier of the user who removed the user */
+  removedByCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The details of the user who was removed */
-  memberRemoved?: ACSChatThreadMember;
+  participantRemoved?: AcsChatThreadParticipantProperties;
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageReceivedInThread event. */
+export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBaseProperties & {
+  /** The body of the chat message */
+  messageBody?: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageEditedInThread event. */
+export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBaseProperties & {
+  /** The body of the chat message */
+  messageBody?: string;
+  /** The time at which the message was edited */
+  editTime?: Date;
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatMessageDeletedInThread event. */
+export type AcsChatMessageDeletedInThreadEventData = AcsChatMessageEventInThreadBaseProperties & {
+  /** The time at which the message was deleted */
+  deleteTime?: Date;
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadCreated event. */
+export type AcsChatThreadCreatedEventData = AcsChatThreadEventInThreadBaseProperties & {
+  /** The communication identifier of the user who created the thread */
+  createdByCommunicationIdentifier?: CommunicationIdentifierModel;
+  /** The thread properties */
+  properties?: { [propertyName: string]: any };
+  /** The list of properties of participants who are part of the thread */
+  participants?: AcsChatThreadParticipantProperties[];
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadDeleted event. */
+export type AcsChatThreadDeletedEventData = AcsChatThreadEventInThreadBaseProperties & {
+  /** The communication identifier of the user who deleted the thread */
+  deletedByCommunicationIdentifier?: CommunicationIdentifierModel;
+  /** The deletion time of the thread */
+  deleteTime?: Date;
+};
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadPropertiesUpdated event. */
+export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThreadBaseProperties & {
+  /** The communication identifier of the user who updated the thread properties */
+  editedByCommunicationIdentifier?: CommunicationIdentifierModel;
+  /** The time at which the properties of the thread were updated */
+  editTime?: Date;
+  /** The updated thread properties */
+  properties?: { [propertyName: string]: any };
 };
 
 /** Known values of {@link AppAction} that the service accepts. */
@@ -2144,6 +2280,24 @@ export const enum KnownAsyncStatus {
  * **Failed**: Async operation failed to complete.
  */
 export type AsyncStatus = string;
+
+/** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
+export const enum KnownCommunicationCloudEnvironmentModel {
+  Public = "public",
+  Dod = "dod",
+  Gcch = "gcch"
+}
+
+/**
+ * Defines values for CommunicationCloudEnvironmentModel. \
+ * {@link KnownCommunicationCloudEnvironmentModel} can be used interchangeably with CommunicationCloudEnvironmentModel,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **public** \
+ * **dod** \
+ * **gcch**
+ */
+export type CommunicationCloudEnvironmentModel = string;
 /** Defines values for MediaJobState. */
 export type MediaJobState =
   | "Canceled"
