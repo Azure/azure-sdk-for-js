@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeaders } from "@azure/core-https";
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 /**
  * @internal
