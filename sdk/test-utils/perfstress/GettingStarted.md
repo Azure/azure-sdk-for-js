@@ -114,8 +114,8 @@ Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
 import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
-import { `ServiceNameAPIName`Test } from "./api-name.spec";
-import { `ServiceNameAPIName2`Test } from "./api-name2.spec";
+import { `ServiceNameAPI1Name`Test } from "./api1-name.spec";
+import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 
 console.log("=== Starting the perfStress test ===");
 
