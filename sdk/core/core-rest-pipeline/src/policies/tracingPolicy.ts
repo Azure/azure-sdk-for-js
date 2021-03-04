@@ -13,8 +13,8 @@ import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
 
 const createSpan = createSpanFunction({
-  packagePrefix: undefined,
-  namespace: undefined
+  packagePrefix: "",
+  namespace: ""
 });
 
 /**
