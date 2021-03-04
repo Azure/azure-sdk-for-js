@@ -89,7 +89,10 @@ describe("SmsClient [Playback/Live]", async () => {
     expectCorrectResult(results[0], validToNumber);
   });
 
-  it("sends a new message each time send is called", async () => {
+  it("sends a new message each time send is called", async function() {
+    if (isPlaybackMode()) {
+      this.skip();
+    }
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
