@@ -5,7 +5,6 @@ import {
   createHttpHeaders,
   PipelineRequest,
   createPipelineRequest,
-  RawHttpHeaders,
   PipelineResponse,
   RestError,
   createEmptyPipeline
@@ -29,6 +28,7 @@ import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
+import { getBatchHeaders } from "./utils/batchHeaders";
 
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch
@@ -138,15 +138,7 @@ export class TableBatchImpl implements TableBatch {
     await Promise.all(this.pendingOperations);
     const body = this.batchRequest.getHttpRequestBody();
     const client = new ServiceClient();
-    const headers: RawHttpHeaders = {
-      accept: "application/json",
-      "x-ms-version": "2019-02-02",
-      "Accept-Charset": "UTF-8",
-      DataServiceVersion: "3.0;",
-      MaxDataServiceVersion: "3.0;NetFx",
-      "Content-Type": `multipart/mixed; boundary=batch_${this.batchGuid}`,
-      Connection: "Keep-Alive"
-    };
+    const headers = getBatchHeaders(this.batchGuid);
 
     const { span, updatedOptions } = createSpan("TableBatch-submitBatch", {} as OperationOptions);
     const request = createPipelineRequest({
