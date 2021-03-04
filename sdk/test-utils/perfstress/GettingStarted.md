@@ -42,7 +42,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
    Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
 
    ```json
-     "devDependencies": {
+     "dependencies": {
         "@azure/<service-sdk>": "^<version-in-master-branch>",
         "@azure/test-utils-perfstress": "^1.0.0"
       }
