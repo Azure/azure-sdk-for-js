@@ -45,12 +45,16 @@ describe("SmsClient [Playback/Live]", async () => {
     assert.notExists(actualSmsResult.errorMessage, "no error message for success");
   };
 
-  const expectIncorrectResult = (actualSmsResult: SmsSendResult, expectedRecipient: string) => {
+  const expectIncorrectResult = (
+    actualSmsResult: SmsSendResult,
+    expectedRecipient: string,
+    expectedErrorMessage: string
+  ) => {
     assert.equal(actualSmsResult.httpStatusCode, 400);
     assert.equal(actualSmsResult.to, expectedRecipient);
     assert.notExists(actualSmsResult.messageId, "no message id for errors");
     assert.isFalse(actualSmsResult.successful);
-    assert.exists(actualSmsResult.errorMessage);
+    assert.equal(actualSmsResult.errorMessage, expectedErrorMessage);
   };
 
   it("can send a SMS message", async () => {
@@ -101,6 +105,9 @@ describe("SmsClient [Playback/Live]", async () => {
 
     const firstResults = await smsClient.send(sendRequest, options);
     const secondResults = await smsClient.send(sendRequest, options);
+
+    expectCorrectResult(firstResults[0], validToNumber);
+    expectCorrectResult(secondResults[0], validToNumber);
     assert.notEqual(firstResults[0].messageId, secondResults[0].messageId);
   });
 
@@ -123,7 +130,7 @@ describe("SmsClient [Playback/Live]", async () => {
     );
 
     expectCorrectResult(results[0], validToNumber);
-    expectIncorrectResult(results[1], invalidToNumber);
+    expectIncorrectResult(results[1], invalidToNumber, "Invalid To phone number format.");
   });
 
   it("throws an exception when sending from a number you don't own", async () => {
