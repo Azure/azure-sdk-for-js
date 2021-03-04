@@ -112,7 +112,6 @@ describe("[API Key] TextAnalyticsClient", function() {
           assert.ok(doc1.entities);
           const doc1Entity1 = doc1.entities[0];
           assert.equal(doc1Entity1.text, "high blood pressure");
-          assert.equal(doc1Entity1.assertion?.certainty, "negative" as any);
         }
 
         const doc2 = (await result.next()).value;
