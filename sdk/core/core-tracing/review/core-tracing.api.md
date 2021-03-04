@@ -26,8 +26,8 @@ export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
 
 // @public
 export interface CreateSpanFunctionArgs {
-    namespace: string;
-    packagePrefix: string;
+    namespace: string | undefined;
+    packagePrefix: string | undefined;
 }
 
 // @public

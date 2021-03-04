@@ -108,6 +108,59 @@ describe("createSpan", () => {
     assert.deepEqual(updatedOptions, expected);
   });
 
+  it("namespace and packagePrefix can be undefined (and thus ignored)", () => {
+    const tracer = new TestTracer();
+
+    const testSpan = new TestSpan(
+      tracer,
+      "testing",
+      { traceId: "", spanId: "", traceFlags: TraceFlags.NONE },
+      SpanKind.INTERNAL // this isn't used by anything in our test.
+    );
+
+    const setAttributeSpy = sinon.spy(testSpan, "setAttribute");
+    const startSpanStub = sinon.stub(tracer, "startSpan");
+    startSpanStub.returns(testSpan);
+    setTracer(tracer);
+
+    const cf = createSpanFunction({
+      namespace: undefined,
+      packagePrefix: undefined
+    });
+
+    const { span, updatedOptions } = cf("myVerbatimOperationName", {
+      tracingOptions: {
+        spanOptions: {
+          attributes: {
+            testAttribute: "testValue"
+          }
+        }
+      }
+    });
+
+    assert.ok(span);
+    assert.ok(startSpanStub.called);
+
+    const [name] = startSpanStub.firstCall.args;
+
+    assert.equal(
+      name,
+      "myVerbatimOperationName",
+      "operation name should be exactly as passed in (no prefix)"
+    );
+    assert.ok(!setAttributeSpy.called, "When the namespace is undefined it should not be set");
+
+    assert.deepEqual(updatedOptions, {
+      tracingOptions: {
+        spanOptions: {
+          attributes: {
+            testAttribute: "testValue"
+          }
+        }
+      }
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });

@@ -15,11 +15,11 @@ export interface CreateSpanFunctionArgs {
   /**
    * Package name prefix
    */
-  packagePrefix: string;
+  packagePrefix: string | undefined;
   /**
    * Service namespace
    */
-  namespace: string;
+  namespace: string | undefined;
 }
 
 /**
@@ -52,12 +52,17 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
       ...tracingOptions.spanOptions
     };
 
-    const span = tracer.startSpan(`${args.packagePrefix}.${operationName}`, spanOptions);
+    const spanName =
+      args.packagePrefix !== undefined ? `${args.packagePrefix}.${operationName}` : operationName;
+    const span = tracer.startSpan(spanName, spanOptions);
 
-    span.setAttribute("az.namespace", args.namespace);
+    if (args.namespace !== undefined) {
+      span.setAttribute("az.namespace", args.namespace);
+    }
 
     let newSpanOptions = tracingOptions.spanOptions || {};
-    if (span.isRecording()) {
+
+    if (span.isRecording() && args.namespace !== undefined) {
       newSpanOptions = {
         ...tracingOptions.spanOptions,
         parent: span.context(),
