@@ -6,7 +6,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { Debugger } from '@azure/logger';
-import { SpanOptions } from '@azure/core-tracing';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -162,9 +162,9 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
-    spanOptions?: SpanOptions;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
+    tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials: boolean;
 }
@@ -181,9 +181,9 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
-    spanOptions?: SpanOptions;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
+    tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials?: boolean;
 }

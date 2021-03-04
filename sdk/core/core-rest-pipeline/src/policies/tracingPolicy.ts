@@ -1,12 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getTracer, getTraceParentHeader } from "@azure/core-tracing";
-import { SpanOptions, SpanKind } from "@opentelemetry/api";
+import {
+  getTraceParentHeader,
+  OperationTracingOptions,
+  createSpanFunction
+} from "@azure/core-tracing";
+import { SpanKind } from "@opentelemetry/api";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
+
+const createSpan = createSpanFunction({
+  packagePrefix: undefined,
+  namespace: undefined
+});
 
 /**
  * The programmatic identifier of the tracingPolicy.
@@ -37,19 +46,24 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.spanOptions || !request.spanOptions.parent) {
+      if (!request.tracingOptions?.spanOptions || !request.tracingOptions.spanOptions?.parent) {
         return next(request);
       }
 
       // create a new span
-      const tracer = getTracer();
-      const spanOptions: SpanOptions = {
-        ...request.spanOptions,
-        kind: SpanKind.CLIENT
+      const tracingOptions: OperationTracingOptions = {
+        ...request.tracingOptions,
+        spanOptions: {
+          ...request.tracingOptions.spanOptions,
+          kind: SpanKind.CLIENT
+        }
       };
+
       const url = new URL(request.url);
       const path = url.pathname || "/";
-      const span = tracer.startSpan(path, spanOptions);
+
+      const { span } = createSpan(path, { tracingOptions });
+
       span.setAttributes({
         "http.method": request.method,
         "http.url": request.url,
