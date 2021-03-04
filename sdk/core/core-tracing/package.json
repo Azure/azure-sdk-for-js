@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-tracing",
-  "version": "1.0.0-preview.10",
+  "version": "1.0.0-preview.11",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
