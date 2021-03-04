@@ -52,7 +52,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
+    "dist-esm/",
     "types/iot-device-update.d.ts",
     "README.md",
     "LICENSE"
