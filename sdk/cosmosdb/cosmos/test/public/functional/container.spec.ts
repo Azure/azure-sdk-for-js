@@ -464,7 +464,7 @@ describe("container.readOffer", function() {
 describe("container.create", function() {
   let database: Database;
   before(async () => {
-    database = await getTestDatabase("autoscale test");
+    database = await getTestDatabase("container create test");
   });
   it("uses autoscale", async function() {
     const maxThroughput = 50000;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Container } from "../../../src";
+import { Container, ContainerRequest } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -502,5 +502,88 @@ describe("bulk item operations", function() {
       const deleteResponse = await container.items.bulk([operation]);
       assert.equal(deleteResponse[0].statusCode, 204);
     });
+  });
+});
+
+describe("subpartitioned container item CRUD", async function() {
+  let container: Container;
+
+  before(async function() {
+    const database = await getTestDatabase("autoscale test");
+    const containerRequest: ContainerRequest = {
+      id: "subpartition conatiner",
+      partitionKey: ["/topLevel", "/lowerLevel"],
+      throughput: 10100
+    };
+    const response = await database.containers.createIfNotExists(containerRequest);
+    container = response.container;
+  });
+
+  it("create subpartitioned items", async () => {
+    const itemId = "subpartition-create";
+    const itemBody = {
+      id: itemId,
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    const response = await container.items.create(itemBody);
+    const item: ItemDefinition = response.item;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+  });
+
+  it("replaces subpartitioned items", async () => {
+    const itemId = "subpartition-replace";
+    const itemBody = {
+      id: itemId,
+      birthYear: 2010,
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    await container.items.create(itemBody);
+    const response = await container.item(itemId).replace(itemBody);
+    const item: ItemDefinition = response.item;
+    const resource = response.resource;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+    assert.equal(resource.birthYear, 2010);
+  });
+
+  it("reads subpartitioned items", async () => {
+    const itemId = "subpartition-read";
+    const itemBody = {
+      id: itemId,
+      birthYear: 2010,
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    await container.items.create(itemBody);
+    const response = await container.item(itemId, "A", "B").read();
+    const resource = response.resource;
+    const item: ItemDefinition = response.item;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+    assert.equal(resource.birthYear, 2010);
+  });
+
+  it("deletes subpartitioned items", async () => {
+    const itemId = "subpartition-delete";
+    const itemBody = {
+      id: itemId,
+      birthYear: 2010,
+      topLevel: "A",
+      lowerLevel: "B"
+    };
+    await container.items.create(itemBody);
+    const response = await container.item(itemId, ["A", "B"]).delete();
+    const resource = response.resource;
+    const item: ItemDefinition = response.item;
+    assert.equal(item.id, itemId);
+    assert.equal(item.partitionKey[0], "A");
+    assert.equal(item.partitionKey[1], "B");
+    assert.equal(resource, null);
   });
 });
