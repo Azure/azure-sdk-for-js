@@ -18,8 +18,7 @@ export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest
     this.client = createDefaultHttpsClient();
     this.request = createPipelineRequest({
       url: this.sasUrl,
-      streamResponseStatusCodes: new Set([200, 206]),
-      keepAlive: true
+      streamResponseStatusCodes: new Set([200, 206])
     });
   }
 
