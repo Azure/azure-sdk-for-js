@@ -260,4 +260,4 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 - `rush update` (generates a new pnpm-lock file)
 - Navigate to `sdk\storage\perf-tests\<service-sdk>`
 - `rush build -t perf-test-<service-sdk>`
-- Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 2`
+- Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
