@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-compute",
+  "name": "@azure/arm-compute-v2",
   "author": "Microsoft Corporation",
   "description": "Compute Client",
   "version": "1.0.0",
