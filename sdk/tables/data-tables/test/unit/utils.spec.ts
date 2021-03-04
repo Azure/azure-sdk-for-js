@@ -78,9 +78,12 @@ describe("Utility Helpers", () => {
 
       it("should handle format 'protocol://accountName.table.endpointSuffix'", () => {
         const validSAS =
-          "BlobEndpoint=https://teststorageaccount.blob.core.windows.net/;QueueEndpoint=https://teststorageaccount.queue.core.windows.net/;FileEndpoint=https://teststorageaccount.file.core.windows.net/;TableEndpoint=https://teststorageaccount.table.core.windows.net/;SharedAccessSignature=REDACTED";
+          "BlobEndpoint=https://teststorageaccount.blob.core.windows.net/;QueueEndpoint=https://teststorageaccount.queue.core.windows.net/;FileEndpoint=https://teststorageaccount.file.core.windows.net/;TableEndpoint=https://teststorageaccount.table.core.windows.net/;SharedAccessSignature=sv=2020-02-10&ss=bfqt";
         const connectionStringParts = extractConnectionStringParts(validSAS);
-        assert.deepEqual(connectionStringParts, expectedConenctionStringParts);
+        assert.deepEqual(connectionStringParts, {
+          ...expectedConenctionStringParts,
+          accountSas: "sv=2020-02-10&ss=bfqt"
+        });
       });
 
       it("should handle IPv4/6 format ", () => {
