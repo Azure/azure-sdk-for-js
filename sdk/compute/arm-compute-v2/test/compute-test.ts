@@ -1,7 +1,7 @@
 import pkg from "@azure/test-utils-recorder";
 const { env, record } = pkg;
 import { Recorder } from "@azure/test-utils-recorder";
-import { ComputeManagementClient } from "@azure/arm-compute";
+import { ComputeManagementClient } from "../src";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";

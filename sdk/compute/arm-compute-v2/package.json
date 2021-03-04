@@ -26,7 +26,6 @@
   "devDependencies": {
     "@microsoft/api-extractor": "7.9.10",
     "@azure/test-utils-recorder": "C:\\Users\\qiaozha\\work\\code\\azure-sdk-for-js\\sdk\\test-utils\\recorder\\azure-test-utils-recorder-1.0.0.tgz",
-    "@azure/arm-compute": "C:\\Users\\qiaozha\\work\\code\\azure-sdk-for-js\\sdk\\compute\\arm-compute-v2\\azure-arm-compute-1.0.0.tgz",
     "@types/mocha": "^8.2.1",
     "mkdirp": "^1.0.4",
     "mocha": "^7.2.0",
