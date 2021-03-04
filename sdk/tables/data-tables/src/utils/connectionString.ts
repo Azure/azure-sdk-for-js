@@ -106,13 +106,26 @@ function getValueInConnString(
   const elements = connectionString.split(";");
   for (const element of elements) {
     const trimmedElement = element.trim();
-    const [elementKey, value] = trimmedElement.split("=");
+    const [elementKey, value] = getValuePair(trimmedElement);
     const key = elementKey.toLowerCase();
     if (key === searchKey) {
       return value;
     }
   }
   return "";
+}
+
+function getValuePair(kvp: string): string[] {
+  // If the string is not in kvp format <key>=<valye> return an empty array
+  if (!kvp || kvp.indexOf("=") === -1) {
+    return [];
+  }
+  // Get the substring before the first '='
+  const key = kvp.substr(0, kvp.indexOf("="));
+  // Get the substring after the first '='
+  const value = kvp.substr(kvp.indexOf("=") + 1);
+
+  return [key, value];
 }
 
 /**
