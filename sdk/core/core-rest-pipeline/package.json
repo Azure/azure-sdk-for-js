@@ -62,6 +62,7 @@
     "types/3.1/core-rest-pipeline.d.ts",
     "types/latest/core-rest-pipeline.d.ts",
     "core-rest-pipeline.shims.d.ts",
+    "core-rest-pipeline.shims-3_1.d.ts",
     "LICENSE",
     "README.md"
   ],
