@@ -518,11 +518,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/arm-compute",
-      "projectFolder": "sdk/compute/arm-compute-v2",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/keyvault-secrets",
       "projectFolder": "sdk/keyvault/keyvault-secrets",
       "versionPolicyName": "client"
