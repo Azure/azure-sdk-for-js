@@ -31,7 +31,6 @@ export class SendCloudEventsTest extends PerfStressTest<SendCloudEventsPerfTestO
 
   constructor() {
     super();
-    this.options = this.parsedOptions;
 
     for (let i = 0; i < this.parsedOptions["event-count"]?.value!; i++) {
       this.events.push({
