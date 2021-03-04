@@ -653,8 +653,23 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-storage-file-share",
+      "projectFolder": "sdk/storage/perf-tests/storage-file-share",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-storage-file-datalake",
+      "projectFolder": "sdk/storage/perf-tests/storage-file-datalake",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixedreality-authentication",
       "projectFolder": "sdk/mixedreality/mixedreality-authentication",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/iot-device-update",
+      "projectFolder": "sdk/deviceupdate/iot-device-update",
       "versionPolicyName": "client"
     }
   ]

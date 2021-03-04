@@ -24,7 +24,7 @@ export class DetectLanguageTest extends PerfStressTest<DetectLanguagePerfTestOpt
       description: "Number of documents",
       shortName: "n",
       longName: "docs-count",
-      defaultValue: 10
+      defaultValue: 1000
     }
   };
   client: TextAnalyticsClient;

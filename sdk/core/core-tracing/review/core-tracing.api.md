@@ -45,7 +45,10 @@ export interface Link {
 }
 
 // @public
-export type LinkContext = Pick<SpanContext, "traceId" | "spanId">;
+export type LinkContext = {
+    traceId: string;
+    spanId: string;
+};
 
 // @public
 export class NoOpSpan implements Span {

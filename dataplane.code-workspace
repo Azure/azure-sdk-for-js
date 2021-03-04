@@ -243,6 +243,10 @@
     {
       "name": "attestation",
       "path": "sdk/attestation/attestation"
+    },
+    {
+      "name": "iot-device-update",
+      "path": "sdk/deviceupdate/iot-device-update"
     }
   ],
   "settings": {

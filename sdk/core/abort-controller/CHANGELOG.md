@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.0.4 (2021-03-04)
 
 Fixes issue [13985](https://github.com/Azure/azure-sdk-for-js/issues/13985) where abort event listeners that removed themselves when invoked could prevent other event listeners from being invoked.
 
