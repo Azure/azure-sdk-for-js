@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, OperationOptions, TokenCredential } from "@azure/core-http";
+import { OperationOptions, TokenCredential } from "@azure/core-http";
 import {
   JsonWebKey,
   KeyVaultKey,
@@ -32,7 +32,6 @@ import {
 } from "./cryptographyClientModels";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
-import { Span } from "@opentelemetry/api";
 import { createHash } from "./cryptography/hash";
 import { createSpan } from "./tracing";
 import { CryptographyProvider } from "./cryptography/models";
@@ -524,12 +523,7 @@ export class CryptographyClient {
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
       const keyMaterial = await this.getKeyMaterial();
-      this.providers = [];
-
-      // Local crypto providers in node only.
-      if (isNode) {
-        this.providers.push(new RsaCryptographyProvider(keyMaterial));
-      }
+      this.providers = [new RsaCryptographyProvider(keyMaterial)];
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
       // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.
@@ -554,10 +548,7 @@ export class CryptographyClient {
     return providers[0];
   }
 
-  private createSpan(
-    methodName: string,
-    options: OperationOptions
-  ): { span: Span; updatedOptions: OperationOptions } {
+  private createSpan(methodName: string, options: OperationOptions) {
     return createSpan(`CryptographyClient-${methodName}`, options);
   }
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+import { isNode, TokenCredential } from "@azure/core-http";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -11,6 +11,7 @@ import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyP
 import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
 import { CryptographyProvider } from "../../src/cryptography/models";
+import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
@@ -113,11 +114,12 @@ describe("internal crypto tests", () => {
 
     beforeEach(() => {
       const key = {
-        kid: "https://keyvault.vault.azure.net/keys/foobar/123",
-        keyOps: ["encrypt", "decrypt"]
+        id: "https://my.vault.azure.net/keys/keyId/v1",
+        name: "fake key",
+        properties: { name: "fake key", vaultUrl: "https://keyvault.vault.azure.net" }
       };
-      client = new CryptographyClient(key);
-      cryptoProvider = new RsaCryptographyProvider(key);
+      client = new CryptographyClient(key, tokenCredential);
+      cryptoProvider = new RemoteCryptographyProvider(key, tokenCredential);
       encryptStub = sinon
         .stub(cryptoProvider, "encrypt")
         .returns(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
@@ -189,13 +191,27 @@ describe("internal crypto tests", () => {
     });
   });
 
-  describe("With an invalid RSA key", () => {
-    it("throws a validation error", () => {
+  describe("RSA local cryptography tests", function() {
+    it("throws a validation error when the key is invalid", function() {
+      if (!isNode) {
+        // Local cryptography is not supported in the browser
+        this.skip();
+      }
       const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
       assert.throws(
-        () =>
-          rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }, {}),
+        () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
         "Key type does not match the algorithm RSA"
+      );
+    });
+
+    it("uses the browser replacement when running in the browser", function() {
+      if (isNode) {
+        this.skip();
+      }
+      const rsaProvider = new RsaCryptographyProvider({ kty: "RSA", keyOps: ["encrypt"] });
+      assert.throws(
+        () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
+        /not supported in the browser/
       );
     });
   });

@@ -36,8 +36,8 @@
   "browser": {
     "os": false,
     "process": false,
-    "./dist-esm/keyvault-keys/src/localCryptography/algorithms.js": "./dist-esm/keyvault-keys/src/localCryptography/algorithms.browser.js",
-    "./dist-esm/keyvault-keys/src/localCryptography/hash.js": "./dist-esm/keyvault-keys/src/localCryptography/hash.browser.js"
+    "./dist-esm/keyvault-keys/src/cryptography/hash.js": "./dist-esm/keyvault-keys/src/cryptography/hash.browser.js",
+    "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.js": "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -90,7 +90,6 @@
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-beta.1",
-    "@azure/identity": "^1.1.0",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
@@ -98,6 +97,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@azure/test-utils-multi-version": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",

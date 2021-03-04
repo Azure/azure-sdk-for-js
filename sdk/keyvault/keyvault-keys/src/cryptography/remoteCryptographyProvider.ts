@@ -5,9 +5,9 @@ import {
   createPipelineFromOptions,
   isTokenCredential,
   OperationOptions,
+  TokenCredential,
   signingPolicy
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
 import {
   EncryptParameters,
   EncryptOptions,
@@ -17,28 +17,30 @@ import {
   WrapResult,
   VerifyOptions,
   VerifyResult,
-  KeyVaultKey,
-  CryptographyClientOptions,
   DecryptParameters,
   DecryptOptions,
   DecryptResult,
   UnwrapKeyOptions,
   SignOptions,
-  SignResult,
-  logger,
-  GetKeyOptions
-} from "..";
+  SignResult
+} from "../cryptographyClientModels";
 import { createSpan } from "../tracing";
 import { challengeBasedAuthenticationPolicy } from "../../../keyvault-common";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
 import { KeyVaultClient } from "../generated";
 import { parseKeyVaultKeyId } from "../identifier";
-import { LATEST_API_VERSION } from "../keysModels";
+import {
+  CryptographyClientOptions,
+  GetKeyOptions,
+  KeyVaultKey,
+  LATEST_API_VERSION
+} from "../keysModels";
 import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./hash";
 import { CryptographyProvider } from "./models";
 import { Span } from "@opentelemetry/api";
+import { logger } from "../log";
 
 /**
  * The remote cryptography provider is used to run crypto operations against KeyVault.

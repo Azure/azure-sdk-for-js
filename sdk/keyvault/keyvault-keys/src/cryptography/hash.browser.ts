@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Verify } from "crypto";
 import { LocalCryptographyUnsupportedError } from "./models";
 
 /**
@@ -18,7 +17,7 @@ export async function createHash(_algorithm: string, _data: Uint8Array): Promise
  * @internal
  * Use the platform-local verify functionality
  */
-export function createVerify(_algorithm: string, _data: Uint8Array): Verify {
+export function createVerify(_algorithm: string, _data: Uint8Array): never {
   throw new LocalCryptographyUnsupportedError(
     "Our libraries don't currently support browser hashing"
   );
