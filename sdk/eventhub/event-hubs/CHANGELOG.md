@@ -1,6 +1,6 @@
 # Release History
 
-## 5.5.0 (Unreleased)
+## 5.5.0-beta.1 (Unreleased)
 
 - Updates the methods on the `CheckpointStore` interface to accept
   an optional `options` parameter that can be used to pass in an
