@@ -112,6 +112,7 @@ describe("[API Key] TextAnalyticsClient", function() {
           assert.ok(doc1.entities);
           const doc1Entity1 = doc1.entities[0];
           assert.equal(doc1Entity1.text, "high blood pressure");
+          assert.equal(doc1Entity1.assertion?.certainty, "negative" as any);
         }
 
         const doc2 = (await result.next()).value;
@@ -125,11 +126,11 @@ describe("[API Key] TextAnalyticsClient", function() {
             roles: [
               {
                 entity: doc2.entities[0],
-                name: "Attribute"
+                name: "Dosage"
               },
               {
                 entity: doc2.entities[1],
-                name: "Entity"
+                name: "Medication"
               }
             ]
           });
@@ -138,11 +139,11 @@ describe("[API Key] TextAnalyticsClient", function() {
             roles: [
               {
                 entity: doc2.entities[1],
-                name: "Entity"
+                name: "Medication"
               },
               {
                 entity: doc2.entities[2],
-                name: "Attribute"
+                name: "Frequency"
               }
             ]
           });
@@ -155,7 +156,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("input documents", async function() {
+      it.only("input documents", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
@@ -174,7 +175,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("some inputs with errors", async function() {
+      it.only("some inputs with errors", async function() {
         const docs = [
           { id: "1", language: "en", text: "" },
           {
@@ -200,7 +201,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.ok(result2.error);
       });
 
-      it("all inputs with errors", async function() {
+      it.only("all inputs with errors", async function() {
         const docs = [
           { id: "1", language: "en", text: "" },
           {
@@ -223,7 +224,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.ok(result3.error);
       });
 
-      it("too many documents", async function() {
+      it.only("too many documents", async function() {
         const docs = Array(11).fill("random text");
         try {
           const response = await client.beginAnalyzeHealthcareEntities(docs, "en", {
@@ -241,7 +242,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("payload too large", async function() {
+      it.only("payload too large", async function() {
         const large_doc =
           "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
               CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \
@@ -272,7 +273,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("document warnings", async function() {
+      it.only("document warnings", async function() {
         const docs = [{ id: "1", text: "This won't actually create a warning :'(" }];
         const poller = await client.beginAnalyzeHealthcareEntities(docs, {
           updateIntervalInMs: pollingInterval
@@ -285,7 +286,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("output has the same order as input", async function() {
+      it.only("output has the same order as input", async function() {
         const docs = [
           { id: "1", text: "one" },
           { id: "2", text: "two" },
@@ -303,7 +304,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("output has the same order as input with out of order IDs", async function() {
+      it.only("output has the same order as input with out of order IDs", async function() {
         const docs = [
           { id: "56", text: ":)" },
           { id: "0", text: ":(" },
@@ -322,7 +323,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("show stats and model version", async function() {
+      it.only("show stats and model version", async function() {
         const docs = [
           { id: "56", text: ":)" },
           { id: "0", text: ":(" },
@@ -344,7 +345,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.equal(result.statistics?.erroneousDocumentCount, 1);
       });
 
-      it("whole batch language hint", async function() {
+      it.only("whole batch language hint", async function() {
         const docs = [
           "This was the best day of my life.",
           "I did not like the hotel we stayed at. It was too expensive.",
@@ -360,7 +361,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("whole batch empty language hint", async function() {
+      it.only("whole batch empty language hint", async function() {
         const docs = [
           "This was the best day of my life.",
           "I did not like the hotel we stayed at. It was too expensive.",
@@ -376,7 +377,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("whole batch empty language hint per doc", async function() {
+      it.only("whole batch empty language hint per doc", async function() {
         const docs = [
           { id: "1", language: "", text: "I will go to the park." },
           { id: "2", language: "", text: "I did not like the hotel we stayed at." },
@@ -392,7 +393,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("whole batch with multiple languages", async function() {
+      it.only("whole batch with multiple languages", async function() {
         const docs = [
           { id: "1", text: "I should take my cat to the veterinarian." },
           { id: "2", text: "Este es un document escrito en Español." },
@@ -408,7 +409,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("invalid language hint", async function() {
+      it.only("invalid language hint", async function() {
         const docs = ["This should fail because we're passing in an invalid language hint"];
 
         const poller = await client.beginAnalyzeHealthcareEntities(docs, "notalanguage", {
@@ -419,7 +420,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
       });
 
-      it("invalid language hint in doc", async function() {
+      it.only("invalid language hint in doc", async function() {
         const docs = [
           {
             id: "1",
@@ -459,7 +460,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("all documents have errors", async function() {
+      it.only("all documents have errors", async function() {
         let text = "";
         for (let i = 0; i < 5121; ++i) {
           text = text + "x";
@@ -479,7 +480,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
       });
 
-      it("documents with duplicate IDs", async function() {
+      it.only("documents with duplicate IDs", async function() {
         const docs = [
           { id: "1", text: "hello world" },
           { id: "1", text: "I did not like the hotel we stayed at." }
@@ -580,7 +581,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.equal(Math.ceil(docs.length / pageSize), pageCount);
       });
 
-      it("cancelled", async function() {
+      it.only("cancelled", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
@@ -596,7 +597,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.ok(poller.getOperationState().isCancelled);
       });
 
-      it("operation metadata", async function() {
+      it.only("operation metadata", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
@@ -616,7 +617,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.ok(result);
       });
 
-      it("family emoji wit skin tone modifier with Utf16CodeUnit", async function() {
+      it.only("family emoji wit skin tone modifier with Utf16CodeUnit", async function() {
         const doc = "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen";
         const poller = await client.beginAnalyzeHealthcareEntities(
           [{ id: "0", text: doc, language: "en" }],
@@ -636,7 +637,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         }
       });
 
-      it("family emoji wit skin tone modifier with UnicodeCodePoint", async function() {
+      it.only("family emoji wit skin tone modifier with UnicodeCodePoint", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
           {
