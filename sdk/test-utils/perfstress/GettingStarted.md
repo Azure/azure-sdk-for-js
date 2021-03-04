@@ -25,7 +25,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
    (Create the `perf-tests` folder if that doesn't exist)
 
-2. This new project will part of rush, with the package name `@azure-tests/<service-sdk>`. Since, it is part of rush, add the following entry in `rush.json`
+2. This new perf test project will be managed by the rush infrastructure in the repository, with the package name `@azure-tests/<service-sdk>`. To allow rush to manage the project, add the following entry in `rush.json`
 
    ```
        {
@@ -53,7 +53,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
    Set the name of the package and mark it as private.
 
    ```json
-    "name": "@azure-tests/<service-sdk>",
+    "name": "@azure-tests/perf-<service-sdk>",
     "private": true,
    ```
 
@@ -88,11 +88,11 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
    Set the name of the package and mark it as private.
 
    ```json
-    "name": "@azure-tests/<service-sdk>-track-1",
+    "name": "@azure-tests/perf-<service-sdk>-track-1",
     "private": true,
    ```
 
-   _Note: Track-1 packages will not be managed by `rush`, instead `npm` will be used to manage/run the track-1 tests, you can copy the readme such as the [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/perf-tests/storage-blob-track-1/README.md) for instructions._
+   _Note: Track-1 packages will not be managed by `rush`, instead `npm` will be used to manage/run the track-1 tests, you can copy the readme such as the [storage-blob-perf-tests-track-1-readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/perf-tests/storage-blob-track-1/README.md) for instructions._
 
    Make sure to add the "setup" step in package.json.
 
@@ -100,11 +100,11 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
        "setup": "node ../../../../common/tools/perf-tests-track-1-setup.js",
    ```
 
-4. Run `rush update` and run `npm run setup` to be able to use the perf framework for track-1 perf tests.
+4. Run `rush update` followed by `npm run setup` to be able to use the perf framework for track-1 perf tests.
 
    _`npm run setup` installs the dependencies specified in `package.json`_
 
-5. Repeat the step 6 from the previous section for the track-1 too.
+5. Repeat the step 6 from the previous section for the track-1 too to get the `tsconfig.json`, `sample.env`(and `.env`) files.
 
 ## [Writing perf tests](#writing-perf-tests)
 
@@ -172,6 +172,7 @@ interface `ServiceNameAPIName`TestOptions {
 }
 
 export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPIName`TestOptions> {
+  // More details regarding the options in the next section
   public options: PerfStressOptionDictionary<`ServiceNameAPIName`TestOptions> = {
     newOption: {
       required: true,
@@ -223,6 +224,12 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
       defaultValue: 10240
     }
   };
+
+  async runAsync(): Promise<void> {
+    // You can leverage the parsedOptions in the setup or globalSetup or runAsync methods as shown below.
+    // this.parsedOptions.duration.value!
+    // this.parsedOptions.newOption.value!
+  }
 }
 ```
 
@@ -240,10 +247,11 @@ Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for
 
 ### [Testing an older track 2 version](#Testing-an-older-track-2-version)
 
-- Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to test version 12.2.0
-  - In the track 2 perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
-  - Add a new exception in `common\config\rush\common-versions.json` under `allowedAlternativeVersions`
-    - `"@azure/<service-sdk>": [..., "12.2.0"]`
+Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to test version 12.2.0
+
+- In the track 2 perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
+- Add a new exception in `common\config\rush\common-versions.json` under `allowedAlternativeVersions`
+  - `"@azure/<service-sdk>": [..., "12.2.0"]`
 - `rush update` (generates a new pnpm-lock file)
 - Navigate to `sdk\storage\perf-tests\<service-sdk>`
 - `rush build -t perf-test-<service-sdk>`
