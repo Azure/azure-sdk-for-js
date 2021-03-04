@@ -48,9 +48,7 @@ export function bearerTokenAuthenticationPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const token = await getToken({
         abortSignal: request.abortSignal,
-        tracingOptions: {
-          spanOptions: request.spanOptions
-        }
+        tracingOptions: request.tracingOptions
       });
       request.headers.set("Authorization", `Bearer ${token}`);
       return next(request);
