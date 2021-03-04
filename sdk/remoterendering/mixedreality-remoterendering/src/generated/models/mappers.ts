@@ -29,14 +29,14 @@ export const AssetConversionOptions: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AssetConversionOptions",
     modelProperties: {
-      inputLocation: {
+      inputOptions: {
         serializedName: "inputLocation",
         type: {
           name: "Composite",
           className: "AssetConversionInputOptions"
         }
       },
-      outputLocation: {
+      outputOptions: {
         serializedName: "outputLocation",
         type: {
           name: "Composite",
@@ -52,7 +52,7 @@ export const AssetConversionInputOptions: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AssetConversionInputOptions",
     modelProperties: {
-      storageContainerUri: {
+      storageContainerUrl: {
         serializedName: "storageContainerUri",
         required: true,
         type: {
@@ -87,7 +87,7 @@ export const AssetConversionOutputOptions: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AssetConversionOutputOptions",
     modelProperties: {
-      storageContainerUri: {
+      storageContainerUrl: {
         serializedName: "storageContainerUri",
         required: true,
         type: {
@@ -121,14 +121,14 @@ export const AssetConversion: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AssetConversion",
     modelProperties: {
-      id: {
+      conversionId: {
         serializedName: "id",
         required: true,
         type: {
           name: "String"
         }
       },
-      settings: {
+      options: {
         serializedName: "settings",
         type: {
           name: "Composite",
@@ -139,7 +139,7 @@ export const AssetConversion: coreHttp.CompositeMapper = {
         serializedName: "output",
         type: {
           name: "Composite",
-          className: "ConversionOutput"
+          className: "AssetConversionOutput"
         }
       },
       error: {
@@ -156,7 +156,7 @@ export const AssetConversion: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      creationTime: {
+      createdOn: {
         serializedName: "creationTime",
         required: true,
         type: {
@@ -167,12 +167,12 @@ export const AssetConversion: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConversionOutput: coreHttp.CompositeMapper = {
+export const AssetConversionOutput: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ConversionOutput",
+    className: "AssetConversionOutput",
     modelProperties: {
-      outputAssetUri: {
+      outputAssetUrl: {
         serializedName: "outputAssetUri",
         readOnly: true,
         type: {

@@ -33,9 +33,34 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.conversion_output
+    where: $.definitions.conversion.properties.id
     transform: >
-      $["x-ms-client-name"] = "AssetConversionOutput";
+      $["x-ms-client-name"] = "conversionId";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.conversion.properties.settings
+    transform: >
+      $["x-ms-client-name"] = "options";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.conversion.properties.creationTime
+    transform: >
+      $["x-ms-client-name"] = "createdOn";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      $["AssetConversionOutput"] = $.conversion.properties.output;
+      $.conversion.properties["output"] = {"$ref": "#/definitions/AssetConversionOutput"};
 ```
 
 ```yaml
@@ -49,9 +74,33 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
+    where: $.definitions.conversion_settings.properties.inputLocation
+    transform: >
+      $["x-ms-client-name"] = "inputOptions";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.conversion_settings.properties.outputLocation
+    transform: >
+      $["x-ms-client-name"] = "outputOptions";
+```
+
+```yaml
+directive:
+  - from: swagger-document
     where: $.definitions.conversion_input_settings
     transform: >
       $["x-ms-client-name"] = "AssetConversionInputOptions";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.conversion_input_settings.properties.storageContainerUri
+    transform: >
+      $["x-ms-client-name"] = "storageContainerUrl";
 ```
 
 ```yaml
@@ -65,9 +114,25 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
+    where: $.definitions.conversion_output_settings.properties.storageContainerUri
+    transform: >
+      $["x-ms-client-name"] = "storageContainerUrl";
+```
+
+```yaml
+directive:
+  - from: swagger-document
     where: $.definitions.conversion_status
     transform: >
       $["x-ms-client-name"] = "AssetConversionStatus";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AssetConversionOutput.properties.outputAssetUri
+    transform: >
+      $["x-ms-client-name"] = "outputAssetUrl";
 ```
 
 ```yaml

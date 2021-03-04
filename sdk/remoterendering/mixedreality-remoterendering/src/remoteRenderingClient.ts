@@ -24,7 +24,9 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 //import { createSpan } from "./tracing";
 
+// TODO: Maybe copy and paste this?
 import { constructAuthenticationEndpointFromDomain } from "../../../mixedreality/mixedreality-authentication/src/util/authenticationEndpoint";
+
 import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
 /**
@@ -130,4 +132,6 @@ export class RemoteRenderingClient {
 
     this.client = new RemoteRenderingRestClient(endpoint, clientOptions);
   }
+
+  
 }
