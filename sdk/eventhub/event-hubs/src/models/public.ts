@@ -211,8 +211,46 @@ export interface EventHubConsumerClientOptions extends EventHubClientOptions {
 export interface EventHubProducerClientOptions extends EventHubClientOptions {
   /**
    * Indicates whether or not the EventHubProducerClient should enable idempotent publishing to Event Hub partitions.
+   * If enabled, the producer will only be able to publish directly to partitions;
+   * it will not be able to publish to the Event Hubs gateway for automatic partition routing
+   * nor will it be able to use a partition key.
+   * Default: false
    */
   enableIdempotentPartitions?: boolean;
+  /**
+   * The set of options that can be specified to influence publishing behavior,
+   * specified per partition.
+   *
+   * These options are intended to be used for specialized scenarios,
+   * such as when recovering the state used with idempotent publishing.
+   *
+   * It is highly recommended that these options only be specified if there
+   * is a proven need to do so.
+   *
+   * These options are ignored when `enableIdempotentPartitions` is falsey.
+   */
+  partitionOptions?: Record<string, PartitionPublishingOptions>;
+}
+
+/**
+ * The set of options that can be specified to influence publishing behavior
+ * specific to a partition.
+ */
+export interface PartitionPublishingOptions {
+  /**
+   * Indicates ownership of the sender.
+   * Higher levels take precedence over lower levels.
+   */
+  ownerLevel?: number;
+  /**
+   * Uniquely identifies a producer.
+   */
+  producerGroupId?: number;
+  /**
+   * The starting number that should be used for the automatic sequencing of
+   * events for the associated partition, when published by this EventHubProducerClient.
+   */
+  startingSequenceNumber?: number;
 }
 
 /**

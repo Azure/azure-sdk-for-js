@@ -139,6 +139,7 @@ export class EventHubProducerClient {
 // @public
 export interface EventHubProducerClientOptions extends EventHubClientOptions {
     enableIdempotentPartitions?: boolean;
+    partitionOptions?: Record<string, PartitionPublishingOptions>;
 }
 
 // @public
@@ -230,6 +231,13 @@ export interface PartitionProperties {
     lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;
     partitionId: string;
+}
+
+// @public
+export interface PartitionPublishingOptions {
+    ownerLevel?: number;
+    producerGroupId?: number;
+    startingSequenceNumber?: number;
 }
 
 // @public

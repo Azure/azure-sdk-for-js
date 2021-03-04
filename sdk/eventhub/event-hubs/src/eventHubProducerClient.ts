@@ -198,9 +198,13 @@ export class EventHubProducerClient {
 
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
+      const partitionPublishingOptions = isDefined(partitionId)
+        ? this._clientOptions.partitionOptions?.[partitionId]
+        : undefined;
       sender = EventHubSender.create(this._context, {
         enableIdempotentProducer: Boolean(enableIdempotentPartitions),
-        partitionId
+        partitionId,
+        partitionPublishingOptions
       });
       this._sendersMap.set(partitionId || "", sender);
     }
@@ -273,7 +277,8 @@ export class EventHubProducerClient {
     if (!sender) {
       sender = EventHubSender.create(this._context, {
         enableIdempotentProducer: Boolean(this._clientOptions.enableIdempotentPartitions),
-        partitionId
+        partitionId,
+        partitionPublishingOptions: this._clientOptions.partitionOptions?.[partitionId]
       });
       this._sendersMap.set(partitionId, sender);
     }
@@ -391,9 +396,13 @@ export class EventHubProducerClient {
 
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
+      const partitionPublishingOptions = isDefined(partitionId)
+        ? this._clientOptions.partitionOptions?.[partitionId]
+        : undefined;
       sender = EventHubSender.create(this._context, {
         enableIdempotentProducer: Boolean(enableIdempotentPartitions),
-        partitionId
+        partitionId,
+        partitionPublishingOptions
       });
       this._sendersMap.set(partitionId || "", sender);
     }

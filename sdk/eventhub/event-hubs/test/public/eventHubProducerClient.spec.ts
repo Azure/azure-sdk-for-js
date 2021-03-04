@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
 
@@ -30,6 +31,66 @@ describe("EventHubProducerClient", function() {
 
   afterEach("close existing producerClient", function() {
     return producerClient?.close();
+  });
+
+  describe("getPartitionPublishingProperties", function() {
+    it("retrieves partition publishing properties", async function() {
+      producerClient = new EventHubProducerClient(service.connectionString, service.path);
+
+      const partitionIds = await producerClient.getPartitionIds();
+
+      for (const partitionId of partitionIds) {
+        const props = await producerClient.getPartitionPublishingProperties(partitionId);
+        should.equal(
+          props.isIdempotentPublishingEnabled,
+          false,
+          "Unexpected value for isIdempotentPublishingEnabled"
+        );
+        should.equal(props.partitionId, partitionId, "Unexpected value for partitionId");
+        should.not.exist(
+          props.lastPublishedSequenceNumber,
+          "Expected lastPublishedSequenceNumber to not exist"
+        );
+        should.not.exist(props.ownerLevel, "Expected ownerLevel to not exist");
+        should.not.exist(props.producerGroupId, "Expected producerGroupId to not exist");
+      }
+    });
+
+    it("retrieves partition publishing properties (enableIdempotentPartitions)", async function() {
+      producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        enableIdempotentPartitions: true
+      });
+
+      const partitionIds = await producerClient.getPartitionIds();
+
+      for (const partitionId of partitionIds) {
+        const props = await producerClient.getPartitionPublishingProperties(partitionId);
+        should.equal(
+          props.isIdempotentPublishingEnabled,
+          true,
+          "Unexpected value for isIdempotentPublishingEnabled"
+        );
+        should.equal(props.partitionId, partitionId, "Unexpected value for partitionId");
+        should.exist(
+          props.lastPublishedSequenceNumber,
+          "Expected lastPublishedSequenceNumber to exist"
+        );
+        should.exist(props.ownerLevel, "Expected ownerLevel to exist");
+        should.exist(props.producerGroupId, "Expected producerGroupId to exist");
+      }
+    });
+
+    it("throws an error if no partitionId is provided", async function() {
+      producerClient = new EventHubProducerClient(service.connectionString, service.path);
+
+      try {
+        await producerClient.getPartitionPublishingProperties(undefined as any);
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "TypeError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
   });
 
   describe("idempotent producer", function() {
@@ -133,7 +194,9 @@ describe("EventHubProducerClient", function() {
 
         try {
           const batch1 = await producerClient.createBatch({ partitionId: "0" });
-          batch1.tryAdd({ body: "one" });
+          batch1.tryAdd({
+            body: "one"
+          });
 
           await Promise.all([
             producerClient.sendBatch(batch1),
@@ -143,6 +206,10 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.not.equal(err.message, TEST_FAILURE);
         }
+
+        // TODO: Remove delay once https://github.com/Azure/azure-sdk-for-js/issues/4422 is completed.
+        // This delay gives initialization a change to complete so producer.close() does proper cleanup.
+        await delay(1000);
       });
 
       it("has no impact on serial sends", async function() {
@@ -169,41 +236,109 @@ describe("EventHubProducerClient", function() {
       });
     });
 
-    describe("getPartitionPublishingProperties", function() {
-      it("retrieves partition publishing properties", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+    describe("with user-provided partitionOptions", function() {
+      it("can use state from previous producerClient", async function() {
+        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
-        const partitionIds = await producerClient.getPartitionIds();
+        // Send an item so we have some state to carry over to the next producerClient
+        await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
+        const partitionPublishingProps1 = await producerClient1.getPartitionPublishingProperties(
+          "0"
+        );
 
-        for (const partitionId of partitionIds) {
-          const props = await producerClient.getPartitionPublishingProperties(partitionId);
-          should.equal(
-            props.isIdempotentPublishingEnabled,
-            true,
-            "Unexpected value for isIdempotentPublishingEnabled"
-          );
-          should.equal(props.partitionId, partitionId, "Unexpected value for partitionId");
-          should.exist(
-            props.lastPublishedSequenceNumber,
-            "Expected lastPublishedSequenceNumber to exist"
-          );
-          should.exist(props.ownerLevel, "Expected ownerLevel to exist");
-          should.exist(props.producerGroupId, "Expected producerGroupId to exist");
-        }
+        // Create the 2nd producer
+        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true,
+          partitionOptions: {
+            "0": {
+              ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
+              producerGroupId: partitionPublishingProps1.producerGroupId,
+              startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber
+            }
+          }
+        });
+
+        await producerClient2.sendBatch([{ body: "two" }], { partitionId: "0" });
+        const partitionPublishingProps2 = await producerClient2.getPartitionPublishingProperties(
+          "0"
+        );
+
+        should.equal(
+          partitionPublishingProps2.producerGroupId,
+          partitionPublishingProps1.producerGroupId,
+          "ProducerGroupId should match."
+        );
+        should.equal(
+          partitionPublishingProps2.ownerLevel! > partitionPublishingProps1.ownerLevel!,
+          true,
+          "producer2 ownerLevel should be higher than producer1 ownerLevel."
+        );
+        should.equal(
+          partitionPublishingProps2.lastPublishedSequenceNumber,
+          partitionPublishingProps1.lastPublishedSequenceNumber! + 1,
+          "producer2 lastPublishedSequenceNumber should be 1 higher than producer1 lastPublishedSequenceNumber."
+        );
+
+        return Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
-      it("throws an error if no partitionId is provided", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+      it("can use ownerLevel to kick off other producers", async function() {
+        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
+        // Send an item so we have some state to carry over to the next producerClient
+        await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
+        const partitionPublishingProps1 = await producerClient1.getPartitionPublishingProperties(
+          "0"
+        );
+
+        // Create the 2nd producer
+        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true,
+          partitionOptions: {
+            "0": {
+              ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
+              producerGroupId: partitionPublishingProps1.producerGroupId,
+              startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber
+            }
+          }
+        });
+
+        // Send an event!
+        await producerClient2.sendBatch([{ body: "two" }], { partitionId: "0" });
+
         try {
-          await producerClient.getPartitionPublishingProperties(undefined as any);
+          // Calling sendBatch with producerClient1 (lower ownerLevel) should fail.
+          await producerClient1.sendBatch([{ body: "should fail" }], { partitionId: "0" });
           throw new Error(TEST_FAILURE);
         } catch (err) {
-          should.equal(err.name, "TypeError");
+          should.equal(err.name, "MessagingError");
+          should.equal(err.code, "ProducerDisconnectedError");
+          should.not.equal(err.message, TEST_FAILURE);
+        }
+        return Promise.all([producerClient1.close(), producerClient2.close()]);
+      });
+
+      it("fails with invalid state", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true,
+          partitionOptions: {
+            "0": {
+              ownerLevel: -1
+            }
+          }
+        });
+
+        // Trigger an error by calling sendBatch.
+        try {
+          await producerClient.sendBatch([{ body: "one" }], { partitionId: "0" });
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.equal(err.name, "MessagingError");
+          should.equal(err.code, "ArgumentError");
           should.not.equal(err.message, TEST_FAILURE);
         }
       });

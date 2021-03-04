@@ -10,7 +10,8 @@ import {
   EventContext,
   OnAmqpEvent,
   message,
-  Message as RheaMessage
+  Message as RheaMessage,
+  types
 } from "rhea-promise";
 import {
   delay,
@@ -32,8 +33,12 @@ import {
 } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { EventHubProducerOptions } from "./models/private";
-import { PartitionPublishingProperties, SendOptions } from "./models/public";
+import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private";
+import {
+  PartitionPublishingOptions,
+  PartitionPublishingProperties,
+  SendOptions
+} from "./models/public";
 
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -44,16 +49,26 @@ import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL
 } from "./util/constants";
+import { isDefined } from "./util/typeGuards";
+import { translateError } from "./util/error";
 
 /**
  * @internal
  */
 export interface EventHubSenderOptions {
+  /**
+   * Indicates whether or not the sender should enable idempotent publishing to Event Hub partitions.
+   */
   enableIdempotentProducer: boolean;
   /**
    * The EventHub partition id to which the sender wants to send the event data.
    */
   partitionId?: string;
+  /**
+   * The set of options that can be specified to influence publishing behavior
+   * specific to a partition.
+   */
+  partitionPublishingOptions?: PartitionPublishingOptions;
 }
 
 /**
@@ -93,12 +108,25 @@ export class EventHubSender extends LinkEntity {
    * The AMQP sender link.
    */
   private _sender?: AwaitableSender;
-
+  /**
+   * Indicates whether the sender is configured for idempotent publishing.
+   */
   private _isIdempotentProducer: boolean;
-
+  /**
+   * Indicates whether the sender has an in-flight send while idempotent
+   * publishing is enabled.
+   */
   private _hasPendingSend?: boolean;
-
+  /**
+   * A local copy of the PartitionPublishingProperties that can be mutated to
+   * keep track of the lastSequenceNumber used.
+   */
   private _localPublishingProperties?: PartitionPublishingProperties;
+  /**
+   * The user-provided set of options that can be specified to influence
+   * publishing behavior specific to a partition.
+   */
+  private _userProvidedPublishingOptions?: PartitionPublishingOptions;
 
   /**
    * Creates a new EventHubSender instance.
@@ -108,7 +136,7 @@ export class EventHubSender extends LinkEntity {
    */
   constructor(
     context: ConnectionContext,
-    { partitionId, enableIdempotentProducer }: EventHubSenderOptions
+    { partitionId, enableIdempotentProducer, partitionPublishingOptions }: EventHubSenderOptions
   ) {
     super(context, {
       name: context.config.getSenderAddress(partitionId),
@@ -117,6 +145,7 @@ export class EventHubSender extends LinkEntity {
     this.address = context.config.getSenderAddress(partitionId);
     this.audience = context.config.getSenderAudience(partitionId);
     this._isIdempotentProducer = enableIdempotentProducer;
+    this._userProvidedPublishingOptions = partitionPublishingOptions;
 
     this._onAmqpError = (eventContext: EventContext) => {
       const senderError = eventContext.sender && eventContext.sender.error;
@@ -367,6 +396,46 @@ export class EventHubSender extends LinkEntity {
     }
   }
 
+  private _generateIdempotentLinkProperties(): IdempotentLinkProperties {
+    const userProvidedPublishingOptions = this._userProvidedPublishingOptions;
+    const localPublishingOptions = this._localPublishingProperties;
+
+    let ownerLevel: number | undefined;
+    let producerGroupId: number | undefined;
+    let sequenceNumber: number | undefined;
+
+    // Prefer local publishing options since this is the up-to-date state of the sender.
+    // Only use user-provided publishing options the first time we create the link.
+    if (localPublishingOptions) {
+      ownerLevel = localPublishingOptions.ownerLevel;
+      producerGroupId = localPublishingOptions.producerGroupId;
+      sequenceNumber = localPublishingOptions.lastPublishedSequenceNumber;
+    } else if (userProvidedPublishingOptions) {
+      ownerLevel = userProvidedPublishingOptions.ownerLevel;
+      producerGroupId = userProvidedPublishingOptions.producerGroupId;
+      sequenceNumber = userProvidedPublishingOptions.startingSequenceNumber;
+    }
+
+    const idempotentLinkProperties: IdempotentLinkProperties = {};
+    if (isDefined(ownerLevel)) {
+      idempotentLinkProperties[idempotentProducerAmqpPropertyNames.epoch] = types.wrap_short(
+        ownerLevel
+      );
+    }
+    if (isDefined(producerGroupId)) {
+      idempotentLinkProperties[idempotentProducerAmqpPropertyNames.producerId] = types.wrap_long(
+        producerGroupId
+      );
+    }
+    if (isDefined(sequenceNumber)) {
+      idempotentLinkProperties[
+        idempotentProducerAmqpPropertyNames.producerSequenceNumber
+      ] = types.wrap_int(sequenceNumber);
+    }
+
+    return idempotentLinkProperties;
+  }
+
   /**
    * @param sender - The rhea sender that contains the idempotent producer properties.
    */
@@ -412,7 +481,8 @@ export class EventHubSender extends LinkEntity {
     };
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities = idempotentProducerAmqpPropertyNames.capability;
-      srOptions.properties = {};
+      const idempotentProperties = this._generateIdempotentLinkProperties();
+      srOptions.properties = idempotentProperties;
     }
     logger.verbose("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -517,7 +587,9 @@ export class EventHubSender extends LinkEntity {
           delivery.id
         );
       } catch (err) {
-        throw err.innerError || err;
+        const error = err.innerError || err;
+        const translatedError = translateError(error);
+        throw translatedError;
       }
     };
 
