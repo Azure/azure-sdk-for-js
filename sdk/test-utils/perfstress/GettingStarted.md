@@ -74,7 +74,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
             "module": "CommonJS",
             "target": "ES2015",
             "declarationDir": "./typings/latest",
-            "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
+            "lib": ["ES6", "ESNext.AsyncIterable"],
             "noEmit": true
           },
           "compileOnSave": true,
