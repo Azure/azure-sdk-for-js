@@ -239,7 +239,7 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
 
 To run a particular test, use `npm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
 
-- Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 2`
+- Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
 ### [Adding Readme/Instructions](#Adding-Readme/Instructions)
 
