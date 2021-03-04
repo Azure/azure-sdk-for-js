@@ -108,7 +108,7 @@ function getValueInConnString(
     const trimmedElement = element.trim();
     const [elementKey, value] = trimmedElement.split("=");
     const key = elementKey.toLowerCase();
-    if (key.startsWith(searchKey)) {
+    if (key === searchKey) {
       return value;
     }
   }
