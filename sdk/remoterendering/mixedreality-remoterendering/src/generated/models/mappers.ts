@@ -17,40 +17,40 @@ export const CreateConversionSettings: coreHttp.CompositeMapper = {
         serializedName: "settings",
         type: {
           name: "Composite",
-          className: "ConversionSettings"
+          className: "AssetConversionOptions"
         }
       }
     }
   }
 };
 
-export const ConversionSettings: coreHttp.CompositeMapper = {
+export const AssetConversionOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ConversionSettings",
+    className: "AssetConversionOptions",
     modelProperties: {
       inputLocation: {
         serializedName: "inputLocation",
         type: {
           name: "Composite",
-          className: "ConversionInputSettings"
+          className: "AssetConversionInputOptions"
         }
       },
       outputLocation: {
         serializedName: "outputLocation",
         type: {
           name: "Composite",
-          className: "ConversionOutputSettings"
+          className: "AssetConversionOutputOptions"
         }
       }
     }
   }
 };
 
-export const ConversionInputSettings: coreHttp.CompositeMapper = {
+export const AssetConversionInputOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ConversionInputSettings",
+    className: "AssetConversionInputOptions",
     modelProperties: {
       storageContainerUri: {
         serializedName: "storageContainerUri",
@@ -82,10 +82,10 @@ export const ConversionInputSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConversionOutputSettings: coreHttp.CompositeMapper = {
+export const AssetConversionOutputOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ConversionOutputSettings",
+    className: "AssetConversionOutputOptions",
     modelProperties: {
       storageContainerUri: {
         serializedName: "storageContainerUri",
@@ -116,10 +116,10 @@ export const ConversionOutputSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const Conversion: coreHttp.CompositeMapper = {
+export const AssetConversion: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Conversion",
+    className: "AssetConversion",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -132,7 +132,7 @@ export const Conversion: coreHttp.CompositeMapper = {
         serializedName: "settings",
         type: {
           name: "Composite",
-          className: "ConversionSettings"
+          className: "AssetConversionOptions"
         }
       },
       output: {
@@ -146,7 +146,7 @@ export const Conversion: coreHttp.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
+          className: "RemoteRenderingServiceError"
         }
       },
       status: {
@@ -183,10 +183,10 @@ export const ConversionOutput: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorModel: coreHttp.CompositeMapper = {
+export const RemoteRenderingServiceError: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorModel",
+    className: "RemoteRenderingServiceError",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -210,7 +210,7 @@ export const ErrorModel: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorModel"
+              className: "RemoteRenderingServiceError"
             }
           }
         }
@@ -226,7 +226,7 @@ export const ErrorModel: coreHttp.CompositeMapper = {
         serializedName: "innerError",
         type: {
           name: "Composite",
-          className: "ErrorModel"
+          className: "RemoteRenderingServiceError"
         }
       }
     }
@@ -242,7 +242,7 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
+          className: "RemoteRenderingServiceError"
         }
       }
     }
@@ -262,7 +262,7 @@ export const ConversionList: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Conversion"
+              className: "AssetConversion"
             }
           }
         }
@@ -278,10 +278,10 @@ export const ConversionList: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateSessionSettings: coreHttp.CompositeMapper = {
+export const RenderingSessionOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateSessionSettings",
+    className: "RenderingSessionOptions",
     modelProperties: {
       maxLeaseTimeMinutes: {
         serializedName: "maxLeaseTimeMinutes",
@@ -301,10 +301,10 @@ export const CreateSessionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SessionProperties: coreHttp.CompositeMapper = {
+export const RenderingSession: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SessionProperties",
+    className: "RenderingSession",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -381,7 +381,7 @@ export const SessionProperties: coreHttp.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
+          className: "RemoteRenderingServiceError"
         }
       },
       creationTime: {
@@ -395,10 +395,10 @@ export const SessionProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const UpdateSessionSettings: coreHttp.CompositeMapper = {
+export const UpdateSessionOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UpdateSessionSettings",
+    className: "UpdateSessionOptions",
     modelProperties: {
       maxLeaseTimeMinutes: {
         serializedName: "maxLeaseTimeMinutes",
@@ -424,7 +424,7 @@ export const SessionsList: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SessionProperties"
+              className: "RenderingSession"
             }
           }
         }

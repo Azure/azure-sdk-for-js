@@ -13,8 +13,8 @@ import {
 } from "@azure/core-http";
 import {
   CreateConversionSettings as CreateConversionSettingsMapper,
-  CreateSessionSettings as CreateSessionSettingsMapper,
-  UpdateSessionSettings as UpdateSessionSettingsMapper
+  RenderingSessionOptions as RenderingSessionOptionsMapper,
+  UpdateSessionOptions as UpdateSessionOptionsMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -61,7 +61,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-01-preview",
+    defaultValue: "2021-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -94,7 +94,7 @@ export const conversionId: OperationURLParameter = {
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: CreateSessionSettingsMapper
+  mapper: RenderingSessionOptionsMapper
 };
 
 export const sessionId: OperationURLParameter = {
@@ -110,7 +110,7 @@ export const sessionId: OperationURLParameter = {
 
 export const body2: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateSessionSettingsMapper
+  mapper: UpdateSessionOptionsMapper
 };
 
 export const nextLink: OperationURLParameter = {

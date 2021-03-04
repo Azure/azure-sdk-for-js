@@ -15,10 +15,10 @@ import {
   RemoteRenderingCreateConversionResponse,
   RemoteRenderingGetConversionResponse,
   RemoteRenderingListConversionsResponse,
-  CreateSessionSettings,
+  RenderingSessionOptions,
   RemoteRenderingCreateSessionResponse,
   RemoteRenderingGetSessionResponse,
-  UpdateSessionSettings,
+  UpdateSessionOptions,
   RemoteRenderingUpdateSessionResponse,
   RemoteRenderingStopSessionResponse,
   RemoteRenderingListSessionsResponse,
@@ -120,7 +120,7 @@ export class RemoteRendering {
   createSession(
     accountId: string,
     sessionId: string,
-    body: CreateSessionSettings,
+    body: RenderingSessionOptions,
     options?: coreHttp.OperationOptions
   ): Promise<RemoteRenderingCreateSessionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
@@ -171,7 +171,7 @@ export class RemoteRendering {
   updateSession(
     accountId: string,
     sessionId: string,
-    body: UpdateSessionSettings,
+    body: UpdateSessionOptions,
     options?: coreHttp.OperationOptions
   ): Promise<RemoteRenderingUpdateSessionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
@@ -281,11 +281,11 @@ const createConversionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Conversion,
+      bodyMapper: Mappers.AssetConversion,
       headersMapper: Mappers.RemoteRenderingCreateConversionHeaders
     },
     201: {
-      bodyMapper: Mappers.Conversion,
+      bodyMapper: Mappers.AssetConversion,
       headersMapper: Mappers.RemoteRenderingCreateConversionHeaders
     },
     400: {
@@ -331,7 +331,7 @@ const getConversionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Conversion,
+      bodyMapper: Mappers.AssetConversion,
       headersMapper: Mappers.RemoteRenderingGetConversionHeaders
     },
     401: {
@@ -401,10 +401,10 @@ const createSessionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionProperties
+      bodyMapper: Mappers.RenderingSession
     },
     201: {
-      bodyMapper: Mappers.SessionProperties,
+      bodyMapper: Mappers.RenderingSession,
       headersMapper: Mappers.RemoteRenderingCreateSessionHeaders
     },
     400: {
@@ -450,7 +450,7 @@ const getSessionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionProperties
+      bodyMapper: Mappers.RenderingSession
     },
     401: {
       headersMapper: Mappers.RemoteRenderingGetSessionExceptionHeaders,
@@ -488,7 +488,7 @@ const updateSessionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionProperties
+      bodyMapper: Mappers.RenderingSession
     },
     401: {
       headersMapper: Mappers.RemoteRenderingUpdateSessionExceptionHeaders,

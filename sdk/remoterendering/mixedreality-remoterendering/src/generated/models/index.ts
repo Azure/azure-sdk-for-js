@@ -11,19 +11,19 @@ import * as coreHttp from "@azure/core-http";
 /** Request to start a conversion */
 export interface CreateConversionSettings {
   /** Conversion settings describe the origin of input files and destination of output files. */
-  settings: ConversionSettings;
+  settings: AssetConversionOptions;
 }
 
 /** Conversion settings describe the origin of input files and destination of output files. */
-export interface ConversionSettings {
+export interface AssetConversionOptions {
   /** Conversion input settings describe the origin of conversion input. */
-  inputLocation: ConversionInputSettings;
+  inputLocation: AssetConversionInputOptions;
   /** Conversion output settings describe the destination of conversion output. */
-  outputLocation: ConversionOutputSettings;
+  outputLocation: AssetConversionOutputOptions;
 }
 
 /** Conversion input settings describe the origin of conversion input. */
-export interface ConversionInputSettings {
+export interface AssetConversionInputOptions {
   /** The URI of the Azure blob storage container containing the input model. */
   storageContainerUri: string;
   /** An Azure blob storage container shared access signature giving read and list access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
@@ -35,7 +35,7 @@ export interface ConversionInputSettings {
 }
 
 /** Conversion output settings describe the destination of conversion output. */
-export interface ConversionOutputSettings {
+export interface AssetConversionOutputOptions {
   /** The URI of the Azure blob storage container where the result of the conversion should be written to. */
   storageContainerUri: string;
   /** An Azure blob storage container shared access signature giving write access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
@@ -47,18 +47,18 @@ export interface ConversionOutputSettings {
 }
 
 /** The properties of the conversion. */
-export interface Conversion {
+export interface AssetConversion {
   /** The ID of the conversion supplied when the conversion was created. */
   id: string;
   /** Conversion settings describe the origin of input files and destination of output files. */
-  settings: ConversionSettings;
+  settings: AssetConversionOptions;
   /**
    * Information about the output of a successful conversion. Only present when the status of the conversion is 'Succeeded'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly output?: ConversionOutput;
   /** The error object containing details about the conversion failure. */
-  error: ErrorModel;
+  error: RemoteRenderingServiceError | null;
   /** The status of the conversion. Terminal states are 'Cancelled', 'Failed', and 'Succeeded'. */
   status: ConversionStatus;
   /** The time when the conversion was created. Date and time in ISO 8601 format. */
@@ -75,7 +75,7 @@ export interface ConversionOutput {
 }
 
 /** The error object containing details of why the request failed. */
-export interface ErrorModel {
+export interface RemoteRenderingServiceError {
   /** Error code. */
   code: string;
   /** A human-readable representation of the error. */
@@ -84,7 +84,7 @@ export interface ErrorModel {
    * An array of details about specific errors that led to this reported error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorModel[];
+  readonly details?: RemoteRenderingServiceError[];
   /**
    * The target of the particular error (e.g., the name of the property in error).
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -94,19 +94,19 @@ export interface ErrorModel {
    * An object containing more specific information than the current object about the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: RemoteRenderingServiceError;
 }
 
 /** The error response containing details of why the request failed. */
 export interface ErrorResponse {
   /** The error object containing details of why the request failed. */
-  error: ErrorModel;
+  error: RemoteRenderingServiceError;
 }
 
 /** List of conversions. */
 export interface ConversionList {
   /** The list of conversions. */
-  conversions: Conversion[];
+  conversions: AssetConversion[];
   /**
    * If more conversions are available this field will contain a URL where the next batch of conversions can be requested. This URL will need the same authentication as all calls to the Azure Remote Rendering API.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -115,7 +115,7 @@ export interface ConversionList {
 }
 
 /** Settings of the session to be created. */
-export interface CreateSessionSettings {
+export interface RenderingSessionOptions {
   /** The time in minutes the session will run after reaching the 'Ready' state. It has to be between 0 and 1440. */
   maxLeaseTimeMinutes: number;
   /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
@@ -123,7 +123,7 @@ export interface CreateSessionSettings {
 }
 
 /** The properties of a rendering session. */
-export interface SessionProperties {
+export interface RenderingSession {
   /** The ID of the session supplied when the session was created. */
   id: string;
   /**
@@ -164,7 +164,7 @@ export interface SessionProperties {
    * The error object containing details about the rendering session startup failure.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorModel;
+  readonly error?: RemoteRenderingServiceError | null;
   /**
    * The time when the rendering session was created. Date and time in ISO 8601 format.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -173,7 +173,7 @@ export interface SessionProperties {
 }
 
 /** Settings used to update the session. */
-export interface UpdateSessionSettings {
+export interface UpdateSessionOptions {
   /** Update to the time the session will run after it reached the 'Ready' state. It has to be larger than the current value of maxLeaseTimeMinutes and less than 1440. */
   maxLeaseTimeMinutes: number;
 }
@@ -181,7 +181,7 @@ export interface UpdateSessionSettings {
 /** The result of a list sessions request. */
 export interface SessionsList {
   /** The list of rendering sessions. Does not include sessions in 'Stopped' state. */
-  sessions: SessionProperties[];
+  sessions: RenderingSession[];
   /**
    * If more rendering sessions are available this field will contain a URL where the next batch of sessions can be requested. This URL will need the same authentication as all calls to the Azure Remote Rendering API.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -377,14 +377,14 @@ export type SessionStatus = string;
 
 /** Contains response data for the createConversion operation. */
 export type RemoteRenderingCreateConversionResponse = RemoteRenderingCreateConversionHeaders &
-  Conversion & {
+  AssetConversion & {
     /** The underlying HTTP response. */
     _response: coreHttp.HttpResponse & {
       /** The response body as text (string format) */
       bodyAsText: string;
 
       /** The response body as parsed JSON or XML */
-      parsedBody: Conversion;
+      parsedBody: AssetConversion;
       /** The parsed HTTP response headers. */
       parsedHeaders: RemoteRenderingCreateConversionHeaders;
     };
@@ -392,14 +392,14 @@ export type RemoteRenderingCreateConversionResponse = RemoteRenderingCreateConve
 
 /** Contains response data for the getConversion operation. */
 export type RemoteRenderingGetConversionResponse = RemoteRenderingGetConversionHeaders &
-  Conversion & {
+  AssetConversion & {
     /** The underlying HTTP response. */
     _response: coreHttp.HttpResponse & {
       /** The response body as text (string format) */
       bodyAsText: string;
 
       /** The response body as parsed JSON or XML */
-      parsedBody: Conversion;
+      parsedBody: AssetConversion;
       /** The parsed HTTP response headers. */
       parsedHeaders: RemoteRenderingGetConversionHeaders;
     };
@@ -421,38 +421,38 @@ export type RemoteRenderingListConversionsResponse = RemoteRenderingListConversi
   };
 
 /** Contains response data for the createSession operation. */
-export type RemoteRenderingCreateSessionResponse = SessionProperties & {
+export type RemoteRenderingCreateSessionResponse = RenderingSession & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: SessionProperties;
+    parsedBody: RenderingSession;
   };
 };
 
 /** Contains response data for the getSession operation. */
-export type RemoteRenderingGetSessionResponse = SessionProperties & {
+export type RemoteRenderingGetSessionResponse = RenderingSession & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: SessionProperties;
+    parsedBody: RenderingSession;
   };
 };
 
 /** Contains response data for the updateSession operation. */
-export type RemoteRenderingUpdateSessionResponse = SessionProperties & {
+export type RemoteRenderingUpdateSessionResponse = RenderingSession & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: SessionProperties;
+    parsedBody: RenderingSession;
   };
 };
 
