@@ -21,9 +21,13 @@ export class AccessTokenRefresher {
    * that we are ready for a new refresh.
    */
   public isReady(): boolean {
-    // We're only ready for a new refresh if the required milliseconds have passed.
     return (
-      !this.lastCalled || Date.now() - this.lastCalled >= this.requiredMillisecondsBeforeNewRefresh
+      // If no refresh has happened, we allow new refreshes to happen.
+      !this.lastCalled ||
+      // If a request is currently active, we allow new refreshes to happen, since the promise gets reused.
+      !!this.promise ||
+      // Otherwise we're ready for a new refresh if the required milliseconds have passed.
+      Date.now() - this.lastCalled >= this.requiredMillisecondsBeforeNewRefresh
     );
   }
 

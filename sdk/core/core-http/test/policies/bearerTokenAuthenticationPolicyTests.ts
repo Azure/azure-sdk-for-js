@@ -89,7 +89,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert.strictEqual(credential.authCount, 1);
   });
 
-  it("refreshes the token again only once it expired", async () => {
+  it("refreshes the token during the refresh window", async () => {
     const expireDelayMs = 5000;
     let tokenExpiration = Date.now() + expireDelayMs;
     const credential = new MockRefreshAzureCredential(tokenExpiration);
@@ -138,6 +138,32 @@ describe("BearerTokenAuthenticationPolicy", function() {
       await promise;
     }
     assert.strictEqual(credential.authCount, 1, "The first authentication should have happened");
+  });
+
+  it("credential errors should bubble up", async () => {
+    const expireDelayMs = 5000;
+    const startTime = Date.now();
+    const tokenExpiration = startTime + expireDelayMs;
+    const getTokenDelay = 100;
+    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const request = createRequest();
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    credential.shouldThrow = true;
+
+    let error: Error | undefined;
+    try {
+      await policy.sendRequest(request);
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error?.message, "Failed to retrieve the token");
+
+    assert.strictEqual(
+      credential.authCount,
+      1,
+      "The first authentication attempt should have happened"
+    );
   });
 
   it("access token refresher should prevent refreshers to happen too fast while the token is about to expire", async () => {
@@ -203,6 +229,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
 
 class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
+  public shouldThrow: boolean = false;
 
   constructor(
     public expiresOnTimestamp: number,
@@ -212,6 +239,10 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   public async getToken(): Promise<AccessToken> {
     this.authCount++;
+
+    if (this.shouldThrow) {
+      throw new Error("Failed to retrieve the token");
+    }
 
     // Allowing getToken to take a while
     if (this.getTokenDelay && this.clock) {

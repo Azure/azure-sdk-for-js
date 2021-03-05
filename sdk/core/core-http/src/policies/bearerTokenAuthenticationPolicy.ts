@@ -85,20 +85,13 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
         spanOptions: webResource.spanOptions
       }
     });
-    webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
+    if (token) {
+      webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
+    }
     return this._nextPolicy.sendRequest(webResource);
   }
 
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
-    const saveToken = (token?: AccessToken) => {
-      this.tokenCache.setCachedToken(token);
-      // The current TokenCache's tokenRefreshBufferMs's usage makes it so that we're forced to trigger a refresh while th token is still expired,
-      // this won't be an issue with the new core-rest-pipeline,
-      // while we're not fully migrated, we'll also keep track of the token in this class.
-      // If the token refresher returns undefined, this will clear the local reference of the token.
-      this.token = token;
-    };
-
     // We reset the cached token in a time window before it expires,
     // after that point, we retry the refresh of the token only if the token refresher is ready.
 
@@ -109,13 +102,19 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       refreshPromise = this.tokenRefresher.refresh(options);
     }
 
+    // If we have a local copy of the token, we use it.
     if (this.token) {
       token = this.token;
-      refreshPromise?.then(saveToken);
-    } else {
-      token = await refreshPromise;
-      saveToken(token);
     }
+
+    // If we don't have a token, or if the token has expired, we wait for the refresh promise
+    if (!token || token.expiresOnTimestamp < Date.now()) {
+      token = await refreshPromise;
+    }
+
+    // We save the token we were able to retrieve.
+    this.tokenCache.setCachedToken(token);
+    this.token = token;
 
     return token ? token.token : undefined;
   }
