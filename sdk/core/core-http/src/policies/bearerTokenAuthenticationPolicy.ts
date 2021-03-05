@@ -102,8 +102,8 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       refreshPromise = this.tokenRefresher.refresh(options);
     }
 
-    // If we have a local copy of the token, we use it.
-    if (this.token) {
+    // We don't use the local copy if the token cache has a token that has an expiration date greater than the local copy.
+    if (this.token && this.token.expiresOnTimestamp > (token?.expiresOnTimestamp || 0)) {
       token = this.token;
     }
 
