@@ -105,8 +105,18 @@ export interface TagAttributes {
   registry?: string;
   /** Image name */
   repository?: string;
-  /** List of tag attribute details */
-  attributes?: TagAttributesBase;
+  /** Tag name */
+  name?: string;
+  /** Tag digest */
+  digest?: string;
+  /** Tag created time */
+  createdOn?: Date;
+  /** Tag last update time */
+  lastUpdatedOn?: Date;
+  /** Is signed */
+  signed?: boolean;
+  /** Changeable attributes */
+  modifiableProperties?: ChangeableAttributes;
 }
 
 /** Manifest attributes */
@@ -149,8 +159,26 @@ export interface ManifestAttributes {
   registry?: string;
   /** Image name */
   repository?: string;
-  /** Manifest attributes */
-  attributes?: ManifestAttributesBase;
+  /** Manifest */
+  digest?: string;
+  /** Image size */
+  size?: number;
+  /** Created time */
+  createdOn?: Date;
+  /** Last update time */
+  lastUpdatedOn?: Date;
+  /** CPU architecture */
+  cpuArchitecture?: string;
+  /** Operating system */
+  operatingSystem?: string;
+  /** Media type */
+  manifestMediaType?: string;
+  /** Config blob media type */
+  configMediaType?: string;
+  /** List of tags */
+  tags?: string[];
+  /** Changeable attributes */
+  manifestProperties?: ChangeableAttributes;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {

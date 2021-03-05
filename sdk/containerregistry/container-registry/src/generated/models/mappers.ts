@@ -303,11 +303,41 @@ export const TagAttributes: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      attributes: {
-        serializedName: "tag",
+      name: {
+        serializedName: "tag.name",
+        type: {
+          name: "String"
+        }
+      },
+      digest: {
+        serializedName: "tag.digest",
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "tag.createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedOn: {
+        serializedName: "tag.lastUpdateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      signed: {
+        serializedName: "tag.signed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      modifiableProperties: {
+        serializedName: "tag.changeableAttributes",
         type: {
           name: "Composite",
-          className: "TagAttributesBase"
+          className: "ChangeableAttributes"
         }
       }
     }
@@ -439,11 +469,70 @@ export const ManifestAttributes: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      attributes: {
-        serializedName: "manifest",
+      digest: {
+        serializedName: "manifest.digest",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "manifest.imageSize",
+        type: {
+          name: "Number"
+        }
+      },
+      createdOn: {
+        serializedName: "manifest.createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedOn: {
+        serializedName: "manifest.lastUpdateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cpuArchitecture: {
+        serializedName: "manifest.architecture",
+        type: {
+          name: "String"
+        }
+      },
+      operatingSystem: {
+        serializedName: "manifest.os",
+        type: {
+          name: "String"
+        }
+      },
+      manifestMediaType: {
+        serializedName: "manifest.mediaType",
+        type: {
+          name: "String"
+        }
+      },
+      configMediaType: {
+        serializedName: "manifest.configMediaType",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "manifest.tags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      manifestProperties: {
+        serializedName: "manifest.changeableAttributes",
         type: {
           name: "Composite",
-          className: "ManifestAttributesBase"
+          className: "ChangeableAttributes"
         }
       }
     }

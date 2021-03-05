@@ -1429,7 +1429,7 @@
           "x-ms-client-name": "repository"
         },
         "tag": {
-          "x-ms-client-name": "attributes",
+          "x-ms-client-flatten": true,
           "description": "List of tag attribute details",
           "$ref": "#/definitions/TagAttributesBase"
         }
@@ -1586,7 +1586,7 @@
           "x-ms-client-name": "repository"
         },
         "manifest": {
-          "x-ms-client-name": "attributes",
+          "x-ms-client-flatten": true,
           "description": "Manifest attributes",
           "$ref": "#/definitions/ManifestAttributesBase"
         }
