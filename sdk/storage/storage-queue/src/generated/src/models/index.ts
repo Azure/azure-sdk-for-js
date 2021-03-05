@@ -514,13 +514,6 @@ export interface MessageIdDeleteExceptionHeaders {
   clientRequestId?: string;
 }
 
-/** Known values of {@link GeoReplicationStatusType} that the service accepts. */
-export const enum KnownGeoReplicationStatusType {
-  Live = "live",
-  Bootstrap = "bootstrap",
-  Unavailable = "unavailable"
-}
-
 /**
  * Defines values for GeoReplicationStatusType. \
  * {@link KnownGeoReplicationStatusType} can be used interchangeably with GeoReplicationStatusType,
@@ -530,7 +523,7 @@ export const enum KnownGeoReplicationStatusType {
  * **bootstrap** \
  * **unavailable**
  */
-export type GeoReplicationStatusType = string;
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 /** Known values of {@link StorageErrorCode} that the service accepts. */
 export const enum KnownStorageErrorCode {

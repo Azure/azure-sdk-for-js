@@ -154,7 +154,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = string;
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 export { HttpHeaders }
 
@@ -163,16 +163,6 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { IHttpClient }
-
-// @public
-export const enum KnownGeoReplicationStatusType {
-    // (undocumented)
-    Bootstrap = "bootstrap",
-    // (undocumented)
-    Live = "live",
-    // (undocumented)
-    Unavailable = "unavailable"
-}
 
 // @public
 export type ListQueuesIncludeType = "metadata";
