@@ -1,9 +1,9 @@
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { getTestContainer, addEntropy } from '../test/public/common/TestHelpers'
-import { BulkOperationType } from '../src'
+import { getTestContainer, addEntropy } from "../test/public/common/TestHelpers";
+import { BulkOperationType } from "../src";
 
 async function run() {
-  const containerId = 'bulkContainerV2'
+  const containerId = "bulkContainerV2";
   logStep(`Create multi-partition container '${containerId}' with partition key /key`);
   const v2Container = await getTestContainer(containerId, undefined, {
     partitionKey: {
@@ -16,7 +16,9 @@ async function run() {
   const readItemId = addEntropy("item1");
   const deleteItemId = addEntropy("item2");
   const replaceItemId = addEntropy("item3");
-  logStep(`Create items ${readItemId}, ${deleteItemId}, ${replaceItemId} for reading, deleting and replacing`)
+  logStep(
+    `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId} for reading, deleting and replacing`
+  );
   await v2Container.items.create({
     id: readItemId,
     key: true,
@@ -61,13 +63,13 @@ async function run() {
       resourceBody: { id: replaceItemId, name: "nice", key: 5 }
     }
   ];
-  logStep(`Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace`)
-  logStep("Bulk Operations Input to 'container.items.bulk(operations):'")
-  console.log(operations)
+  logStep(`Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace`);
+  logStep("Bulk Operations Input to 'container.items.bulk(operations):'");
+  console.log(operations);
   const response = await v2Container.items.bulk(operations);
-  logStep("Bulk response:")
-  console.log(response)
+  logStep("Bulk response:");
+  console.log(response);
   await finish();
 }
 
-run().catch(handleError)
+run().catch(handleError);
