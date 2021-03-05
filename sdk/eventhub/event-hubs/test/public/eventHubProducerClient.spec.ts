@@ -609,7 +609,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
+            "1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
           );
         }
       });

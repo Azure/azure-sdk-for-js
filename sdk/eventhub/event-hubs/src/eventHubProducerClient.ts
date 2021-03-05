@@ -25,6 +25,7 @@ import {
 } from "./models/public";
 import {
   idempotentAlreadyPublished,
+  idempotentSomeAlreadyPublished,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing
 } from "./util/error";
@@ -365,7 +366,7 @@ export class EventHubProducerClient {
         batch = [batch];
       }
       if (batch.some((event) => isDefined(event.publishedSequenceNumber))) {
-        throw new Error(idempotentAlreadyPublished);
+        throw new Error(idempotentSomeAlreadyPublished);
       }
 
       // For arrays of events, partitionId and partitionKey would be set in the options.

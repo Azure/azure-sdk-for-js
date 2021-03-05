@@ -104,3 +104,9 @@ export function translateError(err: AmqpError | Error): MessagingError | Error {
  */
 export const idempotentAlreadyPublished =
   "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again.";
+
+/**
+ * @internal
+ */
+export const idempotentSomeAlreadyPublished =
+  "1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again.";
