@@ -131,14 +131,22 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
   }
 
-  it("sign and verify with RS256", async function(): Promise<void> {
-    const signatureValue = this.test!.title;
-    const hash = createHash("sha256");
+  it.only("sign and verify with RS256", async function(): Promise<void> {
+    const signatureValue = Buffer.from("32 byte signature in ascii chars");
+    const hash = createHash("SHA256");
     hash.update(signatureValue);
-    const digest = hash.digest();
-    const signature = await cryptoClient.sign("RS256", digest);
-    const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
-    assert.ok(verifyResult);
+
+    let signature = await cryptoClient.sign("RS256", signatureValue);
+    let verifyResult = await cryptoClient.verify("RS256", signatureValue, signature.result);
+
+    assert.ok(verifyResult.result);
+  });
+
+  it("sign and verify data with RS256 (local verification)", async function() {
+    const signatureValue = Buffer.from("32 byte signature in ascii chars");
+    let signature = await cryptoClient.signData("RS256", signatureValue);
+    let verifyResult = await cryptoClient.verifyData("RS256", signatureValue, signature.result);
+    assert.ok(verifyResult.result);
   });
 
   it("wrap and unwrap with rsa1_5", async function() {
@@ -235,6 +243,23 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const digest = hash.digest();
     const signature = await hsmCryptoClient.sign("RS256", digest);
     const verifyResult = await hsmCryptoClient.verify("RS256", digest, signature.result);
+    assert.ok(verifyResult);
+    await testClient.flushKey(hsmKeyName);
+  });
+
+  it("sign and verify data with RS256 through an RSA-HSM key (local verification)", async function(): Promise<
+    void
+  > {
+    const hsmKeyName = keyName + "3";
+    const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
+    const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
+    const signatureValue = Buffer.from("My Message");
+    const signature = await hsmCryptoClient.signData("RS256", signatureValue);
+    const verifyResult = await hsmCryptoClient.verifyData(
+      "RS256",
+      signatureValue,
+      signature.result
+    );
     assert.ok(verifyResult);
     await testClient.flushKey(hsmKeyName);
   });

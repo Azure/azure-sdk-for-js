@@ -261,8 +261,14 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     signature: Uint8Array,
     options?: VerifyOptions
   ): Promise<VerifyResult> {
-    const hash = await createHash(algorithm, data);
-    return this.verify(algorithm, hash, signature, options);
+    const { span, updatedOptions } = this.createSpan("verifyData", options);
+
+    try {
+      const hash = await createHash(algorithm, data);
+      return this.verify(algorithm, hash, signature, updatedOptions);
+    } finally {
+      span.end();
+    }
   }
 
   async verify(
@@ -271,7 +277,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     signature: Uint8Array,
     options?: VerifyOptions
   ): Promise<VerifyResult> {
-    const { span, updatedOptions } = createSpan("verify", options);
+    const { span, updatedOptions } = this.createSpan("verify", options);
 
     let response;
     try {
@@ -292,7 +298,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   }
 
   async signData(algorithm: string, data: Uint8Array, options?: SignOptions): Promise<SignResult> {
-    const { span, updatedOptions } = createSpan("signData", options);
+    const { span, updatedOptions } = this.createSpan("signData", options);
 
     const digest = await createHash(algorithm, data);
 
@@ -331,7 +337,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
    * @param options - Additional options.
    */
   async getKey(options?: GetKeyOptions): Promise<KeyVaultKey> {
-    const { span, updatedOptions } = createSpan("getKey", options);
+    const { span, updatedOptions } = this.createSpan("getKey", options);
 
     try {
       if (typeof this.key === "string") {

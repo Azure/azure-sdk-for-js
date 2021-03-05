@@ -405,7 +405,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("verify", options);
 
     try {
-      const provider = await this.getProvider("VerifyData", algorithm);
+      const provider = await this.getProvider("verify", algorithm);
       return await provider.verify(algorithm, digest, signature, updatedOptions);
     } finally {
       span.end();
@@ -433,7 +433,7 @@ export class CryptographyClient {
     const { span } = this.createSpan("signData", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.Sign, algorithm);
+      const provider = await this.getProvider("signData", algorithm);
       const digest = await createHash(algorithm, data);
       return await provider.sign(algorithm, digest, options);
     } finally {
