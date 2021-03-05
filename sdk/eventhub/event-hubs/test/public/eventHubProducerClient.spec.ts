@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController } from "@azure/abort-controller";
 import { delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
@@ -385,6 +386,68 @@ describe("EventHubProducerClient", function() {
         beforePublishingProps.lastPublishedSequenceNumber! + 1,
         "afterPublishingProps.lastPublishedSequenceNumber should be 1 higher than beforePublishingProps"
       );
+    });
+
+    describe("sendBatch", function() {
+      it("commits published sequence number on sent EventDataBatch", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const batch = await producerClient.createBatch({ partitionId: "0" });
+        batch.tryAdd({ body: 1 });
+        batch.tryAdd({ body: 2 });
+        should.not.exist(
+          batch.startingPublishedSequenceNumber,
+          "startingPublishedSequenceNumber should not exist before batch is successfully sent."
+        );
+
+        const publishingProps = await producerClient.getPartitionPublishingProperties("0");
+
+        await producerClient.sendBatch(batch);
+        should.equal(
+          batch.startingPublishedSequenceNumber,
+          publishingProps.lastPublishedSequenceNumber! + 1,
+          "startingPublishedSequenceNumber should be 1 higher than the lastPublishedSequenceNumber."
+        );
+      });
+
+      it("does not commit published sequence number on failed EventDataBatch send", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const batch = await producerClient.createBatch({
+          partitionId: "0"
+        });
+        batch.tryAdd({
+          body: 1
+        });
+        batch.tryAdd({
+          body: 2
+        });
+        should.not.exist(
+          batch.startingPublishedSequenceNumber,
+          "startingPublishedSequenceNumber should not exist before batch is successfully sent."
+        );
+
+        const abortController = new AbortController();
+        // Trigger abort while sendBatch is in progress
+        setTimeout(() => {
+          abortController.abort();
+        }, 0);
+
+        try {
+          await producerClient.sendBatch(batch, { abortSignal: abortController.signal });
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.not.equal(err.message, TEST_FAILURE);
+          should.not.exist(
+            batch.startingPublishedSequenceNumber,
+            "startingPublishedSequenceNumber should not exist if batch failed to send."
+          );
+        }
+      });
     });
   });
 });
