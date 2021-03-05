@@ -42,7 +42,7 @@ async function main() {
     );
   });
   console.log(
-    `The analyze batch actions operation created on ${poller.getOperationState().createdOn}`
+    `The analyze batch actions operation was created on ${poller.getOperationState().createdOn}`
   );
   console.log(
     `The analyze batch actions operation results will expire on ${
