@@ -4,6 +4,7 @@
 
 - Updated the Latest service version to 7.2.
 - Added a `certificateKeyId?: string` secret property to use instead of the deprecated `keyId?: URL` and removed `"lib": ["dom"]` from `tsconfig.json`
+- Added `recoveryId`, `scheduledPurgeDate`, and `deletedOn` to a deleted secret's top-level attributes and deprecated these attributes from the deleted secret's `properties` collection.
 
 ## 4.2.0-beta.2 (2021-02-09)
 
