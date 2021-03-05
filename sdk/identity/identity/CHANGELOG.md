@@ -1,17 +1,20 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 1.2.5 (Unreleased)
 
-## 1.2.4-beta.2 (Unreleased)
+## 1.2.5-beta.1 (Unreleased) (Continues from 1.2.4-beta.1)
 
-- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13973](https://github.com/Azure/azure-sdk-for-js/pull/13973).
 - `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
 - Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
 - Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
 - Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
+
+## 1.2.4 (2021-03-08) (Hotfix from 1.2.3)
+
+- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13872](https://github.com/Azure/azure-sdk-for-js/issues/13872).
 - Bug fix: `ManagedIdentityCredential` now also properly handles `EHOSTUNREACH` errors. Fixes issue [13894](https://github.com/Azure/azure-sdk-for-js/issues/13894).
 
-## 1.2.4-beta.1 (2021-02-12)
+## 1.2.4-beta.1 (2021-02-12) (Continues on 1.2.5-beta.1)
 
 - Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
 
