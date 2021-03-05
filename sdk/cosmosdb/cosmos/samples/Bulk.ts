@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { handleError, finish, logStep } from "./Shared/handleError";
 import { getTestContainer, addEntropy } from "../test/public/common/TestHelpers";
 import { BulkOperationType } from "../src";
