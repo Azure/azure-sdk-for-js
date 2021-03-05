@@ -189,7 +189,8 @@ export function extractSpanContextFromServiceBusMessage(
  * @internal
  */
 export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOptions): TryAddOptions {
-  // @ts-ignore parentSpan is deprecated and this is compat code to translate it until we can get rid of it.
+  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+  // @ts-ignore: parentSpan is deprecated and this is compat code to translate it until we can get rid of it.
   const possibleParentSpan = tryAddOptions.parentSpan;
 
   if (!possibleParentSpan) {

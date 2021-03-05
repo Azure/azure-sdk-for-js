@@ -359,14 +359,12 @@ describe("EventHub Sender", function(): void {
 
     function legacyOptionsUsingSpanContext(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
       return {
-        // @ts-ignore Using the deprecated field for testing
         parentSpan: rootSpan.context()
       };
     }
 
     function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
       return {
-        // @ts-ignore Using the deprecated field for testing
         parentSpan: rootSpan
       };
     }
