@@ -19,6 +19,7 @@ import { apiVersion } from "../src/generated/src/models/parameters";
 import { SmsClient, SmsSendRequest } from "../src/smsClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
+const TEST_NUMBER = "+18005551234";
 
 describe("[mocked] SmsClient", async () => {
   const baseUri = "https://contoso.api.fake:443";
@@ -35,7 +36,7 @@ describe("[mocked] SmsClient", async () => {
         parsedBody: {
           value: [
             {
-              to: "+15558985487",
+              to: TEST_NUMBER,
               messageId: "id",
               httpStatusCode: 202,
               errorMessage: null,
@@ -50,8 +51,8 @@ describe("[mocked] SmsClient", async () => {
   const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
 
   const testSendRequest: SmsSendRequest = {
-    from: "+15558984505651",
-    to: ["+15558985487"],
+    from: TEST_NUMBER,
+    to: [TEST_NUMBER],
     message: "message"
   };
 
