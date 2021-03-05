@@ -1,4 +1,5 @@
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
+import { Span } from "@opentelemetry/api";
 import { ServiceBusSender, ServiceBusMessage, OperationOptions, TryAddOptions } from "../../src";
 import { TRACEPARENT_PROPERTY } from "../public/sendAndSchedule.spec";
 import { setTracerForTest } from "../public/utils/misc";
@@ -33,7 +34,27 @@ function modernOptions(rootSpan: TestSpan): OperationOptions {
   };
 }
 
-[legacyOptionsUsingSpan, legacyOptionsUsingSpanContext, modernOptions].forEach((optionFn) => {
+function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOptions {
+  return {
+    tracingOptions: {
+      spanOptions: {
+        parent: rootSpan.context()
+      }
+    },
+    parentSpan: ({
+      context: () => {
+        throw new Error("Nobody should call this.");
+      }
+    } as any) as Span
+  };
+}
+
+[
+  legacyOptionsUsingSpan,
+  legacyOptionsUsingSpanContext,
+  modernOptions,
+  modernOptionsWithAccidentalParentSpanSet
+].forEach((optionFn) => {
   describe(`Tracing for send (${optionFn.name})`, function(): void {
     let sbClient: ServiceBusClientForTests;
     let sender: ServiceBusSender;

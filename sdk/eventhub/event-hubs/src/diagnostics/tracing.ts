@@ -66,8 +66,42 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
   // @ts-ignore: parentSpan is deprecated and this is compat code to translate it until we can get rid of it.
   const possibleParentSpan = tryAddOptions.parentSpan;
 
-  if (!possibleParentSpan) {
-    // assume that the options are already in the modern shape.
+  /*
+    Our goal here is to offer compatibility but there is a case where a user might accidentally pass
+    _both_ sets of options. We'll assume they want the OperationTracingOptions code path in that case.
+
+    Example of accidental span passing:
+
+    const someOptionsPassedIntoTheirFunction = {
+       parentSpan: span;      // set somewhere else in their code
+    }
+
+    function takeSomeOptionsFromSomewhere(someOptionsPassedIntoTheirFunction) {
+      
+      batch.tryAddMessage(message, { 
+        // "runtime" blend of options from some other part of their app
+        ...someOptionsPassedIntoTheirFunction,      // parentSpan comes along for the ride...
+
+        tracingOptions: {
+          // thank goodness, I'm doing this right! (thinks the developer)
+          spanOptions: {
+            context: context
+          }
+        }
+      });
+    }
+
+    And now they've accidentally been opted into the legacy code path even though they think
+    they're using the modern code path.
+    
+    This does kick the can down the road a bit - at some point we will be putting them in this
+    situation where things looked okay but their spans are becoming unparented but we can 
+    try to announce this (and other changes related to tracing) in our next big rev.
+  */
+
+  if (!possibleParentSpan || tryAddOptions.tracingOptions) {
+    // assume that the options are already in the modern shape even if (possibly)
+    // they were still specifying `parentSpan`
     return tryAddOptions;
   }
 
