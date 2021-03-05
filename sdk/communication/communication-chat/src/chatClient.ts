@@ -45,7 +45,12 @@ import {
   mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
 import {
-  ChatThreadInfo,
+  mapToChatThreadSdkModel,
+  mapToChatParticipantRestModel,
+  mapToCreateChatThreadResultSdkModel
+} from "./models/mappers";
+import {
+  ChatThreadItem,
   CreateChatThreadResult,
   ChatThread,
   ListPageSettings
@@ -188,7 +193,7 @@ export class ChatClient {
   private async *listChatThreadsPage(
     continuationState: ListPageSettings,
     options: ListChatThreadsOptions = {}
-  ): AsyncIterableIterator<ChatThreadInfo[]> {
+  ): AsyncIterableIterator<ChatThreadItem[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
       const currentSetResponse = await this.client.chat.listChatThreads(requestOptions);
@@ -214,7 +219,7 @@ export class ChatClient {
 
   private async *listChatThreadsAll(
     options: ListChatThreadsOptions
-  ): AsyncIterableIterator<ChatThreadInfo> {
+  ): AsyncIterableIterator<ChatThreadItem> {
     for await (const page of this.listChatThreadsPage({}, options)) {
       yield* page;
     }
@@ -226,7 +231,7 @@ export class ChatClient {
    */
   public listChatThreads(
     options: ListChatThreadsOptions = {}
-  ): PagedAsyncIterableIterator<ChatThreadInfo> {
+  ): PagedAsyncIterableIterator<ChatThreadItem> {
     const { span, updatedOptions } = createSpan("ChatClient-ListChatThreads", options);
     try {
       const iter = this.listChatThreadsAll(updatedOptions);

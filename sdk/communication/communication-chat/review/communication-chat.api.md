@@ -23,18 +23,13 @@ import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
-export interface AddChatParticipantsErrors {
-    invalidParticipants: CommunicationError[];
-}
-
-// @public
 export interface AddChatParticipantsRequest {
     participants: ChatParticipant[];
 }
 
 // @public
 export interface AddChatParticipantsResult {
-    errors?: AddChatParticipantsErrors;
+    readonly invalidParticipants?: CommunicationError[];
 }
 
 // @public
@@ -47,7 +42,7 @@ export class ChatClient {
     deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<void>;
     getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<ChatThread>;
     getChatThreadClient(threadId: string): ChatThreadClient;
-    listChatThreads(options?: ListChatThreadsOptions): PagedAsyncIterableIterator<ChatThreadInfo>;
+    listChatThreads(options?: ListChatThreadsOptions): PagedAsyncIterableIterator<ChatThreadItem>;
     off(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
     off(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
     off(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
@@ -147,7 +142,7 @@ export interface ChatThreadClientOptions extends ChatClientOptions {
 }
 
 // @public
-export interface ChatThreadInfo {
+export interface ChatThreadItem {
     deletedOn?: Date;
     id: string;
     readonly lastMessageReceivedOn?: Date;
@@ -164,11 +159,6 @@ export interface CommunicationError {
 }
 
 // @public
-export interface CreateChatThreadErrors {
-    readonly invalidParticipants?: CommunicationError[];
-}
-
-// @public
 export type CreateChatThreadOptions = RestCreateChatThreadOptions;
 
 // @public
@@ -180,7 +170,7 @@ export interface CreateChatThreadRequest {
 // @public
 export interface CreateChatThreadResult {
     chatThread?: ChatThread;
-    errors?: CreateChatThreadErrors;
+    readonly invalidParticipants?: CommunicationError[];
 }
 
 // @public

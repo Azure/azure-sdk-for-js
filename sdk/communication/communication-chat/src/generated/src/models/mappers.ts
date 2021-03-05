@@ -533,25 +533,9 @@ export const AddChatParticipantsResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AddChatParticipantsResult",
     modelProperties: {
-      errors: {
-        serializedName: "errors",
-        type: {
-          name: "Composite",
-          className: "AddChatParticipantsErrors"
-        }
-      }
-    }
-  }
-};
-
-export const AddChatParticipantsErrors: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AddChatParticipantsErrors",
-    modelProperties: {
       invalidParticipants: {
         serializedName: "invalidParticipants",
-        required: true,
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -607,11 +591,17 @@ export const CreateChatThreadResult: coreHttp.CompositeMapper = {
           className: "ChatThread"
         }
       },
-      errors: {
-        serializedName: "errors",
+      invalidParticipants: {
+        serializedName: "invalidParticipants",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "CreateChatThreadErrors"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
+          }
         }
       }
     }
@@ -661,32 +651,10 @@ export const ChatThread: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateChatThreadErrors: coreHttp.CompositeMapper = {
+export const ChatThreadsItemCollection: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateChatThreadErrors",
-    modelProperties: {
-      invalidParticipants: {
-        serializedName: "invalidParticipants",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CommunicationError"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ChatThreadsInfoCollection: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChatThreadsInfoCollection",
+    className: "ChatThreadsItemCollection",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -696,7 +664,7 @@ export const ChatThreadsInfoCollection: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ChatThreadInfo"
+              className: "ChatThreadItem"
             }
           }
         }
@@ -712,10 +680,10 @@ export const ChatThreadsInfoCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatThreadInfo: coreHttp.CompositeMapper = {
+export const ChatThreadItem: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChatThreadInfo",
+    className: "ChatThreadItem",
     modelProperties: {
       id: {
         serializedName: "id",
