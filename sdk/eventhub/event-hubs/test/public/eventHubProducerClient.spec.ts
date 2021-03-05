@@ -593,6 +593,48 @@ describe("EventHubProducerClient", function() {
         // This delay gives initialization a change to complete so producer.close() does proper cleanup.
         await delay(1000);
       });
+
+      it("does not allow sending already published EventData", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const events: EventData[] = [{ body: 1 }, { body: 2 }];
+        // Send the events. Afterwards they should be considered 'published.'
+        await producerClient.sendBatch(events, { partitionId: "0" });
+
+        try {
+          await producerClient.sendBatch(events, { partitionId: "0" });
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.equal(
+            err.message,
+            "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
+          );
+        }
+      });
+
+      it("does not allow sending already published EventDataBatch", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const batch = await producerClient.createBatch({ partitionId: "0" });
+        batch.tryAdd({ body: 1 });
+        batch.tryAdd({ body: 2 });
+        // Send the events. Afterwards they should be considered 'published.'
+        await producerClient.sendBatch(batch);
+
+        try {
+          await producerClient.sendBatch(batch);
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.equal(
+            err.message,
+            "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
+          );
+        }
+      });
     });
   });
 });

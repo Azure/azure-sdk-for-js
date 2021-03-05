@@ -23,7 +23,11 @@ import {
   PartitionPublishingProperties,
   SendBatchOptions
 } from "./models/public";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import {
+  idempotentAlreadyPublished,
+  throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterMissing
+} from "./util/error";
 import { isDefined } from "./util/typeGuards";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
@@ -363,6 +367,9 @@ export class EventHubProducerClient {
     const eventDataTracingProperties: Array<EventData["properties"]> = [];
 
     if (isEventDataBatch(batch)) {
+      if (enableIdempotentPartitions && isDefined(batch.startingPublishedSequenceNumber)) {
+        throw new Error(idempotentAlreadyPublished);
+      }
       const partitionAssignment = this._extractPartitionAssignmentFromBatch(batch, options);
       partitionId = partitionAssignment.partitionId;
       partitionKey = partitionAssignment.partitionKey;
@@ -370,6 +377,9 @@ export class EventHubProducerClient {
     } else {
       if (!Array.isArray(batch)) {
         batch = [batch];
+      }
+      if (batch.some((event) => isDefined(event.publishedSequenceNumber))) {
+        throw new Error(idempotentAlreadyPublished);
       }
 
       // For arrays of events, partitionId and partitionKey would be set in the options.
