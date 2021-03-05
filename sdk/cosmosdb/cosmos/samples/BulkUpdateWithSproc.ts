@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+// @ts-ignore
 import { CosmosClient } from "../dist";
 import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
 import { v4 as uuid } from "uuid";

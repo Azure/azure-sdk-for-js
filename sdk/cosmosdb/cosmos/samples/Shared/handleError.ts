@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { database, key, endpoint } from "./config";
+// @ts-ignore
 import { CosmosClient } from "../../dist";
 
 const client = new CosmosClient({ endpoint, key });
