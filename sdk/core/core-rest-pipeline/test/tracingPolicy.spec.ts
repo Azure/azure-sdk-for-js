@@ -118,8 +118,10 @@ describe("tracingPolicy", function() {
 
     const request = createPipelineRequest({
       url: "https://bing.com",
-      spanOptions: {
-        parent: ROOT_SPAN.context()
+      tracingOptions: {
+        spanOptions: {
+          parent: ROOT_SPAN.context()
+        }
       }
     });
     const response: PipelineResponse = {
@@ -155,8 +157,10 @@ describe("tracingPolicy", function() {
 
     const request = createPipelineRequest({
       url: "https://bing.com",
-      spanOptions: {
-        parent: ROOT_SPAN.context()
+      tracingOptions: {
+        spanOptions: {
+          parent: ROOT_SPAN.context()
+        }
       }
     });
     const response: PipelineResponse = {
@@ -192,8 +196,10 @@ describe("tracingPolicy", function() {
 
     const request = createPipelineRequest({
       url: "https://bing.com",
-      spanOptions: {
-        parent: ROOT_SPAN.context()
+      tracingOptions: {
+        spanOptions: {
+          parent: ROOT_SPAN.context()
+        }
       }
     });
     const response: PipelineResponse = {
@@ -229,8 +235,10 @@ describe("tracingPolicy", function() {
 
     const request = createPipelineRequest({
       url: "https://bing.com",
-      spanOptions: {
-        parent: ROOT_SPAN.context()
+      tracingOptions: {
+        spanOptions: {
+          parent: ROOT_SPAN.context()
+        }
       }
     });
     const response: PipelineResponse = {
@@ -267,8 +275,10 @@ describe("tracingPolicy", function() {
 
     const request = createPipelineRequest({
       url: "https://bing.com",
-      spanOptions: {
-        parent: ROOT_SPAN.context()
+      tracingOptions: {
+        spanOptions: {
+          parent: ROOT_SPAN.context()
+        }
       }
     });
     const response: PipelineResponse = {

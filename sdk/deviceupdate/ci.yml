@@ -27,7 +27,7 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: deviceupdate
-    IncludeRelease: false
+    IncludeRelease: true
     Artifacts:
       - name: azure-iot-device-update
         safeName: azureiotdeviceupdate

@@ -146,7 +146,7 @@ export class TableBatchImpl implements TableBatch {
       method: "POST",
       body,
       headers: createHttpHeaders(headers),
-      spanOptions: updatedOptions.tracingOptions?.spanOptions
+      tracingOptions: updatedOptions.tracingOptions
     });
 
     if (this.credential) {

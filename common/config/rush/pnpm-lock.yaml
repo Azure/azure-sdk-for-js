@@ -45,6 +45,7 @@ dependencies:
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
+  '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
@@ -9951,6 +9952,20 @@ packages:
       integrity: sha512-F+eeV+aopIGTZp8/7sq8QGdNFqVQw5qGaZFEHi6paj/NDAk/2xb0lUMupAgkxHrH243PdvM2+Xr6s0CC3p4XFw==
       tarball: file:projects/perf-ai-text-analytics.tgz
     version: 0.0.0
+  file:projects/perf-eventgrid.tgz:
+    dependencies:
+      '@types/dotenv': 8.2.0
+      '@types/node': 8.10.66
+      dotenv: 8.2.0
+      ts-node: 8.10.2_typescript@4.1.2
+      tslib: 2.1.0
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/perf-eventgrid'
+    resolution:
+      integrity: sha512-UBO6EjYqHg2ehxTLMG87FVDE6pz9Ggbriolp0NgTlVm4pYMqnlhQzcoMdABSQtZt9ULf0ai/Y/jhFf8S0vo6Sw==
+      tarball: file:projects/perf-eventgrid.tgz
+    version: 0.0.0
   file:projects/perf-storage-blob.tgz:
     dependencies:
       '@types/dotenv': 8.2.0
@@ -10960,6 +10975,7 @@ specifiers:
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
+  '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz

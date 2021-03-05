@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
 declare global {
@@ -149,9 +149,9 @@ export interface PipelineRequest {
   abortSignal?: AbortSignalLike;
 
   /**
-   * Options used to create a span when tracing is enabled.
+   * Tracing options to use for any created Spans.
    */
-  spanOptions?: SpanOptions;
+  tracingOptions?: OperationTracingOptions;
 
   /**
    * Callback which fires upon upload progress.
