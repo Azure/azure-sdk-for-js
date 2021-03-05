@@ -193,7 +193,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("encrypt", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.Encrypt, parameters.algorithm);
+      const provider = await this.getProvider("encrypt", parameters.algorithm);
       return await provider.encrypt(parameters, updatedOptions);
     } finally {
       span.end();
@@ -268,7 +268,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("decrypt", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.Decrypt, parameters.algorithm);
+      const provider = await this.getProvider("decrypt", parameters.algorithm);
       const result = await provider.decrypt(parameters, updatedOptions);
       return result;
     } finally {
@@ -319,7 +319,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("wrapKey", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.WrapKey, algorithm);
+      const provider = await this.getProvider("wrapKey", algorithm);
       return await provider.wrapKey(algorithm, key, updatedOptions);
     } finally {
       span.end();
@@ -347,7 +347,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("unwrapKey", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.UnwrapKey, algorithm);
+      const provider = await this.getProvider("unwrapKey", algorithm);
       return await provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
     } finally {
       span.end();
@@ -375,7 +375,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("sign", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.Sign, algorithm);
+      const provider = await this.getProvider("sign", algorithm);
       return await provider.sign(algorithm, digest, updatedOptions);
     } finally {
       span.end();
@@ -464,7 +464,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("encrypt", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.Verify, algorithm);
+      const provider = await this.getProvider("verifyData", algorithm);
       return await provider.verifyData(algorithm, data, signature, updatedOptions);
     } finally {
       span.end();
@@ -517,7 +517,7 @@ export class CryptographyClient {
    * @param algorithm - The algorithm to use.
    */
   private async getProvider(
-    operation: KeyOperation,
+    operation: CryptographyProviderOperation,
     algorithm: string
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
@@ -531,9 +531,7 @@ export class CryptographyClient {
       }
     }
 
-    let providers = this.providers.filter((p) =>
-      p.supportsOperation(operation as CryptographyProviderOperation)
-    );
+    let providers = this.providers.filter((p) => p.supportsOperation(operation));
     if (algorithm) {
       providers = providers.filter((p) => p.supportsAlgorithm(algorithm));
     }

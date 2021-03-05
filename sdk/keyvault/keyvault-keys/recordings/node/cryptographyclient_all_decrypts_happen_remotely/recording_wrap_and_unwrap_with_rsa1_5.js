@@ -23,11 +23,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  'ceaaab45-8741-4676-8304-62c94ec4ab45',
+  'ce081f64-f73c-440e-991f-5e733092c7b9',
   'x-ms-keyvault-service-version',
   '1.2.191.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -35,7 +35,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 02 Mar 2021 22:19:57 GMT'
+  'Fri, 05 Mar 2021 02:03:18 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -58,23 +58,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '524a429b-9f95-4936-92e3-8f070f03b600',
+  '94c0aea6-01ab-4a5c-81ac-5dfe03404200',
   'x-ms-ests-server',
-  '2.1.11513.17 - NCUS ProdSlices',
+  '2.1.11530.15 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AuCUwaH-pAJPoo1uGPxWnrssYtMRCQAAAIGw0NcOAAAA; expires=Thu, 01-Apr-2021 22:19:57 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlU307WCW0NBjA_doLoV1p4sYtMRCgAAAMiH09cOAAAA; expires=Sun, 04-Apr-2021 02:03:19 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 02 Mar 2021 22:19:57 GMT'
+  'Fri, 05 Mar 2021 02:03:18 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/cryptography-client-test/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/bf229e62068640b18d2485096ee8d800","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"xEu7LfpWE99WIjCVlGXeWiV6CbxhBWnfUmcFU5cZA6XcQ3ACGWlvO6afJDDg6nXJZUL1IHcDQ_CnNyunV17TYkV1ovBazQmzitsDoULuUr3CDWfuuf377slFENSkFUpSa6Ko0HWiKtFhkJxVFMzxVSM9qBethUKnUTETqzbS9Oqzut27RJCxYT50zLPGlKsryQ4ZDdINCaLYU2v5VPvGcyMlVp97jqVbKdU7OS1q_r3gYDk5b8o7-8sz_7enD-f3HFXqkqzD3ElE5-Kzo3tfBvShW0GNxdtIo4ke69QbrxQVgpPtFxdENMdM4ACfG32pgLypwFca98fvO0S7H92g0Q","e":"AQAB"},"attributes":{"enabled":true,"created":1614723597,"updated":1614723597,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/9e0bab9ed4c14b8cb1e93aa3a87c2552","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"yRKx1pqRGpetf56Lb9qd7FuN52UVfiIik_ez5LwLbF6lmVrejOp9TcsC_0qE2n_i5_gbj5AmRBW3TO33W-ceorwkTvNMYQKavgzFW408M56e_tZfG1TcqoxPNXJkdhI_a6PpsTQcexESaC6C4-_QIXCAf06hhDAbF6lbO4xEzD7tQuc9WHPB43DIPTuBFAYTKFCTpYgWqlMofpVPo1yBPIQMHLx5p1JMA8hnx3H5jeHk432rvp8pvjodxClSV5ALkyeVPT8zYRbmxZ4ZerQ5C3tQ7HKabXpklOCUhIbSXKSp3G0x3ZvBu-zIA0RuGtqqY_EXaMiG9jDvBxDaBjw5nQ","e":"AQAB"},"attributes":{"enabled":true,"created":1614909799,"updated":1614909799,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -86,11 +86,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  'ef832978-c562-4cd3-b25d-ab361258754f',
+  'adf8ca45-0c55-44d3-b04d-7c4b757d34b5',
   'x-ms-keyvault-service-version',
   '1.2.191.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -98,7 +98,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 02 Mar 2021 22:19:58 GMT',
+  'Fri, 05 Mar 2021 02:03:18 GMT',
   'Content-Length',
-  '715'
+  '714'
 ]);

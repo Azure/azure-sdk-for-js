@@ -131,21 +131,21 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
   }
 
-  it.only("sign and verify with RS256", async function(): Promise<void> {
+  it("sign and verify with RS256", async function(): Promise<void> {
     const signatureValue = Buffer.from("32 byte signature in ascii chars");
     const hash = createHash("SHA256");
     hash.update(signatureValue);
 
-    let signature = await cryptoClient.sign("RS256", signatureValue);
-    let verifyResult = await cryptoClient.verify("RS256", signatureValue, signature.result);
+    const signature = await cryptoClient.sign("RS256", signatureValue);
+    const verifyResult = await cryptoClient.verify("RS256", signatureValue, signature.result);
 
     assert.ok(verifyResult.result);
   });
 
   it("sign and verify data with RS256 (local verification)", async function() {
     const signatureValue = Buffer.from("32 byte signature in ascii chars");
-    let signature = await cryptoClient.signData("RS256", signatureValue);
-    let verifyResult = await cryptoClient.verifyData("RS256", signatureValue, signature.result);
+    const signature = await cryptoClient.signData("RS256", signatureValue);
+    const verifyResult = await cryptoClient.verifyData("RS256", signatureValue, signature.result);
     assert.ok(verifyResult.result);
   });
 
