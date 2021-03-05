@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  //PipelineOptions,
   TokenCredential,
-  //OperationOptions,
+  OperationOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions
+  InternalPipelineOptions,
 } from "@azure/core-http";
-//import { CanonicalCode } from "@opentelemetry/api";
+import { CanonicalCode } from "@opentelemetry/api";
 
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 
@@ -22,18 +21,22 @@ import { StaticAccessTokenCredential } from "../authentication/staticAccessToken
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-//import { createSpan } from "./tracing";
+import { createSpan } from "./tracing";
 
 // TODO: Maybe copy and paste this?
 import { constructAuthenticationEndpointFromDomain } from "../../../mixedreality/mixedreality-authentication/src/util/authenticationEndpoint";
 
 import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
+import { AssetConversion } from "./generated/models/index"
+import { RemoteRendering } from "./generated/operations";
+
 /**
  * The client class used to interact with the App Configuration service.
  */
 export class RemoteRenderingClient {
   private client: RemoteRenderingRestClient;
+  private operations : RemoteRendering;
 
   /**
    * Creates an instance of a MixedRealityStsClient.
@@ -131,7 +134,36 @@ export class RemoteRenderingClient {
     };
 
     this.client = new RemoteRenderingRestClient(endpoint, clientOptions);
+    this.operations = new RemoteRendering(this.client);
   }
 
-  
+  /**
+   * Gets the status of a particular conversion.
+   * @param accountId The Azure Remote Rendering account ID.
+   * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
+   *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
+   *                     and cannot contain more than 256 characters.
+   * @param options The options parameters.
+   */
+  public async getConversion(
+    accountId: string,
+    conversionId: string,
+    options?: OperationOptions
+  ): Promise<AssetConversion> {
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetConversion", { conversionId : conversionId, ...options });
+
+    try {
+      let result = await this.operations.getConversion(accountId, conversionId, updatedOptions);
+
+      return Promise.resolve(result as AssetConversion);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 }
