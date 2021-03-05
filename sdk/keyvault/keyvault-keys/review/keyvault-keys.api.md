@@ -105,6 +105,7 @@ export class CryptographyClient {
 
 // @public
 export interface CryptographyClientOptions extends KeyClientOptions {
+    remoteOnly?: boolean;
 }
 
 // @public

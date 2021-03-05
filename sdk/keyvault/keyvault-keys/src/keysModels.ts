@@ -31,7 +31,12 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
 /**
  * The optional parameters accepted by the KeyVault's CryptographyClient
  */
-export interface CryptographyClientOptions extends KeyClientOptions {}
+export interface CryptographyClientOptions extends KeyClientOptions {
+  /**
+   * When true all cryptography operations will be remoted to the KeyVault service.
+   */
+  remoteOnly?: boolean;
+}
 
 /**
  * As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18

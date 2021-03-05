@@ -35,6 +35,7 @@ import { createHash } from "./cryptography/hash";
 import { createSpan } from "./tracing";
 import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
+import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -50,6 +51,12 @@ export class CryptographyClient {
    * The remote provider, which would be undefined if used in local mode.
    */
   private remoteProvider?: RemoteCryptographyProvider;
+
+  /**
+   * A flag that allows us to force remote only mode and avoid local cryptography altogether.
+   * TODO: untested code path
+   */
+  private remoteOnly: boolean = false;
 
   /**
    * Constructs a new instance of the Cryptography client for the given key
@@ -104,6 +111,10 @@ export class CryptographyClient {
     credential?: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
+    if (pipelineOptions.remoteOnly) {
+      this.remoteOnly = pipelineOptions.remoteOnly;
+    }
+
     if (typeof key === "string") {
       // Key URL for remote-local operations.
       this.key = {
@@ -124,6 +135,10 @@ export class CryptographyClient {
         kind: "JsonWebKey",
         value: key
       };
+
+      if (this.remoteOnly) {
+        throw new Error("Local JsonWebKey cannot be used in remote-only mode.");
+      }
     }
   }
 
@@ -521,8 +536,14 @@ export class CryptographyClient {
     algorithm: string
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
-      const keyMaterial = await this.getKeyMaterial();
-      this.providers = [new RsaCryptographyProvider(keyMaterial)];
+      this.providers = [];
+
+      // Add local crypto providers as needed
+      if (!this.remoteOnly) {
+        const keyMaterial = await this.getKeyMaterial();
+        this.providers.push(new RsaCryptographyProvider(keyMaterial));
+        this.providers.push(new AesCryptographyProvider(keyMaterial));
+      }
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
       // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.

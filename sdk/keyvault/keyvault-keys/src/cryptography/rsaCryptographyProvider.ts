@@ -192,7 +192,11 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   };
 
   private ensureValid() {
-    if (this.key && this.key.kty! !== "RSA" && this.key.kty! !== "RSA-HSM") {
+    if (
+      this.key &&
+      this.key.kty?.toUpperCase() !== "RSA" &&
+      this.key.kty?.toUpperCase() !== "RSA-HSM"
+    ) {
       throw new Error("Key type does not match the algorithm RSA");
     }
   }
