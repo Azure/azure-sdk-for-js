@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
 - Updates all async methods on `BlobCheckpointStore` to accept
   an optional `options` parameter that can be used to pass in an
