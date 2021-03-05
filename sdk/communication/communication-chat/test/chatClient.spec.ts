@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CommunicationIdentifier } from "@azure/communication-common";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient } from "../src";
+import { ChatClient, ChatThreadClient, CreateChatThreadRequest } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 describe("ChatClient", function() {
   let threadId: string;
@@ -13,8 +13,8 @@ describe("ChatClient", function() {
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
 
-  let testUser: CommunicationUserIdentifier;
-  let testUser2: CommunicationUserIdentifier;
+  let testUser: CommunicationIdentifier;
+  let testUser2: CommunicationIdentifier;
 
   this.afterAll(async function() {
     // await deleteTestUser(testUser);
@@ -34,15 +34,15 @@ describe("ChatClient", function() {
 
   it("successfully creates a thread", async function() {
     const communicationUserToken = await createTestUser();
-
-    testUser = communicationUserToken.user;
     chatClient = createChatClient(communicationUserToken.token);
 
+    testUser = communicationUserToken.user;
     testUser2 = (await createTestUser()).user;
 
-    const request = {
+    // Create a thread
+    const request: CreateChatThreadRequest = {
       topic: "test topic",
-      participants: [{ user: testUser }, { user: testUser2 }]
+      participants: [{ id: testUser }, { id: testUser2 }]
     };
 
     const chatThreadResult = await chatClient.createChatThread(request);

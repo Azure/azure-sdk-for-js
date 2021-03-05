@@ -603,6 +603,54 @@ describe("[AAD] TextAnalyticsClient", function() {
           );
         }
       });
+
+      it("accepts pii categories", async function() {
+        const [result] = await client.recognizePiiEntities(
+          [
+            {
+              id: "0",
+              text: "Patient name is Joe and SSN is 859-98-0987",
+              language: "en"
+            }
+          ],
+          { categoriesFilter: ["USSocialSecurityNumber"] }
+        );
+        if (!result.error) {
+          assert.equal(result.entities.length, 1);
+          assert.equal(result.entities[0].text, "859-98-0987");
+          assert.equal(result.entities[0].category, "USSocialSecurityNumber");
+          assert.equal(result.redactedText, "Patient name is Joe and SSN is ***********");
+        }
+      });
+
+      it("output pii categories are accepted as input", async function() {
+        const [result1] = await client.recognizePiiEntities([
+          {
+            id: "0",
+            text: "Patient name is Joe and SSN is 859-98-0987",
+            language: "en"
+          }
+        ]);
+        if (!result1.error) {
+          const entity2 = result1.entities[1];
+          const [result2] = await client.recognizePiiEntities(
+            [
+              {
+                id: "0",
+                text: "Patient name is Joe and SSN is 859-98-0987",
+                language: "en"
+              }
+            ],
+            { categoriesFilter: [entity2.category] }
+          );
+          if (!result2.error) {
+            assert.equal(result2.entities.length, 1);
+            assert.equal(result2.entities[0].text, entity2.text);
+            assert.equal(result2.entities[0].category, entity2.category);
+            assert.equal(result2.redactedText, "Patient name is Joe and SSN is ***********");
+          }
+        }
+      });
     });
 
     describe("#recognizeLinkedEntities", function() {
@@ -1009,6 +1057,47 @@ describe("[AAD] TextAnalyticsClient", function() {
             }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
+          }
+        }
+      });
+
+      it("single entities linking action", async function() {
+        const docs = [
+          "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
+          "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
+        ];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            recognizeLinkedEntitiesActions: [{}]
+          },
+          "en",
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        for await (const page of result) {
+          const entitiesResult = page.recognizeLinkedEntitiesResults;
+          if (entitiesResult.length === 1) {
+            const action = entitiesResult[0];
+            if (!action.error) {
+              assert.equal(action.results.length, 2);
+              for (const doc of action.results) {
+                if (!doc.error) {
+                  assert.notEqual(doc.entities.length, 0);
+                  for (const entity of doc.entities) {
+                    assert.isDefined(entity.name);
+                    assert.isDefined(entity.url);
+                    assert.isDefined(entity.dataSource);
+                    assert.isDefined(entity.dataSourceEntityId);
+                  }
+                }
+              }
+            }
+          } else {
+            assert.fail("expected an array of entity linking results but did not get one.");
           }
         }
       });

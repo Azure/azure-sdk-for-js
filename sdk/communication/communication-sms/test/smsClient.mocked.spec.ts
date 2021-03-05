@@ -8,11 +8,15 @@ import {
   HttpOperationResponse,
   isNode
 } from "@azure/core-http";
+
+import { Uuid } from "../src/utils/uuid";
+import { generateSendMessageRequest } from "../src/utils/smsUtils";
+
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
-import { SmsClient, SendRequest } from "../src/smsClient";
 import { apiVersion } from "../src/generated/src/models/parameters";
+import { SmsClient, SmsSendRequest } from "../src/smsClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 
@@ -23,15 +27,30 @@ describe("[mocked] SmsClient", async () => {
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
       return {
-        status: 200,
+        status: 202,
         headers: new HttpHeaders(),
         request: httpRequest,
         parsedBody: {
-          messageId: "id"
+          value: [
+            {
+              to: "+18332321226",
+              messageId: "id",
+              httpStatusCode: 202,
+              errorMessage: null,
+              repeatabilityResult: "accepted",
+              successful: true
+            }
+          ]
         }
       };
     }
   };
+
+  const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
+
+  beforeEach(() => {
+    sinon.stub(Uuid, "generateUuid").returns(mockedGuid);
+  });
 
   afterEach(() => {
     sinon.restore();
@@ -45,45 +64,51 @@ describe("[mocked] SmsClient", async () => {
     smsClient = new SmsClient(baseUri, new AzureKeyCredential("banana"), {
       httpClient: mockHttpClient
     });
+
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const sendRequest: SendRequest = {
-      from: "+18768984505651",
-      to: ["+18768985487"],
+    sinon.useFakeTimers();
+    const sendRequest: SmsSendRequest = {
+      from: "+15558984505651",
+      to: ["+15558985487"],
       message: "message"
     };
-    const { _response } = await smsClient.send(sendRequest);
 
+    const _responses = await smsClient.send(sendRequest);
+    const _response = _responses[0];
     sinon.assert.calledOnce(spy);
-    assert.equal(_response.status, 200);
-    assert.equal(_response.parsedBody.messageId, "id");
-
+    assert.equal(_response.httpStatusCode, 202);
+    assert.equal(_response.messageId, "id");
     const request = spy.getCall(0).args[0];
-
     assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
-    assert.deepEqual(JSON.parse(request.body), { ...sendRequest, sendSmsOptions: {} });
+
+    const expectedRequestBody = generateSendMessageRequest(sendRequest);
+    assert.deepEqual(JSON.parse(request.body), expectedRequestBody);
   });
 
   it("sends SMS when connection string is provided", async () => {
     const connectionString = `endpoint=${baseUri};accesskey=banana`;
     smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
+
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const sendRequest: SendRequest = {
-      from: "+18768984505651",
-      to: ["+18768985487"],
+    sinon.useFakeTimers();
+    const sendRequest: SmsSendRequest = {
+      from: "+15558984505651",
+      to: ["+15558985487"],
       message: "message"
     };
-    const { _response } = await smsClient.send(sendRequest);
 
+    const _responses = await smsClient.send(sendRequest);
+    const _response = _responses[0];
     sinon.assert.calledOnce(spy);
-    assert.equal(_response.status, 200);
-    assert.equal(_response.parsedBody.messageId, "id");
-
+    assert.equal(_response.httpStatusCode, 202);
+    assert.equal(_response.messageId, "id");
     const request = spy.getCall(0).args[0];
-
     assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
-    assert.deepEqual(JSON.parse(request.body), { ...sendRequest, sendSmsOptions: {} });
+
+    const expectedRequestBody = generateSendMessageRequest(sendRequest);
+    assert.deepEqual(JSON.parse(request.body), expectedRequestBody);
   });
 
   it("sets correct headers", async () => {
@@ -91,22 +116,19 @@ describe("[mocked] SmsClient", async () => {
       httpClient: mockHttpClient
     });
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const sendRequest: SendRequest = {
-      from: "+18768984505651",
-      to: ["+18768985487"],
+    const sendRequest: SmsSendRequest = {
+      from: "+15558984505651",
+      to: ["+15558985487"],
       message: "message"
     };
-    const { _response } = await smsClient.send(sendRequest);
-
+    const _responses = await smsClient.send(sendRequest);
+    const _response = _responses[0];
     sinon.assert.calledOnce(spy);
-    assert.equal(_response.status, 200);
-
+    assert.equal(_response.httpStatusCode, 202);
     const request = spy.getCall(0).args[0];
-
     if (isNode) {
       assert.equal(request.headers.get("host"), "contoso.api.fake:443");
     }
-
     assert.typeOf(request.headers.get(dateHeader), "string");
     assert.isDefined(request.headers.get("authorization"));
     assert.match(

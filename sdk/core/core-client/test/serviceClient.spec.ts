@@ -22,7 +22,7 @@ import {
   createEmptyPipeline,
   HttpsClient,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 
 import {
   getOperationArgumentValueFromParameter,

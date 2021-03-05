@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
@@ -91,9 +91,6 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 export interface AssessmentSentiment extends SentenceAssessment {
 }
 
-// @public
-export type Association = "subject" | "other";
-
 export { AzureKeyCredential }
 
 // @public
@@ -113,12 +110,6 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 // @public
 export interface CategorizedEntity extends Entity {
 }
-
-// @public
-export type Certainty = "Positive" | "Positive Possible" | "Neutral Possible" | "Negative Possible" | "Negative";
-
-// @public
-export type Conditionality = "Hypothetical" | "Conditional";
 
 // @public
 export interface DetectedLanguage {
@@ -169,6 +160,22 @@ export interface Entity {
     text: string;
 }
 
+// @public (undocumented)
+export interface EntityAssertion {
+    association?: EntityAssociation;
+    certainty?: EntityCertainty;
+    conditionality?: EntityConditionality;
+}
+
+// @public
+export type EntityAssociation = "subject" | "other";
+
+// @public
+export type EntityCertainty = "Positive" | "PositivePossible" | "NeutralPossible" | "NegativePossible" | "Negative";
+
+// @public
+export type EntityConditionality = "Hypothetical" | "Conditional";
+
 // @public
 export interface EntityDataSource {
     entityId: string;
@@ -217,16 +224,9 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
     keyPhrases: string[];
 }
 
-// @public (undocumented)
-export interface HealthcareAssertion {
-    association?: Association;
-    certainty?: Certainty;
-    conditionality?: Conditionality;
-}
-
 // @public
 export interface HealthcareEntity extends Entity {
-    assertion?: HealthcareAssertion;
+    assertion?: EntityAssertion;
     dataSources: EntityDataSource[];
     normalizedText?: string;
 }
@@ -334,11 +334,11 @@ export type PagedAsyncIterableAnalyzeBatchActionsResult = PagedAsyncIterableIter
 export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterableIterator<AnalyzeHealthcareEntitiesResult, AnalyzeHealthcareEntitiesResultArray>;
 
 // @public
-export type PiiCategory = string;
-
-// @public
 export interface PiiEntity extends Entity {
 }
+
+// @public
+export type PiiEntityCategory = string;
 
 // @public
 export enum PiiEntityDomainType {
@@ -428,7 +428,7 @@ export type RecognizePiiEntitiesAction = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    piiCategories?: PiiCategory[];
+    categoriesFilter?: PiiEntityCategory[];
 };
 
 // @public
@@ -447,6 +447,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    categoriesFilter?: PiiEntityCategory[];
     domainFilter?: PiiEntityDomainType;
     stringIndexType?: StringIndexType;
 }
@@ -564,7 +565,7 @@ export class TextAnalyticsClient {
 }
 
 // @public
-export interface TextAnalyticsClientOptions extends PipelineOptions {
+export interface TextAnalyticsClientOptions extends CommonClientOptions {
     defaultCountryHint?: string;
     defaultLanguage?: string;
 }

@@ -3,9 +3,11 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { OperationStatus } from "../../generated/models";
 
-import { RecognizeFormResultResponse } from "../../internalModels";
+import {
+  GeneratedClientGetAnalyzeFormResultResponse,
+  OperationStatus
+} from "../../generated/models";
 import { RecognizedFormArray } from "../../models";
 import { toRecognizedFormArray } from "../../transforms";
 
@@ -42,7 +44,10 @@ export interface FormRecognitionOperationClient {
   /**
    * Returns the results of the operation
    */
-  getResult(operationId: string, modelId?: string): Promise<RecognizeFormResultResponse>;
+  getResult(
+    operationId: string,
+    modelId?: string
+  ): Promise<GeneratedClientGetAnalyzeFormResultResponse>;
 }
 
 /**
@@ -109,9 +114,9 @@ function makeFormRecognitionOperation(
             [
               `Failed to recognize forms using the model "${description.modelId}"`,
               "Error(s):",
-              ...(response.errors?.map((e) => `  Code ${e.code}, message: '${e.message}'`) ?? [
-                "  <empty>"
-              ])
+              ...(response.analyzeResult?.errors?.map(
+                (e) => `  Code ${e.code}, message: '${e.message}'`
+              ) ?? ["  <empty>"])
             ].join("\n")
           );
         }

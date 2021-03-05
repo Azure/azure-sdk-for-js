@@ -6,7 +6,7 @@ import * as sinon from "sinon";
 import { createSpan } from "../../src/tracing";
 import { setTracer, TestTracer, TestSpan } from "@azure/core-tracing";
 import { SpanKind, TraceFlags } from "@opentelemetry/api";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 
 describe("tracing.createSpan", () => {
   it("returns a created span with the right metadata", () => {

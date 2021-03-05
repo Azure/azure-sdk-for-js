@@ -8,7 +8,7 @@ import {
   PipelineResponse,
   Pipeline,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
   OperationSpec,
@@ -164,8 +164,8 @@ export class ServiceClient {
         request.abortSignal = options.abortSignal;
       }
 
-      if (options.tracingOptions?.spanOptions) {
-        request.spanOptions = options.tracingOptions.spanOptions;
+      if (options.tracingOptions) {
+        request.tracingOptions = options.tracingOptions;
       }
     }
 

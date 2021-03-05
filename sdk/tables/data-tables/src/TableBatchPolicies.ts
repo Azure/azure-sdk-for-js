@@ -8,7 +8,7 @@ import {
   PipelinePolicy,
   createHttpHeaders,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "./utils/constants";
 import { InnerBatchRequest } from "./utils/internalModels";
 
