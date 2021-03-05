@@ -7,7 +7,7 @@ import { Transform } from "stream";
 import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
-  HttpsClient,
+  HttpClient,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
@@ -59,10 +59,10 @@ class ReportTransform extends Transform {
 }
 
 /**
- * A HttpsClient implementation that uses Node's "https" module to send HTTPS requests.
+ * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
  */
-class NodeHttpsClient implements HttpsClient {
+class NodeHttpsClient implements HttpClient {
   private keepAliveAgent?: https.Agent;
   private proxyAgent?: https.Agent;
 
@@ -319,9 +319,9 @@ function getBodyLength(body: RequestBodyType): number | null {
 }
 
 /**
- * Create a new HttpsClient instance for the NodeJS environment.
+ * Create a new HttpClient instance for the NodeJS environment.
  * @internal
  */
-export function createNodeHttpsClient(): HttpsClient {
+export function createNodeHttpClient(): HttpClient {
   return new NodeHttpsClient();
 }

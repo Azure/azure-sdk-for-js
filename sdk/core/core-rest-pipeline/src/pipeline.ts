@@ -4,7 +4,7 @@
 import {
   PipelineRequest,
   PipelineResponse,
-  HttpsClient,
+  HttpClient,
   SendRequest,
   ProxySettings
 } from "./interfaces";
@@ -78,7 +78,7 @@ export interface PipelinePolicy {
 }
 
 /**
- * Represents a pipeline for making a HTTPS request to a URL.
+ * Represents a pipeline for making a HTTP request to a URL.
  * Pipelines can have multiple policies to manage manipulating each request
  * before and after it is made to the server.
  */
@@ -95,11 +95,11 @@ export interface Pipeline {
    */
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
   /**
-   * Uses the pipeline to make a HTTPS request.
-   * @param httpsClient - The HttpsClient that actually performs the request.
+   * Uses the pipeline to make a HTTP request.
+   * @param httpClient - The HttpClient that actually performs the request.
    * @param request - The request to be made.
    */
-  sendRequest(httpsClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
+  sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
   /**
    * Returns the current set of policies in the pipeline in the order in which
    * they will be applied to the request. Later in the list is closer to when
@@ -129,7 +129,7 @@ interface PolicyGraphNode {
  * Do not export this class from the package.
  * @internal
  */
-class HttpsPipeline implements Pipeline {
+class HttpPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
 
@@ -174,10 +174,7 @@ class HttpsPipeline implements Pipeline {
     return removedPolicies;
   }
 
-  public sendRequest(
-    httpsClient: HttpsClient,
-    request: PipelineRequest
-  ): Promise<PipelineResponse> {
+  public sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse> {
     const policies = this.getOrderedPolicies();
 
     const pipeline = policies.reduceRight<SendRequest>(
@@ -186,7 +183,7 @@ class HttpsPipeline implements Pipeline {
           return policy.sendRequest(req, next);
         };
       },
-      (req: PipelineRequest) => httpsClient.sendRequest(req)
+      (req: PipelineRequest) => httpClient.sendRequest(req)
     );
 
     return pipeline(request);
@@ -200,11 +197,11 @@ class HttpsPipeline implements Pipeline {
   }
 
   public clone(): Pipeline {
-    return new HttpsPipeline(this._policies);
+    return new HttpPipeline(this._policies);
   }
 
   public static create(): Pipeline {
-    return new HttpsPipeline();
+    return new HttpPipeline();
   }
 
   private orderPolicies(): PipelinePolicy[] {
@@ -389,7 +386,7 @@ class HttpsPipeline implements Pipeline {
  * Useful for testing or creating a custom one.
  */
 export function createEmptyPipeline(): Pipeline {
-  return HttpsPipeline.create();
+  return HttpPipeline.create();
 }
 
 /**
@@ -434,7 +431,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
  * @param options - Options to configure a custom pipeline.
  */
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
-  const pipeline = HttpsPipeline.create();
+  const pipeline = HttpPipeline.create();
 
   if (isNode) {
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));

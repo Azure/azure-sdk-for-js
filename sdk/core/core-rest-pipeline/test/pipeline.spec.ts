@@ -5,7 +5,7 @@ import { assert } from "chai";
 import {
   createEmptyPipeline,
   PipelinePolicy,
-  HttpsClient,
+  HttpClient,
   createPipelineRequest,
   createHttpHeaders,
   createPipelineFromOptions
@@ -351,7 +351,7 @@ describe("HttpsPipeline", function() {
     pipeline.addPolicy(testPolicy2);
     pipeline.addPolicy(testPolicy3);
 
-    const testHttpsClient: HttpsClient = {
+    const testHttpsClient: HttpClient = {
       sendRequest: async (request) => {
         assert.strictEqual(request.url, "afterTest3");
         return {
@@ -372,7 +372,7 @@ describe("HttpsPipeline", function() {
 
   describe("createPipelineFromOptions", function() {
     it("can issue successful requests", async function() {
-      const testHttpsClient: HttpsClient = {
+      const testHttpsClient: HttpClient = {
         sendRequest: async (request) => {
           assert.strictEqual(request.url, "https://example.com");
           return {
