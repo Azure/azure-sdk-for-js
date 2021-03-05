@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://endpoint/chat/threads/19%3A0xI5JdNHWHR0pJck7oPyUKkkwIunHHLrjlX3XyZY6OQ1%40thread.v2/readReceipts",
    "query": {
-    "api-version": "2021-01-27-preview4"
+    "api-version": "2021-03-01-preview5"
    },
    "requestBody": "{\"chatMessageId\":\"1614993275757\"}",
    "status": 200,
