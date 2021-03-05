@@ -13,7 +13,7 @@ import {
   getTokenHttpClient,
   createUserHttpClient,
   revokeTokensHttpClient,
-  createUserWithTokenHttpClient
+  createUserAndTokenHttpClient
 } from "./mockHttpClients";
 
 export class TestCommunicationIdentityClient {
@@ -49,13 +49,13 @@ export class TestCommunicationIdentityClient {
     return client.createUser(options);
   }
 
-  public async createUserWithTokenTest(
+  public async createUserAndTokenTest(
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
     const client = new CommunicationIdentityClient(this.connectionString, {
-      httpClient: createUserWithTokenHttpClient
+      httpClient: createUserAndTokenHttpClient
     });
-    return client.createUserWithToken(scopes, options);
+    return client.createUserAndToken(scopes, options);
   }
 }

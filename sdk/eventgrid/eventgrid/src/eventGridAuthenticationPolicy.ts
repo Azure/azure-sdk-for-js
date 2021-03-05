@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, SASCredential } from "@azure/core-auth";
-import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  PipelinePolicy,
+} from "@azure/core-rest-pipeline";
 
 import { isKeyCredentialLike } from "./util";
 
@@ -38,6 +43,6 @@ export function eventGridCredentialPolicy(
       }
 
       return next(request);
-    }
+    },
   };
 }

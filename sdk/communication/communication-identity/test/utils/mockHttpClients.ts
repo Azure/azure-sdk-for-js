@@ -40,7 +40,7 @@ export const createUserHttpClient: HttpClient = createMockHttpClient<
   identity: { id: "identity" }
 });
 
-export const createUserWithTokenHttpClient: HttpClient = createMockHttpClient<
+export const createUserAndTokenHttpClient: HttpClient = createMockHttpClient<
   CommunicationIdentityAccessTokenResult
 >(201, {
   identity: { id: "identity" },

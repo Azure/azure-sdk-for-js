@@ -12,14 +12,24 @@ import {
 export type TokenCredential = Pick<AzureCommunicationTokenCredential, "getToken" | "dispose">;
 
 /**
+ * Options for `CommunicationTokenCredential`'s `getToken` function.
+ */
+export interface CommunicationGetTokenOptions {
+  /**
+   * An implementation of `AbortSignalLike` to cancel the operation.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * The Azure Communication Services token credential.
  */
 export interface CommunicationTokenCredential {
   /**
    * Gets an `AccessToken` for the user. Throws if already disposed.
-   * @param abortSignal - An implementation of `AbortSignalLike` to cancel the operation.
+   * @param options - Additional options.
    */
-  getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
+  getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
   /**
    * Disposes the CommunicationTokenCredential and cancels any internal auto-refresh operation.
    */
@@ -56,9 +66,9 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    * Gets an `AccessToken` for the user. Throws if already disposed.
    * @param abortSignal - An implementation of `AbortSignalLike` to cancel the operation.
    */
-  public async getToken(abortSignal?: AbortSignalLike): Promise<AccessToken> {
+  public async getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
     this.throwIfDisposed();
-    const token = await this.tokenCredential.getToken(abortSignal);
+    const token = await this.tokenCredential.getToken(options);
     this.throwIfDisposed();
     return token;
   }
