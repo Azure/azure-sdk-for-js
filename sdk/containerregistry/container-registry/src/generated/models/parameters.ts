@@ -13,7 +13,9 @@ import {
 } from "@azure/core-http";
 import {
   ChangeableAttributes as ChangeableAttributesMapper,
-  Manifest as ManifestMapper
+  Manifest as ManifestMapper,
+  Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema as Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper,
+  PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema as PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -253,6 +255,62 @@ export const range: OperationParameter = {
   parameterPath: "range",
   mapper: {
     serializedName: "Range",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType3: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/x-www-form-urlencoded",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accessToken: OperationParameter = {
+  parameterPath: ["options", "accessToken"],
+  mapper: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
+};
+
+export const accept4: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const refreshToken: OperationParameter = {
+  parameterPath: ["options", "refreshToken"],
+  mapper: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
+};
+
+export const service: OperationQueryParameter = {
+  parameterPath: "service",
+  mapper: {
+    serializedName: "service",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const scope: OperationQueryParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
     required: true,
     type: {
       name: "String"

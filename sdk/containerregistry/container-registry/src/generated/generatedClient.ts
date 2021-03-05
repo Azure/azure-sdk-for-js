@@ -9,7 +9,9 @@
 import {
   ContainerRegistry,
   ContainerRegistryRepository,
-  ContainerRegistryBlob
+  ContainerRegistryBlob,
+  RefreshTokens,
+  AccessTokens
 } from "./operations";
 import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams } from "./models";
@@ -26,9 +28,13 @@ export class GeneratedClient extends GeneratedClientContext {
     this.containerRegistry = new ContainerRegistry(this);
     this.containerRegistryRepository = new ContainerRegistryRepository(this);
     this.containerRegistryBlob = new ContainerRegistryBlob(this);
+    this.refreshTokens = new RefreshTokens(this);
+    this.accessTokens = new AccessTokens(this);
   }
 
   containerRegistry: ContainerRegistry;
   containerRegistryRepository: ContainerRegistryRepository;
   containerRegistryBlob: ContainerRegistryBlob;
+  refreshTokens: RefreshTokens;
+  accessTokens: AccessTokens;
 }

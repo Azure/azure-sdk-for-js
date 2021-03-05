@@ -41,36 +41,36 @@ export interface RepositoryAttributes {
   /** Registry name */
   registry?: string;
   /** Image name */
-  imageName?: string;
+  name?: string;
   /** Image created time */
-  createdTime?: Date;
+  createdOn?: Date;
   /** Image last update time */
-  lastUpdateTime?: Date;
+  lastUpdatedOn?: Date;
   /** Number of the manifests */
-  manifestCount?: number;
+  registryArtifactCount?: number;
   /** Number of the tags */
   tagCount?: number;
   /** Changeable attributes */
-  changeableAttributes?: ChangeableAttributes;
+  writeableProperties?: ChangeableAttributes;
 }
 
 export interface ChangeableAttributes {
   /** Delete enabled */
-  deleteEnabled?: boolean;
+  canDelete?: boolean;
   /** Write enabled */
-  writeEnabled?: boolean;
+  canWrite?: boolean;
   /** List enabled */
-  listEnabled?: boolean;
+  canList?: boolean;
   /** Read enabled */
-  readEnabled?: boolean;
+  canRead?: boolean;
 }
 
 /** Deleted repository */
 export interface DeletedRepository {
   /** SHA of the deleted image */
-  manifestsDeleted?: string[];
+  deletedRegistryArtifactDigests?: string[];
   /** Tag of the deleted image */
-  tagsDeleted?: string[];
+  deletedTags?: string[];
 }
 
 /** List of tag details */
@@ -90,13 +90,13 @@ export interface TagAttributesBase {
   /** Tag digest */
   digest?: string;
   /** Tag created time */
-  createdTime?: Date;
+  createdOn?: Date;
   /** Tag last update time */
-  lastUpdateTime?: Date;
+  lastUpdatedOn?: Date;
   /** Is signed */
   signed?: boolean;
   /** Changeable attributes */
-  changeableAttributes?: ChangeableAttributes;
+  modifiableProperties?: ChangeableAttributes;
 }
 
 /** Tag attributes */
@@ -104,7 +104,7 @@ export interface TagAttributes {
   /** Registry name */
   registry?: string;
   /** Image name */
-  imageName?: string;
+  repository?: string;
   /** List of tag attribute details */
   attributes?: TagAttributesBase;
 }
@@ -124,23 +124,23 @@ export interface ManifestAttributesBase {
   /** Manifest */
   digest?: string;
   /** Image size */
-  imageSize?: number;
+  size?: number;
   /** Created time */
-  createdTime?: Date;
+  createdOn?: Date;
   /** Last update time */
-  lastUpdateTime?: Date;
+  lastUpdatedOn?: Date;
   /** CPU architecture */
-  architecture?: string;
+  cpuArchitecture?: string;
   /** Operating system */
-  os?: string;
+  operatingSystem?: string;
   /** Media type */
-  mediaType?: string;
+  manifestMediaType?: string;
   /** Config blob media type */
   configMediaType?: string;
   /** List of tags */
   tags?: string[];
   /** Changeable attributes */
-  changeableAttributes?: ChangeableAttributes;
+  manifestProperties?: ChangeableAttributes;
 }
 
 /** Manifest attributes details */
@@ -148,14 +148,38 @@ export interface ManifestAttributes {
   /** Registry name */
   registry?: string;
   /** Image name */
-  imageName?: string;
+  repository?: string;
   /** Manifest attributes */
   attributes?: ManifestAttributesBase;
+}
+
+export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
+  grantType: PostContentSchemaGrantType;
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** AAD tenant associated to the AAD credentials. */
+  tenant?: string;
+  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
+  refreshToken?: string;
+  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
+  accessToken?: string;
 }
 
 export interface RefreshToken {
   /** The refresh token to be used for generating access tokens */
   refreshToken?: string;
+}
+
+export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Grant type is expected to be refresh_token */
+  grantType: "refresh_token";
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
+  scope: string;
+  /** Must be a valid ACR refresh token */
+  refreshToken: string;
 }
 
 export interface AccessToken {
@@ -506,6 +530,24 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
   contentRange?: string;
 }
 
+/** Known values of {@link PostContentSchemaGrantType} that the service accepts. */
+export const enum KnownPostContentSchemaGrantType {
+  AccessTokenRefreshToken = "access_token_refresh_token",
+  AccessToken = "access_token",
+  RefreshToken = "refresh_token"
+}
+
+/**
+ * Defines values for PostContentSchemaGrantType. \
+ * {@link KnownPostContentSchemaGrantType} can be used interchangeably with PostContentSchemaGrantType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **access_token_refresh_token** \
+ * **access_token** \
+ * **refresh_token**
+ */
+export type PostContentSchemaGrantType = string;
+
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesOptionalParams
   extends coreHttp.OperationOptions {
@@ -815,6 +857,54 @@ export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlo
   _response: coreHttp.HttpResponse & {
     /** The parsed HTTP response headers. */
     parsedHeaders: ContainerRegistryBlobCheckChunkExistsHeaders;
+  };
+};
+
+/** Optional parameters. */
+export interface RefreshTokensGetFromExchangeOptionalParams
+  extends coreHttp.OperationOptions {
+  accessToken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+}
+
+/** Contains response data for the getFromExchange operation. */
+export type RefreshTokensGetFromExchangeResponse = RefreshToken & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: RefreshToken;
+  };
+};
+
+/** Optional parameters. */
+export interface AccessTokensGetOptionalParams
+  extends coreHttp.OperationOptions {
+  refreshToken?: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+}
+
+/** Contains response data for the get operation. */
+export type AccessTokensGetResponse = AccessToken & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AccessToken;
+  };
+};
+
+/** Contains response data for the getFromLogin operation. */
+export type AccessTokensGetFromLoginResponse = AccessToken & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AccessToken;
   };
 };
 

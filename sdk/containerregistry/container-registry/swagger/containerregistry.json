@@ -1318,21 +1318,25 @@
         },
         "imageName": {
           "type": "string",
-          "description": "Image name"
+          "description": "Image name",
+          "x-ms-client-name": "name"
         },
         "createdTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Image created time"
+          "description": "Image created time",
+          "x-ms-client-name": "createdOn"
         },
         "lastUpdateTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Image last update time"
+          "description": "Image last update time",
+          "x-ms-client-name": "lastUpdatedOn"
         },
         "manifestCount": {
           "type": "integer",
-          "description": "Number of the manifests"
+          "description": "Number of the manifests",
+          "x-ms-client-name": "registryArtifactCount"
         },
         "tagCount": {
           "type": "integer",
@@ -1340,7 +1344,8 @@
         },
         "changeableAttributes": {
           "description": "Changeable attributes",
-          "$ref": "#/definitions/ChangeableAttributes"
+          "$ref": "#/definitions/ChangeableAttributes",
+          "x-ms-client-name": "writeableProperties"
         }
       },
       "example": {
@@ -1420,7 +1425,8 @@
         },
         "imageName": {
           "type": "string",
-          "description": "Image name"
+          "description": "Image name",
+          "x-ms-client-name": "repository"
         },
         "tag": {
           "x-ms-client-name": "attributes",
@@ -1461,12 +1467,14 @@
         "createdTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Tag created time"
+          "description": "Tag created time",
+          "x-ms-client-name": "createdOn"
         },
         "lastUpdateTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Tag last update time"
+          "description": "Tag last update time",
+          "x-ms-client-name": "lastUpdatedOn"
         },
         "signed": {
           "type": "boolean",
@@ -1474,7 +1482,8 @@
         },
         "changeableAttributes": {
           "$ref": "#/definitions/ChangeableAttributes",
-          "description": "Changeable attributes"
+          "description": "Changeable attributes",
+          "x-ms-client-name": "modifiableProperties"
         }
       },
       "example": {
@@ -1573,7 +1582,8 @@
         },
         "imageName": {
           "description": "Image name",
-          "type": "string"
+          "type": "string",
+          "x-ms-client-name": "repository"
         },
         "manifest": {
           "x-ms-client-name": "attributes",
@@ -1617,29 +1627,35 @@
         "imageSize": {
           "type": "integer",
           "format": "int64",
-          "description": "Image size"
+          "description": "Image size",
+          "x-ms-client-name": "size"
         },
         "createdTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Created time"
+          "description": "Created time",
+          "x-ms-client-name": "createdOn"
         },
         "lastUpdateTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Last update time"
+          "description": "Last update time",
+          "x-ms-client-name": "lastUpdatedOn"
         },
         "architecture": {
           "type": "string",
-          "description": "CPU architecture"
+          "description": "CPU architecture",
+          "x-ms-client-name": "cpuArchitecture"
         },
         "os": {
           "type": "string",
-          "description": "Operating system"
+          "description": "Operating system",
+          "x-ms-client-name": "operatingSystem"
         },
         "mediaType": {
           "type": "string",
-          "description": "Media type"
+          "description": "Media type",
+          "x-ms-client-name": "manifestMediaType"
         },
         "configMediaType": {
           "type": "string",
@@ -1655,7 +1671,8 @@
         },
         "changeableAttributes": {
           "$ref": "#/definitions/ChangeableAttributes",
-          "description": "Changeable attributes"
+          "description": "Changeable attributes",
+          "x-ms-client-name": "manifestProperties"
         }
       },
       "example": {
@@ -1847,14 +1864,16 @@
           "description": "SHA of the deleted image",
           "items": {
             "type": "string"
-          }
+          },
+          "x-ms-client-name": "deletedRegistryArtifactDigests"
         },
         "tagsDeleted": {
           "type": "array",
           "description": "Tag of the deleted image",
           "items": {
             "type": "string"
-          }
+          },
+          "x-ms-client-name": "deletedTags"
         }
       }
     },
@@ -1927,19 +1946,23 @@
       "properties": {
         "deleteEnabled": {
           "type": "boolean",
-          "description": "Delete enabled"
+          "description": "Delete enabled",
+          "x-ms-client-name": "canDelete"
         },
         "writeEnabled": {
           "type": "boolean",
-          "description": "Write enabled"
+          "description": "Write enabled",
+          "x-ms-client-name": "canWrite"
         },
         "listEnabled": {
           "type": "boolean",
-          "description": "List enabled"
+          "description": "List enabled",
+          "x-ms-client-name": "canList"
         },
         "readEnabled": {
           "type": "boolean",
-          "description": "Read enabled"
+          "description": "Read enabled",
+          "x-ms-client-name": "canRead"
         }
       },
       "example": {
