@@ -36,7 +36,7 @@ function createRequest(): ClientRequest {
   return (request as unknown) as ClientRequest;
 }
 
-describe("NodeHttpsClient", function() {
+describe("NodeHttpClient", function() {
   let stubbedRequest: sinon.SinonStub;
   let clock: sinon.SinonFakeTimers;
 

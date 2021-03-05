@@ -6,7 +6,7 @@ import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src";
 
-describe("XhrHttpsClient", function() {
+describe("XhrHttpClient", function() {
   let xhrMock: sinon.SinonFakeXMLHttpRequestStatic;
   let requests: Array<sinon.SinonFakeXMLHttpRequest>;
   let clock: sinon.SinonFakeTimers;

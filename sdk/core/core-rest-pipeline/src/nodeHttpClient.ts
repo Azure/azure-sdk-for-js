@@ -62,7 +62,7 @@ class ReportTransform extends Transform {
  * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
  */
-class NodeHttpsClient implements HttpClient {
+class NodeHttpClient implements HttpClient {
   private keepAliveAgent?: https.Agent;
   private proxyAgent?: https.Agent;
 
@@ -323,5 +323,5 @@ function getBodyLength(body: RequestBodyType): number | null {
  * @internal
  */
 export function createNodeHttpClient(): HttpClient {
-  return new NodeHttpsClient();
+  return new NodeHttpClient();
 }
