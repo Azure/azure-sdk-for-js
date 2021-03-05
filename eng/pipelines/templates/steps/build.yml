@@ -4,15 +4,11 @@ parameters:
   ServiceDirectory: not-specified
 
 steps:
-  - ${{if eq(parameters.TestPipeline, 'true')}}:
-    - task: PowerShell@2
-      displayName: Prep template pipeline for release
-      condition: succeeded()
-      inputs:
-        pwsh: true
-        workingDirectory: $(Build.SourcesDirectory)
-        filePath: eng/common/scripts/SetTestPipelineVersion.ps1
-        arguments: '-BuildID $(Build.BuildId) -PackageName "@azure/Template" -ServiceDirectory "template"'
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
 
   - pwsh: |
       $folder = "${{parameters.ServiceDirectory}}"
