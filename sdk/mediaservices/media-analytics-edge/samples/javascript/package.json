@@ -1,15 +1,15 @@
 {
-  "name": "azure-template-samples-js",
+  "name": "azure-lva-invoke-modules-sample-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure template client library samples for JavaScript",
+  "description": "Sample code demonstrating how to invoke modules on lva graphs in Azure IoT hub",
   "engine": {
     "node": ">=8.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/template/template"
+    "directory": "sdk/mediaservices/media-analytics-edge"
   },
   "keywords": [
     "Azure",
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mediaservices",
   "sideEffects": false,
   "dependencies": {
     "@azure/template": "latest",

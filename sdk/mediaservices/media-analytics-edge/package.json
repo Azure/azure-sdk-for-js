@@ -1,7 +1,7 @@
 {
   "name": "@azure/media-analytics-edge",
-  "version": "1.0.0-prerelease.1",
-  "description": "Example for API learning",
+  "version": "1.0.0-beta.1",
+  "description": "A JavaScript sdk for Azure Live Video Analytics",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -37,7 +37,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/api-learn.d.ts",
+    "types/media-analytics-edge.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -55,7 +55,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/learn/api-learn/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mediaservices/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

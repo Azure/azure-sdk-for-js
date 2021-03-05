@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/api-learn"
+package-name: "@azure/media-analytics-edge"
 title: GeneratedClient
 description: Example Client
 generate-metadata: false
@@ -15,7 +15,7 @@ source-code-folder-path: ./src/generated
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/a57e89f8c3e1215201694cc0d6e9a51842573df0/specification/mediaservices/data-plane/LiveVideoAnalytics.Edge/preview/2.0.0/LiveVideoAnalyticsSdkDefinitions.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "https://bit.ly/3qzsfXs"
+  "@autorest/typescript": "6.0.0-dev.20210223.1"
 modelerfour:
   naming:
     override:

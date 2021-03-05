@@ -7,7 +7,7 @@
 
 import {
   MediaGraphTopology,
-  MethodRequest,
+  Request,
   MediaGraphRtspSource,
   MediaGraphUnsecuredEndpoint,
   MediaGraphNodeInput,
@@ -25,7 +25,6 @@ import {
   createMediaGraphTopologyDeleteRequest
 } from "../../../";
 import { Client } from "azure-iothub";
-import { ModuleClient } from "azure-iot-device";
 
 function buildGraphTopology() {
   const rtspSource: MediaGraphRtspSource = {
@@ -87,13 +86,12 @@ function buildGraphInstance(graphTopologyName: string) {
 
 export async function main() {
   console.log("== Sample Template ==");
-  const device_id = "deviceid";
-  const module_id = "moduleid";
-  const connectionString =
-    "connectionstring";
+  const device_id = "deviceId";
+  const module_id = "moduleId";
+  const connectionString = "HostName=lvasamplehubwuvvummbzrlk4.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=rHEELfVWEkKxbMBvdc7Fcp49QdBDA6skuOcLIIryD6c=";
   const cli = Client.fromConnectionString(connectionString);
 
-  const invokeMethod = async (methodRequest: MethodRequest) => {
+  const invokeMethod = async (methodRequest: Request) => {
     return await cli.invokeDeviceMethod(device_id, module_id, {
       methodName: methodRequest.MethodName,
       payload: methodRequest.Payload
@@ -107,7 +105,7 @@ export async function main() {
   const setRequestResult2 = await invokeMethod(setGraphTopRequest);
   console.log(setRequestResult2);
 
-  const listGraphRequest = createMediaGraphTopologyListRequest(graphTopology);
+  const listGraphRequest = createMediaGraphTopologyListRequest();
   const listGraphResponse = await invokeMethod(listGraphRequest);
   console.log(listGraphResponse);
 
@@ -119,7 +117,7 @@ export async function main() {
   const setGraphResponse = await invokeMethod(setGraphInstanceRequest);
   console.log(setGraphResponse);
 
-  const listGraphInstanceRequest = createMediaGraphInstanceListRequest(graphInstance);
+  const listGraphInstanceRequest = createMediaGraphInstanceListRequest();
   const listGraphInstanceResponse = await invokeMethod(listGraphInstanceRequest);
   console.log(listGraphInstanceResponse);
 

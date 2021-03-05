@@ -6,45 +6,43 @@
 
 import * as coreHttp from '@azure/core-http';
 
-// @public (undocumented)
-export function createMediaGraphInstanceActivateRequest(graph: string): MethodRequest;
+// @public
+export function createMediaGraphInstanceActivateRequest(name: string): Request;
 
-// @public (undocumented)
-export function createMediaGraphInstanceDeActivateRequest(graph: string): MethodRequest;
+// @public
+export function createMediaGraphInstanceDeActivateRequest(name: string): Request;
 
-// @public (undocumented)
-export function createMediaGraphInstanceDeleteRequest(graph: string): MethodRequest;
+// @public
+export function createMediaGraphInstanceDeleteRequest(name: string): Request;
 
-// @public (undocumented)
-export function createMediaGraphInstanceGetRequest(graph: string): MethodRequest;
+// @public
+export function createMediaGraphInstanceGetRequest(name: string): Request;
 
-// @public (undocumented)
-export function createMediaGraphInstanceListRequest(graph: MediaGraphInstance): MethodRequest;
+// @public
+export function createMediaGraphInstanceListRequest(): Request;
 
-// @public (undocumented)
-export function createMediaGraphInstanceSetRequest(graph: MediaGraphInstance): MethodRequest;
+// @public
+export function createMediaGraphInstanceSetRequest(instance: MediaGraphInstance): Request;
 
-// @public (undocumented)
-export function createMediaGraphTopologyDeleteRequest(graphName: string): MethodRequest;
+// @public
+export function createMediaGraphTopologyDeleteRequest(name: string): Request;
 
-// @public (undocumented)
-export function createMediaGraphTopologyGetRequest(graphName: string): MethodRequest;
+// @public
+export function createMediaGraphTopologyGetRequest(name: string): Request;
 
-// @public (undocumented)
-export function createMediaGraphTopologyListRequest(graph: MediaGraphTopology): MethodRequest;
+// @public
+export function createMediaGraphTopologyListRequest(): Request;
 
-// @public (undocumented)
-export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): MethodRequest;
+// @public
+export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): Request;
 
 // @public
 export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
     endpoint?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "MethodRequest" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export type ItemNonSetRequestBase = MethodRequest_2 & {
+export type ItemNonSetRequestBase = MethodRequest & {
     methodName: "ItemNonSetRequestBase";
     name: string;
 };
@@ -285,7 +283,7 @@ export type MediaGraphInstanceGetRequest = ItemNonSetRequestBase & {
 };
 
 // @public
-export type MediaGraphInstanceListRequest = MethodRequest_2 & {
+export type MediaGraphInstanceListRequest = MethodRequest & {
     methodName: "GraphInstanceList";
 };
 
@@ -298,13 +296,13 @@ export interface MediaGraphInstanceProperties {
 }
 
 // @public
-export type MediaGraphInstanceSetRequest = MethodRequest_2 & {
+export type MediaGraphInstanceSetRequest = MethodRequest & {
     methodName: "GraphInstanceSet";
     instance: MediaGraphInstance;
 };
 
 // @public
-export type MediaGraphInstanceSetRequestBody = MethodRequest_2 & MediaGraphInstance & {
+export type MediaGraphInstanceSetRequestBody = MethodRequest & MediaGraphInstance & {
     methodName: "MediaGraphInstanceSetRequestBody";
 };
 
@@ -467,7 +465,7 @@ export type MediaGraphTopologyGetRequest = ItemNonSetRequestBase & {
 };
 
 // @public
-export type MediaGraphTopologyListRequest = MethodRequest_2 & {
+export type MediaGraphTopologyListRequest = MethodRequest & {
     methodName: "GraphTopologyList";
 };
 
@@ -481,13 +479,13 @@ export interface MediaGraphTopologyProperties {
 }
 
 // @public
-export type MediaGraphTopologySetRequest = MethodRequest_2 & {
+export type MediaGraphTopologySetRequest = MethodRequest & {
     methodName: "GraphTopologySet";
     graph: MediaGraphTopology;
 };
 
 // @public
-export type MediaGraphTopologySetRequestBody = MethodRequest_2 & MediaGraphTopology & {
+export type MediaGraphTopologySetRequestBody = MethodRequest & MediaGraphTopology & {
     methodName: "MediaGraphTopologySetRequestBody";
 };
 
@@ -503,19 +501,29 @@ export type MediaGraphUsernamePasswordCredentials = MediaGraphCredentials & {
     password: string;
 };
 
-// @public (undocumented)
+// @public
 export interface MethodRequest {
-    // (undocumented)
-    MethodName: string;
-    // (undocumented)
-    Payload: {
-        "@apiVersion": string;
-        [x: string]: any;
-    };
+    apiVersion?: "2.0";
+    methodName: "GraphTopologySet" | "MediaGraphTopologySetRequestBody" | "GraphInstanceSet" | "MediaGraphInstanceSetRequestBody" | "ItemNonSetRequestBase" | "GraphTopologyList" | "GraphTopologyGet" | "GraphTopologyDelete" | "GraphInstanceList" | "GraphInstanceGet" | "GraphInstanceActivate" | "GraphInstanceDeactivate" | "GraphInstanceDelete";
 }
 
 // @public (undocumented)
-export type MethodRequestUnion = MethodRequest_2 | MediaGraphTopologySetRequest | MediaGraphTopologySetRequestBody | MediaGraphInstanceSetRequest | MediaGraphInstanceSetRequestBody | ItemNonSetRequestBaseUnion | MediaGraphTopologyListRequest | MediaGraphInstanceListRequest;
+export type MethodRequestUnion = MethodRequest | MediaGraphTopologySetRequest | MediaGraphTopologySetRequestBody | MediaGraphInstanceSetRequest | MediaGraphInstanceSetRequestBody | ItemNonSetRequestBaseUnion | MediaGraphTopologyListRequest | MediaGraphInstanceListRequest;
+
+// @public (undocumented)
+export type Payload = (MediaGraphTopology | MediaGraphInstance | {
+    name: string;
+} | {}) & {
+    "@apiVersion": string;
+};
+
+// @public (undocumented)
+export interface Request {
+    // (undocumented)
+    MethodName: string;
+    // (undocumented)
+    Payload: Payload;
+}
 
 
 // (No @packageDocumentation comment for this package)

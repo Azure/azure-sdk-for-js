@@ -10,7 +10,7 @@ products:
 urlFragment: template-javascript
 --- -->
 
-# Azure Template client library samples for JavaScript
+# Azure Live Video Analytics 
 
 These sample programs show how to use the JavaScript client libraries for Azure Template in some common scenarios.
 

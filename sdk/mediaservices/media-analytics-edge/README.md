@@ -13,10 +13,10 @@ Use the client library for Live Video Analytics on IoT Edge to:
 
 ### Install the package
 
-Install the Live Video Analytics client library for Typescript with pip:
+Install the Live Video Analytics client library for Typescript with npm:
 
 ```bash
-pip install azure-media-analytics-edge
+npm install @azure/media-analytics-edge
 ```
 
 ### Prerequisites
@@ -28,7 +28,7 @@ pip install azure-media-analytics-edge
 
   | SDK     | LVA Edge Module |
   | ------- | --------------- |
-  | 1.0.0b1 | 2.0             |
+  | 1.0.0-beta.1 | 2.0             |
 
 ### Creating a graph topology and making requests
 
@@ -42,9 +42,9 @@ A _graph topology_ is a blueprint or template of a graph. It defines the paramet
 
 ### CloudToDeviceMethod
 
-The `CloudToDeviceMethod` is part of the [azure-iot-hub SDk][iot-hub-sdk]. This method allows you to communicate one way notifications to a device in your IoT hub. In our case, we want to communicate various graph methods such as `MediaGraphTopologySetRequest` and `MediaGraphTopologyGetRequest`. To use `CloudToDeviceMethod` you need to pass in two parameters: `method_name` and `payload`.
+The `CloudToDeviceMethod` is part of the [azure-iot-hub SDk][iot-hub-sdk]. This method allows you to communicate one way notifications to a device in your IoT hub. In our case, we want to communicate various graph methods such as `MediaGraphTopologySetRequest` and `MediaGraphTopologyGetRequest`. To use `CloudToDeviceMethod` you need to pass in two parameters: `MethodName` and `payload`.
 
-The first parameter, `method_name`, is the name of the media graph request you are sending. Make sure to use each method's predefined `method_name` property. For example, `MediaGraphTopologySetRequest.method_name`.
+The first parameter, `MethodName`, is the name of the media graph request you are sending. Make sure to use each method's predefined `MethodName` property. For example, `MediaGraphTopologySetRequest.MethodName`.
 
 The second parameter, `payload`, sends the entire serialization of the media graph request. For example, `MediaGraphTopologySetRequest.serialize()`
 
@@ -89,7 +89,7 @@ function buildGraphTopology() {
       description: "description for jsTestGraph",
       parameters: [
         { name: "rtspUserName", type: "String", default: "dummyUsername" },
-        { name: "rtspPassword", type: "SecretString", default: "dumyPassword" },
+        { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
         { name: "rtspUrl", type: "String" }
       ],
       sources: [rtspSource],
@@ -126,6 +126,7 @@ function buildGraphInstance(graphTopologyName: string) {
 To invoke a graph method on your device you need to first define the request using the lva sdk. Then send that method request using the iot sdk's `CloudToDeviceMethod`
 
 ```
+const cli = Client.fromConnectionString(connectionString); //This is an Azure IoT hub client
 const setGraphTopRequest =  createMediaGraphTopologySetRequest(graphTopology);
 const setRequestResult2 = await cli.invokeDeviceMethod(device_id, module_id, {
       methodName: setGraphTopRequest.MethodName,
@@ -138,7 +139,7 @@ To try different media graph topologies with the SDK, please see the official [S
 
 ## Troubleshooting
 
-- When sending a method request using the IoT Hub's `CloudToDeviceMethod` remember to not type in the method request name directly. Instead use `[MethodRequestName.method_name]`
+- When sending a method request using the IoT Hub's `CloudToDeviceMethod` remember to not type in the method request name directly. Instead use `[MethodRequestName.MethodName]`
 - Make sure to serialize the entire method request before passing it to `CloudToDeviceMethod`
 
 ## Next steps
@@ -175,12 +176,12 @@ additional questions or comments.
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
 [package]: TODO://link-to-published-package
-[source]: https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/media
-[samples]: https://github.com/Azure-Samples/live-video-analytics-iot-edge-python
+[source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mediaservices/
+[samples]: TODO://link-to-published-samples
 [doc_direct_methods]: https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/direct-methods
 [doc_media_graph]: https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/media-graph-concept#media-graph-topologies-and-instances
 [doc_product]: https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/
-[iot-device-sdk]: https://pypi.org/project/azure-iot-device/
-[iot-hub-sdk]: https://pypi.org/project/azure-iot-hub/
+[iot-device-sdk]: https://www.npmjs.com/package/azure-iot-device
+[iot-hub-sdk]: https://www.npmjs.com/package/azure-iothub
 [iot_device_connection_string]: https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/get-started-detect-motion-emit-events-quickstart
-[github-page-issues]: https://github.com/Azure/azure-sdk-for-python/issues
+[github-page-issues]: https://github.com/Azure/azure-sdk-for-js/issues

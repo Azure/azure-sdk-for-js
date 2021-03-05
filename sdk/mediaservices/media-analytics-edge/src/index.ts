@@ -1,4 +1,4 @@
-export * from "./generated/models";
+export * from "./generated/models"; //add omit
 import { MediaGraphTopology, MediaGraphInstance } from "./generated/models";
 import {
   MethodRequest as MethodRequestInternal,
@@ -11,25 +11,31 @@ import {
   MediaGraphInstanceGetRequest,
   MediaGraphInstanceDeleteRequest,
   MediaGraphInstanceActivateRequest,
-  MediaGraphInstanceDeActivateRequest
+  MediaGraphInstanceDeActivateRequest,
 } from "./generated/models/mappers";
-export interface MethodRequest {
+
+export type Payload = (MediaGraphTopology | MediaGraphInstance | {name: string} | {} ) & {"@apiVersion": string;};
+export interface Request {
   MethodName: string;
-  Payload: { "@apiVersion": string; [x: string]: any };
+  Payload: Payload
 }
 
-function addApiVersion(payload: MediaGraphInstance | MediaGraphTopology | string) {
+
+const apiVersion =  MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue;
+
+function addApiVersion(payload: MediaGraphTopology | MediaGraphInstance | string | {} = {}): Payload {
   return {
-    ...(typeof payload === "string" ? { name: payload } : payload),
-    "@apiVersion": MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue
+    ...(typeof payload === 'string' ? {name: payload} : payload),
+    "@apiVersion": apiVersion
   };
 }
 
 /**
+ * @public Create a set request for a media graph topology used to invoke a method using an Azure IoT Client
  * @param graph - The MediaGraphTopology
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): MethodRequest {
+export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): Request {
   return {
     MethodName: MediaGraphTopologySetRequest.serializedName!,
     Payload: addApiVersion(graph)
@@ -37,100 +43,107 @@ export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): M
 }
 
 /**
- * @param graphName - The name of graph topology
+ * @public Create a get request for a media graph topology used to invoke a method using an Azure IoT Client
+ * @param name - The name of graph topology
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphTopologyGetRequest(graphName: string): MethodRequest {
+export function createMediaGraphTopologyGetRequest(name: string): Request {
   return {
     MethodName: MediaGraphTopologyGetRequest.serializedName!,
-    Payload: addApiVersion(graphName)
+    Payload: addApiVersion({name})
   };
 }
 
 /**
- * @param graphName - The name of graph topology
+ * Create a delete request for a media graph topology used to invoke a method using an Azure IoT Client
+ * @param name - The name of graph topology
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphTopologyDeleteRequest(graphName: string): MethodRequest {
+export function createMediaGraphTopologyDeleteRequest(name: string): Request {
   return {
     MethodName: MediaGraphTopologyDeleteRequest.serializedName!,
-    Payload: addApiVersion(graphName)
+    Payload: addApiVersion({name})
   };
 }
 
 /**
- * @param graph - The MediaGraphTopology
+ * @public Create a list request for media graph topologies used to invoke a method using an Azure IoT Client
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphTopologyListRequest(graph: MediaGraphTopology): MethodRequest {
+export function createMediaGraphTopologyListRequest(): Request {
   return {
     MethodName: MediaGraphTopologyListRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    Payload: addApiVersion()
   };
 }
 
 /**
- * @param graph - The MediaGraphInstance
+ * @public Create a set request for a media graph instance used to invoke a method using an Azure IoT Client
+ * @param instance - The MediaGraphInstance
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphInstanceSetRequest(graph: MediaGraphInstance): MethodRequest {
+export function createMediaGraphInstanceSetRequest(instance: MediaGraphInstance): Request {
   return {
     MethodName: MediaGraphInstanceSetRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    Payload: addApiVersion(instance)
   };
 }
 
 /**
- * @param graphName - The name of graph instance
+ * @public Create a get request for a media graph instance used to invoke a method using an Azure IoT Client
+ * @param name - The name of graph instance
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphInstanceGetRequest(graph: string): MethodRequest {
+export function createMediaGraphInstanceGetRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceGetRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    Payload: addApiVersion({name})
   };
 }
 
 /**
- * @param graphName - The name of graph instance
+ * @public Create a delete request for a media graph instance used to invoke a method using an Azure IoT Client
+ * @param name - The name of graph instance
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphInstanceDeleteRequest(graph: string): MethodRequest {
+export function createMediaGraphInstanceDeleteRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceDeleteRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    Payload: addApiVersion({name})
   };
 }
 
 /**
- * @param graph - The MediaGraphInstance
+ * @public Create a list request for media graph instances used to invoke a method using an Azure IoT Client
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphInstanceListRequest(graph: MediaGraphInstance): MethodRequest {
+export function createMediaGraphInstanceListRequest(): Request {
   return {
     MethodName: MediaGraphInstanceListRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    Payload: addApiVersion()
   };
 }
 
 /**
- * @param graphName - The name of graph instance
+ * @public Create an activate request for a media graph instance used to invoke a method using an Azure IoT Client
+ * @param name - The name of graph instance
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphInstanceActivateRequest(graph: string): MethodRequest {
+export function createMediaGraphInstanceActivateRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceActivateRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    Payload: addApiVersion({name})
   };
 }
 
 /**
- * @param graphName - The name of graph instance
+ * @public Create a deactivate request for a media graph instance used to invoke a method using an Azure IoT Client
+ * @param name - The name of graph instance
  * @returns A JSON object containing the method name and payload
  */
-export function createMediaGraphInstanceDeActivateRequest(graph: string): MethodRequest {
+export function createMediaGraphInstanceDeActivateRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceDeActivateRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    Payload: addApiVersion({name})
   };
 }
