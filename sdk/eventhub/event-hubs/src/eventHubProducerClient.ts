@@ -87,7 +87,7 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, options?: EventHubProducerClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(connectionString: string, options?: EventHubProducerClientOptions);
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -105,7 +105,7 @@ export class EventHubProducerClient {
     connectionString: string,
     eventHubName: string,
     options?: EventHubProducerClientOptions
-  ); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  );
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -124,13 +124,13 @@ export class EventHubProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
-    options?: EventHubProducerClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options?: EventHubProducerClientOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubProducerClientOptions,
     credentialOrOptions3?: TokenCredential | EventHubProducerClientOptions,
-    options4?: EventHubProducerClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options4?: EventHubProducerClientOptions
   ) {
     this._context = createConnectionContext(
       fullyQualifiedNamespaceOrConnectionString1,
@@ -185,17 +185,17 @@ export class EventHubProducerClient {
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
     const { enableIdempotentPartitions } = this._clientOptions;
-    const partitionId = isDefined(options.partitionId) ? String(options.partitionId) : undefined;
+    const partitionId = isDefined(options.partitionId) ? String(options.partitionId) : "";
 
     if (enableIdempotentPartitions && isDefined(options.partitionKey)) {
       throw new Error(
-        `"partitionKey" cannot be set while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+        `"partitionKey" cannot be set when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
       );
     }
 
     if (enableIdempotentPartitions && !partitionId) {
       throw new Error(
-        `"partitionId" must be specified while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+        `"partitionId" must be specified when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
       );
     }
 
@@ -245,20 +245,6 @@ export class EventHubProducerClient {
    * Get the information about the state of publishing for a partition as observed by the `EventHubProducerClient`.
    * This data can always be read, but will only be populated with information relevant to the active features
    * for the producer client.
-
-   *
-   * Example usage:
-   * ```ts
-   * const client = new EventHubProducerClient(connectionString);
-   * const props = await client.getPartitionPublishingProperties("0");
-   * console.log(`
-   *   Partition "${props.partitionId}"
-   *   Idempotent publishing enabled is ${props.isIdempotentPublishingEnabled}
-   *   Producer Group Id is ${props.producerGroupId ?? "not set"}
-   *   Owner Level is ${props.ownerLevel ?? "not set"}
-   *   Last published sequence number is ${props.lastPublishedSequenceNumber ?? "not set"}
-   * `);
-   * ```
    *
    * @param partitionId - Id of the partition from which to retrieve publishing properties.
    * @param options - The set of options to apply to the operation call.
