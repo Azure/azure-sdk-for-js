@@ -26,8 +26,8 @@ npm install @azure/media-analytics-edge
 - To interact with Azure IoT Hub you will need to run `npm install @azure/arm-iothub`
 - You will need to use the version of the SDK that corresponds to the version of the LVA Edge module you are using.
 
-  | SDK     | LVA Edge Module |
-  | ------- | --------------- |
+  | SDK          | LVA Edge Module |
+  | ------------ | --------------- |
   | 1.0.0-beta.1 | 2.0             |
 
 ### Creating a graph topology and making requests

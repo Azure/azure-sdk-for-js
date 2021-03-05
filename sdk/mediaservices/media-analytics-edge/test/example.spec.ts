@@ -10,7 +10,6 @@ import {
   createMediaGraphTopologySetRequest
 } from "../";
 
-
 describe("test", () => {
   it("creates a graph topology and calls createMediaGraphTopologySetRequest to ensure apiVersion is added", () => {
     const rtspSource: MediaGraphRtspSource = {
@@ -26,11 +25,11 @@ describe("test", () => {
       } as MediaGraphUnsecuredEndpoint,
       "@type": "#Microsoft.Media.MediaGraphRtspSource"
     };
-  
+
     const graphNodeInput: MediaGraphNodeInput = {
       nodeName: "rtspSource"
     };
-  
+
     const assetSink: MediaGraphAssetSink = {
       name: "assetSink",
       inputs: [graphNodeInput],
@@ -39,7 +38,7 @@ describe("test", () => {
       localMediaCacheMaximumSizeMiB: "2048",
       "@type": "#Microsoft.Media.MediaGraphAssetSink"
     };
-  
+
     const graphTopology: MediaGraphTopology = {
       name: "jsTestGraph",
       properties: {
@@ -55,6 +54,6 @@ describe("test", () => {
     };
 
     const setGraphTopRequest = createMediaGraphTopologySetRequest(graphTopology);
-    assert.strictEqual(setGraphTopRequest.Payload["@apiVersion"], "2.0")
+    assert.strictEqual(setGraphTopRequest.Payload["@apiVersion"], "2.0");
   });
 });

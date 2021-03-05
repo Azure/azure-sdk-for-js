@@ -11,21 +11,24 @@ import {
   MediaGraphInstanceGetRequest,
   MediaGraphInstanceDeleteRequest,
   MediaGraphInstanceActivateRequest,
-  MediaGraphInstanceDeActivateRequest,
+  MediaGraphInstanceDeActivateRequest
 } from "./generated/models/mappers";
 
-export type Payload = (MediaGraphTopology | MediaGraphInstance | {name: string} | {} ) & {"@apiVersion": string;};
+export type Payload = (MediaGraphTopology | MediaGraphInstance | { name: string } | {}) & {
+  "@apiVersion": string;
+};
 export interface Request {
   MethodName: string;
-  Payload: Payload
+  Payload: Payload;
 }
 
+const apiVersion = MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue;
 
-const apiVersion =  MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue;
-
-function addApiVersion(payload: MediaGraphTopology | MediaGraphInstance | string | {} = {}): Payload {
+function addApiVersion(
+  payload: MediaGraphTopology | MediaGraphInstance | string | {} = {}
+): Payload {
   return {
-    ...(typeof payload === 'string' ? {name: payload} : payload),
+    ...(typeof payload === "string" ? { name: payload } : payload),
     "@apiVersion": apiVersion
   };
 }
@@ -50,7 +53,7 @@ export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): R
 export function createMediaGraphTopologyGetRequest(name: string): Request {
   return {
     MethodName: MediaGraphTopologyGetRequest.serializedName!,
-    Payload: addApiVersion({name})
+    Payload: addApiVersion({ name })
   };
 }
 
@@ -62,7 +65,7 @@ export function createMediaGraphTopologyGetRequest(name: string): Request {
 export function createMediaGraphTopologyDeleteRequest(name: string): Request {
   return {
     MethodName: MediaGraphTopologyDeleteRequest.serializedName!,
-    Payload: addApiVersion({name})
+    Payload: addApiVersion({ name })
   };
 }
 
@@ -97,7 +100,7 @@ export function createMediaGraphInstanceSetRequest(instance: MediaGraphInstance)
 export function createMediaGraphInstanceGetRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceGetRequest.serializedName!,
-    Payload: addApiVersion({name})
+    Payload: addApiVersion({ name })
   };
 }
 
@@ -109,7 +112,7 @@ export function createMediaGraphInstanceGetRequest(name: string): Request {
 export function createMediaGraphInstanceDeleteRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceDeleteRequest.serializedName!,
-    Payload: addApiVersion({name})
+    Payload: addApiVersion({ name })
   };
 }
 
@@ -132,7 +135,7 @@ export function createMediaGraphInstanceListRequest(): Request {
 export function createMediaGraphInstanceActivateRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceActivateRequest.serializedName!,
-    Payload: addApiVersion({name})
+    Payload: addApiVersion({ name })
   };
 }
 
@@ -144,6 +147,6 @@ export function createMediaGraphInstanceActivateRequest(name: string): Request {
 export function createMediaGraphInstanceDeActivateRequest(name: string): Request {
   return {
     MethodName: MediaGraphInstanceDeActivateRequest.serializedName!,
-    Payload: addApiVersion({name})
+    Payload: addApiVersion({ name })
   };
 }

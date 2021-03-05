@@ -1,18 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * Demonstrates something
- */
-
-import {
-  MediaGraphTopology,
-  Request,
-  MediaGraphRtspSource,
-  MediaGraphUnsecuredEndpoint,
-  MediaGraphNodeInput,
-  MediaGraphAssetSink,
-  MediaGraphInstance,
+const {
   createMediaGraphTopologySetRequest,
   createMediaGraphInstanceListRequest,
   createMediaGraphTopologyListRequest,
@@ -23,11 +12,11 @@ import {
   createMediaGraphInstanceDeActivateRequest,
   createMediaGraphInstanceDeleteRequest,
   createMediaGraphTopologyDeleteRequest
-} from "../../../";
-import { Client } from "azure-iothub";
+} = require("../../");
+const { Client } = require("azure-iothub");
 
 function buildGraphTopology() {
-  const rtspSource: MediaGraphRtspSource = {
+  const rtspSource = {
     name: "rtspSource",
     endpoint: {
       url: "${rtspUrl}",
@@ -37,15 +26,13 @@ function buildGraphTopology() {
         password: "${rtspPassword}",
         "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials"
       }
-    } as MediaGraphUnsecuredEndpoint,
+    },
     "@type": "#Microsoft.Media.MediaGraphRtspSource"
   };
-
-  const graphNodeInput: MediaGraphNodeInput = {
+  const graphNodeInput = {
     nodeName: "rtspSource"
   };
-
-  const assetSink: MediaGraphAssetSink = {
+  const assetSink = {
     name: "assetSink",
     inputs: [graphNodeInput],
     assetNamePattern: "sampleAsset-${System.GraphTopologyName}-${System.GraphInstanceName}",
@@ -53,8 +40,7 @@ function buildGraphTopology() {
     localMediaCacheMaximumSizeMiB: "2048",
     "@type": "#Microsoft.Media.MediaGraphAssetSink"
   };
-
-  const graphTopology: MediaGraphTopology = {
+  const graphTopology = {
     name: "jsTestGraph",
     properties: {
       description: "description for jsTestGraph",
@@ -67,12 +53,10 @@ function buildGraphTopology() {
       sinks: [assetSink]
     }
   };
-
   return graphTopology;
 }
-
-function buildGraphInstance(graphTopologyName: string) {
-  const graphInstance: MediaGraphInstance = {
+function buildGraphInstance(graphTopologyName) {
+  const graphInstance = {
     name: graphTopologyName,
     properties: {
       description: "description for jsTestGraphInstance",
@@ -84,14 +68,14 @@ function buildGraphInstance(graphTopologyName: string) {
   return graphInstance;
 }
 
-export async function main() {
+async function main() {
   console.log("== Sample Template ==");
-  const device_id = "deviceId";
-  const module_id = "moduleId";
+  const device_id = "lva-sample-device";
+  const module_id = "lvaEdge";
   const connectionString = "HostName=lvasamplehubwuvvummbzrlk4.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=rHEELfVWEkKxbMBvdc7Fcp49QdBDA6skuOcLIIryD6c=";
   const cli = Client.fromConnectionString(connectionString);
 
-  const invokeMethod = async (methodRequest: Request) => {
+  const invokeMethod = async (methodRequest) => {
     return await cli.invokeDeviceMethod(device_id, module_id, {
       methodName: methodRequest.MethodName,
       payload: methodRequest.Payload
