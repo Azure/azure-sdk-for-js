@@ -2,20 +2,20 @@
 
 ## [Index](#index)
 
-- [Setting up the project](#Setting-up-the-project)
-  - [Track 2](#Setting-up-the-project)
-  - [Track 1](#For-perf-testing-track-1-version-of-the-same-package)
+- [Setting up the project](#setting-up-the-project)
+  - [Track 2](#setting-up-the-project)
+  - [Track 1](#for-perf-testing-track-1-version-of-the-same-package)
 - [Writing perf tests](#writing-perf-tests)
-  - [Entry Point](#Entry-point)
-  - [Base Class](#Base-Class)
-  - [Test File](#Test-file)
+  - [Entry Point](#entry-point)
+  - [Base Class](#base-class)
+  - [Test File](#test-file)
   - [Custom Options](#custom-options)
 - [Executing the perf tests](#executing-the-perf-tests)
-  - [Command to run](#Command-to-run)
-  - [Adding Readme/Instructions](#Adding-Readme/Instructions)
-  - [Testing an older track 2 version](#Testing-an-older-track-2-version)
+  - [Command to run](#command-to-run)
+  - [Adding Readme/Instructions](#adding-readme/instructions)
+  - [Testing an older track 2 version](#testing-an-older-track-2-version)
 
-## [Setting up the project](#Setting-up-the-project)
+## [Setting up the project](#setting-up-the-project)
 
 To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the steps below.
 
@@ -83,7 +83,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
         }
     ```
 
-### [For perf-testing track 1 version of the same package](#For-perf-testing-track-1-version-of-the-same-package)
+### [For perf-testing track 1 version of the same package](#for-perf-testing-track-1-version-of-the-same-package)
 
 (_Skip this section if your service does not have or does not care about a track-1 version._)
 
@@ -125,7 +125,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 ## [Writing perf tests](#writing-perf-tests)
 
-### [Entry Point](#Entry-point)
+### [Entry Point](#entry-point)
 
 Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
@@ -145,7 +145,7 @@ const perfStressProgram = new PerfStressProgram(selectPerfStressTest([`ServiceNa
 perfStressProgram.run();
 ```
 
-### [Base Class](#Base-Class)
+### [Base Class](#base-class)
 
 Base class would have all the common code that would be repeated for each of the tests - common code such as creating the client, creating a base resource, etc.
 
@@ -175,7 +175,7 @@ export abstract class `ServiceName`Test<TOptions = {}> extends PerfStressTest<TO
 }
 ```
 
-### [Test File](#Test-file)
+### [Test File](#test-file)
 
 Following code shows how the individual perf test files would look like.
 
@@ -240,17 +240,17 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
 
 ## [Executing the perf tests](#executing-the-perf-tests)
 
-### [Command to run](#Command-to-run)
+### [Command to run](#command-to-run)
 
 To run a particular test, use `npm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
 
 - Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
-### [Adding Readme/Instructions](#Adding-Readme/Instructions)
+### [Adding Readme/Instructions](#adding-readme/instructions)
 
 Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob/README.md) and [storage-blob-perf-tests-readme-track-1](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/README.md) and have similar set of instructions for your perf project.
 
-### [Testing an older track 2 version](#Testing-an-older-track-2-version)
+### [Testing an older track 2 version](#testing-an-older-track-2-version)
 
 Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to test version 12.2.0
 
