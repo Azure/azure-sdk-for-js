@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClientPipeline, CommonClientOptions } from "@azure/core-client";
+import { CommonClientOptions } from "@azure/core-client";
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy
@@ -344,10 +344,6 @@ export class TextAnalyticsClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
-      : textAnalyticsAzureKeyCredentialPolicy(credential);
-
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
@@ -358,13 +354,13 @@ export class TextAnalyticsClient {
       }
     };
 
-    const pipeline = createClientPipeline(internalPipelineOptions);
-    pipeline.addPolicy(authPolicy);
+    this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
 
-    this.client = new GeneratedClient(this.endpointUrl, {
-      pipeline,
-      httpsClient: options.httpsClient
-    });
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : textAnalyticsAzureKeyCredentialPolicy(credential);
+
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**

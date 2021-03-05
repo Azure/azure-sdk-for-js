@@ -5,7 +5,7 @@
 
 import { AbortError } from "@azure/abort-controller";
 import {
-  HttpsClient,
+  HttpClient,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
@@ -19,10 +19,10 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 }
 
 /**
- * A HttpsClient implementation that uses XMLHttpRequest to send HTTPS requests.
+ * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
  * @internal
  */
-class XhrHttpsClient implements HttpsClient {
+class XhrHttpClient implements HttpClient {
   /**
    * Makes a request over an underlying transport layer and returns the response.
    * @param request - The request to be made.
@@ -191,9 +191,9 @@ function rejectOnTerminalEvent(
 }
 
 /**
- * Create a new HttpsClient instance for the browser environment.
+ * Create a new HttpClient instance for the browser environment.
  * @internal
  */
-export function createXhrHttpsClient(): HttpsClient {
-  return new XhrHttpsClient();
+export function createXhrHttpClient(): HttpClient {
+  return new XhrHttpClient();
 }
