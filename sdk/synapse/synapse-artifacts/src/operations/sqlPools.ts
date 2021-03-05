@@ -58,11 +58,11 @@ export class SqlPools {
     sqlPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<SqlPoolsGetResponse> {
-     const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
-     const operationArguments: coreHttp.OperationArguments = {
-       sqlPoolName,
-       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
-     };
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
+    const operationArguments: coreHttp.OperationArguments = {
+      sqlPoolName,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+    };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as SqlPoolsGetResponse;

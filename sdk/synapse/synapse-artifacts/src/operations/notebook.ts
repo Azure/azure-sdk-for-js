@@ -401,14 +401,14 @@ export class Notebook {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse> {
-     const { span, updatedOptions } = createSpan(
-       "ArtifactsClient-_getNotebookSummaryByWorkSpaceNext",
-       options
-     );
-     const operationArguments: coreHttp.OperationArguments = {
-       nextLink,
-       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
-     };
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getNotebookSummaryByWorkSpaceNext",
+      options
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+    };
     try {
       const result = await this.client.sendOperationRequest(
         operationArguments,

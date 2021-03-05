@@ -14603,8 +14603,7 @@ export const TextFormat: coreHttp.CompositeMapper = {
     className: "TextFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator:
-      DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties,
       columnDelimiter: {
@@ -14672,8 +14671,7 @@ export const JsonFormat: coreHttp.CompositeMapper = {
     className: "JsonFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator:
-      DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties,
       filePattern: {
@@ -14717,8 +14715,7 @@ export const AvroFormat: coreHttp.CompositeMapper = {
     className: "AvroFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator:
-      DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
@@ -14732,8 +14729,7 @@ export const OrcFormat: coreHttp.CompositeMapper = {
     className: "OrcFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator:
-      DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
@@ -14747,8 +14743,7 @@ export const ParquetFormat: coreHttp.CompositeMapper = {
     className: "ParquetFormat",
     uberParent: "DatasetStorageFormat",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator:
-      DatasetStorageFormat.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
     }
@@ -14835,8 +14830,7 @@ export const WebAnonymousAuthentication: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "WebAnonymousAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator:
-      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties
     }
@@ -14849,8 +14843,7 @@ export const WebBasicAuthentication: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "WebBasicAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator:
-      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties,
       username: {
@@ -14877,8 +14870,7 @@ export const WebClientCertificateAuthentication: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "WebClientCertificateAuthentication",
     uberParent: "WebLinkedServiceTypeProperties",
-    polymorphicDiscriminator:
-      WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...WebLinkedServiceTypeProperties.type.modelProperties,
       pfx: {
@@ -17492,9 +17484,7 @@ export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMap
       ...DependencyReference.type.modelProperties,
       offset: {
         constraints: {
-          Pattern: new RegExp(
-            "((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
-          ),
+          Pattern: new RegExp("((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
           MaxLength: 15,
           MinLength: 8
         },
@@ -17506,9 +17496,7 @@ export const SelfDependencyTumblingWindowTriggerReference: coreHttp.CompositeMap
       },
       size: {
         constraints: {
-          Pattern: new RegExp(
-            "((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
-          ),
+          Pattern: new RegExp("((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
           MaxLength: 15,
           MinLength: 8
         },
@@ -17527,8 +17515,7 @@ export const LinkedIntegrationRuntimeKeyAuthorization: coreHttp.CompositeMapper 
     name: "Composite",
     className: "LinkedIntegrationRuntimeKeyAuthorization",
     uberParent: "LinkedIntegrationRuntimeType",
-    polymorphicDiscriminator:
-      LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedIntegrationRuntimeType.type.modelProperties,
       key: {
@@ -17548,8 +17535,7 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreHttp.CompositeMapper
     name: "Composite",
     className: "LinkedIntegrationRuntimeRbacAuthorization",
     uberParent: "LinkedIntegrationRuntimeType",
-    polymorphicDiscriminator:
-      LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedIntegrationRuntimeType.type.modelProperties,
       resourceId: {
@@ -21200,9 +21186,7 @@ export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper 
       ...TriggerDependencyReference.type.modelProperties,
       offset: {
         constraints: {
-          Pattern: new RegExp(
-            "((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
-          ),
+          Pattern: new RegExp("((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
           MaxLength: 15,
           MinLength: 8
         },
@@ -21213,9 +21197,7 @@ export const TumblingWindowTriggerDependencyReference: coreHttp.CompositeMapper 
       },
       size: {
         constraints: {
-          Pattern: new RegExp(
-            "((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"
-          ),
+          Pattern: new RegExp("((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))"),
           MaxLength: 15,
           MinLength: 8
         },

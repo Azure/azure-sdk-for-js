@@ -458,14 +458,14 @@ export class Trigger {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<TriggerGetTriggersByWorkspaceNextResponse> {
-     const { span, updatedOptions } = createSpan(
-       "ArtifactsClient-_getTriggersByWorkspaceNext",
-       options
-     );
-     const operationArguments: coreHttp.OperationArguments = {
-       nextLink,
-       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
-     };
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getTriggersByWorkspaceNext",
+      options
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+    };
     try {
       const result = await this.client.sendOperationRequest(
         operationArguments,
