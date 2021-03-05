@@ -37,7 +37,7 @@ export type AddParticipantsOptions = OperationOptions;
 
 // @public
 export class ChatClient {
-    constructor(url: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
+    constructor(endpoint: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
     createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResult>;
     deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<void>;
     getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<ChatThread>;
@@ -121,7 +121,7 @@ export interface ChatThread {
 
 // @public
 export class ChatThreadClient {
-    constructor(url: string, threadId: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
+    constructor(endpoint: string, threadId: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
     addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<void>;
     getMessage(messageId: string, options?: GetMessageOptions): Promise<ChatMessage>;
@@ -135,7 +135,7 @@ export class ChatThreadClient {
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
-    }
+}
 
 // @public
 export interface ChatThreadClientOptions extends ChatClientOptions {

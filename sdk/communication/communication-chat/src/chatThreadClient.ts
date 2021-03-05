@@ -70,7 +70,7 @@ export class ChatThreadClient {
   private timeOfLastTypingRequest: Date | undefined = undefined;
 
   constructor(
-    private readonly url: string,
+    private readonly endpoint: string,
     threadId: string,
     credential: CommunicationTokenCredential,
     options: ChatThreadClientOptions = {}
@@ -103,7 +103,7 @@ export class ChatThreadClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new ChatApiClient(this.url, pipeline);
+    this.client = new ChatApiClient(this.endpoint, pipeline);
   }
 
   /**

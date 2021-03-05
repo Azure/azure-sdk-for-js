@@ -69,12 +69,12 @@ export class ChatClient {
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
-   * @param url - The url of the Communication Services resouce.
+   * @param endpoint - The url of the Communication Services resouce.
    * @param credential - The token credential. Use AzureCommunicationTokenCredential from \@azure/communication-common to create a credential.
    * @param options - Additional client options.
    */
   constructor(
-    private readonly url: string,
+    private readonly endpoint: string,
     credential: CommunicationTokenCredential,
     options: ChatClientOptions = {}
   ) {
@@ -106,7 +106,7 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new ChatApiClient(this.url, pipeline);
+    this.client = new ChatApiClient(this.endpoint, pipeline);
 
     this.signalingClient = getSignalingClient(credential, logger);
   }
@@ -116,7 +116,7 @@ export class ChatClient {
    * @param threadId - Thread ID for the ChatThreadClient
    */
   public getChatThreadClient(threadId: string): ChatThreadClient {
-    return new ChatThreadClient(this.url, threadId, this.tokenCredential, this.clientOptions);
+    return new ChatThreadClient(this.endpoint, threadId, this.tokenCredential, this.clientOptions);
   }
 
   /**
