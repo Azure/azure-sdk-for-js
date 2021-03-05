@@ -105,7 +105,7 @@ export interface AnalyzeBatchActionsOperationState
 /**
  * @internal
  */
-function getMetInfoFromResponse(response: AnalyzeJobState): AnalyzeBatchActionsOperationMetadata {
+function getMetaInfoFromResponse(response: AnalyzeJobState): AnalyzeBatchActionsOperationMetadata {
   return {
     createdOn: response.createdDateTime,
     lastModifiedOn: response.lastUpdateDateTime,
@@ -234,11 +234,11 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
           return {
             done: true,
             statistics: response.statistics,
-            operationMetdata: getMetInfoFromResponse(response)
+            operationMetdata: getMetaInfoFromResponse(response)
           };
         }
       }
-      return { done: false, operationMetdata: getMetInfoFromResponse(response) };
+      return { done: false, operationMetdata: getMetaInfoFromResponse(response) };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
