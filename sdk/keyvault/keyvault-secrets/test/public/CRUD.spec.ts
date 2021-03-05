@@ -276,10 +276,18 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.ok(deletedSecret!.properties.deletedOn instanceof Date);
     assert.ok(deletedSecret!.properties.scheduledPurgeDate instanceof Date);
 
+    assert.equal(typeof deletedSecret!.recoveryId, "string");
+    assert.ok(deletedSecret!.deletedOn instanceof Date);
+    assert.ok(deletedSecret!.scheduledPurgeDate instanceof Date);
+
     deletedSecret = await deletePoller.pollUntilDone();
     assert.equal(typeof deletedSecret.properties.recoveryId, "string");
     assert.ok(deletedSecret.properties.deletedOn instanceof Date);
     assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
+
+    assert.equal(typeof deletedSecret!.recoveryId, "string");
+    assert.ok(deletedSecret!.deletedOn instanceof Date);
+    assert.ok(deletedSecret!.scheduledPurgeDate instanceof Date);
 
     try {
       await client.getSecret(secretName);
