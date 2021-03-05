@@ -21,7 +21,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
   public async globalSetup() {
     await super.globalSetup();
     await executeParallel(
-      async (count: number, parallelIndex: number) => {
+      async (_count: number, _parallelIndex: number) => {
         await this.containerClient.uploadBlockBlob(generateUuid(), Buffer.alloc(0), 0);
       },
       this.parsedOptions.count.value!,
