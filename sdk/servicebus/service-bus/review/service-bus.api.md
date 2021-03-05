@@ -18,6 +18,7 @@ import { PipelineOptions } from '@azure/core-http';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
+import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
@@ -567,6 +568,8 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TryAddOptions {
+    // @deprecated (undocumented)
+    parentSpan?: Span | SpanContext;
     tracingOptions?: OperationTracingOptions;
 }
 
