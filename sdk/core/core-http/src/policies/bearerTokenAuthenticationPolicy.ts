@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -54,6 +54,8 @@ export function bearerTokenAuthenticationPolicy(
  *
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
+  private token: AccessToken | undefined;
+
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
@@ -88,13 +90,33 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
-    // We reset the cached token some before it expires,
-    // after that point, we retry the refresh of the token only if the token refresher is ready.
-    let token = this.tokenCache.getCachedToken();
-    if (!token && this.tokenRefresher.isReady()) {
-      token = await this.tokenRefresher.refresh(options);
+    const saveToken = (token?: AccessToken) => {
       this.tokenCache.setCachedToken(token);
+      // The current TokenCache's tokenRefreshBufferMs's usage makes it so that we're forced to trigger a refresh while th token is still expired,
+      // this won't be an issue with the new core-rest-pipeline,
+      // while we're not fully migrated, we'll also keep track of the token in this class.
+      // If the token refresher returns undefined, this will clear the local reference of the token.
+      this.token = token;
+    };
+
+    // We reset the cached token in a time window before it expires,
+    // after that point, we retry the refresh of the token only if the token refresher is ready.
+
+    let token = this.tokenCache.getCachedToken();
+    let readyToRefresh = !token && this.tokenRefresher.isReady();
+    let refreshPromise: Promise<AccessToken | undefined> | undefined;
+    if (readyToRefresh) {
+      refreshPromise = this.tokenRefresher.refresh(options);
     }
+
+    if (this.token) {
+      token = this.token;
+      refreshPromise?.then(saveToken);
+    } else {
+      token = await refreshPromise;
+      saveToken(token);
+    }
+
     return token ? token.token : undefined;
   }
 }

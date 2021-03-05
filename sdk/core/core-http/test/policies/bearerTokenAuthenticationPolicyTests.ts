@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import Sinon, { fake, createSandbox } from "sinon";
 import { OperationSpec } from "../../src/operationSpec";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { TokenCredential, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { Constants } from "../../src/util/constants";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
@@ -110,7 +110,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
 
     // The new token will last 5 seconds again.
     tokenExpiration = Date.now() + expireDelayMs;
-    credential.setExpiresOnTimestamp(tokenExpiration);
+    credential.expiresOnTimestamp = tokenExpiration;
 
     // Now we wait until it expires:
     clock.tick(1000);
@@ -118,25 +118,68 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert.strictEqual(credential.authCount, 2);
   });
 
-  it("access token refresher should prevent refreshers to happen too fast", async () => {
-    const expiresOn = Date.now(); // Already expired
-    const credential = new MockRefreshAzureCredential(expiresOn);
+  it("access token refresher should prevent multiple initial getToken requests to break", async () => {
+    const expireDelayMs = 5000;
+    const startTime = Date.now();
+    const tokenExpiration = startTime + expireDelayMs;
+    const getTokenDelay = 100;
+    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const request = createRequest();
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    // Now we send some requests.
+    const promises = [
+      policy.sendRequest(request),
+      policy.sendRequest(request),
+      policy.sendRequest(request)
+    ];
+    // Now we wait until they're all resolved.
+    for (const promise of promises) {
+      await promise;
+    }
+    assert.strictEqual(credential.authCount, 1, "The first authentication should have happened");
+  });
+
+  it("access token refresher should prevent refreshers to happen too fast while the token is about to expire", async () => {
+    const expireDelayMs = 5000;
+    const startTime = Date.now();
+    const tokenExpiration = startTime + expireDelayMs;
+    const getTokenDelay = 100;
+    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
     const request = createRequest();
     const policy = createBearerTokenPolicy("test-scope", credential);
 
     await policy.sendRequest(request);
-    assert.strictEqual(credential.authCount, 1);
-    credential.setExpiresOnTimestamp(Date.now());
+    assert.strictEqual(credential.authCount, 1, "The first authentication should have happened");
 
-    await policy.sendRequest(request);
-    assert.strictEqual(credential.authCount, 1);
-    credential.setExpiresOnTimestamp(Date.now());
+    clock.tick(expireDelayMs - beforeTokenExpiresInMs); // Until we start refreshing the token
 
-    clock.tick(tokenRefreshIntervalInMs);
+    // Now we send some requests.
+    const promises = [
+      policy.sendRequest(request),
+      policy.sendRequest(request),
+      policy.sendRequest(request)
+    ];
 
-    await policy.sendRequest(request);
-    assert.strictEqual(credential.authCount, 2);
-    credential.setExpiresOnTimestamp(Date.now());
+    // Now we wait until they're all resolved.
+    for (const promise of promises) {
+      await promise;
+    }
+
+    // Only getTokenDelay should have passed, and only one refresh should have happened.
+    assert.strictEqual(
+      credential.authCount,
+      2,
+      "authCode should have been called once during the refresh time"
+    );
+
+    const exceptionMessage =
+      "the total time passed should be in the refresh room, plus the many getTokens that have happened so far";
+    assert.equal(
+      expireDelayMs - beforeTokenExpiresInMs + getTokenDelay * 2,
+      Date.now() - startTime,
+      exceptionMessage
+    );
   });
 
   function createRequest(operationSpec?: OperationSpec): WebResource {
@@ -159,22 +202,22 @@ describe("BearerTokenAuthenticationPolicy", function() {
 });
 
 class MockRefreshAzureCredential implements TokenCredential {
-  private _expiresOnTimestamp: number;
   public authCount = 0;
 
-  constructor(expiresOnTimestamp: number) {
-    this._expiresOnTimestamp = expiresOnTimestamp;
-  }
+  constructor(
+    public expiresOnTimestamp: number,
+    public getTokenDelay?: number,
+    public clock?: sinon.SinonFakeTimers
+  ) {}
 
-  public setExpiresOnTimestamp(expiresOnTimestamp: number): void {
-    this._expiresOnTimestamp = expiresOnTimestamp;
-  }
-
-  public async getToken(
-    _scopes: string | string[],
-    _options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  public async getToken(): Promise<AccessToken> {
     this.authCount++;
-    return { token: "mock-token", expiresOnTimestamp: this._expiresOnTimestamp };
+
+    // Allowing getToken to take a while
+    if (this.getTokenDelay && this.clock) {
+      this.clock.tick(this.getTokenDelay);
+    }
+
+    return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp };
   }
 }
