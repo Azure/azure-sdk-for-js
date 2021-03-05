@@ -2,7 +2,8 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types/latest"
+    "declarationDir": "./types/latest",
+    "lib": ["dom"]
   },
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }

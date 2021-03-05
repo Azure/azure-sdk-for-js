@@ -2,12 +2,15 @@
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
     "module": "CommonJS",
-    "target": "ES2015",
     "declarationDir": "./typings/latest",
-    "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
+    "lib": [
+      "ES6",
+      "ESNext.AsyncIterable"
+    ],
     "noEmit": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"]
+  "include": [
+    "./test/**/*.ts"
+  ]
 }
