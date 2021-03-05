@@ -348,7 +348,7 @@ export class EventHubProducerClient {
       if (enableIdempotentPartitions && isDefined(batch.startingPublishedSequenceNumber)) {
         throw new Error(idempotentAlreadyPublished);
       }
-      const partitionAssignment = this._extractPartitionAssignmentFromBatch(batch, options);
+      const partitionAssignment = extractPartitionAssignmentFromBatch(batch, options);
       partitionId = partitionAssignment.partitionId;
       partitionKey = partitionAssignment.partitionKey;
       spanContextsToLink = batch._messageSpanContexts;
@@ -361,7 +361,7 @@ export class EventHubProducerClient {
       }
 
       // For arrays of events, partitionId and partitionKey would be set in the options.
-      const partitionAssignment = this._extractPartitionAssignmentFromOptions(options);
+      const partitionAssignment = extractPartitionAssignmentFromOptions(options);
       partitionId = partitionAssignment.partitionId;
       partitionKey = partitionAssignment.partitionKey;
 
@@ -503,53 +503,59 @@ export class EventHubProducerClient {
 
     return span;
   }
+}
 
-  private _extractPartitionAssignmentFromBatch(
-    batch: EventDataBatch,
-    options: SendBatchOptions
-  ): { partitionKey?: string; partitionId?: string } {
-    const result: ReturnType<EventHubProducerClient["_extractPartitionAssignmentFromBatch"]> = {};
-    const partitionId = batch.partitionId;
-    const partitionKey = batch.partitionKey;
+/**
+ * @internal
+ */
+function extractPartitionAssignmentFromOptions(
+  options: SendBatchOptions = {}
+): { partitionKey?: string; partitionId?: string } {
+  const result: ReturnType<typeof extractPartitionAssignmentFromOptions> = {};
+  const { partitionId, partitionKey } = options;
 
-    const {
-      partitionId: unexpectedPartitionId,
-      partitionKey: unexpectedPartitionKey
-    } = this._extractPartitionAssignmentFromOptions(options);
-    if (unexpectedPartitionKey && partitionKey !== unexpectedPartitionKey) {
-      throw new Error(
-        `The partitionKey (${unexpectedPartitionKey}) set on sendBatch does not match the partitionKey (${partitionKey}) set when creating the batch.`
-      );
-    }
-    if (unexpectedPartitionId && unexpectedPartitionId !== partitionId) {
-      throw new Error(
-        `The partitionId (${unexpectedPartitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`
-      );
-    }
-
-    if (isDefined(partitionId)) {
-      result.partitionId = String(partitionId);
-    }
-    if (isDefined(partitionKey)) {
-      result.partitionKey = String(partitionKey);
-    }
-
-    return result;
+  if (isDefined(partitionId)) {
+    result.partitionId = String(partitionId);
+  }
+  if (isDefined(partitionKey)) {
+    result.partitionKey = String(partitionKey);
   }
 
-  private _extractPartitionAssignmentFromOptions(
-    options: SendBatchOptions = {}
-  ): { partitionKey?: string; partitionId?: string } {
-    const result: ReturnType<EventHubProducerClient["_extractPartitionAssignmentFromOptions"]> = {};
-    const { partitionId, partitionKey } = options;
+  return result;
+}
 
-    if (isDefined(partitionId)) {
-      result.partitionId = String(partitionId);
-    }
-    if (isDefined(partitionKey)) {
-      result.partitionKey = String(partitionKey);
-    }
+/**
+ * @internal
+ */
+function extractPartitionAssignmentFromBatch(
+  batch: EventDataBatch,
+  options: SendBatchOptions
+): { partitionKey?: string; partitionId?: string } {
+  const result: ReturnType<typeof extractPartitionAssignmentFromBatch> = {};
+  const partitionId = batch.partitionId;
+  const partitionKey = batch.partitionKey;
 
-    return result;
+  const {
+    partitionId: unexpectedPartitionId,
+    partitionKey: unexpectedPartitionKey
+  } = extractPartitionAssignmentFromOptions(options);
+  if (unexpectedPartitionKey && partitionKey !== unexpectedPartitionKey) {
+    throw new Error(
+      `The partitionKey (${unexpectedPartitionKey}) set on sendBatch does not match the partitionKey (${partitionKey}) set when creating the batch.`
+    );
   }
+  if (unexpectedPartitionId && unexpectedPartitionId !== partitionId) {
+    throw new Error(
+      `The partitionId (${unexpectedPartitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`
+    );
+  }
+
+  if (isDefined(partitionId)) {
+    result.partitionId = String(partitionId);
+  }
+  if (isDefined(partitionKey)) {
+    result.partitionKey = String(partitionKey);
+  }
+
+  return result;
 }
