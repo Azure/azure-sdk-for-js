@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-rest-pipeline",
   "version": "1.0.0-beta.2",
-  "description": "Isomorphic client library for making HTTPS requests in node.js and browser.",
+  "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
