@@ -4,7 +4,10 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import {
+  generateEventTraceProperty,
+  TRACEPARENT_PROPERTY
+} from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/tracing";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
@@ -353,6 +356,11 @@ export class EventHubProducerClient {
 
     // link message span contexts
     let spanContextsToLink: SpanContext[] = [];
+    // Holds an EventData properties object containing tracing properties.
+    // This lets us avoid cloning batch when it is EventData[], which is
+    // important as the idempotent EventHubSender needs to decorate the
+    // original EventData passed through.
+    const eventDataTracingProperties: Array<EventData["properties"]> = [];
 
     if (isEventDataBatch(batch)) {
       const partitionAssignment = this._extractPartitionAssignmentFromBatch(batch, options);
@@ -376,7 +384,7 @@ export class EventHubProducerClient {
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
-          batch[i] = instrumentEventData(batch[i], messageSpan);
+          eventDataTracingProperties[i] = generateEventTraceProperty(batch[i], messageSpan);
           messageSpan.end();
         }
       }
@@ -414,7 +422,8 @@ export class EventHubProducerClient {
         ...options,
         partitionId,
         partitionKey,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
+        tracingProperties: eventDataTracingProperties
       });
       sendSpan.setStatus({ code: CanonicalCode.OK });
       return result;

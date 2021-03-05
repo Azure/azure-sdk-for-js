@@ -341,7 +341,8 @@ export class EventHubSender extends LinkEntity {
    */
   async send(
     events: EventData[] | EventDataBatch,
-    options?: SendOptions & EventHubProducerOptions
+    options?: SendOptions &
+      EventHubProducerOptions & { tracingProperties?: Array<EventData["properties"]> }
   ): Promise<void> {
     try {
       logger.info(
@@ -500,7 +501,13 @@ export class EventHubSender extends LinkEntity {
    */
   private async _trySendBatch(
     events: EventData[] | EventDataBatch,
-    options: SendOptions & EventHubProducerOptions = {}
+    options: SendOptions &
+      EventHubProducerOptions & {
+        /**
+         * Tracing properties that are associated with EventData.
+         */
+        tracingProperties?: Array<EventData["properties"]>;
+      } = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const retryOptions = options.retryOptions || {};
@@ -731,7 +738,12 @@ export class EventHubSender extends LinkEntity {
   private _transformEvents(
     events: EventData[] | EventDataBatch,
     publishingProps: PartitionPublishingProperties,
-    options: SendOptions = {}
+    options: SendOptions & {
+      /**
+       * Tracing properties that are associated with EventData.
+       */
+      tracingProperties?: Array<EventData["properties"]>;
+    } = {}
   ): Buffer {
     if (isEventDataBatch(events)) {
       return events._generateMessage(publishingProps);
@@ -739,8 +751,15 @@ export class EventHubSender extends LinkEntity {
       const eventCount = events.length;
       // convert events to rhea messages
       const rheaMessages: RheaMessage[] = [];
+      const tracingProperties = options.tracingProperties ?? [];
       for (let i = 0; i < eventCount; i++) {
-        const event = events[i];
+        const originalEvent = events[i];
+        const tracingProperty = tracingProperties[i];
+        // Create a copy of the user's event so we can add the tracing property.
+        const event: EventData = {
+          ...originalEvent,
+          properties: { ...originalEvent.properties, ...tracingProperty }
+        };
         const rheaMessage = toRheaMessage(event, options.partitionKey);
         rheaMessage.body = defaultDataTransformer.encode(event.body);
 
@@ -753,8 +772,10 @@ export class EventHubSender extends LinkEntity {
           publishSequenceNumber: pendingPublishSequenceNumber
         });
 
-        // Set pending seq number on event
-        (event as EventDataInternal)[PENDING_PUBLISH_SEQ_NUM_SYMBOL] = pendingPublishSequenceNumber;
+        // Set pending seq number on user's event.
+        (originalEvent as EventDataInternal)[
+          PENDING_PUBLISH_SEQ_NUM_SYMBOL
+        ] = pendingPublishSequenceNumber;
         rheaMessages.push(rheaMessage);
       }
 

@@ -6,7 +6,7 @@ import { delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
 
-import { EventHubProducerClient } from "../../src/index";
+import { EventData, EventHubProducerClient } from "../../src/index";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 
 describe("EventHubProducerClient", function() {
@@ -447,6 +447,84 @@ describe("EventHubProducerClient", function() {
             "startingPublishedSequenceNumber should not exist if batch failed to send."
           );
         }
+      });
+
+      it("commits published sequence number on sent EventData", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const events: EventData[] = [{ body: 1 }, { body: 2 }];
+        for (const event of events) {
+          should.not.exist(
+            event.publishedSequenceNumber,
+            "publishedSequenceNumber should not exist before event is successfully sent."
+          );
+        }
+
+        const publishingProps = await producerClient.getPartitionPublishingProperties("0");
+
+        await producerClient.sendBatch(events, { partitionId: "0" });
+
+        for (let i = 0; i < events.length; i++) {
+          const event = events[i];
+          should.exist(
+            event.publishedSequenceNumber,
+            "publishedSequenceNumber should exist after event is successfully sent."
+          );
+          should.equal(
+            event.publishedSequenceNumber,
+            publishingProps.lastPublishedSequenceNumber! + (i + 1),
+            "publishedSequenceNumber was not the expected result."
+          );
+        }
+      });
+
+      it("does not commit published sequence number on failed EventData send", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        const events: EventData[] = [
+          {
+            body: 1
+          },
+          {
+            body: 2
+          }
+        ];
+        for (const event of events) {
+          should.not.exist(
+            event.publishedSequenceNumber,
+            "publishedSequenceNumber should not exist before event is successfully sent."
+          );
+        }
+
+        const abortController = new AbortController();
+        // Trigger abort while sendBatch is in progress
+        setTimeout(() => {
+          abortController.abort();
+        }, 0);
+
+        try {
+          await producerClient.sendBatch(events, {
+            partitionId: "0",
+            abortSignal: abortController.signal
+          });
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.not.equal(err.message, TEST_FAILURE);
+          for (const event of events) {
+            should.not.exist(
+              event.publishedSequenceNumber,
+              "publishedSequenceNumber should not exist before event is successfully sent."
+            );
+          }
+        }
+
+        // TODO: Remove delay once https://github.com/Azure/azure-sdk-for-js/issues/4422 is completed.
+        // This delay gives initialization a change to complete so producer.close() does proper cleanup.
+        await delay(1000);
       });
     });
   });
