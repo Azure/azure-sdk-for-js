@@ -382,7 +382,7 @@ describe("EventHub Sender", function(): void {
     }
 
     [legacyOptionsUsingSpan, legacyOptionsUsingSpanContext, modernOptions].forEach((optionsFn) => {
-      describe.only(`tracing (${optionsFn.name})`, () => {
+      describe(`tracing (${optionsFn.name})`, () => {
         it("will not instrument already instrumented events", async function(): Promise<void> {
           const { tracer, resetTracer } = setTracerForTest();
 
