@@ -7,7 +7,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@azure/storage-file-datalake": "^12.4.0-beta.2",
+    "@azure/storage-file-datalake": "^12.4.0",
     "@azure/test-utils-perfstress": "^1.0.0",
     "@types/uuid": "^8.0.0",
     "@types/node": "^8.0.0",
