@@ -74,7 +74,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
             "module": "CommonJS",
             "target": "ES2015",
             "declarationDir": "./typings/latest",
-            "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
+            "lib": ["ES6", "ESNext.AsyncIterable"],
             "noEmit": true
           },
           "compileOnSave": true,
@@ -96,7 +96,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
    Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
 
    ```json
-     "devDependencies": {
+     "dependencies": {
         "@azure/<service-sdk>": "^<latest-track-1-version>",
         "@azure/test-utils-perfstress": "file:../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz",
       }
@@ -260,4 +260,4 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 - `rush update` (generates a new pnpm-lock file)
 - Navigate to `sdk\storage\perf-tests\<service-sdk>`
 - `rush build -t perf-test-<service-sdk>`
-- Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 2`
+- Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
