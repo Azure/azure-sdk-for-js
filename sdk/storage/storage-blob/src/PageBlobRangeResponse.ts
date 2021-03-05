@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { HttpResponse } from "@azure/core-http";
 import {
   PageBlobGetPageRangesHeaders,
@@ -78,7 +81,7 @@ export interface PageBlobGetPageRangesDiffResponse
  * Function that converts PageRange and ClearRange to a common Range object.
  * PageRange and ClearRange have start and end while Range offset and count
  * this function normalizes to Range.
- * @param response Model PageBlob Range response
+ * @param response - Model PageBlob Range response
  */
 export function rangeResponseFromModel(
   response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel

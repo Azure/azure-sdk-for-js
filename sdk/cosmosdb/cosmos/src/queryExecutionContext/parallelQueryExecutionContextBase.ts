@@ -13,6 +13,7 @@ import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
+import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
 const log = logger("parallelQueryExecutionContextBase");
@@ -43,17 +44,16 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * When handling a parallelized query, it instantiates one instance of
    * DocumentProcuder per target partition key range and aggregates the result of each.
    *
-   * @constructor ParallelQueryExecutionContext
-   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
-   * @param {string} collectionLink                - The Collection Link
-   * @param {FeedOptions} [options]                - Represents the feed options.
-   * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
+   * @param clientContext - The service endpoint to use to create the client.
+   * @param collectionLink - The Collection Link
+   * @param options - Represents the feed options.
+   * @param partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
    * @hidden
    */
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
-    private query: any, // TODO: any - It's not SQLQuerySpec
+    private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
@@ -81,7 +81,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.sem = semaphore(1);
     // Creating callback for semaphore
     // TODO: Code smell
-    const createDocumentProducersAndFillUpPriorityQueueFunc = async () => {
+    const createDocumentProducersAndFillUpPriorityQueueFunc = async (): Promise<void> => {
       // ensure the lock is released after finishing up
       try {
         const targetPartitionRanges = await this._onTargetPartitionRanges();
@@ -120,9 +120,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         });
 
         // Fill up our priority queue with documentProducers
-        targetPartitionQueryExecutionContextList.forEach((documentProducer) => {
+        targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
           // has async callback
-          const throttledFunc = async () => {
+          const throttledFunc = async (): Promise<void> => {
             try {
               const { result: document, headers } = await documentProducer.current();
               this._mergeWithActiveResponseHeaders(headers);
@@ -161,7 +161,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp2: DocumentProducer
   ): number;
 
-  private _decrementInitiationLock() {
+  private _decrementInitiationLock(): void {
     // decrements waitingForInternalExecutionContexts
     // if waitingForInternalExecutionContexts reaches 0 releases the semaphore and changes the state
     this.waitingForInternalExecutionContexts = this.waitingForInternalExecutionContexts - 1;
@@ -173,17 +173,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     }
   }
 
-  private _mergeWithActiveResponseHeaders(headers: CosmosHeaders) {
+  private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
   }
 
-  private _getAndResetActiveResponseHeaders() {
+  private _getAndResetActiveResponseHeaders(): CosmosHeaders {
     const ret = this.respHeaders;
     this.respHeaders = getInitialHeader();
     return ret;
   }
 
-  private async _onTargetPartitionRanges() {
+  private async _onTargetPartitionRanges(): Promise<any[]> {
     // invokes the callback when the target partition ranges are ready
     const parsedRanges = this.partitionedQueryExecutionInfo.queryRanges;
     const queryRanges = parsedRanges.map((item) => QueryRange.parseFromDict(item));
@@ -192,10 +192,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   /**
    * Gets the replacement ranges for a partitionkeyrange that has been split
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
    */
-  private async _getReplacementPartitionKeyRanges(documentProducer: DocumentProducer) {
+  private async _getReplacementPartitionKeyRanges(
+    documentProducer: DocumentProducer
+  ): Promise<any[]> {
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
     // Download the new routing map
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
@@ -209,10 +209,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Removes the current document producer from the priqueue,
    * replaces that document producer with child document producers,
    * then reexecutes the originFunction with the corrrected executionContext
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
    */
-  private async _repairExecutionContext(originFunction: any) {
+  private async _repairExecutionContext(originFunction: any): Promise<void> {
     // TODO: any
     // Get the replacement ranges
     // Removing the invalid documentProducer from the orderByPQ
@@ -235,7 +233,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const checkAndEnqueueDocumentProducer = async (
         documentProducerToCheck: DocumentProducer,
         checkNextDocumentProducerCallback: any
-      ) => {
+      ): Promise<void> => {
         try {
           const { result: afterItem } = await documentProducerToCheck.current();
           if (afterItem === undefined) {
@@ -251,7 +249,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return;
         }
       };
-      const checkAndEnqueueDocumentProducers = async (rdp: DocumentProducer[]) => {
+      const checkAndEnqueueDocumentProducers = async (rdp: DocumentProducer[]): Promise<any> => {
         if (rdp.length > 0) {
           // We still have a replacementDocumentProducer to check
           const replacementDocumentProducer = rdp.shift();
@@ -271,7 +269,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     }
   }
 
-  private static _needPartitionKeyRangeCacheRefresh(error: any) {
+  private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
     // TODO: any error
     return (
       error.code === StatusCodes.Gone &&
@@ -284,10 +282,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Checks to see if the executionContext needs to be repaired.
    * if so it repairs the execution context and executes the ifCallback,
    * else it continues with the current execution context and executes the elseCallback
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
    */
-  private async _repairExecutionContextIfNeeded(ifCallback: any, elseCallback: any) {
+  private async _repairExecutionContextIfNeeded(ifCallback: any, elseCallback: any): Promise<void> {
     const documentProducer = this.orderByPQ.peek();
     // Check if split happened
     try {
@@ -306,11 +302,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Execute a provided function on the next element in the ParallelQueryExecutionContextBase.
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
-   * @param {callback} callback - Function to execute for each element. the function takes two \
-   * parameters error, element.
+   * Fetches the next element in the ParallelQueryExecutionContextBase.
    */
   public async nextItem(): Promise<Response<any>> {
     if (this.err) {
@@ -340,13 +332,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           });
         }
 
-        const ifCallback = () => {
+        const ifCallback = (): void => {
           // Release the semaphore to avoid deadlock
           this.sem.leave();
           // Reexcute the function
           return resolve(this.nextItem());
         };
-        const elseCallback = async () => {
+        const elseCallback = async (): Promise<void> => {
           let documentProducer: DocumentProducer;
           try {
             documentProducer = this.orderByPQ.deq();
@@ -443,13 +435,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation \
+   * Determine if there are still remaining resources to processs based on the value of the continuation
    * token or the elements remaining on the current batch in the QueryIterator.
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
-   * @returns {Boolean} true if there is other elements to process in the ParallelQueryExecutionContextBase.
+   * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return !(
       this.state === ParallelQueryExecutionContextBase.STATES.ended || this.err !== undefined
     );
@@ -461,21 +451,24 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private _createTargetPartitionQueryExecutionContext(
     partitionKeyTargetRange: any,
     continuationToken?: any
-  ) {
+  ): DocumentProducer {
     // TODO: any
     // creates target partition range Query Execution Context
     let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
-    let query = this.query;
+    let sqlQuerySpec: SqlQuerySpec;
+    const query = this.query;
     if (typeof query === "string") {
-      query = { query };
+      sqlQuerySpec = { query };
+    } else {
+      sqlQuerySpec = query;
     }
 
     const formatPlaceHolder = "{documentdb-formattableorderbyquery-filter}";
     if (rewrittenQuery) {
-      query = JSON.parse(JSON.stringify(query));
+      sqlQuerySpec = JSON.parse(JSON.stringify(sqlQuerySpec));
       // We hardcode the formattable filter to true for now
       rewrittenQuery = rewrittenQuery.replace(formatPlaceHolder, "true");
-      query["query"] = rewrittenQuery;
+      sqlQuerySpec["query"] = rewrittenQuery;
     }
 
     const options = JSON.parse(JSON.stringify(this.options));
@@ -484,7 +477,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return new DocumentProducer(
       this.clientContext,
       this.collectionLink,
-      query,
+      sqlQuerySpec,
       partitionKeyTargetRange,
       options
     );

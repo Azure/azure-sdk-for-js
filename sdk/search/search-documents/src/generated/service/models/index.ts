@@ -27,7 +27,6 @@ export type SearchIndexerSkillUnion =
   | EntityRecognitionSkill
   | SentimentSkill
   | SplitSkill
-  | CustomEntityLookupSkill
   | TextTranslationSkill
   | WebApiSkill;
 export type CognitiveServicesAccountUnion =
@@ -117,7 +116,7 @@ export interface SearchIndexerDataSource {
 
 /** Represents credentials that can be used to connect to a datasource. */
 export interface DataSourceCredentials {
-  /** The connection string for the datasource. Set to '<unchanged>' if you do not want the connection string updated. */
+  /** The connection string for the datasource. */
   connectionString?: string;
 }
 
@@ -493,7 +492,6 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Text.EntityRecognitionSkill"
     | "#Microsoft.Skills.Text.SentimentSkill"
     | "#Microsoft.Skills.Text.SplitSkill"
-    | "#Microsoft.Skills.Text.CustomEntityLookupSkill"
     | "#Microsoft.Skills.Text.TranslationSkill"
     | "#Microsoft.Skills.Custom.WebApiSkill";
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
@@ -665,7 +663,7 @@ export interface CorsOptions {
   /** The list of origins from which JavaScript code will be granted access to your index. Can contain a list of hosts of the form {protocol}://{fully-qualified-domain-name}[:{port#}], or a single '*' to allow all origins (not recommended). */
   allowedOrigins: string[];
   /** The duration for which browsers should cache CORS preflight responses. Defaults to 5 minutes. */
-  maxAgeInSeconds?: number | null;
+  maxAgeInSeconds?: number;
 }
 
 /** Defines how the Suggest API should apply to a group of fields in the index. */
@@ -902,46 +900,6 @@ export interface TagScoringParameters {
   tagsParameter: string;
 }
 
-/** An object that contains information about the matches that were found, and related metadata. */
-export interface CustomEntity {
-  /** The top-level entity descriptor. Matches in the skill output will be grouped by this name, and it should represent the "normalized" form of the text being found. */
-  name: string;
-  /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  description?: string | null;
-  /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  type?: string | null;
-  /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  subtype?: string | null;
-  /** This field can be used as a passthrough for custom metadata about the matched text(s). The value of this field will appear with every match of its entity in the skill output. */
-  id?: string | null;
-  /** Defaults to false. Boolean value denoting whether comparisons with the entity name should be sensitive to character casing. Sample case insensitive matches of "Microsoft" could be: microsoft, microSoft, MICROSOFT. */
-  caseSensitive?: boolean | null;
-  /** Defaults to false. Boolean value denoting whether comparisons with the entity name should be sensitive to accent. */
-  accentSensitive?: boolean | null;
-  /** Defaults to 0. Maximum value of 5. Denotes the acceptable number of divergent characters that would still constitute a match with the entity name. The smallest possible fuzziness for any given match is returned. For instance, if the edit distance is set to 3, "Windows10" would still match "Windows", "Windows10" and "Windows 7". When case sensitivity is set to false, case differences do NOT count towards fuzziness tolerance, but otherwise do. */
-  fuzzyEditDistance?: number | null;
-  /** Changes the default case sensitivity value for this entity. It be used to change the default value of all aliases caseSensitive values. */
-  defaultCaseSensitive?: boolean | null;
-  /** Changes the default accent sensitivity value for this entity. It be used to change the default value of all aliases accentSensitive values. */
-  defaultAccentSensitive?: boolean | null;
-  /** Changes the default fuzzy edit distance value for this entity. It can be used to change the default value of all aliases fuzzyEditDistance values. */
-  defaultFuzzyEditDistance?: number | null;
-  /** An array of complex objects that can be used to specify alternative spellings or synonyms to the root entity name. */
-  aliases?: CustomEntityAlias[] | null;
-}
-
-/** A complex object that can be used to specify alternative spellings or synonyms to the root entity name. */
-export interface CustomEntityAlias {
-  /** The text of the alias. */
-  text: string;
-  /** Determine if the alias is case sensitive. */
-  caseSensitive?: boolean | null;
-  /** Determine if the alias is accent sensitive. */
-  accentSensitive?: boolean | null;
-  /** Determine the fuzzy edit distance of the alias. */
-  fuzzyEditDistance?: number | null;
-}
-
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
 export type HighWaterMarkChangeDetectionPolicy = DataChangeDetectionPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1060,24 +1018,6 @@ export type SplitSkill = SearchIndexerSkill & {
   maxPageLength?: number | null;
 };
 
-/** A skill looks for text from a custom, user-defined list of words and phrases. */
-export type CustomEntityLookupSkill = SearchIndexerSkill & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
-  /** A value indicating which language code to use. Default is en. */
-  defaultLanguageCode?: CustomEntityLookupSkillLanguage | null;
-  /** Path to a JSON or CSV file containing all the target text to match against. This entity definition is read at the beginning of an indexer run. Any updates to this file during an indexer run will not take effect until subsequent runs. This config must be accessible over HTTPS. */
-  entitiesDefinitionUri?: string | null;
-  /** The inline CustomEntity definition. */
-  inlineEntitiesDefinition?: CustomEntity[] | null;
-  /** A global flag for CaseSensitive. If CaseSensitive is not set in CustomEntity, this value will be the default value. */
-  globalDefaultCaseSensitive?: boolean | null;
-  /** A global flag for AccentSensitive. If AccentSensitive is not set in CustomEntity, this value will be the default value. */
-  globalDefaultAccentSensitive?: boolean | null;
-  /** A global flag for FuzzyEditDistance. If FuzzyEditDistance is not set in CustomEntity, this value will be the default value. */
-  globalDefaultFuzzyEditDistance?: number | null;
-};
-
 /** A skill to translate text from one language to another. */
 export type TextTranslationSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1159,7 +1099,7 @@ export type CustomAnalyzer = LexicalAnalyzer & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
   /** The name of the tokenizer to use to divide continuous text into a sequence of tokens, such as breaking a sentence into words. KnownTokenizerNames is an enum containing known values. */
-  tokenizer: string;
+  tokenizerName: string;
   /** A list of token filters used to filter out or modify the tokens generated by a tokenizer. For example, you can specify a lowercase filter that converts all characters to lowercase. The filters are run in the order in which they are listed. */
   tokenFilters?: string[];
   /** A list of character filters used to prepare input text before it is processed by the tokenizer. For instance, they can replace certain characters or symbols. The filters are run in the order in which they are listed. */
@@ -2588,45 +2528,6 @@ export const enum KnownTextSplitMode {
  * **sentences**: Split the text into individual sentences.
  */
 export type TextSplitMode = string;
-
-/** Known values of {@link CustomEntityLookupSkillLanguage} that the service accepts. */
-export const enum KnownCustomEntityLookupSkillLanguage {
-  /** Danish */
-  Da = "da",
-  /** German */
-  De = "de",
-  /** English */
-  En = "en",
-  /** Spanish */
-  Es = "es",
-  /** Finnish */
-  Fi = "fi",
-  /** French */
-  Fr = "fr",
-  /** Italian */
-  It = "it",
-  /** Korean */
-  Ko = "ko",
-  /** Portuguese */
-  Pt = "pt"
-}
-
-/**
- * Defines values for CustomEntityLookupSkillLanguage. \
- * {@link KnownCustomEntityLookupSkillLanguage} can be used interchangeably with CustomEntityLookupSkillLanguage,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **da**: Danish \
- * **de**: German \
- * **en**: English \
- * **es**: Spanish \
- * **fi**: Finnish \
- * **fr**: French \
- * **it**: Italian \
- * **ko**: Korean \
- * **pt**: Portuguese
- */
-export type CustomEntityLookupSkillLanguage = string;
 
 /** Known values of {@link TextTranslationSkillLanguage} that the service accepts. */
 export const enum KnownTextTranslationSkillLanguage {

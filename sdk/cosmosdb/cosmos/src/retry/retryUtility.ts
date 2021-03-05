@@ -33,8 +33,6 @@ interface RetryPolicies {
 }
 
 /**
- *
- * @param param0
  * @hidden
  */
 export async function execute({

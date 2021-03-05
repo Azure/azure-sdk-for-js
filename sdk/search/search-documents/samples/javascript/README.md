@@ -4,7 +4,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                | **Description**          |
 | ---------------------------- | ------------------------ |
-| [readonlyQuery.js][readonly] | queries a public dataset |
 | **Data Source Connections**  |
 | [createDataSourceConnection.js][createDataSourceConnection] | Creates a Datasource Connection |
 | [createOrUpdateDataSourceConnection.js][createOrUpdateDataSourceConnection] | Updates a Datasource Connection |

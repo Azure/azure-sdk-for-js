@@ -12,9 +12,7 @@ import {
   WorkspaceGitRepoManagementGetGitHubAccessTokenResponse
 } from "../models";
 
-/**
- * Class representing a WorkspaceGitRepoManagement.
- */
+/** Class representing a WorkspaceGitRepoManagement. */
 export class WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClient;
 
@@ -35,13 +33,10 @@ export class WorkspaceGitRepoManagement {
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
     options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getGitHubAccessToken",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getGitHubAccessToken", options);
     const operationArguments: coreHttp.OperationArguments = {
       gitHubAccessTokenRequest,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -61,7 +56,6 @@ export class WorkspaceGitRepoManagement {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {

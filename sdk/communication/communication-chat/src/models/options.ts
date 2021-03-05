@@ -2,19 +2,22 @@
 // Licensed under the MIT license.
 import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import {
-  SendChatMessageRequest as RestSendMessageOptions,
   UpdateChatMessageRequest as RestUpdateMessageOptions,
-  UpdateChatThreadRequest as RestUpdateThreadOptions,
-  ChatApiClientListChatMessagesOptionalParams as RestListMessagesOptions,
-  ChatApiClientListChatThreadsOptionalParams as RestListChatThreadsOptions
+  ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
+  ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
+  ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
+  ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
+  ChatCreateChatThreadOptionalParams as RestCreateChatThreadOptions,
+  ChatMessageType
 } from "../generated/src/models";
 
 export {
-  RestSendMessageOptions,
+  RestCreateChatThreadOptions,
   RestUpdateMessageOptions,
-  RestUpdateThreadOptions,
   RestListMessagesOptions,
-  RestListChatThreadsOptions
+  RestListChatThreadsOptions,
+  RestListParticipantsOptions,
+  RestListReadReceiptsOptions
 };
 
 /**
@@ -30,7 +33,7 @@ export interface ChatThreadClientOptions extends ChatClientOptions {}
 /**
  * Options to update a chat thread.
  */
-export interface UpdateThreadOptions extends RestUpdateThreadOptions, OperationOptions {}
+export interface UpdateTopicOptions extends OperationOptions {}
 
 /**
  * Options to get chat threads.
@@ -40,9 +43,12 @@ export type ListChatThreadsOptions = RestListChatThreadsOptions;
 /**
  * Options to send a chat message.
  */
-export interface SendMessageOptions
-  extends Omit<RestSendMessageOptions, "content">,
-    OperationOptions {}
+export interface SendMessageOptions extends OperationOptions {
+  /** The display name of the chat message sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+  /** The chat message type. */
+  type?: ChatMessageType;
+}
 
 /**
  * Options to update a chat message.
@@ -57,7 +63,7 @@ export type ListMessagesOptions = RestListMessagesOptions;
 /**
  * Options to create a chat thread.
  */
-export type CreateChatThreadOptions = OperationOptions;
+export type CreateChatThreadOptions = RestCreateChatThreadOptions;
 
 /**
  * Options to get a chat thread.
@@ -80,19 +86,19 @@ export type GetMessageOptions = OperationOptions;
 export type DeleteMessageOptions = OperationOptions;
 
 /**
- * Options to add a chat thread member.
+ * Options to add a chat participant.
  */
-export type AddMembersOptions = OperationOptions;
+export type AddParticipantsOptions = OperationOptions;
 
 /**
- * Options to list chat thread members.
+ * Options to list chat participants.
  */
-export type ListMembersOptions = OperationOptions;
+export type ListParticipantsOptions = RestListParticipantsOptions;
 
 /**
- * Options to remove a chat thread member.
+ * Options to remove a chat participant.
  */
-export type RemoveMemberOptions = OperationOptions;
+export type RemoveParticipantOptions = OperationOptions;
 
 /**
  * Options to send typing notifications.
@@ -107,4 +113,4 @@ export type SendReadReceiptOptions = OperationOptions;
 /**
  * Options to list read receipts.
  */
-export type ListReadReceiptsOptions = OperationOptions;
+export type ListReadReceiptsOptions = RestListReadReceiptsOptions;

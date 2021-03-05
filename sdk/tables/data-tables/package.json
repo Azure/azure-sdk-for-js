@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "1.0.0-beta.5",
+  "version": "12.0.0-beta.1",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,7 +9,8 @@
     "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
-    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
+    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
+    "./dist-esm/src/utils/batchHeaders.js": "./dist-esm/src/utils/batchHeaders.browser.js"
   },
   "types": "types/latest/data-tables.d.ts",
   "scripts": {
@@ -36,7 +37,7 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run --testMode=unit && npm run integration-test:browser",
+    "unit-test:browser": "karma start --single-run --testMode=unit",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/unit.index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
@@ -66,12 +67,15 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-http": "^1.2.0",
+    "@azure/core-client": "1.0.0-beta.2",
+    "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "@azure/core-paging": "^1.1.1",
+    "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@opentelemetry/api": "^0.10.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -85,6 +89,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
+    "@types/uuid": "^8.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -118,6 +123,7 @@
     "@azure/test-utils-recorder": "^1.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "@rollup/plugin-inject": "^4.0.0",
+    "ts-node": "^8.3.0",
     "typedoc": "0.15.2"
   },
   "//metadata": {

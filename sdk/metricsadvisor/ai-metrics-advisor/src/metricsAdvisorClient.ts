@@ -11,7 +11,7 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
 import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
@@ -91,7 +91,7 @@ export type ListIncidentsForAlertOptions = {
  * Options for listing dimension values for detection configurations
  */
 
-export type ListDimensionValuesForDetectionConfigOptions = {
+export type ListAnomalyDimensionValuesOptions = {
   skip?: number;
   dimensionFilter?: DimensionKey;
 } & OperationOptions;
@@ -182,15 +182,11 @@ export class MetricsAdvisorClient {
   public readonly endpointUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -222,8 +218,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * List alert segments for alerting configuration
    */
   private async *listSegmentOfAlerts(
@@ -300,8 +294,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * List alert items for alerting configuration
    */
   private async *listItemsOfAlerts(
@@ -428,8 +420,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * List anomalies for alerting configuration - segments
    */
   private async *listSegmentsOfAnomaliesForAlert(
@@ -509,8 +499,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing anomalies for alerting configuration - items
    */
   private async *listItemsOfAnomaliesForAlert(
@@ -565,8 +553,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing incidents for alert - segments
    */
   private async *listSegmentsOfIncidentsForAlert(
@@ -647,7 +633,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
    * listing incidents for alert - items
    */
   private async *listItemsOfIncidentsForAlert(
@@ -891,8 +876,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing anomalies for detection config - segments
    */
 
@@ -983,8 +966,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing anomalies for detection config - items
    */
 
@@ -1191,15 +1172,15 @@ export class MetricsAdvisorClient {
     }
   }
 
-  // ## list dimension values for detection config - segments
-  private async *listSegmentsOfDimensionValuesForDetectionConfig(
+  // ## list segments of dimension values of anomalies detected by a detection configuration
+  private async *listSegmentsOfAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date,
     endTime: Date,
     dimensionName: string,
     continuationToken?: string,
     maxPageSize?: number,
-    options: ListDimensionValuesForDetectionConfigOptions = {}
+    options: ListAnomalyDimensionValuesOptions = {}
   ): AsyncIterableIterator<DimensionValuesPageResponse> {
     let segmentResponse;
     const optionsBody = {
@@ -1251,15 +1232,15 @@ export class MetricsAdvisorClient {
     }
   }
 
-  // ## list dimension values for detection config - items
-  private async *listItemsOfDimensionValues(
+  // ## list items of dimension values of anomalies detected by a detection configuration
+  private async *listItemsOfAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date,
     endTime: Date,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigOptions
+    options: ListAnomalyDimensionValuesOptions
   ): AsyncIterableIterator<string> {
-    for await (const segment of this.listSegmentsOfDimensionValuesForDetectionConfig(
+    for await (const segment of this.listSegmentsOfAnomalyDimensionValues(
       detectionConfigId,
       startTime,
       endTime,
@@ -1275,7 +1256,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * Returns an async iterable iterator to list dimension values for a detection configuration.
+   * Returns an async iterable iterator to list dimension values of anomalies detected by a detection configuration.
    *
    * `.byPage()` returns an async iterable iterator to list the dimension values in pages.
    *
@@ -1285,7 +1266,7 @@ export class MetricsAdvisorClient {
    * const client = new MetricsAdvisorClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
    * const dimensionValues = client
-   *   .listDimensionValuesForDetectionConfiguration(detectionConfigId, startTime, endTime, dimensionName);
+   *   .listAnomalyDimensionValues(detectionConfigId, startTime, endTime, dimensionName);
    * let i = 1;
    * for await (const dv of dimensionValues) {
    *   console.log(`dimension value ${i++}: ${dv}`);
@@ -1295,7 +1276,7 @@ export class MetricsAdvisorClient {
    *
    * ```js
    * let iter = client
-   *   .listDimensionValuesForDetectionConfiguration(detectionConfigId, startTime, endTime, dimensionName);
+   *   .listAnomalyDimensionValues(detectionConfigId, startTime, endTime, dimensionName);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` dimension value - '${result.value}'`);
@@ -1307,7 +1288,7 @@ export class MetricsAdvisorClient {
    *
    * ```js
    * const pages = client
-   *   .listDimensionValuesForDetectionConfiguration(
+   *   .listAnomalyDimensionValues(
    *     detectionConfigId,
    *     startTime,
    *     endTime,
@@ -1327,18 +1308,19 @@ export class MetricsAdvisorClient {
    * }
    * ```
    * @param detectionConfigId - Anomaly detection configuration id
+   * @param dimensionName - Name of the dimension for anomaly detection config
    * @param startTime - The start of time range to query anomalies
    * @param endTime - The end of time range to query anomalies
    * @param options - The options parameter.
    */
-  public listDimensionValuesForDetectionConfig(
+  public listAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date | string,
     endTime: Date | string,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigOptions = {}
+    options: ListAnomalyDimensionValuesOptions = {}
   ): PagedAsyncIterableIterator<string, DimensionValuesPageResponse> {
-    const iter = this.listItemsOfDimensionValues(
+    const iter = this.listItemsOfAnomalyDimensionValues(
       detectionConfigId,
       typeof startTime === "string" ? new Date(startTime) : startTime,
       typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -1362,7 +1344,7 @@ export class MetricsAdvisorClient {
        * @returns An AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentsOfDimensionValuesForDetectionConfig(
+        return this.listSegmentsOfAnomalyDimensionValues(
           detectionConfigId,
           typeof startTime === "string" ? new Date(startTime) : startTime,
           typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -1576,6 +1558,7 @@ export class MetricsAdvisorClient {
    *
    * @param feedback - Content of the feedback
    * @param options - The options parameter
+   * @returns Response with Feedback object
    */
   public async createFeedback(
     feedback: MetricFeedbackUnion,

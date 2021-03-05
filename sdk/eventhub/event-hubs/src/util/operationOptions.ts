@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Span, SpanContext } from "@opentelemetry/api";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
@@ -19,14 +18,4 @@ export interface OperationOptions {
    * Options for configuring tracing.
    */
   tracingOptions?: OperationTracingOptions;
-}
-
-/**
- * @internal
- * @hidden
- */
-export function getParentSpan(
-  options?: OperationTracingOptions
-): Span | SpanContext | null | undefined {
-  return options?.spanOptions?.parent;
 }

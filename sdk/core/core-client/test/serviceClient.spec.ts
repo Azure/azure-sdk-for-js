@@ -22,7 +22,7 @@ import {
   createEmptyPipeline,
   HttpsClient,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 
 import {
   getOperationArgumentValueFromParameter,
@@ -193,7 +193,7 @@ describe("ServiceClient", function() {
     };
 
     let request: OperationRequest;
-    let pipeline = createEmptyPipeline();
+    const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
       httpsClient: {
@@ -271,7 +271,7 @@ describe("ServiceClient", function() {
 
     let rawResponse: FullOperationResponse | undefined;
 
-    const response = await client.sendOperationRequest(
+    const operationResponse = await client.sendOperationRequest(
       { options: { onResponse: (response) => (rawResponse = response) } },
       {
         httpMethod: "GET",
@@ -285,7 +285,7 @@ describe("ServiceClient", function() {
     );
 
     assert(request!);
-    assert.strictEqual(JSON.stringify(response), "{}");
+    assert.strictEqual(JSON.stringify(operationResponse), "{}");
     assert.strictEqual(rawResponse?.status, 200);
     assert.strictEqual(rawResponse?.request, request!);
     assert.strictEqual(rawResponse?.headers.get("X-Extra-Info"), "foo");
@@ -818,6 +818,86 @@ describe("ServiceClient", function() {
     } catch (ex) {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
+    }
+  });
+
+  it("should deserialize non-streaming default response", async function() {
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+
+    const serializer = createSerializer(undefined, true);
+
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      baseUrl: "https://example.com",
+      serializer
+    };
+
+    let request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
+    const operationInfo = getOperationRequestInfo(request);
+    operationInfo.operationSpec = operationSpec;
+
+    const httpsClient: HttpsClient = {
+      sendRequest: (req) => {
+        request = req;
+        return Promise.resolve({
+          request,
+          status: 500,
+          headers: createHttpHeaders({
+            "Content-Type": "application/json"
+          }),
+          bodyAsText: `{ "Code": "BlobNotFound", "Message": "The specified blob does not exist." }`
+        });
+      }
+    };
+
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy());
+    const client = new ServiceClient({
+      httpsClient,
+      pipeline
+    });
+
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex) {
+      assert.strictEqual(ex.code, "BlobNotFound");
+      assert.strictEqual(ex.message, "The specified blob does not exist.");
     }
   });
 

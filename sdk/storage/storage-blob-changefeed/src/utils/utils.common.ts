@@ -25,9 +25,7 @@ export function floorToNearestHour(date: Date | undefined): Date | undefined {
 /**
  * Get host from an URL string.
  *
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @param url - Source URL string
  */
 export function getHost(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -37,9 +35,7 @@ export function getHost(url: string): string | undefined {
 /**
  * Get URI from an URL string.
  *
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @param url - Source URL string
  */
 export function getURI(url: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -58,17 +54,11 @@ export function hashString(str: string): number {
 
 /**
  * Options to configure {@link getYearsPaths} operation.
- *
- * @export
- * @interface GetYearsPathsOptions
  */
 export interface GetYearsPathsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof GetYearsPathsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -77,12 +67,12 @@ export async function getYearsPaths(
   containerClient: ContainerClient,
   options: GetYearsPathsOptions = {}
 ): Promise<number[]> {
-  const { span, spanOptions } = createSpan("getYearsPaths", options.tracingOptions);
+  const { span, updatedOptions } = createSpan("getYearsPaths", options);
   try {
     const years: number[] = [];
     for await (const item of containerClient.listBlobsByHierarchy("/", {
       abortSignal: options.abortSignal,
-      tracingOptions: { ...options.tracingOptions, spanOptions },
+      tracingOptions: updatedOptions.tracingOptions,
       prefix: CHANGE_FEED_SEGMENT_PREFIX
     })) {
       // TODO: add String.prototype.includes polyfill for IE11
@@ -105,17 +95,11 @@ export async function getYearsPaths(
 
 /**
  * Options to configure {@link getSegmentsInYear} operation.
- *
- * @export
- * @interface GetSegmentsInYearOptions
  */
 export interface GetSegmentsInYearOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof GetSegmentsInYearOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -127,7 +111,7 @@ export async function getSegmentsInYear(
   endTime?: Date,
   options: GetSegmentsInYearOptions = {}
 ): Promise<string[]> {
-  const { span, spanOptions } = createSpan("getSegmentsInYear", options.tracingOptions);
+  const { span, updatedOptions } = createSpan("getSegmentsInYear", options);
 
   try {
     const segments: string[] = [];
@@ -140,7 +124,7 @@ export async function getSegmentsInYear(
     for await (const item of containerClient.listBlobsFlat({
       prefix,
       abortSignal: options.abortSignal,
-      tracingOptions: { ...options.tracingOptions, spanOptions }
+      tracingOptions: updatedOptions.tracingOptions
     })) {
       const segmentTime = parseDateFromSegmentPath(item.name);
       if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {

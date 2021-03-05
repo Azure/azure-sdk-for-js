@@ -8,9 +8,7 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { BigDataPoolsListResponse, BigDataPoolsGetResponse } from "../models";
 
-/**
- * Class representing a BigDataPools.
- */
+/** Class representing a BigDataPools. */
 export class BigDataPools {
   private readonly client: ArtifactsClient;
 
@@ -27,12 +25,10 @@ export class BigDataPools {
    * @param options The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-list",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options);
+
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
@@ -57,13 +53,11 @@ export class BigDataPools {
     bigDataPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<BigDataPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
+
     const operationArguments: coreHttp.OperationArguments = {
       bigDataPoolName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
@@ -80,7 +74,6 @@ export class BigDataPools {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {

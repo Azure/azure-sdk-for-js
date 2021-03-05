@@ -8,9 +8,7 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { SqlPoolsListResponse, SqlPoolsGetResponse } from "../models";
 
-/**
- * Class representing a SqlPools.
- */
+/** Class representing a SqlPools. */
 export class SqlPools {
   private readonly client: ArtifactsClient;
 
@@ -27,12 +25,9 @@ export class SqlPools {
    * @param options The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-list",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
@@ -57,13 +52,10 @@ export class SqlPools {
     sqlPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<SqlPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       sqlPoolName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
@@ -80,7 +72,6 @@ export class SqlPools {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {

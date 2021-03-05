@@ -101,7 +101,8 @@ export const AnomalyAlertingConfiguration: coreHttp.CompositeMapper = {
       crossMetricsOperator: {
         serializedName: "crossMetricsOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR", "XOR"]
         }
       },
       hookIds: {
@@ -155,7 +156,8 @@ export const MetricAlertingConfiguration: coreHttp.CompositeMapper = {
         serializedName: "anomalyScopeType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["All", "Dimension", "TopN"]
         }
       },
       negationOperation: {
@@ -259,14 +261,16 @@ export const SeverityCondition: coreHttp.CompositeMapper = {
         serializedName: "minAlertSeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       maxAlertSeverity: {
         serializedName: "maxAlertSeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       }
     }
@@ -289,7 +293,8 @@ export const AlertSnoozeCondition: coreHttp.CompositeMapper = {
         serializedName: "snoozeScope",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Metric", "Series"]
         }
       },
       onlyForSuccessive: {
@@ -324,7 +329,8 @@ export const ValueCondition: coreHttp.CompositeMapper = {
         serializedName: "direction",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       metricId: {
@@ -363,7 +369,8 @@ export const AnomalyAlertingConfigurationPatch: coreHttp.CompositeMapper = {
       crossMetricsOperator: {
         serializedName: "crossMetricsOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR", "XOR"]
         }
       },
       hookIds: {
@@ -422,7 +429,8 @@ export const AlertingResultQuery: coreHttp.CompositeMapper = {
         serializedName: "timeMode",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AnomalyTime", "CreatedTime", "ModifiedTime"]
         }
       }
     }
@@ -592,14 +600,16 @@ export const AnomalyProperty: coreHttp.CompositeMapper = {
         serializedName: "anomalySeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       anomalyStatus: {
         serializedName: "anomalyStatus",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Resolved"]
         }
       }
     }
@@ -719,14 +729,16 @@ export const IncidentProperty: coreHttp.CompositeMapper = {
         serializedName: "maxSeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       incidentStatus: {
         serializedName: "incidentStatus",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Resolved"]
         }
       }
     }
@@ -814,7 +826,8 @@ export const WholeMetricConfiguration: coreHttp.CompositeMapper = {
       conditionOperator: {
         serializedName: "conditionOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR"]
         }
       },
       smartDetectionCondition: {
@@ -858,7 +871,8 @@ export const SmartDetectionCondition: coreHttp.CompositeMapper = {
         serializedName: "anomalyDetectorDirection",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       suppressCondition: {
@@ -916,7 +930,8 @@ export const HardThresholdCondition: coreHttp.CompositeMapper = {
         serializedName: "anomalyDetectorDirection",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       suppressCondition: {
@@ -960,7 +975,8 @@ export const ChangeThresholdCondition: coreHttp.CompositeMapper = {
         serializedName: "anomalyDetectorDirection",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       suppressCondition: {
@@ -989,7 +1005,8 @@ export const DimensionGroupConfiguration: coreHttp.CompositeMapper = {
       conditionOperator: {
         serializedName: "conditionOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR"]
         }
       },
       smartDetectionCondition: {
@@ -1032,7 +1049,8 @@ export const SeriesConfiguration: coreHttp.CompositeMapper = {
       conditionOperator: {
         serializedName: "conditionOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR"]
         }
       },
       smartDetectionCondition: {
@@ -1371,14 +1389,16 @@ export const SeverityFilterCondition: coreHttp.CompositeMapper = {
         serializedName: "min",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       max: {
         serializedName: "max",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       }
     }
@@ -1611,7 +1631,22 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "dataSourceType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "AzureApplicationInsights",
+            "AzureBlob",
+            "AzureCosmosDB",
+            "AzureDataExplorer",
+            "AzureDataLakeStorageGen2",
+            "AzureTable",
+            "Elasticsearch",
+            "HttpRequest",
+            "InfluxDB",
+            "MongoDB",
+            "MySql",
+            "PostgreSql",
+            "SqlServer"
+          ]
         }
       },
       dataFeedId: {
@@ -1638,7 +1673,17 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "granularityName",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Yearly",
+            "Monthly",
+            "Weekly",
+            "Daily",
+            "Hourly",
+            "Minutely",
+            "Secondly",
+            "Custom"
+          ]
         }
       },
       granularityAmount: {
@@ -1722,13 +1767,15 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         defaultValue: "NeedRollup",
         serializedName: "needRollup",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["NoRollup", "NeedRollup", "AlreadyRollup"]
         }
       },
       rollUpMethod: {
         serializedName: "rollUpMethod",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["None", "Sum", "Max", "Min", "Avg", "Count"]
         }
       },
       rollUpColumns: {
@@ -1752,10 +1799,15 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         }
       },
       fillMissingPointType: {
-        defaultValue: "SmartFilling",
         serializedName: "fillMissingPointType",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "SmartFilling",
+            "PreviousValue",
+            "CustomValue",
+            "NoFilling"
+          ]
         }
       },
       fillMissingPointValue: {
@@ -1765,10 +1817,10 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         }
       },
       viewMode: {
-        defaultValue: "Private",
         serializedName: "viewMode",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Private", "Public"]
         }
       },
       admins: {
@@ -1814,11 +1866,11 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         }
       },
       status: {
-        defaultValue: "Active",
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Paused"]
         }
       },
       createdTime: {
@@ -1915,7 +1967,22 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
         serializedName: "dataSourceType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "AzureApplicationInsights",
+            "AzureBlob",
+            "AzureCosmosDB",
+            "AzureDataExplorer",
+            "AzureDataLakeStorageGen2",
+            "AzureTable",
+            "Elasticsearch",
+            "HttpRequest",
+            "InfluxDB",
+            "MongoDB",
+            "MySql",
+            "PostgreSql",
+            "SqlServer"
+          ]
         }
       },
       dataFeedName: {
@@ -1969,13 +2036,15 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       needRollup: {
         serializedName: "needRollup",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["NoRollup", "NeedRollup", "AlreadyRollup"]
         }
       },
       rollUpMethod: {
         serializedName: "rollUpMethod",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["None", "Sum", "Max", "Min", "Avg", "Count"]
         }
       },
       rollUpColumns: {
@@ -2001,7 +2070,13 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       fillMissingPointType: {
         serializedName: "fillMissingPointType",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "SmartFilling",
+            "PreviousValue",
+            "CustomValue",
+            "NoFilling"
+          ]
         }
       },
       fillMissingPointValue: {
@@ -2013,7 +2088,8 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       viewMode: {
         serializedName: "viewMode",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Private", "Public"]
         }
       },
       admins: {
@@ -2047,7 +2123,8 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       status: {
         serializedName: "status",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Paused"]
         }
       },
       actionLinkTemplate: {
@@ -2074,7 +2151,8 @@ export const MetricFeedback: coreHttp.CompositeMapper = {
         serializedName: "feedbackType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Anomaly", "ChangePoint", "Period", "Comment"]
         }
       },
       feedbackId: {
@@ -2155,7 +2233,8 @@ export const MetricFeedbackFilter: coreHttp.CompositeMapper = {
       feedbackType: {
         serializedName: "feedbackType",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Anomaly", "ChangePoint", "Period", "Comment"]
         }
       },
       startTime: {
@@ -2173,7 +2252,8 @@ export const MetricFeedbackFilter: coreHttp.CompositeMapper = {
       timeMode: {
         serializedName: "timeMode",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["MetricTimestamp", "FeedbackCreatedTime"]
         }
       }
     }
@@ -2255,7 +2335,8 @@ export const HookInfo: coreHttp.CompositeMapper = {
         serializedName: "hookType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Webhook", "Email"]
         }
       },
       id: {
@@ -2317,7 +2398,8 @@ export const HookInfoPatch: coreHttp.CompositeMapper = {
         serializedName: "hookType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Webhook", "Email"]
         }
       },
       hookName: {
@@ -2425,7 +2507,17 @@ export const IngestionStatus: coreHttp.CompositeMapper = {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotStarted",
+            "Scheduled",
+            "Running",
+            "Succeeded",
+            "Failed",
+            "NoData",
+            "Error",
+            "Paused"
+          ]
         }
       },
       message: {
@@ -3176,7 +3268,8 @@ export const AnomalyFeedbackValue: coreHttp.CompositeMapper = {
         serializedName: "anomalyValue",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AutoDetect", "Anomaly", "NotAnomaly"]
         }
       }
     }
@@ -3192,7 +3285,8 @@ export const ChangePointFeedbackValue: coreHttp.CompositeMapper = {
         serializedName: "changePointValue",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AutoDetect", "ChangePoint", "NotChangePoint"]
         }
       }
     }
@@ -3224,7 +3318,8 @@ export const PeriodFeedbackValue: coreHttp.CompositeMapper = {
         serializedName: "periodType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AutoDetect", "AssignValue"]
         }
       },
       periodValue: {

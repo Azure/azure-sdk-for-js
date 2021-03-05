@@ -1,0 +1,20 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads/19%3Adb4189c1cea440d6855cf911e6162571%40thread.v2/participants/:remove",
+   "query": {
+    "api-version": "2021-01-27-preview4"
+   },
+   "requestBody": "{\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-7ba9-1007-f6c7-593a0d00c626\"}}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {}
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3909a61f136266ee3b7f6f5560e54ade"
+}

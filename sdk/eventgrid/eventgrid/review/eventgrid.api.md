@@ -5,10 +5,11 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { HttpResponse } from '@azure/core-http';
+import { AzureSASCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
+import { SASCredential } from '@azure/core-auth';
 
 // @public
 export interface ACSChatEventBase {
@@ -160,6 +161,8 @@ export type AsyncStatus = string;
 
 export { AzureKeyCredential }
 
+export { AzureSASCredential }
+
 // @public
 export interface CloudEvent<T> {
     data?: T;
@@ -247,9 +250,6 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
-export type CustomEventDataDeserializer = (o: any) => Promise<any>;
-
-// @public
 export interface DeviceConnectionStateEventInfo {
     sequenceNumber?: string;
 }
@@ -319,19 +319,11 @@ export interface DeviceTwinProperties {
 }
 
 // @public
-export class EventGridConsumer {
-    constructor(options?: EventGridConsumerOptions);
-    // (undocumented)
-    readonly customDeserializers: Record<string, CustomEventDataDeserializer>;
+export class EventGridDeserializer {
     deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
-    deserializeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
+    deserializeCloudEvents(encodedEvents: Record<string, unknown>): Promise<CloudEvent<unknown>[]>;
     deserializeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
-    deserializeEventGridEvents(encodedEvents: object): Promise<EventGridEvent<unknown>[]>;
-}
-
-// @public
-export interface EventGridConsumerOptions {
-    customDeserializers: Record<string, CustomEventDataDeserializer>;
+    deserializeEventGridEvents(encodedEvents: Record<string, unknown>): Promise<EventGridEvent<unknown>[]>;
 }
 
 // @public
@@ -346,24 +338,15 @@ export interface EventGridEvent<T> {
 }
 
 // @public
-export class EventGridPublisherClient {
-    constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
+export class EventGridPublisherClient<T extends InputSchema> {
+    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
-    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<SendEventsResponse>;
-    sendEvents(events: SendEventGridEventInput<any>[], options?: SendEventsOptions): Promise<SendEventsResponse>;
+    send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
 }
 
 // @public
-export type EventGridPublisherClientOptions = PipelineOptions;
-
-// @public
-export class EventGridSharedAccessSignatureCredential implements SignatureCredential {
-    constructor(signature: string);
-    signature(): string;
-    update(newSignature: string): void;
-}
+export type EventGridPublisherClientOptions = CommonClientOptions;
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
@@ -384,6 +367,16 @@ export function generateSharedAccessSignature(endpointUrl: string, credential: K
 // @public (undocumented)
 export interface GenerateSharedAccessSignatureOptions {
     apiVersion?: string;
+}
+
+// @public
+export type InputSchema = keyof InputSchemaToInputTypeMap;
+
+// @public
+export interface InputSchemaToInputTypeMap {
+    CloudEvent: SendCloudEventInput<unknown>;
+    Custom: Record<string, unknown>;
+    EventGrid: SendEventGridEventInput<unknown>;
 }
 
 // @public
@@ -984,12 +977,6 @@ export interface SendCloudEventInput<T> {
 }
 
 // @public
-export type SendCloudEventsOptions = OperationOptions;
-
-// @public
-export type SendCustomSchemaEventsOptions = OperationOptions;
-
-// @public
 export interface SendEventGridEventInput<T> {
     data: T;
     dataVersion: string;
@@ -1001,12 +988,7 @@ export interface SendEventGridEventInput<T> {
 }
 
 // @public
-export type SendEventsOptions = OperationOptions;
-
-// @public
-export interface SendEventsResponse {
-    _response: HttpResponse;
-}
+export type SendOptions = OperationOptions;
 
 // @public
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
@@ -1026,11 +1008,6 @@ export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
     requestUri?: string;
     subscriptionName?: string;
     topicName?: string;
-}
-
-// @public
-export interface SignatureCredential {
-    signature(): string;
 }
 
 // @public

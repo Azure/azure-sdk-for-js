@@ -14,7 +14,7 @@ import { isDefined, objectHasProperty } from "./util/typeGuards";
  */
 export interface EventPosition {
   /**
-   * @property The offset of the event identified by this position.
+   * The offset of the event identified by this position.
    * Expected to be undefined if the position is just created from a sequence number or an enqueued time.
    *
    * The offset is the relative position for an event in the context of the partition.
@@ -24,20 +24,20 @@ export interface EventPosition {
    */
   offset?: number | "@latest";
   /**
-   * @property Indicates if the specified offset is inclusive of the event which it identifies.
+   * Indicates if the specified offset is inclusive of the event which it identifies.
    * This information is only relevent if the event position was identified by an offset or sequence number.
    * Default value: `false`.
    */
   isInclusive?: boolean;
   /**
-   * @property The enqueued time in UTC of the event identified by this position.
+   * The enqueued time in UTC of the event identified by this position.
    * When provided as a number this value is the number of milliseconds since the Unix Epoch.
    * Expected to be undefined if the position is just created from a sequence number or an offset.
    */
   enqueuedOn?: Date | number;
 
   /**
-   * @property The sequence number of the event identified by this position.
+   * The sequence number of the event identified by this position.
    * Expected to be undefined if the position is just created from an offset or enqueued time.
    */
   sequenceNumber?: number;
@@ -45,9 +45,8 @@ export interface EventPosition {
 
 /**
  * @internal
- * @hidden
  * Gets the expression to be set as the filter clause when creating the receiver
- * @return {string} filterExpression
+ * @returns filterExpression
  */
 export function getEventPositionFilter(eventPosition: EventPosition): string {
   let result;
@@ -79,7 +78,6 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
 
 /**
  * @internal
- * @hidden
  */
 export function isLatestPosition(eventPosition: EventPosition): boolean {
   if (eventPosition.offset === "@latest") {
@@ -109,7 +107,6 @@ export const latestEventPosition: EventPosition = {
 };
 
 /**
- * @hidden
  * @internal
  */
 export function validateEventPositions(
@@ -143,8 +140,6 @@ export function validateEventPositions(
 /**
  * Determines whether a position is an EventPosition.
  * Does not validate that the position is allowed.
- * @param position
- * @hidden
  * @internal
  */
 export function isEventPosition(position: unknown): position is EventPosition {

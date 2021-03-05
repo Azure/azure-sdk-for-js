@@ -70,7 +70,7 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { createSpan, getCanonicalCode } from "./util/tracing";
+import { createSpan, getCanonicalCode } from "./diagnostics/tracing";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
@@ -141,19 +141,19 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Initializes a new instance of the ServiceBusAdministrationClient class.
-   * @param connectionString The connection string needed for the client to connect to Azure.
-   * @param options PipelineOptions
+   * @param connectionString - The connection string needed for the client to connect to Azure.
+   * @param options - PipelineOptions
    */
   constructor(connectionString: string, options?: PipelineOptions);
   /**
    *
-   * @param fullyQualifiedNamespace The fully qualified namespace of your Service Bus instance which is
+   * @param fullyQualifiedNamespace - The fully qualified namespace of your Service Bus instance which is
    * likely to be similar to <yournamespace>.servicebus.windows.net.
-   * @param credential A credential object used by the client to get the token to authenticate the connection
+   * @param credential - A credential object used by the client to get the token to authenticate the connection
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
-   * @param options PipelineOptions
+   * @param options - PipelineOptions
    */
   constructor(
     fullyQualifiedNamespace: string,
@@ -217,15 +217,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the metadata related to a service bus namespace.
-   * @param queueName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    */
   async getNamespaceProperties(
     operationOptions?: OperationOptions
   ): Promise<WithResponse<NamespaceProperties>> {
     logger.verbose(`Performing management operation - getNamespaceProperties()`);
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getNamespaceProperties",
       operationOptions
     );
@@ -233,7 +232,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         "$namespaceinfo",
         this.namespaceResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildNamespacePropertiesResponse(response);
@@ -250,8 +249,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a queue with given name, configured using the given options
-   * @param queueName
-   * @param options Options to configure the Queue being created(For example, you can configure a queue to support partitions or sessions)
+   * @param options - Options to configure the Queue being created(For example, you can configure a queue to support partitions or sessions)
    *  and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -268,7 +266,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queueName: string,
     options?: CreateQueueOptions
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createQueue",
       options
     );
@@ -282,7 +280,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildQueueOptions(options || {}),
         this.queueResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueResponse(response);
@@ -300,8 +298,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns an object representing the Queue and its properties.
    * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeProperties` API.
-   * @param queueName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -316,7 +313,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queueName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueue",
       operationOptions
     );
@@ -325,7 +322,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueResponse(response);
@@ -342,8 +339,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Queue runtime info like message count details.
-   * @param queueName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -358,7 +354,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queueName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueueRuntimeProperties",
       operationOptions
     );
@@ -369,7 +365,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueRuntimePropertiesResponse(response);
@@ -387,7 +383,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Queue along with its properties.
    * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeProperties` API instead.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -400,7 +396,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getQueues(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueues",
       options
     );
@@ -408,7 +404,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
-        updatedOperationOptions,
+        updatedOptions,
         this.queueResourceSerializer
       );
 
@@ -454,12 +450,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    *
-   * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<
-   *     QueueProperties,
-   *     EntitiesResponse<QueueProperties>,
-   *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
     options?: OperationOptions
@@ -468,19 +459,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listQueuesAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -494,7 +482,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Queue's runtime info like message count details.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -507,7 +495,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getQueuesRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueuesRuntimeProperties",
       options
     );
@@ -518,7 +506,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
-        updatedOperationOptions,
+        updatedOptions,
         this.queueResourceSerializer
       );
 
@@ -565,12 +553,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the queues in pages.
    *
    *
-   * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<
-   *     QueueRuntimeProperties,
-   *     EntitiesResponse<QueueRuntimeProperties>,
-   *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listQueuesRuntimeProperties(
     options?: OperationOptions
@@ -582,19 +565,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listQueuesRuntimePropertiesAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -613,9 +593,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
    *
-   * @param queue Object representing the properties of the queue and the raw response.
+   * @param queue - Object representing the properties of the queue and the raw response.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -630,7 +610,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queue: WithResponse<QueueProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateQueue",
       operationOptions
     );
@@ -655,7 +635,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildQueueOptions(queue),
         this.queueResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueResponse(response);
@@ -672,8 +652,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a queue.
-   * @param queueName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -688,7 +667,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queueName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteQueue",
       operationOptions
     );
@@ -697,7 +676,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
@@ -714,18 +693,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Checks whether a given queue exists or not.
-   * @param queueName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-queueExists",
       operationOptions
     );
     try {
       logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
       try {
-        await this.getQueue(queueName, updatedOperationOptions);
+        await this.getQueue(queueName, updatedOptions);
       } catch (error) {
         if (error.code == "MessageEntityNotFoundError") {
           return false;
@@ -746,8 +724,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a topic with given name, configured using the given options
-   * @param topicName
-   * @param options Options to configure the Topic being created(For example, you can configure a topic to support partitions)
+   * @param options - Options to configure the Topic being created(For example, you can configure a topic to support partitions)
    * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -764,7 +741,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options?: CreateTopicOptions
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createTopic",
       options
     );
@@ -778,7 +755,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildTopicOptions(options || {}),
         this.topicResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicResponse(response);
@@ -796,8 +773,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns an object representing the Topic and its properties.
    * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeProperties` API.
-   * @param topicName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -812,7 +788,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopic",
       operationOptions
     );
@@ -821,7 +797,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicResponse(response);
@@ -838,8 +814,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Topic runtime info like subscription count.
-   * @param topicName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -854,7 +829,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopicRuntimeProperties",
       operationOptions
     );
@@ -865,7 +840,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicRuntimePropertiesResponse(response);
@@ -883,7 +858,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Topic along with its properties.
    * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeProperties` API instead.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -896,7 +871,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getTopics(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopics",
       options
     );
@@ -904,7 +879,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
-        updatedOperationOptions,
+        updatedOptions,
         this.topicResourceSerializer
       );
 
@@ -951,12 +926,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list the topics in pages.
    *
    *
-   * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<
-   *     TopicProperties,
-   *     EntitiesResponse<TopicProperties>,
-   *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listTopics(
     options?: OperationOptions
@@ -965,19 +935,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listTopicsAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -991,7 +958,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Topic's runtime info like subscription count.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1004,7 +971,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getTopicsRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopicsRuntimeProperties",
       options
     );
@@ -1015,7 +982,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
-        updatedOperationOptions,
+        updatedOptions,
         this.topicResourceSerializer
       );
 
@@ -1062,13 +1029,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the topics in pages.
    *
    *
-   * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<
-   *     TopicRuntimeProperties,
-   *     EntitiesResponse<TopicRuntimeProperties>,
-
-   *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listTopicsRuntimeProperties(
     options?: OperationOptions
@@ -1080,19 +1041,19 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listTopicsRuntimePropertiesAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -1111,9 +1072,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
    *
-   * @param topic Object representing the properties of the topic and the raw response.
+   * @param topic - Object representing the properties of the topic and the raw response.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1128,7 +1089,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topic: WithResponse<TopicProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateTopic",
       operationOptions
     );
@@ -1153,7 +1114,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildTopicOptions(topic),
         this.topicResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicResponse(response);
@@ -1170,8 +1131,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a topic.
-   * @param topicName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1186,7 +1146,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteTopic",
       operationOptions
     );
@@ -1195,7 +1155,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
@@ -1212,18 +1172,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Checks whether a given topic exists or not.
-   * @param topicName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-topicExists",
       operationOptions
     );
     try {
       logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
       try {
-        await this.getTopic(topicName, updatedOperationOptions);
+        await this.getTopic(topicName, updatedOptions);
       } catch (error) {
         if (error.code == "MessageEntityNotFoundError") {
           return false;
@@ -1244,9 +1203,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a subscription with given name, configured using the given options
-   * @param topicName
-   * @param subscriptionName
-   * @param options Options to configure the Subscription being created(For example, you can configure a Subscription to support partitions or sessions)
+   * @param options - Options to configure the Subscription being created(For example, you can configure a Subscription to support partitions or sessions)
    * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1264,7 +1221,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: CreateSubscriptionOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createSubscription",
       options
     );
@@ -1279,7 +1236,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildSubscriptionOptions(options || {}),
         this.subscriptionResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionResponse(response);
@@ -1297,9 +1254,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns an object representing the Subscription and its properties.
    * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeProperties` API.
-   * @param topicName
-   * @param subscriptionName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1315,7 +1270,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscription",
       operationOptions
     );
@@ -1327,7 +1282,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionResponse(response);
@@ -1344,9 +1299,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Subscription runtime info like message count details.
-   * @param topicName
-   * @param subscriptionName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1362,7 +1315,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscriptionRuntimeProperties",
       operationOptions
     );
@@ -1374,7 +1327,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionRuntimePropertiesResponse(response);
@@ -1392,8 +1345,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Subscription along with its properties.
    * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeProperties` API instead.
-   * @param topicName
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1407,7 +1359,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscriptions",
       options
     );
@@ -1418,7 +1370,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
-        updatedOperationOptions,
+        updatedOptions,
         this.subscriptionResourceSerializer
       );
 
@@ -1468,14 +1420,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the subscriptions in pages.
    *
-   * @memberof ServiceBusAdministrationClient
-   * @param {string} topicName
-   * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<
-   *     SubscriptionProperties,
-   *     EntitiesResponse<SubscriptionProperties>
-   *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listSubscriptions(
     topicName: string,
@@ -1488,19 +1433,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -1514,8 +1456,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Subscription's runtime info like message count details.
-   * @param topicName
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1529,7 +1470,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscriptionsRuntimeProperties",
       options
     );
@@ -1540,7 +1481,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
-        updatedOperationOptions,
+        updatedOptions,
         this.subscriptionResourceSerializer
       );
 
@@ -1593,14 +1534,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list runtime info of subscriptions in pages.
    *
-   * @param {string} topicName
-   * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<
-   *     SubscriptionRuntimeProperties,
-   *     EntitiesResponse<SubscriptionRuntimeProperties>,
-
-   *   >}  An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listSubscriptionsRuntimeProperties(
     topicName: string,
@@ -1616,19 +1550,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -1645,9 +1576,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All subscription properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
    *
-   * @param subscription Object representing the properties of the subscription and the raw response.
+   * @param subscription - Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1662,7 +1593,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscription: WithResponse<SubscriptionProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateSubscription",
       operationOptions
     );
@@ -1694,7 +1625,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildSubscriptionOptions(subscription),
         this.subscriptionResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionResponse(response);
@@ -1711,9 +1642,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a subscription.
-   * @param topicName
-   * @param subscriptionName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1729,7 +1658,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteSubscription",
       operationOptions
     );
@@ -1741,7 +1670,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
@@ -1758,16 +1687,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Checks whether a given subscription exists in the topic or not.
-   * @param topicName
-   * @param subscriptionName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async subscriptionExists(
     topicName: string,
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-subscriptionExists",
       operationOptions
     );
@@ -1776,7 +1703,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
       );
       try {
-        await this.getSubscription(topicName, subscriptionName, updatedOperationOptions);
+        await this.getSubscription(topicName, subscriptionName, updatedOptions);
       } catch (error) {
         if (error.code == "MessageEntityNotFoundError") {
           return false;
@@ -1797,11 +1724,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a rule with given name, configured using the given options.
-   * @param topicName
-   * @param subscriptionName
-   * @param ruleName
-   * @param ruleFilter Defines the filter expression that the rule evaluates.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param ruleFilter - Defines the filter expression that the rule evaluates.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1822,12 +1746,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): Promise<WithResponse<RuleProperties>>;
   /**
    * Creates a rule with given name, configured using the given options.
-   * @param topicName
-   * @param subscriptionName
-   * @param ruleName
-   * @param ruleFilter Defines the filter expression that the rule evaluates.
-   * @param ruleAction The SQL like expression that can be executed on the message should the associated filter apply.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param ruleFilter - Defines the filter expression that the rule evaluates.
+   * @param ruleAction - The SQL like expression that can be executed on the message should the associated filter apply.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1868,7 +1789,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         operOptions = { ...ruleActionOrOperationOptions, ...operationOptions };
       }
     }
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createRule",
       operOptions
     );
@@ -1883,7 +1804,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         { name: ruleName, filter: ruleFilter, action: ruleAction },
         this.ruleResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
       return this.buildRuleResponse(response);
     } catch (e) {
@@ -1899,10 +1820,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Rule with the given name along with all its properties.
-   * @param topicName
-   * @param subscriptionName
-   * @param ruleName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1919,7 +1837,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getRule",
       operationOptions
     );
@@ -1929,7 +1847,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.ruleResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildRuleResponse(response);
@@ -1946,9 +1864,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Lists existing rules.
-   * @param topicName
-   * @param subscriptionName
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1963,16 +1879,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<RuleProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusAdministrationClient-getRules",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ServiceBusAdministrationClient-getRules", options);
     try {
       logger.verbose(`Performing management operation - getRules() with options: %j`, options);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
-        updatedOperationOptions,
+        updatedOptions,
         this.ruleResourceSerializer
       );
 
@@ -2023,11 +1936,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the rules in pages.
    *
-   * @param {string} topicName
-   * @param {string} subscriptionName
-   * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listRules(
     topicName: string,
@@ -2038,19 +1947,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -2067,11 +1973,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All rule properties must be set even if one of them is being updated.
    * Therefore, the suggested flow is to use the output from `getRule()`, update the desired properties in it, and then pass the modified object to `updateRule()`.
    *
-   * @param topicName
-   * @param subscriptionName
-   * @param rule Options to configure the Rule being updated and the raw response.
+   * @param rule - Options to configure the Rule being updated and the raw response.
    * For example, you can configure the filter to apply on associated Topic/Subscription.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -2088,7 +1992,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     rule: WithResponse<RuleProperties>,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateRule",
       operationOptions
     );
@@ -2114,7 +2018,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         rule,
         this.ruleResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildRuleResponse(response);
@@ -2131,10 +2035,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a rule.
-   * @param topicName
-   * @param subscriptionName
-   * @param ruleName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -2151,7 +2052,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteRule",
       operationOptions
     );
@@ -2161,7 +2062,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
         this.ruleResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
@@ -2179,10 +2080,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Checks whether a given rule exists or not.
    *
-   * @param {string} topicName
-   * @param {string} subscriptionName
-   * @param {string} ruleName
-   * @param {OperationOptions} [operationOptions]
    */
   async ruleExists(
     topicName: string,
@@ -2190,14 +2087,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-ruleExists",
       operationOptions
     );
     try {
       logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
       try {
-        await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
+        await this.getRule(topicName, subscriptionName, ruleName, updatedOptions);
       } catch (error) {
         if (error.code == "MessageEntityNotFoundError") {
           return false;
@@ -2218,10 +2115,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates or updates a resource based on `isUpdate` parameter.
-   * @param name
-   * @param entityFields
-   * @param isUpdate
-   * @param serializer
    */
   private async putResource(
     name: string,
@@ -2234,7 +2127,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-putResource",
       operationOptions
     );
@@ -2277,7 +2170,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
       webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -2291,27 +2184,20 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Gets a resource.
-   * @param name
-   * @param serializer
    */
   private async getResource(
     name: string,
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getResource",
       operationOptions
     );
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-      const response = await executeAtomXmlOperation(
-        this,
-        webResource,
-        serializer,
-        updatedOperationOptions
-      );
+      const response = await executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
       if (
         response.parsedBody == undefined ||
         (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
@@ -2339,16 +2225,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Lists existing resources
-   * @param name
-   * @param options
-   * @param serializer
    */
   private async listResources(
     name: string,
     options: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-listResources",
       options
     );
@@ -2365,7 +2248,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
       const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -2379,21 +2262,20 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a resource.
-   * @param name
    */
   private async deleteResource(
     name: string,
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteResource",
       operationOptions
     );
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -2892,7 +2774,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     }
   }
 
-  private throwIfInvalidContinuationToken(token: string | undefined) {
+  private throwIfInvalidContinuationToken(token: string | undefined): void {
     if (!(token === undefined || (typeof token === "string" && Number(token) >= 0))) {
       throw new Error(`Invalid continuationToken ${token} provided`);
     }

@@ -13,17 +13,12 @@ import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccountProperties {
     customModelCount: number;
     customModelLimit: number;
-}
-
-// @public
-export interface Appearance {
-    style: Style;
 }
 
 export { AzureKeyCredential }
@@ -211,7 +206,7 @@ export interface FormFieldsReport {
 
 // @public
 export interface FormLine extends FormElementCommon {
-    appearance?: Appearance;
+    appearance?: TextAppearance;
     kind: "line";
     text: string;
     words: FormWord[];
@@ -418,7 +413,7 @@ export const enum KnownSelectionMarkState {
 }
 
 // @public
-export const enum KnownTextStyle {
+export const enum KnownStyleName {
     // (undocumented)
     Handwriting = "handwriting",
     // (undocumented)
@@ -520,13 +515,18 @@ export { RestResponse }
 export type SelectionMarkState = string;
 
 // @public
-export interface Style {
-    confidence: number;
-    name: TextStyle;
+export type StyleName = string;
+
+// @public
+export interface TextAppearance {
+    style: TextStyle;
 }
 
 // @public
-export type TextStyle = string;
+export interface TextStyle {
+    confidence: number;
+    name: StyleName;
+}
 
 // @public
 export interface TrainingDocumentInfo {

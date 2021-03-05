@@ -3,23 +3,16 @@
 
 /**
  * @internal
- * @hidden
- *
- * @interface Window
  */
 interface Window {}
 
 /**
  * @internal
- * @hidden
  */
 declare let self: Window & typeof globalThis & { navigator: Navigator };
 
 /**
  * @internal
- * @hidden
- *
- * @interface Navigator
  */
 interface Navigator {
   /**
@@ -30,7 +23,6 @@ interface Navigator {
 
 /**
  * Returns information about the platform this function is being run on.
- * @hidden
  * @internal
  */
 export function getPlatformInfo(): string {
@@ -39,7 +31,6 @@ export function getPlatformInfo(): string {
 
 /**
  * Returns information about Node.js this function is being run on.
- * @hidden
  * @internal
  */
 export function getFrameworkInfo(): string {
@@ -48,9 +39,8 @@ export function getFrameworkInfo(): string {
 
 /**
  * @internal
- * @hidden
  *
- * @returns {string}
+ * @returns
  */
 function getReleaseInfo(): string {
   if (typeof self === "undefined") {

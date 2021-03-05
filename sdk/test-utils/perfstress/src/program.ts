@@ -61,6 +61,16 @@ export class PerfStressProgram {
     }
   }
 
+  private getCompletedOperations(parallels: PerfStressParallel[]): number {
+    return parallels.reduce((sum, i) => sum + i.completedOperations, 0);
+  }
+
+  private getOperationsPerSecond(parallels: PerfStressParallel[]): number {
+    return parallels.reduce((sum, parallel) => {
+      return sum + parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
+    }, 0);
+  }
+
   /**
    * Does some calculations based on the parallel executions provided,
    * then logs them in a friendly way.
@@ -82,16 +92,22 @@ export class PerfStressProgram {
    * @param parallels Parallel executions
    */
   private logResults(parallels: PerfStressParallel[]): void {
-    const totalOperations = parallels.reduce((sum, i) => sum + i.completedOperations, 0);
-    const operationsPerSecond = parallels.reduce((sum, parallel) => {
-      return sum + parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
-    }, 0);
+    const totalOperations = this.getCompletedOperations(parallels);
+    const operationsPerSecond = this.getOperationsPerSecond(parallels);
     const secondsPerOperation = 1 / operationsPerSecond;
     const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
-      `Completed ${totalOperations} operations in a weighted-average of ${weightedAverage.toFixed(
-        2
-      )}s` + ` (${operationsPerSecond.toFixed(2)} ops/s, ${secondsPerOperation.toFixed(3)} s/op)`
+      `Completed ${totalOperations.toLocaleString(undefined, { maximumFractionDigits: 0 })} ` +
+        `operations in a weighted-average of ` +
+        `${weightedAverage.toLocaleString(undefined, {
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2
+        })}s ` +
+        `(${operationsPerSecond.toLocaleString(undefined, { maximumFractionDigits: 2 })} ops/s, ` +
+        `${secondsPerOperation.toLocaleString(undefined, {
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 3
+        })} s/op)`
     );
   }
 
@@ -204,13 +220,15 @@ export class PerfStressProgram {
       `\n=== ${title} mode, iteration ${iterationIndex}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
-    console.log(`Since Last Log\t\tTotal`);
-    let lastInIteration = 0;
+    console.log(`Current\t\tTotal\t\tAverage`);
+    let lastCompleted = 0;
     const logInterval = setInterval(() => {
-      const inTotal = parallels.reduce((sum, i) => sum + i.completedOperations, 0);
-      const sinceLastLog = inTotal - lastInIteration;
-      console.log(sinceLastLog + "\t\t\t" + inTotal);
-      lastInIteration = inTotal;
+      const totalCompleted = this.getCompletedOperations(parallels);
+      const currentCompleted = totalCompleted - lastCompleted;
+      const averageCompleted = this.getOperationsPerSecond(parallels);
+
+      lastCompleted = totalCompleted;
+      console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
     }, millisecondsToLog);
 
     const isAsync = !this.parsedDefaultOptions.sync.value;

@@ -29,32 +29,31 @@ import { ReceiverType } from "./core/linkEntity";
 
 /**
  * @internal
- * @hidden
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * The credential to be used for Authentication.
    * Default value: SharedKeyCredentials.
    */
   tokenCredential: SharedKeyCredential | TokenCredential;
   /**
-   * @property A map of active Service Bus Senders with sender name as key.
+   * A map of active Service Bus Senders with sender name as key.
    */
   senders: { [name: string]: MessageSender };
   /**
-   * @property A map of active Service Bus receivers for non session enabled queues/subscriptions
+   * A map of active Service Bus receivers for non session enabled queues/subscriptions
    * with receiver name as key.
    */
   messageReceivers: { [name: string]: MessageReceiver };
   /**
-   * @property A map of active Service Bus receivers for session enabled queues/subscriptions
+   * A map of active Service Bus receivers for session enabled queues/subscriptions
    * with receiver name as key.
    */
   messageSessions: { [name: string]: MessageSession };
   /**
-   * @property A map of ManagementClient instances for operations over the $management link
+   * A map of ManagementClient instances for operations over the $management link
    * with key as the entity path.
    */
   managementClients: { [name: string]: ManagementClient };
@@ -112,19 +111,16 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 
 /**
  * @internal
- * @hidden
  * Helper type to get the names of all the functions on an object.
  */
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal
- * @hidden
  * Helper type to get the types of all the functions on an object.
  */
 type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
 /**
  * @internal
- * @hidden
  * Helper type to get the types of all the functions on ConnectionContext
  * and the internal methods from ConnectionContextInternalMembers.
  * Note that this excludes the functions that ConnectionContext inherits.
@@ -138,14 +134,13 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * @hidden
  * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
  */
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
   receiverType: ReceiverType
-) {
+): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
   for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
@@ -176,13 +171,12 @@ async function callOnDetachedOnReceivers(
 
 /**
  * @internal
- * @hidden
  * Helper method to get the number of receivers of specified type from the connectionContext.
  */
-async function getNumberOfReceivers(
+function getNumberOfReceivers(
   connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
   receiverType: ReceiverType
-) {
+): number {
   if (receiverType === "session") {
     const receivers = connectionContext.messageSessions;
     return Object.keys(receivers).length;
@@ -198,7 +192,6 @@ async function getNumberOfReceivers(
 
 /**
  * @internal
- * @hidden
  */
 export namespace ConnectionContext {
   export function create(
@@ -501,7 +494,7 @@ export namespace ConnectionContext {
       }
     };
 
-    async function refreshConnection(connectionContext: ConnectionContext) {
+    async function refreshConnection(connectionContext: ConnectionContext): Promise<void> {
       const originalConnectionId = connectionContext.connectionId;
       try {
         await cleanConnectionContext(connectionContext);
@@ -554,7 +547,6 @@ export namespace ConnectionContext {
    * Once closed,
    * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
    * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
-   * @returns {Promise<any>}
    */
   export async function close(context: ConnectionContext): Promise<void> {
     const logPrefix = `[${context.connectionId}]`;

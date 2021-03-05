@@ -1,5 +1,15 @@
 # Release History
 
+## 7.0.4 (Unreleased)
+
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `ServiceBusClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
+
+### Tracing updates
+
+- Tracing options for `ServiceBusMessageBatch.tryAdd` now match the shape of `OperationOptions`.
+
 ## 7.0.3 (2021-01-26)
 
 - [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.

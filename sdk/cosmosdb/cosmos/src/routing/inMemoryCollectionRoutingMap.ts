@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { PartitionKeyRange } from "../client";
 import { Constants } from "../common";
 import { QueryRange } from "./QueryRange";
 
 /** @hidden */
 export class InMemoryCollectionRoutingMap {
-  private orderedPartitionKeyRanges: any[];
+  private orderedPartitionKeyRanges: PartitionKeyRange[];
   private orderedRanges: QueryRange[];
   // TODO: chrande made this public, even though it is implementation detail for a test
-  public orderedPartitionInfo: any;
+  public orderedPartitionInfo: unknown;
 
   /**
    * Represents a InMemoryCollectionRoutingMap Object,
    * Stores partition key ranges in an efficient way with some additional information and provides
    * convenience methods for working with set of ranges.
    */
-  constructor(orderedPartitionKeyRanges: any[], orderedPartitionInfo: any) {
+  constructor(orderedPartitionKeyRanges: PartitionKeyRange[], orderedPartitionInfo: unknown) {
     this.orderedPartitionKeyRanges = orderedPartitionKeyRanges;
     this.orderedRanges = orderedPartitionKeyRanges.map((pkr) => {
       return new QueryRange(
@@ -27,11 +28,11 @@ export class InMemoryCollectionRoutingMap {
     });
     this.orderedPartitionInfo = orderedPartitionInfo;
   }
-  public getOrderedParitionKeyRanges() {
+  public getOrderedParitionKeyRanges(): PartitionKeyRange[] {
     return this.orderedPartitionKeyRanges;
   }
 
-  public getOverlappingRanges(providedQueryRanges: QueryRange | QueryRange[]) {
+  public getOverlappingRanges(providedQueryRanges: QueryRange | QueryRange[]): PartitionKeyRange[] {
     // TODO This code has all kinds of smells. Multiple iterations and sorts just to grab overlapping ranges
     // stfaul attempted to bring it down to one for-loop and failed
     const pqr: QueryRange[] = Array.isArray(providedQueryRanges)

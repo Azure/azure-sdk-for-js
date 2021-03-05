@@ -383,11 +383,7 @@ export const Constants: {
         TopologyPathSegment: string;
         DatabaseAccountPathSegment: string;
     };
-    PartitionKeyRange: {
-        MinInclusive: string;
-        MaxExclusive: string;
-        Id: string;
-    };
+    PartitionKeyRange: PartitionKeyRangePropertiesNames;
     QueryRangeConstants: {
         MinInclusive: string;
         MaxExclusive: string;
@@ -413,7 +409,7 @@ export class Container {
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     readonly id: string;
-    item(id: string, partitionKeyValue?: any): Item;
+    item(id: string, partitionKeyValue?: PartitionKey): Item;
     get items(): Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
@@ -527,7 +523,7 @@ export interface CreateOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Create;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -637,7 +633,7 @@ export interface DeleteOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Delete;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
 }
 
 // @public (undocumented)
@@ -671,7 +667,7 @@ export interface ErrorResponse extends Error {
 }
 
 // @public (undocumented)
-export function extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
+export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
 export interface FeedOptions extends SharedOptions {
@@ -723,7 +719,6 @@ export class GlobalEndpointManager {
     constructor(options: CosmosClientOptions, readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
-    // (undocumented)
     enableEndpointDiscovery: boolean;
     getReadEndpoint(): Promise<string>;
     // (undocumented)
@@ -854,7 +849,7 @@ export class Items {
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // @deprecated
     readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
-    upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
+    upsert(body: unknown, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
 }
 
@@ -1005,7 +1000,7 @@ export interface PartitionedQueryExecutionInfo {
 }
 
 // @public (undocumented)
-export type PartitionKey = PartitionKeyDefinition | string | number | {};
+export type PartitionKey = PartitionKeyDefinition | string | number | unknown;
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
@@ -1031,6 +1026,16 @@ export interface PartitionKeyRange {
     status: string;
     // (undocumented)
     throughputFraction: number;
+}
+
+// @public (undocumented)
+export interface PartitionKeyRangePropertiesNames {
+    // (undocumented)
+    Id: "id";
+    // (undocumented)
+    MaxExclusive: "maxExclusive";
+    // (undocumented)
+    MinInclusive: "minInclusive";
 }
 
 // @public
@@ -1265,7 +1270,7 @@ export interface ReadOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Read;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
 }
 
 // @public (undocumented)
@@ -1283,7 +1288,7 @@ export interface ReplaceOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Replace;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -1515,57 +1520,56 @@ export interface SqlQuerySpec {
 }
 
 // @public (undocumented)
-export const StatusCode: {
-    Ok: 200;
-    Created: 201;
-    Accepted: 202;
-    NoContent: 204;
-    NotModified: 304;
-    BadRequest: 400;
-    Unauthorized: 401;
-    Forbidden: 403;
-    NotFound: 404;
-    MethodNotAllowed: 405;
-    RequestTimeout: 408;
-    Conflict: 409;
-    Gone: 410;
-    PreconditionFailed: 412;
-    RequestEntityTooLarge: 413;
-    TooManyRequests: 429;
-    RetryWith: 449;
-    InternalServerError: 500;
-    ServiceUnavailable: 503;
-    OperationPaused: 1200;
-    OperationCancelled: number;
-};
+export type StatusCode = number;
 
 // @public (undocumented)
-export type StatusCode = typeof StatusCode[keyof typeof StatusCode];
+export const StatusCodes: StatusCodesType;
 
 // @public (undocumented)
-export const StatusCodes: {
-    Ok: 200;
-    Created: 201;
+export interface StatusCodesType {
+    // (undocumented)
     Accepted: 202;
-    NoContent: 204;
-    NotModified: 304;
+    // (undocumented)
     BadRequest: 400;
-    Unauthorized: 401;
-    Forbidden: 403;
-    NotFound: 404;
-    MethodNotAllowed: 405;
-    RequestTimeout: 408;
+    // (undocumented)
     Conflict: 409;
+    // (undocumented)
+    Created: 201;
+    // (undocumented)
+    Forbidden: 403;
+    // (undocumented)
     Gone: 410;
-    PreconditionFailed: 412;
-    RequestEntityTooLarge: 413;
-    TooManyRequests: 429;
-    RetryWith: 449;
+    // (undocumented)
     InternalServerError: 500;
-    ServiceUnavailable: 503;
-    OperationPaused: 1200;
+    // (undocumented)
+    MethodNotAllowed: 405;
+    // (undocumented)
+    NoContent: 204;
+    // (undocumented)
+    NotFound: 404;
+    // (undocumented)
+    NotModified: 304;
+    // (undocumented)
+    Ok: 200;
+    // (undocumented)
     OperationCancelled: 1201;
-};
+    // (undocumented)
+    OperationPaused: 1200;
+    // (undocumented)
+    PreconditionFailed: 412;
+    // (undocumented)
+    RequestEntityTooLarge: 413;
+    // (undocumented)
+    RequestTimeout: 408;
+    // (undocumented)
+    RetryWith: 449;
+    // (undocumented)
+    ServiceUnavailable: 503;
+    // (undocumented)
+    TooManyRequests: 429;
+    // (undocumented)
+    Unauthorized: 401;
+}
 
 // @public
 export class StoredProcedure {
@@ -1573,7 +1577,7 @@ export class StoredProcedure {
     // (undocumented)
     readonly container: Container;
     delete(options?: RequestOptions): Promise<StoredProcedureResponse>;
-    execute<T = any>(partitionKey: any, params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>>;
+    execute<T = any>(partitionKey: PartitionKey, params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>>;
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<StoredProcedureResponse>;
@@ -1606,16 +1610,7 @@ export class StoredProcedures {
 }
 
 // @public (undocumented)
-export const SubStatusCode: {
-    Unknown: 0;
-    CrossPartitionQueryNotServable: 1004;
-    PartitionKeyRangeGone: 1002;
-    ReadSessionNotAvailable: 1002;
-    WriteForbidden: number;
-};
-
-// @public (undocumented)
-export type SubStatusCode = typeof SubStatusCode[keyof typeof SubStatusCode];
+export type SubStatusCode = number;
 
 // @public
 export class TimeSpan {
@@ -1624,8 +1619,8 @@ export class TimeSpan {
     // (undocumented)
     static additionDoesOverflow(a: number, b: number): boolean;
     // (undocumented)
-    static compare(t1: TimeSpan, t2: TimeSpan): 0 | 1 | -1;
-    compareTo(value: TimeSpan): 0 | 1 | -1;
+    static compare(t1: TimeSpan, t2: TimeSpan): 1 | 0 | -1;
+    compareTo(value: TimeSpan): 1 | -1 | 0;
     // (undocumented)
     days(): number;
     duration(): TimeSpan;
@@ -1760,7 +1755,7 @@ export interface UpsertOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Upsert;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
@@ -52,6 +55,7 @@ describe("RetryPolicy", () => {
     };
     await injectContainerClient.setMetadata(metadata);
 
+    assert.equal(injectCounter, 1);
     const result = await containerClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
@@ -156,5 +160,31 @@ describe("RetryPolicy", () => {
     }
 
     assert.deepStrictEqual(URLBuilder.parse(finalRequestURL).getHost(), secondaryHost);
+  });
+
+  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {
+    let injectCounter = 0;
+    const injector = new InjectorPolicyFactory(() => {
+      if (injectCounter === 0) {
+        injectCounter++;
+        return new RestError(`Error "Error: Unclosed root tag`, "PARSE_ERROR");
+      }
+      return;
+    });
+    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
+    factories.push(injector);
+    const pipeline = new Pipeline(factories);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
+
+    const metadata = {
+      key0: "val0",
+      keya: "vala",
+      keyb: "valb"
+    };
+    await injectContainerClient.setMetadata(metadata);
+
+    assert.equal(injectCounter, 1);
+    const result = await containerClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
   });
 });

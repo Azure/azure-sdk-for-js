@@ -60,7 +60,7 @@ the connection string from the Azure portal.
 ```javascript
 const { ServiceBusClient } = require("@azure/service-bus");
 
-const serviceBusClient = new ServiceBusClient(connectionString);
+const serviceBusClient = new ServiceBusClient("<connectionString>");
 ```
 
 More information about this constructor is available in the [API documentation][sbclient_constructor].
@@ -366,7 +366,7 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
-### Enable logs
+### Logging
 
 You can set the following environment variable to get the debug logs when using this library.
 

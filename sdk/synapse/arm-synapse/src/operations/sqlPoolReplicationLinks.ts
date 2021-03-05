@@ -155,7 +155,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ReplicationLinkListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -182,7 +182,7 @@ const getByNameOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ReplicationLink
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -206,7 +206,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ReplicationLinkListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

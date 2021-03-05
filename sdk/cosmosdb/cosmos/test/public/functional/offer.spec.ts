@@ -7,7 +7,7 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-const validateOfferResponseBody = function(offer: any) {
+const validateOfferResponseBody = function(offer: any): void {
   assert(offer.id, "Id cannot be null");
   assert(offer._rid, "Resource Id (Rid) cannot be null");
   assert(offer._self, "Self Link cannot be null");
@@ -117,8 +117,8 @@ describe("NodeJS CRUD Tests", function() {
         await client.offer(offerBadId._self).replace(offerBadId);
         assert.fail("Must throw after replace with bad id");
       } catch (err) {
-        const badRequestErrorCode = 400;
-        assert.equal(err.code, badRequestErrorCode);
+        // check for 400 or 401 since some backends validate auth first
+        assert(err.code === 400 || err.code === 401);
       }
     });
   });

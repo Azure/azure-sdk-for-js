@@ -16,7 +16,7 @@ export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.1";
+export const LATEST_API_VERSION = "7.2";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -25,13 +25,13 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1";
+  serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 /**
  * The optional parameters accepted by the KeyVault's CryptographyClient
  */
-export interface CryptographyClientOptions extends KeyClientOptions { }
+export interface CryptographyClientOptions extends KeyClientOptions {}
 
 /**
  * As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
@@ -204,6 +204,15 @@ export interface KeyProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+
+  /**
+   * True if the secret's lifetime is managed by
+   * key vault. If this is a secret backing a certificate, then managed will be
+   * true.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly managed?: boolean;
 }
 
 /**
@@ -283,9 +292,14 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   readonly expiresOn?: Date;
   /**
-   * Size of the key
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
+  /**
+   * Elliptic curve name. For valid values, see KeyCurveName.
+   * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
+   */
+  curve?: KeyCurveName;
 }
 
 /**
@@ -307,24 +321,19 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link beginDeleteKey}
  */
-export interface BeginDeleteKeyOptions extends KeyPollerOptions { }
+export interface BeginDeleteKeyOptions extends KeyPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link beginRecoverDeletedKey}
  */
-export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions { }
+export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-  /**
-   * Elliptic curve name. For valid values, see KeyCurveName.
-   * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
-   */
-  curve?: KeyCurveName;
   /**
    * Whether to import as a hardware key (HSM) or software key.
    */
@@ -337,11 +346,21 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
-   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
-   */
-  keySize?: number;
-  /**
    * Whether to import as a hardware key (HSM) or software key.
+   */
+  hsm?: boolean;
+
+  /** The public exponent for a RSA key. */
+  publicExponent?: number;
+}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link createOctKey}
+ */
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+  /**
+   * Whether to create a hardware-protected key in a hardware security module (HSM).
    */
   hsm?: boolean;
 }
@@ -414,58 +433,56 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 /**
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listKeys}.
  */
-export interface ListKeysOptions extends coreHttp.OperationOptions { }
+export interface ListKeysOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeys}.
  */
-export interface ListPropertiesOfKeysOptions extends coreHttp.OperationOptions { }
+export interface ListPropertiesOfKeysOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeyVersions}.
  */
-export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOptions { }
+export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listDeletedKeys}.
  */
-export interface ListDeletedKeysOptions extends coreHttp.OperationOptions { }
+export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options for {@link getDeletedKey}.
  */
-export interface GetDeletedKeyOptions extends coreHttp.OperationOptions { }
+export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options for {@link purgeDeletedKey}.
  */
-export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions { }
+export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @hidden
  * Options for {@link recoverDeletedKey}.
  */
-export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions { }
+export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @hidden
  * Options for {@link deleteKey}.
  */
-export interface DeleteKeyOptions extends coreHttp.OperationOptions { }
+export interface DeleteKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options for {@link backupKey}.
  */
-export interface BackupKeyOptions extends coreHttp.OperationOptions { }
+export interface BackupKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * Options for {@link restoreKeyBackup}.
  */
-export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions { }
+export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
-export interface CryptographyOptions extends coreHttp.OperationOptions { }
+export interface CryptographyOptions extends coreHttp.OperationOptions {}

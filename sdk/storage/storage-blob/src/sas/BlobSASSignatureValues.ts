@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { BlobSASPermissions } from "./BlobSASPermissions";
 import { UserDelegationKey } from "../BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
@@ -14,41 +14,26 @@ import { truncatedISO8061Date } from "../utils/utils.common";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * BlobSASSignatureValues is used to help generating Blob service SAS tokens for containers or blobs.
- *
- * @export
- * @class BlobSASSignatureValues
  */
 export interface BlobSASSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   version?: string;
 
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof BlobSASSignatureValues
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof BlobSASSignatureValues
    */
   startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof BlobSASSignatureValues
    */
   expiresOn?: Date;
 
@@ -56,49 +41,31 @@ export interface BlobSASSignatureValues {
    * Optional only when identifier is provided.
    * Please refer to either {@link ContainerSASPermissions} or {@link BlobSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
-   *
-   * @type {BlobSASPermissions | ContainerSASPermissions}
-   * @memberof BlobSASSignatureValues
    */
   permissions?: BlobSASPermissions | ContainerSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof BlobSASSignatureValues
    */
   ipRange?: SasIPRange;
 
   /**
    * The name of the container the SAS user may access.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   containerName: string;
 
   /**
    * Optional. The blob name of the SAS user may access. Required if snapshotTime or versionId is provided.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   blobName?: string;
 
   /**
    * Optional. Snapshot timestamp string the SAS user may access. Only supported from API version 2018-11-09.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   snapshotTime?: string;
 
   /**
    * Optional. VersionId of the blob version the SAS user may access. Only supported from API version 2019-10-10.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   versionId?: string;
 
@@ -106,49 +73,31 @@ export interface BlobSASSignatureValues {
    * Optional. The name of the access policy on the container this SAS references if any.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   identifier?: string;
 
   /**
    * Optional. The cache-control header for the SAS.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   cacheControl?: string;
 
   /**
    * Optional. The content-disposition header for the SAS.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   contentDisposition?: string;
 
   /**
    * Optional. The content-encoding header for the SAS.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   contentEncoding?: string;
 
   /**
    * Optional. The content-language header for the SAS.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   contentLanguage?: string;
 
   /**
    * Optional. The content-type header for the SAS.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   contentType?: string;
 
@@ -157,18 +106,12 @@ export interface BlobSASSignatureValues {
    * authorized by the owner of the user delegation key to perform the action granted by the SAS. The Azure Storage service will
    * ensure that the owner of the user delegation key has the required permissions before granting access but no additional permission
    * check for the user specified in this value will be performed. This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   preauthorizedAgentObjectId?: string;
 
   /**
    * Optional. Beginning in version 2020-02-10, this is a GUID value that will be logged in the storage diagnostic logs and can be used to
    * correlate SAS generation with storage resource access. This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof BlobSASSignatureValues
    */
   correlationId?: string;
 }
@@ -253,10 +196,8 @@ export interface BlobSASSignatureValues {
  * ).toString();
  * ```
  *
- * @export
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param sharedKeyCredential -
  */
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -281,18 +222,16 @@ export function generateBlobSASQueryParameters(
  *     expiresOn, // Required. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
- *     version: "2018-11-09" // Must >= 2018-11-09 to generate user delegation SAS
+ *     version: "2018-11-09" // Must greater than or equal to 2018-11-09 to generate user delegation SAS
  *   },
  *   userDelegationKey, // UserDelegationKey
  *   accountName
  * ).toString();
  * ```
  *
- * @export
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKey} userDelegationKey Return value of `blobServiceClient.getUserDelegationKey()`
- * @param {string} accountName
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+ * @param accountName -
  */
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -372,9 +311,8 @@ export function generateBlobSASQueryParameters(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param sharedKeyCredential -
  */
 function generateBlobSASQueryParameters20150405(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -470,9 +408,8 @@ function generateBlobSASQueryParameters20150405(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param sharedKeyCredential -
  */
 function generateBlobSASQueryParameters20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -575,9 +512,8 @@ function generateBlobSASQueryParameters20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param userDelegationKeyCredential -
  */
 function generateBlobSASQueryParametersUDK20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -687,9 +623,8 @@ function generateBlobSASQueryParametersUDK20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param userDelegationKeyCredential -
  */
 function generateBlobSASQueryParametersUDK20200210(
   blobSASSignatureValues: BlobSASSignatureValues,

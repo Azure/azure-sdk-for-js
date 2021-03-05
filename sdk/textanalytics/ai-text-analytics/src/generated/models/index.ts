@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
 
 /** Contains a set of input documents to be analyzed by the service. */
 export interface MultiLanguageBatchInput {
@@ -39,6 +39,7 @@ export interface JobManifestTasks {
   entityRecognitionTasks?: EntitiesTask[];
   entityRecognitionPiiTasks?: PiiTask[];
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
+  entityLinkingTasks?: EntityLinkingTask[];
 }
 
 export interface EntitiesTask {
@@ -47,7 +48,7 @@ export interface EntitiesTask {
 
 export interface EntitiesTaskParameters {
   modelVersion?: string;
-  stringIndexType?: StringIndexTypeResponse;
+  stringIndexType?: StringIndexType;
 }
 
 export interface PiiTask {
@@ -57,7 +58,9 @@ export interface PiiTask {
 export interface PiiTaskParameters {
   domain?: PiiTaskParametersDomain;
   modelVersion?: string;
-  stringIndexType?: StringIndexTypeResponse;
+  /** (Optional) describes the PII categories to return */
+  piiCategories?: PiiCategory[];
+  stringIndexType?: StringIndexType;
 }
 
 export interface KeyPhrasesTask {
@@ -66,6 +69,15 @@ export interface KeyPhrasesTask {
 
 export interface KeyPhrasesTaskParameters {
   modelVersion?: string;
+}
+
+export interface EntityLinkingTask {
+  parameters?: EntityLinkingTaskParameters;
+}
+
+export interface EntityLinkingTaskParameters {
+  modelVersion?: string;
+  stringIndexType?: StringIndexType;
 }
 
 export interface ErrorResponse {
@@ -113,7 +125,6 @@ export interface TextDocumentBatchStatistics {
 
 export interface JobMetadata {
   createdDateTime: Date;
-  displayName?: string;
   expirationDateTime?: Date;
   jobId: string;
   lastUpdateDateTime: Date;
@@ -133,6 +144,7 @@ export interface TasksStateTasks {
   entityRecognitionTasks?: TasksStateTasksEntityRecognitionTasksItem[];
   entityRecognitionPiiTasks?: TasksStateTasksEntityRecognitionPiiTasksItem[];
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
+  entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
 }
 
 export interface TaskState {
@@ -142,7 +154,7 @@ export interface TaskState {
 }
 
 export interface Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 {
-  results: EntitiesResult;
+  results?: EntitiesResult;
 }
 
 export interface EntitiesResult {
@@ -177,6 +189,8 @@ export interface Entity {
   subCategory?: string;
   /** Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned. */
   offset: number;
+  /** Length for the entity text. Use of different 'stringIndexType' values can affect the length returned. */
+  length: number;
   /** Confidence score between 0 and 1 of the extracted entity. */
   confidenceScore: number;
 }
@@ -205,7 +219,7 @@ export interface DocumentError {
 }
 
 export interface Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 {
-  results: PiiResult;
+  results?: PiiResult;
 }
 
 export interface PiiResult {
@@ -233,7 +247,7 @@ export interface PiiDocumentEntities {
 }
 
 export interface Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 {
-  results: KeyPhraseResult;
+  results?: KeyPhraseResult;
 }
 
 export interface KeyPhraseResult {
@@ -256,6 +270,62 @@ export interface DocumentKeyPhrases {
   warnings: TextAnalyticsWarning[];
   /** if showStats=true was specified in the request this field will contain information about the document payload. */
   statistics?: TextDocumentStatistics;
+}
+
+export interface ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 {
+  results?: EntityLinkingResult;
+}
+
+export interface EntityLinkingResult {
+  /** Response by document */
+  documents: DocumentLinkedEntities[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
+}
+
+export interface DocumentLinkedEntities {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  /** Recognized well known entities in the document. */
+  entities: LinkedEntity[];
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+  /** if showStats=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+}
+
+/** A word or phrase identified as a well-known entity within a database, including its formal (disambiguated) name and a link to the entity information within the source database. */
+export interface LinkedEntity {
+  /** Entity Linking formal name. */
+  name: string;
+  /** List of instances this entity appears in the text. */
+  matches: Match[];
+  /** Language used in the data source. */
+  language: string;
+  /** Unique identifier of the recognized entity from the data source. */
+  dataSourceEntityId?: string;
+  /** URL for the entity's page from the data source. */
+  url: string;
+  /** Data source used to extract entity linking, such as Wiki/Bing etc. */
+  dataSource: string;
+  /** Bing Entity Search API unique identifier of the recognized entity. */
+  bingEntitySearchApiId?: string;
+}
+
+/** Details about the specific substring in a document that refers to a linked entity identified by the Text Analytics model. */
+export interface Match {
+  /** If a well known item is recognized, a decimal number denoting the confidence level between 0 and 1 will be returned. */
+  confidenceScore: number;
+  /** Entity text as appears in the request. */
+  text: string;
+  /** Start position for the entity match text. */
+  offset: number;
+  /** Length for the entity match text. */
+  length: number;
 }
 
 export interface Pagination {
@@ -286,6 +356,15 @@ export interface DocumentHealthcareEntities {
   statistics?: TextDocumentStatistics;
 }
 
+export interface HealthcareAssertion {
+  /** Describes any conditionality on the entity. */
+  conditionality?: Conditionality;
+  /** Describes the entities certainty and polarity. */
+  certainty?: Certainty;
+  /** Describes if the entity is the subject of the text or if it describes someone else. */
+  association?: Association;
+}
+
 export interface HealthcareEntityLink {
   /** Entity Catalog. Examples include: UMLS, CHV, MSH, etc. */
   dataSource: string;
@@ -293,65 +372,19 @@ export interface HealthcareEntityLink {
   id: string;
 }
 
+/** Every relation is an entity graph of a certain relationType, where all entities are connected and have specific roles within the relation context. */
 export interface HealthcareRelation {
   /** Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc. */
-  relationType: string;
-  /** If true the relation between the entities is bidirectional, otherwise directionality is source to target. */
-  bidirectional: boolean;
-  /** Reference link to the source entity. */
-  source: string;
-  /** Reference link to the target entity. */
-  target: string;
+  relationType: RelationType;
+  /** The entities in the relation. */
+  entities: HealthcareRelationEntity[];
 }
 
-export interface EntityLinkingResult {
-  /** Response by document */
-  documents: DocumentLinkedEntities[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates which model is used for scoring. */
-  modelVersion: string;
-}
-
-export interface DocumentLinkedEntities {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  /** Recognized well-known entities in the document. */
-  entities: LinkedEntity[];
-  /** Warnings encountered while processing document. */
-  warnings: TextAnalyticsWarning[];
-  /** if showStats=true was specified in the request this field will contain information about the document payload. */
-  statistics?: TextDocumentStatistics;
-}
-
-/** A word or phrase identified as a well-known entity within a database, including its formal (disambiguated) name and a link to the entity information within the source database. */
-export interface LinkedEntity {
-  /** Entity Linking formal name. */
-  name: string;
-  /** List of instances this entity appears in the text. */
-  matches: Match[];
-  /** Language used in the data source. */
-  language: string;
-  /** Unique identifier of the recognized entity from the data source. */
-  dataSourceEntityId?: string;
-  /** URL for the entity's page from the data source. */
-  url: string;
-  /** Data source used to extract entity linking, such as Wiki/Bing etc. */
-  dataSource: string;
-  /** Bing Entity Search API unique identifier of the recognized entity. */
-  bingEntitySearchApiId?: string;
-}
-
-/** Details about the specific substring in a document that refers to a linked entity identified by the Text Analytics model. */
-export interface Match {
-  /** If a well-known item is recognized, a decimal number denoting the confidence level between 0 and 1 will be returned. */
-  confidenceScore: number;
-  /** Entity text as appears in the request. */
-  text: string;
-  /** Start position for the entity match text. */
-  offset: number;
+export interface HealthcareRelationEntity {
+  /** Reference link object, using a JSON pointer RFC 6901 (URI Fragment Identifier Representation), pointing to the entity . */
+  ref: string;
+  /** Role of entity in the relationship. For example: 'CD20-positive diffuse large B-cell lymphoma' has the following entities with their roles in parenthesis:  CD20 (GeneOrProtein), Positive (Expression), diffuse large B-cell lymphoma (Diagnosis). */
+  role: string;
 }
 
 export interface LanguageBatchInput {
@@ -441,48 +474,54 @@ export interface SentenceSentiment {
   confidenceScores: SentimentConfidenceScores;
   /** The sentence offset from the start of the document. */
   offset: number;
-  /** The array of aspect object for the sentence. */
-  aspects?: SentenceAspect[];
-  /** The array of opinion object for the sentence. */
-  opinions?: SentenceOpinion[];
+  /** The length of the sentence. */
+  length: number;
+  /** The array of sentence targets for the sentence. */
+  targets?: SentenceTarget[];
+  /** The array of assessments for the sentence. */
+  assessments?: SentenceAssessment[];
 }
 
-export interface SentenceAspect {
-  /** Aspect level sentiment for the aspect in the sentence. */
+export interface SentenceTarget {
+  /** Targeted sentiment in the sentence. */
   sentiment: TokenSentimentValue;
-  /** Aspect level sentiment confidence scores for the aspect in the sentence. */
-  confidenceScores: AspectConfidenceScoreLabel;
-  /** The aspect offset from the start of the sentence. */
+  /** Target sentiment confidence scores for the target in the sentence. */
+  confidenceScores: TargetConfidenceScoreLabel;
+  /** The target offset from the start of the sentence. */
   offset: number;
-  /** The aspect text detected. */
+  /** The length of the target. */
+  length: number;
+  /** The target text detected. */
   text: string;
-  /** The array of either opinion or aspect object which is related to the aspect. */
-  relations: AspectRelation[];
+  /** The array of either assessment or target objects which is related to the target. */
+  relations: TargetRelation[];
 }
 
 /** Represents the confidence scores across all sentiment classes: positive, neutral, negative. */
-export interface AspectConfidenceScoreLabel {
+export interface TargetConfidenceScoreLabel {
   positive: number;
   negative: number;
 }
 
-export interface AspectRelation {
-  /** The type related to the aspect. */
-  relationType: AspectRelationType;
+export interface TargetRelation {
+  /** The type related to the target. */
+  relationType: TargetRelationType;
   /** The JSON pointer indicating the linked object. */
   ref: string;
 }
 
-export interface SentenceOpinion {
-  /** Opinion level sentiment for the aspect in the sentence. */
+export interface SentenceAssessment {
+  /** Assessment sentiment in the sentence. */
   sentiment: TokenSentimentValue;
-  /** Opinion level sentiment confidence scores for the aspect in the sentence. */
-  confidenceScores: AspectConfidenceScoreLabel;
-  /** The opinion offset from the start of the sentence. */
+  /** Assessment sentiment confidence scores in the sentence. */
+  confidenceScores: TargetConfidenceScoreLabel;
+  /** The assessment offset from the start of the sentence. */
   offset: number;
-  /** The aspect text detected. */
+  /** The length of the assessment. */
+  length: number;
+  /** The assessment text detected. */
   text: string;
-  /** The indicator representing if the opinion is negated. */
+  /** The indicator representing if the assessment is negated. */
   isNegated: boolean;
 }
 
@@ -492,18 +531,22 @@ export type AnalyzeBatchInput = JobDescriptor &
     analysisInput: MultiLanguageBatchInput;
   };
 
-export type AnalyzeJobState = JobMetadata &
-  TasksState &
-  Pagination & {
-    errors?: TextAnalyticsError[];
-    /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-    statistics?: TextDocumentBatchStatistics;
-  };
+export type AnalyzeJobMetadata = JobMetadata & {
+  displayName?: string;
+};
 
 export type HealthcareJobState = JobMetadata &
   Pagination & {
     results?: HealthcareResult;
     errors?: TextAnalyticsError[];
+  };
+
+export type AnalyzeJobState = AnalyzeJobMetadata &
+  TasksState &
+  Pagination & {
+    errors?: TextAnalyticsError[];
+    /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+    statistics?: TextDocumentBatchStatistics;
   };
 
 export type TasksStateTasksDetails = TaskState & {};
@@ -517,8 +560,13 @@ export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
 export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
   Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 & {};
 
+export type TasksStateTasksEntityLinkingTasksItem = TaskState &
+  ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 & {};
+
 export type HealthcareEntity = Entity & {
-  isNegated: boolean;
+  assertion?: HealthcareAssertion;
+  /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
+  name?: string;
   /** Entity references in known data sources. */
   links?: HealthcareEntityLink[];
 };
@@ -538,6 +586,27 @@ export interface GeneratedClientHealthHeaders {
   operationLocation?: string;
 }
 
+/** Known values of {@link StringIndexType} that the service accepts. */
+export const enum KnownStringIndexType {
+  /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
+  TextElementsV8 = "TextElements_v8",
+  /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
+  UnicodeCodePoint = "UnicodeCodePoint",
+  /** Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript. */
+  Utf16CodeUnit = "Utf16CodeUnit"
+}
+
+/**
+ * Defines values for StringIndexType. \
+ * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
+ * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
+ * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
+ */
+export type StringIndexType = string;
+
 /** Known values of {@link PiiTaskParametersDomain} that the service accepts. */
 export const enum KnownPiiTaskParametersDomain {
   Phi = "phi",
@@ -553,6 +622,364 @@ export const enum KnownPiiTaskParametersDomain {
  * **none**
  */
 export type PiiTaskParametersDomain = string;
+
+/** Known values of {@link PiiCategory} that the service accepts. */
+export const enum KnownPiiCategory {
+  ABARoutingNumber = "ABARoutingNumber",
+  ARNationalIdentityNumber = "ARNationalIdentityNumber",
+  AUBankAccountNumber = "AUBankAccountNumber",
+  AUDriversLicenseNumber = "AUDriversLicenseNumber",
+  AUMedicalAccountNumber = "AUMedicalAccountNumber",
+  AUPassportNumber = "AUPassportNumber",
+  AUTaxFileNumber = "AUTaxFileNumber",
+  AUBusinessNumber = "AUBusinessNumber",
+  AUCompanyNumber = "AUCompanyNumber",
+  ATIdentityCard = "ATIdentityCard",
+  ATTaxIdentificationNumber = "ATTaxIdentificationNumber",
+  ATValueAddedTaxNumber = "ATValueAddedTaxNumber",
+  AzureDocumentDBAuthKey = "AzureDocumentDBAuthKey",
+  AzureIaasDatabaseConnectionAndSQLString = "AzureIAASDatabaseConnectionAndSQLString",
+  AzureIoTConnectionString = "AzureIoTConnectionString",
+  AzurePublishSettingPassword = "AzurePublishSettingPassword",
+  AzureRedisCacheString = "AzureRedisCacheString",
+  AzureSAS = "AzureSAS",
+  AzureServiceBusString = "AzureServiceBusString",
+  AzureStorageAccountKey = "AzureStorageAccountKey",
+  AzureStorageAccountGeneric = "AzureStorageAccountGeneric",
+  BENationalNumber = "BENationalNumber",
+  BENationalNumberV2 = "BENationalNumberV2",
+  BEValueAddedTaxNumber = "BEValueAddedTaxNumber",
+  BrcpfNumber = "BRCPFNumber",
+  BRLegalEntityNumber = "BRLegalEntityNumber",
+  BRNationalIdrg = "BRNationalIDRG",
+  BGUniformCivilNumber = "BGUniformCivilNumber",
+  CABankAccountNumber = "CABankAccountNumber",
+  CADriversLicenseNumber = "CADriversLicenseNumber",
+  CAHealthServiceNumber = "CAHealthServiceNumber",
+  CAPassportNumber = "CAPassportNumber",
+  CAPersonalHealthIdentification = "CAPersonalHealthIdentification",
+  CASocialInsuranceNumber = "CASocialInsuranceNumber",
+  CLIdentityCardNumber = "CLIdentityCardNumber",
+  CNResidentIdentityCardNumber = "CNResidentIdentityCardNumber",
+  CreditCardNumber = "CreditCardNumber",
+  HRIdentityCardNumber = "HRIdentityCardNumber",
+  HRNationalIDNumber = "HRNationalIDNumber",
+  HRPersonalIdentificationNumber = "HRPersonalIdentificationNumber",
+  HRPersonalIdentificationOIBNumberV2 = "HRPersonalIdentificationOIBNumberV2",
+  CYIdentityCard = "CYIdentityCard",
+  CYTaxIdentificationNumber = "CYTaxIdentificationNumber",
+  CZPersonalIdentityNumber = "CZPersonalIdentityNumber",
+  CZPersonalIdentityV2 = "CZPersonalIdentityV2",
+  DKPersonalIdentificationNumber = "DKPersonalIdentificationNumber",
+  DKPersonalIdentificationV2 = "DKPersonalIdentificationV2",
+  DrugEnforcementAgencyNumber = "DrugEnforcementAgencyNumber",
+  EEPersonalIdentificationCode = "EEPersonalIdentificationCode",
+  EUDebitCardNumber = "EUDebitCardNumber",
+  EUDriversLicenseNumber = "EUDriversLicenseNumber",
+  EugpsCoordinates = "EUGPSCoordinates",
+  EUNationalIdentificationNumber = "EUNationalIdentificationNumber",
+  EUPassportNumber = "EUPassportNumber",
+  EUSocialSecurityNumber = "EUSocialSecurityNumber",
+  EUTaxIdentificationNumber = "EUTaxIdentificationNumber",
+  FIEuropeanHealthNumber = "FIEuropeanHealthNumber",
+  FINationalID = "FINationalID",
+  FINationalIDV2 = "FINationalIDV2",
+  FIPassportNumber = "FIPassportNumber",
+  FRDriversLicenseNumber = "FRDriversLicenseNumber",
+  FRHealthInsuranceNumber = "FRHealthInsuranceNumber",
+  FRNationalID = "FRNationalID",
+  FRPassportNumber = "FRPassportNumber",
+  FRSocialSecurityNumber = "FRSocialSecurityNumber",
+  FRTaxIdentificationNumber = "FRTaxIdentificationNumber",
+  FRValueAddedTaxNumber = "FRValueAddedTaxNumber",
+  DEDriversLicenseNumber = "DEDriversLicenseNumber",
+  DEPassportNumber = "DEPassportNumber",
+  DEIdentityCardNumber = "DEIdentityCardNumber",
+  DETaxIdentificationNumber = "DETaxIdentificationNumber",
+  DEValueAddedNumber = "DEValueAddedNumber",
+  GRNationalIDCard = "GRNationalIDCard",
+  GRNationalIDV2 = "GRNationalIDV2",
+  GRTaxIdentificationNumber = "GRTaxIdentificationNumber",
+  HKIdentityCardNumber = "HKIdentityCardNumber",
+  HUValueAddedNumber = "HUValueAddedNumber",
+  HUPersonalIdentificationNumber = "HUPersonalIdentificationNumber",
+  HUTaxIdentificationNumber = "HUTaxIdentificationNumber",
+  INPermanentAccount = "INPermanentAccount",
+  INUniqueIdentificationNumber = "INUniqueIdentificationNumber",
+  IDIdentityCardNumber = "IDIdentityCardNumber",
+  InternationalBankingAccountNumber = "InternationalBankingAccountNumber",
+  IEPersonalPublicServiceNumber = "IEPersonalPublicServiceNumber",
+  IEPersonalPublicServiceNumberV2 = "IEPersonalPublicServiceNumberV2",
+  ILBankAccountNumber = "ILBankAccountNumber",
+  ILNationalID = "ILNationalID",
+  ITDriversLicenseNumber = "ITDriversLicenseNumber",
+  ITFiscalCode = "ITFiscalCode",
+  ITValueAddedTaxNumber = "ITValueAddedTaxNumber",
+  JPBankAccountNumber = "JPBankAccountNumber",
+  JPDriversLicenseNumber = "JPDriversLicenseNumber",
+  JPPassportNumber = "JPPassportNumber",
+  JPResidentRegistrationNumber = "JPResidentRegistrationNumber",
+  JPSocialInsuranceNumber = "JPSocialInsuranceNumber",
+  JPMyNumberCorporate = "JPMyNumberCorporate",
+  JPMyNumberPersonal = "JPMyNumberPersonal",
+  JPResidenceCardNumber = "JPResidenceCardNumber",
+  LVPersonalCode = "LVPersonalCode",
+  LTPersonalCode = "LTPersonalCode",
+  LUNationalIdentificationNumberNatural = "LUNationalIdentificationNumberNatural",
+  LUNationalIdentificationNumberNonNatural = "LUNationalIdentificationNumberNonNatural",
+  MYIdentityCardNumber = "MYIdentityCardNumber",
+  MTIdentityCardNumber = "MTIdentityCardNumber",
+  MTTaxIDNumber = "MTTaxIDNumber",
+  NLCitizensServiceNumber = "NLCitizensServiceNumber",
+  NLCitizensServiceNumberV2 = "NLCitizensServiceNumberV2",
+  NLTaxIdentificationNumber = "NLTaxIdentificationNumber",
+  NLValueAddedTaxNumber = "NLValueAddedTaxNumber",
+  NZBankAccountNumber = "NZBankAccountNumber",
+  NZDriversLicenseNumber = "NZDriversLicenseNumber",
+  NZInlandRevenueNumber = "NZInlandRevenueNumber",
+  NZMinistryOfHealthNumber = "NZMinistryOfHealthNumber",
+  NZSocialWelfareNumber = "NZSocialWelfareNumber",
+  NOIdentityNumber = "NOIdentityNumber",
+  PHUnifiedMultiPurposeIDNumber = "PHUnifiedMultiPurposeIDNumber",
+  PLIdentityCard = "PLIdentityCard",
+  PLNationalID = "PLNationalID",
+  PLNationalIDV2 = "PLNationalIDV2",
+  PLPassportNumber = "PLPassportNumber",
+  PLTaxIdentificationNumber = "PLTaxIdentificationNumber",
+  PlregonNumber = "PLREGONNumber",
+  PTCitizenCardNumber = "PTCitizenCardNumber",
+  PTCitizenCardNumberV2 = "PTCitizenCardNumberV2",
+  PTTaxIdentificationNumber = "PTTaxIdentificationNumber",
+  ROPersonalNumericalCode = "ROPersonalNumericalCode",
+  RUPassportNumberDomestic = "RUPassportNumberDomestic",
+  RUPassportNumberInternational = "RUPassportNumberInternational",
+  SANationalID = "SANationalID",
+  SGNationalRegistrationIdentityCardNumber = "SGNationalRegistrationIdentityCardNumber",
+  SKPersonalNumber = "SKPersonalNumber",
+  SITaxIdentificationNumber = "SITaxIdentificationNumber",
+  SIUniqueMasterCitizenNumber = "SIUniqueMasterCitizenNumber",
+  ZAIdentificationNumber = "ZAIdentificationNumber",
+  KRResidentRegistrationNumber = "KRResidentRegistrationNumber",
+  Esdni = "ESDNI",
+  ESSocialSecurityNumber = "ESSocialSecurityNumber",
+  ESTaxIdentificationNumber = "ESTaxIdentificationNumber",
+  SQLServerConnectionString = "SQLServerConnectionString",
+  SENationalID = "SENationalID",
+  SENationalIDV2 = "SENationalIDV2",
+  SEPassportNumber = "SEPassportNumber",
+  SETaxIdentificationNumber = "SETaxIdentificationNumber",
+  SwiftCode = "SWIFTCode",
+  CHSocialSecurityNumber = "CHSocialSecurityNumber",
+  TWNationalID = "TWNationalID",
+  TWPassportNumber = "TWPassportNumber",
+  TWResidentCertificate = "TWResidentCertificate",
+  THPopulationIdentificationCode = "THPopulationIdentificationCode",
+  TRNationalIdentificationNumber = "TRNationalIdentificationNumber",
+  UKDriversLicenseNumber = "UKDriversLicenseNumber",
+  UKElectoralRollNumber = "UKElectoralRollNumber",
+  UKNationalHealthNumber = "UKNationalHealthNumber",
+  UKNationalInsuranceNumber = "UKNationalInsuranceNumber",
+  UKUniqueTaxpayerNumber = "UKUniqueTaxpayerNumber",
+  UsukPassportNumber = "USUKPassportNumber",
+  USBankAccountNumber = "USBankAccountNumber",
+  USDriversLicenseNumber = "USDriversLicenseNumber",
+  USIndividualTaxpayerIdentification = "USIndividualTaxpayerIdentification",
+  USSocialSecurityNumber = "USSocialSecurityNumber",
+  UAPassportNumberDomestic = "UAPassportNumberDomestic",
+  UAPassportNumberInternational = "UAPassportNumberInternational",
+  Organization = "Organization",
+  Email = "Email",
+  URL = "URL",
+  Age = "Age",
+  PhoneNumber = "PhoneNumber",
+  IPAddress = "IPAddress",
+  Date = "Date",
+  Person = "Person",
+  Address = "Address",
+  All = "All",
+  Default = "Default"
+}
+
+/**
+ * Defines values for PiiCategory. \
+ * {@link KnownPiiCategory} can be used interchangeably with PiiCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **ABARoutingNumber** \
+ * **ARNationalIdentityNumber** \
+ * **AUBankAccountNumber** \
+ * **AUDriversLicenseNumber** \
+ * **AUMedicalAccountNumber** \
+ * **AUPassportNumber** \
+ * **AUTaxFileNumber** \
+ * **AUBusinessNumber** \
+ * **AUCompanyNumber** \
+ * **ATIdentityCard** \
+ * **ATTaxIdentificationNumber** \
+ * **ATValueAddedTaxNumber** \
+ * **AzureDocumentDBAuthKey** \
+ * **AzureIAASDatabaseConnectionAndSQLString** \
+ * **AzureIoTConnectionString** \
+ * **AzurePublishSettingPassword** \
+ * **AzureRedisCacheString** \
+ * **AzureSAS** \
+ * **AzureServiceBusString** \
+ * **AzureStorageAccountKey** \
+ * **AzureStorageAccountGeneric** \
+ * **BENationalNumber** \
+ * **BENationalNumberV2** \
+ * **BEValueAddedTaxNumber** \
+ * **BRCPFNumber** \
+ * **BRLegalEntityNumber** \
+ * **BRNationalIDRG** \
+ * **BGUniformCivilNumber** \
+ * **CABankAccountNumber** \
+ * **CADriversLicenseNumber** \
+ * **CAHealthServiceNumber** \
+ * **CAPassportNumber** \
+ * **CAPersonalHealthIdentification** \
+ * **CASocialInsuranceNumber** \
+ * **CLIdentityCardNumber** \
+ * **CNResidentIdentityCardNumber** \
+ * **CreditCardNumber** \
+ * **HRIdentityCardNumber** \
+ * **HRNationalIDNumber** \
+ * **HRPersonalIdentificationNumber** \
+ * **HRPersonalIdentificationOIBNumberV2** \
+ * **CYIdentityCard** \
+ * **CYTaxIdentificationNumber** \
+ * **CZPersonalIdentityNumber** \
+ * **CZPersonalIdentityV2** \
+ * **DKPersonalIdentificationNumber** \
+ * **DKPersonalIdentificationV2** \
+ * **DrugEnforcementAgencyNumber** \
+ * **EEPersonalIdentificationCode** \
+ * **EUDebitCardNumber** \
+ * **EUDriversLicenseNumber** \
+ * **EUGPSCoordinates** \
+ * **EUNationalIdentificationNumber** \
+ * **EUPassportNumber** \
+ * **EUSocialSecurityNumber** \
+ * **EUTaxIdentificationNumber** \
+ * **FIEuropeanHealthNumber** \
+ * **FINationalID** \
+ * **FINationalIDV2** \
+ * **FIPassportNumber** \
+ * **FRDriversLicenseNumber** \
+ * **FRHealthInsuranceNumber** \
+ * **FRNationalID** \
+ * **FRPassportNumber** \
+ * **FRSocialSecurityNumber** \
+ * **FRTaxIdentificationNumber** \
+ * **FRValueAddedTaxNumber** \
+ * **DEDriversLicenseNumber** \
+ * **DEPassportNumber** \
+ * **DEIdentityCardNumber** \
+ * **DETaxIdentificationNumber** \
+ * **DEValueAddedNumber** \
+ * **GRNationalIDCard** \
+ * **GRNationalIDV2** \
+ * **GRTaxIdentificationNumber** \
+ * **HKIdentityCardNumber** \
+ * **HUValueAddedNumber** \
+ * **HUPersonalIdentificationNumber** \
+ * **HUTaxIdentificationNumber** \
+ * **INPermanentAccount** \
+ * **INUniqueIdentificationNumber** \
+ * **IDIdentityCardNumber** \
+ * **InternationalBankingAccountNumber** \
+ * **IEPersonalPublicServiceNumber** \
+ * **IEPersonalPublicServiceNumberV2** \
+ * **ILBankAccountNumber** \
+ * **ILNationalID** \
+ * **ITDriversLicenseNumber** \
+ * **ITFiscalCode** \
+ * **ITValueAddedTaxNumber** \
+ * **JPBankAccountNumber** \
+ * **JPDriversLicenseNumber** \
+ * **JPPassportNumber** \
+ * **JPResidentRegistrationNumber** \
+ * **JPSocialInsuranceNumber** \
+ * **JPMyNumberCorporate** \
+ * **JPMyNumberPersonal** \
+ * **JPResidenceCardNumber** \
+ * **LVPersonalCode** \
+ * **LTPersonalCode** \
+ * **LUNationalIdentificationNumberNatural** \
+ * **LUNationalIdentificationNumberNonNatural** \
+ * **MYIdentityCardNumber** \
+ * **MTIdentityCardNumber** \
+ * **MTTaxIDNumber** \
+ * **NLCitizensServiceNumber** \
+ * **NLCitizensServiceNumberV2** \
+ * **NLTaxIdentificationNumber** \
+ * **NLValueAddedTaxNumber** \
+ * **NZBankAccountNumber** \
+ * **NZDriversLicenseNumber** \
+ * **NZInlandRevenueNumber** \
+ * **NZMinistryOfHealthNumber** \
+ * **NZSocialWelfareNumber** \
+ * **NOIdentityNumber** \
+ * **PHUnifiedMultiPurposeIDNumber** \
+ * **PLIdentityCard** \
+ * **PLNationalID** \
+ * **PLNationalIDV2** \
+ * **PLPassportNumber** \
+ * **PLTaxIdentificationNumber** \
+ * **PLREGONNumber** \
+ * **PTCitizenCardNumber** \
+ * **PTCitizenCardNumberV2** \
+ * **PTTaxIdentificationNumber** \
+ * **ROPersonalNumericalCode** \
+ * **RUPassportNumberDomestic** \
+ * **RUPassportNumberInternational** \
+ * **SANationalID** \
+ * **SGNationalRegistrationIdentityCardNumber** \
+ * **SKPersonalNumber** \
+ * **SITaxIdentificationNumber** \
+ * **SIUniqueMasterCitizenNumber** \
+ * **ZAIdentificationNumber** \
+ * **KRResidentRegistrationNumber** \
+ * **ESDNI** \
+ * **ESSocialSecurityNumber** \
+ * **ESTaxIdentificationNumber** \
+ * **SQLServerConnectionString** \
+ * **SENationalID** \
+ * **SENationalIDV2** \
+ * **SEPassportNumber** \
+ * **SETaxIdentificationNumber** \
+ * **SWIFTCode** \
+ * **CHSocialSecurityNumber** \
+ * **TWNationalID** \
+ * **TWPassportNumber** \
+ * **TWResidentCertificate** \
+ * **THPopulationIdentificationCode** \
+ * **TRNationalIdentificationNumber** \
+ * **UKDriversLicenseNumber** \
+ * **UKElectoralRollNumber** \
+ * **UKNationalHealthNumber** \
+ * **UKNationalInsuranceNumber** \
+ * **UKUniqueTaxpayerNumber** \
+ * **USUKPassportNumber** \
+ * **USBankAccountNumber** \
+ * **USDriversLicenseNumber** \
+ * **USIndividualTaxpayerIdentification** \
+ * **USSocialSecurityNumber** \
+ * **UAPassportNumberDomestic** \
+ * **UAPassportNumberInternational** \
+ * **Organization** \
+ * **Email** \
+ * **URL** \
+ * **Age** \
+ * **PhoneNumber** \
+ * **IPAddress** \
+ * **Date** \
+ * **Person** \
+ * **Address** \
+ * **All** \
+ * **Default**
+ */
+export type PiiCategory = string;
 
 /** Known values of {@link InnerErrorCodeValue} that the service accepts. */
 export const enum KnownInnerErrorCodeValue {
@@ -600,31 +1027,59 @@ export const enum KnownWarningCode {
  */
 export type WarningCode = string;
 
-/** Known values of {@link StringIndexType} that the service accepts. */
-export const enum KnownStringIndexType {
-  /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
-  TextElementsV8 = "TextElements_v8",
-  /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
-  UnicodeCodePoint = "UnicodeCodePoint",
-  /** Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript. */
-  Utf16CodeUnit = "Utf16CodeUnit"
+/** Known values of {@link RelationType} that the service accepts. */
+export const enum KnownRelationType {
+  Abbreviation = "Abbreviation",
+  DirectionOfBodyStructure = "DirectionOfBodyStructure",
+  DirectionOfCondition = "DirectionOfCondition",
+  DirectionOfExamination = "DirectionOfExamination",
+  DirectionOfTreatment = "DirectionOfTreatment",
+  DosageOfMedication = "DosageOfMedication",
+  FormOfMedication = "FormOfMedication",
+  FrequencyOfMedication = "FrequencyOfMedication",
+  FrequencyOfTreatment = "FrequencyOfTreatment",
+  QualifierOfCondition = "QualifierOfCondition",
+  RelationOfExamination = "RelationOfExamination",
+  RouteOfMedication = "RouteOfMedication",
+  TimeOfCondition = "TimeOfCondition",
+  TimeOfEvent = "TimeOfEvent",
+  TimeOfExamination = "TimeOfExamination",
+  TimeOfMedication = "TimeOfMedication",
+  TimeOfTreatment = "TimeOfTreatment",
+  UnitOfCondition = "UnitOfCondition",
+  UnitOfExamination = "UnitOfExamination",
+  ValueOfCondition = "ValueOfCondition",
+  ValueOfExamination = "ValueOfExamination"
 }
 
 /**
- * Defines values for StringIndexType. \
- * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
+ * Defines values for RelationType. \
+ * {@link KnownRelationType} can be used interchangeably with RelationType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
- * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
- * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
+ * **Abbreviation** \
+ * **DirectionOfBodyStructure** \
+ * **DirectionOfCondition** \
+ * **DirectionOfExamination** \
+ * **DirectionOfTreatment** \
+ * **DosageOfMedication** \
+ * **FormOfMedication** \
+ * **FrequencyOfMedication** \
+ * **FrequencyOfTreatment** \
+ * **QualifierOfCondition** \
+ * **RelationOfExamination** \
+ * **RouteOfMedication** \
+ * **TimeOfCondition** \
+ * **TimeOfEvent** \
+ * **TimeOfExamination** \
+ * **TimeOfMedication** \
+ * **TimeOfTreatment** \
+ * **UnitOfCondition** \
+ * **UnitOfExamination** \
+ * **ValueOfCondition** \
+ * **ValueOfExamination**
  */
-export type StringIndexType = string;
-/** Defines values for StringIndexTypeResponse. */
-export type StringIndexTypeResponse =
-  | "TextElements_v8"
-  | "UnicodeCodePoint"
-  | "Utf16CodeUnit";
+export type RelationType = string;
 /** Defines values for ErrorCodeValue. */
 export type ErrorCodeValue =
   | "InvalidRequest"
@@ -641,8 +1096,18 @@ export type State =
   | "rejected"
   | "cancelled"
   | "cancelling"
-  | "partiallyCompleted"
-  | "partiallySucceeded";
+  | "partiallyCompleted";
+/** Defines values for Conditionality. */
+export type Conditionality = "Hypothetical" | "Conditional";
+/** Defines values for Certainty. */
+export type Certainty =
+  | "Positive"
+  | "PositivePossible"
+  | "NeutralPossible"
+  | "NegativePossible"
+  | "Negative";
+/** Defines values for Association. */
+export type Association = "subject" | "other";
 /** Defines values for DocumentSentimentLabel. */
 export type DocumentSentimentLabel =
   | "positive"
@@ -653,28 +1118,22 @@ export type DocumentSentimentLabel =
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 /** Defines values for TokenSentimentValue. */
 export type TokenSentimentValue = "positive" | "mixed" | "negative";
-/** Defines values for AspectRelationType. */
-export type AspectRelationType = "opinion" | "aspect";
+/** Defines values for TargetRelationType. */
+export type TargetRelationType = "assessment" | "target";
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** Collection of documents to analyze and tasks to execute. */
   body?: AnalyzeBatchInput;
 }
 
 /** Contains response data for the analyze operation. */
-export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientAnalyzeHeaders;
-  };
-};
+export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeStatusOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -684,20 +1143,11 @@ export interface GeneratedClientAnalyzeStatusOptionalParams
 }
 
 /** Contains response data for the analyzeStatus operation. */
-export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnalyzeJobState;
-  };
-};
+export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState;
 
 /** Optional parameters. */
 export interface GeneratedClientHealthStatusOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -707,29 +1157,14 @@ export interface GeneratedClientHealthStatusOptionalParams
 }
 
 /** Contains response data for the healthStatus operation. */
-export type GeneratedClientHealthStatusResponse = HealthcareJobState & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: HealthcareJobState;
-  };
-};
+export type GeneratedClientHealthStatusResponse = HealthcareJobState;
 
 /** Contains response data for the cancelHealthJob operation. */
-export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCancelHealthJobHeaders;
-  };
-};
+export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientHealthOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
@@ -737,17 +1172,11 @@ export interface GeneratedClientHealthOptionalParams
 }
 
 /** Contains response data for the health operation. */
-export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientHealthHeaders;
-  };
-};
+export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -757,20 +1186,11 @@ export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
 }
 
 /** Contains response data for the entitiesRecognitionGeneral operation. */
-export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: EntitiesResult;
-  };
-};
+export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -779,23 +1199,16 @@ export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
   stringIndexType?: StringIndexType;
   /** (Optional) if specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'PHI', 'none'. */
   domain?: string;
+  /** (Optional) describes the PII categories to return */
+  piiCategories?: PiiCategory[];
 }
 
 /** Contains response data for the entitiesRecognitionPii operation. */
-export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: PiiResult;
-  };
-};
+export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesLinkingOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -805,20 +1218,11 @@ export interface GeneratedClientEntitiesLinkingOptionalParams
 }
 
 /** Contains response data for the entitiesLinking operation. */
-export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: EntityLinkingResult;
-  };
-};
+export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult;
 
 /** Optional parameters. */
 export interface GeneratedClientKeyPhrasesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -826,20 +1230,11 @@ export interface GeneratedClientKeyPhrasesOptionalParams
 }
 
 /** Contains response data for the keyPhrases operation. */
-export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: KeyPhraseResult;
-  };
-};
+export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult;
 
 /** Optional parameters. */
 export interface GeneratedClientLanguagesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
@@ -847,45 +1242,26 @@ export interface GeneratedClientLanguagesOptionalParams
 }
 
 /** Contains response data for the languages operation. */
-export type GeneratedClientLanguagesResponse = LanguageResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: LanguageResult;
-  };
-};
+export type GeneratedClientLanguagesResponse = LanguageResult;
 
 /** Optional parameters. */
 export interface GeneratedClientSentimentOptionalParams
-  extends coreHttp.OperationOptions {
+  extends OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
-  /** (Optional) if set to true, response will contain input and document level statistics including aspect-based sentiment analysis results. */
+  /** (Optional) if set to true, response will contain not only sentiment prediction but also opinion mining (aspect-based sentiment analysis) results. */
   opinionMining?: boolean;
 }
 
 /** Contains response data for the sentiment operation. */
-export type GeneratedClientSentimentResponse = SentimentResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SentimentResponse;
-  };
-};
+export type GeneratedClientSentimentResponse = SentimentResponse;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

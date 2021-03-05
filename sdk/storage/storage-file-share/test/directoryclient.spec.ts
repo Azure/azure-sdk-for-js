@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
@@ -18,7 +21,7 @@ describe("DirectoryClient", () => {
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let recorder: Recorder;
-  let fullDirAttributes = new FileSystemAttributes();
+  const fullDirAttributes = new FileSystemAttributes();
   fullDirAttributes.readonly = true;
   fullDirAttributes.hidden = true;
   fullDirAttributes.system = true;

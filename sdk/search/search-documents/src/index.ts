@@ -6,7 +6,7 @@ export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
   DEFAULT_RETRY_COUNT
-} from "./searchIndexingBufferedSenderImpl";
+} from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
   AutocompleteOptions,
@@ -38,7 +38,7 @@ export {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
-export { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
+export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
@@ -188,7 +188,6 @@ export {
   AnalyzeResult,
   AnalyzedTokenInfo,
   ConditionalSkill,
-  CustomEntityLookupSkill,
   KeyPhraseExtractionSkill,
   OcrSkill,
   ImageAnalysisSkill,
@@ -269,10 +268,6 @@ export {
   DataChangeDetectionPolicy as BaseDataChangeDetectionPolicy,
   LexicalAnalyzer as BaseLexicalAnalyzer,
   CharFilter as BaseCharFilter,
-  DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy,
-  CustomEntityLookupSkillLanguage,
-  KnownCustomEntityLookupSkillLanguage,
-  CustomEntity,
-  CustomEntityAlias
+  DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

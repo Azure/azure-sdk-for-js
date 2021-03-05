@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "11.1.0-beta.2",
+  "version": "11.1.1",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -75,10 +75,10 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-auth": "^1.1.3",
+    "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0",

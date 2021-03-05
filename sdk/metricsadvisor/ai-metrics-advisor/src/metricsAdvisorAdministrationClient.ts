@@ -10,7 +10,7 @@ import {
   OperationOptions,
   RestResponse
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 
@@ -135,15 +135,11 @@ export class MetricsAdvisorAdministrationClient {
   public readonly endpointUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -178,6 +174,7 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new data feed for a specific data source and provided settings
    * @param feed - the data feed object to create
    * @param options - The options parameter.
+   * @returns Response with Datafeed object
    */
 
   public async createDataFeed(
@@ -386,10 +383,6 @@ export class MetricsAdvisorAdministrationClient {
     };
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
   ): AsyncIterableIterator<DataFeed> {
@@ -400,10 +393,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
     continuationToken?: string
@@ -465,7 +454,7 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     patch: DataFeedPatch,
     options: OperationOptions = {}
-  ): Promise<GetDataFeedResponse> {
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateDataFeed",
       options
@@ -505,8 +494,7 @@ export class MetricsAdvisorAdministrationClient {
         status: patch.status,
         actionLinkTemplate: patch.actionLinkTemplate
       };
-      await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
-      return this.getDataFeed(dataFeedId);
+      return await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -548,6 +536,7 @@ export class MetricsAdvisorAdministrationClient {
    * Creates an anomaly detection configuration for a given metric
    * @param config - The detection configuration object to create
    * @param options - The options parameter
+   * @returns Response with Detection Config object
    */
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
@@ -625,7 +614,7 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyDetectionConfigurationResponse> {
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateDetectionConfig",
       options
@@ -634,8 +623,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
-      await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
-      return this.getDetectionConfig(id);
+      return await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -679,6 +667,7 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Creates anomaly alerting configuration for a given metric
    * @param config - The alert configuration object to create
+   * @returns Response with Alert object
    */
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
@@ -722,7 +711,7 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateAlertConfig",
       options
@@ -731,8 +720,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAlertConfigurationPatch(patch);
-      await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
-      return this.getAlertConfig(id);
+      return await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -803,11 +791,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
-
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
@@ -824,11 +807,6 @@ export class MetricsAdvisorAdministrationClient {
       value: segment._response
     });
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
@@ -933,6 +911,7 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new hook
    * @param hookInfo - Information for the new hook consists of the hook type, name, description, external link and hook parameter
    * @param options - The options parameter.
+   * @returns  Response with Hook object
    */
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
@@ -1002,11 +981,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
-
   private async *listSegmentOfHooks(
     continuationToken?: string,
     maxPageSize?: number,
@@ -1046,11 +1020,6 @@ export class MetricsAdvisorAdministrationClient {
       continuationToken = segmentResponse.nextLink;
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
@@ -1146,15 +1115,14 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
-  ): Promise<GetHookResponse> {
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateHook",
       options
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      await this.client.updateHook(id, patch, requestOptions);
-      return this.getHook(id);
+      return await this.client.updateHook(id, patch, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1191,11 +1159,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
-
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
@@ -1209,11 +1172,6 @@ export class MetricsAdvisorAdministrationClient {
     });
     yield resultArray;
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfDetectionConfigurations(
     detectionConfigId: string,
@@ -1349,10 +1307,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
@@ -1431,8 +1385,6 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
-   * @hidden
    */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,

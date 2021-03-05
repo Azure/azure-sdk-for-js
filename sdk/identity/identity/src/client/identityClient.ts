@@ -126,7 +126,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
     );
 
-    const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
+    const { span, updatedOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
     const refreshParams = {
       grant_type: "refresh_token",
@@ -151,7 +151,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
+        spanOptions: updatedOptions?.tracingOptions?.spanOptions,
         abortSignal: options && options.abortSignal
       });
 

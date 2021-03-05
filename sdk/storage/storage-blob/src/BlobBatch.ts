@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   BaseRequestPolicy,
   deserializationPolicy,
@@ -36,19 +39,13 @@ import { createSpan } from "./utils/tracing";
 export interface BatchSubRequest {
   /**
    * The URL of the resource to request operation.
-   *
-   * @type {string}
-   * @memberof BatchSubRequest
    */
   url: string;
 
   /**
    * The credential used for sub request.
-   * Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service.
+   * Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service.
    * You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   *
-   * @type {StorageSharedKeyCredential | AnonymousCredential | TokenCredential}
-   * @memberof BatchSubRequest
    */
   credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
 }
@@ -56,9 +53,6 @@ export interface BatchSubRequest {
 /**
  * A BlobBatch represents an aggregated set of operations on blobs.
  * Currently, only `delete` and `setAccessTier` are supported.
- *
- * @export
- * @class BlobBatch
  */
 export class BlobBatch {
   private batchRequest: InnerBatchRequest;
@@ -128,11 +122,9 @@ export class BlobBatch {
    * The operation will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {string} url The url of the blob resource to delete.
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {BlobDeleteOptions} [options]
-   * @returns {Promise<void>}
-   * @memberof BlobBatch
+   * @param url - The url of the blob resource to delete.
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options -
    */
   public async deleteBlob(
     url: string,
@@ -150,10 +142,8 @@ export class BlobBatch {
    * The operation will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {BlobClient} blobClient The BlobClient.
-   * @param {BlobDeleteOptions} [options]
-   * @returns {Promise<void>}
-   * @memberof BlobBatch
+   * @param blobClient - The BlobClient.
+   * @param options -
    */
   public async deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
 
@@ -194,10 +184,7 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "BatchDeleteRequest-addSubRequest",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("BatchDeleteRequest-addSubRequest", options);
 
     try {
       this.setBatchType("delete");
@@ -207,10 +194,9 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete({
-            ...options,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          });
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(
+            updatedOptions
+          );
         }
       );
     } catch (e) {
@@ -236,12 +222,10 @@ export class BlobBatch {
    * The operation will be authenticated and authorized
    * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {string} url The url of the blob resource to delete.
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {AccessTier} tier
-   * @param {BlobSetTierOptions} [options]
-   * @returns {Promise<void>}
-   * @memberof BlobBatch
+   * @param url - The url of the blob resource to delete.
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param tier -
+   * @param options -
    */
   public async setBlobAccessTier(
     url: string,
@@ -262,11 +246,9 @@ export class BlobBatch {
    * The operation will be authenticated and authorized
    * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {BlobClient} blobClient The BlobClient.
-   * @param {AccessTier} tier
-   * @param {BlobSetTierOptions} [options]
-   * @returns {Promise<void>}
-   * @memberof BlobBatch
+   * @param blobClient - The BlobClient.
+   * @param tier -
+   * @param options -
    */
   public async setBlobAccessTier(
     blobClient: BlobClient,
@@ -317,10 +299,7 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "BatchSetTierRequest-addSubRequest",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("BatchSetTierRequest-addSubRequest", options);
 
     try {
       this.setBatchType("setAccessTier");
@@ -332,10 +311,7 @@ export class BlobBatch {
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
             tier,
-            {
-              ...options,
-              tracingOptions: { ...options!.tracingOptions, spanOptions }
-            }
+            updatedOptions
           );
         }
       );
@@ -368,7 +344,7 @@ class InnerBatchRequest {
     this.operationCount = 0;
     this.body = "";
 
-    let tempGuid = generateUuid();
+    const tempGuid = generateUuid();
 
     // batch_{batchid}
     this.boundary = `batch_${tempGuid}`;
@@ -389,14 +365,14 @@ class InnerBatchRequest {
    * credential and serialization/deserialization components, with additional policies to
    * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    */
   public createPipeline(
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential
   ): Pipeline {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
     const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserializationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
-    let factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
+    const factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
 
     factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer
     factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers

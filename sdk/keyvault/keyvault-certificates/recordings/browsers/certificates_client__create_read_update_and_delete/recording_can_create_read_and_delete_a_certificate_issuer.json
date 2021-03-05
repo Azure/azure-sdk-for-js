@@ -4,7 +4,7 @@
    "method": "PUT",
    "url": "https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "",
    "status": 401,
@@ -13,18 +13,17 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:08 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:26 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "57be6bfc-f5f9-49df-be86-1e5ab5a6ee71",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "bd6b303f-a2be-4f65-bc10-a4bc7e2f12a9",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -36,44 +35,43 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
+    "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:08 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:26 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10761.12 - SCUS ProdSlices",
-    "x-ms-request-id": "a6493c7b-2593-4cdf-9f9b-6b38e6a40900"
+    "x-ms-ests-server": "2.1.11513.17 - EUS ProdSlices",
+    "x-ms-request-id": "85e4fdc4-638c-494b-9c86-d1d4cceab300"
    }
   },
   {
    "method": "PUT",
    "url": "https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "{\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]}}",
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212169}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723147}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "418",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:08 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:26 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "2659b4b8-28e5-4aaf-b1c1-c5a1163cb70a",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "332bb710-199b-422b-937e-ab4a45209f00",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -81,28 +79,27 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/create",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"attributes\":{}},\"attributes\":{}}",
    "status": 202,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\",\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsKJc7NH7dz7Dy+GLA1U4d2q/YCuMz+0eXA4d0l+o3wp+vf3K1CAwX6U7p3XgeIGrpPrzRLYxnYxeBavfBlq07BzaYwOk8r+/fdLlUd+ir/Duu0ZFqZCpXvrAD3Ptkx37RPOGVtyhWbvK4/9WAPaRNjpopB8yw9hKmgGfT7umnF0Dp3Sf55gP1ZTpiluPxjze+x8/BPbMYKu6rIk/zBAxMBFUUvdi+Ol04a4pQfEsSXNX1QjUbTSns1SqYGM413ZM8Md9RjHpBKWNAvNvh7JBNwWMuK9aDNXZJqQO2199OWvB0TV8agtYU7qSmieINwmRqCWVstWwvG5CTYYruktTkQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAC0j7E1GzVScWDrBBG4GODdPe9AuJHenOOC08Pjh/1YTh3S0ki81N18c1Fzc4yTs/CbbzkO6iO+NCGWDcBVpzzrkCcL5XDeoWYIVGVlwuwodOZO21ldwvrxLyH6UwGH97qPe60+IgfGoYmfaHRVQJEDgymVVZexX4hc3gqPXQfctQpgoE+5kHF47ZGbmFF81mm3SPpejbzuSS9A/v08WMgJGuiWOnojKGDA2t+OWVB4irrmGuxKlYNKw9p5MC3BGb5ajMvMkYtKf1yPc/shray2k5X6AlNhuQcQH2Be1D0lk6rfMmX2pNB19Q8AsYV4xJ306tVSGMl/6R1bsJ2eSVXI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"59e4449351d343b4a273de85033e5c4f\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\",\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArVnghLOvWRydqg/FcP3Gvwbo2/lVPAdwn4lKPVtpPadwStW213/v08tguaDHjtDLTu98nRMYBbMb5MJweHm7gGkfa0pyVKGWuwAP1bWPmGytz4xUBqCtLH6tb2o2AC2PptcUyE9Z+paWex7pKyrRKCpvUanIPEvMgToxgt98vnYbHVR/rhsyKpnqYPwDtKMOighGXkfw7YB76tOQJPOHPTFaaneLNebXO4wG6LLer3ROgfyYZ7gpbS48gCJ2M2DAqXmi6dwlpfD1LK/6ZSDh3Idl37v8LXKEJi87BTaxFjiirhyU2mw5E1rg02GQbZIhlTGfcwhPJf+AbuYmtF1OaQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAAapLmtuOnCiRQUYvcCq+Lenrdp0egCI2ZMvAwfiHl6NZtzrYO4Q8IpCZymmRYU7T6yXgZ1ep4vu/0iUPS7EAHz6XFk54czgnS1AkE0sKR1pBDOYtml9WdQLUVxTTyQLysPFhTfjPMX9tq+LpkxJdWkBCqa1yfEA6ZKKwfmRG220zi9nDooTXy2CBAzFLHOijdpKYcbkaU2bP5r5NZoW11nJG3LMx3FWHMwlJNLleJimlHpV9kK9d3bTwDehcsd4tNitit1w7Ff8KCjRNgmOyAU58Pb9sUxCfEnufb3gPd1/k4miExXWZRfoFUnssVAt6AekhjeiyA2bu94m32wuKgw=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"e02ab880bdc141a0a3c2177bf7647a7d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1428",
+    "content-length": "1427",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
-    "location": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending?api-version=7.1&request_id=59e4449351d343b4a273de85033e5c4f",
+    "location": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending?api-version=7.2&request_id=e02ab880bdc141a0a3c2177bf7647a7d",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "202",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "4c55b57d-9598-4c6b-859b-213000d24953",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "70298550-7ea5-442c-aba4-a77f0527dab4",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -110,27 +107,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\",\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsKJc7NH7dz7Dy+GLA1U4d2q/YCuMz+0eXA4d0l+o3wp+vf3K1CAwX6U7p3XgeIGrpPrzRLYxnYxeBavfBlq07BzaYwOk8r+/fdLlUd+ir/Duu0ZFqZCpXvrAD3Ptkx37RPOGVtyhWbvK4/9WAPaRNjpopB8yw9hKmgGfT7umnF0Dp3Sf55gP1ZTpiluPxjze+x8/BPbMYKu6rIk/zBAxMBFUUvdi+Ol04a4pQfEsSXNX1QjUbTSns1SqYGM413ZM8Md9RjHpBKWNAvNvh7JBNwWMuK9aDNXZJqQO2199OWvB0TV8agtYU7qSmieINwmRqCWVstWwvG5CTYYruktTkQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAC0j7E1GzVScWDrBBG4GODdPe9AuJHenOOC08Pjh/1YTh3S0ki81N18c1Fzc4yTs/CbbzkO6iO+NCGWDcBVpzzrkCcL5XDeoWYIVGVlwuwodOZO21ldwvrxLyH6UwGH97qPe60+IgfGoYmfaHRVQJEDgymVVZexX4hc3gqPXQfctQpgoE+5kHF47ZGbmFF81mm3SPpejbzuSS9A/v08WMgJGuiWOnojKGDA2t+OWVB4irrmGuxKlYNKw9p5MC3BGb5ajMvMkYtKf1yPc/shray2k5X6AlNhuQcQH2Be1D0lk6rfMmX2pNB19Q8AsYV4xJ306tVSGMl/6R1bsJ2eSVXI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"59e4449351d343b4a273de85033e5c4f\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\",\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArVnghLOvWRydqg/FcP3Gvwbo2/lVPAdwn4lKPVtpPadwStW213/v08tguaDHjtDLTu98nRMYBbMb5MJweHm7gGkfa0pyVKGWuwAP1bWPmGytz4xUBqCtLH6tb2o2AC2PptcUyE9Z+paWex7pKyrRKCpvUanIPEvMgToxgt98vnYbHVR/rhsyKpnqYPwDtKMOighGXkfw7YB76tOQJPOHPTFaaneLNebXO4wG6LLer3ROgfyYZ7gpbS48gCJ2M2DAqXmi6dwlpfD1LK/6ZSDh3Idl37v8LXKEJi87BTaxFjiirhyU2mw5E1rg02GQbZIhlTGfcwhPJf+AbuYmtF1OaQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAAapLmtuOnCiRQUYvcCq+Lenrdp0egCI2ZMvAwfiHl6NZtzrYO4Q8IpCZymmRYU7T6yXgZ1ep4vu/0iUPS7EAHz6XFk54czgnS1AkE0sKR1pBDOYtml9WdQLUVxTTyQLysPFhTfjPMX9tq+LpkxJdWkBCqa1yfEA6ZKKwfmRG220zi9nDooTXy2CBAzFLHOijdpKYcbkaU2bP5r5NZoW11nJG3LMx3FWHMwlJNLleJimlHpV9kK9d3bTwDehcsd4tNitit1w7Ff8KCjRNgmOyAU58Pb9sUxCfEnufb3gPd1/k4miExXWZRfoFUnssVAt6AekhjeiyA2bu94m32wuKgw=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"e02ab880bdc141a0a3c2177bf7647a7d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1428",
+    "content-length": "1427",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "49440c69-5ed9-4aeb-b857-e1b62a755bb7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "c4379805-f6f8-4d5c-accc-8d351341274e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -138,26 +134,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/71298a0ddc0b4b26b7f2b2d6ce53c8e8\",\"attributes\":{\"enabled\":false,\"nbf\":1593211569,\"exp\":1624748169,\"created\":1593212169,\"updated\":1593212169,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212169}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\"}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/cf733776e4ae49f3b3dca70f747ccef8\",\"attributes\":{\"enabled\":false,\"nbf\":1614722547,\"exp\":1646259147,\"created\":1614723147,\"updated\":1614723147,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723147}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1267",
+    "content-length": "1266",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "12e9f912-2878-45b5-87ec-536c28f1a960",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "df4e43a7-6263-4529-88ce-f0c3f2f5af2e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -165,26 +160,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212169}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723147}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "418",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "72de3a1a-5503-4256-856c-36cf4eabcb61",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "bb8191a2-475c-4732-b82c-99cca0426bc8",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -192,26 +186,25 @@
    "method": "PATCH",
    "url": "https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
-   "requestBody": "{}",
+   "requestBody": "{\"credentials\":{},\"org_details\":{\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]}}",
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212170}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723148}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "418",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "3e344e11-89a1-4f5d-87d5-f420b4a43a38",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "a9eb5b1e-7408-4d38-b04b-e8a8a1d7af31",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -219,26 +212,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212170}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723148}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "418",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "6240eb8b-634c-4698-9f5f-61a17e5ebb00",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "b4cae9ee-1b3e-44d3-9c35-7101d07e57aa",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -246,26 +238,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212170}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723148}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "418",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "4150421c-71e0-4d07-91e1-189381ca123e",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "eaa2c64d-acc6-48fd-8b5d-eb2d83cc0700",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -273,7 +264,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
@@ -282,17 +273,16 @@
     "cache-control": "no-cache",
     "content-length": "75",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "8a2fb6f4-200b-462c-9c6b-0d208e459894",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "be24cb4e-540a-4b98-94e0-a88e74842518",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -300,26 +290,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"deletedDate\":1593212170,\"scheduledPurgeDate\":1600988170,\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/71298a0ddc0b4b26b7f2b2d6ce53c8e8\",\"attributes\":{\"enabled\":false,\"nbf\":1593211569,\"exp\":1624748169,\"created\":1593212169,\"updated\":1593212169,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212169}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"deletedDate\":1614723148,\"scheduledPurgeDate\":1622499148,\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/cf733776e4ae49f3b3dca70f747ccef8\",\"attributes\":{\"enabled\":false,\"nbf\":1614722547,\"exp\":1646259147,\"created\":1614723147,\"updated\":1614723147,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723147}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1481",
+    "content-length": "1480",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "9e53f628-5265-4ec3-96d4-6f4f4d288ec4",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "1809f80e-6293-43de-a5ac-af811bad8862",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -327,26 +316,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:09 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "0ae883f7-8c20-4c37-9233-ade93315dcd8",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "be0f53b3-0a9c-4efc-96dd-2e502423d87c",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -354,26 +342,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:10 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "7a191cce-bad4-452e-a40e-42ea8ddf5dba",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "b012cc20-9506-4363-a9fb-f154c3a30631",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -381,26 +368,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:12 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:29 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "8ea60527-99e3-4914-a693-b3eecc1c4c88",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "89a027df-fbd5-462d-9882-c7761acdd64f",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -408,26 +394,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:14 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "963fb3bf-d919-4ead-a7a6-31aed0e4f991",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "f4be44ca-3af6-4ccb-9b29-80aac6cfc199",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -435,26 +420,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:16 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:34 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "51433952-b96a-4e3d-847b-6bddefeb8dfe",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "0262cb98-2915-4093-86d6-e27fc9499451",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -462,26 +446,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:19 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:35 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "d3659ef5-830c-4458-97c6-33856441b350",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "c075657f-b213-4e71-81fe-932cb34fc5dd",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -489,26 +472,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:20 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:37 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "a66bf5d0-7fa8-4254-a293-5f3f39df1bf5",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "a09597cb-604d-48da-a3bf-360ca7917feb",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -516,26 +498,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:22 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:39 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "81c0fddd-827c-4deb-ab22-826f1e41f151",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "78e16bbe-1046-481b-92b8-bd6652c2a1f2",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -543,26 +524,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:24 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:41 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "7a069755-2be0-4b8d-851a-d373dd0e807a",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "8262649d-6d73-452f-9167-589e3089e456",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -570,26 +550,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:26 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:44 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "d426b55d-daee-421c-9f89-1bcb01289a6a",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "e3d643fe-de56-4bf3-b55c-8f41d3696a2b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -597,26 +576,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "162",
+    "content-length": "161",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:28 GMT",
+    "date": "Tue, 02 Mar 2021 22:12:46 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "eb740811-b6f9-4214-9c12-06423d48f753",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "33ab3b72-7db8-4cac-9a46-e5fa56a34690",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -624,26 +602,207 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "161",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 02 Mar 2021 22:12:48 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "679a1ca9-7c39-4906-ba68-81f5a65ec318",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "161",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 02 Mar 2021 22:12:50 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "84bfcb0a-119d-4d1d-8411-9af7a11ba794",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "161",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 02 Mar 2021 22:12:51 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "3d893a9a-3ae1-4c00-b167-3be3efe0f2a3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "161",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 02 Mar 2021 22:12:53 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "6a0985a1-57e3-48ed-8012-78d7e7fb1f60",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "161",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 02 Mar 2021 22:12:56 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "09b35f93-a065-4934-b416-8b51ef38a80b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "161",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 02 Mar 2021 22:12:58 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "fc2aea88-3ca6-454f-a295-6a908ae79bfa",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "161",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 02 Mar 2021 22:13:00 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "89abcddd-11ad-4dcd-8fd5-2f2266441553",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
+   "query": {
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"deletedDate\":1593212170,\"scheduledPurgeDate\":1600988170,\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/71298a0ddc0b4b26b7f2b2d6ce53c8e8\",\"attributes\":{\"enabled\":false,\"nbf\":1593211569,\"exp\":1624748169,\"created\":1593212169,\"updated\":1593212169,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212169}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"deletedDate\":1614723148,\"scheduledPurgeDate\":1622499148,\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/cf733776e4ae49f3b3dca70f747ccef8\",\"attributes\":{\"enabled\":false,\"nbf\":1614722547,\"exp\":1646259147,\"created\":1614723147,\"updated\":1614723147,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\"},\"attributes\":{\"enabled\":true,\"created\":1614723147,\"updated\":1614723147}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1481",
+    "content-length": "1480",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 26 Jun 2020 22:56:30 GMT",
+    "date": "Tue, 02 Mar 2021 22:13:02 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "825464fa-09e3-415b-a7d1-dcb1ab1ea5f8",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "cf0e0295-1c38-4c29-9e82-945023d06207",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -651,24 +810,23 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Fri, 26 Jun 2020 22:56:30 GMT",
+    "date": "Tue, 02 Mar 2021 22:13:02 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "204",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "093de4dd-d8f6-4b60-bb9b-9239b6924c7c",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=40.71.19.139;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "eastus",
+    "x-ms-keyvault-service-version": "1.2.191.0",
+    "x-ms-request-id": "432bd357-da49-491b-9ae4-6d98bb38aa25",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -677,5 +835,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "4f4f020cb30384f5cffa7dbdf31e638d"
+ "hash": "77104b5314016c5b9f1e405144c8a732"
 }

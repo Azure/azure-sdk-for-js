@@ -1,43 +1,89 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  deserializeCommunicationIdentifier,
+  serializeCommunicationIdentifier,
+  SerializedCommunicationIdentifier
+} from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
-import { HttpResponse } from "@azure/core-http";
-import { AddMembersRequest } from "./requests";
-import { ChatMessage, ChatThread, ChatThreadMember, ReadReceipt, WithResponse } from "./models";
+import { AddChatParticipantsRequest } from "./requests";
+import {
+  ChatMessage,
+  ChatThread,
+  ChatParticipant,
+  ChatMessageReadReceipt,
+  ChatMessageContent
+} from "./models";
 
 /**
- * Mapping chat thread member customer model to chat thread member REST model
+ * @internal
+ * Mapping chat participant customer model to chat participant REST model
  */
-export const mapToChatThreadMemberRestModel = (
-  chatThreadMember: ChatThreadMember
-): RestModel.ChatThreadMember => {
-  const model = { ...chatThreadMember, id: chatThreadMember.user.communicationUserId };
-  delete (model as any).user;
-  return model;
-};
-
-/**
- * Mapping add members request to add chat thread members request REST model
- */
-export const mapToAddChatThreadMembersRequestRestModel = (
-  addMembersRequest: AddMembersRequest
-): RestModel.AddChatThreadMembersRequest => {
+export const mapToChatParticipantRestModel = (
+  chatParticipant: ChatParticipant
+): RestModel.ChatParticipant => {
+  const { id, ...rest } = chatParticipant;
   return {
-    members: addMembersRequest.members?.map((member) => mapToChatThreadMemberRestModel(member))
+    ...rest,
+    communicationIdentifier: serializeCommunicationIdentifier(id)
   };
 };
 
 /**
- * Mapping chat message REST model to chat message SDK model
+ * @internal
+ * Mapping add participants request to add chat participants request REST model
  */
-export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
-  const model = { ...chatMessage, sender: { communicationUserId: chatMessage.senderId! } };
-  delete (model as any).senderId;
-  return model;
+export const mapToAddChatParticipantsRequestRestModel = (
+  addParticipantsRequest: AddChatParticipantsRequest
+): RestModel.AddChatParticipantsRequest => {
+  return {
+    participants: addParticipantsRequest.participants?.map((participant) =>
+      mapToChatParticipantRestModel(participant)
+    )
+  };
 };
 
 /**
+ * @internal
+ */
+export const mapToChatContentSdkModel = (
+  content: RestModel.ChatMessageContent
+): ChatMessageContent => {
+  const { participants, ...otherChatContents } = content;
+  return {
+    participants: content.participants?.map((participant) =>
+      mapToChatParticipantSdkModel(participant)
+    ),
+    ...otherChatContents
+  };
+};
+
+/**
+ * @internal
+ * Mapping chat message REST model to chat message SDK model
+ */
+export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
+  const { content, senderCommunicationIdentifier, ...otherChatMessage } = chatMessage;
+  const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
+  if (senderCommunicationIdentifier) {
+    return {
+      sender: deserializeCommunicationIdentifier(
+        senderCommunicationIdentifier as SerializedCommunicationIdentifier
+      ),
+      content: contentSdkModel,
+      ...otherChatMessage
+    };
+  } else {
+    return {
+      content: contentSdkModel,
+      ...otherChatMessage
+    };
+  }
+};
+
+/**
+ * @internal
  * Mapping chat messages collection REST model to chat message SDK model array
  */
 export const mapToChatMessagesSdkModelArray = (
@@ -47,69 +93,51 @@ export const mapToChatMessagesSdkModelArray = (
 };
 
 /**
- * Mapping chat thread member REST model to chat thread member SDK model
+ * @internal
+ * Mapping chat participant REST model to chat participant SDK model
  */
-export const mapToChatThreadMemberSdkModel = (
-  chatThreadMember: RestModel.ChatThreadMember
-): ChatThreadMember => {
-  const model = { ...chatThreadMember, user: { communicationUserId: chatThreadMember.id! } };
-  delete (model as any).id;
-  return model;
-};
-
-/**
- * Mapping chat thread members collection REST model to chat thread member SDK model array
- */
-export const mapToChatThreadMembersSdkModelArray = (
-  chatThreadMembersCollection: RestModel.ChatThreadMembersCollection
-): ChatThreadMember[] => {
-  return chatThreadMembersCollection.value?.map((chatThreadMember) =>
-    mapToChatThreadMemberSdkModel(chatThreadMember)
-  )!;
-};
-
-/**
- * Mapping chat thread REST model to chat thread SDK model
- */
-export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatThread => {
+export const mapToChatParticipantSdkModel = (
+  chatParticipant: RestModel.ChatParticipant
+): ChatParticipant => {
+  const { communicationIdentifier, ...rest } = chatParticipant;
   return {
-    id: chatThread.id,
-    topic: chatThread.topic,
-    createdOn: chatThread.createdOn,
-    createdBy: {
-      communicationUserId: chatThread.createdBy!
-    },
-    members: chatThread.members?.map((member) => mapToChatThreadMemberSdkModel(member))!
+    ...rest,
+    id: deserializeCommunicationIdentifier(
+      communicationIdentifier as SerializedCommunicationIdentifier
+    )
   };
 };
 
 /**
+ * @internal
+ * Mapping chat thread REST model to chat thread SDK model
+ */
+export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatThread => {
+  const { createdByCommunicationIdentifier, ...rest } = chatThread;
+  if (createdByCommunicationIdentifier)
+    return {
+      ...rest,
+      createdBy: deserializeCommunicationIdentifier(
+        createdByCommunicationIdentifier as SerializedCommunicationIdentifier
+      )
+    };
+  else {
+    return { ...rest };
+  }
+};
+
+/**
+ * @internal
  * Mapping read receipt REST model to read receipt SDK model
  */
-export const mapToReadReceiptSdkModel = (readReceipt: RestModel.ReadReceipt): ReadReceipt => {
-  const model = { ...readReceipt, sender: { communicationUserId: readReceipt.senderId! } };
-  delete (model as any).senderId;
-  return model;
-};
-
-/**
- * Mapping read receipts collection REST model to read receipt SDK model array
- */
-export const mapToReadReceiptsSdkModelArray = (
-  readReceiptsCollection: RestModel.ReadReceiptsCollection
-): ReadReceipt[] => {
-  return readReceiptsCollection.value?.map((readReceipt) => mapToReadReceiptSdkModel(readReceipt))!;
-};
-
-/**
- * Attach http response to a model
- */
-export const attachHttpResponse = <T>(
-  model: T,
-  httpResponse: HttpResponse & { bodyAsText: string; parsedBody: any }
-): WithResponse<T> => {
-  const { parsedBody, bodyAsText, ...r } = httpResponse;
-  return Object.defineProperty(model, "_response", {
-    value: r
-  });
+export const mapToReadReceiptSdkModel = (
+  readReceipt: RestModel.ChatMessageReadReceipt
+): ChatMessageReadReceipt => {
+  const { senderCommunicationIdentifier, ...rest } = readReceipt;
+  return {
+    ...rest,
+    sender: deserializeCommunicationIdentifier(
+      senderCommunicationIdentifier as SerializedCommunicationIdentifier
+    )
+  };
 };

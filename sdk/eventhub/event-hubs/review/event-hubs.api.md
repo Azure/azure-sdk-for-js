@@ -7,8 +7,8 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
@@ -26,10 +26,10 @@ export interface Checkpoint {
 
 // @public
 export interface CheckpointStore {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+    claimOwnership(partitionOwnership: PartitionOwnership[], options?: OperationOptions): Promise<PartitionOwnership[]>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -78,6 +78,16 @@ export interface EventHubClientOptions {
     retryOptions?: RetryOptions;
     userAgent?: string;
     webSocketOptions?: WebSocketOptions;
+}
+
+// @public
+export interface EventHubConnectionStringProperties {
+    endpoint: string;
+    eventHubName?: string;
+    fullyQualifiedNamespace: string;
+    sharedAccessKey?: string;
+    sharedAccessKeyName?: string;
+    sharedAccessSignature?: string;
 }
 
 // @public
@@ -177,6 +187,9 @@ export interface OperationOptions {
 }
 
 // @public
+export function parseEventHubConnectionString(connectionString: string): Readonly<EventHubConnectionStringProperties>;
+
+// @public
 export interface PartitionContext {
     readonly consumerGroup: string;
     readonly eventHubName: string;
@@ -235,6 +248,8 @@ export interface ReceivedEventData {
     };
 }
 
+export { RetryMode }
+
 export { RetryOptions }
 
 // @public
@@ -273,7 +288,7 @@ export { TokenCredential }
 
 // @public
 export interface TryAddOptions {
-    parentSpan?: Span | SpanContext;
+    tracingOptions?: OperationTracingOptions;
 }
 
 export { WebSocketImpl }

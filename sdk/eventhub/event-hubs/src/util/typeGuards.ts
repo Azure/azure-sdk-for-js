@@ -3,9 +3,8 @@
 
 /**
  * Helper TypeGuard that checks if something is defined or not.
- * @param thing Anything
+ * @param thing - Anything
  * @internal
- * @hidden
  */
 export function isDefined<T>(thing: T | undefined | null): thing is T {
   return typeof thing !== "undefined" && thing !== null;
@@ -16,7 +15,6 @@ export function isDefined<T>(thing: T | undefined | null): thing is T {
  * @param thing - Anything.
  * @param properties - The name of the properties that should appear in the object.
  * @internal
- * @hidden
  */
 export function isObjectWithProperties<Thing extends unknown, PropertyName extends string>(
   thing: Thing,
@@ -40,7 +38,6 @@ export function isObjectWithProperties<Thing extends unknown, PropertyName exten
  * @param thing - Any object.
  * @param property - The name of the property that should appear in the object.
  * @internal
- * @hidden
  */
 export function objectHasProperty<Thing extends unknown, PropertyName extends string>(
   thing: Thing,

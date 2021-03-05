@@ -8,7 +8,6 @@ import { AppConfigCredential } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  operationOptionsToRequestOptionsBase,
   isTokenCredential,
   exponentialRetryPolicy,
   systemErrorRetryPolicy,
@@ -54,7 +53,7 @@ import {
   formatFieldsForSelect
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
-import { Spanner } from "./internal/tracingHelpers";
+import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
 import {
   AppConfigurationGetKeyValuesResponse,
   AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
@@ -67,7 +66,6 @@ const packageName = "azsdk-js-app-configuration";
  * This constant should always be the same as the package.json's version - we use it when forming the
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
- * @hidden
  */
 export const packageVersion = "1.1.1";
 const apiVersion = "1.0";
@@ -103,7 +101,6 @@ export interface AppConfigurationClientOptions {
 /**
  * Provides internal configuration options for AppConfigurationClient.
  * @internal
- * @hidden
  */
 export interface InternalAppConfigurationClientOptions extends AppConfigurationClientOptions {
   /**
@@ -118,7 +115,8 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  */
 export class AppConfigurationClient {
   private client: AppConfiguration;
-  private spanner: Spanner<AppConfigurationClient>;
+  // (for tests)
+  private _trace = traceFromTracingHelpers;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -174,8 +172,6 @@ export class AppConfigurationClient {
       apiVersion,
       getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
     );
-
-    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration");
   }
 
   /**
@@ -193,8 +189,7 @@ export class AppConfigurationClient {
     configurationSetting: AddConfigurationSettingParam,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("addConfigurationSetting", opts, async (newOptions) => {
+    return this._trace("addConfigurationSetting", options, async (newOptions) => {
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
@@ -220,8 +215,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("deleteConfigurationSetting", opts, async (newOptions) => {
+    return this._trace("deleteConfigurationSetting", options, async (newOptions) => {
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
@@ -246,37 +240,32 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    return await this.spanner.trace(
-      "getConfigurationSetting",
-      requestOptions,
-      async (newOptions) => {
-        const originalResponse = await this.client.getKeyValue(id.key, {
-          ...newOptions,
-          label: id.label,
-          select: formatFieldsForSelect(options.fields),
-          ...formatAcceptDateTime(options),
-          ...checkAndFormatIfAndIfNoneMatch(id, options)
-        });
+    return this._trace("getConfigurationSetting", options, async (newOptions) => {
+      const originalResponse = await this.client.getKeyValue(id.key, {
+        ...newOptions,
+        label: id.label,
+        select: formatFieldsForSelect(options.fields),
+        ...formatAcceptDateTime(options),
+        ...checkAndFormatIfAndIfNoneMatch(id, options)
+      });
 
-        const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
-          originalResponse
-        );
+      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
+        originalResponse
+      );
 
-        // 304 only comes back if the user has passed a conditional option in their
-        // request _and_ the remote object has the same etag as what the user passed.
-        if (response.statusCode === 304) {
-          // this is one of our few 'required' fields so we'll make sure it does get initialized
-          // with a value
-          response.key = id.key;
+      // 304 only comes back if the user has passed a conditional option in their
+      // request _and_ the remote object has the same etag as what the user passed.
+      if (response.statusCode === 304) {
+        // this is one of our few 'required' fields so we'll make sure it does get initialized
+        // with a value
+        response.key = id.key;
 
-          // and now we'll undefine all the other properties that are not HTTP related
-          makeConfigurationSettingEmpty(response);
-        }
-
-        return response;
+        // and now we'll undefine all the other properties that are not HTTP related
+        makeConfigurationSettingEmpty(response);
       }
-    );
+
+      return response;
+    });
   }
 
   /**
@@ -285,7 +274,7 @@ export class AppConfigurationClient {
    *
    * Example code:
    * ```ts
-   * const allSettingsWithLabel = client.listConfigurationSettings({ labels: [ "MyLabel" ] });
+   * const allSettingsWithLabel = client.listConfigurationSettings({ labelFilter: "MyLabel" });
    * ```
    * @param options - Optional parameters for the request.
    */
@@ -322,10 +311,9 @@ export class AppConfigurationClient {
   private async *listConfigurationSettingsByPage(
     options: ListConfigurationSettingsOptions = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace(
+    let currentResponse = await this._trace(
       "listConfigurationSettings",
-      requestOptions,
+      options,
       async (newOptions) => {
         const response = await this.client.getKeyValues({
           ...newOptions,
@@ -340,9 +328,9 @@ export class AppConfigurationClient {
     yield* this.createListConfigurationPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace(
+      currentResponse = await this._trace(
         "listConfigurationSettings",
-        requestOptions,
+        options,
         // TODO: same code up above. Unify.
         async (newOptions) => {
           const response = await this.client.getKeyValues({
@@ -416,20 +404,15 @@ export class AppConfigurationClient {
   private async *listRevisionsByPage(
     options: ListRevisionsOptions = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace(
-      "listRevisions",
-      requestOptions,
-      async (newOptions) => {
-        const response = await this.client.getRevisions({
-          ...newOptions,
-          ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(newOptions)
-        });
+    let currentResponse = await this._trace("listRevisions", options, async (newOptions) => {
+      const response = await this.client.getRevisions({
+        ...newOptions,
+        ...formatAcceptDateTime(options),
+        ...formatFiltersAndSelect(newOptions)
+      });
 
-        return response;
-      }
-    );
+      return response;
+    });
 
     yield {
       ...currentResponse,
@@ -437,7 +420,7 @@ export class AppConfigurationClient {
     };
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace("listRevisions", requestOptions, (newOptions) => {
+      currentResponse = await this._trace("listRevisions", options, (newOptions) => {
         return this.client.getRevisions({
           ...newOptions,
           ...formatAcceptDateTime(options),
@@ -472,22 +455,16 @@ export class AppConfigurationClient {
     configurationSetting: SetConfigurationSettingParam,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    return this._trace("setConfigurationSetting", options, async (newOptions) => {
+      const response = await this.client.putKeyValue(configurationSetting.key, {
+        ...newOptions,
+        label: configurationSetting.label,
+        entity: configurationSetting,
+        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
+      });
 
-    return await this.spanner.trace(
-      "setConfigurationSetting",
-      requestOptions,
-      async (newOptions) => {
-        const response = await this.client.putKeyValue(configurationSetting.key, {
-          ...newOptions,
-          label: configurationSetting.label,
-          entity: configurationSetting,
-          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
-        });
-
-        return transformKeyValueResponse(response);
-      }
-    );
+      return transformKeyValueResponse(response);
+    });
   }
 
   /**
@@ -499,9 +476,7 @@ export class AppConfigurationClient {
     readOnly: boolean,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-
-    return this.spanner.trace("setReadOnly", opts, async (newOptions) => {
+    return this._trace("setReadOnly", options, async (newOptions) => {
       if (readOnly) {
         const response = await this.client.putLock(id.key, {
           ...newOptions,
@@ -526,7 +501,6 @@ export class AppConfigurationClient {
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal
- * @hidden
  */
 export function getGeneratedClientOptions(
   endpoint: string,
@@ -562,7 +536,6 @@ export function getGeneratedClientOptions(
 
 /**
  * @internal
- * @hidden
  */
 export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): string {
   const appConfigDefaultUserAgent = `${packageName}/${packageVersion} ${getCoreHttpDefaultUserAgentValue()}`;

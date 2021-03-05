@@ -7,7 +7,7 @@ import { assert } from "chai";
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createClient, createRecorder } from "../utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import {
   TextAnalyticsClient,
   TextDocumentInput,
@@ -17,11 +17,12 @@ import {
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
-  MinedOpinion,
-  OpinionSentiment,
+  Opinion,
+  AssessmentSentiment,
   PiiEntityDomainType
 } from "../../src";
-import { assertAllSuccess, isSuccess } from "../utils/resultHelper";
+import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
+import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -89,7 +90,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.equal(result.error.code, "UnsupportedLanguageCode");
       });
 
-      it("service has a bug when referencing opinions in doc #6 or greater", async function() {
+      it("service has a bug when referencing assessments in doc #6 or greater", async function() {
         const documents = [
           "The food was unacceptable",
           "The rooms were beautiful. The AC was good and quiet.",
@@ -110,24 +111,26 @@ describe("[AAD] TextAnalyticsClient", function() {
           result6.error === undefined &&
           result7.error === undefined
         ) {
-          const opinion1 = result1.sentences[0].minedOpinions[0].opinions[0];
-          const opinion2 = result6.sentences[0].minedOpinions[0].opinions[0];
-          assert.notDeepEqual(opinion1, opinion2);
+          const Assessment1 = result1.sentences[0].opinions[0].assessments[0];
+          const Assessment2 = result6.sentences[0].opinions[0].assessments[0];
+          assert.notDeepEqual(Assessment1, Assessment2);
 
-          const listAllOpinions = (acc: string[], sentence: SentenceSentiment): string[] =>
+          const listAllAssessments = (acc: string[], sentence: SentenceSentiment): string[] =>
             acc.concat(
-              sentence.minedOpinions.reduce(
-                (opinions: string[], aspect: MinedOpinion) =>
-                  opinions.concat(aspect.opinions.map((opinion: OpinionSentiment) => opinion.text)),
+              sentence.opinions.reduce(
+                (assessments: string[], opinion: Opinion) =>
+                  assessments.concat(
+                    opinion.assessments.map((assessment: AssessmentSentiment) => assessment.text)
+                  ),
                 []
               )
             );
-          const allOpinions1 = result1.sentences.reduce(listAllOpinions, []);
-          assert.deepEqual(allOpinions1, ["unacceptable"]);
-          const allOpinions2 = result6.sentences.reduce(listAllOpinions, []);
-          assert.deepEqual(allOpinions2, ["nice", "old", "dirty"]);
-          const allOpinions7 = result7.sentences.reduce(listAllOpinions, []);
-          assert.deepEqual(allOpinions7, ["smelled"]);
+          const allAssessments1 = result1.sentences.reduce(listAllAssessments, []);
+          assert.deepEqual(allAssessments1, ["unacceptable"]);
+          const allAssessments2 = result6.sentences.reduce(listAllAssessments, []);
+          assert.deepEqual(allAssessments2, ["nice", "old", "dirty"]);
+          const allAssessments7 = result7.sentences.reduce(listAllAssessments, []);
+          assert.deepEqual(allAssessments7, ["smelled"]);
         }
       });
 
@@ -167,12 +170,12 @@ describe("[AAD] TextAnalyticsClient", function() {
         assertAllSuccess(results);
         results.map((result) =>
           (result as AnalyzeSentimentSuccessResult).sentences.map((sentence) =>
-            assert.isEmpty(sentence.minedOpinions)
+            assert.isEmpty(sentence.opinions)
           )
         );
       });
 
-      it("client gets positive mined opinions", async function() {
+      it("client gets positive mined assessments", async function() {
         const documents = [
           {
             text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
@@ -187,37 +190,40 @@ describe("[AAD] TextAnalyticsClient", function() {
         assertAllSuccess(results);
         const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
         documentSentiment.sentences.map((sentence) =>
-          sentence.minedOpinions?.map((opinion) => {
-            const aspect = opinion.aspect;
-            assert.equal("design", aspect.text);
-            assert.equal("positive", aspect.sentiment);
-            assert.isAtLeast(aspect.confidenceScores.positive, 0);
-            assert.isAtLeast(aspect.confidenceScores.negative, 0);
-            assert.equal(aspect.offset, 32);
-            assert.equal(aspect.text.length, 6);
+          sentence.opinions?.map((opinion) => {
+            const Target = opinion.target;
+            assert.equal("design", Target.text);
+            assert.equal("positive", Target.sentiment);
+            assert.isAtLeast(Target.confidenceScores.positive, 0);
+            assert.isAtLeast(Target.confidenceScores.negative, 0);
+            assert.equal(Target.offset, 32);
+            assert.equal(Target.length, 6);
+            assert.equal(Target.text.length, Target.length);
 
-            const sleekOpinion = opinion.opinions[0];
-            assert.equal("sleek", sleekOpinion.text);
-            assert.equal("positive", sleekOpinion.sentiment);
-            assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
-            assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
-            assert.isFalse(sleekOpinion.isNegated);
-            assert.equal(sleekOpinion.offset, 9);
-            assert.equal(sleekOpinion.text.length, 5);
+            const sleekAssessment = opinion.assessments[0];
+            assert.equal("sleek", sleekAssessment.text);
+            assert.equal("positive", sleekAssessment.sentiment);
+            assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
+            assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
+            assert.isFalse(sleekAssessment.isNegated);
+            assert.equal(sleekAssessment.offset, 9);
+            assert.equal(sleekAssessment.length, 5);
+            assert.equal(sleekAssessment.text.length, sleekAssessment.length);
 
-            const premiumOpinion = opinion.opinions[1];
-            assert.equal("premium", premiumOpinion.text);
-            assert.equal("positive", premiumOpinion.sentiment);
-            assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
-            assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
-            assert.isFalse(premiumOpinion.isNegated);
-            assert.equal(premiumOpinion.offset, 15);
-            assert.equal(premiumOpinion.text.length, 7);
+            const premiumAssessment = opinion.assessments[1];
+            assert.equal("premium", premiumAssessment.text);
+            assert.equal("positive", premiumAssessment.sentiment);
+            assert.isAtLeast(premiumAssessment.confidenceScores.positive, 0);
+            assert.isAtLeast(premiumAssessment.confidenceScores.positive, 0);
+            assert.isFalse(premiumAssessment.isNegated);
+            assert.equal(premiumAssessment.offset, 15);
+            assert.equal(premiumAssessment.length, 7);
+            assert.equal(premiumAssessment.text.length, premiumAssessment.length);
           })
         );
       });
 
-      it("client gets negative mined opinions", async function() {
+      it("client gets negative mined assessments", async function() {
         const documents = [
           {
             text: "The food and service is not good",
@@ -232,47 +238,47 @@ describe("[AAD] TextAnalyticsClient", function() {
         assertAllSuccess(results);
         const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
         documentSentiment.sentences.map((sentence) => {
-          const foodAspect = sentence.minedOpinions?.[0].aspect;
-          assert.equal("food", foodAspect?.text);
-          assert.equal("negative", foodAspect?.sentiment);
+          const foodTarget = sentence.opinions?.[0].target;
+          assert.equal("food", foodTarget?.text);
+          assert.equal("negative", foodTarget?.sentiment);
 
-          const foodAspectPositiveScore = foodAspect?.confidenceScores.positive!;
-          const foodAspectNegativeScore = foodAspect?.confidenceScores.negative!;
+          const foodTargetPositiveScore = foodTarget?.confidenceScores.positive!;
+          const foodTargetNegativeScore = foodTarget?.confidenceScores.negative!;
 
-          assert.isAtLeast(foodAspectPositiveScore, 0);
-          assert.isAtLeast(foodAspectNegativeScore, 0);
-          assert.equal(foodAspectPositiveScore + foodAspectNegativeScore, 1);
+          assert.isAtLeast(foodTargetPositiveScore, 0);
+          assert.isAtLeast(foodTargetNegativeScore, 0);
+          assert.equal(foodTargetPositiveScore + foodTargetNegativeScore, 1);
 
-          const serviceAspect = sentence.minedOpinions?.[1].aspect;
-          assert.equal("service", serviceAspect?.text);
-          assert.equal("negative", serviceAspect?.sentiment);
+          const serviceTarget = sentence.opinions?.[1].target;
+          assert.equal("service", serviceTarget?.text);
+          assert.equal("negative", serviceTarget?.sentiment);
 
-          const serviceAspectPositiveScore = serviceAspect?.confidenceScores.positive!;
-          const serviceAspectNegativeScore = serviceAspect?.confidenceScores.negative!;
+          const serviceTargetPositiveScore = serviceTarget?.confidenceScores.positive!;
+          const serviceTargetNegativeScore = serviceTarget?.confidenceScores.negative!;
 
-          assert.isAtLeast(serviceAspectPositiveScore, 0);
-          assert.isAtLeast(serviceAspectNegativeScore, 0);
-          assert.equal(serviceAspectPositiveScore + serviceAspectNegativeScore, 1);
+          assert.isAtLeast(serviceTargetPositiveScore, 0);
+          assert.isAtLeast(serviceTargetNegativeScore, 0);
+          assert.equal(serviceTargetPositiveScore + serviceTargetNegativeScore, 1);
 
-          const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
-          const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
+          const foodAssessment = sentence.opinions?.[0].assessments[0];
+          const serviceAssessment = sentence.opinions?.[1].assessments[0];
 
-          assert.deepEqual(foodOpinion!, serviceOpinion!);
+          assert.deepEqual(foodAssessment!, serviceAssessment!);
 
-          assert.equal("good", foodOpinion?.text);
-          assert.equal("negative", foodOpinion?.sentiment);
+          assert.equal("good", foodAssessment?.text);
+          assert.equal("negative", foodAssessment?.sentiment);
 
-          const foodOpinionPositiveScore = foodOpinion?.confidenceScores.positive!;
-          const foodOpinionNegativeScore = foodOpinion?.confidenceScores.negative!;
+          const foodAssessmentPositiveScore = foodAssessment?.confidenceScores.positive!;
+          const foodAssessmentNegativeScore = foodAssessment?.confidenceScores.negative!;
 
-          assert.isAtLeast(foodOpinionPositiveScore, 0);
-          assert.isAtLeast(foodOpinionNegativeScore, 0);
-          assert.equal(foodOpinionPositiveScore + foodOpinionNegativeScore, 1);
-          assert.isTrue(foodOpinion?.isNegated);
+          assert.isAtLeast(foodAssessmentPositiveScore, 0);
+          assert.isAtLeast(foodAssessmentNegativeScore, 0);
+          assert.equal(foodAssessmentPositiveScore + foodAssessmentNegativeScore, 1);
+          assert.isTrue(foodAssessment?.isNegated);
         });
       });
 
-      it("client gets no mined opinions", async function() {
+      it("client gets no mined assessments", async function() {
         const documents = [
           {
             text: "today is a hot day",
@@ -286,7 +292,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.equal(results.length, 1);
         assertAllSuccess(results);
         const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
-        assert.isEmpty(documentSentiment.sentences[0].minedOpinions);
+        assert.isEmpty(documentSentiment.sentences[0].opinions);
       });
     });
 
@@ -586,13 +592,63 @@ describe("[AAD] TextAnalyticsClient", function() {
           { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
         );
         if (!result.error) {
-          assert.equal(result.entities.length, 1);
-          assert.equal(result.entities[0].text, "333-333-3333");
-          assert.equal(result.entities[0].category, "Phone Number");
+          assert.equal(result.entities.length, 2);
+          assert.equal(result.entities[0].text, "Microsoft");
+          assert.equal(result.entities[0].category, "Organization");
+          assert.equal(result.entities[1].text, "333-333-3333");
+          assert.equal(result.entities[1].category, "PhoneNumber");
           assert.equal(
             result.redactedText,
-            "I work at Microsoft and my phone number is ************"
+            "I work at ********* and my phone number is ************"
           );
+        }
+      });
+
+      it("accepts pii categories", async function() {
+        const [result] = await client.recognizePiiEntities(
+          [
+            {
+              id: "0",
+              text: "Patient name is Joe and SSN is 859-98-0987",
+              language: "en"
+            }
+          ],
+          { categoriesFilter: ["USSocialSecurityNumber"] }
+        );
+        if (!result.error) {
+          assert.equal(result.entities.length, 1);
+          assert.equal(result.entities[0].text, "859-98-0987");
+          assert.equal(result.entities[0].category, "USSocialSecurityNumber");
+          assert.equal(result.redactedText, "Patient name is Joe and SSN is ***********");
+        }
+      });
+
+      it("output pii categories are accepted as input", async function() {
+        const [result1] = await client.recognizePiiEntities([
+          {
+            id: "0",
+            text: "Patient name is Joe and SSN is 859-98-0987",
+            language: "en"
+          }
+        ]);
+        if (!result1.error) {
+          const entity2 = result1.entities[1];
+          const [result2] = await client.recognizePiiEntities(
+            [
+              {
+                id: "0",
+                text: "Patient name is Joe and SSN is 859-98-0987",
+                language: "en"
+              }
+            ],
+            { categoriesFilter: [entity2.category] }
+          );
+          if (!result2.error) {
+            assert.equal(result2.entities.length, 1);
+            assert.equal(result2.entities[0].text, entity2.text);
+            assert.equal(result2.entities[0].category, entity2.category);
+            assert.equal(result2.redactedText, "Patient name is Joe and SSN is ***********");
+          }
         }
       });
     });
@@ -681,94 +737,191 @@ describe("[AAD] TextAnalyticsClient", function() {
     });
 
     describe("#String encoding", function() {
-      it("emoji", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 8);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+      describe("#Default encoding (utf16CodeUnit)", function() {
+        it("emoji", async function() {
+          await checkOffsetAndLength(
+            client,
+            "👩 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            8,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("emoji with skin tone modifier", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 10);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+        it("emoji with skin tone modifier", async function() {
+          await checkOffsetAndLength(
+            client,
+            "👩🏻 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            10,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("family emoji", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 17);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+        it("family emoji", async function() {
+          await checkOffsetAndLength(
+            client,
+            "👩‍👩‍👧‍👧 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            17,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("family emoji wit skin tone modifier", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 25);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+        it("family emoji wit skin tone modifier", async function() {
+          await checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            25,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("diacritics nfc", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "año SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 9);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+        it("diacritics nfc", async function() {
+          await checkOffsetAndLength(
+            client,
+            "año SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            9,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("diacritics nfd", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "año SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 10);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+        it("diacritics nfd", async function() {
+          await checkOffsetAndLength(
+            client,
+            "año SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            10,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("korean nfc", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 8);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+        it("korean nfc", async function() {
+          await checkOffsetAndLength(
+            client,
+            "아가 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            8,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("korean nfd", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 8);
-          assert.equal(result.entities[0].text.length, 11);
-        }
-      });
+        it("korean nfd", async function() {
+          await checkOffsetAndLength(
+            client,
+            "아가 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            8,
+            11,
+            checkEntityTextOffset
+          );
+        });
 
-      it("zalgo", async function() {
-        const [result] = await client.recognizePiiEntities([
-          { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }
-        ]);
-        if (!result.error) {
-          assert.equal(result.entities[0].offset, 121);
-          assert.equal(result.entities[0].text.length, 11);
-        }
+        it("zalgo", async function() {
+          await checkOffsetAndLength(
+            client,
+            "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            121,
+            11,
+            checkEntityTextOffset
+          );
+        });
+      });
+      describe("#UnicodeCodePoint", function() {
+        it("emoji", async function() {
+          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "UnicodeCodePoint", 7, 11); // offset was 8 with UTF16
+        });
+
+        it("emoji with skin tone modifier", async function() {
+          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11); // offset was 10 with UTF16
+        });
+
+        it("family emoji", async function() {
+          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
+        });
+
+        it("family emoji wit skin tone modifier", async function() {
+          await checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "UnicodeCodePoint",
+            17,
+            11
+          ); // offset was 25 with UTF16
+        });
+
+        it("diacritics nfc", async function() {
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
+        });
+
+        it("diacritics nfd", async function() {
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 10, 11);
+        });
+
+        it("korean nfc", async function() {
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
+        });
+
+        it("korean nfd", async function() {
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
+        });
+
+        it("zalgo", async function() {
+          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
+        });
+      });
+      describe("#TextElements_v8", function() {
+        it("emoji", async function() {
+          await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElements_v8", 7, 11); // offset was 8 with UTF16
+        });
+
+        it("emoji with skin tone modifier", async function() {
+          await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElements_v8", 8, 11); // offset was 10 with UTF16
+        });
+
+        it("family emoji", async function() {
+          await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElements_v8", 13, 11); // offset was 17 with UTF16
+        });
+
+        it("family emoji wit skin tone modifier", async function() {
+          await checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "TextElements_v8",
+            17,
+            11
+          ); // offset was 25 with UTF16
+        });
+
+        it("diacritics nfc", async function() {
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11);
+        });
+
+        it("diacritics nfd", async function() {
+          await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 10 with UTF16
+        });
+
+        it("korean nfc", async function() {
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+        });
+
+        it("korean nfd", async function() {
+          await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
+        });
+
+        it("zalgo", async function() {
+          await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 121 with UTF16
+        });
       });
     });
   });
@@ -782,34 +935,34 @@ describe("[AAD] TextAnalyticsClient", function() {
     });
 
     describe("#analyze", function() {
-      it("single entity recognition task", async function() {
+      it("single entity recognition action", async function() {
         const docs = [
           { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const results = await poller.pollUntilDone();
         for await (const page of results) {
-          const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
-            const task = entitiesResult[0];
-            for (const result of task) {
-              if (!result.error) {
-                assert.ok(result.id);
-                assert.ok(result.entities);
-              } else {
-                assert.fail("did not expect document errors but got one.");
+          const entitiesResult = page.recognizeEntitiesResults;
+          if (entitiesResult.length === 1) {
+            const action = entitiesResult[0];
+            if (!action.error) {
+              for (const result of action.results) {
+                if (!result.error) {
+                  assert.ok(result.id);
+                  assert.ok(result.entities);
+                } else {
+                  assert.fail("did not expect document errors but got one.");
+                }
               }
             }
           } else {
@@ -818,35 +971,35 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      it("single key phrases task", async function() {
+      it("single key phrases action", async function() {
         const docs = [
           { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const results = await poller.pollUntilDone();
         for await (const page of results) {
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
-            const task = keyPhrasesResult[0];
-            assert.equal(task.length, 2);
-            for (const result of task) {
-              if (!result.error) {
-                assert.include(result.keyPhrases, "Paul Allen");
-                assert.include(result.keyPhrases, "Bill Gates");
-                assert.include(result.keyPhrases, "Microsoft");
-                assert.ok(result.id);
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
+          if (keyPhrasesResult.length === 1) {
+            const action = keyPhrasesResult[0];
+            if (!action.error) {
+              assert.equal(action.results.length, 2);
+              for (const result of action.results) {
+                if (!result.error) {
+                  assert.include(result.keyPhrases, "Paul Allen");
+                  assert.include(result.keyPhrases, "Bill Gates");
+                  assert.include(result.keyPhrases, "Microsoft");
+                  assert.ok(result.id);
+                }
               }
             }
           } else {
@@ -855,7 +1008,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      it("single entities recognition task", async function() {
+      it("single entities recognition action", async function() {
         const docs = [
           {
             id: "1",
@@ -874,31 +1027,31 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
-            const task = entitiesResult[0];
-            assert.equal(task.length, 3);
-            for (const doc of task) {
-              if (!doc.error) {
-                assert.equal(doc.entities.length, 4);
-                for (const entity of doc.entities) {
-                  assert.isDefined(entity.text);
-                  assert.isDefined(entity.category);
-                  assert.isDefined(entity.offset);
-                  assert.isDefined(entity.confidenceScore);
+          const entitiesResult = page.recognizeEntitiesResults;
+          if (entitiesResult.length === 1) {
+            const action = entitiesResult[0];
+            if (!action.error) {
+              assert.equal(action.results.length, 3);
+              for (const doc of action.results) {
+                if (!doc.error) {
+                  assert.equal(doc.entities.length, 4);
+                  for (const entity of doc.entities) {
+                    assert.isDefined(entity.text);
+                    assert.isDefined(entity.category);
+                    assert.isDefined(entity.offset);
+                    assert.isDefined(entity.confidenceScore);
+                  }
                 }
               }
             }
@@ -908,7 +1061,48 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      it("single pii entities recognition task", async function() {
+      it("single entities linking action", async function() {
+        const docs = [
+          "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
+          "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
+        ];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            recognizeLinkedEntitiesActions: [{}]
+          },
+          "en",
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        for await (const page of result) {
+          const entitiesResult = page.recognizeLinkedEntitiesResults;
+          if (entitiesResult.length === 1) {
+            const action = entitiesResult[0];
+            if (!action.error) {
+              assert.equal(action.results.length, 2);
+              for (const doc of action.results) {
+                if (!doc.error) {
+                  assert.notEqual(doc.entities.length, 0);
+                  for (const entity of doc.entities) {
+                    assert.isDefined(entity.name);
+                    assert.isDefined(entity.url);
+                    assert.isDefined(entity.dataSource);
+                    assert.isDefined(entity.dataSourceEntityId);
+                  }
+                }
+              }
+            }
+          } else {
+            assert.fail("expected an array of entity linking results but did not get one.");
+          }
+        }
+      });
+
+      it("single pii entities recognition action", async function() {
         const docs = [
           { id: "1", text: "My SSN is 859-98-0987." },
           {
@@ -919,45 +1113,47 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.piiEntitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
-            const task = entitiesResult[0];
-            assert.equal(task.length, 3);
-            const doc1 = task[0];
-            const doc2 = task[1];
-            const doc3 = task[2];
-            if (!doc1.error) {
-              assert.equal(doc1.entities[0].text, "859-98-0987");
-              assert.equal(doc1.entities[0].category, "U.S. Social Security Number (SSN)");
-            }
-            if (!doc2.error) {
-              assert.equal(doc2.entities[0].text, "111000025");
-              // assert.equal(doc2.entities[0].category, "ABA Routing Number")  # Service is currently returning PhoneNumber here
-            }
-            if (!doc3.error) {
-              assert.equal(doc3.entities[0].text, "998.214.865-68");
-              assert.equal(doc3.entities[0].category, "Brazil CPF Number");
-            }
-            for (const doc of task) {
-              if (!doc.error) {
-                for (const entity of doc.entities) {
-                  assert.isDefined(entity.text);
-                  assert.isDefined(entity.category);
-                  assert.isDefined(entity.offset);
-                  assert.isDefined(entity.confidenceScore);
+          const entitiesResult = page.recognizePiiEntitiesResults;
+          if (entitiesResult.length === 1) {
+            const action = entitiesResult[0];
+            if (!action.error) {
+              const actionResults = action.results;
+              assert.equal(actionResults.length, 3);
+              const doc1 = actionResults[0];
+              const doc2 = actionResults[1];
+              // const doc3 = actionResults[2];
+              if (!doc1.error) {
+                assert.equal(doc1.entities[0].text, "859-98-0987");
+                assert.equal(doc1.entities[0].category, "USSocialSecurityNumber");
+              }
+              if (!doc2.error) {
+                assert.equal(doc2.entities[0].text, "111000025");
+                assert.equal(doc2.entities[1].category, "ABARoutingNumber");
+              }
+              // the service is not able to detect the brazil cpf number
+              // if (!doc3.error) {
+              //   assert.equal(doc3.entities[0].text, "998.214.865-68");
+              //   assert.equal(doc3.entities[0].category, "Brazil CPF Number");
+              // }
+              for (const doc of actionResults) {
+                if (!doc.error) {
+                  for (const entity of doc.entities) {
+                    assert.isDefined(entity.text);
+                    assert.isDefined(entity.category);
+                    assert.isDefined(entity.offset);
+                    assert.isDefined(entity.confidenceScore);
+                  }
                 }
               }
             }
@@ -970,16 +1166,14 @@ describe("[AAD] TextAnalyticsClient", function() {
       it("bad request empty string", async function() {
         const docs = [""];
         try {
-          const poller = await client.beginAnalyze(
+          const poller = await client.beginAnalyzeBatchActions(
             docs,
             {
-              entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+              recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
             },
             "en",
             {
-              polling: {
-                updateIntervalInMs: pollingInterval
-              }
+              updateIntervalInMs: pollingInterval
             }
           );
           await poller.pollUntilDone();
@@ -991,7 +1185,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       /**
        * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
        */
-      it.skip("some documents with errors and multiple tasks", async function() {
+      it.skip("some documents with errors and multiple actions", async function() {
         const docs = [
           { id: "1", language: "", text: "" },
           {
@@ -1006,50 +1200,57 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          const entitiesResult = page.recognizeEntitiesResults;
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 3);
-            assert.isDefined(entitiesDocs[0].error);
-            assert.isDefined(entitiesDocs[1].error);
-            assert.isUndefined(entitiesDocs[2].error);
+            if (!entitiesDocs.error) {
+              const entitiesDocsResults = entitiesDocs.results;
+              assert.equal(entitiesDocsResults.length, 3);
+              assert.isDefined(entitiesDocsResults[0].error);
+              assert.isDefined(entitiesDocsResults[1].error);
+              assert.isUndefined(entitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 3);
-            assert.isDefined(piiEntitiesDocs[0].error);
-            assert.isDefined(piiEntitiesDocs[1].error);
-            assert.isUndefined(piiEntitiesDocs[2].error);
+            if (!piiEntitiesDocs.error) {
+              const piiEntitiesDocsResults = piiEntitiesDocs.results;
+              assert.equal(piiEntitiesDocsResults.length, 3);
+              assert.isDefined(piiEntitiesDocsResults[0].error);
+              assert.isDefined(piiEntitiesDocsResults[1].error);
+              assert.isUndefined(piiEntitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
+          if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 3);
-            assert.isDefined(keyPhrasesDocs[0].error);
-            assert.isDefined(keyPhrasesDocs[1].error);
-            assert.isUndefined(keyPhrasesDocs[2].error);
+            if (!keyPhrasesDocs.error) {
+              const keyPhrasesDocsResults = keyPhrasesDocs.results;
+              assert.equal(keyPhrasesDocsResults.length, 3);
+              assert.isDefined(keyPhrasesDocsResults[0].error);
+              assert.isDefined(keyPhrasesDocsResults[1].error);
+              assert.isUndefined(keyPhrasesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
           }
@@ -1059,7 +1260,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       /**
        * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
        */
-      it.skip("all documents with errors and multiple tasks", async function() {
+      it.skip("all documents with errors and multiple actions", async function() {
         const docs = [
           { id: "1", language: "", text: "" },
           {
@@ -1074,57 +1275,64 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          const entitiesResult = page.recognizeEntitiesResults;
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 3);
-            assert.isDefined(entitiesDocs[0].error);
-            assert.isDefined(entitiesDocs[1].error);
-            assert.isDefined(entitiesDocs[2].error);
+            if (!entitiesDocs.error) {
+              const entitiesDocsResults = entitiesDocs.results;
+              assert.equal(entitiesDocsResults.length, 3);
+              assert.isDefined(entitiesDocsResults[0].error);
+              assert.isDefined(entitiesDocsResults[1].error);
+              assert.isDefined(entitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 3);
-            assert.isDefined(piiEntitiesDocs[0].error);
-            assert.isDefined(piiEntitiesDocs[1].error);
-            assert.isDefined(piiEntitiesDocs[2].error);
+            if (!piiEntitiesDocs.error) {
+              const piiEntitiesDocsResults = piiEntitiesDocs.results;
+              assert.equal(piiEntitiesDocsResults.length, 3);
+              assert.isDefined(piiEntitiesDocsResults[0].error);
+              assert.isDefined(piiEntitiesDocsResults[1].error);
+              assert.isDefined(piiEntitiesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult && keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 3);
-            assert.isDefined(keyPhrasesDocs[0].error);
-            assert.isDefined(keyPhrasesDocs[1].error);
-            assert.isDefined(keyPhrasesDocs[2].error);
+            if (!keyPhrasesDocs.error) {
+              const keyPhrasesDocsResults = keyPhrasesDocs.results;
+              assert.equal(keyPhrasesDocsResults.length, 3);
+              assert.isDefined(keyPhrasesDocsResults[0].error);
+              assert.isDefined(keyPhrasesDocsResults[1].error);
+              assert.isDefined(keyPhrasesDocsResults[2].error);
+            }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
           }
         }
       });
 
-      it("output order is same as the input's one with multiple tasks", async function() {
+      it("output order is same as the input's one with multiple actions", async function() {
         const docs = [
           { id: "1", text: "one" },
           { id: "2", text: "two" },
@@ -1133,52 +1341,56 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "5", text: "five" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          const entitiesResult = page.recognizeEntitiesResults;
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 5);
-            let i = 1;
-            for (const doc of entitiesDocs) {
-              assert.equal(parseInt(doc.id), i++);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 5);
+              let i = 1;
+              for (const doc of entitiesDocs.results) {
+                assert.equal(parseInt(doc.id), i++);
+              }
             }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 5);
-            let i = 1;
-            for (const doc of piiEntitiesDocs) {
-              assert.equal(parseInt(doc.id), i++);
+            if (!piiEntitiesDocs.error) {
+              assert.equal(piiEntitiesDocs.results.length, 5);
+              let i = 1;
+              for (const doc of piiEntitiesDocs.results) {
+                assert.equal(parseInt(doc.id), i++);
+              }
             }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
+          if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 5);
-            let i = 1;
-            for (const doc of keyPhrasesDocs) {
-              assert.equal(parseInt(doc.id), i++);
+            if (!keyPhrasesDocs.error) {
+              assert.equal(keyPhrasesDocs.results.length, 5);
+              let i = 1;
+              for (const doc of keyPhrasesDocs.results) {
+                assert.equal(parseInt(doc.id), i++);
+              }
             }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
@@ -1186,7 +1398,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      it("out of order input IDs with multiple tasks", async function() {
+      it("out of order input IDs with multiple actions", async function() {
         const docs = [
           { id: "56", text: ":)" },
           { id: "0", text: ":(" },
@@ -1195,53 +1407,57 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         const in_order = ["56", "0", "22", "19", "1"];
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          const entitiesResult = page.recognizeEntitiesResults;
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
-            assert.equal(entitiesDocs.length, 5);
-            let i = 0;
-            for (const doc of entitiesDocs) {
-              assert.equal(doc.id, in_order[i++]);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 5);
+              let i = 0;
+              for (const doc of entitiesDocs.results) {
+                assert.equal(doc.id, in_order[i++]);
+              }
             }
           } else {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
-            assert.equal(piiEntitiesDocs.length, 5);
-            let i = 0;
-            for (const doc of piiEntitiesDocs) {
-              assert.equal(doc.id, in_order[i++]);
+            if (!piiEntitiesDocs.error) {
+              assert.equal(piiEntitiesDocs.results.length, 5);
+              let i = 0;
+              for (const doc of piiEntitiesDocs.results) {
+                assert.equal(doc.id, in_order[i++]);
+              }
             }
           } else {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
+          if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
-            assert.equal(keyPhrasesDocs.length, 5);
-            let i = 0;
-            for (const doc of keyPhrasesDocs) {
-              assert.equal(doc.id, in_order[i++]);
+            if (!keyPhrasesDocs.error) {
+              assert.equal(keyPhrasesDocs.results.length, 5);
+              let i = 0;
+              for (const doc of keyPhrasesDocs.results) {
+                assert.equal(doc.id, in_order[i++]);
+              }
             }
           } else {
             assert.fail("expected an array of key phrases results but did not get one.");
@@ -1261,18 +1477,16 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            analyze: { includeStatistics: true },
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            includeStatistics: true,
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1289,28 +1503,28 @@ describe("[AAD] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           "en",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1323,28 +1537,28 @@ describe("[AAD] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           "",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1357,27 +1571,27 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "The restaurant had really good food." }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1390,27 +1604,27 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
-            assert.equal(entitiesDocs.length, 3);
-            for (const doc of entitiesDocs) {
-              assert.isUndefined(doc.error);
+            if (!entitiesDocs.error) {
+              assert.equal(entitiesDocs.results.length, 3);
+              for (const doc of entitiesDocs.results) {
+                assert.isUndefined(doc.error);
+              }
             }
           }
         }
@@ -1419,33 +1633,37 @@ describe("[AAD] TextAnalyticsClient", function() {
       it("invalid language hint", async function() {
         const docs = ["This should fail because we're passing in an invalid language hint"];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           "notalanguage",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
-        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
-        for (const doc of entitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+        const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
+        if (!entitiesTaskDocs.error) {
+          for (const doc of entitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+          }
         }
-        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
-        for (const doc of piiEntitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+        const piiEntitiesTaskDocs = firstResult?.recognizePiiEntitiesResults[0];
+        if (!piiEntitiesTaskDocs.error) {
+          for (const doc of piiEntitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+          }
         }
-        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
-        for (const doc of keyPhrasesTaskDocs) {
-          assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+        const keyPhrasesTaskDocs = firstResult?.extractKeyPhrasesResults[0];
+        if (!keyPhrasesTaskDocs.error) {
+          for (const doc of keyPhrasesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnsupportedLanguageCode");
+          }
         }
       });
 
@@ -1458,32 +1676,36 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "bad" }],
-            entityRecognitionPiiTasks: [{ modelVersion: "bad" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "bad" }]
+            recognizeEntitiesActions: [{ modelVersion: "bad" }],
+            recognizePiiEntitiesActions: [{ modelVersion: "bad" }],
+            extractKeyPhrasesActions: [{ modelVersion: "bad" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
-        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
-        for (const doc of entitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnknownError");
+        const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
+        if (!entitiesTaskDocs.error) {
+          for (const doc of entitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnknownError");
+          }
         }
-        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
-        for (const doc of piiEntitiesTaskDocs) {
-          assert.equal(doc.error?.code, "UnknownError");
+        const piiEntitiesTaskDocs = firstResult?.recognizePiiEntitiesResults[0];
+        if (!piiEntitiesTaskDocs.error) {
+          for (const doc of piiEntitiesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnknownError");
+          }
         }
-        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
-        for (const doc of keyPhrasesTaskDocs) {
-          assert.equal(doc.error?.code, "UnknownError");
+        const keyPhrasesTaskDocs = firstResult?.extractKeyPhrasesResults[0];
+        if (!keyPhrasesTaskDocs.error) {
+          for (const doc of keyPhrasesTaskDocs.results) {
+            assert.equal(doc.error?.code, "UnknownError");
+          }
         }
       });
 
@@ -1491,17 +1713,15 @@ describe("[AAD] TextAnalyticsClient", function() {
         const totalDocs = 25;
         const docs = Array(totalDocs - 1).fill("random text");
         docs.push("Microsoft was founded by Bill Gates and Paul Allen");
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionTasks: [{ modelVersion: "latest" }],
-            keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+            recognizeEntitiesActions: [{ modelVersion: "latest" }],
+            extractKeyPhrasesActions: [{ modelVersion: "latest" }]
           },
           "en",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1509,16 +1729,18 @@ describe("[AAD] TextAnalyticsClient", function() {
         let pageCount = 0;
         const pageSize = 10;
         for await (const page of result.byPage({ maxPageSize: pageSize })) {
-          const entitiesTaskDocs = page.entitiesRecognitionResults![0];
+          const entitiesTaskDocs = page.recognizeEntitiesResults[0];
           ++pageCount;
-          for (const doc of entitiesTaskDocs) {
-            assert.isUndefined(doc.error);
-            ++docCount;
-            if (!doc.error) {
-              if (docCount === totalDocs) {
-                assert.equal(doc.entities.length, 3);
-              } else {
-                assert.equal(doc.entities.length, 0);
+          if (!entitiesTaskDocs.error) {
+            for (const doc of entitiesTaskDocs.results) {
+              assert.isUndefined(doc.error);
+              ++docCount;
+              if (!doc.error) {
+                if (docCount === totalDocs) {
+                  assert.equal(doc.entities.length, 3);
+                } else {
+                  assert.equal(doc.entities.length, 0);
+                }
               }
             }
           }
@@ -1534,30 +1756,116 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchActions(
           docs,
           {
-            entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults!;
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
           assert.equal(piiEntitiesResult.length, 1);
           for (const piiEntitiesDocs of piiEntitiesResult) {
-            assert.equal(piiEntitiesDocs.length, 3);
-            for (const doc of piiEntitiesDocs) {
-              assert.isUndefined(doc.error);
-              if (!doc.error) {
-                assert.isNotEmpty(doc.redactedText);
+            if (!piiEntitiesDocs.error) {
+              assert.equal(piiEntitiesDocs.results.length, 3);
+              for (const doc of piiEntitiesDocs.results) {
+                assert.isUndefined(doc.error);
+                if (!doc.error) {
+                  assert.isNotEmpty(doc.redactedText);
+                }
               }
             }
           }
+        }
+      });
+
+      it("operation metadata", async function() {
+        const docs = [
+          { id: "1", text: "I will go to the park." },
+          { id: "2", text: "Este es un document escrito en Español." },
+          { id: "3", text: "猫は幸せ" }
+        ];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
+          },
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        poller.onProgress(() => {
+          assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
+          assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
+          assert.ok(poller.getOperationState().lastModifiedOn, "lastModifiedOn is undefined!");
+          assert.ok(poller.getOperationState().status, "status is undefined!");
+          assert.ok(
+            poller.getOperationState().actionsSucceededCount,
+            "actionsSucceededCount is undefined!"
+          );
+          assert.equal(poller.getOperationState().actionsFailedCount, 0);
+          assert.isDefined(
+            poller.getOperationState().actionsInProgressCount,
+            "actionsInProgressCount is undefined!"
+          );
+        });
+        const result = await poller.pollUntilDone();
+        assert.ok(result);
+      });
+
+      it("family emoji wit skin tone modifier", async function() {
+        const poller = await client.beginAnalyzeBatchActions(
+          [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
+          {
+            recognizePiiEntitiesActions: [
+              { modelVersion: "latest", stringIndexType: "UnicodeCodePoint" }
+            ]
+          },
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const pollerResult = await poller.pollUntilDone();
+        const firstResult = (await pollerResult.next()).value;
+        const actionResult = firstResult.recognizePiiEntitiesResults[0];
+        if (!actionResult.error) {
+          const docResult = actionResult.results[0];
+          if (!docResult.error) {
+            assert.equal(docResult.entities[0].offset, 17); // 25 with UTF16
+            assert.equal(docResult.entities[0].length, 11);
+            assert.equal(docResult.entities[0].text.length, docResult.entities[0].length);
+          }
+        }
+      });
+
+      it("action failures are returned", async function() {
+        const docs = [{ id: "1", text: "I will go to the park." }];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            recognizePiiEntitiesActions: [
+              { modelVersion: "bad" },
+              { modelVersion: "latest" },
+              { modelVersion: "bad", stringIndexType: "TextElements_v8" }
+            ]
+          },
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        for await (const page of result) {
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
+          assert.equal(piiEntitiesResult.length, 3);
+          assert.isDefined(piiEntitiesResult[0].error);
+          assert.isUndefined(piiEntitiesResult[1].error);
+          assert.isDefined(piiEntitiesResult[2].error);
         }
       });
     });

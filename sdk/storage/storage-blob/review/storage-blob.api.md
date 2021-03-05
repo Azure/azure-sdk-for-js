@@ -542,6 +542,7 @@ export interface BlobDownloadHeaders {
     // (undocumented)
     errorCode?: string;
     etag?: string;
+    isCurrentVersion?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
     lastAccessed?: Date;
@@ -1663,6 +1664,7 @@ export class ContainerClient extends StorageClient {
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
+    getBlobBatchClient(): BlobBatchClient;
     getBlobClient(blobName: string): BlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(blobName: string): BlockBlobClient;
@@ -1928,6 +1930,23 @@ export interface ContainerReleaseLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
 }
+
+// @public
+export interface ContainerRenameHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export type ContainerRenameResponse = ContainerRenameHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ContainerRenameHeaders;
+    };
+};
 
 // @public
 export interface ContainerRenewLeaseOptions extends CommonOptions {
@@ -2965,6 +2984,12 @@ export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse
         parsedBody: ListContainersSegmentResponse;
     };
 };
+
+// @public
+export interface ServiceRenameContainerOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    sourceCondition?: LeaseAccessConditions;
+}
 
 // @public
 export interface ServiceSetPropertiesHeaders {

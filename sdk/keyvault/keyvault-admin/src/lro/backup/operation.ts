@@ -5,12 +5,13 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
+  FullBackupOperation,
   KeyVaultClientFullBackupOptionalParams,
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
-import { BeginBackupOptions } from "../../backupClientModels";
+import { createSpan } from "../../tracing";
+import { BackupResult, BeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
@@ -19,12 +20,12 @@ import {
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
  */
-export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
+export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
 
 /**
  * An internal interface representing the state of a backup Key Vault's poll operation.
  */
-export interface BackupPollOperationState extends KeyVaultAdminPollOperationState<string> {
+export interface BackupPollOperationState extends KeyVaultAdminPollOperationState<BackupResult> {
   /**
    * The URI of the blob storage account.
    */
@@ -57,9 +58,9 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
   private async fullBackup(
     options: KeyVaultClientFullBackupOptionalParams
   ): Promise<KeyVaultClientFullBackupResponse> {
-    const span = createSpan("generatedClient.fullBackup", options);
+    const { span, updatedOptions } = createSpan("generatedClient.fullBackup", options);
     try {
-      return await this.client.fullBackup(this.vaultUrl, setParentSpan(span, options));
+      return await this.client.fullBackup(this.vaultUrl, updatedOptions);
     } finally {
       span.end();
     }
@@ -72,9 +73,9 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: BeginBackupOptions
   ): Promise<KeyVaultClientFullBackupStatusResponse> {
-    const span = createSpan("generatedClient.fullBackupStatus", options);
+    const { span, updatedOptions } = createSpan("generatedClient.fullBackupStatus", options);
     try {
-      return await this.client.fullBackupStatus(this.vaultUrl, jobId, setParentSpan(span, options));
+      return await this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions);
     } finally {
       span.end();
     }
@@ -105,65 +106,54 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
         }
       });
 
-      const {
-        startTime,
-        jobId,
-        azureStorageBlobContainerUri,
-        endTime,
-        error,
-        status,
-        statusDetails
-      } = serviceOperation;
-
-      if (!startTime) {
-        state.error = new Error(`Missing "startTime" from the full backup operation.`);
-        state.isCompleted = true;
-        return this;
+      this.mapState(serviceOperation);
+    } else if (!state.isCompleted) {
+      if (!state.jobId) {
+        throw new Error(`Missing "jobId" from the full backup operation.`);
       }
-
-      state.isStarted = true;
-      state.jobId = jobId;
-      state.endTime = endTime;
-      state.startTime = startTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-      state.result = azureStorageBlobContainerUri;
-
-      state.isCompleted = !!(endTime || error?.message);
-
-      if (error?.message || statusDetails) {
-        state.error = new Error(error?.message || statusDetails);
-      }
-    }
-
-    if (!state.jobId) {
-      state.error = new Error(`Missing "jobId" from the full backup operation.`);
-      state.isCompleted = true;
-      return this;
-    }
-
-    if (!state.isCompleted) {
       const serviceOperation = await this.fullBackupStatus(state.jobId, this.requestOptions);
-      const {
-        azureStorageBlobContainerUri,
-        endTime,
-        status,
-        statusDetails,
-        error
-      } = serviceOperation;
-
-      state.endTime = endTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-      state.result = azureStorageBlobContainerUri;
-
-      state.isCompleted = !!(endTime || error?.message);
-
-      if (error?.message || statusDetails) {
-        state.error = new Error(error?.message || statusDetails);
-      }
+      this.mapState(serviceOperation);
     }
 
     return this;
+  }
+
+  private mapState(serviceOperation: FullBackupOperation): void {
+    const state = this.state;
+    const {
+      startTime,
+      jobId,
+      azureStorageBlobContainerUri,
+      endTime,
+      error,
+      status,
+      statusDetails
+    } = serviceOperation;
+    if (!startTime) {
+      throw new Error(
+        `Missing "startTime" from the full backup operation. Full backup did not start successfully.`
+      );
+    }
+
+    state.isStarted = true;
+    state.jobId = jobId;
+    state.endTime = endTime;
+    state.startTime = startTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
+
+    if (error?.message) {
+      throw new Error(error?.message);
+    }
+
+    state.isCompleted = !!endTime;
+
+    if (state.isCompleted && azureStorageBlobContainerUri) {
+      state.result = {
+        backupFolderUri: azureStorageBlobContainerUri,
+        startTime,
+        endTime
+      };
+    }
   }
 }

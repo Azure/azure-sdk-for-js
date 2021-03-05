@@ -7,13 +7,15 @@ export {
   LROPollerOptions,
   LROOperationStep,
   LROStrategy,
-  LROOperationResponse,
   LROResponseInfo,
   BaseResult,
   LROOperationState,
-  FinalStateVia,
   SendOperationFn
 } from "./lro";
+export { LROOperationResponse } from "./lro/models";
+
+export { FinalStateVia } from "./lro/models";
+
 export { ArtifactsClient } from "./artifactsClient";
 export { ArtifactsClientContext } from "./artifactsClientContext";
 export {

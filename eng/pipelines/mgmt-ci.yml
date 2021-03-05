@@ -17,14 +17,14 @@ trigger:
       - sdk/core/core-auth/
       - sdk/core/core-client/
       - sdk/core/core-http/
-      - sdk/core/core-https/
+      - sdk/core/core-core-pipeline/
       - sdk/core/core-lro/
       - sdk/core/core-paging/
       - sdk/core/core-tracing/
       - sdk/core/core-xml/
       - sdk/core/logger/
       - sdk/cosmosdb/cosmos/
-      - sdk/digitaltwins/digital-twins/
+      - sdk/digitaltwins/digital-twins-core/
       - sdk/eventgrid/eventgrid/
       - sdk/eventhub/event-hubs/
       - sdk/eventhub/event-processor-host/

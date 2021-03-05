@@ -5,10 +5,11 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-access-control/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "sdk-type": "client",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "dependencies": {
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.2.0",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "tslib": "^2.0.0"
   },
   "keywords": [

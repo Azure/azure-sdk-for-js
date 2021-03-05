@@ -1,4 +1,58 @@
 {
-    "tool": "Credential Scanner",
-    "suppressions": []
+  "tool": "Credential Scanner",
+  "suppressions": [
+    {
+      "placeholder": "efQ8O5wj+98pO9uoDas4uhlPwdp5GHCRs9N2Da2EC/g=",
+      "_justification": "Secret used by test code, it is fake."
+    },
+    {
+      "placeholder": "79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
+      "_justification": "Secret used by test code, it is fake."
+    },
+    {
+      "placeholder": "AJ/qUoDtgLeA1A5ND2AS3uF7hsSe9O7imtXlkAj8VR4=",
+      "_justification": "Secret used by test code, it is fake."
+    },
+    {
+      "placeholder": "009fea5280ed80b780d40e4d0f6012dee17b86c49ef4eee29ad5e59008fc551e",
+      "_justification": "Secret used by test code, it is fake."
+    },
+    {
+      "placeholder": "1cb763e7c4b9a3c4811c4560af6827c2",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "hash": "5ETIzLYe9aa9Xx5512Uy6gJiCZ/CL2QzS3nDfN51nz8=",
+      "_justification": "Secret used by test code"
+    },
+    {
+      "placeholder": [
+        "`$`{NPM_TOKEN`}",
+        "azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
+        "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+        "SecretBaseUnion",
+        "SecureString",
+        "azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
+        "pass123",
+        "pwd1",
+        "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+        "azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
+        "p@55wOrd",
+        "nodesdk",
+        "liilef#$DdRGSa_ewkjh",
+        "kt#_gahr!@aGERDXA",
+        "goose",
+        "_password"
+      ],
+      "_justification": "Secret used by test code, it is fake."
+    },
+    {
+        "file":[
+            "sdk/identity/identity/test/azure-identity-chain-test.crt",
+            "sdk/identity/identity/test/azure-identity-test.crt",
+            "sdk/keyvault/keyvault-certificates/ca.key"
+        ],
+        "_justification": "File contains private key used by test code."
+    }  
+  ]
 }
