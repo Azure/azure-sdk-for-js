@@ -183,7 +183,7 @@ export function extractSpanContextFromServiceBusMessage(
 
 /**
  * Converts TryAddOptions into the modern shape (OperationOptions) when needed.
- * (this is something we can eliminate at the next major release of EH _or_ when
+ * (this is something we can eliminate at the next major release of SB _or_ when
  * we release with the GA version of opentelemetry).
  *
  * @internal
