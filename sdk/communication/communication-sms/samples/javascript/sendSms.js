@@ -10,7 +10,9 @@ const { SmsClient } = require("@azure/communication-sms");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
-dotenv.config();
+dotenv.config({
+  path: "sample.env"
+});
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
@@ -22,20 +24,36 @@ async function main() {
   const client = new SmsClient(connectionString);
 
   // Send SMS message
-  const sendResults = await client.send(
-    {
-      from: "<phone number>", // Your E.164 formatted phone number used to send SMS
-      to: ["<phone number>", "<phone number>", "<phone number>"], // The list of E.164 formatted phone numbers to which message is being send
-      message: "Hello World via SMS!" // The message being sent
-    },
-    {
-      enableDeliveryReport: true,
-      tag: "customTag"
-    }
-  );
-  for (const sendResult of sendResults) {
-    console.log("result: ", sendResult);
+  let sendResults;
+  try {
+    sendResults = await client.send(
+      {
+        from: "<leased phone number>", // Your E.164 formatted phone number used to send SMS
+        to: [
+          "<recipient phone number A>",
+          "<recipient phone number B>",
+          "NotANumberForDemonstrationPurposes"
+        ], // The list of E.164 formatted phone numbers to which message is being sent
+        message: "Hello World via SMS!" // The message being sent
+      },
+      {
+        enableDeliveryReport: true,
+        tag: "JSConnectionStringSample"
+      }
+    );
+  } catch (e) {
+    console.error("Something went wrong when attempting to connect to the SMS Gateway");
+    throw e;
   }
+
+  for (const sendResult of sendResults) {
+    if (sendResult.successful) {
+      console.log("Success: ", sendResult);
+    } else {
+      console.error("Something went wrong when trying to send this message: ", sendResult);
+    }
+  }
+  console.log("== SMS Sample Complete! ==");
 }
 
 main().catch((error) => {

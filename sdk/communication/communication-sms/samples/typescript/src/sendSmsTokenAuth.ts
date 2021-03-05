@@ -7,6 +7,7 @@
  */
 
 import { SmsClient } from "@azure/communication-sms";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -14,14 +15,13 @@ dotenv.config({
   path: "sample.env"
 });
 
-// You will need to set this environment variables or edit the following values
-const connectionString =
-  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+// You will need to set this environment variable or edit the following value
+const connectionString = process.env["COMMUNICATION_ENDPOINT"] || "<communication endpoint url>";
 
 export const main = async () => {
-  console.log("== Send SMS Message Sample ==");
+  console.log("== Send SMS Message Token Auth Sample ==");
 
-  const client = new SmsClient(connectionString);
+  const client = new SmsClient(connectionString, new DefaultAzureCredential());
 
   // Send SMS message
   let sendResults;
@@ -38,7 +38,7 @@ export const main = async () => {
       },
       {
         enableDeliveryReport: true,
-        tag: "TSConnectionStringSample"
+        tag: "TSAuthTokenSample"
       }
     );
   } catch (e) {
@@ -53,7 +53,7 @@ export const main = async () => {
       console.error("Something went wrong when trying to send this message: ", sendResult);
     }
   }
-  console.log("== SMS Sample Complete! ==");
+  console.log("== SMS Token Sample Complete! ==");
 };
 
 main().catch((error) => {
