@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "983b21ee434452aefb9e0c492b56ccf0";
+module.exports.hash = "8b6f7978509c8b2271e1593655e1a41d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,7 +23,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  'fa40822e-7bc8-47b8-be19-48ce4a711aa3',
+  'c38fa212-c6aa-48e0-8954-91a5f980b63c',
   'x-ms-keyvault-service-version',
   '1.2.191.0',
   'x-ms-keyvault-network-info',
@@ -35,7 +35,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 02 Mar 2021 23:59:30 GMT'
+  'Tue, 02 Mar 2021 23:59:32 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -56,17 +56,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b19ef2c9-7a27-4555-a8d3-13f6ba1bb500',
+  '161e5a43-14e9-428c-bb52-74d1313fa300',
   'x-ms-ests-server',
   '2.1.11513.17 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ar3DRDps_cJMp4216vgVnnEsYtMRAgAAAGLI0NcOAAAA; expires=Thu, 01-Apr-2021 23:59:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ar3DRDps_cJMp4216vgVnnEsYtMRBAAAAGLI0NcOAAAA; expires=Thu, 01-Apr-2021 23:59:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 02 Mar 2021 23:59:30 GMT',
+  'Tue, 02 Mar 2021 23:59:31 GMT',
   'Content-Length',
   '1315'
 ]);
@@ -74,7 +74,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/localCryptoKeyName-beforeeachhook-/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-/f717a1b74c8c41368b9ddad880e55400","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"ySATOJg2ufqEkMzncej850jqT_XPuIl-u2X-_Ak1h3QsQ-ujcHzvd4bUjcVxFTY3FUOiP2V-h3hLYpX9BN7qk-PdcJ7f6FmA1R85zpaEmBQQFvywMoENkiydFbNo1bK5-9nuZO05Q9ScnJUl8pFpZ5oNBTMvnBJSnZC8TyrJHM-4XO7xO6aSUwsDhjojoi6JfCmqk7MnlhM8nBs0k6onEA-ykixuEMZxOuUc-dPcbzvd8LdE9kvpe_hUKcU0GZavGT5r4qMZhppZKx_t_InqmVzJrUOmZ5uEmXy0RrAuXDTo_Ugg-Pah62tuPOcyvoouK6-LnmiYwm1Azy4XWzHTbQ","e":"AQAB"},"attributes":{"enabled":true,"created":1614729571,"updated":1614729571,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-/ba3bdd00614c4938b0d2ff6b54e81533","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"wPJFmFBU1Y8RBFW1sT-Bal9dZ6l3YLSCxsBnOQ7m3k1aBRCkimLY6LoOHYzBbcigSKN0ODrNP4WL4Pf6UoQYK8GskOLxAkBuQKKypb0318YVgTuFcj6vmla4b0Yu73bRQzvlUo6s_vSODGsoiMD2Bx31g3U_T95bDF9Lnh8LvI0Ced29TATf7SWFPaSsfN7AfbB_NUHpLzCZkj1tZ4sPKQ0MlMeCUf68t2HtQ4Sf8EsN4i46AkiLxaUORi_Vfq16_QDxc21R71pA_MPa_a_EAJ80b813CtpI72aeoH4eXdkUZjPbIYjlq2yQcuxjaMjROj4uukk7TpeQ88y5hwJh6Q","e":"AQAB"},"attributes":{"enabled":true,"created":1614729572,"updated":1614729572,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -86,7 +86,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '8faafa2b-168c-4e91-927f-9889199be79e',
+  'cd270bc7-73f4-4583-8dac-4a3c25b23ef4',
   'x-ms-keyvault-service-version',
   '1.2.191.0',
   'x-ms-keyvault-network-info',
@@ -98,7 +98,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 02 Mar 2021 23:59:31 GMT',
+  'Tue, 02 Mar 2021 23:59:32 GMT',
   'Content-Length',
   '725'
 ]);

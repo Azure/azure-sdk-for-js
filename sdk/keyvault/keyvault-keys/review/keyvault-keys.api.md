@@ -447,6 +447,10 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface VerifyDataOptions extends CryptographyOptions {
+}
+
+// @public
 export interface VerifyOptions extends CryptographyOptions {
 }
 

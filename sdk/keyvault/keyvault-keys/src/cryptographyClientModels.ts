@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CryptographyOptions } from "./keysModels";
+import { CryptographyOptions, KeyVaultKey } from "./keysModels";
 
 import {
+  JsonWebKey,
   JsonWebKeyCurveName as KeyCurveName,
   KnownJsonWebKeyCurveName as KnownKeyCurveNames,
   JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
@@ -173,6 +174,11 @@ export interface SignOptions extends CryptographyOptions {}
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
+ * Options for {@link verifyData}
+ */
+export interface VerifyDataOptions extends CryptographyOptions {}
+
+/**
  * Options for {@link wrapKey}.
  */
 export interface WrapKeyOptions extends KeyOperationsOptions {}
@@ -308,3 +314,24 @@ export type DecryptParameters =
   | RsaDecryptParameters
   | AesGcmDecryptParameters
   | AesCbcDecryptParameters;
+
+/**
+ * The various key types a {@link CryptographyClient} can hold.
+ * The key may be an identifier (URL) to a KeyVault key, the actual KeyVault key,
+ * or a local-only JsonWebKey.
+ *
+ * If an identifier is used, it will be exchanged for a {@link KeyVaultKey} during the first operation call.
+ */
+export type CryptographyClientKey =
+  | {
+      kind: "identifier";
+      value: string;
+    }
+  | {
+      kind: "KeyVaultKey";
+      value: KeyVaultKey;
+    }
+  | {
+      kind: "JsonWebKey";
+      value: JsonWebKey;
+    };
