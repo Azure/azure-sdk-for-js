@@ -49,18 +49,11 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
+    "dist/",
+    "dist-esm/",
     "types/synapse-artifacts.d.ts",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
