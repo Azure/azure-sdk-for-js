@@ -23,7 +23,6 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     await executeParallel(
       async (count: number, parallelIndex: number) => {
         await this.containerClient.uploadBlockBlob(generateUuid(), Buffer.alloc(0), 0);
-        console.log(`[` + parallelIndex + `] ` + count);
       },
       this.parsedOptions.count.value!,
       32
