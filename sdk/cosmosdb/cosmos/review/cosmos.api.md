@@ -417,7 +417,7 @@ export class Container {
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     readonly id: string;
-    item(id: string, partitionKeyValue?: PartitionKey): Item;
+    item(id: string, partitionKeyValue?: PartitionKey, ...args: PartitionKey[]): Item;
     get items(): Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
