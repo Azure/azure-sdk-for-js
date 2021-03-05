@@ -102,6 +102,9 @@ export interface AnalyzeBatchActionsOperationState
   extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>,
     AnalyzeBatchActionsOperationMetadata {}
 
+/**
+ * @internal
+ */
 function getMetInfoFromResponse(response: AnalyzeJobState): AnalyzeBatchActionsOperationMetadata {
   return {
     createdOn: response.createdDateTime,
