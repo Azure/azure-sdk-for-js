@@ -8,7 +8,6 @@ import {
   EncryptOptions,
   EncryptParameters,
   EncryptResult,
-  KeyOperation,
   KeyWrapAlgorithm,
   SignatureAlgorithm,
   SignOptions,
@@ -71,9 +70,9 @@ export interface CryptographyProvider {
    * Returns true if the provider supports this specific crypto operation.
    * @internal
    *
-   * @param opertion - The key operation to use.
+   * @param operation - The key operation to use.
    */
-  supportsOperation(opertion: KeyOperation): boolean;
+  supportsOperation(operation: CryptographyProviderOperation): boolean;
 
   /**
    * Wraps the given key using the specified cryptography algorithm
@@ -118,6 +117,20 @@ export interface CryptographyProvider {
   ): Promise<SignResult>;
 
   /**
+   * Cryptographically sign a block of data
+   * @internal
+   *
+   * @param algorithm - The signing algorithm to use.
+   * @param data - The data to sign.
+   * @param options - Additional options.
+   */
+  signData(
+    algorithm: SignatureAlgorithm,
+    data: Uint8Array,
+    options?: SignOptions
+  ): Promise<SignResult>;
+
+  /**
    * Verify the signed message digest
    * @internal
    *
@@ -132,4 +145,40 @@ export interface CryptographyProvider {
     signature: Uint8Array,
     options?: VerifyOptions
   ): Promise<VerifyResult>;
+
+  /**
+   * Verify the signed block of data
+   * @internal
+   *
+   * @param algorithm - The algorithm to use to verify with.
+   * @param data - The signed block of data to verify.
+   * @param signature - The signature to verify the block against.
+   * @param updatedOptions - Additional options.
+   */
+  verifyData(
+    algorithm: string,
+    data: Uint8Array,
+    signature: Uint8Array,
+    updatedOptions: OperationOptions
+  ): Promise<VerifyResult>;
 }
+
+/**
+ * The set of operations a {@link CryptographyProvider} supports.
+ *
+ * This corresponds to every single method on the interface so that providers
+ * can declare whether they support this method or not.
+ *
+ * Purposely more granular than {@link KnownKeyOperations} because some providers
+ * support verifyData but not verify.
+ * @internal
+ */
+export type CryptographyProviderOperation =
+  | "encrypt"
+  | "decrypt"
+  | "wrapKey"
+  | "unwrapKey"
+  | "sign"
+  | "signData"
+  | "verify"
+  | "verifyData";

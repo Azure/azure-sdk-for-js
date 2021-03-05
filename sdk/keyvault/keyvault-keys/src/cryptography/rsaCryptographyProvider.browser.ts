@@ -53,7 +53,19 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     );
   }
 
+  signData(): never {
+    throw new LocalCryptographyUnsupportedError(
+      "RSA Local cryptography is not supported in the browser."
+    );
+  }
+
   verify(): never {
+    throw new LocalCryptographyUnsupportedError(
+      "RSA Local cryptography is not supported in the browser."
+    );
+  }
+
+  verifyData(): never {
     throw new LocalCryptographyUnsupportedError(
       "RSA Local cryptography is not supported in the browser."
     );

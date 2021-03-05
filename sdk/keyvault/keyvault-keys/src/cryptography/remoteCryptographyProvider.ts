@@ -255,6 +255,16 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
+  async verifyData(
+    algorithm: string,
+    data: Uint8Array,
+    signature: Uint8Array,
+    options?: VerifyOptions
+  ): Promise<VerifyResult> {
+    const hash = await createHash(algorithm, data);
+    return this.verify(algorithm, hash, signature, options);
+  }
+
   async verify(
     algorithm: string,
     digest: Uint8Array,

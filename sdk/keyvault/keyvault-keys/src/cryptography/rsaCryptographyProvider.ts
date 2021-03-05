@@ -6,8 +6,6 @@ import { publicEncrypt } from "crypto";
 import { createVerify } from "./hash";
 import {
   JsonWebKey,
-  KeyOperation,
-  KnownKeyOperations,
   DecryptOptions,
   EncryptOptions,
   EncryptParameters,
@@ -28,6 +26,7 @@ import {
 import { convertJWKtoPEM } from "./conversions";
 import {
   CryptographyProvider,
+  CryptographyProviderOperation,
   LocalCryptographyUnsupportedError,
   LocalSupportedAlgorithmName
 } from "./models";
@@ -44,7 +43,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     return this.applicableAlgorithms.includes(algorithm);
   }
 
-  supportsOperation(operation: KeyOperation): boolean {
+  supportsOperation(operation: CryptographyProviderOperation): boolean {
     return this.applicableOperations.includes(operation);
   }
 
@@ -111,16 +110,37 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     );
   }
 
-  verify(
+  signData(
+    _algorithm: SignatureAlgorithm,
+    _data: Uint8Array,
+    _options?: SignOptions
+  ): Promise<SignResult> {
+    throw new LocalCryptographyUnsupportedError(
+      "Signing a block of data using a local JsonWebKey is not supported."
+    );
+  }
+
+  async verify(
+    _algorithm: SignatureAlgorithm,
+    _digest: Uint8Array,
+    _signature: Uint8Array,
+    _options?: VerifyOptions
+  ): Promise<VerifyResult> {
+    throw new LocalCryptographyUnsupportedError(
+      "Verifying a digest using a local JsonWebKey is not supported."
+    );
+  }
+
+  verifyData(
     algorithm: SignatureAlgorithm,
-    digest: Uint8Array,
+    data: Uint8Array,
     signature: Uint8Array,
     _options?: VerifyOptions
   ): Promise<VerifyResult> {
     this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
 
-    const verifier = createVerify(algorithm, digest);
+    const verifier = createVerify(algorithm, data);
     return Promise.resolve({
       result: verifier.verify(keyPEM, Buffer.from(signature)),
       keyID: this.key.kid
@@ -152,10 +172,10 @@ export class RsaCryptographyProvider implements CryptographyProvider {
    * The set of operations this provider supports
    * @internal
    */
-  private applicableOperations: KeyOperation[] = [
-    KnownKeyOperations.Encrypt,
-    KnownKeyOperations.Verify,
-    KnownKeyOperations.WrapKey
+  private applicableOperations: CryptographyProviderOperation[] = [
+    "encrypt",
+    "wrapKey",
+    "verifyData"
   ];
 
   /**

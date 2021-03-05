@@ -30,11 +30,11 @@ import {
   DecryptParameters,
   CryptographyClientKey
 } from "./cryptographyClientModels";
-import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { createHash } from "./cryptography/hash";
 import { createSpan } from "./tracing";
-import { CryptographyProvider } from "./cryptography/models";
+import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
+import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -405,7 +405,7 @@ export class CryptographyClient {
     const { span, updatedOptions } = this.createSpan("verify", options);
 
     try {
-      const provider = await this.getProvider(KnownKeyOperations.Verify, algorithm);
+      const provider = await this.getProvider("VerifyData", algorithm);
       return await provider.verify(algorithm, digest, signature, updatedOptions);
     } finally {
       span.end();
@@ -465,8 +465,7 @@ export class CryptographyClient {
 
     try {
       const provider = await this.getProvider(KnownKeyOperations.Verify, algorithm);
-      const digest = await createHash(algorithm, data);
-      return await provider.verify(algorithm, digest, signature, updatedOptions);
+      return await provider.verifyData(algorithm, data, signature, updatedOptions);
     } finally {
       span.end();
     }
@@ -532,7 +531,9 @@ export class CryptographyClient {
       }
     }
 
-    let providers = this.providers.filter((p) => p.supportsOperation(operation));
+    let providers = this.providers.filter((p) =>
+      p.supportsOperation(operation as CryptographyProviderOperation)
+    );
     if (algorithm) {
       providers = providers.filter((p) => p.supportsAlgorithm(algorithm));
     }
