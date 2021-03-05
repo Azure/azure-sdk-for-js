@@ -27,7 +27,8 @@ import {
   idempotentAlreadyPublished,
   idempotentSomeAlreadyPublished,
   throwErrorIfConnectionClosed,
-  throwTypeErrorIfParameterMissing
+  throwTypeErrorIfParameterMissing,
+  validateProducerPartitionSettings
 } from "./util/error";
 import { isDefined } from "./util/typeGuards";
 import { OperationOptions } from "./util/operationOptions";
@@ -186,23 +187,13 @@ export class EventHubProducerClient {
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
     const { enableIdempotentPartitions } = this._clientOptions;
-    const partitionId = isDefined(options.partitionId) ? String(options.partitionId) : "";
+    const partitionId = isDefined(options.partitionId) ? String(options.partitionId) : undefined;
 
-    if (enableIdempotentPartitions && isDefined(options.partitionKey)) {
-      throw new Error(
-        `"partitionKey" cannot be set when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
-      );
-    }
-
-    if (enableIdempotentPartitions && !partitionId) {
-      throw new Error(
-        `"partitionId" must be specified when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
-      );
-    }
-
-    if (partitionId && isDefined(options.partitionKey)) {
-      throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
-    }
+    validateProducerPartitionSettings({
+      enableIdempotentPartitions,
+      partitionId,
+      partitionKey: options.partitionKey
+    });
 
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
@@ -387,17 +378,11 @@ export class EventHubProducerClient {
       }
     }
 
-    if (enableIdempotentPartitions && (isDefined(partitionKey) || !isDefined(partitionId))) {
-      throw new Error(
-        `"partitionId" must be supplied and "partitionKey" must not be provided while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
-      );
-    }
-
-    if (isDefined(partitionId) && isDefined(partitionKey)) {
-      throw new Error(
-        `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
-      );
-    }
+    validateProducerPartitionSettings({
+      enableIdempotentPartitions,
+      partitionId,
+      partitionKey
+    });
 
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {

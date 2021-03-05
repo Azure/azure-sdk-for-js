@@ -89,7 +89,10 @@ describe("EventHubProducerClient", function() {
         throw new Error(TEST_FAILURE);
       } catch (err) {
         should.equal(err.name, "TypeError");
-        should.not.equal(err.message, TEST_FAILURE);
+        should.equal(
+          err.message,
+          `getPartitionPublishingProperties called without required argument "partitionId"`
+        );
       }
     });
   });
@@ -107,7 +110,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionKey" cannot be set while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -123,7 +126,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be supplied and "partitionKey" must not be provided while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -164,7 +167,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be specified while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -181,7 +184,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be supplied and "partitionKey" must not be provided while the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -205,7 +208,10 @@ describe("EventHubProducerClient", function() {
           ]);
           throw new Error(TEST_FAILURE);
         } catch (err) {
-          should.not.equal(err.message, TEST_FAILURE);
+          should.equal(
+            err.message,
+            `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentPartitions" is set to true.`
+          );
         }
 
         // TODO: Remove delay once https://github.com/Azure/azure-sdk-for-js/issues/4422 is completed.

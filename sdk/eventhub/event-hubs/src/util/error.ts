@@ -110,3 +110,28 @@ export const idempotentAlreadyPublished =
  */
 export const idempotentSomeAlreadyPublished =
   "1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again.";
+
+/**
+ * @internal
+ */
+export function validateProducerPartitionSettings({
+  enableIdempotentPartitions,
+  partitionId,
+  partitionKey
+}: {
+  enableIdempotentPartitions?: boolean;
+  partitionId?: string;
+  partitionKey?: string;
+}): void {
+  if (enableIdempotentPartitions && (isDefined(partitionKey) || !isDefined(partitionId))) {
+    throw new Error(
+      `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+    );
+  }
+
+  if (isDefined(partitionId) && isDefined(partitionKey)) {
+    throw new Error(
+      `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
+    );
+  }
+}
