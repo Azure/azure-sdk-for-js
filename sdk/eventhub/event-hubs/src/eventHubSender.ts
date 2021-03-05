@@ -396,7 +396,7 @@ export class EventHubSender extends LinkEntity {
     }
   }
 
-  private _generateIdempotentLinkProperties(): IdempotentLinkProperties {
+  private _generateIdempotentLinkProperties(): IdempotentLinkProperties | Record<string, never> {
     const userProvidedPublishingOptions = this._userProvidedPublishingOptions;
     const localPublishingOptions = this._localPublishingProperties;
 
@@ -414,24 +414,27 @@ export class EventHubSender extends LinkEntity {
       ownerLevel = userProvidedPublishingOptions.ownerLevel;
       producerGroupId = userProvidedPublishingOptions.producerGroupId;
       sequenceNumber = userProvidedPublishingOptions.startingSequenceNumber;
+    } else {
+      // If we don't have any properties at all, send an empty object.
+      // This will cause the service to generate a new producer-id for our client.
+      return {};
     }
 
-    const idempotentLinkProperties: IdempotentLinkProperties = {};
-    if (isDefined(ownerLevel)) {
-      idempotentLinkProperties[idempotentProducerAmqpPropertyNames.epoch] = types.wrap_short(
-        ownerLevel
-      );
-    }
-    if (isDefined(producerGroupId)) {
-      idempotentLinkProperties[idempotentProducerAmqpPropertyNames.producerId] = types.wrap_long(
-        producerGroupId
-      );
-    }
-    if (isDefined(sequenceNumber)) {
-      idempotentLinkProperties[
-        idempotentProducerAmqpPropertyNames.producerSequenceNumber
-      ] = types.wrap_int(sequenceNumber);
-    }
+    // The service requires that if ANY_ of these properties are defined,
+    // they _ALL_ have to be defined.
+    // If we don't have one of the required values, use `null` and the
+    // service will provide it.
+    const idempotentLinkProperties: IdempotentLinkProperties = {
+      [idempotentProducerAmqpPropertyNames.epoch]: isDefined(ownerLevel)
+        ? types.wrap_short(ownerLevel)
+        : null,
+      [idempotentProducerAmqpPropertyNames.producerId]: isDefined(producerGroupId)
+        ? types.wrap_long(producerGroupId)
+        : null,
+      [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: isDefined(sequenceNumber)
+        ? types.wrap_int(sequenceNumber)
+        : null
+    };
 
     return idempotentLinkProperties;
   }

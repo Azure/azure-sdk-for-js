@@ -121,7 +121,7 @@ export interface EventHubConsumerOptions {
  * @internal
  */
 export interface IdempotentLinkProperties {
-  [idempotentProducerAmqpPropertyNames.epoch]?: Typed;
-  [idempotentProducerAmqpPropertyNames.producerId]?: Typed;
-  [idempotentProducerAmqpPropertyNames.producerSequenceNumber]?: Typed;
+  [idempotentProducerAmqpPropertyNames.epoch]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerId]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: Typed | null;
 }

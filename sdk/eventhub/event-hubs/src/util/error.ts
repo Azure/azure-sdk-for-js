@@ -52,6 +52,10 @@ export function throwTypeErrorIfParameterMissing(
  */
 enum ConditionErrorNameMapper {
   /**
+   * Indicates that a sequenc enumber was out of order.
+   */
+  "com.microsoft:out-of-order-sequence" = "SequenceOutOfOrderError",
+  /**
    * Error is thrown when two or more instances connect to the same partition
    * with different epoch values.
    */
@@ -61,7 +65,10 @@ enum ConditionErrorNameMapper {
 /**
  * @internal
  */
-const nonRetryableErrors: Set<string> = new Set(["ProducerDisconnectedError"]);
+const nonRetryableErrors: Set<string> = new Set([
+  "ProducerDisconnectedError",
+  "SequenceOutOfOrderError"
+]);
 
 /**
  * @internal

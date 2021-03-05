@@ -285,6 +285,30 @@ describe("EventHubProducerClient", function() {
         return Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
+      it("can use partial state", async function() {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true,
+          partitionOptions: {
+            "0": {
+              ownerLevel: 1
+            }
+          }
+        });
+
+        const partitionPublishingProps = await producerClient.getPartitionPublishingProperties("0");
+
+        should.exist(partitionPublishingProps.producerGroupId, "ProducerGroupId should exist.");
+        should.equal(
+          partitionPublishingProps.ownerLevel,
+          1,
+          "ownerLevel should match what the EventHubProducerClient was configured with."
+        );
+        should.exist(
+          partitionPublishingProps.lastPublishedSequenceNumber,
+          "lastPublishedSequenceNumber should exist."
+        );
+      });
+
       it("can use ownerLevel to kick off other producers", async function() {
         const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
@@ -339,9 +363,52 @@ describe("EventHubProducerClient", function() {
           throw new Error(TEST_FAILURE);
         } catch (err) {
           should.equal(err.name, "MessagingError");
-          should.equal(err.code, "ArgumentError");
+          should.equal(err.code, "ArgumentOutOfRangeError");
           should.not.equal(err.message, TEST_FAILURE);
         }
+      });
+
+      it("fails with invalid sequence number", async function() {
+        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true
+        });
+
+        // Send an item so we have some state to carry over to the next producerClient
+        await producerClient1.sendBatch(
+          [{ body: "one" }, { body: "two" }, { body: "three" }, { body: "four" }, { body: "five" }],
+          {
+            partitionId: "0"
+          }
+        );
+        const partitionPublishingProps1 = await producerClient1.getPartitionPublishingProperties(
+          "0"
+        );
+
+        should.equal(partitionPublishingProps1.lastPublishedSequenceNumber, 5);
+
+        // Create the 2nd producer
+        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
+          enableIdempotentPartitions: true,
+          partitionOptions: {
+            "0": {
+              producerGroupId: partitionPublishingProps1.producerGroupId,
+              startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber! - 4
+            }
+          }
+        });
+
+        // Send an event! This should end up using an invalid sequence number.
+        try {
+          // Calling sendBatch with producerClient1 (lower ownerLevel) should fail.
+          await producerClient2.sendBatch([{ body: "six as two" }], { partitionId: "0" });
+          throw new Error(TEST_FAILURE);
+        } catch (err) {
+          should.equal(err.name, "MessagingError");
+          should.equal(err.code, "SequenceOutOfOrderError");
+          should.not.equal(err.message, TEST_FAILURE);
+        }
+
+        return Promise.all([producerClient1.close(), producerClient2.close()]);
       });
     });
 
