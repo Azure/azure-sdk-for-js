@@ -164,7 +164,7 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadsInfoCollection
+      bodyMapper: Mappers.ChatThreadsItemCollection
     },
     401: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -249,7 +249,7 @@ const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadsInfoCollection
+      bodyMapper: Mappers.ChatThreadsItemCollection
     },
     401: {
       bodyMapper: Mappers.CommunicationErrorResponse,

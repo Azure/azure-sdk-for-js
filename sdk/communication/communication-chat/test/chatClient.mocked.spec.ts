@@ -15,7 +15,7 @@ import {
   mockThread,
   generateHttpClient,
   createChatClient,
-  mockThreadInfo,
+  mockThreadItem,
   mockCreateThreadResult
 } from "./utils/mockClient";
 
@@ -86,8 +86,8 @@ describe("[Mocked] ChatClient", async () => {
   });
 
   it("makes successful list threads request", async () => {
-    const mockResponse: RestModel.ChatThreadsInfoCollection = {
-      value: [mockThreadInfo, mockThreadInfo]
+    const mockResponse: RestModel.ChatThreadsItemCollection = {
+      value: [mockThreadItem, mockThreadItem]
     };
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
@@ -98,7 +98,7 @@ describe("[Mocked] ChatClient", async () => {
     for await (const info of chatClient.listChatThreads()) {
       ++count;
       assert.isNotNull(info);
-      assert.deepEqual(info, mockThreadInfo);
+      assert.deepEqual(info, mockThreadItem);
     }
 
     sinon.assert.calledOnce(spy);

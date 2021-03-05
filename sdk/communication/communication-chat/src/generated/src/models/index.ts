@@ -196,14 +196,11 @@ export interface AddChatParticipantsRequest {
 
 /** Result of the add chat participants operation. */
 export interface AddChatParticipantsResult {
-  /** Errors encountered during the addition of the chat participant to the chat thread. */
-  errors?: AddChatParticipantsErrors;
-}
-
-/** Errors encountered during the addition of the chat participant to the chat thread. */
-export interface AddChatParticipantsErrors {
-  /** The participants that failed to be added to the chat thread. */
-  invalidParticipants: CommunicationError[];
+  /**
+   * The participants that failed to be added to the chat thread.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidParticipants?: CommunicationError[];
 }
 
 /** Request payload for creating a chat thread. */
@@ -218,8 +215,11 @@ export interface CreateChatThreadRequest {
 export interface CreateChatThreadResult {
   /** Chat thread. */
   chatThread?: ChatThread;
-  /** Errors encountered during the creation of the chat thread. */
-  errors?: CreateChatThreadErrors;
+  /**
+   * The participants that failed to be added to the chat thread.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidParticipants?: CommunicationError[];
 }
 
 /** Chat thread. */
@@ -236,19 +236,10 @@ export interface ChatThread {
   deletedOn?: Date;
 }
 
-/** Errors encountered during the creation of the chat thread. */
-export interface CreateChatThreadErrors {
-  /**
-   * The participants that failed to be added to the chat thread.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invalidParticipants?: CommunicationError[];
-}
-
 /** Collection of chat threads. */
-export interface ChatThreadsInfoCollection {
+export interface ChatThreadsItemCollection {
   /** Collection of chat threads. */
-  value: ChatThreadInfo[];
+  value: ChatThreadItem[];
   /**
    * If there are more chat threads that can be retrieved, the next link will be populated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -257,7 +248,7 @@ export interface ChatThreadsInfoCollection {
 }
 
 /** Summary information of a chat thread. */
-export interface ChatThreadInfo {
+export interface ChatThreadItem {
   /** Chat thread id. */
   id: string;
   /** Chat thread topic. */
@@ -502,14 +493,14 @@ export interface ChatListChatThreadsOptionalParams extends coreHttp.OperationOpt
 }
 
 /** Contains response data for the listChatThreads operation. */
-export type ChatListChatThreadsResponse = ChatThreadsInfoCollection & {
+export type ChatListChatThreadsResponse = ChatThreadsItemCollection & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: ChatThreadsInfoCollection;
+    parsedBody: ChatThreadsItemCollection;
   };
 };
 
@@ -534,14 +525,14 @@ export interface ChatListChatThreadsNextOptionalParams extends coreHttp.Operatio
 }
 
 /** Contains response data for the listChatThreadsNext operation. */
-export type ChatListChatThreadsNextResponse = ChatThreadsInfoCollection & {
+export type ChatListChatThreadsNextResponse = ChatThreadsItemCollection & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: ChatThreadsInfoCollection;
+    parsedBody: ChatThreadsItemCollection;
   };
 };
 
