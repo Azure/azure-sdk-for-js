@@ -231,7 +231,6 @@ export class EventHubSender extends LinkEntity {
    */
   async close(): Promise<void> {
     try {
-      this._localPublishingProperties = undefined;
       if (this._sender) {
         logger.info(
           "[%s] Closing the Sender for the entity '%s'.",
@@ -479,6 +478,7 @@ export class EventHubSender extends LinkEntity {
       onSessionClose: this._onSessionClose,
       sendTimeoutInSeconds: timeoutInMs / 1000
     };
+
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities = idempotentProducerAmqpPropertyNames.capability;
       const idempotentProperties = this._generateIdempotentLinkProperties();
@@ -688,8 +688,6 @@ export class EventHubSender extends LinkEntity {
           this.name
         );
 
-        // Clear existing publishing properties.
-        this._localPublishingProperties = undefined;
         this._sender = await this._context.connection.createAwaitableSender(options);
         this._populateLocalPublishingProperties(this._sender);
         this.isConnecting = false;

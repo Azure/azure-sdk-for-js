@@ -343,5 +343,48 @@ describe("EventHubProducerClient", function() {
         }
       });
     });
+
+    it("recovers from disconnects", async function() {
+      producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        enableIdempotentPartitions: true,
+        retryOptions: {
+          timeoutInMs: 5000,
+          retryDelayInMs: 100
+        }
+      });
+
+      const beforePublishingProps = await producerClient.getPartitionPublishingProperties("0");
+      const clientConnectionContext = producerClient["_context"];
+      const originalConnectionId = clientConnectionContext.connectionId;
+
+      // Using setTimeout so we can trigger the disconnect
+      // right after sendBatch is called.
+      setTimeout(() => {
+        // Trigger a disconnect on the underlying connection.
+        clientConnectionContext.connection["_connection"].idle();
+      }, 0);
+
+      await producerClient.sendBatch([{ body: "disconnect" }], { partitionId: "0" });
+      const newConnectionId = clientConnectionContext.connectionId;
+      should.not.equal(originalConnectionId, newConnectionId);
+
+      const afterPublishingProps = await producerClient.getPartitionPublishingProperties("0");
+
+      should.equal(
+        afterPublishingProps.ownerLevel,
+        beforePublishingProps.ownerLevel,
+        "ownerLevel should match."
+      );
+      should.equal(
+        afterPublishingProps.producerGroupId,
+        beforePublishingProps.producerGroupId,
+        "producerGroupId should match."
+      );
+      should.equal(
+        afterPublishingProps.lastPublishedSequenceNumber,
+        beforePublishingProps.lastPublishedSequenceNumber! + 1,
+        "afterPublishingProps.lastPublishedSequenceNumber should be 1 higher than beforePublishingProps"
+      );
+    });
   });
 });
