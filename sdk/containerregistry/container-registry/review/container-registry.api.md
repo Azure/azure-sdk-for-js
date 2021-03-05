@@ -18,12 +18,32 @@ export interface ChangeableAttributes {
 
 // @public
 export class ContainerRegistryClient {
-    constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    getAttributes(name: string, options?: GetAttributesOptions): Promise<RepositoryAttributes>;
+    constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
+    getRepositoryProperties(name: string, options?: GetAttributesOptions): Promise<RepositoryAttributes>;
 }
 
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
+}
+
+// @public
+export class ContainerRegistryUserCredential {
+    constructor(username: string, pass: string);
+    get pass(): string;
+    update(pass: string): void;
+    get username(): string;
+    }
+
+// @public (undocumented)
+export interface ContentPermissions {
+    // (undocumented)
+    canDelete?: boolean;
+    // (undocumented)
+    canList?: boolean;
+    // (undocumented)
+    canRead?: boolean;
+    // (undocumented)
+    canWrite?: boolean;
 }
 
 // @public

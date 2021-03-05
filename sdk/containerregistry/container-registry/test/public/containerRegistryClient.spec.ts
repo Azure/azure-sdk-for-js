@@ -86,7 +86,7 @@ describe.skip("ContainerRegistryClient functional tests", function() {
   });
 
   it("deletes repository of given name", async () => {
-    const attributes = await client.getAttributes("repo_name");
+    const attributes = await client.getRepositoryProperties("repo_name");
 
     assert.ok(attributes.registry);
   });
