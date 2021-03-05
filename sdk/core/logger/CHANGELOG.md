@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.0.2 (2021-03-04)
 
 - When logging in the browser, the default log function will now log messages to the corresponding console log function (e.g. `info` level is sent to `console.info()`.) PR [#14103](https://github.com/Azure/azure-sdk-for-js/pull/14103)
 
