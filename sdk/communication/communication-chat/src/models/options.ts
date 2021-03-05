@@ -2,21 +2,18 @@
 // Licensed under the MIT license.
 import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import {
-  SendChatMessageRequest as RestSendMessageOptions,
   UpdateChatMessageRequest as RestUpdateMessageOptions,
-  UpdateChatThreadRequest as RestUpdateThreadOptions,
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
-  ChatCreateChatThreadOptionalParams as RestCreateChatThreadOptions
+  ChatCreateChatThreadOptionalParams as RestCreateChatThreadOptions,
+  ChatMessageType
 } from "../generated/src/models";
 
 export {
   RestCreateChatThreadOptions,
-  RestSendMessageOptions,
   RestUpdateMessageOptions,
-  RestUpdateThreadOptions,
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,
@@ -36,7 +33,7 @@ export interface ChatThreadClientOptions extends ChatClientOptions {}
 /**
  * Options to update a chat thread.
  */
-export interface UpdateThreadOptions extends RestUpdateThreadOptions, OperationOptions {}
+export interface UpdateTopicOptions extends OperationOptions {}
 
 /**
  * Options to get chat threads.
@@ -46,9 +43,12 @@ export type ListChatThreadsOptions = RestListChatThreadsOptions;
 /**
  * Options to send a chat message.
  */
-export interface SendMessageOptions
-  extends Omit<RestSendMessageOptions, "content">,
-    OperationOptions {}
+export interface SendMessageOptions extends OperationOptions {
+  /** The display name of the chat message sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+  /** The chat message type. */
+  type?: ChatMessageType;
+}
 
 /**
  * Options to update a chat message.

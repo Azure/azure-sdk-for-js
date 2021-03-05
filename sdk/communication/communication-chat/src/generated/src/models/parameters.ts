@@ -15,6 +15,7 @@ import {
   SendReadReceiptRequest as SendReadReceiptRequestMapper,
   SendChatMessageRequest as SendChatMessageRequestMapper,
   UpdateChatMessageRequest as UpdateChatMessageRequestMapper,
+  CommunicationIdentifierModel as CommunicationIdentifierModelMapper,
   AddChatParticipantsRequest as AddChatParticipantsRequestMapper,
   UpdateChatThreadRequest as UpdateChatThreadRequestMapper,
   CreateChatThreadRequest as CreateChatThreadRequestMapper
@@ -78,7 +79,7 @@ export const skip: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-11-01-preview3",
+    defaultValue: "2021-01-27-preview4",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -147,15 +148,9 @@ export const updateChatMessageRequest: OperationParameter = {
   mapper: UpdateChatMessageRequestMapper
 };
 
-export const chatParticipantId: OperationURLParameter = {
-  parameterPath: "chatParticipantId",
-  mapper: {
-    serializedName: "chatParticipantId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const participantCommunicationIdentifier: OperationParameter = {
+  parameterPath: "participantCommunicationIdentifier",
+  mapper: CommunicationIdentifierModelMapper
 };
 
 export const addChatParticipantsRequest: OperationParameter = {
@@ -185,10 +180,10 @@ export const createChatThreadRequest: OperationParameter = {
   mapper: CreateChatThreadRequestMapper
 };
 
-export const repeatabilityRequestID: OperationParameter = {
-  parameterPath: ["options", "repeatabilityRequestID"],
+export const repeatabilityRequestId: OperationParameter = {
+  parameterPath: ["options", "repeatabilityRequestId"],
   mapper: {
-    serializedName: "repeatability-Request-ID",
+    serializedName: "repeatability-Request-Id",
     type: {
       name: "String"
     }
