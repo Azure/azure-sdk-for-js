@@ -396,49 +396,6 @@ export class EventHubSender extends LinkEntity {
     }
   }
 
-  private _generateIdempotentLinkProperties(): IdempotentLinkProperties | Record<string, never> {
-    const userProvidedPublishingOptions = this._userProvidedPublishingOptions;
-    const localPublishingOptions = this._localPublishingProperties;
-
-    let ownerLevel: number | undefined;
-    let producerGroupId: number | undefined;
-    let sequenceNumber: number | undefined;
-
-    // Prefer local publishing options since this is the up-to-date state of the sender.
-    // Only use user-provided publishing options the first time we create the link.
-    if (localPublishingOptions) {
-      ownerLevel = localPublishingOptions.ownerLevel;
-      producerGroupId = localPublishingOptions.producerGroupId;
-      sequenceNumber = localPublishingOptions.lastPublishedSequenceNumber;
-    } else if (userProvidedPublishingOptions) {
-      ownerLevel = userProvidedPublishingOptions.ownerLevel;
-      producerGroupId = userProvidedPublishingOptions.producerGroupId;
-      sequenceNumber = userProvidedPublishingOptions.startingSequenceNumber;
-    } else {
-      // If we don't have any properties at all, send an empty object.
-      // This will cause the service to generate a new producer-id for our client.
-      return {};
-    }
-
-    // The service requires that if ANY_ of these properties are defined,
-    // they _ALL_ have to be defined.
-    // If we don't have one of the required values, use `null` and the
-    // service will provide it.
-    const idempotentLinkProperties: IdempotentLinkProperties = {
-      [idempotentProducerAmqpPropertyNames.epoch]: isDefined(ownerLevel)
-        ? types.wrap_short(ownerLevel)
-        : null,
-      [idempotentProducerAmqpPropertyNames.producerId]: isDefined(producerGroupId)
-        ? types.wrap_long(producerGroupId)
-        : null,
-      [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: isDefined(sequenceNumber)
-        ? types.wrap_int(sequenceNumber)
-        : null
-    };
-
-    return idempotentLinkProperties;
-  }
-
   /**
    * @param sender - The rhea sender that contains the idempotent producer properties.
    */
@@ -485,7 +442,10 @@ export class EventHubSender extends LinkEntity {
 
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities = idempotentProducerAmqpPropertyNames.capability;
-      const idempotentProperties = this._generateIdempotentLinkProperties();
+      const idempotentProperties = generateIdempotentLinkProperties(
+        this._userProvidedPublishingOptions,
+        this._localPublishingProperties
+      );
       srOptions.properties = idempotentProperties;
     }
     logger.verbose("Creating sender with options: %O", srOptions);
@@ -743,7 +703,8 @@ export class EventHubSender extends LinkEntity {
     publishingProps: PartitionPublishingProperties,
     options: SendOptions & {
       /**
-       * Tracing properties that are associated with EventData.
+       * A list containing the `Diagnostic-Id` tracing property that is associated with each EventData.
+       * The index of tracingProperties corresponds to the same index in `events` when `events` is EventData[].
        */
       tracingProperties?: Array<EventData["properties"]>;
     } = {}
@@ -811,4 +772,60 @@ export class EventHubSender extends LinkEntity {
     }
     return context.senders[ehSender.name];
   }
+}
+
+/**
+ * Generates the link properties for an indemopotent sender given
+ * based on the user-provided and locally-cached publishing options.
+ *
+ * Note: The set of idempotent properties a user specifies at EventHubProducerClient instantiation-time
+ * is slightly different than what the service returns and the EventHubSender keeps track of locally.
+ *
+ * The difference is that the user specifies the `startingSequenceNumber`, whereas the local options
+ * (those returned by getPartitionPublishingProperties) specifies `lastPublishedSequenceNumber`.
+ *
+ * These _can_ be the same, but the user is technically free to set any `startingSequenceNumber` they want.
+ * @internal
+ */
+export function generateIdempotentLinkProperties(
+  userProvidedPublishingOptions: PartitionPublishingOptions | undefined,
+  localPublishingOptions: PartitionPublishingProperties | undefined
+): IdempotentLinkProperties | Record<string, never> {
+  let ownerLevel: number | undefined;
+  let producerGroupId: number | undefined;
+  let sequenceNumber: number | undefined;
+
+  // Prefer local publishing options since this is the up-to-date state of the sender.
+  // Only use user-provided publishing options the first time we create the link.
+  if (localPublishingOptions) {
+    ownerLevel = localPublishingOptions.ownerLevel;
+    producerGroupId = localPublishingOptions.producerGroupId;
+    sequenceNumber = localPublishingOptions.lastPublishedSequenceNumber;
+  } else if (userProvidedPublishingOptions) {
+    ownerLevel = userProvidedPublishingOptions.ownerLevel;
+    producerGroupId = userProvidedPublishingOptions.producerGroupId;
+    sequenceNumber = userProvidedPublishingOptions.startingSequenceNumber;
+  } else {
+    // If we don't have any properties at all, send an empty object.
+    // This will cause the service to generate a new producer-id for our client.
+    return {};
+  }
+
+  // The service requires that if ANY_ of these properties are defined,
+  // they _ALL_ have to be defined.
+  // If we don't have one of the required values, use `null` and the
+  // service will provide it.
+  const idempotentLinkProperties: IdempotentLinkProperties = {
+    [idempotentProducerAmqpPropertyNames.epoch]: isDefined(ownerLevel)
+      ? types.wrap_short(ownerLevel)
+      : null,
+    [idempotentProducerAmqpPropertyNames.producerId]: isDefined(producerGroupId)
+      ? types.wrap_long(producerGroupId)
+      : null,
+    [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: isDefined(sequenceNumber)
+      ? types.wrap_int(sequenceNumber)
+      : null
+  };
+
+  return idempotentLinkProperties;
 }
