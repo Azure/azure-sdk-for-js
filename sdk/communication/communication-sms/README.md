@@ -63,13 +63,13 @@ npm install @azure/identity
 ```
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The README for @azure/identity provides more details and samples to get you started.
+AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { SmsClient } from "@azure/communication-sms";
 
 const endpoint = "https://<resource-name>.communication.azure.com";
-//AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
 let credential = new DefaultAzureCredential();
 const client = new SmsClient(endpoint, credential);
 ```
@@ -77,6 +77,7 @@ const client = new SmsClient(endpoint, credential);
 ## Send a 1:N SMS Message
 
 To send a SMS message, call the `send` function from the `SmsClient`. You need to pass in a `SmsSendRequest` object.
+You may also add pass in an options object to specify whether the delivery report should be enabled and set custom tags for the report.
 An array of `SmsSendResult` is returned. A `successful` flag is used to validate if each individual message was sent successfully.
 
 ```typescript
