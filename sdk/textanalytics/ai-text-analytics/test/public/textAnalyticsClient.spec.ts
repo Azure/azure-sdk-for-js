@@ -1465,10 +1465,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      /**
-       * The service does not returns statistics
-       */
-      it.skip("statistics", async function() {
+      it("statistics", async function() {
         const docs = [
           { id: "56", text: ":)" },
           { id: "0", text: ":(" },
@@ -1489,11 +1486,29 @@ describe("[AAD] TextAnalyticsClient", function() {
             updateIntervalInMs: pollingInterval
           }
         );
-        const result = await poller.pollUntilDone();
-        assert.equal(result.statistics?.documentCount, 5);
-        assert.equal(result.statistics?.transactionCount, 4);
-        assert.equal(result.statistics?.validDocumentCount, 4);
-        assert.equal(result.statistics?.erroneousDocumentCount, 1);
+        const response = await poller.pollUntilDone();
+        const results = (await response.next()).value;
+        const recognizeEntitiesResults = results.recognizeEntitiesResults[0];
+        if (!recognizeEntitiesResults.error) {
+          assert.equal(recognizeEntitiesResults.results.statistics?.documentCount, 5);
+          assert.equal(recognizeEntitiesResults.results.statistics?.transactionCount, 4);
+          assert.equal(recognizeEntitiesResults.results.statistics?.validDocumentCount, 4);
+          assert.equal(recognizeEntitiesResults.results.statistics?.erroneousDocumentCount, 1);
+        }
+        const recognizePiiEntitiesResults = results.recognizePiiEntitiesResults[0];
+        if (!recognizePiiEntitiesResults.error) {
+          assert.equal(recognizePiiEntitiesResults.results.statistics?.documentCount, 5);
+          assert.equal(recognizePiiEntitiesResults.results.statistics?.transactionCount, 4);
+          assert.equal(recognizePiiEntitiesResults.results.statistics?.validDocumentCount, 4);
+          assert.equal(recognizePiiEntitiesResults.results.statistics?.erroneousDocumentCount, 1);
+        }
+        const extractKeyPhrasesResults = results.extractKeyPhrasesResults[0];
+        if (!extractKeyPhrasesResults.error) {
+          assert.equal(extractKeyPhrasesResults.results.statistics?.documentCount, 5);
+          assert.equal(extractKeyPhrasesResults.results.statistics?.transactionCount, 4);
+          assert.equal(extractKeyPhrasesResults.results.statistics?.validDocumentCount, 4);
+          assert.equal(extractKeyPhrasesResults.results.statistics?.erroneousDocumentCount, 1);
+        }
       });
 
       it("whole batch language hint", async function() {
@@ -1799,20 +1814,14 @@ describe("[AAD] TextAnalyticsClient", function() {
             updateIntervalInMs: pollingInterval
           }
         );
-        poller.onProgress(() => {
-          assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
-          assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
-          assert.ok(poller.getOperationState().lastModifiedOn, "lastModifiedOn is undefined!");
-          assert.ok(poller.getOperationState().status, "status is undefined!");
-          assert.ok(
-            poller.getOperationState().actionsSucceededCount,
-            "actionsSucceededCount is undefined!"
-          );
-          assert.equal(poller.getOperationState().actionsFailedCount, 0);
-          assert.isDefined(
-            poller.getOperationState().actionsInProgressCount,
-            "actionsInProgressCount is undefined!"
-          );
+        poller.onProgress((state) => {
+          assert.ok(state.createdOn, "createdOn is undefined!");
+          assert.ok(state.expiresOn, "expiresOn is undefined!");
+          assert.ok(state.lastModifiedOn, "lastModifiedOn is undefined!");
+          assert.ok(state.status, "status is undefined!");
+          assert.isDefined(state.actionsSucceededCount, "actionsSucceededCount is undefined!");
+          assert.equal(state.actionsFailedCount, 0);
+          assert.isDefined(state.actionsInProgressCount, "actionsInProgressCount is undefined!");
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);

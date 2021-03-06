@@ -48,6 +48,7 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
 import {
   AddParamsToTask,
   addStrEncodingParam,
+  compose,
   handleInvalidDocumentBatch,
   setModelVersionParam,
   setStrEncodingParam,
@@ -904,7 +905,9 @@ export class TextAnalyticsClient {
       analysisOptions: {
         requestOptions: realOptions.requestOptions,
         tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal
+        abortSignal: realOptions.abortSignal,
+        onResponse: realOptions.onResponse,
+        serializerOptions: realOptions.serializerOptions
       },
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom,
@@ -974,7 +977,9 @@ export class TextAnalyticsClient {
       analysisOptions: {
         requestOptions: realOptions.requestOptions,
         tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal
+        abortSignal: realOptions.abortSignal,
+        onResponse: realOptions.onResponse,
+        serializerOptions: realOptions.serializerOptions
       },
       includeStatistics: realOptions.includeStatistics,
       updateIntervalInMs: realOptions.updateIntervalInMs,
@@ -984,13 +989,6 @@ export class TextAnalyticsClient {
     await poller.poll();
     return poller;
   }
-}
-
-/**
- * @internal
- */
-function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
-  return (value: T1) => fn2(fn1(value));
 }
 
 /**
@@ -1068,7 +1066,9 @@ function makeAnalyzeSentimentOptionsModel(
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
-    tracingOptions: params.tracingOptions
+    tracingOptions: params.tracingOptions,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions
   };
 }
 
@@ -1088,6 +1088,8 @@ function makePiiEntitiesOptionsModel(
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
     tracingOptions: params.tracingOptions,
-    piiCategories: params.categoriesFilter
+    piiCategories: params.categoriesFilter,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions
   };
 }

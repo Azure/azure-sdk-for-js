@@ -318,7 +318,6 @@ export interface Opinion {
 
 // @public
 export interface PagedAnalyzeBatchActionsResult extends PagedAsyncIterableAnalyzeBatchActionsResult {
-    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public

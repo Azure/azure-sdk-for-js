@@ -6,6 +6,7 @@ import { OperationOptions } from "@azure/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 import {
+  AnalyzeJobState,
   GeneratedClientAnalyzeResponse as BeginAnalyzeResponse,
   GeneratedClientAnalyzeStatusOptionalParams as AnalyzeBatchActionsOperationStatusOptions,
   JobManifestTasks as GeneratedActions,
@@ -100,6 +101,21 @@ export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
 export interface AnalyzeBatchActionsOperationState
   extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>,
     AnalyzeBatchActionsOperationMetadata {}
+
+/**
+ * @internal
+ */
+function getMetaInfoFromResponse(response: AnalyzeJobState): AnalyzeBatchActionsOperationMetadata {
+  return {
+    createdOn: response.createdDateTime,
+    lastModifiedOn: response.lastUpdateDateTime,
+    expiresOn: response.expirationDateTime,
+    status: response.status,
+    actionsSucceededCount: response.tasks.completed,
+    actionsFailedCount: response.tasks.failed,
+    actionsInProgressCount: response.tasks.inProgress
+  };
+}
 
 /**
  * Class that represents a poller that waits for results of the analyze
@@ -218,19 +234,11 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
           return {
             done: true,
             statistics: response.statistics,
-            operationMetdata: {
-              createdOn: response.createdDateTime,
-              lastModifiedOn: response.lastUpdateDateTime,
-              expiresOn: response.expirationDateTime,
-              status: response.status,
-              actionsSucceededCount: response.tasks.completed,
-              actionsFailedCount: response.tasks.failed,
-              actionsInProgressCount: response.tasks.inProgress
-            }
+            operationMetdata: getMetaInfoFromResponse(response)
           };
         }
       }
-      return { done: false };
+      return { done: false, operationMetdata: getMetaInfoFromResponse(response) };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -311,17 +319,24 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
     state.actionsInProgressCount = operationStatus.operationMetdata?.actionsInProgressCount;
 
     if (!state.isCompleted && operationStatus.done) {
-      if (typeof options.fireProgress === "function") {
-        options.fireProgress(state);
-      }
       const pagedIterator = this.listAnalyzeBatchActionsResults(state.operationId!, {
         abortSignal: this.options.abortSignal,
-        tracingOptions: this.options.tracingOptions
+        tracingOptions: this.options.tracingOptions,
+        includeStatistics: this.options.includeStatistics,
+        onResponse: this.options.onResponse,
+        serializerOptions: this.options.serializerOptions
       });
-      state.result = Object.assign(pagedIterator, {
-        statistics: operationStatus.statistics
-      });
+      // Attach stats if the service starts to return them
+      // https://github.com/Azure/azure-sdk-for-js/issues/14139
+      // state.result = Object.assign(pagedIterator, {
+      //   statistics: operationStatus.statistics
+      // });
+      state.result = pagedIterator;
       state.isCompleted = true;
+    }
+
+    if (typeof options.fireProgress === "function") {
+      options.fireProgress(state);
     }
     return this;
   }
