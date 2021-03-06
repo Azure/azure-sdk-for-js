@@ -18,30 +18,27 @@ dotenv.config({
 export const createSmsClient = () => {
   // You will need to set this environment variable or edit the following value
   const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] || "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+    process.env["COMMUNICATION_CONNECTION_STRING"] ||
+    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
   return new SmsClient(connectionString);
-}
+};
 
 export const createSmsClientWithToken = () => {
   // You will need to set this environment variable or edit the following value
-  const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
+  const endpoint =
+    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
   //AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
   return new SmsClient(endpoint, new DefaultAzureCredential());
-}
+};
 
 export const sendingSmsMessage = async () => {
   console.log("== Send SMS Message, Default Options ==");
   const client = createSmsClient();
-  const sendResults = await client.send(
-    {
-      from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-      to: [
-        "<to-phone-number-1>",
-        "<to-phone-number-2>",
-      ], // The list of E.164 formatted phone numbers to which message is being sent
-      message: "Hello World via SMS!" // The message being sent
-    }
-  );
+  const sendResults = await client.send({
+    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
+    message: "Hello World via SMS!" // The message being sent
+  });
 
   for (const sendResult of sendResults) {
     if (sendResult.successful) {
@@ -51,7 +48,7 @@ export const sendingSmsMessage = async () => {
     }
   }
   console.log("== Done: Send SMS Message, Default Options ==");
-}
+};
 
 export const sendingSmsMessageWithOptions = async () => {
   console.log("== Send SMS Message With Options ==");
@@ -59,10 +56,7 @@ export const sendingSmsMessageWithOptions = async () => {
   const sendResults = await client.send(
     {
       from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-      to: [
-        "<to-phone-number-1>",
-        "<to-phone-number-2>",
-      ], // The list of E.164 formatted phone numbers to which message is being sent
+      to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
       message: "Hello World via SMS!" // The message being sent
     },
     {

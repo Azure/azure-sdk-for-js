@@ -69,29 +69,28 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { SmsClient } from "@azure/communication-sms";
 
 const endpoint = "https://<resource-name>.communication.azure.com";
-  //AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
+//AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
 let credential = new DefaultAzureCredential();
 const client = new SmsClient(endpoint, credential);
 ```
 
 ## Send a 1:N SMS Message
+
 To send a SMS message, call the `send` function from the `SmsClient`. You need to pass in a `SmsSendRequest` object.
+An array of `SmsSendResult` is returned. A `successful` flag is used to validate if each individual message was sent successfully.
 
 ```typescript
 const sendResults = await client.send(
-    {
-      from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-      to: [
-        "<to-phone-number-1>",
-        "<to-phone-number-2>",
-      ], // A list of E.164 formatted phone numbers to which message is being sent
-      message: "Hello World via SMS!" // The message being sent
-    },
-    {
-      enableDeliveryReport: true,
-      tag: "TypeScriptSMSSample"
-    }
-  );
+  {
+    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
+    message: "Hello World via SMS!" // The message being sent
+  },
+  {
+    enableDeliveryReport: true,
+    tag: "TypeScriptSMSSample"
+  }
+);
 
 for (const sendResult of sendResults) {
   if (sendResult.successful) {
@@ -104,18 +103,17 @@ for (const sendResult of sendResults) {
 
 ## Troubleshooting
 
+SMS operations will throw an exception if the request to the server fails.
+Exceptions will not be thrown if the error is with an individual message, instead of the overall request.
+A `successful` flag is used to validate if each individual message was sent successfully.
+
 ```typescript
 try {
-  const sendResults = await client.send(
-    {
-      from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-      to: [
-        "<to-phone-number-1>",
-        "<to-phone-number-2>",
-      ], // The list of E.164 formatted phone numbers to which message is being sent
-      message: "Hello World via SMS!" // The message being sent
-    }
-  );
+  const sendResults = await client.send({
+    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
+    message: "Hello World via SMS!" // The message being sent
+  });
   for (const sendResult of sendResults) {
     if (sendResult.successful) {
       console.log("Success: ", sendResult);
