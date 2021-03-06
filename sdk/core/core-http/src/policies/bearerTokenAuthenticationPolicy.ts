@@ -96,9 +96,8 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     // after that point, we retry the refresh of the token only if the token refresher is ready.
 
     let token = this.tokenCache.getCachedToken();
-    let readyToRefresh = !token && this.tokenRefresher.isReady();
     let refreshPromise: Promise<AccessToken | undefined> | undefined;
-    if (readyToRefresh) {
+    if (!token && this.tokenRefresher.isReady()) {
       refreshPromise = this.tokenRefresher.refresh(options);
     }
 
