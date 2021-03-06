@@ -171,7 +171,7 @@ export interface EntityAssertion {
 export type EntityAssociation = "subject" | "other";
 
 // @public
-export type EntityCertainty = "Positive" | "PositivePossible" | "NeutralPossible" | "NegativePossible" | "Negative";
+export type EntityCertainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
 
 // @public
 export type EntityConditionality = "Hypothetical" | "Conditional";
