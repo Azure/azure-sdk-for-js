@@ -1,22 +1,22 @@
 {
-  "recordings": [
-    {
-      "method": "GET",
-      "url": "https://endpoint/chat/threads/19%3A8b0ba2e5e2eb448685453520f4a088f5%40thread.v2/readReceipts",
-      "query": {
-        "api-version": "2020-11-01-preview3"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"value\":[{\"senderId\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-8015-181e-570c-113a0d0055cc\",\"chatMessageId\":\"1614374206269\",\"readOn\":\"2021-02-26T21:16:46Z\"}]}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
-  },
-  "hash": "e94b8015149f5a5f82313dad6f57fe23"
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3A0xI5JdNHWHR0pJck7oPyUKkkwIunHHLrjlX3XyZY6OQ1%40thread.v2/readReceipts",
+   "query": {
+    "api-version": "2021-01-27-preview4"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"senderCommunicationIdentifier\":{\"rawId\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-55d4-edbe-a43a0d00b273\",\"communicationUser\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-55d4-edbe-a43a0d00b273\"}},\"chatMessageId\":\"1614993275757\",\"readOn\":\"2021-03-06T01:14:36Z\"}]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "e94b8015149f5a5f82313dad6f57fe23"
 }

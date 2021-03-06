@@ -1,35 +1,35 @@
 {
-  "recordings": [
-    {
-      "method": "POST",
-      "url": "https://endpoint/identities",
-      "query": {
-        "api-version": "2021-03-07"
-      },
-      "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
-      "status": 201,
-      "response": "{\"identity\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-8015-275a-570c-113a0d0055cd\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-02-27T21:16:47.8009488+00:00\"}}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://endpoint/chat/threads/19%3A8b0ba2e5e2eb448685453520f4a088f5%40thread.v2/participants/:add",
-      "query": {
-        "api-version": "2020-11-01-preview3"
-      },
-      "requestBody": "{\"participants\":[{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-8015-275a-570c-113a0d0055cd\"}]}",
-      "status": 201,
-      "response": "{}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
+   "status": 201,
+   "response": "{\"identity\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-666b-b8ba-a43a0d005347\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-03-07T01:14:36.9718751+00:00\"}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
   },
-  "hash": "c5fde7c044908b455d100bf47e997626"
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads/19%3A0xI5JdNHWHR0pJck7oPyUKkkwIunHHLrjlX3XyZY6OQ1%40thread.v2/participants/:add",
+   "query": {
+    "api-version": "2021-01-27-preview4"
+   },
+   "requestBody": "{\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-666b-b8ba-a43a0d005347\"}}}]}",
+   "status": 201,
+   "response": "{}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3baf472ac677417b8a106dc2089d3603"
 }

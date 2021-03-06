@@ -1,20 +1,20 @@
 {
-  "recordings": [
-    {
-      "method": "DELETE",
-      "url": "https://endpoint/chat/threads/19%3A8b0ba2e5e2eb448685453520f4a088f5%40thread.v2/participants/8%3Aacs%3Ad2a829bc-8523-4404-b727-022345e48ca6_00000008-8015-197b-b8ba-a43a0d00dce2",
-      "query": {
-        "api-version": "2020-11-01-preview3"
-      },
-      "requestBody": null,
-      "status": 204,
-      "response": "",
-      "responseHeaders": {}
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
-  },
-  "hash": "d7d37e7ce1084d08fd4ed388c2fea679"
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads/19%3A0xI5JdNHWHR0pJck7oPyUKkkwIunHHLrjlX3XyZY6OQ1%40thread.v2/participants/:remove",
+   "query": {
+    "api-version": "2021-01-27-preview4"
+   },
+   "requestBody": "{\"communicationUser\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-5850-b8ba-a43a0d005346\"}}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {}
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3909a61f136266ee3b7f6f5560e54ade"
 }

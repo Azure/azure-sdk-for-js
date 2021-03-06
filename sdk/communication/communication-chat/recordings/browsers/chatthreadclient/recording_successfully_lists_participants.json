@@ -1,22 +1,22 @@
 {
-  "recordings": [
-    {
-      "method": "GET",
-      "url": "https://endpoint/chat/threads/19%3A8b0ba2e5e2eb448685453520f4a088f5%40thread.v2/participants",
-      "query": {
-        "api-version": "2020-11-01-preview3"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"value\":[{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-8015-181e-570c-113a0d0055cc\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-8015-197b-b8ba-a43a0d00dce2\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-8015-275a-570c-113a0d0055cd\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
-  },
-  "hash": "2619d9c8fd2a68ddf4c2bc104c2c0bf2"
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3A0xI5JdNHWHR0pJck7oPyUKkkwIunHHLrjlX3XyZY6OQ1%40thread.v2/participants",
+   "query": {
+    "api-version": "2021-01-27-preview4"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"communicationIdentifier\":{\"rawId\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-55d4-edbe-a43a0d00b273\",\"communicationUser\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-55d4-edbe-a43a0d00b273\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-5850-b8ba-a43a0d005346\",\"communicationUser\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-5850-b8ba-a43a0d005346\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-666b-b8ba-a43a0d005347\",\"communicationUser\":{\"id\":\"8:acs:d2a829bc-8523-4404-b727-022345e48ca6_00000008-a4fb-666b-b8ba-a43a0d005347\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "477197001df2934909394d5b2b5ec9a8"
 }

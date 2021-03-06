@@ -185,7 +185,7 @@ describe("ChatClient", function () {
       // Create thread
       const request = {
         topic: "test create thread event",
-        participants: [{ user: testUser }]
+        participants: [{ id: testUser }]
       };
       chatClient.createChatThread(request);
     }).timeout(8000);
@@ -200,7 +200,7 @@ describe("ChatClient", function () {
       // Delete thread
       const request = {
         topic: "test delete thread event",
-        participants: [{ user: testUser }]
+        participants: [{ id: testUser }]
       };
       chatClient.createChatThread(request).then((result) => {
         chatClient.deleteChatThread(result.chatThread?.id!);
@@ -227,7 +227,7 @@ describe("ChatClient", function () {
 
       // Add participant
       const request = {
-        participants: [{ user: testUser2 }]
+        participants: [{ id: testUser2 }]
       };
       chatThreadClient.addParticipants(request);
     }).timeout(8000);
@@ -241,6 +241,24 @@ describe("ChatClient", function () {
 
       // Remove participant
       chatThreadClient.removeParticipant(testUser2);
+    }).timeout(8000);
+
+    it("successfully listens to readReceiptReceivedEvents", function (done) {
+      // TODO: Read receipt notification is timing out even with increased timeout
+      this.skip();
+      function listener() {
+        done();
+      }
+
+      chatClient.on("readReceiptReceived", listener);
+
+      // Send read receipt
+      const message = { content: "content" };
+      chatThreadClient.sendMessage(message).then((result) => {
+        chatThreadClient.sendReadReceipt({
+          chatMessageId: result.id
+        })
+      });
     }).timeout(8000);
   });
 });
