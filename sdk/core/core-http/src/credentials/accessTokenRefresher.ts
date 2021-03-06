@@ -23,7 +23,7 @@ export class AccessTokenRefresher {
   public isReady(): boolean {
     // We're only ready for a new refresh if the required milliseconds have passed.
     return (
-      !this.lastCalled || Date.now() - this.lastCalled >= this.requiredMillisecondsBeforeNewRefresh
+      !this.lastCalled || Date.now() - this.lastCalled > this.requiredMillisecondsBeforeNewRefresh
     );
   }
 
