@@ -4,14 +4,14 @@ module.exports.hash = "cc07d789124e6008369d8ee590d0ec33";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/cryptography-client-test/create')
   .query(true)
   .reply(401, "", [
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
-  '0',
+  '1',
   'x-content-type-options',
   'nosniff',
   'www-authenticate',
@@ -63,7 +63,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Tue, 06 Apr 2021 19:39:18 GMT'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/cryptography-client-test/create', {"kty":"AES","key_size":256,"attributes":{}})
   .query(true)
   .reply(200, {"attributes":{"created":1617737958,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1617737958},"key":{"key_ops":["wrapKey","unwrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","kty":"oct-HSM"}}, [
@@ -231,14 +231,14 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '0',
+  '1',
   'cache-control',
   'no-cache',
   'x-frame-options',
   'SAMEORIGIN'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/cryptography-client-test')
   .query(true)
   .reply(200, {"attributes":{"created":1617737958,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1617737958},"deletedDate":1617737960,"key":{"key_ops":["unwrapKey","wrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test","scheduledPurgeDate":1625513960}, [
@@ -266,7 +266,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'SAMEORIGIN'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/cryptography-client-test')
   .query(true)
   .reply(200, {"attributes":{"created":1617737958,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1617737958},"deletedDate":1617737960,"key":{"key_ops":["encrypt","decrypt","unwrapKey","wrapKey"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test","scheduledPurgeDate":1625513960}, [
@@ -296,7 +296,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   '26'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/cryptography-client-test')
   .query(true)
   .reply(204, "", [

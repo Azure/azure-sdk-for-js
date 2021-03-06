@@ -84,16 +84,9 @@ describe("Challenge based authentication tests", () => {
     const sandbox = createSandbox();
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
 
-    // Now we run what would be a normal use of the client.
-    // Here we will create two keys, then flush them.
-    // testClient.flushKey deletes, then purges the keys.
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
-    for (const name of keyNames) {
-      await client.createKey(name, "RSA");
-    }
-    for (const name of keyNames) {
-      await testClient.flushKey(name);
+    // Now we run a few operations against the client in order.
+    for (let i = 0; i < 4; i++) {
+      await client.listPropertiesOfKeys().next();
     }
 
     // The challenge should have been written to the cache exactly ONCE.

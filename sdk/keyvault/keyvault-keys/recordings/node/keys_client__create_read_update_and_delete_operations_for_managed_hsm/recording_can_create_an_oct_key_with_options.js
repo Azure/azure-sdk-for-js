@@ -1,17 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "03df4f9906bd7a40099d7eea3c16c3d8";
+module.exports.hash = "6c008e7540cbd6bf710ea0e219a367e5";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/create')
   .query(true)
   .reply(401, "", [
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
-  '0',
+  '1',
   'x-content-type-options',
   'nosniff',
   'www-authenticate',
@@ -21,7 +21,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '0',
   'x-ms-request-id',
-  '19784542-731d-11eb-9617-0242ac120006',
+  '352e079e-7e18-11eb-b53a-0242ac120005',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -50,31 +50,31 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '667cf5ca-4faf-4d16-8d48-0efb940a3c00',
+  '7891cbb8-88f0-4ff6-ac39-b43a9fe17200',
   'x-ms-ests-server',
-  '2.1.11496.7 - NCUS ProdSlices',
+  '2.1.11530.15 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Aku4h6oc5D1IieMG-eZr9NH8QxJoAQAAAF5gwtcOAAAA; expires=Mon, 22-Mar-2021 01:43:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ar4lQP0-fFFFlh735WVosg9YXQRlAQAAAKDM1NcOAAAA; expires=Mon, 05-Apr-2021 01:06:40 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 20 Feb 2021 01:43:58 GMT'
+  'Sat, 06 Mar 2021 01:06:39 GMT'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/create', {"kty":"oct-HSM","attributes":{}})
   .query(true)
-  .reply(200, {"attributes":{"created":1613785438,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1613785438},"key":{"key_ops":["wrapKey","unwrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/70e288c11c3500290431c99887a27d16","kty":"oct-HSM"}}, [
+  .reply(200, {"attributes":{"created":1614992800,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1614992800},"key":{"key_ops":["wrapKey","unwrapKey","decrypt","encrypt"],"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/104ae934344f46923b6ff6016d90917b","kty":"oct-HSM"}}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
-  '377',
+  '378',
   'x-ms-request-id',
-  '19cb413e-731d-11eb-9617-0242ac120006',
+  '3561eaa0-7e18-11eb-b53a-0242ac120005',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -84,25 +84,25 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '195',
+  '355',
   'cache-control',
   'no-cache',
   'x-frame-options',
   'SAMEORIGIN'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/CRUDKeyName-cancreateanOCTkeywithoptions-')
   .query(true)
-  .reply(200, {"attributes":{"created":1613785438,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1613785438},"deletedDate":1613785439,"key":{"key_ops":["unwrapKey","wrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/70e288c11c3500290431c99887a27d16","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-","scheduledPurgeDate":1621561439}, [
+  .reply(200, {"attributes":{"created":1614992800,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1614992800},"deletedDate":1614992801,"key":{"key_ops":["unwrapKey","wrapKey","decrypt","encrypt"],"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/104ae934344f46923b6ff6016d90917b","kty":"oct-HSM"},"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-","scheduledPurgeDate":1622768801}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
-  '561',
+  '563',
   'x-ms-request-id',
-  '1a01fbfc-731d-11eb-9617-0242ac120006',
+  '35b116ac-7e18-11eb-b53a-0242ac120005',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -112,27 +112,27 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '183',
+  '144',
   'cache-control',
   'no-cache',
   'x-frame-options',
   'SAMEORIGIN'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-')
   .query(true)
-  .reply(200, {"attributes":{"created":1613785438,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1613785438},"deletedDate":1613785439,"key":{"key_ops":["encrypt","decrypt","unwrapKey","wrapKey"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/70e288c11c3500290431c99887a27d16","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-","scheduledPurgeDate":1621561439}, [
+  .reply(200, {"attributes":{"created":1614992800,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1614992800},"deletedDate":1614992801,"key":{"key_ops":["encrypt","decrypt","unwrapKey","wrapKey"],"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateanOCTkeywithoptions-/104ae934344f46923b6ff6016d90917b","kty":"oct-HSM"},"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-","scheduledPurgeDate":1622768801}, [
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  '1a36776a-731d-11eb-9617-0242ac120006',
+  '35e13102-7e18-11eb-b53a-0242ac120005',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
   'westeurope',
   'content-length',
-  '561',
+  '563',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -146,10 +146,10 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '36'
+  '33'
 ]);
 
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/CRUDKeyName-cancreateanOCTkeywithoptions-')
   .query(true)
   .reply(204, "", [
@@ -160,7 +160,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '0',
   'x-ms-request-id',
-  '1a54be6e-731d-11eb-9617-0242ac120006',
+  '35ff99b2-7e18-11eb-b53a-0242ac120005',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -170,7 +170,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '120',
+  '131',
   'cache-control',
   'no-cache',
   'x-frame-options',

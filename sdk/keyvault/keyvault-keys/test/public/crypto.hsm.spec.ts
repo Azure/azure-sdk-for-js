@@ -16,7 +16,7 @@ import { isNode } from "@azure/core-http";
 onVersions({ minVer: "7.2" }).describe(
   "CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   () => {
-    let hsmClient: KeyClient;
+    let client: KeyClient;
     let testClient: TestClient;
     let cryptoClient: CryptographyClient;
     let recorder: Recorder;
@@ -29,13 +29,13 @@ onVersions({ minVer: "7.2" }).describe(
       const authentication = await authenticate(this, getServiceVersion());
       recorder = authentication.recorder;
 
-      if (!authentication.hsmClient) {
+      if (!authentication.hsmEnabled) {
         // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
         // This is only necessary while Managed HSM is in preview.
         this.skip();
       }
 
-      hsmClient = authentication.hsmClient;
+      client = authentication.hsmClient;
       testClient = new TestClient(authentication.hsmClient);
       credential = authentication.credential;
       keySuffix = authentication.keySuffix;
@@ -44,7 +44,7 @@ onVersions({ minVer: "7.2" }).describe(
 
     describe("with AES crypto algorithms", async function() {
       it("encrypts and decrypts using AES-GCM", async function(this: Context) {
-        keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
+        keyVaultKey = await client.createKey(keyName, "AES", { keySize: 256 });
         cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
         const text = this.test!.title;
         const encryptResult = await cryptoClient.encrypt({
@@ -69,7 +69,7 @@ onVersions({ minVer: "7.2" }).describe(
         if (!isNode) {
           this.skip();
         }
-        keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
+        keyVaultKey = await client.createKey(keyName, "AES", { keySize: 256 });
         cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
         const text = this.test!.title;
         // We are using a predictable IV to support our recorded tests; however, you should use a cryptographically secure IV or omit it and

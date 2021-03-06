@@ -16,7 +16,7 @@ onVersions({ minVer: "7.2" }).describe(
   () => {
     const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
     let keySuffix: string;
-    let hsmClient: KeyClient;
+    let client: KeyClient;
     let testClient: TestClient;
     let recorder: Recorder;
 
@@ -24,13 +24,13 @@ onVersions({ minVer: "7.2" }).describe(
       const authentication = await authenticate(this, getServiceVersion());
       recorder = authentication.recorder;
 
-      if (!authentication.hsmClient) {
+      if (!authentication.hsmEnabled) {
         // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
         // This is only necessary while Managed HSM is in preview.
         this.skip();
       }
 
-      hsmClient = authentication.hsmClient;
+      client = authentication.client;
       keySuffix = authentication.keySuffix;
       testClient = new TestClient(authentication.hsmClient);
     });
@@ -44,7 +44,7 @@ onVersions({ minVer: "7.2" }).describe(
       const options: CreateOctKeyOptions = {
         hsm: true
       };
-      const result = await hsmClient.createOctKey(keyName, options);
+      const result = await client.createOctKey(keyName, options);
       assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
       assert.equal(result.keyType, "oct-HSM");
       await testClient.flushKey(keyName);

@@ -18,6 +18,7 @@ describe("Keys client - Long Running Operations - delete", () => {
   let client: KeyClient;
   let testClient: TestClient;
   let recorder: Recorder;
+  let hsmEnabled: boolean;
 
   beforeEach(async function(this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
@@ -25,6 +26,7 @@ describe("Keys client - Long Running Operations - delete", () => {
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
+    hsmEnabled = authentication.hsmEnabled;
   });
 
   afterEach(async function() {
@@ -54,7 +56,7 @@ describe("Keys client - Long Running Operations - delete", () => {
 
   it("can resume from a stopped poller", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
+    await client.createRsaKey(keyName, { hsm: hsmEnabled });
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 

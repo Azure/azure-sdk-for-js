@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { createHash } from "crypto";
-import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
@@ -16,7 +16,6 @@ import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyP
 import { getServiceVersion } from "../utils/utils.common";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
-  const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
   let cryptoClient: CryptographyClient;
@@ -115,9 +114,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("the CryptographyClient can be created from a full KeyVaultKey object", async function(this: Context) {
-      const customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-      const customKeyVaultKey = await client.createKey(customKeyName, "RSA");
-      const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
+      const cryptoClientFromKey = new CryptographyClient(keyVaultKey, credential);
 
       const text = this.test!.title;
       const encryptResult = await cryptoClientFromKey.encrypt({
