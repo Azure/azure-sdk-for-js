@@ -428,7 +428,6 @@ export type RecognizePiiEntitiesAction = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    categoriesFilter?: PiiEntityCategory[];
 };
 
 // @public
