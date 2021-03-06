@@ -340,6 +340,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     for (let i = 0; i < events.length; i++) {
       const event = events[i];
       populateIdempotentMessageAnnotations(event, {
+        isIdempotentPublishingEnabled: this._isIdempotent,
         ownerLevel,
         producerGroupId,
         publishSequenceNumber: startingSequenceNumber + i
@@ -366,6 +367,7 @@ export class EventDataBatchImpl implements EventDataBatch {
 
     // Set placeholder values for these annotations.
     populateIdempotentMessageAnnotations(event, {
+      isIdempotentPublishingEnabled: this._isIdempotent,
       ownerLevel: 0,
       publishSequenceNumber: 0,
       producerGroupId: 0
@@ -422,6 +424,9 @@ export class EventDataBatchImpl implements EventDataBatch {
     // Convert EventData to RheaMessage.
     const amqpMessage = toRheaMessage(eventData, this._partitionKey);
     amqpMessage.body = defaultDataTransformer.encode(eventData.body);
+    const originalAnnotations = amqpMessage.message_annotations && {
+      ...amqpMessage.message_annotations
+    };
     this._decorateRheaMessageWithPlaceholderIdempotencyProps(amqpMessage);
     const encodedMessage = message.encode(amqpMessage);
 
@@ -430,8 +435,8 @@ export class EventDataBatchImpl implements EventDataBatch {
     // the overhead of creating an AMQP batch, including the
     // message_annotations that are taken from the 1st message.
     if (this.count === 0) {
-      if (amqpMessage.message_annotations) {
-        this._batchAnnotations = amqpMessage.message_annotations;
+      if (originalAnnotations) {
+        this._batchAnnotations = originalAnnotations;
       }
 
       // Figure out the overhead of creating a batch by generating an empty batch

@@ -546,7 +546,7 @@ export class EventHubSender extends LinkEntity {
       this._sender!.sendTimeoutInSeconds =
         (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000;
       try {
-        const encodedMessage = this._transformEvents(events, publishingProps, options);
+        const encodedMessage = transformEventsForSend(events, publishingProps, options);
         const delivery = await this._sender!.send(encodedMessage, undefined, 0x80013700, {
           abortSignal
         });
@@ -698,67 +698,6 @@ export class EventHubSender extends LinkEntity {
     }
   }
 
-  private _transformEvents(
-    events: EventData[] | EventDataBatch,
-    publishingProps: PartitionPublishingProperties,
-    options: SendOptions & {
-      /**
-       * A list containing the `Diagnostic-Id` tracing property that is associated with each EventData.
-       * The index of tracingProperties corresponds to the same index in `events` when `events` is EventData[].
-       */
-      tracingProperties?: Array<EventData["properties"]>;
-    } = {}
-  ): Buffer {
-    if (isEventDataBatch(events)) {
-      return events._generateMessage(publishingProps);
-    } else {
-      const eventCount = events.length;
-      // convert events to rhea messages
-      const rheaMessages: RheaMessage[] = [];
-      const tracingProperties = options.tracingProperties ?? [];
-      for (let i = 0; i < eventCount; i++) {
-        const originalEvent = events[i];
-        const tracingProperty = tracingProperties[i];
-        // Create a copy of the user's event so we can add the tracing property.
-        const event: EventData = {
-          ...originalEvent,
-          properties: { ...originalEvent.properties, ...tracingProperty }
-        };
-        const rheaMessage = toRheaMessage(event, options.partitionKey);
-        rheaMessage.body = defaultDataTransformer.encode(event.body);
-
-        // populate idempotent message annotations
-        const { lastPublishedSequenceNumber = 0 } = publishingProps;
-        const startingSequenceNumber = lastPublishedSequenceNumber + 1;
-        const pendingPublishSequenceNumber = startingSequenceNumber + i;
-        populateIdempotentMessageAnnotations(rheaMessage, {
-          ...publishingProps,
-          publishSequenceNumber: pendingPublishSequenceNumber
-        });
-
-        // Set pending seq number on user's event.
-        (originalEvent as EventDataInternal)[
-          PENDING_PUBLISH_SEQ_NUM_SYMBOL
-        ] = pendingPublishSequenceNumber;
-        rheaMessages.push(rheaMessage);
-      }
-
-      // Encode every amqp message and then convert every encoded message to amqp data section
-      const batchMessage: RheaMessage = {
-        body: message.data_sections(rheaMessages.map(message.encode))
-      };
-
-      // Set message_annotations of the first message as
-      // that of the envelope (batch message).
-      if (rheaMessages[0].message_annotations) {
-        batchMessage.message_annotations = { ...rheaMessages[0].message_annotations };
-      }
-
-      // Finally encode the envelope (batch message).
-      return message.encode(batchMessage);
-    }
-  }
-
   /**
    * Creates a new sender to the given event hub, and optionally to a given partition if it is
    * not present in the context or returns the one present in the context.
@@ -828,4 +767,79 @@ export function generateIdempotentLinkProperties(
   };
 
   return idempotentLinkProperties;
+}
+
+/**
+ * Encodes a list or batch of events into a single binary message that can be sent to the service.
+ *
+ * Prior to encoding, any special properties not specified by the user, such as tracing or idempotent
+ * properties, are assigned to the list or batch of events as needed.
+ *
+ * @internal
+ * @param events - Events to transform for sending to the service.
+ * @param publishingProps - Describes the current publishing state for the partition.
+ * @param options - Options used to configure this function.
+ */
+export function transformEventsForSend(
+  events: EventData[] | EventDataBatch,
+  publishingProps: PartitionPublishingProperties,
+  options: SendOptions & {
+    /**
+     * A list containing the `Diagnostic-Id` tracing property that is associated with each EventData.
+     * The index of tracingProperties corresponds to the same index in `events` when `events` is EventData[].
+     */
+    tracingProperties?: Array<EventData["properties"]>;
+  } = {}
+): Buffer {
+  if (isEventDataBatch(events)) {
+    return events._generateMessage(publishingProps);
+  } else {
+    const eventCount = events.length;
+    // convert events to rhea messages
+    const rheaMessages: RheaMessage[] = [];
+    const tracingProperties = options.tracingProperties ?? [];
+    for (let i = 0; i < eventCount; i++) {
+      const originalEvent = events[i];
+      const tracingProperty = tracingProperties[i];
+      // Create a copy of the user's event so we can add the tracing property.
+      const event: EventData = {
+        ...originalEvent,
+        properties: { ...originalEvent.properties, ...tracingProperty }
+      };
+      const rheaMessage = toRheaMessage(event, options.partitionKey);
+      rheaMessage.body = defaultDataTransformer.encode(event.body);
+
+      // populate idempotent message annotations
+      const { lastPublishedSequenceNumber = 0 } = publishingProps;
+      const startingSequenceNumber = lastPublishedSequenceNumber + 1;
+      const pendingPublishSequenceNumber = startingSequenceNumber + i;
+      populateIdempotentMessageAnnotations(rheaMessage, {
+        ...publishingProps,
+        publishSequenceNumber: pendingPublishSequenceNumber
+      });
+
+      if (publishingProps.isIdempotentPublishingEnabled) {
+        // Set pending seq number on user's event.
+        (originalEvent as EventDataInternal)[
+          PENDING_PUBLISH_SEQ_NUM_SYMBOL
+        ] = pendingPublishSequenceNumber;
+      }
+
+      rheaMessages.push(rheaMessage);
+    }
+
+    // Encode every amqp message and then convert every encoded message to amqp data section
+    const batchMessage: RheaMessage = {
+      body: message.data_sections(rheaMessages.map(message.encode))
+    };
+
+    // Set message_annotations of the first message as
+    // that of the envelope (batch message).
+    if (rheaMessages[0].message_annotations) {
+      batchMessage.message_annotations = { ...rheaMessages[0].message_annotations };
+    }
+
+    // Finally encode the envelope (batch message).
+    return message.encode(batchMessage);
+  }
 }

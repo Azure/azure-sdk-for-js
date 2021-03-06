@@ -314,6 +314,7 @@ export interface ReceivedEventData {
  * @internal
  */
 export interface PopulateIdempotentMessageAnnotationsParameters {
+  isIdempotentPublishingEnabled: boolean;
   ownerLevel?: number;
   producerGroupId?: number;
   publishSequenceNumber?: number;
@@ -326,11 +327,16 @@ export interface PopulateIdempotentMessageAnnotationsParameters {
 export function populateIdempotentMessageAnnotations(
   rheaMessage: RheaMessage,
   {
+    isIdempotentPublishingEnabled,
     ownerLevel,
     producerGroupId,
     publishSequenceNumber
   }: PopulateIdempotentMessageAnnotationsParameters
 ): void {
+  if (!isIdempotentPublishingEnabled) {
+    return;
+  }
+
   const messageAnnotations = rheaMessage.message_annotations || {};
   if (!rheaMessage.message_annotations) {
     rheaMessage.message_annotations = messageAnnotations;
