@@ -105,8 +105,8 @@ for (const sendResult of sendResults) {
 ## Troubleshooting
 
 SMS operations will throw an exception if the request to the server fails.
-Exceptions will not be thrown if the error is with an individual message, instead of the overall request.
-A `successful` flag is used to validate if each individual message was sent successfully.
+Exceptions will not be thrown if the error is caused by an individual message, only if something fails with the overall request.
+Please use the `successful` flag to validate each individual result to verify if the message was sent.
 
 ```typescript
 try {
