@@ -606,11 +606,11 @@ describe("[API Key] TextAnalyticsClient", function() {
             updateIntervalInMs: pollingInterval
           }
         );
-        poller.onProgress(() => {
-          assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
-          assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
-          assert.ok(poller.getOperationState().lastModifiedOn, "lastModifiedOn is undefined!");
-          assert.ok(poller.getOperationState().status, "status is undefined!");
+        poller.onProgress((state) => {
+          assert.ok(state.createdOn, "createdOn is undefined!");
+          assert.ok(state.expiresOn, "expiresOn is undefined!");
+          assert.ok(state.lastModifiedOn, "lastModifiedOn is undefined!");
+          assert.ok(state.status, "status is undefined!");
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);
