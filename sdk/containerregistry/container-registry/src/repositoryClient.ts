@@ -15,7 +15,7 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { DeletedRepository, GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions, ContentPermissions } from "./model";
+import { ContainerRegistryClientOptions, ContentProperties } from "./model";
 import {
   ContainerRegistryUserCredential,
   createContainerRegistryUserCredentialPolicy
@@ -27,14 +27,19 @@ import {
 export { DeletedRepository };
 
 /**
+ * Options for the `getProperties` method of `RepositoryClient`.
+ */
+export interface GetPropertiesOptions extends OperationOptions {}
+
+/**
  * Options for the `delete` method of `RepositoryClient`.
  */
 export interface DeleteOptions extends OperationOptions {}
 
 /**
- * Options for the `deleteImage` method of `RepositoryClient`.
+ * Options for the `deleteRegistryArtifact` method of `RepositoryClient`.
  */
-export interface DeleteImageOptions extends OperationOptions {}
+export interface DeleteRegistryArtifactOptions extends OperationOptions {}
 
 /**
  * Options for the `deleteTag` method of `RepositoryClient`.
@@ -42,9 +47,9 @@ export interface DeleteImageOptions extends OperationOptions {}
 export interface DeleteTagOptions extends OperationOptions {}
 
 /**
- * Options for the `getImageProperties` method of `RepositoryClient`.
+ * Options for the `getRegistryArtifactProperties` method of `RepositoryClient`.
  */
-export interface GetImagePropertiesOptions extends OperationOptions {}
+export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {}
 
 /**
  * Options for the `getTagProperties` method of `RepositoryClient`.
@@ -52,14 +57,14 @@ export interface GetImagePropertiesOptions extends OperationOptions {}
 export interface GetTagPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `SetTagPermissions` method of `RepositoryClient`.
+ * Options for the `setManifestProperties` method of `RepositoryClient`.
  */
-export interface SetManifestPermissionsOptions extends OperationOptions {}
+export interface SetManifestPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `SetTagPermissions` method of `RepositoryClient`.
+ * Options for the `SetTagProperties` method of `RepositoryClient`.
  */
-export interface SetTagPermissionsOptions extends OperationOptions {}
+export interface SetTagPropertiesOptions extends OperationOptions {}
 
 /**
  * The client class used to interact with the Container Registry service.
@@ -139,10 +144,7 @@ export class RepositoryClient {
       );
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-
       throw e;
     } finally {
       span.end();
@@ -150,12 +152,12 @@ export class RepositoryClient {
   }
 
   /**
-   * Deletes an image in this repository.
-   * @param digest the digest of the image to be deleted.
-   * @param options
+   * Deletes a registry artifact in this repository.
+   * @param digest - the digest of the artifact to be deleted.
+   * @param options -
    */
-  public async deleteImage(digest: string, options: DeleteImageOptions = {}) {
-    const { span, updatedOptions } = createSpan("RepositoryClient-deleteImage", options);
+  public async deleteRegistryArtifact(digest: string, options: DeleteRegistryArtifactOptions = {}) {
+    const { span, updatedOptions } = createSpan("RepositoryClient-deleteRegistryArtifact", options);
 
     try {
       const result = await this.client.containerRegistryRepository.deleteManifest(
@@ -165,10 +167,7 @@ export class RepositoryClient {
       );
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-
       throw e;
     } finally {
       span.end();
@@ -177,8 +176,8 @@ export class RepositoryClient {
 
   /**
    * Deletes a tag.
-   * @param digest the tag to be deleted.
-   * @param options
+   * @param tag - the name of the tag to be deleted.
+   * @param options -
    */
   public async deleteTag(tag: string, options: DeleteTagOptions = {}) {
     const { span, updatedOptions } = createSpan("RepositoryClient-deleteTag", options);
@@ -191,10 +190,7 @@ export class RepositoryClient {
       );
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-
       throw e;
     } finally {
       span.end();
@@ -202,12 +198,39 @@ export class RepositoryClient {
   }
 
   /**
-   * Retrieves properties of an image.
-   * @param digest the tag to be deleted.
-   * @param options
+   * Retrieves properties of this repository.
+   * @param options -
    */
-  public async getImageProperties(tagOrDigest: string, options: GetImagePropertiesOptions = {}) {
-    const { span, updatedOptions } = createSpan("RepositoryClient-getImageProperties", options);
+  public async getProperties(options: GetPropertiesOptions = {}) {
+    const { span, updatedOptions } = createSpan("RepositoryClient-getProperties", options);
+
+    try {
+      const result = await this.client.containerRegistry.getRepositoryAttributes(
+        this.name,
+        updatedOptions
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves properties of a registry artifact.
+   * @param tagOrDigest - the tag or digest of the registry artifact.
+   * @param options -
+   */
+  public async getRegistryArtifactProperties(
+    tagOrDigest: string,
+    options: GetRegistryArtifactPropertiesOptions = {}
+  ) {
+    const { span, updatedOptions } = createSpan(
+      "RepositoryClient-getRegistryArtifactProperties",
+      options
+    );
 
     try {
       const result = await this.client.containerRegistryRepository.getManifestAttributes(
@@ -217,10 +240,7 @@ export class RepositoryClient {
       );
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-
       throw e;
     } finally {
       span.end();
@@ -229,12 +249,11 @@ export class RepositoryClient {
 
   /**
    * Retrieves properties of a tag.
-   * @param digest the tag to be deleted.
-   * @param options
+   * @param digest - the tag to be deleted.
+   * @param options -
    */
   public async getTagProperties(tag: string, options: GetTagPropertiesOptions = {}) {
     const { span, updatedOptions } = createSpan("RepositoryClient-getTagProperties", options);
-
     try {
       const result = await this.client.containerRegistryRepository.getTagAttributes(
         this.name,
@@ -243,10 +262,7 @@ export class RepositoryClient {
       );
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-
       throw e;
     } finally {
       span.end();
@@ -254,24 +270,47 @@ export class RepositoryClient {
   }
 
   /**
-   * Sets permissions of a manifest.
-   * @param digest the tag to be deleted.
-   * @param options
+   * Sets properties of a manifest.
+   * @param digest - the digest of the manifest.
+   * @param options -
    */
-  public async setManefestPermissions(
-    tag: string,
-    permissions: ContentPermissions,
-    options: SetManifestPermissionsOptions = {}
+  public async setManifestProperties(
+    digest: string,
+    value: ContentProperties,
+    options: SetManifestPropertiesOptions = {}
   ) {
-    const value = {
-      deleteEnabled: permissions.canDelete,
-      writeEnabled: permissions.canWrite,
-      listEnabled: permissions.canList,
-      readEnabled: permissions.canRead
-    };
-    const { span, updatedOptions } = createSpan("RepositoryClient-setManefestPermissions", {
+    const { span, updatedOptions } = createSpan("RepositoryClient-setManifestProperties", {
       ...options,
-      value
+      value: value
+    });
+
+    try {
+      const result = await this.client.containerRegistryRepository.updateTagAttributes(
+        this.name,
+        digest,
+        updatedOptions
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  /**
+   * Sets properties of a tag.
+   * @param tag - name of the tag
+   * @param options -
+   */
+  public async setTagProperties(
+    tag: string,
+    value: ContentProperties = {},
+    options: SetTagPropertiesOptions = {}
+  ) {
+    const { span, updatedOptions } = createSpan("RepositoryClient-setTagProperties", {
+      ...options,
+      value: value
     });
 
     try {
@@ -282,48 +321,7 @@ export class RepositoryClient {
       );
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-  /**
-   * Sets permissions of a tag.
-   * @param digest the tag to be deleted.
-   * @param options
-   */
-  public async setTagPermissions(
-    tag: string,
-    permissions: ContentPermissions = {},
-    options: SetTagPermissionsOptions = {}
-  ) {
-    const value = {
-      deleteEnabled: permissions.canDelete,
-      writeEnabled: permissions.canWrite,
-      listEnabled: permissions.canList,
-      readEnabled: permissions.canRead
-    };
-    const { span, updatedOptions } = createSpan("RepositoryClient-setTagPermissions", {
-      ...options,
-      value
-    });
-
-    try {
-      const result = await this.client.containerRegistryRepository.updateTagAttributes(
-        this.name,
-        tag,
-        updatedOptions
-      );
-      return result;
-    } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-
       throw e;
     } finally {
       span.end();

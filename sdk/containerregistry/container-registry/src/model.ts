@@ -10,7 +10,7 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
   // Any custom options configured at the client level go here.
 }
 
-export interface ContentPermissions {
+export interface ContentProperties {
   canDelete?: boolean;
   canList?: boolean;
   canRead?: boolean;

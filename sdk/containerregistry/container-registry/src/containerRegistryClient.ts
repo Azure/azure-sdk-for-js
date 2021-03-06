@@ -13,7 +13,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GeneratedClient, RepositoryAttributes, ChangeableAttributes } from "./generated";
+import { GeneratedClient, RepositoryAttributes, DeletedRepository } from "./generated";
 import { createSpan } from "./tracing";
 import { ContainerRegistryClientOptions } from "./model";
 import {
@@ -24,12 +24,12 @@ import {
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export { RepositoryAttributes, ChangeableAttributes };
+export { RepositoryAttributes, DeletedRepository };
 
 /**
- * Options for the `GetAttributesOptions` method of `ContainerRegistryClient`.
+ * Options for the `deleteRepository` method of `ContainerRegistryClient`.
  */
-export interface GetAttributesOptions extends OperationOptions {}
+export interface DeleteRepositoryOptions extends OperationOptions {}
 
 /**
  * The client class used to interact with the Container Registry service.
@@ -90,29 +90,24 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Retrieve attributes of the repository identified by the given name.
+   * Deletes the repository identified by the given name.
    *
    * @param name - the name of repository to delete
    * @param options - optional configuration for the operation
    */
-  public async getRepositoryProperties(
+  public async deleteRepository(
     name: string,
-    options: GetAttributesOptions = {}
-  ): Promise<RepositoryAttributes> {
+    options: DeleteRepositoryOptions = {}
+  ): Promise<DeletedRepository> {
     const { span, updatedOptions } = createSpan(
-      "ContainerRegistryClient-getRepositoryProperties",
+      "ContainerRegistryClient-deleteRepository",
       options
     );
 
     try {
-      const result = await this.client.containerRegistry.getRepositoryAttributes(
-        name,
-        updatedOptions
-      );
+      const result = await this.client.containerRegistry.deleteRepository(name, updatedOptions);
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
 
       throw e;
