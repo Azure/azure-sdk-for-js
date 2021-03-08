@@ -4,7 +4,8 @@
 import { AzureKeyCredential, KeyCredential } from "@azure/core-auth";
 /**
  * Represents different properties of connection string
- * using format "/endpoint=(.*);accesskey=(.*)"
+ * using format "/endpoint=(.*);accesskey=(.*)".
+ * @hidden
  */
 export interface EndpointCredential {
   /**
@@ -28,7 +29,8 @@ const tryParseConnectionString = (s: string): EndpointCredential | undefined => 
   return undefined;
 };
 /**
- * Returns an EndpointCredential to easily access properties of the connection string
+ * Returns an EndpointCredential to easily access properties of the connection string.
+ * @hidden
  *
  * @param connectionString - The connection string to parse
  * @returns Object to access the endpoint and the credenials

@@ -4,7 +4,6 @@
 import { TraceState } from "@opentelemetry/api";
 
 /**
- * @hidden
  * @internal
  */
 export class OpenCensusTraceStateWrapper implements TraceState {

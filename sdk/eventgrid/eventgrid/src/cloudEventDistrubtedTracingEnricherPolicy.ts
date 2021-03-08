@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  PipelinePolicy,
+} from "@azure/core-rest-pipeline";
 
 export const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";
 export const TraceParentHeaderName = "traceparent";
@@ -60,6 +65,6 @@ export function cloudEventDistributedTracingEnricherPolicy(): PipelinePolicy {
       }
 
       return next(request);
-    }
+    },
   };
 }

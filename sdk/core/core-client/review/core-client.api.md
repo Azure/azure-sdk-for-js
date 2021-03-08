@@ -5,18 +5,17 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { HttpMethods } from '@azure/core-https';
-import { HttpsClient } from '@azure/core-https';
-import { InternalPipelineOptions } from '@azure/core-https';
+import { HttpClient } from '@azure/core-rest-pipeline';
+import { HttpMethods } from '@azure/core-rest-pipeline';
+import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
 import { OperationTracingOptions } from '@azure/core-tracing';
-import { Pipeline } from '@azure/core-https';
-import { PipelineOptions } from '@azure/core-https';
-import { PipelinePolicy } from '@azure/core-https';
-import { PipelineRequest } from '@azure/core-https';
-import { PipelineResponse } from '@azure/core-https';
-import { Span } from '@opentelemetry/api';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
+import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
-import { TransferProgressEvent } from '@azure/core-https';
+import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
 // @public (undocumented)
 export interface BaseMapper {
@@ -38,7 +37,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
-    httpsClient?: HttpsClient;
+    httpClient?: HttpClient;
 }
 
 // @public (undocumented)
@@ -72,12 +71,6 @@ export function createClientPipeline(options?: InternalClientPipelineOptions): P
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
-
-// @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
-    span: Span;
-    updatedOptions: T;
-};
 
 // @public
 export interface DeserializationContentTypes {

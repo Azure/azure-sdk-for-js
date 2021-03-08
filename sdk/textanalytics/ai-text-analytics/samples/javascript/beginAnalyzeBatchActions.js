@@ -33,7 +33,22 @@ async function main() {
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyzeBatchActions(documents, actions);
+  const poller = await client.beginAnalyzeBatchActions(documents, actions, "en", {
+    includeStatistics: true
+  });
+  poller.onProgress(() => {
+    console.log(
+      `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`
+    );
+  });
+  console.log(
+    `The analyze batch actions operation was created on ${poller.getOperationState().createdOn}`
+  );
+  console.log(
+    `The analyze batch actions operation results will expire on ${
+      poller.getOperationState().expiresOn
+    }`
+  );
   const resultPages = await poller.pollUntilDone();
   for await (const page of resultPages) {
     const keyPhrasesAction = page.extractKeyPhrasesResults[0];
@@ -49,6 +64,8 @@ async function main() {
           console.error("\tError:", doc.error);
         }
       }
+      console.log("Action statistics: ");
+      console.log(JSON.stringify(keyPhrasesAction.results.statistics));
     }
 
     const entitiesAction = page.recognizeEntitiesResults[0];
@@ -64,6 +81,8 @@ async function main() {
           console.error("\tError:", doc.error);
         }
       }
+      console.log("Action statistics: ");
+      console.log(JSON.stringify(entitiesAction.results.statistics));
     }
 
     const piiEntitiesAction = page.recognizePiiEntitiesResults[0];
@@ -79,6 +98,8 @@ async function main() {
           console.error("\tError:", doc.error);
         }
       }
+      console.log("Action statistics: ");
+      console.log(JSON.stringify(piiEntitiesAction.results.statistics));
     }
   }
 }

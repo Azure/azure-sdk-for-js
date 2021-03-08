@@ -32,12 +32,9 @@ export class Monitoring {
   async getSparkJobList(
     options?: MonitoringGetSparkJobListOptionalParams
   ): Promise<MonitoringGetSparkJobListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "MonitoringClient-getSparkJobList",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("MonitoringClient-getSparkJobList", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -63,12 +60,9 @@ export class Monitoring {
   async getSqlJobQueryString(
     options?: MonitoringGetSqlJobQueryStringOptionalParams
   ): Promise<MonitoringGetSqlJobQueryStringResponse> {
-    const { span, updatedOptions } = createSpan(
-      "MonitoringClient-getSqlJobQueryString",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("MonitoringClient-getSqlJobQueryString", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

@@ -31,7 +31,7 @@
 /sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
-/sdk/core/core-https/ @xirzec @bterlson @chradek @jeremymeng
+/sdk/core/core-rest-pipeline/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/core-lro/ @sadasant @xirzec @bterlson @chradek @jeremymeng
@@ -57,6 +57,9 @@
 
 # PRLabel: %Communication
 /sdk/communication/ @acsdevx-msft
+
+# PRLabel: %Container Registry
+/sdk/containerregistry/ @jeremymeng
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, SendRequest, PipelinePolicy } from "@azure/core-https";
+import { PipelineResponse, SendRequest, PipelinePolicy } from "@azure/core-rest-pipeline";
 import {
   OperationRequest,
   SerializerOptions,
@@ -94,7 +94,7 @@ function serializeHeaders(
 }
 
 /**
- * @internal @hidden
+ * @internal
  */
 export function serializeRequestBody(
   request: OperationRequest,

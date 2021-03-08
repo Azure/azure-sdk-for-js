@@ -42,11 +42,11 @@ export const ChatMessageReadReceipt: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ChatMessageReadReceipt",
     modelProperties: {
-      senderId: {
-        serializedName: "senderId",
-        required: true,
+      senderCommunicationIdentifier: {
+        serializedName: "senderCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       chatMessageId: {
@@ -61,6 +61,102 @@ export const ChatMessageReadReceipt: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationIdentifierModel: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationIdentifierModel",
+    modelProperties: {
+      rawId: {
+        serializedName: "rawId",
+        type: {
+          name: "String"
+        }
+      },
+      communicationUser: {
+        serializedName: "communicationUser",
+        type: {
+          name: "Composite",
+          className: "CommunicationUserIdentifierModel"
+        }
+      },
+      phoneNumber: {
+        serializedName: "phoneNumber",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel"
+        }
+      },
+      microsoftTeamsUser: {
+        serializedName: "microsoftTeamsUser",
+        type: {
+          name: "Composite",
+          className: "MicrosoftTeamsUserIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationUserIdentifierModel: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationUserIdentifierModel",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumberIdentifierModel: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumberIdentifierModel",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MicrosoftTeamsUserIdentifierModel: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MicrosoftTeamsUserIdentifierModel",
+    modelProperties: {
+      userId: {
+        serializedName: "userId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isAnonymous: {
+        serializedName: "isAnonymous",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String"
         }
       }
     }
@@ -275,10 +371,11 @@ export const ChatMessage: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      senderId: {
-        serializedName: "senderId",
+      senderCommunicationIdentifier: {
+        serializedName: "senderCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       deletedOn: {
@@ -326,10 +423,11 @@ export const ChatMessageContent: coreHttp.CompositeMapper = {
           }
         }
       },
-      initiator: {
-        serializedName: "initiator",
+      initiatorCommunicationIdentifier: {
+        serializedName: "initiatorCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       }
     }
@@ -341,11 +439,11 @@ export const ChatParticipant: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ChatParticipant",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
+      communicationIdentifier: {
+        serializedName: "communicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       displayName: {
@@ -546,11 +644,11 @@ export const ChatThread: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      createdBy: {
-        serializedName: "createdBy",
-        required: true,
+      createdByCommunicationIdentifier: {
+        serializedName: "createdByCommunicationIdentifier",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
         }
       },
       deletedOn: {

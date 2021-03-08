@@ -86,7 +86,7 @@ API key authorization is used in most of the examples, but you can also authenti
 npm install @azure/identity
 ```
 
-To authenticate using a service principal, you will also need to register an AAD application and grant access to Form Recognizer by assigning the "Cognitive Services User" role to your service principal (note: other roles such as "Owner" will not grant the necessary permissions, only "Cognitive Services User" will suffice to run the examples and the sample code).
+To authenticate using a service principal, you will also need to register an AAD application and grant access to Metrics Advisor by assigning the "Cognitive Services User" role to your service principal (note: other roles such as "Owner" will not grant the necessary permissions, only "Cognitive Services User" will suffice to run the examples and the sample code).
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET.
 We also support Authentication by Azure Active Directoty Credential. You will need the Azure Tenant ID, Azure Client ID and Azure Client Secret as environment variables.
@@ -472,15 +472,17 @@ async function queryAnomaliesByAlert(client, alert) {
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to see debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure MetricsAdvisor client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
 

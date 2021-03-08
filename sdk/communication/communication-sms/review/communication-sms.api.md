@@ -7,31 +7,40 @@
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface SendOptions extends OperationOptions {
-    enableDeliveryReport?: boolean;
+export class SmsClient {
+    constructor(connectionString: string, options?: SmsClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
+    send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
 }
 
 // @public
-export interface SendRequest {
+export interface SmsClientOptions extends PipelineOptions {
+}
+
+// @public
+export interface SmsSendOptions extends OperationOptions {
+    enableDeliveryReport?: boolean;
+    tag?: string;
+}
+
+// @public
+export interface SmsSendRequest {
     from: string;
     message: string;
     to: string[];
 }
 
-// @public
-export class SmsClient {
-    constructor(connectionString: string, options?: SmsClientOptions);
-    constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
-    constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    send(sendRequest: SendRequest, options?: SendOptions): Promise<RestResponse>;
-}
-
-// @public
-export interface SmsClientOptions extends PipelineOptions {
+// @public (undocumented)
+export interface SmsSendResult {
+    errorMessage?: string;
+    httpStatusCode: number;
+    messageId?: string;
+    successful: boolean;
+    to: string;
 }
 
 

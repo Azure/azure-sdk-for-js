@@ -8,8 +8,7 @@ import {
   isNode,
   getDefaultProxySettings,
   URLBuilder,
-  RequestOptionsBase,
-  OperationOptions
+  RequestOptionsBase
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import {
@@ -50,7 +49,6 @@ import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
 import { SasIPRange } from "./SasIPRange";
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
-import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -618,14 +616,11 @@ export class QueueClient extends StorageClient {
    * ```
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-create", options);
     try {
       return await this.queueContext.create({
-        ...options,
-        abortSignal: options.abortSignal,
-        tracingOptions: {
-          spanOptions
-        }
+        ...updatedOptions,
+        abortSignal: options.abortSignal
       });
     } catch (e) {
       span.setStatus({
@@ -648,15 +643,9 @@ export class QueueClient extends StorageClient {
   public async createIfNotExists(
     options: QueueCreateOptions = {}
   ): Promise<QueueCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueClient-createIfNotExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueClient-createIfNotExists", options);
     try {
-      const response = await this.create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const response = await this.create(updatedOptions);
 
       // When a queue with the specified name already exists, the Queue service checks the metadata associated with the existing queue.
       // If the existing metadata is identical to the metadata specified on the Create Queue request, status code 204 (No Content) is returned.
@@ -703,12 +692,9 @@ export class QueueClient extends StorageClient {
   public async deleteIfExists(
     options: QueueDeleteOptions = {}
   ): Promise<QueueDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-deleteIfExists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-deleteIfExists", options);
     try {
-      const res = await this.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
         ...res
@@ -752,13 +738,11 @@ export class QueueClient extends StorageClient {
    * ```
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-delete", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-delete", options);
     try {
       return await this.queueContext.delete({
         abortSignal: options.abortSignal,
-        tracingOptions: {
-          spanOptions
-        }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -781,11 +765,11 @@ export class QueueClient extends StorageClient {
    * @param options - options to Exists operation.
    */
   public async exists(options: QueueExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("QueueClient-exists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-exists", options);
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       return true;
     } catch (e) {
@@ -822,13 +806,11 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<QueueGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-getProperties", options);
     try {
       return await this.queueContext.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: {
-          spanOptions
-        }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -856,14 +838,12 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<QueueSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-setMetadata", options);
     try {
       return await this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
-        tracingOptions: {
-          spanOptions
-        }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -890,13 +870,11 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-getAccessPolicy", options);
     try {
       const response = await this.queueContext.getAccessPolicy({
         abortSignal: options.abortSignal,
-        tracingOptions: {
-          spanOptions
-        }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       const res: QueueGetAccessPolicyResponse = {
@@ -955,7 +933,7 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<QueueSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-setAccessPolicy", options);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of queueAcl || []) {
@@ -976,9 +954,7 @@ export class QueueClient extends StorageClient {
       return await this.queueContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         queueAcl: acl,
-        tracingOptions: {
-          spanOptions
-        }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -1001,13 +977,11 @@ export class QueueClient extends StorageClient {
   public async clearMessages(
     options: QueueClearMessagesOptions = {}
   ): Promise<QueueClearMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-clearMessages", options);
     try {
       return await this.messagesContext.clear({
         abortSignal: options.abortSignal,
-        tracingOptions: {
-          spanOptions
-        }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -1045,13 +1019,13 @@ export class QueueClient extends StorageClient {
     messageText: string,
     options: QueueSendMessageOptions = {}
   ): Promise<QueueSendMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-sendMessage", options);
     try {
       const response = await this.messagesContext.enqueue(
         {
           messageText: messageText
         },
-        requestOptionsBaseToOperationOptions(options, spanOptions)
+        updatedOptions
       );
       const item = response[0];
       return {
@@ -1106,11 +1080,9 @@ export class QueueClient extends StorageClient {
   public async receiveMessages(
     options: QueueReceiveMessageOptions = {}
   ): Promise<QueueReceiveMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-receiveMessages", options);
     try {
-      const response = await this.messagesContext.dequeue(
-        requestOptionsBaseToOperationOptions(options, spanOptions)
-      );
+      const response = await this.messagesContext.dequeue(updatedOptions);
 
       const res: QueueReceiveMessageResponse = {
         _response: response._response,
@@ -1155,11 +1127,9 @@ export class QueueClient extends StorageClient {
   public async peekMessages(
     options: QueuePeekMessagesOptions = {}
   ): Promise<QueuePeekMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-peekMessages", options);
     try {
-      const response = await this.messagesContext.peek(
-        requestOptionsBaseToOperationOptions(options, spanOptions)
-      );
+      const response = await this.messagesContext.peek(updatedOptions);
 
       const res: QueuePeekMessagesResponse = {
         _response: response._response,
@@ -1201,13 +1171,11 @@ export class QueueClient extends StorageClient {
     popReceipt: string,
     options: QueueDeleteMessageOptions = {}
   ): Promise<QueueDeleteMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-deleteMessage", options);
     try {
       return await this.getMessageIdContext(messageId).delete(popReceipt, {
         abortSignal: options.abortSignal,
-        tracingOptions: {
-          spanOptions
-        }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -1244,7 +1212,7 @@ export class QueueClient extends StorageClient {
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
   ): Promise<QueueUpdateMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("QueueClient-updateMessage", options);
     let queueMessage = undefined;
     if (message !== undefined) {
       queueMessage = { messageText: message };
@@ -1253,9 +1221,7 @@ export class QueueClient extends StorageClient {
     try {
       return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
         abortSignal: options.abortSignal,
-        tracingOptions: {
-          spanOptions
-        },
+        tracingOptions: updatedOptions.tracingOptions,
         queueMessage
       });
     } catch (e) {
@@ -1333,46 +1299,4 @@ export class QueueClient extends StorageClient {
 
     return appendToURLQuery(this.url, sas);
   }
-}
-
-/**
- * Converts an RequestOptionsBase to a OperationOptions
- *
- * @param opts - RequestOptionsBase object to convert to OperationOptions
- */
-function requestOptionsBaseToOperationOptions<T extends RequestOptionsBase>(
-  opts: T,
-  spanOptions?: SpanOptions
-): OperationOptions {
-  const {
-    abortSignal,
-    customHeaders,
-    timeout,
-    onUploadProgress,
-    onDownloadProgress,
-    shouldDeserialize,
-    ...additionalOptions
-  } = opts;
-
-  let result: OperationOptions = { ...additionalOptions };
-
-  if (abortSignal) {
-    result.abortSignal = abortSignal;
-  }
-
-  result.requestOptions = {
-    customHeaders: customHeaders ?? undefined,
-    timeout: timeout ?? undefined,
-    onUploadProgress: onUploadProgress ?? undefined,
-    onDownloadProgress: onDownloadProgress ?? undefined,
-    shouldDeserialize: shouldDeserialize ?? undefined
-  };
-
-  if (spanOptions) {
-    result.tracingOptions = {
-      spanOptions: spanOptions
-    };
-  }
-
-  return result;
 }

@@ -84,14 +84,11 @@ export class ManagedPrivateEndpoints {
     managedPrivateEndpointName: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
@@ -120,15 +117,12 @@ export class ManagedPrivateEndpoints {
     managedPrivateEndpoint: ManagedPrivateEndpoint,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsCreateResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-create",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-create", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
       managedPrivateEndpoint,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -158,14 +152,11 @@ export class ManagedPrivateEndpoints {
     managedPrivateEndpointName: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-delete",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-delete", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -193,13 +184,10 @@ export class ManagedPrivateEndpoints {
     managedVirtualNetworkName: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-_list",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-_list", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
@@ -226,14 +214,11 @@ export class ManagedPrivateEndpoints {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsListNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-_listNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-_listNext", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

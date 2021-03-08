@@ -289,7 +289,9 @@ export { TokenCredential }
 
 // @public
 export interface TryAddOptions {
+    // @deprecated (undocumented)
     parentSpan?: Span | SpanContext;
+    tracingOptions?: OperationTracingOptions;
 }
 
 export { WebSocketImpl }

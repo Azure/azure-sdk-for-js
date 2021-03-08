@@ -53,7 +53,7 @@ node backupRestoreHelloWorld.js
 Alternatively, run a single sample with the correct environment variables set (step 2 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" BLOB_STORAGE_URI="<blob-storage-uri>" BLOB_STORAGE_SAS_TOKEN="<blob-storage-sas-token>" CLIENT_OBJECT_ID="<client-object-id>" node backupRestoreHelloWorld.js
+npx cross-env KEYVAULT_URI="<key vault uri>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" BLOB_STORAGE_URI="<blob-storage-uri>" BLOB_STORAGE_SAS_TOKEN="<blob-storage-sas-token>" CLIENT_OBJECT_ID="<client-object-id>" node backupRestoreHelloWorld.js
 ```
 
 These samples add and remove roles to and from the application, tenant or principal specified by the `CLIENT_OBJECT_ID` environment variable. **Do not use the same Object Id of the application, tenant or principal you're using to authenticate the client.**
