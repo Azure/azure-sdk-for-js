@@ -16,7 +16,7 @@ import {
   ChatCreateChatThreadResponse,
   ChatListChatThreadsOptionalParams,
   ChatListChatThreadsResponse,
-  ChatGetChatThreadResponse,
+  ChatGetChatThreadPropertiesResponse,
   ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse
 } from "../models";
@@ -73,18 +73,18 @@ export class Chat {
    * @param chatThreadId Id of the thread.
    * @param options The options parameters.
    */
-  getChatThread(
+  getChatThreadProperties(
     chatThreadId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<ChatGetChatThreadResponse> {
+  ): Promise<ChatGetChatThreadPropertiesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       chatThreadId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getChatThreadOperationSpec
-    ) as Promise<ChatGetChatThreadResponse>;
+      getChatThreadPropertiesOperationSpec
+    ) as Promise<ChatGetChatThreadPropertiesResponse>;
   }
 
   /**
@@ -155,7 +155,7 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.createChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.repeatabilityRequestId],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.idempotencyToken],
   mediaType: "json",
   serializer
 };
@@ -188,12 +188,12 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getChatThreadOperationSpec: coreHttp.OperationSpec = {
+const getChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThread
+      bodyMapper: Mappers.ChatThreadProperties
     },
     401: {
       bodyMapper: Mappers.CommunicationErrorResponse,

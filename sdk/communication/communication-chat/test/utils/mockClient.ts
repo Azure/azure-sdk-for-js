@@ -26,7 +26,7 @@ export const mockSdkModelParticipant: ChatParticipant = {
   shareHistoryTime: mockParticipant.shareHistoryTime
 };
 
-export const mockThread: RestModel.ChatThread = {
+export const mockThread: RestModel.ChatThreadProperties = {
   id: "threadid",
   topic: "topic",
   createdByCommunicationIdentifier: mockCommunicationIdentifier,

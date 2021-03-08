@@ -27,6 +27,7 @@ import {
   ChatMessage,
   ChatMessageReadReceipt,
   ChatParticipant,
+  ChatThreadProperties,
   SendChatMessageResult,
   ListPageSettings
 } from "./models/models";
@@ -34,6 +35,7 @@ import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   mapToChatParticipantSdkModel,
+  mapToChatThreadSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
 import {
@@ -49,7 +51,8 @@ import {
   RemoveParticipantOptions,
   SendTypingNotificationOptions,
   SendReadReceiptOptions,
-  ListReadReceiptsOptions
+  ListReadReceiptsOptions,
+  GetPropertiesOptions
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
@@ -107,6 +110,31 @@ export class ChatThreadClient {
   }
 
   /**
+   * Gets a chat thread.
+   * Returns the chat thread.
+   * @param options -  Operation options.
+   */
+  public async getProperties(options: GetPropertiesOptions = {}): Promise<ChatThreadProperties> {
+    const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
+
+    try {
+      const { _response, ...result } = await this.client.chat.getChatThreadProperties(
+        this.threadId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return mapToChatThreadSdkModel(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Updates a thread's topic.
    * @param topic - The topic needs to be updated to.
    * @param options - Operation options.
@@ -115,7 +143,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateTopic", options);
 
     try {
-      await this.client.chatThread.updateChatThread(
+      await this.client.chatThread.updateChatThreadProperties(
         this.threadId,
         { topic: topic },
         operationOptionsToRequestOptionsBase(updatedOptions)

@@ -180,10 +180,10 @@ export const createChatThreadRequest: OperationParameter = {
   mapper: CreateChatThreadRequestMapper
 };
 
-export const repeatabilityRequestId: OperationParameter = {
-  parameterPath: ["options", "repeatabilityRequestId"],
+export const idempotencyToken: OperationParameter = {
+  parameterPath: ["options", "idempotencyToken"],
   mapper: {
-    serializedName: "repeatability-Request-Id",
+    serializedName: "idempotency-token",
     type: {
       name: "String"
     }

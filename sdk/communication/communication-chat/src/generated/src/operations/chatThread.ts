@@ -285,7 +285,7 @@ export class ChatThread {
    * @param updateChatThreadRequest Request payload for updating a chat thread.
    * @param options The options parameters.
    */
-  updateChatThread(
+  updateChatThreadProperties(
     chatThreadId: string,
     updateChatThreadRequest: UpdateChatThreadRequest,
     options?: coreHttp.OperationOptions
@@ -297,7 +297,7 @@ export class ChatThread {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      updateChatThreadOperationSpec
+      updateChatThreadPropertiesOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -689,7 +689,7 @@ const addChatParticipantsOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateChatThreadOperationSpec: coreHttp.OperationSpec = {
+const updateChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}",
   httpMethod: "PATCH",
   responses: {

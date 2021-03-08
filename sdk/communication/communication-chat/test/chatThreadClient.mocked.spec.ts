@@ -23,7 +23,8 @@ import {
   mockMessage,
   mockParticipant,
   mockSdkModelParticipant,
-  mockChatMessageReadReceipt
+  mockChatMessageReadReceipt,
+  mockThread
 } from "./utils/mockClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
@@ -38,6 +39,33 @@ describe("[Mocked] ChatThreadClient", async () => {
 
   it("can instantiate", async () => {
     new ChatThreadClient(threadId, baseUri, new AzureCommunicationTokenCredential(generateToken()));
+  });
+
+  it("makes successful get properties request", async () => {
+    const mockHttpClient = generateHttpClient(200, mockThread);
+    chatThreadClient = createChatThreadClient(mockThread.id, mockHttpClient);
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const { createdBy: responseUser, ...response } = await chatThreadClient.getProperties();
+    const { createdByCommunicationIdentifier: expectedIdentifier, ...expected } = mockThread;
+
+    sinon.assert.calledOnce(spy);
+
+    assert.deepEqual(response, expected);
+    assert.equal(responseUser?.kind, "communicationUser");
+    assert.equal(
+      (responseUser as CommunicationUserIdentifier)?.communicationUserId,
+      expectedIdentifier.communicationUser?.id
+    );
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "GET");
   });
 
   it("makes successful update thread topic", async () => {
