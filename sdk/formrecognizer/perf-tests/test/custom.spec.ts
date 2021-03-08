@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary, PerfStressTest } from "@azure/test-utils-perfstress";
+import {
+  PerfStressOptionDictionary,
+  PerfStressTest,
+  getEnvVar
+} from "@azure/test-utils-perfstress";
 import {
   AzureKeyCredential,
   BeginRecognizeCustomFormsOptions,
@@ -46,35 +50,19 @@ export class CustomModelRecognitionTest extends PerfStressTest<BeginRecognizeCus
     try {
       credential = new DefaultAzureCredential();
     } catch {
-      credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "");
+      credential = new AzureKeyCredential(getEnvVar("FORM_RECOGNIZER_API_KEY"));
     }
 
-    const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT;
-
-    if (!endpoint) {
-      throw new Error(`Expected FORM_RECOGNIZER_ENDPOINT to be defined: ${endpoint}`);
-    }
+    const endpoint = getEnvVar("FORM_RECOGNIZER_ENDPOINT");
 
     this.trainingClient = new FormTrainingClient(endpoint, credential);
     this.recognizerClient = new FormRecognizerClient(endpoint, credential);
 
-    const documentUrl = process.env.FORM_RECOGNIZER_TEST_DOCUMENT_URL;
-
-    if (!documentUrl) {
-      throw new Error(`Expected FORM_RECOGNIZER_TEST_DOCUMENT_URL to be defined: ${documentUrl}`);
-    }
-
-    this.documentUrl = documentUrl;
+    this.documentUrl = getEnvVar("FORM_RECOGNIZER_TEST_DOCUMENT_URL");
   }
 
   public async globalSetup() {
-    const trainingContainerSasUrl = process.env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
-
-    if (!trainingContainerSasUrl) {
-      throw new Error(
-        `Expected FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL to be defined: ${trainingContainerSasUrl}`
-      );
-    }
+    const trainingContainerSasUrl = getEnvVar("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
     try {
       const poller = await this.trainingClient.beginTraining(trainingContainerSasUrl, true);
