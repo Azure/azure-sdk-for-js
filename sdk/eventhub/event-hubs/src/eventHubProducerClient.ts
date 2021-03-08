@@ -4,7 +4,10 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import {
+  generateEventTraceProperty,
+  TRACEPARENT_PROPERTY
+} from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/tracing";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
@@ -13,13 +16,20 @@ import { logErrorStackTrace, logger } from "./log";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   CreateBatchOptions,
-  EventHubClientOptions,
+  EventHubProducerClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
+  PartitionPublishingProperties,
   SendBatchOptions
 } from "./models/public";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import {
+  idempotentAlreadyPublished,
+  idempotentSomeAlreadyPublished,
+  throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterMissing,
+  validateProducerPartitionSettings
+} from "./util/error";
 import { isDefined } from "./util/typeGuards";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
@@ -43,9 +53,9 @@ export class EventHubProducerClient {
   private _context: ConnectionContext;
 
   /**
-   * The options passed by the user when creating the EventHubClient instance.
+   * The options passed by the user when creating the EventHubProducerClient instance.
    */
-  private _clientOptions: EventHubClientOptions;
+  private _clientOptions: EventHubProducerClientOptions;
   /**
    * Map of partitionId to senders
    */
@@ -79,7 +89,7 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(connectionString: string, options?: EventHubProducerClientOptions);
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -93,7 +103,11 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(
+    connectionString: string,
+    eventHubName: string,
+    options?: EventHubProducerClientOptions
+  );
   /**
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -112,13 +126,13 @@ export class EventHubProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
-    options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options?: EventHubProducerClientOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    eventHubNameOrOptions2?: string | EventHubClientOptions,
-    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
-    options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    eventHubNameOrOptions2?: string | EventHubProducerClientOptions,
+    credentialOrOptions3?: TokenCredential | EventHubProducerClientOptions,
+    options4?: EventHubProducerClientOptions
   ) {
     this._context = createConnectionContext(
       fullyQualifiedNamespaceOrConnectionString1,
@@ -172,15 +186,26 @@ export class EventHubProducerClient {
    */
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
+    const { enableIdempotentPartitions } = this._clientOptions;
+    const partitionId = isDefined(options.partitionId) ? String(options.partitionId) : undefined;
 
-    if (isDefined(options.partitionId) && isDefined(options.partitionKey)) {
-      throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
-    }
+    validateProducerPartitionSettings({
+      enableIdempotentPartitions,
+      partitionId,
+      partitionKey: options.partitionKey
+    });
 
-    let sender = this._sendersMap.get("");
+    let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
-      sender = EventHubSender.create(this._context);
-      this._sendersMap.set("", sender);
+      const partitionPublishingOptions = isDefined(partitionId)
+        ? this._clientOptions.partitionOptions?.[partitionId]
+        : undefined;
+      sender = EventHubSender.create(this._context, {
+        enableIdempotentProducer: Boolean(enableIdempotentPartitions),
+        partitionId,
+        partitionPublishingOptions
+      });
+      this._sendersMap.set(partitionId || "", sender);
     }
 
     let maxMessageSize = await sender.getMaxMessageSize({
@@ -202,9 +227,48 @@ export class EventHubProducerClient {
     return new EventDataBatchImpl(
       this._context,
       maxMessageSize,
+      Boolean(enableIdempotentPartitions),
       options.partitionKey,
-      options.partitionId
+      partitionId
     );
+  }
+
+  /**
+   * Get the information about the state of publishing for a partition as observed by the `EventHubProducerClient`.
+   * This data can always be read, but will only be populated with information relevant to the active features
+   * for the producer client.
+   *
+   * @param partitionId - Id of the partition from which to retrieve publishing properties.
+   * @param options - The set of options to apply to the operation call.
+   * - `abortSignal`  : A signal the request to cancel the send operation.
+   * @returns Promise<void>
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   */
+  async getPartitionPublishingProperties(
+    partitionId: string,
+    options: OperationOptions = {}
+  ): Promise<PartitionPublishingProperties> {
+    if (!isDefined(partitionId)) {
+      throw new TypeError(
+        `getPartitionPublishingProperties called without required argument "partitionId"`
+      );
+    }
+
+    if (typeof partitionId === "number") {
+      partitionId = String(partitionId);
+    }
+
+    let sender = this._sendersMap.get(partitionId);
+    if (!sender) {
+      sender = EventHubSender.create(this._context, {
+        enableIdempotentProducer: Boolean(this._clientOptions.enableIdempotentPartitions),
+        partitionId,
+        partitionPublishingOptions: this._clientOptions.partitionOptions?.[partitionId]
+      });
+      this._sendersMap.set(partitionId, sender);
+    }
+
+    return sender.getPartitionPublishingProperties(options);
   }
 
   /**
@@ -267,38 +331,39 @@ export class EventHubProducerClient {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "sendBatch", "batch", batch);
 
+    const { enableIdempotentPartitions } = this._clientOptions;
+
     let partitionId: string | undefined;
     let partitionKey: string | undefined;
 
     // link message span contexts
     let spanContextsToLink: SpanContext[] = [];
+    // Holds an EventData properties object containing tracing properties.
+    // This lets us avoid cloning batch when it is EventData[], which is
+    // important as the idempotent EventHubSender needs to decorate the
+    // original EventData passed through.
+    const eventDataTracingProperties: Array<EventData["properties"]> = [];
 
     if (isEventDataBatch(batch)) {
-      // For batches, partitionId and partitionKey would be set on the batch.
-      partitionId = batch.partitionId;
-      partitionKey = batch.partitionKey;
-      const unexpectedOptions = options as SendBatchOptions;
-      if (unexpectedOptions.partitionKey && partitionKey !== unexpectedOptions.partitionKey) {
-        throw new Error(
-          `The partitionKey (${unexpectedOptions.partitionKey}) set on sendBatch does not match the partitionKey (${partitionKey}) set when creating the batch.`
-        );
+      if (enableIdempotentPartitions && isDefined(batch.startingPublishedSequenceNumber)) {
+        throw new Error(idempotentAlreadyPublished);
       }
-      if (unexpectedOptions.partitionId && unexpectedOptions.partitionId !== partitionId) {
-        throw new Error(
-          `The partitionId (${unexpectedOptions.partitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`
-        );
-      }
-
+      const partitionAssignment = extractPartitionAssignmentFromBatch(batch, options);
+      partitionId = partitionAssignment.partitionId;
+      partitionKey = partitionAssignment.partitionKey;
       spanContextsToLink = batch._messageSpanContexts;
     } else {
       if (!Array.isArray(batch)) {
         batch = [batch];
       }
+      if (batch.some((event) => isDefined(event.publishedSequenceNumber))) {
+        throw new Error(idempotentSomeAlreadyPublished);
+      }
 
       // For arrays of events, partitionId and partitionKey would be set in the options.
-      const expectedOptions = options as SendBatchOptions;
-      partitionId = expectedOptions.partitionId;
-      partitionKey = expectedOptions.partitionKey;
+      const partitionAssignment = extractPartitionAssignmentFromOptions(options);
+      partitionId = partitionAssignment.partitionId;
+      partitionKey = partitionAssignment.partitionKey;
 
       for (let i = 0; i < batch.length; i++) {
         const event = batch[i];
@@ -307,27 +372,28 @@ export class EventHubProducerClient {
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
-          batch[i] = instrumentEventData(batch[i], messageSpan);
+          eventDataTracingProperties[i] = generateEventTraceProperty(batch[i], messageSpan);
           messageSpan.end();
         }
       }
     }
-    if (isDefined(partitionId) && isDefined(partitionKey)) {
-      throw new Error(
-        `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
-      );
-    }
 
-    if (isDefined(partitionId)) {
-      partitionId = String(partitionId);
-    }
-    if (isDefined(partitionKey)) {
-      partitionKey = String(partitionKey);
-    }
+    validateProducerPartitionSettings({
+      enableIdempotentPartitions,
+      partitionId,
+      partitionKey
+    });
 
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
-      sender = EventHubSender.create(this._context, partitionId);
+      const partitionPublishingOptions = isDefined(partitionId)
+        ? this._clientOptions.partitionOptions?.[partitionId]
+        : undefined;
+      sender = EventHubSender.create(this._context, {
+        enableIdempotentProducer: Boolean(enableIdempotentPartitions),
+        partitionId,
+        partitionPublishingOptions
+      });
       this._sendersMap.set(partitionId || "", sender);
     }
 
@@ -338,7 +404,8 @@ export class EventHubProducerClient {
         ...options,
         partitionId,
         partitionKey,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
+        tracingProperties: eventDataTracingProperties
       });
       sendSpan.setStatus({ code: CanonicalCode.OK });
       return result;
@@ -436,4 +503,59 @@ export class EventHubProducerClient {
 
     return span;
   }
+}
+
+/**
+ * @internal
+ */
+function extractPartitionAssignmentFromOptions(
+  options: SendBatchOptions = {}
+): { partitionKey?: string; partitionId?: string } {
+  const result: ReturnType<typeof extractPartitionAssignmentFromOptions> = {};
+  const { partitionId, partitionKey } = options;
+
+  if (isDefined(partitionId)) {
+    result.partitionId = String(partitionId);
+  }
+  if (isDefined(partitionKey)) {
+    result.partitionKey = String(partitionKey);
+  }
+
+  return result;
+}
+
+/**
+ * @internal
+ */
+function extractPartitionAssignmentFromBatch(
+  batch: EventDataBatch,
+  options: SendBatchOptions
+): { partitionKey?: string; partitionId?: string } {
+  const result: ReturnType<typeof extractPartitionAssignmentFromBatch> = {};
+  const partitionId = batch.partitionId;
+  const partitionKey = batch.partitionKey;
+
+  const {
+    partitionId: unexpectedPartitionId,
+    partitionKey: unexpectedPartitionKey
+  } = extractPartitionAssignmentFromOptions(options);
+  if (unexpectedPartitionKey && partitionKey !== unexpectedPartitionKey) {
+    throw new Error(
+      `The partitionKey (${unexpectedPartitionKey}) set on sendBatch does not match the partitionKey (${partitionKey}) set when creating the batch.`
+    );
+  }
+  if (unexpectedPartitionId && unexpectedPartitionId !== partitionId) {
+    throw new Error(
+      `The partitionId (${unexpectedPartitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`
+    );
+  }
+
+  if (isDefined(partitionId)) {
+    result.partitionId = String(partitionId);
+  }
+  if (isDefined(partitionKey)) {
+    result.partitionKey = String(partitionKey);
+  }
+
+  return result;
 }

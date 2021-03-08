@@ -10,12 +10,15 @@ export { OperationOptions } from "./util/operationOptions";
 export {
   EventHubClientOptions,
   EventHubConsumerClientOptions,
+  EventHubProducerClientOptions,
   LoadBalancingOptions,
   SendBatchOptions,
   CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetEventHubPropertiesOptions
+  GetEventHubPropertiesOptions,
+  PartitionPublishingOptions,
+  PartitionPublishingProperties
 } from "./models/public";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";

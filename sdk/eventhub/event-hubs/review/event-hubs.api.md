@@ -55,13 +55,16 @@ export interface EventData {
     properties?: {
         [key: string]: any;
     };
+    readonly publishedSequenceNumber?: number;
 }
 
 // @public
 export interface EventDataBatch {
+    // @internal
+    _commitPublish(): void;
     readonly count: number;
     // @internal
-    _generateMessage(): Buffer;
+    _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
     readonly maxSizeInBytes: number;
     // @internal
     readonly _messageSpanContexts: SpanContext[];
@@ -70,6 +73,7 @@ export interface EventDataBatch {
     // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
+    readonly startingPublishedSequenceNumber?: number;
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
@@ -117,9 +121,9 @@ export interface EventHubConsumerClientOptions extends EventHubClientOptions {
 
 // @public
 export class EventHubProducerClient {
-    constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(connectionString: string, options?: EventHubProducerClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubProducerClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubProducerClientOptions);
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     get eventHubName(): string;
@@ -127,9 +131,16 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getPartitionPublishingProperties(partitionId: string, options?: OperationOptions): Promise<PartitionPublishingProperties>;
     sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
     }
+
+// @public
+export interface EventHubProducerClientOptions extends EventHubClientOptions {
+    enableIdempotentPartitions?: boolean;
+    partitionOptions?: Record<string, PartitionPublishingOptions>;
+}
 
 // @public
 export interface EventHubProperties {
@@ -220,6 +231,22 @@ export interface PartitionProperties {
     lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;
     partitionId: string;
+}
+
+// @public
+export interface PartitionPublishingOptions {
+    ownerLevel?: number;
+    producerGroupId?: number;
+    startingSequenceNumber?: number;
+}
+
+// @public
+export interface PartitionPublishingProperties {
+    isIdempotentPublishingEnabled: boolean;
+    lastPublishedSequenceNumber?: number;
+    ownerLevel?: number;
+    partitionId: string;
+    producerGroupId?: number;
 }
 
 // @public

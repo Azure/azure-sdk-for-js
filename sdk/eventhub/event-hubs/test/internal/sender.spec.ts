@@ -1065,7 +1065,7 @@ describe("EventHub Sender", function(): void {
           throw new Error("Test failure");
         } catch (error) {
           error.message.should.equal(
-            "partitionId and partitionKey cannot both be set when creating a batch"
+            "The partitionId (0) and partitionKey (boo) cannot both be specified."
           );
         }
       });
@@ -1080,7 +1080,7 @@ describe("EventHub Sender", function(): void {
           throw new Error("Test failure");
         } catch (error) {
           error.message.should.equal(
-            "partitionId and partitionKey cannot both be set when creating a batch"
+            "The partitionId (0) and partitionKey (boo) cannot both be specified."
           );
         }
       });
@@ -1095,7 +1095,7 @@ describe("EventHub Sender", function(): void {
           throw new Error("Test failure");
         } catch (error) {
           error.message.should.equal(
-            "partitionId and partitionKey cannot both be set when creating a batch"
+            "The partitionId (1) and partitionKey (0) cannot both be specified."
           );
         }
       });

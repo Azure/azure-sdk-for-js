@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import { RetryOptions } from "@azure/core-amqp";
+import { Typed } from "rhea-promise";
 import { SubscribeOptions } from "../eventHubConsumerClientModels";
 import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
+import { idempotentProducerAmqpPropertyNames } from "../util/constants";
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -113,4 +115,13 @@ export interface EventHubConsumerOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventProperties?: boolean;
+}
+
+/**
+ * @internal
+ */
+export interface IdempotentLinkProperties {
+  [idempotentProducerAmqpPropertyNames.epoch]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerId]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: Typed | null;
 }

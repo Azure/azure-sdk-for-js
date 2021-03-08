@@ -1,9 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
+import {
+  DeliveryAnnotations,
+  Message as RheaMessage,
+  MessageAnnotations,
+  types
+} from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { isDefined } from "./util/typeGuards";
+import {
+  idempotentProducerAmqpPropertyNames,
+  PENDING_PUBLISH_SEQ_NUM_SYMBOL
+} from "./util/constants";
+import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 
 /**
  * Describes the delivery annotations.
@@ -109,6 +119,16 @@ export interface EventDataInternal {
    * The properties set by the service.
    */
   systemProperties?: { [property: string]: any };
+  /**
+   * The pending publish sequence number, set while the event
+   * is being published with idempotent partitions enabled.
+   */
+  [PENDING_PUBLISH_SEQ_NUM_SYMBOL]?: number;
+  /**
+   * The sequence number the event was published with
+   * when idempotent partitions are enabled.
+   */
+  publishedSequenceNumber?: number;
 }
 
 const messagePropertiesMap = {
@@ -242,6 +262,11 @@ export interface EventData {
   properties?: {
     [key: string]: any;
   };
+  /**
+   * The sequence number the event was published with
+   * when idempotent partitions are enabled.
+   */
+  readonly publishedSequenceNumber?: number;
 }
 
 /**
@@ -283,4 +308,88 @@ export interface ReceivedEventData {
   systemProperties?: {
     [key: string]: any;
   };
+}
+
+/**
+ * @internal
+ */
+export interface PopulateIdempotentMessageAnnotationsParameters {
+  isIdempotentPublishingEnabled: boolean;
+  ownerLevel?: number;
+  producerGroupId?: number;
+  publishSequenceNumber?: number;
+}
+
+/**
+ * Populates a rhea message with idempotent producer properties.
+ * @internal
+ */
+export function populateIdempotentMessageAnnotations(
+  rheaMessage: RheaMessage,
+  {
+    isIdempotentPublishingEnabled,
+    ownerLevel,
+    producerGroupId,
+    publishSequenceNumber
+  }: PopulateIdempotentMessageAnnotationsParameters
+): void {
+  if (!isIdempotentPublishingEnabled) {
+    return;
+  }
+
+  const messageAnnotations = rheaMessage.message_annotations || {};
+  if (!rheaMessage.message_annotations) {
+    rheaMessage.message_annotations = messageAnnotations;
+  }
+
+  if (isDefined(ownerLevel)) {
+    messageAnnotations[idempotentProducerAmqpPropertyNames.epoch] = types.wrap_short(ownerLevel);
+  }
+  if (isDefined(producerGroupId)) {
+    messageAnnotations[idempotentProducerAmqpPropertyNames.producerId] = types.wrap_long(
+      producerGroupId
+    );
+  }
+  if (isDefined(publishSequenceNumber)) {
+    messageAnnotations[idempotentProducerAmqpPropertyNames.producerSequenceNumber] = types.wrap_int(
+      publishSequenceNumber
+    );
+  }
+}
+
+/**
+ * Commits the pending publish sequence number events.
+ * EventDataBatch exposes this as `startingPublishSequenceNumber`,
+ * EventData not in a batch exposes this as `publishedSequenceNumber`.
+ * @internal
+ */
+export function commitIdempotentSequenceNumbers(
+  events: EventDataInternal[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    events._commitPublish();
+  } else {
+    // For each event, set the `publishedSequenceNumber` equal to the sequence number
+    // we set when we attempted to send the events to the service.
+    for (const event of events) {
+      event.publishedSequenceNumber = event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
+  }
+}
+
+/**
+ * Rolls back any pending publish sequence number in the events.
+ * @internal
+ */
+export function rollbackIdempotentSequenceNumbers(
+  events: EventDataInternal[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    /* No action required. */
+  } else {
+    for (const event of events) {
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
+  }
 }
