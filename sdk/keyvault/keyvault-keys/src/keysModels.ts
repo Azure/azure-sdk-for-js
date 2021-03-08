@@ -31,7 +31,14 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
 /**
  * The optional parameters accepted by the KeyVault's CryptographyClient
  */
-export interface CryptographyClientOptions extends KeyClientOptions {}
+export interface CryptographyClientOptions extends KeyClientOptions {
+  /**
+   * Allows the CryptographyClient to be created in remote-only mode.
+   * A client that is created in this mode will perform all operations remotely using the Key Vault service.
+   * By default, this will be false; however, it can be used as a way to force all operations to run against Azure Key Vault.
+   */
+  remoteOnly?: boolean;
+}
 
 /**
  * As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18

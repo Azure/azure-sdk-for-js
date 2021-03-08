@@ -215,4 +215,49 @@ describe("internal crypto tests", () => {
       );
     });
   });
+
+  describe.only("using the remoteOnly option", () => {
+    let key: KeyVaultKey;
+    beforeEach(() => {
+      key = {
+        name: "key",
+        id: "https://azure_keyvault.vault.azure.net/keys/keyId/v1",
+        properties: {
+          name: "key",
+          vaultUrl: "foo"
+        }
+      };
+    });
+
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it("uses the local provider when not forcing remote", async function() {
+      if (!isNode) {
+        this.skip();
+      }
+      const remoteSpy = sinon.stub(RemoteCryptographyProvider.prototype, "encrypt");
+      const rsaSpy = sinon.stub(RsaCryptographyProvider.prototype, "encrypt");
+
+      const client = new CryptographyClient(key, tokenCredential);
+      await client.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("My Message") });
+      assert.isTrue(remoteSpy.notCalled);
+      assert.isTrue(rsaSpy.called);
+    });
+
+    it("uses the remote provider when forcing remote", async function() {
+      if (!isNode) {
+        this.skip();
+      }
+      const remoteSpy = sinon.stub(RemoteCryptographyProvider.prototype, "encrypt");
+      const rsaSpy = sinon.stub(RsaCryptographyProvider.prototype, "encrypt");
+
+      const client = new CryptographyClient(key, tokenCredential, { remoteOnly: true });
+      await client.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("My Message") });
+
+      assert.isTrue(remoteSpy.called);
+      assert.isTrue(rsaSpy.notCalled);
+    });
+  });
 });

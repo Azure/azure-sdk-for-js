@@ -2,6 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "declarationDir": "./types",
+    "esModuleInterop": true,
     "outDir": "./dist-esm",
     "lib": ["dom"],
     "resolveJsonModule": true

@@ -51,6 +51,8 @@ export class CryptographyClient {
    */
   private remoteProvider?: RemoteCryptographyProvider;
 
+  private forceRemote: boolean = false;
+
   /**
    * Constructs a new instance of the Cryptography client for the given key
    *
@@ -124,6 +126,13 @@ export class CryptographyClient {
         kind: "JsonWebKey",
         value: key
       };
+    }
+
+    if (pipelineOptions.remoteOnly) {
+      if (this.key.kind === "JsonWebKey") {
+        throw new Error("The remoteOnly flag cannot be used with a local JsonWebKey");
+      }
+      this.forceRemote = pipelineOptions.remoteOnly;
     }
   }
 
@@ -522,7 +531,11 @@ export class CryptographyClient {
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
       const keyMaterial = await this.getKeyMaterial();
-      this.providers = [new RsaCryptographyProvider(keyMaterial)];
+      this.providers = [];
+
+      if (!this.forceRemote) {
+        this.providers.push(new RsaCryptographyProvider(keyMaterial));
+      }
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
       // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.
