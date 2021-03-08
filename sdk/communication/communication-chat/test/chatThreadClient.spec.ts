@@ -120,10 +120,4 @@ describe("ChatThreadClient", function() {
       list.push(receipt.chatMessageId!);
     }
   });
-
-  it("successfully gets the thread properties", async function() {
-    const thread = await chatThreadClient.getProperties();
-
-    assert.equal(threadId, thread.id);
-  });
 });
