@@ -109,7 +109,7 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           await receiveMessages(numberOfMessagesToSend);
           await verifyMessageCount(0, entityName);
         }
-      );
+      ).timeout(300000);
     });
   });
 
