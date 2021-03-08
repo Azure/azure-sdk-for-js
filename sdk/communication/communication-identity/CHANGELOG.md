@@ -5,6 +5,7 @@
 ### Breaking Changes
 
 - `CommunicationIdentityClient` method `issueToken` renamed to `getToken`.
+- `CommunicationIdentityClient` method `createUserWithToken` renamed to `createUserAndToken`.
 - Renamed `CommunicationIdentityOptions` to `CommunicationIdentityClientOptions`.
 - Removed `_response` from returned models.
 

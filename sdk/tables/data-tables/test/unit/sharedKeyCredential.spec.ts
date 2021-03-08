@@ -7,7 +7,7 @@ import {
   PipelineResponse,
   createHttpHeaders,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import { isNode } from "../testUtils";
 import { assert } from "chai";
 

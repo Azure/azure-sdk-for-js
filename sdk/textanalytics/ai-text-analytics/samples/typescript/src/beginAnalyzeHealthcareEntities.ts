@@ -29,13 +29,24 @@ export async function main() {
   const poller = await client.beginAnalyzeHealthcareEntities(documents, "en", {
     includeStatistics: true
   });
+
+  poller.onProgress(() => {
+    console.log(
+      `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`
+    );
+  });
+  console.log(
+    `The analyze healthcare entities operation was created on ${
+      poller.getOperationState().createdOn
+    }`
+  );
+  console.log(
+    `The analyze healthcare entities operation results will expire on ${
+      poller.getOperationState().expiresOn
+    }`
+  );
+
   const results = await poller.pollUntilDone();
-  console.log(
-    `The healthcare operation created on ${poller.getOperationState().createdOn} finished process`
-  );
-  console.log(
-    `The healthcare operation results will expire on ${poller.getOperationState().expiresOn}`
-  );
 
   for await (const result of results) {
     console.log(`- Document ${result.id}`);
@@ -50,7 +61,7 @@ export async function main() {
           }
         }
       }
-      if (result.entityRelations.length > 0) {
+      if (result.entityRelations?.length > 0) {
         console.log(`\tRecognized relations between entities:`);
         for (const relation of result.entityRelations) {
           console.log(

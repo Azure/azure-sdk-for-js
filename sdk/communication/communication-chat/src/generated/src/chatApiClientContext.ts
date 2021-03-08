@@ -18,8 +18,8 @@ export class ChatApiClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the ChatApiClientContext class.
-   * @param endpoint - The endpoint of the Azure Communication resource.
-   * @param options - The parameter options
+   * @param endpoint The endpoint of the Azure Communication resource.
+   * @param options The parameter options
    */
   constructor(endpoint: string, options?: ChatApiClientOptionalParams) {
     if (endpoint === undefined) {
@@ -46,6 +46,6 @@ export class ChatApiClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-11-01-preview3";
+    this.apiVersion = options.apiVersion || "2021-01-27-preview4";
   }
 }
