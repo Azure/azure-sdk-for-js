@@ -175,33 +175,45 @@ describe("[API Key] TextAnalyticsClient", function() {
           assert.equal(doc1Entity1.text, "Baby");
           assert.equal(doc1Entity1.category, "Age");
           assert.equal(doc1Entity1.normalizedText, "Infant");
+          assert.isUndefined(doc1Entity1.assertion?.association);
+          assert.isUndefined(doc1Entity1.assertion?.conditionality);
 
           const doc1Entity2 = doc1.entities[1];
           assert.equal(doc1Entity2.text, "Meningitis");
           assert.equal(doc1Entity2.category, "Diagnosis");
           assert.equal(doc1Entity2.assertion?.certainty, "negativePossible");
           assert.equal(doc1Entity2.normalizedText, "Meningitis");
+          assert.isUndefined(doc1Entity2.assertion?.association);
+          assert.isUndefined(doc1Entity2.assertion?.conditionality);
 
           const doc1Entity3 = doc1.entities[2];
           assert.equal(doc1Entity3.text, "fever");
           assert.equal(doc1Entity3.normalizedText, "Fever");
           assert.equal(doc1Entity3.category, "SymptomOrSign");
+          assert.isUndefined(doc1Entity3.assertion?.association);
+          assert.isUndefined(doc1Entity3.assertion?.conditionality);
 
           const doc1Entity4 = doc1.entities[3];
           assert.equal(doc1Entity4.text, "mother");
           assert.equal(doc1Entity4.normalizedText, "Mother (person)");
           assert.equal(doc1Entity4.category, "FamilyRelation");
+          assert.isUndefined(doc1Entity4.assertion?.association);
+          assert.isUndefined(doc1Entity4.assertion?.conditionality);
 
           const doc1Entity5 = doc1.entities[4];
           assert.equal(doc1Entity5.text, "Penicillin");
           assert.equal(doc1Entity5.category, "MedicationName");
           assert.equal(doc1Entity5.normalizedText, "penicillins");
           assert.equal(doc1Entity5.assertion?.certainty, "neutralPossible");
+          assert.isUndefined(doc1Entity5.assertion?.association);
+          assert.isUndefined(doc1Entity5.assertion?.conditionality);
 
           const doc1Entity6 = doc1.entities[5];
           assert.equal(doc1Entity6.text, "baby");
           assert.equal(doc1Entity6.category, "Age");
           assert.equal(doc1Entity6.normalizedText, "Infant");
+          assert.isUndefined(doc1Entity6.assertion?.association);
+          assert.isUndefined(doc1Entity6.assertion?.conditionality);
 
           assert.isEmpty(doc1.entityRelations);
         }
