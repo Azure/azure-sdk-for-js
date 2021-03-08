@@ -125,7 +125,7 @@ export function validateProducerPartitionSettings({
 }): void {
   if (enableIdempotentPartitions && (isDefined(partitionKey) || !isDefined(partitionId))) {
     throw new Error(
-      `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+      `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
     );
   }
 

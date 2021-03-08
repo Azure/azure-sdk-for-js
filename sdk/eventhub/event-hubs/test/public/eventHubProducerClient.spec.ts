@@ -110,7 +110,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -126,7 +126,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -167,7 +167,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -184,7 +184,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `"partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
