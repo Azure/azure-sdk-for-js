@@ -66,11 +66,11 @@ let createChatThreadRequest =
     participants:
         [
             {
-                user: { communicationUserId: '<USER_ID_FOR_JACK>' },
+                id: { communicationUserId: '<USER_ID_FOR_JACK>' },
                 displayName: 'Jack'
             },
             {
-                user: { communicationUserId: '<USER_ID_FOR_GEETA>' },
+                id: { communicationUserId: '<USER_ID_FOR_GEETA>' },
                 displayName: 'Geeta'
             }
         ]
@@ -146,7 +146,7 @@ let addChatParticipantsRequest =
 {
     participants: [
         {
-            user: { communicationUserId: userTokenResponse.identity },
+            id: { communicationUserId: userTokenResponse.identity },
             displayName: '<NAME>',
             shareHistoryTime: '<TIME>'
         }
