@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.4 (Unreleased)
+## 4.2.0-beta.4 (2021-03-09)
 
 - Updated the Latest service version to 7.2.
 - Added `curve` to `createKeyOptions` to be used when creating an `EC` key.
