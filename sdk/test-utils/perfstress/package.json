@@ -25,7 +25,7 @@
     "lint": "eslint package.json src test --ext .ts -f html -o perfstress-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "perfstress-test:node": "npm run build && node dist-esm/test/index.spec.js",
+    "perf-test:node": "npm run build && node dist-esm/test/index.spec.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

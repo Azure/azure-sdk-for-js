@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { StringIndexType as GeneratedStringIndexType } from "./generated";
@@ -124,6 +124,17 @@ export function AddParamsToTask<X>(action: X): { parameters?: X } {
 }
 
 /**
+ * Set the modelVersion property with default if it does not exist in x.
+ * @param options - operation options bag that has a {@link StringIndexType}
+ * @internal
+ */
+export function setModelVersionParam<X extends { modelVersion?: string }>(
+  x: X
+): X & { modelVersion: string } {
+  return { ...x, modelVersion: x.modelVersion || "latest" };
+}
+
+/**
  * @internal
  */
 export interface PageParam {
@@ -187,7 +198,7 @@ export function handleInvalidDocumentBatch(error: unknown): any {
   const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
   if (innerMessage) {
     return innerCode === "InvalidDocumentBatch"
-      ? new RestError(innerMessage, innerCode, castError.statusCode)
+      ? new RestError(innerMessage, { code: innerCode, statusCode: castError.statusCode })
       : error;
   } else {
     // unfortunately, the service currently does not follow the swagger definition
@@ -201,4 +212,21 @@ export function handleInvalidDocumentBatch(error: unknown): any {
     );
     return error;
   }
+}
+
+/**
+ * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @internal
+ * @param timeInMs - The number of milliseconds to be delayed.
+ * @returns Resolved promise
+ */
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
+}
+
+/**
+ * @internal
+ */
+export function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
+  return (value: T1) => fn2(fn1(value));
 }

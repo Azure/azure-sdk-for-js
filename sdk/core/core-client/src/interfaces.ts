@@ -9,8 +9,8 @@ import {
   TransferProgressEvent,
   PipelineRequest,
   PipelineOptions,
-  HttpsClient
-} from "@azure/core-https";
+  HttpClient
+} from "@azure/core-rest-pipeline";
 
 /**
  * Default key used to access the XML attributes.
@@ -547,5 +547,5 @@ export interface CommonClientOptions extends PipelineOptions {
   /**
    * The HttpClient that will be used to send HTTP requests.
    */
-  httpsClient?: HttpsClient;
+  httpClient?: HttpClient;
 }

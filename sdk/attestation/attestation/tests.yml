@@ -8,6 +8,8 @@ stages:
       TimeoutInMinutes: 90
       Clouds: Preview
       Location: westus
+      MatrixFilters:
+        - DependencyVersion=^$
       MatrixConfigs:
         - Name: Attestation_live_test_base
           Path: sdk/attestation/platform-matrix.json

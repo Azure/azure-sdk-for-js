@@ -5,9 +5,9 @@ import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { SpanContext } from "@opentelemetry/api";
+import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from "./diagnostics/tracing";
+import { convertTryAddOptionsForCompatibility, createMessageSpan } from "./diagnostics/tracing";
 import { defaultDataTransformer } from "./dataTransformer";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { OperationTracingOptions } from "@azure/core-tracing";
@@ -47,6 +47,11 @@ export interface TryAddOptions {
    * The options to use when creating Spans for tracing.
    */
   tracingOptions?: OperationTracingOptions;
+
+  /**
+   * @deprecated Tracing options have been moved to the `tracingOptions` property.
+   */
+  parentSpan?: Span | SpanContext;
 }
 
 /**
@@ -281,6 +286,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
+    options = convertTryAddOptionsForCompatibility(options);
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(

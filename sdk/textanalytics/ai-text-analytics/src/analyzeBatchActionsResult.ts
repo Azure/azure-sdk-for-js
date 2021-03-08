@@ -12,7 +12,6 @@ import {
   TasksStateTasksEntityRecognitionPiiTasksItem,
   TasksStateTasksEntityRecognitionTasksItem,
   TasksStateTasksKeyPhraseExtractionTasksItem,
-  TextDocumentBatchStatistics,
   TextDocumentInput
 } from "./generated/models";
 import {
@@ -184,12 +183,12 @@ export type PagedAsyncIterableAnalyzeBatchActionsResult = PagedAsyncIterableIter
  */
 export interface PagedAnalyzeBatchActionsResult
   extends PagedAsyncIterableAnalyzeBatchActionsResult {
-  /**
-   * Statistics about the input document batch and how it was processed
-   * by the service. This property will have a value when includeStatistics is set to true
-   * in the client call.
-   */
-  statistics?: TextDocumentBatchStatistics;
+  // /**
+  //  * Statistics about the input document batch and how it was processed
+  //  * by the service. This property will have a value when includeStatistics is set to true
+  //  * in the client call.
+  //  */
+  // statistics?: TextDocumentBatchStatistics;
 }
 
 /**
@@ -258,7 +257,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
 export function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
   if (erredActions.target) {
     const regex = new RegExp(
-      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks)\/(\d+)/
+      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks)\/(\d+)/
     );
     const result = regex.exec(erredActions.target);
     if (result !== null) {

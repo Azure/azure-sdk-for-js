@@ -5,3 +5,5 @@ stages:
     parameters:
       PackageName: "@azure/communication-chat"
       ServiceDirectory: communication
+      MatrixFilters:
+        - DependencyVersion=^$

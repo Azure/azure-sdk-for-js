@@ -14,7 +14,7 @@ export const createCommunicationTokenCredentialPolicy = (
 ): RequestPolicyFactory => {
   return bearerTokenAuthenticationPolicy(
     {
-      getToken: (_scopes, options) => credential.getToken(options?.abortSignal)
+      getToken: (_scopes, options) => credential.getToken({ abortSignal: options?.abortSignal })
     },
     []
   );

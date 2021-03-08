@@ -7,3 +7,5 @@ stages:
       ServiceDirectory: storage
       Location: canadacentral
       Clouds: 'Preview'
+      MatrixFilters:
+        - DependencyVersion=^$

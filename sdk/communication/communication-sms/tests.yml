@@ -5,6 +5,8 @@ stages:
     parameters:
       PackageName: "@azure/communication-sms"
       ServiceDirectory: communication
+      MatrixFilters:
+        - DependencyVersion=^$
       EnvVars:
         AZURE_SUBSCRIPTION_ID: $(acs-subscription-id)
         AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: $(communication-livetest-connection-string)

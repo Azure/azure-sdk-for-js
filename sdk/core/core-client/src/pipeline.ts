@@ -7,7 +7,7 @@ import {
   Pipeline,
   createPipelineFromOptions,
   bearerTokenAuthenticationPolicy
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 import { serializationPolicy, SerializationPolicyOptions } from "./serializationPolicy";
 

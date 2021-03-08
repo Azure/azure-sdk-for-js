@@ -23,9 +23,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '00e7a394-10ca-4f08-a053-104bfe384e5a',
+  '8367e433-4ace-447b-9759-fa2572210125',
   'x-ms-keyvault-service-version',
-  '1.2.164.2',
+  '1.2.191.0',
   'x-ms-keyvault-network-info',
   'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
   'X-Powered-By',
@@ -35,7 +35,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:13:44 GMT'
+  'Fri, 05 Mar 2021 02:03:18 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -56,17 +56,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f275c851-4f98-46c6-b31a-aa2ee08ff600',
+  '94c0aea6-01ab-4a5c-81ac-5dfe14404200',
   'x-ms-ests-server',
-  '2.1.11496.5 - NCUS ProdSlices',
+  '2.1.11530.15 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlYh5w5_onJDnZLEqg70g4sA4qsDFAAAAFQBvtcOAAAA; expires=Thu, 18-Mar-2021 18:13:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlU307WCW0NBjA_doLoV1p4sYtMRCgAAAMiH09cOAAAA; expires=Sun, 04-Apr-2021 02:03:19 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 16 Feb 2021 18:13:44 GMT',
+  'Fri, 05 Mar 2021 02:03:19 GMT',
   'Content-Length',
   '1315'
 ]);
@@ -74,7 +74,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/cryptography-client-test/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/4fac2e9e4f0c4242a4dd330dafac54d3","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uYUqciTb7KKgA597FnXJAmXOe_xx2YyPz7Y0ArcjEtXGQliLDrknHlN_hMhP8GJ3Vv1t7Z_UMlLdw4el5rLbIAGfTCedKLhH9kC4b5lE0M57SSnqOgRMpkynRYVEE3g4nTLWbMWYmHBkurCCtzGayqGMfg9toAqqZCwDlL0N9pYxXCx2D1IuQW0-q7iuwQlrV874mDS8xtEMdVKyxLiUB_UIApcaACcDDZmQlYjBkjrpiH-JGVMdO-u-U7pEikX0ShpbY2xtdMkBukiqLMJOsB9xI92vlHK901WWDrc_jxcnHiLr1TAuMSwG3IiK2zfaBK3dT4nV7rO4P09es5R9_Q","e":"AQAB"},"attributes":{"enabled":true,"created":1613499224,"updated":1613499224,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/70f9ba6cae854492a2f09216f0a36bd9","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"yxvqqPaGB7Wdhg-qDQtkN2w3Df0fxS86pZdxoGZ6SXh5LPShEU4zaBagJzSyQYMOOELz8M5GaWSQUFm9uADCaH0GIk0tvKvP0I4BDmBuPuJOMeKOXzd2uB0Wt2uW0uff7xzlfYdeiEgRwlmJPzV2t2UNsaxjLzG2JjSeSa0z_C7PDPa3-Wp88hGPZUcLvdPBMDPKbOIIdjIOhyIC0k9oQsOG4cN-0pcL_nzDpos9vR54zcsTAmOlLafVmwcPmosdlHwDrh_UE-fbtULGyd78hm285P9XyBQYWmVb7SSzkfGbF7OHHnzlmwoRZ2pCHij1CfRyw-Dr4m727ToFqRw1XQ","e":"AQAB"},"attributes":{"enabled":true,"created":1614909799,"updated":1614909799,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -86,9 +86,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-request-id',
-  '08caf440-b81a-4b23-9a5a-035f67be5705',
+  '401a5297-b47c-46f6-98a8-6b517e098efb',
   'x-ms-keyvault-service-version',
-  '1.2.164.2',
+  '1.2.191.0',
   'x-ms-keyvault-network-info',
   'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
   'X-Powered-By',
@@ -98,7 +98,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 16 Feb 2021 18:13:44 GMT',
+  'Fri, 05 Mar 2021 02:03:19 GMT',
   'Content-Length',
-  '714'
+  '715'
 ]);

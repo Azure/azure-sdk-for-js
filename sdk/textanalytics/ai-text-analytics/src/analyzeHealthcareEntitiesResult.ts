@@ -184,6 +184,9 @@ function makeHealthcareEntitiesWithoutNeighbors(
   };
 }
 
+/**
+ * @internal
+ */
 function makeHealthcareRelations(
   entities: HealthcareEntity[],
   relations: HealthcareRelation[]
