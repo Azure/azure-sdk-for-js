@@ -677,19 +677,25 @@ export class MessageSession extends LinkEntity<Receiver> {
             numberOfEmptyIncomingSlots(this.link) > 1
           ) {
             this._receiverHelper.addCredit(1);
+          } else if (this.link) {
+            if (numberOfEmptyIncomingSlots(this.link) > 1) {
+              this._receiverHelper.addCredit(1);
+            } else {
+              this._notifyError?.({
+                error: new ServiceBusError(
+                  `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.` +
+                    ` Or set the "autoCompleteMessages" flag to true to let the library complete the messages on your behalf.`,
+                  "GeneralError"
+                ),
+                errorSource: "receive",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host
+              });
+            }
           } else {
-            // Additionally.. have a checkWithTimeout that keeps checking if the above if-condition satisfies
-            // If it ever satisfies - add the credit
-            this._notifyError?.({
-              error: new ServiceBusError(
-                `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
-                Or set the "autoComplete" flag to true to let the library complete the messages on your behalf.`,
-                "GeneralError"
-              ),
-              errorSource: "receive",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
-            });
+            // Link doesn't exist
+            // SessionLockLost will be notified in one of the listeners
+            // So, not notifying here
           }
         }
 
@@ -726,7 +732,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
           // Wait for the user to clear the deliveries before adding more credits
-          while (numberOfEmptyIncomingSlots(this.link) <= 1) {
+          while (this.link && numberOfEmptyIncomingSlots(this.link) <= 1) {
             await delay(1000);
             if (numberOfEmptyIncomingSlots(this.link) > 1) {
               this._receiverHelper.addCredit(1);
