@@ -1798,7 +1798,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      it.only("operation metadata", async function() {
+      it("operation metadata", async function() {
         const docs = [
           { id: "1", text: "I will go to the park." },
           { id: "2", text: "Este es un document escrito en Español." },
