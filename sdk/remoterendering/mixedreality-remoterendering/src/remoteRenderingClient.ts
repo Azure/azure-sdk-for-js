@@ -6,15 +6,17 @@ import {
   OperationOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions,
+  InternalPipelineOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 
 import { RemoteRenderingRestClient } from "./generated";
-import { RemoteRenderingRestClientOptionalParams } from "./generated/models/index";
+import { AssetConversionOptions, RemoteRenderingCreateConversionResponse, RemoteRenderingRestClientOptionalParams } from "./generated/models/index";
 
+// TODO: Maybe copy and paste this?
+import { constructAuthenticationEndpointFromDomain } from "../../../mixedreality/mixedreality-authentication/src/util/authenticationEndpoint";
 import { RemoteRenderingClientOptions } from "./options";
 import { MixedRealityTokenCredential } from "../authentication/mixedRealityTokenCredential";
 import { StaticAccessTokenCredential } from "../authentication/staticAccessTokenCredential";
@@ -23,20 +25,21 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 
-// TODO: Maybe copy and paste this?
-import { constructAuthenticationEndpointFromDomain } from "../../../mixedreality/mixedreality-authentication/src/util/authenticationEndpoint";
+import { PollerLike } from "@azure/core-lro";
+
 
 import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
-import { AssetConversion } from "./generated/models/index"
+import { AssetConversion } from "./generated/models/index";
 import { RemoteRendering } from "./generated/operations";
+import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
 
 /**
  * The client class used to interact with the App Configuration service.
  */
 export class RemoteRenderingClient {
   private client: RemoteRenderingRestClient;
-  private operations : RemoteRendering;
+  private operations: RemoteRendering;
 
   /**
    * Creates an instance of a MixedRealityStsClient.
@@ -137,6 +140,20 @@ export class RemoteRenderingClient {
     this.operations = new RemoteRendering(this.client);
   }
 
+  public async beginConversion(
+    accountId: string,
+    conversionId: string,
+    conversionOptions: AssetConversionOptions,
+    options?: OperationOptions
+  ): Promise<PollerLike<AssetConversionOperationState, AssetConversion>> {
+    let assetConversion : RemoteRenderingCreateConversionResponse = await this.operations.createConversion(accountId, conversionId, { settings : conversionOptions }, options);
+    
+    let poller = new AssetConversionPoller(this, accountId, assetConversion);
+
+    await poller.poll();
+    return poller;
+  }
+
   /**
    * Gets the status of a particular conversion.
    * @param accountId The Azure Remote Rendering account ID.
@@ -150,12 +167,16 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: OperationOptions
   ): Promise<AssetConversion> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetConversion", { conversionId : conversionId, ...options });
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetConversion", {
+      conversionId: conversionId,
+      ...options
+    });
 
     try {
       let result = await this.operations.getConversion(accountId, conversionId, updatedOptions);
 
-      return Promise.resolve(result as AssetConversion);
+      // TODO Presumably, this may not carry a conversion object.
+      return Promise.resolve(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
