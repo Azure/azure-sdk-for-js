@@ -124,9 +124,7 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     describe("upsertRoleDefinition", function() {
-      it.skip("errors when name is not a valid guid", async function() {
-        // There's a service issue preventing this test from running.
-        // Skipping until ADO 9226405 is resolved
+      it("errors when name is not a valid guid", async function() {
         await assert.isRejected(client.upsertRoleDefinition(globalScope, "foo", []));
       });
 
