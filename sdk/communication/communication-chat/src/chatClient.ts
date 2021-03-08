@@ -39,7 +39,11 @@ import {
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
-import { mapToChatThreadSdkModel, mapToChatParticipantRestModel } from "./models/mappers";
+import {
+  mapToChatThreadSdkModel,
+  mapToChatParticipantRestModel,
+  mapToCreateChatThreadResultSdkModel
+} from "./models/mappers";
 import {
   ChatThreadInfo,
   CreateChatThreadResult,
@@ -140,7 +144,7 @@ export class ChatClient {
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
+      return mapToCreateChatThreadResultSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
