@@ -85,11 +85,11 @@ const sendResults = await client.send(
   {
     from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
     to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
-    message: "Hello World via SMS!" // The message being sent
+    message: "Weekly Promotion!" // The message being sent
   },
   {
     enableDeliveryReport: true,
-    tag: "TypeScriptSMSSample"
+    tag: "marketing"
   }
 );
 
