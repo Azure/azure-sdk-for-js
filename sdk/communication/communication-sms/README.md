@@ -39,7 +39,7 @@ You can get a key and/or connection string from your Communication Services reso
 ```typescript
 import { SmsClient } from "@azure/communication-sms";
 
-const connectionString = `endpoint=<Host>;accessKey=<Base64-Encoded-Key>`;
+const connectionString = `endpoint=https://<resource-name>.communication.azure.com/;accessKey=<Base64-Encoded-Key>`;
 const client = new SmsClient(connectionString);
 ```
 
@@ -49,8 +49,9 @@ const client = new SmsClient(connectionString);
 import { AzureKeyCredential } from "@azure/core-auth";
 import { SmsClient } from "@azure/communication-sms";
 
+const endpoint = "https://<resource-name>.communication.azure.com";
 const credential = new AzureKeyCredential("<Base64-Encoded-Key>");
-const client = new SmsClient("<Host>", credential);
+const client = new SmsClient(endpoint, credential);
 ```
 
 ### Using Azure Active Directory managed identity
@@ -62,32 +63,69 @@ npm install @azure/identity
 ```
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The README for @azure/identity provides more details and samples to get you started.
+AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { SmsClient } from "@azure/communication-sms";
 
+const endpoint = "https://<resource-name>.communication.azure.com";
 let credential = new DefaultAzureCredential();
 const client = new SmsClient(endpoint, credential);
 ```
 
-## Sending SMS
+## Send a 1:N SMS Message
+
+To send a SMS message, call the `send` function from the `SmsClient`. You need to pass in a `SmsSendRequest` object.
+You may also add pass in an options object to specify whether the delivery report should be enabled and set custom tags for the report.
+An array of `SmsSendResult` is returned. A `successful` flag is used to validate if each individual message was sent successfully.
 
 ```typescript
-import { AzureKeyCredential } from "@azure/core-auth";
-import { SmsClient } from "@azure/communication-sms";
+const sendResults = await client.send(
+  {
+    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
+    message: "Weekly Promotion!" // The message being sent
+  },
+  {
+    enableDeliveryReport: true,
+    tag: "marketing"
+  }
+);
 
-const credential = new AzureKeyCredential("<Base64-Encoded-Key>");
-const client = new SmsClient("<Host>", credential);
-
-const response = await client.send({
-  from: "+12345678902",
-  to: ["+12345678901"],
-  message: "Hey there!"
-});
+for (const sendResult of sendResults) {
+  if (sendResult.successful) {
+    console.log("Success: ", sendResult);
+  } else {
+    console.error("Something went wrong when trying to send this message: ", sendResult);
+  }
+}
 ```
 
 ## Troubleshooting
+
+SMS operations will throw an exception if the request to the server fails.
+Exceptions will not be thrown if the error is caused by an individual message, only if something fails with the overall request.
+Please use the `successful` flag to validate each individual result to verify if the message was sent.
+
+```typescript
+try {
+  const sendResults = await client.send({
+    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
+    message: "Hello World via SMS!" // The message being sent
+  });
+  for (const sendResult of sendResults) {
+    if (sendResult.successful) {
+      console.log("Success: ", sendResult);
+    } else {
+      console.error("Something went wrong when trying to send this message: ", sendResult);
+    }
+  }
+} catch (e) {
+  console.error(e.message);
+}
+```
 
 ## Next steps
 
