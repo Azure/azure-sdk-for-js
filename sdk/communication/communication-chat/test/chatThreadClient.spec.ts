@@ -50,7 +50,7 @@ describe("ChatThreadClient", function() {
 
     // Create ChatThreadClient
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
-  });
+  }).timeout(8000);
 
   it("successfully updates the thread topic", async function() {
     const topic = "new topic";

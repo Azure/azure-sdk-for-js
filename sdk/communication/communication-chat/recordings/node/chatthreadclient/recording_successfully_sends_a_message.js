@@ -5,25 +5,25 @@ module.exports.hash = "397e36863f23efcd229d410a33dcc37f";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/chat/threads/19%3A7190b8f01425417281a9998f4e6f8899%40thread.v2/messages', {"content":"content"})
+  .post('/chat/threads/19%3AxJokSX16Y2F85VvvE_ahCQKJkFIc2Oy4FTcjP9Mjww41%40thread.v2/messages', {"content":"content"})
   .query(true)
-  .reply(201, {"id":"1614300005782"}, [
+  .reply(201, {"id":"1614993263622"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  'https://azurecommunicationservices.communication.azure.com/chat/threads/19%3A7190b8f01425417281a9998f4e6f8899@thread.v2/messages/1614300005782',
+  'https://kimtestacs.communication.azure.com/chat/threads/19%3AxJokSX16Y2F85VvvE_ahCQKJkFIc2Oy4FTcjP9Mjww41@thread.v2/messages/1614993263622',
   'MS-CV',
-  'LbdPkc7G7UmqemhTyr2RXQ.0',
+  '8MmWVu9sekS2oznweRhj1Q.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
-  '2020-09-21-preview2, 2020-11-01-preview3, 2021-01-27-preview4',
+  '2020-09-21-preview2, 2020-11-01-preview3, 2021-01-27-preview4, 2021-03-01-preview5',
   'X-Processing-Time',
-  '219ms',
+  '153ms',
   'X-Azure-Ref',
-  '0ZUM4YAAAAAAlXJGGUJkXQbINaL4zmbpXV1NURURHRTA4MDgAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0b9dCYAAAAABM3WaxUomVQ6TU+9Yax6e4WVZSMzBFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 26 Feb 2021 00:40:05 GMT'
+  'Sat, 06 Mar 2021 01:14:23 GMT'
 ]);
