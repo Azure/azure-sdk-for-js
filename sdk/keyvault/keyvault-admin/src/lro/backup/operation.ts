@@ -142,13 +142,13 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     state.status = status;
     state.statusDetails = statusDetails;
 
-    if (error?.message) {
-      throw new Error(error?.message);
+    if (status?.toLowerCase() === "failed") {
+      throw new Error(error?.message || statusDetails);
     }
 
     state.isCompleted = !!endTime;
 
-    if (state.isCompleted && azureStorageBlobContainerUri) {
+    if (state.isCompleted) {
       state.result = {
         backupFolderUri: azureStorageBlobContainerUri,
         startTime,
