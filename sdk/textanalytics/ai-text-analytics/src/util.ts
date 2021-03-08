@@ -223,3 +223,10 @@ export function handleInvalidDocumentBatch(error: unknown): any {
 export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
+
+/**
+ * @internal
+ */
+export function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
+  return (value: T1) => fn2(fn1(value));
+}

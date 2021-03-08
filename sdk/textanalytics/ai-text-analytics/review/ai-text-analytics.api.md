@@ -22,6 +22,7 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
     actionsFailedCount?: number;
     actionsInProgressCount?: number;
     actionsSucceededCount?: number;
+    displayName?: string;
 }
 
 // @public
@@ -95,6 +96,7 @@ export { AzureKeyCredential }
 
 // @public
 export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
+    displayName?: string;
     includeStatistics?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -171,7 +173,7 @@ export interface EntityAssertion {
 export type EntityAssociation = "subject" | "other";
 
 // @public
-export type EntityCertainty = "Positive" | "PositivePossible" | "NeutralPossible" | "NegativePossible" | "Negative";
+export type EntityCertainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
 
 // @public
 export type EntityConditionality = "Hypothetical" | "Conditional";
@@ -318,7 +320,6 @@ export interface Opinion {
 
 // @public
 export interface PagedAnalyzeBatchActionsResult extends PagedAsyncIterableAnalyzeBatchActionsResult {
-    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
@@ -428,7 +429,6 @@ export type RecognizePiiEntitiesAction = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    categoriesFilter?: PiiEntityCategory[];
 };
 
 // @public

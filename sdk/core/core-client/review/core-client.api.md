@@ -5,8 +5,8 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
-import { HttpsClient } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-rest-pipeline';
@@ -37,7 +37,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
-    httpsClient?: HttpsClient;
+    httpClient?: HttpClient;
 }
 
 // @public (undocumented)

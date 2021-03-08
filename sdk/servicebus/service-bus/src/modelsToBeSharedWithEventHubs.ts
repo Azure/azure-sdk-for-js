@@ -3,7 +3,7 @@
 
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
-import { CanonicalCode, Span } from "@opentelemetry/api";
+import { CanonicalCode, Span, SpanContext } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
@@ -22,6 +22,11 @@ export interface TryAddOptions {
    * The options to use when creating Spans for tracing.
    */
   tracingOptions?: OperationTracingOptions;
+
+  /**
+   * @deprecated Tracing options have been moved to the `tracingOptions` property.
+   */
+  parentSpan?: Span | SpanContext;
 }
 
 /**

@@ -147,8 +147,8 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
 
     state.isCompleted = !!endTime;
 
-    if (error?.message) {
-      throw new Error(error?.message);
+    if (status?.toLowerCase() === "failed") {
+      throw new Error(error?.message || statusDetails);
     }
 
     if (state.isCompleted) {

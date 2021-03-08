@@ -2,59 +2,9 @@
 
 ## Getting started
 
-Install it with:
+To start a new perf test project for the your SDK in the js repository, follow the steps in the [GettingStarted.md](https://github.com/Azure/azure-sdk-for-js/blob/c1c5f556a1a29d4a38019f1cc97fadb99375d6d5/sdk/test-utils/perfstress/GettingStarted.md).
 
-```
-rush add -p @azure/test-utils-perfstress
-```
-
-Then, in a folder called `perfstress` inside of your client, create a new TypeScript file,
-with a name similar to `myTest.spec.ts`, with something similar to the following test:
-
-```ts
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { PerfStressTest } from "@azure/test-utils-perfstress";
-
-export class MyTest extends PerfStressTest<string> {
-  public options = {};
-
-  async runAsync(): Promise<void> {}
-}
-```
-
-Make sure this folder is included in the `include` array on the `tsconfig.json` file.
-
-Create a new TypeScript file in the `perfstress` directory called `index.spec.ts`, with content similar to:
-
-```ts
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
-
-// Tests:
-import { MyTest } from "./myTest.spec";
-
-console.log("=== Starting a PerfStress test for MyClient ===");
-
-const perfStressProgram = new PerfStressProgram(selectPerfStressTest([MyTest]));
-
-perfStressProgram.run();
-```
-
-Add the following script to the list of scripts in your `package.json`:
-
-```json
-  "perf-test:node": "rushx build && node dist-esm/test/index.spec.js",
-```
-
-Now you'll be able to call your new PerfStress test as follows:
-
-```
-npm run perf-test:node -- MyTest --warmup 2 --duration 4 --iterations 2
-```
+Link to the wiki - [Writing-Performance-Tests](https://github.com/Azure/azure-sdk-for-js/wiki/Writing-Performance-Tests) (has the same contents as the GettingStarted docs)
 
 ## KeyConcepts
 

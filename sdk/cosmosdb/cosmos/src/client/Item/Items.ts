@@ -390,7 +390,7 @@ export class Items {
    *    }
    * ]
    *
-   * await database.container.items.bulk(operation)
+   * await database.container.items.bulk(operations)
    * ```
    *
    * @param operations - List of operations. Limit 100

@@ -65,6 +65,11 @@ describe("KeyVaultBackupClient", () => {
 
   describe("beginRestore", function() {
     it("full restore completes successfully", async function() {
+      if (!isPlaybackMode()) {
+        // There is a service issue preventing backups from completing successfully.
+        // Skipped until that is resolved.
+        this.skip();
+      }
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,

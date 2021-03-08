@@ -6,6 +6,7 @@
 - Added `curve` to `createKeyOptions` to be used when creating an `EC` key.
 - Deprecated the current `encrypt` and `decrypt` methods in favor of the more flexible overloads that take an `{Encrypt|Decrypt}Parameters` and allow passing in algorithm specific parameters. This enables support for the various AES algorithms used in Managed HSM. The deprecated methods continue to function and there's no timeline for their removal.
 - Added `additionalAuthenticatedData`, `iv`, and `authenticationTag` to `EncryptResult` in order to support AES encryption and decryption.
+- Refactored the various cryptography providers and updated the error messages to be clearer and more descriptive.
 
 ## 4.2.0-beta.3 (2021-02-09)
 

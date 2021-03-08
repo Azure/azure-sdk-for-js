@@ -182,10 +182,10 @@ export interface PipelineResponse {
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 /**
- * The required interface for a client that makes HTTPS requests
+ * The required interface for a client that makes HTTP requests
  * on behalf of a pipeline.
  */
-export interface HttpsClient {
+export interface HttpClient {
   /**
    * The method that makes the request and returns a response.
    */
