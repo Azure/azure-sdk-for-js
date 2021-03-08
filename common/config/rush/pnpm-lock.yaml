@@ -8642,7 +8642,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-yNdgwUEuYIHKPfigSdMYW5bUtE4BuNGIUb+0RGNPOyVBCkPJn+LE9838LC9Yn0oJfK/RDks9jn4j7zLlJ6IQNA==
+      integrity: sha512-YiqbNdv3MFBYzV7kUH9+Bup43kWU0BczX60daHnlvKiucMBgLSNDUKVVtikhK0COST4ZL/NluvKyUf68VTWDfg==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
@@ -9006,6 +9006,7 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@5.2.3
       karma-remap-istanbul: 0.6.0_karma@5.2.3
+      karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
@@ -9023,7 +9024,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-ym/nRqbrbTji0cAK9CzbJ2ekmkImlYG6D8Iu/XnN+yD4X2TqMyo7Nsah7PqUjBFgUGnVt5P5wokUidGXRoHiug==
+      integrity: sha512-9BPPCBj6GLkkAqnTrJy4J40e0HqoG74b4ea0dFUZt3N8VWguTNmTF7mIj96W/AmkL3yOFgAZqPbUlkYUXDnLGQ==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -9278,7 +9279,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client'
     resolution:
-      integrity: sha512-Cqav18PzSRxHFNoRkUdip6ukKsDUe8s7kW1W1ROnNzhsKkYCQFKKPAUv+AAAEydbb5pgfvCfHQa0WopFQ6kS1A==
+      integrity: sha512-BRd6lassQH2zn4QiGC7cGr3b+TqRx0amW11t6pW8yc7NGEkl075UPHsv+hl5ZuReJkq5158vG4VzQHmD+unueg==
       tarball: file:projects/core-client.tgz
     version: 0.0.0
   file:projects/core-crypto.tgz:
@@ -9753,7 +9754,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-VpD7TFudSZ3XFPBw2CaLflUtmN+IywJ9rWcCXKTrzHqUpdWq+ydhYMkmKw0WKCzYrRiFZARnQx65M/upQNl+UA==
+      integrity: sha512-2duhcNW74QdBXIixKnK549rnwU56Zovxu8z9IgcYk0AHCpj9JFlJA+3WMHd0I2iuVeo0X8bBo+6ffVdOd5qUdA==
       tarball: file:projects/data-tables.tgz
     version: 0.0.0
   file:projects/dev-tool.tgz:
@@ -10060,7 +10061,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-V8vuB/yGQU+Glw2viD29kkswLk11nPWXjB2bJAcdOjhSGq3wAO2k0H8V68m6uBH14tYzk3THb+eHQ5J1iCs9QA==
+      integrity: sha512-DAFspaDeGaJnFcrGGngNcl8ACeRpngOfmDfd5Mj5KoiLasaxcnUinPg55+cO60eOr0G7xzjHJh5yBaoRwFWRgw==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -10634,7 +10635,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-nGUZE4eBMxwPYuZzyh8M0a35F2UPakKI8/6NQOqjnfqc0ELyIPbeuWzI5T6Hc50hZqBi+KWDn3OhBl6Gx2Hq/w==
+      integrity: sha512-7B68HVqbhIwibmuPlFc30X4gHFrv0hxihYb/TesiFOg/C5hVIOZw3X69uYiUQdg2+iC77FvVPTMmkImYyNi2oA==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/perf-storage-file-datalake.tgz:
@@ -11079,7 +11080,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-1xNZlXqppucdHJz6QNR8w+CF47SWmiOs0sEJ4+Jzt+SNBjVQzYpo6JrAUvngF3rHOU/mlRXkeksXzXvcRYnwUQ==
+      integrity: sha512-T/VMMtL0Vz5hEEuMWhex07MBbnLAp1XoPQ6/6NaDzlfDVPehF+Xxhyx7Wlu7yWGuaRgrO5nRPht7kv1sPfYmLQ==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
   file:projects/storage-file-datalake.tgz:
