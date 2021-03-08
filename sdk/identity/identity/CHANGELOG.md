@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.5 (Unreleased)
+
+
 ## 1.2.4 (2021-03-08)
 
 - Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13872](https://github.com/Azure/azure-sdk-for-js/issues/13872).
