@@ -216,7 +216,7 @@ describe("internal crypto tests", () => {
     });
   });
 
-  describe.only("using the remoteOnly option", () => {
+  describe("using the remoteOnly option", () => {
     let key: KeyVaultKey;
     beforeEach(() => {
       key = {

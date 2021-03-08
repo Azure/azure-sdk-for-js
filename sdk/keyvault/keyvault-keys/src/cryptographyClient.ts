@@ -51,7 +51,10 @@ export class CryptographyClient {
    */
   private remoteProvider?: RemoteCryptographyProvider;
 
-  private forceRemote: boolean = false;
+  /**
+   * When true this will force all cryptography operations to call the Key Vault API.
+   */
+  private remoteOnly: boolean = false;
 
   /**
    * Constructs a new instance of the Cryptography client for the given key
@@ -132,7 +135,7 @@ export class CryptographyClient {
       if (this.key.kind === "JsonWebKey") {
         throw new Error("The remoteOnly flag cannot be used with a local JsonWebKey");
       }
-      this.forceRemote = pipelineOptions.remoteOnly;
+      this.remoteOnly = pipelineOptions.remoteOnly;
     }
   }
 
@@ -530,10 +533,10 @@ export class CryptographyClient {
     algorithm: string
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
-      const keyMaterial = await this.getKeyMaterial();
       this.providers = [];
 
-      if (!this.forceRemote) {
+      if (!this.remoteOnly) {
+        const keyMaterial = await this.getKeyMaterial();
         this.providers.push(new RsaCryptographyProvider(keyMaterial));
       }
 
