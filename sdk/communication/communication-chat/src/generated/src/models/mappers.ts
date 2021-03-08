@@ -564,7 +564,6 @@ export const CreateChatThreadRequest: coreHttp.CompositeMapper = {
       },
       participants: {
         serializedName: "participants",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -588,7 +587,7 @@ export const CreateChatThreadResult: coreHttp.CompositeMapper = {
         serializedName: "chatThread",
         type: {
           name: "Composite",
-          className: "ChatThread"
+          className: "ChatThreadProperties"
         }
       },
       invalidParticipants: {
@@ -608,10 +607,10 @@ export const CreateChatThreadResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatThread: coreHttp.CompositeMapper = {
+export const ChatThreadProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChatThread",
+    className: "ChatThreadProperties",
     modelProperties: {
       id: {
         serializedName: "id",

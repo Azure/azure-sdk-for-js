@@ -56,7 +56,7 @@ describe("ChatThreadClient", function() {
     const topic = "new topic";
     await chatThreadClient.updateTopic(topic);
 
-    const thread = await chatClient.getChatThread(threadId);
+    const thread = await chatThreadClient.getProperties();
     assert.equal(topic, thread.topic);
   });
 
@@ -119,5 +119,11 @@ describe("ChatThreadClient", function() {
     for await (const receipt of chatThreadClient.listReadReceipts()) {
       list.push(receipt.chatMessageId!);
     }
+  });
+
+  it("successfully gets the thread properties", async function() {
+    const thread = await chatThreadClient.getProperties();
+
+    assert.equal(threadId, thread.id);
   });
 });

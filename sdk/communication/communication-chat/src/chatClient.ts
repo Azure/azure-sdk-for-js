@@ -35,21 +35,14 @@ import { ChatThreadClient } from "./chatThreadClient";
 import {
   ChatClientOptions,
   CreateChatThreadOptions,
-  GetChatThreadOptions,
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
 import {
-  mapToChatThreadSdkModel,
   mapToChatParticipantRestModel,
   mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
-import {
-  ChatThreadItem,
-  CreateChatThreadResult,
-  ChatThread,
-  ListPageSettings
-} from "./models/models";
+import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
@@ -132,9 +125,8 @@ export class ChatClient {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
-      // We generate an UUID if user not provides repeatabilityRequestId.
-      updatedOptions.repeatabilityRequestId =
-        updatedOptions.repeatabilityRequestId ?? generateUuid();
+      // We generate an UUID if user not provides idempotencyToken.
+      updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
       const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
@@ -145,35 +137,6 @@ export class ChatClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return mapToCreateChatThreadResultSdkModel(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Gets a chat thread.
-   * Returns the chat thread.
-   * @param threadId - The ID of the thread to get.
-   * @param options -  Operation options.
-   */
-  public async getChatThread(
-    threadId: string,
-    options: GetChatThreadOptions = {}
-  ): Promise<ChatThread> {
-    const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
-
-    try {
-      const { _response, ...result } = await this.client.chat.getChatThread(
-        threadId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return mapToChatThreadSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
