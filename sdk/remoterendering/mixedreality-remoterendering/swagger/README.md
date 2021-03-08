@@ -124,7 +124,7 @@ directive:
   - from: swagger-document
     where: $.definitions.conversion_status
     transform: >
-      $["x-ms-client-name"] = "AssetConversionStatus";
+      $["x-ms-enum"].name = "AssetConversionStatus";
 ```
 
 ```yaml
@@ -180,7 +180,7 @@ directive:
   - from: swagger-document
     where: $.definitions.session_size
     transform: >
-      $["x-ms-client-name"] = "RenderingServerSize";
+      $["x-ms-enum"].name = "RenderingServerSize";
 ```
 
 ```yaml
@@ -196,7 +196,7 @@ directive:
   - from: swagger-document
     where: $.definitions.session_status
     transform: >
-      $["x-ms-client-name"] = "RenderingSessionStatus";
+      $["x-ms-enum"].name = "RenderingSessionStatus";
 ```
 
 ```yaml

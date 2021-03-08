@@ -60,7 +60,7 @@ export interface AssetConversion {
   /** The error object containing details about the conversion failure. */
   error: RemoteRenderingServiceError | null;
   /** The status of the conversion. Terminal states are 'Cancelled', 'Failed', and 'Succeeded'. */
-  status: ConversionStatus;
+  status: AssetConversionStatus;
   /** The time when the conversion was created. Date and time in ISO 8601 format. */
   createdOn: Date;
 }
@@ -119,7 +119,7 @@ export interface RenderingSessionOptions {
   /** The time in minutes the session will run after reaching the 'Ready' state. It has to be between 0 and 1440. */
   maxLeaseTimeMinutes: number;
   /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
-  size: SessionSize;
+  size: RenderingServerSize;
 }
 
 /** The properties of a rendering session. */
@@ -152,9 +152,9 @@ export interface RenderingSession {
    */
   readonly maxLeaseTimeMinutes?: number;
   /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
-  size: SessionSize;
+  size: RenderingServerSize;
   /** The status of the rendering session. Terminal states are 'Error', 'Expired', and 'Stopped'. */
-  status: SessionStatus;
+  status: RenderingSessionStatus;
   /**
    * The computational power of the rendering session GPU measured in teraflops.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -303,8 +303,8 @@ export interface RemoteRenderingListSessionsNextExceptionHeaders {
   wWWAuthenticate?: string;
 }
 
-/** Known values of {@link ConversionStatus} that the service accepts. */
-export const enum KnownConversionStatus {
+/** Known values of {@link AssetConversionStatus} that the service accepts. */
+export const enum KnownAssetConversionStatus {
   /** The conversion was created but hasn't started. */
   NotStarted = "NotStarted",
   /** The conversion is running. */
@@ -318,8 +318,8 @@ export const enum KnownConversionStatus {
 }
 
 /**
- * Defines values for ConversionStatus. \
- * {@link KnownConversionStatus} can be used interchangeably with ConversionStatus,
+ * Defines values for AssetConversionStatus. \
+ * {@link KnownAssetConversionStatus} can be used interchangeably with AssetConversionStatus,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **NotStarted**: The conversion was created but hasn't started. \
@@ -328,10 +328,10 @@ export const enum KnownConversionStatus {
  * **Failed**: The conversion has failed. Check the 'error' field for more details. This is a terminal state. \
  * **Succeeded**: The conversion has succeeded. Check the 'output' field for output asset location. This is a terminal state.
  */
-export type ConversionStatus = string;
+export type AssetConversionStatus = string;
 
-/** Known values of {@link SessionSize} that the service accepts. */
-export const enum KnownSessionSize {
+/** Known values of {@link RenderingServerSize} that the service accepts. */
+export const enum KnownRenderingServerSize {
   /** Standard rendering session size. */
   Standard = "Standard",
   /** Premium rendering session size. */
@@ -339,17 +339,17 @@ export const enum KnownSessionSize {
 }
 
 /**
- * Defines values for SessionSize. \
- * {@link KnownSessionSize} can be used interchangeably with SessionSize,
+ * Defines values for RenderingServerSize. \
+ * {@link KnownRenderingServerSize} can be used interchangeably with RenderingServerSize,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **Standard**: Standard rendering session size. \
  * **Premium**: Premium rendering session size.
  */
-export type SessionSize = string;
+export type RenderingServerSize = string;
 
-/** Known values of {@link SessionStatus} that the service accepts. */
-export const enum KnownSessionStatus {
+/** Known values of {@link RenderingSessionStatus} that the service accepts. */
+export const enum KnownRenderingSessionStatus {
   /** The rendering session has encountered an error, and is unusable. This is a terminal state. */
   Error = "Error",
   /** The rendering session enters the 'Expired' state when it has been in the 'Ready' state longer than its lease time. This is a terminal state. */
@@ -363,8 +363,8 @@ export const enum KnownSessionStatus {
 }
 
 /**
- * Defines values for SessionStatus. \
- * {@link KnownSessionStatus} can be used interchangeably with SessionStatus,
+ * Defines values for RenderingSessionStatus. \
+ * {@link KnownRenderingSessionStatus} can be used interchangeably with RenderingSessionStatus,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **Error**: The rendering session has encountered an error, and is unusable. This is a terminal state. \
@@ -373,7 +373,7 @@ export const enum KnownSessionStatus {
  * **Ready**: The rendering session is ready for incoming connections. \
  * **Stopped**: The rendering session has been stopped with the 'Stop Session' operation. This is a terminal state.
  */
-export type SessionStatus = string;
+export type RenderingSessionStatus = string;
 
 /** Contains response data for the createConversion operation. */
 export type RemoteRenderingCreateConversionResponse = RemoteRenderingCreateConversionHeaders &
