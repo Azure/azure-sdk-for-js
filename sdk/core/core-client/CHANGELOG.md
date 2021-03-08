@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2021-03-08)
 
 - [Breaking] Removed `createSpanFunction` and `SpanConfig`. These have been moved into
   `@azure/core-tracing`.
