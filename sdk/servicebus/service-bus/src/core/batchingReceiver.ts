@@ -491,9 +491,10 @@ export class BatchingReceiverLite {
       reject(err);
     }, args.abortSignal);
 
+    const emptySlots = numberOfEmptyIncomingSlots(receiver);
     const creditsToAdd =
       this._receiveMode === "peekLock"
-        ? Math.min(args.maxMessageCount, numberOfEmptyIncomingSlots(receiver) - 1)
+        ? Math.min(args.maxMessageCount, emptySlots <= 1 ? 0 : emptySlots - 1)
         : args.maxMessageCount;
     logger.verbose(`${loggingPrefix} Adding credit for receiving ${creditsToAdd} messages.`);
 

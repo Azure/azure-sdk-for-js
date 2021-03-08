@@ -228,8 +228,6 @@ function settleMessage(
 }
 
 export function numberOfEmptyIncomingSlots(receiver: any): number {
-  return (
-    (receiver as any).session._session.incoming.deliveries.capacity -
-    (receiver as any).session._session.incoming.deliveries.size
-  );
+  const incomingDeliveries = (receiver as any)?.session?._session?.incoming?.deliveries;
+  return incomingDeliveries ? incomingDeliveries.capacity - incomingDeliveries.size : 0;
 }

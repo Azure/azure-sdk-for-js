@@ -467,9 +467,10 @@ export class StreamingReceiver extends MessageReceiver {
     this._onMessage = onMessage;
     this._onError = onError;
 
+    const emptySlots = numberOfEmptyIncomingSlots(this.link);
     this._receiverHelper.addCredit(
       this.receiveMode === "peekLock"
-        ? Math.min(this.maxConcurrentCalls, numberOfEmptyIncomingSlots(this.link) - 1)
+        ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
         : this.maxConcurrentCalls
     );
   }
@@ -532,9 +533,10 @@ export class StreamingReceiver extends MessageReceiver {
         connectionId: this._context.connectionId,
         onError: (args) => this._onError && this._onError(args)
       });
+      const emptySlots = numberOfEmptyIncomingSlots(this.link);
       const creditsToAdd =
         this.receiveMode === "peekLock"
-          ? Math.min(this.maxConcurrentCalls, numberOfEmptyIncomingSlots(this.link) - 1)
+          ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
           : this.maxConcurrentCalls;
       this._receiverHelper.addCredit(creditsToAdd);
       logger.verbose(

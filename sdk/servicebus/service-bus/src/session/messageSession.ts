@@ -737,9 +737,10 @@ export class MessageSession extends LinkEntity<Receiver> {
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
+      const emptySlots = numberOfEmptyIncomingSlots(this.link);
       const creditsToAdd =
         this.receiveMode === "peekLock"
-          ? Math.min(this.maxConcurrentCalls, numberOfEmptyIncomingSlots(this.link) - 1)
+          ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
           : this.maxConcurrentCalls;
       this._receiverHelper.addCredit(creditsToAdd);
     } else {
