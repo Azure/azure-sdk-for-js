@@ -456,7 +456,7 @@ describe("StreamingReceiver unit tests", () => {
 
     await streamingReceiver.onDetached(new Error("let's detach"));
     assert.isTrue(
-      addCreditMock.calledWith(101),
+      addCreditMock.called,
       "Credits need to be re-added to the link since it's been recreated."
     );
 
