@@ -1,6 +1,9 @@
 # Release History
 
-## 5.5.0-beta.1 (Unreleased)
+## 5.5.0-beta.1 (2021-03-09)
+
+- Adds support for enabling idempotent partition event publishing with the `EventHubProducerClient`. This is a preview feature and the API may change before its GA release.
+  Tracked by issue [#14032](https://github.com/Azure/azure-sdk-for-js/issues/14032).
 
 - Updates the methods on the `CheckpointStore` interface to accept
   an optional `options` parameter that can be used to pass in an
