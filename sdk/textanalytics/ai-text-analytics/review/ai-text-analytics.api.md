@@ -22,6 +22,7 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
     actionsFailedCount?: number;
     actionsInProgressCount?: number;
     actionsSucceededCount?: number;
+    displayName?: string;
 }
 
 // @public
@@ -95,6 +96,7 @@ export { AzureKeyCredential }
 
 // @public
 export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
+    displayName?: string;
     includeStatistics?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;

@@ -1811,7 +1811,8 @@ describe("[AAD] TextAnalyticsClient", function() {
             recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
           },
           {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
+            displayName: "testJob"
           }
         );
         poller.onProgress((state) => {
@@ -1822,6 +1823,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isDefined(state.actionsSucceededCount, "actionsSucceededCount is undefined!");
           assert.equal(state.actionsFailedCount, 0);
           assert.isDefined(state.actionsInProgressCount, "actionsInProgressCount is undefined!");
+          assert.equal(state.displayName, "testJob");
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);

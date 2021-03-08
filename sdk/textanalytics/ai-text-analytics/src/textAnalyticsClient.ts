@@ -977,6 +977,7 @@ export class TextAnalyticsClient {
         onResponse: realOptions.onResponse,
         serializerOptions: realOptions.serializerOptions
       },
+      displayName: realOptions.displayName,
       includeStatistics: realOptions.includeStatistics,
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom
