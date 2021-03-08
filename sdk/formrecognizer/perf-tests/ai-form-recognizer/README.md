@@ -7,3 +7,5 @@
 
    - custom model recognition
      - `npm run perf-test:node -- CustomModelRecognitionTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
+
+Be wary of low API rate limits. Increasing the "parallel" parameter can cause the performance tests to exceed the allowed request rate.

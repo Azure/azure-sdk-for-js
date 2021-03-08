@@ -13,8 +13,7 @@ import {
   FormRecognizerClient,
   FormTrainingClient
 } from "@azure/ai-form-recognizer";
-import { TokenCredential } from "@azure/core-http";
-import { DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 
 function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");
@@ -92,7 +91,10 @@ export class CustomModelRecognitionTest extends PerfStressTest<BeginRecognizeCus
 
     const poller = await this.recognizerClient.beginRecognizeCustomFormsFromUrl(
       modelId,
-      this.documentUrl
+      this.documentUrl,
+      {
+        updateIntervalInMs: this.parsedOptions.updateIntervalInMs.value
+      }
     );
 
     await poller.pollUntilDone();
