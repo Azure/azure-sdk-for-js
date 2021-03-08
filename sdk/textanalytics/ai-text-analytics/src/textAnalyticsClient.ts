@@ -229,10 +229,6 @@ export type RecognizePiiEntitiesAction = {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-  /**
-   * Specifies the list of Pii categories to return.
-   */
-  categoriesFilter?: PiiCategory[];
 };
 
 /**
