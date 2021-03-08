@@ -2,7 +2,7 @@
 
 ## Getting started
 
-To start a new perf test project for the your SDK in the js repository, follow the steps in the [GettingStarted.md](./GettingStarted.md).
+To start a new perf test project for the your SDK in the js repository, follow the steps in the [GettingStarted.md](https://github.com/Azure/azure-sdk-for-js/blob/c1c5f556a1a29d4a38019f1cc97fadb99375d6d5/sdk/test-utils/perfstress/GettingStarted.md).
 
 Link to the wiki - [Writing-Performance-Tests](https://github.com/Azure/azure-sdk-for-js/wiki/Writing-Performance-Tests) (has the same contents as the GettingStarted docs)
 
