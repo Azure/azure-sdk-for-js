@@ -44,6 +44,7 @@ export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
       documents,
       analysisOptions,
       actions,
+      displayName,
       includeStatistics,
       updateIntervalInMs = 5000,
       resumeFrom
@@ -61,6 +62,7 @@ export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
       documents,
       actions,
       {
+        displayName,
         requestOptions,
         tracingOptions,
         updateIntervalInMs,

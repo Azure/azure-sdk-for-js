@@ -1798,7 +1798,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       });
 
-      it("operation metadata", async function() {
+      it.only("operation metadata", async function() {
         const docs = [
           { id: "1", text: "I will go to the park." },
           { id: "2", text: "Este es un document escrito en Español." },
@@ -1811,7 +1811,8 @@ describe("[AAD] TextAnalyticsClient", function() {
             recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
           },
           {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
+            displayName: "testJob"
           }
         );
         poller.onProgress((state) => {
@@ -1822,6 +1823,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isDefined(state.actionsSucceededCount, "actionsSucceededCount is undefined!");
           assert.equal(state.actionsFailedCount, 0);
           assert.isDefined(state.actionsInProgressCount, "actionsInProgressCount is undefined!");
+          assert.equal(state.displayName, "testJob");
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);

@@ -54,6 +54,10 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
    * Number of actions still in progress.
    */
   actionsInProgressCount?: number;
+  /**
+   * The operation's display name.
+   */
+  displayName?: string;
 }
 
 /**
@@ -93,6 +97,10 @@ export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * The operation's display name.
+   */
+  displayName?: string;
 }
 
 /**
@@ -113,7 +121,8 @@ function getMetaInfoFromResponse(response: AnalyzeJobState): AnalyzeBatchActions
     status: response.status,
     actionsSucceededCount: response.tasks.completed,
     actionsFailedCount: response.tasks.failed,
-    actionsInProgressCount: response.tasks.inProgress
+    actionsInProgressCount: response.tasks.inProgress,
+    displayName: response.displayName
   };
 }
 
@@ -292,6 +301,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
     if (!state.isStarted) {
       state.isStarted = true;
       const response = await this.beginAnalyzeBatchActions(this.documents, this.actions, {
+        displayName: this.options.displayName,
         tracingOptions: this.options.tracingOptions,
         requestOptions: this.options.requestOptions,
         abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.abortSignal
@@ -317,6 +327,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
     state.actionsSucceededCount = operationStatus.operationMetdata?.actionsSucceededCount;
     state.actionsFailedCount = operationStatus.operationMetdata?.actionsFailedCount;
     state.actionsInProgressCount = operationStatus.operationMetdata?.actionsInProgressCount;
+    state.displayName = operationStatus.operationMetdata?.displayName;
 
     if (!state.isCompleted && operationStatus.done) {
       const pagedIterator = this.listAnalyzeBatchActionsResults(state.operationId!, {
