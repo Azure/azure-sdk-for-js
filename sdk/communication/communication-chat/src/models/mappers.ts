@@ -13,7 +13,8 @@ import {
   ChatThread,
   ChatParticipant,
   ChatMessageReadReceipt,
-  ChatMessageContent
+  ChatMessageContent,
+  CreateChatThreadResult
 } from "./models";
 
 /**
@@ -120,6 +121,24 @@ export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatT
       createdBy: deserializeCommunicationIdentifier(
         createdByCommunicationIdentifier as SerializedCommunicationIdentifier
       )
+    };
+  else {
+    return { ...rest };
+  }
+};
+
+/**
+ * @internal
+ * Mapping chat thread REST model to chat thread SDK model
+ */
+export const mapToCreateChatThreadResultSdkModel = (
+  result: RestModel.CreateChatThreadResult
+): CreateChatThreadResult => {
+  const { chatThread, ...rest } = result;
+  if (chatThread)
+    return {
+      ...rest,
+      chatThread: mapToChatThreadSdkModel(chatThread)
     };
   else {
     return { ...rest };

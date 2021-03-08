@@ -50,6 +50,11 @@ describe("[Mocked] ChatClient", async () => {
     sinon.assert.calledOnce(spy);
     assert.isDefined(createThreadResult.chatThread);
     assert.equal(createThreadResult.chatThread?.id, mockThread.id);
+    assert.equal(createThreadResult.chatThread?.createdBy?.kind, "communicationUser");
+    assert.deepEqual(
+      (createThreadResult.chatThread?.createdBy as CommunicationUserIdentifier).communicationUserId,
+      mockCreateThreadResult.chatThread?.createdByCommunicationIdentifier.communicationUser?.id
+    );
 
     const request = spy.getCall(0).args[0];
 
