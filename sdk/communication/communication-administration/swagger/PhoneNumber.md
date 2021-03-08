@@ -12,7 +12,8 @@ package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/phoneNumber/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/257f060be8b60d8468584682aa2d71b1faa5f82c/specification/communication/data-plane/Microsoft.CommunicationServicesAdministration/preview/2020-07-20-preview1/communicationservicesadministration.json
+tag: package-2020-07-20-preview1
+require: https://github.com/Azure/azure-rest-api-specs/blob/257f060be8b60d8468584682aa2d71b1faa5f82c/specification/communication/data-plane/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
