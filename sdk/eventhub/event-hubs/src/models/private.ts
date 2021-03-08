@@ -3,7 +3,9 @@
 
 import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
 import { RetryOptions } from "@azure/core-amqp";
+import { Typed } from "rhea-promise";
 import { SubscribeOptions } from "../eventHubConsumerClientModels";
+import { idempotentProducerAmqpPropertyNames } from "../util/constants";
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -123,4 +125,13 @@ export interface EventHubConsumerOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+}
+
+/**
+ * @internal
+ */
+export interface IdempotentLinkProperties {
+  [idempotentProducerAmqpPropertyNames.epoch]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerId]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: Typed | null;
 }

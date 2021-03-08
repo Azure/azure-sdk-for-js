@@ -1017,7 +1017,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test failure");
           } catch (error) {
             error.message.should.equal(
-              "partitionId and partitionKey cannot both be set when creating a batch"
+              "The partitionId (0) and partitionKey (boo) cannot both be specified."
             );
           }
         });
@@ -1032,7 +1032,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test failure");
           } catch (error) {
             error.message.should.equal(
-              "partitionId and partitionKey cannot both be set when creating a batch"
+              "The partitionId (0) and partitionKey (boo) cannot both be specified."
             );
           }
         });
@@ -1047,7 +1047,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test failure");
           } catch (error) {
             error.message.should.equal(
-              "partitionId and partitionKey cannot both be set when creating a batch"
+              "The partitionId (0) and partitionKey (boo) cannot both be specified."
             );
           }
         });

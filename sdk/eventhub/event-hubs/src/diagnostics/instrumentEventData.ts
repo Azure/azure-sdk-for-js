@@ -73,6 +73,25 @@ export function instrumentEventData(
 }
 
 /**
+ * @internal
+ */
+export function generateEventTraceProperty(
+  eventData: EventData,
+  span: Span
+): EventData["properties"] | undefined {
+  if (eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]) {
+    return;
+  }
+
+  const properties: EventData["properties"] = {};
+  const traceParent = getTraceParentHeader(span.context());
+  if (traceParent) {
+    properties[TRACEPARENT_PROPERTY] = traceParent;
+  }
+  return properties;
+}
+
+/**
  * Extracts the `SpanContext` from an `EventData` if the context exists.
  * @param eventData - An individual `EventData` object.
  * @internal
