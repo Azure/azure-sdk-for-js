@@ -444,33 +444,39 @@ export namespace ConnectionContext {
         await Promise.all(detachCalls);
       }
 
-      // Calling onDetached on batching receivers for the same reasons as sender
-      const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
-      if (!state.wasConnectionCloseCalled && numBatchingReceivers) {
-        logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
-            `batching receivers. We should not reconnect.`
-        );
+      if (state.wasConnectionCloseCalled) {
+        // Do Nothing
+      } else {
+        // Calling onDetached on batching receivers for the same reasons as sender
+        const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
+        if (numBatchingReceivers) {
+          logger.verbose(
+            `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
+              `batching receivers. We should not reconnect.`
+          );
 
-        // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
-        await callOnDetachedOnReceivers(
-          connectionContext,
-          connectionError || contextError,
-          "batching"
-        );
+          // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
+          await callOnDetachedOnReceivers(
+            connectionContext,
+            connectionError || contextError,
+            "batching"
+          );
+        }
+
+        // Calling onDetached on session receivers
+        const numSessionReceivers = getNumberOfReceivers(connectionContext, "session");
+        if (numSessionReceivers) {
+          logger.verbose(
+            `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numSessionReceivers} ` +
+              `session receivers. We should close them.`
+          );
+
+          await callOnDetachedOnSessionReceivers(
+            connectionContext,
+            connectionError || contextError
+          );
+        }
       }
-
-      // Calling onDetached on session receivers
-      const numSessionReceivers = getNumberOfReceivers(connectionContext, "session");
-      if (!state.wasConnectionCloseCalled && numSessionReceivers) {
-        logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numSessionReceivers} ` +
-            `session receivers. We should close them.`
-        );
-
-        await callOnDetachedOnSessionReceivers(connectionContext, connectionError || contextError);
-      }
-
       await refreshConnection(connectionContext);
       waitForConnectionRefreshResolve();
       waitForConnectionRefreshPromise = undefined;
