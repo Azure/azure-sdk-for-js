@@ -1,5 +1,8 @@
 # Release History
 
+## 5.5.0-beta.2 (Unreleased)
+
+
 ## 5.5.0-beta.1 (2021-03-09)
 
 - Adds support for enabling idempotent partition event publishing with the `EventHubProducerClient`. This is a preview feature and the API may change before its GA release.
