@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, env, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
@@ -9,15 +9,10 @@ import { createRecordedClient } from "./utils/recordedClient";
 describe("PhoneNumbersClient - get phone number", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
-
-  this.beforeAll(function() {
-    if (isPlaybackMode() || isLiveMode()) {
-      this.skip();
-    }
-  });
+  let includePhoneNumberLiveTests: boolean;
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedClient(this));
+    ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
   });
 
   afterEach(async function() {
@@ -27,6 +22,10 @@ describe("PhoneNumbersClient - get phone number", function() {
   });
 
   it("can get an acquired phone number", async function() {
+    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
+      this.skip();
+    }
+
     const acquiredPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
     const { phoneNumber } = await client.getPhoneNumber(acquiredPhoneNumber);
 

@@ -1,0 +1,22 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/%2B14155550100",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"none\"},\"assignmentType\":\"Application\",\"purchaseDate\":\"2020-09-18T15:03:19.5370985+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"Monthly\"}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "90a956244b0f5ac275c6705119750d40"
+}

@@ -4,7 +4,6 @@
 
 ```ts
 
-import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -43,9 +42,6 @@ export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsB
 
 // @public
 export type GetPhoneNumberOptions = OperationOptions;
-
-// @public
-export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
 // @public
 export interface ListPhoneNumbersOptions extends OperationOptions {
@@ -95,7 +91,7 @@ export class PhoneNumbersClient {
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
-    getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<GetPhoneNumberResponse>;
+    getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
 }
 
@@ -131,13 +127,8 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
     countryCode: string;
 }
 
-// @public
-export type VoidResponse = WithResponse<{}>;
-
-// @public
-export type WithResponse<T> = T & {
-    _response: HttpResponse;
-};
+// @public (undocumented)
+export type VoidResponse = {};
 
 
 // (No @packageDocumentation comment for this package)

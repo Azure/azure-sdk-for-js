@@ -1,29 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse, OperationOptions } from "@azure/core-http";
-import { AcquiredPhoneNumber, PhoneNumberSearchRequest } from "./generated/src/models/";
+import { OperationOptions } from "@azure/core-http";
+import { PhoneNumberSearchRequest } from "./generated/src/models/";
 
-/**
- * Represents an object with a non-enumerable _response property which provides
- * information about the HTTP response.
- */
-export type WithResponse<T> = T & { _response: HttpResponse };
-
-/**
- * Represents a generic HTTP response
- */
-export type VoidResponse = WithResponse<{}>;
+export type VoidResponse = {};
 
 /**
  * Additional options for the get phone number request.
  */
 export type GetPhoneNumberOptions = OperationOptions;
-
-/**
- * The response from the get phone number request.
- */
-export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
 /**
  * Additional options that can be passed to the list phone numbers request.

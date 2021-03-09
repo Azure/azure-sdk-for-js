@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
@@ -10,12 +10,6 @@ describe("PhoneNumbersClient - lists", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
   let all = 0;
-
-  this.beforeAll(function() {
-    if (isPlaybackMode() || isLiveMode()) {
-      this.skip();
-    }
-  });
 
   beforeEach(function() {
     ({ client, recorder } = createRecordedClient(this));
@@ -34,7 +28,7 @@ describe("PhoneNumbersClient - lists", function() {
     }
 
     assert.isTrue(all > 0);
-  });
+  }).timeout(5000);
 
   it("can skip a phone number", async function() {
     let countWhenSkipped = 0;
@@ -45,9 +39,8 @@ describe("PhoneNumbersClient - lists", function() {
 
     assert.isTrue(countWhenSkipped > 0);
     assert.isTrue(countWhenSkipped < all);
-  });
+  }).timeout(5000);
 
-  // TODO: revisit when service returns nextLink
   it("can list by page", async function() {
     for await (const page of client.listPhoneNumbers().byPage()) {
       assert.isArray(page);
@@ -56,5 +49,5 @@ describe("PhoneNumbersClient - lists", function() {
         assert.match(acquired.phoneNumber, /\+\d{1}\d{3}\d{3}\d{4}/g);
       }
     }
-  });
+  }).timeout(5000);
 });

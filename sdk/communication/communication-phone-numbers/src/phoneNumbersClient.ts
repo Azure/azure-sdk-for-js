@@ -16,7 +16,7 @@ import {
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger, createSpan, attachHttpResponse, SDK_VERSION } from "./utils";
+import { logger, createSpan, SDK_VERSION } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
@@ -26,10 +26,9 @@ import {
 } from "./generated/src/models/";
 import {
   GetPhoneNumberOptions,
-  GetPhoneNumberResponse,
   ListPhoneNumbersOptions,
-  VoidResponse,
-  SearchAvailablePhoneNumbersRequest
+  SearchAvailablePhoneNumbersRequest,
+  VoidResponse
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
@@ -124,14 +123,11 @@ export class PhoneNumbersClient {
   public async getPhoneNumber(
     phoneNumber: string,
     options: GetPhoneNumberOptions = {}
-  ): Promise<GetPhoneNumberResponse> {
+  ): Promise<AcquiredPhoneNumber> {
     const { span, updatedOptions } = createSpan("PhoneNumbersClient-getPhoneNumber", options);
     try {
-      const { _response, ...acquiredPhoneNumber } = await this.client.getByNumber(
-        phoneNumber,
-        updatedOptions
-      );
-      return attachHttpResponse<AcquiredPhoneNumber>(acquiredPhoneNumber, _response);
+      const { _response, ...results } = await this.client.getByNumber(phoneNumber, updatedOptions);
+      return results;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -292,7 +288,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.purchasePhoneNumbers({ ...updatedOptions, searchId });
+      return await this.client.purchasePhoneNumbers({ ...updatedOptions, searchId });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
