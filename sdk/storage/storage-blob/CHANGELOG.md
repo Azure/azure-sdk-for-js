@@ -1,7 +1,8 @@
 # Release History
 
-## 12.5.0-beta.2 (Unreleased)
+## 12.5.0 (2021-03-10)
 
+- Includes all features released in 12.5.0-beta.1.
 
 ## 12.5.0-beta.1 (2021-02-09)
 
