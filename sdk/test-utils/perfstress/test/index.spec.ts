@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { PerfStressProgram, selectPerfStressTest } from "../src";
-import { testClasses } from "./declareTests";
+import { allTestClasses } from "./declareTests";
 
 console.log("=== Starting the perfStress test ===");
 
-const perfStressProgram = new PerfStressProgram(selectPerfStressTest(testClasses));
+const perfStressProgram = new PerfStressProgram(selectPerfStressTest(allTestClasses));
 
 perfStressProgram.run();
