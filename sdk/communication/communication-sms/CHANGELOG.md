@@ -1,10 +1,13 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2020-03-09)
 
 ### Added
 
 - `SmsClient` added a constructor that supports `TokenCredential`.
+- Added support for 1:N SMS messaging.
+- Added support for tagging SMS messages.
+- `send` method in `SmsClient` is idempotent under retry policy.
 
 ### Breaking Changes
 
