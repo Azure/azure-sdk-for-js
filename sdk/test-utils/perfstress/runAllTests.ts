@@ -12,7 +12,7 @@ function spawn(command: string) {
 function runTest(testClassName: string, options: string = "") {
   console.log("\n");
   if (options === "") {
-    options = `--warmup 1 --iterations 1 --duration 1`;
+    options = `--warmup 0 --iterations 1 --duration 1`;
   }
   spawn(`ts-node ./test/index.spec.ts ${testClassName} ${options}`);
 }
