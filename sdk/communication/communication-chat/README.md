@@ -76,7 +76,7 @@ let createChatThreadRequest =
         ]
 };
 let createChatThreadResult = await chatClient.createChatThread(createChatThreadRequest);
-let threadId = createChatThreadResponse.chatThread.id;
+let threadId = createChatThreadResult.chatThread.id;
 ```
 
 ### Send a message to the thread
