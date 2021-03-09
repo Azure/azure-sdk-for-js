@@ -57,7 +57,7 @@ Use the `createThread` method to create a chat thread.
 - Use `topic` to give a thread topic;
 - Use `participants` to list the chat participants to be added to the thread;
 
-`createChatThreadResponse` is the response returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
+`CreateChatThreadResult` is the response returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
 
 ```Javascript
 let createChatThreadRequest =
@@ -66,16 +66,16 @@ let createChatThreadRequest =
     participants:
         [
             {
-                user: { communicationUserId: '<USER_ID_FOR_JACK>' },
+                id: { communicationUserId: '<USER_ID_FOR_JACK>' },
                 displayName: 'Jack'
             },
             {
-                user: { communicationUserId: '<USER_ID_FOR_GEETA>' },
+                id: { communicationUserId: '<USER_ID_FOR_GEETA>' },
                 displayName: 'Geeta'
             }
         ]
 };
-let createChatThreadResponse = await chatClient.createChatThread(createChatThreadRequest);
+let createChatThreadResult = await chatClient.createChatThread(createChatThreadRequest);
 let threadId = createChatThreadResponse.chatThread.id;
 ```
 
@@ -92,7 +92,7 @@ Use `sendMessage` method to sends a message to a thread identified by threadId.
 - Use `senderDisplayName` to specify the display name of the sender;
 - Use `type` to specify the message type, such as 'text' or 'html' ;
 
-`sendChatMessageResponse` is the response returned from sending a message, it contains an ID, which is the unique ID of the message.
+`SendChatMessageResult` is the response returned from sending a message, it contains an ID, which is the unique ID of the message.
 
 ```JavaScript
 let sendMessageRequest =
@@ -104,7 +104,7 @@ let sendMessageOptions =
     senderDisplayName : 'Jack',
     type: 'text'
 };
-let sendChatMessageResponse = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
+let sendChatMessageResult = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
 let messageId = sendChatMessageResponse.id;
 ```
 
@@ -146,7 +146,7 @@ let addChatParticipantsRequest =
 {
     participants: [
         {
-            user: { communicationUserId: userTokenResponse.identity },
+            id: { communicationUserId: userTokenResponse.identity },
             displayName: '<NAME>',
             shareHistoryTime: '<TIME>'
         }
