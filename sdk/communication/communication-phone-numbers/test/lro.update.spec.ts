@@ -32,7 +32,7 @@ describe("PhoneNumbersClient - lro - update", function() {
   it("can update a phone number's capabilities", async function() {
     const { capabilities } = await client.getPhoneNumber(acquiredPhoneNumber);
     const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
-      ? { calling: "none", sms: "outbound" } 
+      ? { calling: "none", sms: "outbound" }
       : buildCapabilityUpdate(capabilities);
 
     const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
