@@ -41,6 +41,7 @@ describe("PhoneNumbersClient - lists", function() {
     assert.isTrue(countWhenSkipped < all);
   }).timeout(10000);
 
+  // TODO: revisit when service returns nextLink
   it("can list by page", async function() {
     for await (const page of client.listPurchasedPhoneNumbers().byPage()) {
       assert.isArray(page);
