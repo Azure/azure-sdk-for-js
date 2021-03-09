@@ -8,6 +8,7 @@
 - `CommunicationIdentityClient` method `createUserWithToken` renamed to `createUserAndToken`.
 - Renamed `CommunicationIdentityOptions` to `CommunicationIdentityClientOptions`.
 - Removed `_response` from returned models.
+- Removed `dist-browser` from the output folders. To bundle the Azure SDK libraries, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 
 ## 1.0.0-beta.4 (2021-02-09)
 

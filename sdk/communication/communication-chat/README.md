@@ -18,6 +18,12 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 npm install @azure/communication-chat
 ```
 
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## Key concepts
 
 A chat conversation is represented by a thread. Each user in the thread is called a chat participant. Chat participants can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat. Users also get near-real time updates for when others are typing and when they have read the messages.
