@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 import { encodeUTF8 } from "../../utils/encode";
-import { SasTokenPartitionKeyValueRangeInterface } from "./SasTokenPartitionKeyValueRangeInterface";
-
-export class SasTokenPartitionKeyValueRange implements SasTokenPartitionKeyValueRangeInterface {
+export class SasTokenPartitionKeyValueRange {
   public constructor(public partitionKeyValue: string) {
     this.partitionKeyValue = partitionKeyValue;
   }
@@ -14,10 +12,6 @@ export class SasTokenPartitionKeyValueRange implements SasTokenPartitionKeyValue
   }
   public create(partitionKeyValue: string): SasTokenPartitionKeyValueRange {
     return new SasTokenPartitionKeyValueRange(partitionKeyValue);
-  }
-
-  public getPartitionKey(): string {
-    return this.partitionKeyValue;
   }
 
   public encode(): string {

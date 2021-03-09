@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export class SasTokenAuthorizationHelper {
-  // private static logger: Logger = LoggerFactory.getLogger(SasTokenAuthorizationHelper.class);
-
-  public isSasToken(token: string): boolean {
+export function isSasToken(token: string): boolean {
     const typeSeparatorPosition: number = token.indexOf("&");
     if (typeSeparatorPosition === -1) {
       return false;
@@ -22,4 +19,3 @@ export class SasTokenAuthorizationHelper {
     const authTypeValue: string = authType.substring(typeKeyValueSepartorPosition + 1);
     return authTypeValue.toLowerCase() === "sas";
   }
-}

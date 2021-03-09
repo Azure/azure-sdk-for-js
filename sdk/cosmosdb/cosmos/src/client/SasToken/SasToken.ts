@@ -3,14 +3,13 @@
 
 import { SasTokenPartitionKeyValueRange } from "./SasTokenPartitionKeyValueRange";
 import { SasTokenPermissionKind } from "../../common/constants";
-import { SasTokenProperties } from "./SasTokenProperties";
 import { hmac } from "../../utils/hmac";
 import { CosmosContainerChildResourceKind } from "../../common/constants";
 import { CosmosKeyType } from "../../common/constants";
 import { Constants } from "../../common/constants";
 import { encodeUTF8, encodeBase64 } from "../../utils/encode";
 
-export class SasToken implements SasTokenProperties {
+export class SasToken {
   private AUTH_PREFIX: string = "type=sas&ver=1.0&sig=";
 
   private SAS_TOKEN_SEPARATOR: string = ";";
@@ -53,18 +52,17 @@ export class SasToken implements SasTokenProperties {
     this.partitionKeyValueRanges = [];
     this.partitionRanges = "";
   }
-  public create(user: string, databaseName: string, containerName: string): SasTokenProperties {
+  public create(user: string, databaseName: string, containerName: string) {
     const token = new SasToken();
-    token.setUser(user);
-    token.setDatabaseName(databaseName);
-    token.setContainerName(containerName);
+    token.user = user;
+    token.databaseName = databaseName;
+    token.containerName = containerName;
     return token;
   }
   public sasTokenValueUsingHMAC(key: string): string;
   public sasTokenValueUsingHMAC(key: string, keyType?: CosmosKeyType) {
     if (key === "") {
       throw new Error("key");
-      // return this.SasTokenWithHMACSHA256(key); // check null obj
     } else if (typeof keyType === "object") {
       switch (keyType) {
         case CosmosKeyType.PrimaryMaster:
@@ -86,10 +84,6 @@ export class SasToken implements SasTokenProperties {
     } else {
       throw new Error("key");
     }
-  }
-
-  public get DatabaseName(): string {
-    return this.databaseName;
   }
 
   private generatePayload(): string {
@@ -133,7 +127,8 @@ export class SasToken implements SasTokenProperties {
 
     resourcePrefixPath = `${resourcePrefixPath}${Constants.Path.Root}`;
     this.resourcePath = resourcePrefixPath.toString();
-    if (this.partitionKeyValueRanges != null && !(this.partitionKeyValueRanges.length > 0)) {
+
+    if (!(this.partitionKeyValueRanges.length > 0)) {
       if (this.resourceKind !== CosmosContainerChildResourceKind.Item) {
         throw new Error("partitionKeyValueRanges");
       }
@@ -142,11 +137,8 @@ export class SasToken implements SasTokenProperties {
         this.partitionRanges = `${this.partitionRanges}${range.encode()},`;
       }
     }
-
-    if (this.expiryTime == null) {
       this.expiryTime = this.startTime;
       this.expiryTime.setSeconds(this.startTime.getHours() + 2);
-    }
 
     if (this.controlPlaneReaderScope === 0) {
       this.controlPlaneReaderScope =
@@ -182,123 +174,8 @@ export class SasToken implements SasTokenProperties {
     return token.toString();
   }
 
-  public getDatabaseName(): string {
-    return this.databaseName;
-  }
-
-  public setDatabaseName(databaseName: string): SasTokenProperties {
-    if (databaseName === null || databaseName === "") {
-      throw new Error("databaseName");
-    }
-
-    this.databaseName = databaseName;
-    return this;
-  }
-
-  public getContainerName(): string {
-    return this.containerName;
-  }
-
-  public setContainerName(containerName: string): SasTokenProperties {
-    if (containerName === null || containerName === "") {
-      throw new Error("containerName");
-    }
-
-    this.containerName = containerName;
-    return this;
-  }
-
-  public getResourceKind(): CosmosContainerChildResourceKind {
-    return this.resourceKind;
-  }
-
-  public getResourceName(): string {
-    return this.resourceName;
-  }
-
-  public setResourceName(
-    kind: CosmosContainerChildResourceKind,
-    resourceName: string
-  ): SasTokenProperties {
-    if (resourceName == null) {
-      throw new Error("resourceName");
-    }
-
-    this.resourceName = this.resourceName;
-    this.resourceKind = kind;
-    return this;
-  }
-
-  public getUser(): string {
-    return this.user;
-  }
-
-  public setUser(user: string): SasTokenProperties {
-    if (user == null || user === "") {
-      throw new Error("user");
-    }
-
-    this.user = user;
-    return this;
-  }
-
-  public getUserTag(): string {
-    return this.userTag;
-  }
-
-  public setUserTag(userTag: string): SasTokenProperties {
-    if (userTag == null) {
-      throw new Error("userTag");
-    }
-
-    this.userTag = userTag;
-    return this;
-  }
-
-  public getExpiryTime(): Date {
-    return this.expiryTime;
-  }
-
-  public setExpiryTime(expiryTime: Date): SasTokenProperties {
-    if (expiryTime == null) {
-      throw new Error("expiryTime");
-    }
-    this.expiryTime.setDate(this.expiryTime.getDate());
-    return this;
-  }
-
-  public getStartTime(): Date {
-    return this.startTime;
-  }
-
-  public setStartTime(startTime: Date): SasTokenProperties {
-    if (startTime == null) {
-      throw new Error("startTime");
-    }
-
-    this.startTime = this.startTime;
-    return this;
-  }
-
-  public getPartitionKeyValueRanges(): Iterable<SasTokenPartitionKeyValueRange> {
-    return this.partitionKeyValueRanges;
-  }
-
-  public setPartitionKeyValueRanges(partitionKeyValues: Iterable<string>): SasTokenProperties {
-    if (partitionKeyValues != null) {
-      this.partitionKeyValueRanges = [];
-      for (const partitionKey of partitionKeyValues) {
-        this.partitionKeyValueRanges.push(SasTokenPartitionKeyValueRange.create(partitionKey));
-      }
-    } else {
-      this.partitionKeyValueRanges = [];
-    }
-
-    return this;
-  }
-
-  public addPartitionKeyValue(partitionKeyValue: string): SasTokenProperties {
-    if (this.partitionKeyValueRanges == null) {
+  public addPartitionKeyValue(partitionKeyValue: string) {
+    if (this.partitionKeyValueRanges.length) {
       this.partitionKeyValueRanges = [];
     }
     this.partitionKeyValueRanges.push(SasTokenPartitionKeyValueRange.create(partitionKeyValue));

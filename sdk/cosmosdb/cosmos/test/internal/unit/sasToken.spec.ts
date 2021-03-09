@@ -4,13 +4,6 @@
 import assert from "assert";
 import { SasToken } from "../../../src/client/SasToken/SasToken";
 
-// constructor(private key: string, ){
-
-// }
-// const now = new Date()
-// const utcMilllisecondsSinceEpoch = now.getTime() + (now.getTimezoneOffset() * 60 * 1000)
-// const utcSecondsSinceEpoch = Math.round(utcMilllisecondsSinceEpoch / 1000)
-
 describe("Session Token", () => {
   var TEST_KEY =
     "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
@@ -30,9 +23,6 @@ describe("Session Token", () => {
     "FFFFFFFF\n" +
     "0\n";
 
-  // const now = new Date()
-  // const utcMilllisecondsSinceEpoch = now.getTime() + (now.getTimezoneOffset() * 60 * 1000)
-  // const utcSecondsSinceEpoch = Math.round(utcMilllisecondsSinceEpoch / 1000)
   it("createSimpleSasToken()", () => {
     let sasTokenProperties = new SasToken().create("user1", "db1", "coll1");
     sasTokenProperties.startTime.setDate(Date.now());
@@ -49,10 +39,6 @@ describe("Session Token", () => {
 
     let sasTokenParts: String[] = tokenSegments[2].split(";");
     assert.strictEqual(2, sasTokenParts.length);
-
-    // let decodedString: number[] = decoder.decode(sasTokenParts[1], TextDecodeOptions.);
-    // let sasTokenPayload: String = new String(decodedString, StandardCharsets.UTF_8);
-    // assert.strictEqual(TEST_EXPECTED_SIMPLE_PAYLOAD).isEqualTo(sasTokenPayload);
   });
 
   var TEST_EXPECTED_EXPIRY_SASTOKEN =
@@ -91,8 +77,5 @@ describe("Session Token", () => {
     let sasTokenParts: String[] = tokenSegments[2].split(";");
     assert.strictEqual(2, sasTokenParts.length);
 
-    // let decodedString: number[] = Base64.getDecoder().decode(sasTokenParts[1]);
-    // let sasTokenPayload: String = new String(decodedString, StandardCharsets.UTF_8);
-    // assert.strictEqual(TEST_EXPECTED_EXPIRY_PAYLOAD, sasTokenPayload);
   });
 });
