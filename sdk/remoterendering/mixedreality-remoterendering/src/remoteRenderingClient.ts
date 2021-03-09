@@ -34,16 +34,29 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 
 import { PollerLike } from "@azure/core-lro";
+//import "@azure/core-paging";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
 import { RemoteRendering } from "./generated/operations";
 import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
-import { RenderingSessionPoller, RenderingSessionOperationState } from "./lro/renderingSessionPoller";
+import {
+  RenderingSessionPoller,
+  RenderingSessionOperationState
+} from "./lro/renderingSessionPoller";
 
-export { AssetConversionOperationState, AssetConversion, RenderingSessionPoller, RenderingSessionOperationState };
+export {
+  AssetConversionOperationState,
+  AssetConversion,
+  RenderingSessionPoller,
+  RenderingSessionOperationState
+};
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
-export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, RenderingSession>;
+export type RenderingSessionPollerLike = PollerLike<
+  RenderingSessionOperationState,
+  RenderingSession
+>;
 
 /**
  * The client class used to interact with the App Configuration service.
@@ -151,6 +164,15 @@ export class RemoteRenderingClient {
     this.operations = new RemoteRendering(this.client);
   }
 
+  /**
+   * Creates a conversion using an asset stored in an Azure Blob Storage account.
+   * @param accountId The Azure Remote Rendering account ID.
+   * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
+   *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
+   *                     and cannot contain more than 256 characters.
+   * @param conversionOptions Settings configuring the asset conversion.
+   * @param options The options parameters.
+   */
   public async beginConversion(
     accountId: string,
     conversionId: string,
@@ -204,6 +226,15 @@ export class RemoteRenderingClient {
     }
   }
 
+  /**
+   * Creates a new rendering session.
+   * @param accountId The Azure Remote Rendering account ID.
+   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
+   *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
+   *                  underscores, and cannot contain more than 256 characters.
+   * @param renderingSessionOptions Settings of the session to be created.
+   * @param options The options parameters.
+   */
   public async beginRenderingSession(
     accountId: string,
     sessionId: string,

@@ -80,13 +80,20 @@ class RenderingSessionOperation
   }
 }
 
-export class RenderingSessionPoller extends Poller<RenderingSessionOperationState, RenderingSession> {
+export class RenderingSessionPoller extends Poller<
+  RenderingSessionOperationState,
+  RenderingSession
+> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
   public intervalInMs: number = 10000;
 
-  constructor(client: RemoteRenderingClient, accountId: string, RenderingSession: RenderingSession) {
+  constructor(
+    client: RemoteRenderingClient,
+    accountId: string,
+    RenderingSession: RenderingSession
+  ) {
     super(
       new RenderingSessionOperation(
         new RenderingSessionOperationState(client, accountId, RenderingSession)
