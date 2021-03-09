@@ -5,27 +5,19 @@
  * @summary Demonstrates the use of a ContainerRegistryClient.
  */
 
-const { ContainerRegistryClient, ContainerRegistryUserCredential } = require("../../dist");
+const { ContainerRegistryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
   const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-  const user = process.env.USERNAME ?? "<username>";
-  const pass = process.env.PASSWORD ?? "<password>";
 
-  //const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
-  const client = new ContainerRegistryClient(
-    endpoint,
-    new ContainerRegistryUserCredential(user, pass)
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const response = await client.deleteRepository("hello-world");
+  console.log(
+    `Number of artifacts deleted: ${response?.deletedRegistryArtifactDigests?.length ?? 0}`
   );
-
-  const attributes = await client.getRepositoryProperties("hello-world");
-
-  console.log(`registry: ${attributes.registry}`);
-  console.log(`image name: ${attributes.imageName}`);
-  console.log(`created at: ${attributes.createdTime}`);
-  console.log(`last updated at: ${attributes.lastUpdateTime}`);
+  console.log(`Number of tags deleted: ${response?.deletedRegistryArtifactDigests?.length ?? 0}`);
 }
 
 main().catch((err) => {

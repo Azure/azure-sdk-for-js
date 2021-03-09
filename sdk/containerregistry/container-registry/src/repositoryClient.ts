@@ -13,18 +13,17 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { DeletedRepository, GeneratedClient } from "./generated";
+import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions, ContentProperties } from "./model";
+import {
+  ContainerRegistryClientOptions,
+  ContentProperties,
+  DeletedRepositoryResult
+} from "./model";
 import {
   ContainerRegistryUserCredential,
   createContainerRegistryUserCredentialPolicy
 } from "./containerRegistryUserCredentialPolicy";
-
-/**
- * Re-export generated types that are used as public interfaces.
- */
-export { DeletedRepository };
 
 /**
  * Options for the `getProperties` method of `RepositoryClient`.
@@ -134,7 +133,7 @@ export class RepositoryClient {
    *
    * @param options - optional configuration for the operation
    */
-  public async delete(options: DeleteOptions = {}): Promise<DeletedRepository> {
+  public async delete(options: DeleteOptions = {}): Promise<DeletedRepositoryResult> {
     const { span, updatedOptions } = createSpan("RepositoryClient-delete", options);
 
     try {

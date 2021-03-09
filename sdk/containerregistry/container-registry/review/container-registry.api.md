@@ -8,6 +8,14 @@ import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
+// @public (undocumented)
+export interface ChangeableAttributes {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+}
+
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
@@ -26,23 +34,17 @@ export class ContainerRegistryUserCredential {
     get username(): string;
     }
 
-// @public (undocumented)
-export interface ContentProperties {
-    // (undocumented)
-    canDelete?: boolean;
-    // (undocumented)
-    canList?: boolean;
-    // (undocumented)
-    canRead?: boolean;
-    // (undocumented)
-    canWrite?: boolean;
-}
+// @public
+export type ContentProperties = ChangeableAttributes;
 
 // @public
 export interface DeletedRepository {
     deletedRegistryArtifactDigests?: string[];
     deletedTags?: string[];
 }
+
+// @public
+export type DeletedRepositoryResult = DeletedRepository;
 
 // @public
 export interface DeleteRepositoryOptions extends OperationOptions {
@@ -56,7 +58,6 @@ export interface RepositoryAttributes {
     registry?: string;
     registryArtifactCount?: number;
     tagCount?: number;
-    // Warning: (ae-forgotten-export) The symbol "ChangeableAttributes" needs to be exported by the entry point index.d.ts
     writeableProperties?: ChangeableAttributes;
 }
 
