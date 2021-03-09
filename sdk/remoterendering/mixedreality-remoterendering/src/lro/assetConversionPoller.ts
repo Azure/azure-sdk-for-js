@@ -88,11 +88,7 @@ export class AssetConversionPoller extends Poller<AssetConversionOperationState,
   public intervalInMs: number = 10000;
 
   constructor(client: RemoteRenderingClient, assetConversion: AssetConversion) {
-    super(
-      new AssetConversionOperation(
-        new AssetConversionOperationState(client, assetConversion)
-      )
-    );
+    super(new AssetConversionOperation(new AssetConversionOperationState(client, assetConversion)));
   }
 
   /**

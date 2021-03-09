@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// TODO: 
+// * Fix compile error
+// * Work out how options should be passed to functions.
+// * Work out how responses are normally obtained
+// * Should there be a synchronous version of the API?
+// * Generate the artifact (a doc model file: https://api-extractor.com/pages/setup/generating_docs/)
+// * Upload to apiview
+
 import {
   TokenCredential,
   OperationOptions,
@@ -53,6 +61,7 @@ export {
   RenderingSessionPoller,
   RenderingSessionOperationState
 };
+
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
@@ -211,7 +220,11 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result = await this.operations.getConversion(this.accountId, conversionId, updatedOptions);
+      let result = await this.operations.getConversion(
+        this.accountId,
+        conversionId,
+        updatedOptions
+      );
 
       // TODO Presumably, this may not carry a conversion object.
       return Promise.resolve(result);
@@ -230,9 +243,7 @@ export class RemoteRenderingClient {
    * Gets a list of all conversions.
    * @param options The options parameters.
    */
-  public listConversions(
-    options?: OperationOptions
-  ): PagedAsyncIterableIterator<AssetConversion> {
+  public listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion> {
     throw new Error("Not yet implemented.");
   }
 
@@ -244,7 +255,7 @@ export class RemoteRenderingClient {
    * @param renderingSessionOptions Settings of the session to be created.
    * @param options The options parameters.
    */
-  public async beginRenderingSession(
+  public async beginSession(
     sessionId: string,
     renderingSessionOptions: RenderingSessionOptions,
     options?: OperationOptions
@@ -309,7 +320,7 @@ export class RemoteRenderingClient {
   ): Promise<RenderingSession> {
     throw new Error("Not yet implemented.");
   }
-  
+
   /**
    * Stops a particular rendering session.
    * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
@@ -317,10 +328,7 @@ export class RemoteRenderingClient {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  stopSession(
-    sessionId: string,
-    options?: OperationOptions
-  ): Promise<void> {
+  endSession(sessionId: string, options?: OperationOptions): Promise<void> {
     throw new Error("Not yet implemented.");
   }
 
@@ -328,11 +336,7 @@ export class RemoteRenderingClient {
    * Gets a list of all sessions.
    * @param options The options parameters.
    */
-  public listSessions(
-    options?: OperationOptions
-  ): PagedAsyncIterableIterator<RenderingSession> {
+  public listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession> {
     throw new Error("Not yet implemented.");
   }
-
-
 }
