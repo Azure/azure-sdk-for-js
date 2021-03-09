@@ -214,17 +214,17 @@ export class ContainerRegistryRepository {
   /**
    * Get manifest attributes
    * @param name Name of the image (including the namespace)
-   * @param reference A tag or a digest, pointing to a specific image
+   * @param digest Digest of a BLOB
    * @param options The options parameters.
    */
   getManifestAttributes(
     name: string,
-    reference: string,
+    digest: string,
     options?: coreHttp.OperationOptions
   ): Promise<ContainerRegistryRepositoryGetManifestAttributesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
-      reference,
+      digest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -236,17 +236,17 @@ export class ContainerRegistryRepository {
   /**
    * Update attributes of a manifest
    * @param name Name of the image (including the namespace)
-   * @param reference A tag or a digest, pointing to a specific image
+   * @param digest Digest of a BLOB
    * @param options The options parameters.
    */
   updateManifestAttributes(
     name: string,
-    reference: string,
+    digest: string,
     options?: ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
-      reference,
+      digest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -395,7 +395,7 @@ const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -409,7 +409,7 @@ const updateManifestAttributesOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.value,
-  urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer

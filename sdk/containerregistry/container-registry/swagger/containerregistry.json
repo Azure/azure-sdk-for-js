@@ -943,7 +943,7 @@
             "$ref": "#/parameters/ImageName"
           },
           {
-            "$ref": "#/parameters/ImageReference"
+            "$ref": "#/parameters/Digest"
           }
         ],
         "responses": {
@@ -980,7 +980,7 @@
             "$ref": "#/parameters/ImageName"
           },
           {
-            "$ref": "#/parameters/ImageReference"
+            "$ref": "#/parameters/Digest"
           },
           {
             "$ref": "#/parameters/RepoValue"

@@ -148,23 +148,23 @@ export const digest: OperationQueryParameter = {
   }
 };
 
-export const accept2: OperationParameter = {
-  parameterPath: "accept",
+export const digest1: OperationURLParameter = {
+  parameterPath: "digest",
   mapper: {
-    defaultValue: "application/octet-stream",
-    isConstant: true,
-    serializedName: "Accept",
+    serializedName: "digest",
+    required: true,
     type: {
       name: "String"
     }
   }
 };
 
-export const digest1: OperationURLParameter = {
-  parameterPath: "digest",
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
   mapper: {
-    serializedName: "digest",
-    required: true,
+    defaultValue: "application/octet-stream",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
