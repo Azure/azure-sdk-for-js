@@ -105,7 +105,7 @@ let sendMessageOptions =
     type: 'text'
 };
 let sendChatMessageResult = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
-let messageId = sendChatMessageResponse.id;
+let messageId = sendChatMessageResult.id;
 ```
 
 ### Receive messages from a thread
