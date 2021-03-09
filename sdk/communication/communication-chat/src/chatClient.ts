@@ -42,17 +42,7 @@ import {
   mapToChatParticipantRestModel,
   mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
-import {
-  mapToChatThreadSdkModel,
-  mapToChatParticipantRestModel,
-  mapToCreateChatThreadResultSdkModel
-} from "./models/mappers";
-import {
-  ChatThreadItem,
-  CreateChatThreadResult,
-  ChatThread,
-  ListPageSettings
-} from "./models/models";
+import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
