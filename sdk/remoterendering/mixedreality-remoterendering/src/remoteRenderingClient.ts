@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// TODO: 
-// * Fix compile error
+// TODO:
 // * Work out how options should be passed to functions.
 // * Work out how responses are normally obtained
 // * Should there be a synchronous version of the API?
