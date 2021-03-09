@@ -367,6 +367,7 @@ export const Constants: {
         CollectionSize: string;
     };
     Path: {
+        Root: string;
         DatabasesPathSegment: string;
         CollectionsPathSegment: string;
         UsersPathSegment: string;

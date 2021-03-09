@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PermissionScopeValues } from "../client/SasToken/PermissionScopeValues";
 export interface PartitionKeyRangePropertiesNames {
   // Partition Key Range Constants
   MinInclusive: "minInclusive";
@@ -187,6 +188,7 @@ export const Constants = {
   },
 
   Path: {
+    Root: "/",
     DatabasesPathSegment: "dbs",
     CollectionsPathSegment: "colls",
     UsersPathSegment: "users",
@@ -264,4 +266,69 @@ export enum OperationType {
   Query = "query",
   Execute = "execute",
   Batch = "batch"
+}
+
+/**
+ * @hidden
+ */
+export enum CosmosKeyType {
+  PrimaryMaster = "PRIMARY_MASTER",
+  SecondaryMaster = "SECONDARY_MASTER",
+  PrimaryReadOnly = "PRIMARY_READONLY",
+  SecondaryReadOnly = "SECONDARY_READONLY"
+}
+
+/**
+ * @hidden
+ */
+export enum CosmosContainerChildResourceKind {
+  Item = "ITEM",
+  StoredProcedure = "STORED_PROCEDURE",
+  UserDefinedFunction = "USER_DEFINED_FUNCTION",
+  Trigger = "TRIGGER"
+}
+
+/**
+ * @hidden
+ */
+export enum SasTokenPermissionKind {
+  ContainerCreateItems = PermissionScopeValues.ScopeContainerCreateItemsValue,
+  ContainerReplaceItems = PermissionScopeValues.ScopeContainerReplaceItemsValue,
+  ContainerUpsertItems = PermissionScopeValues.ScopeContainerUpsertItemsValue,
+  ContainerDeleteItems = PermissionScopeValues.ScopeContainerDeleteValue,
+  ContainerExecuteQueries = PermissionScopeValues.ScopeContainerExecuteQueriesValue,
+  ContainerReadFeeds = PermissionScopeValues.ScopeContainerReadFeedsValue,
+  ContainerCreateStoreProcedure = PermissionScopeValues.ScopeContainerCreateStoredProceduresValue,
+  ContainerReadStoreProcedure = PermissionScopeValues.ScopeContainerReadStoredProceduresValue,
+  ContainerReplaceStoreProcedure = PermissionScopeValues.ScopeContainerReplaceStoredProceduresValue,
+  ContainerDeleteStoreProcedure = PermissionScopeValues.ScopeContainerDeleteStoredProceduresValue,
+  ContainerCreateTriggers = PermissionScopeValues.ScopeContainerCreateTriggersValue,
+  ContainerReadTriggers = PermissionScopeValues.ScopeContainerReadTriggersValue,
+  ContainerReplaceTriggers = PermissionScopeValues.ScopeContainerReplaceTriggersValue,
+  ContainerDeleteTriggers = PermissionScopeValues.ScopeContainerDeleteTriggersValue,
+  ContainerCreateUserDefinedFunctions = PermissionScopeValues.ScopeContainerCreateUserDefinedFunctionsValue,
+  ContainerReadUserDefinedFunctions = PermissionScopeValues.ScopeContainerReadUserDefinedFunctionsValue,
+  ContainerReplaceUserDefinedFunctions = PermissionScopeValues.ScopeContainerReplaceUserDefinedFunctionsValue,
+  ContainerDeleteUserDefinedFunctions = PermissionScopeValues.ScopeContainerDeleteUserDefinedFunctionSValue,
+  ContainerExecuteStoredProcedure = PermissionScopeValues.ScopeContainerExecuteStoredProceduresValue,
+  ContainerReadConflicts = PermissionScopeValues.ScopeContainerReadConflictsValue,
+  ContainerDeleteConflicts = PermissionScopeValues.ScopeContainerDeleteCONFLICTSValue,
+  ContainerReadAny = PermissionScopeValues.ScopeContainerReadOfferValue,
+  ContainerFullAccess = PermissionScopeValues.ScopeContainerReadAllAccessValue,
+  ItemReadAny = PermissionScopeValues.ScopeItemReplaceValue,
+  ItemFullAccess = PermissionScopeValues.ScopeItemReadAllAccessValue,
+  ItemRead = PermissionScopeValues.ScopeItemReadValue,
+  ItemReplace = PermissionScopeValues.ScopeItemReplaceValue,
+  ItemUpsert = PermissionScopeValues.ScopeItemUpsertValue,
+  ItemDelete = PermissionScopeValues.ScopeItemDeleteValue,
+  StoreProcedureRead = PermissionScopeValues.ScopeStoredProcedureReadValue,
+  StoreProcedureReplace = PermissionScopeValues.ScopeStoredProcedureReplaceValue,
+  StoreProcedureDelete = PermissionScopeValues.ScopeStoredProcedureDeleteValue,
+  StoreProcedureExecute = PermissionScopeValues.ScopeStoredProcedureExecuteValue,
+  UserDefinedFuntionRead = PermissionScopeValues.ScopeUserDefinedFunctionReadValue,
+  UserDefinedFuntionReplace = PermissionScopeValues.ScopeUserDefinedFunctionReplaceValue,
+  UserDefinedFuntionDelete = PermissionScopeValues.ScopeUserDefinedFunctionDeleteValue,
+  TriggerRead = PermissionScopeValues.ScopeTriggerReadValue,
+  TriggerReplace = PermissionScopeValues.ScopeTriggerReplaceValue,
+  TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue
 }
