@@ -7,10 +7,7 @@ import { ChatClient, CreateChatThreadRequest } from "../src";
 import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
-import {
-  AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier
-} from "@azure/communication-common";
+import { AzureCommunicationTokenCredential, CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   mockThread,
   generateHttpClient,

@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A1d3a188a2a2546fda8349b52b6849d44%40thread.v2",
+   "url": "https://endpoint/chat/threads/19%3A1cb5e8212f0047c1a0ba2b908fee301a%40thread.v2",
    "query": {
     "api-version": "2021-03-01-preview5"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"19:1d3a188a2a2546fda8349b52b6849d44@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-03-08T20:21:06Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b361-bd61-47b4-a43a0d001e15\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b361-bd61-47b4-a43a0d001e15\"}}}",
+   "response": "{\"id\":\"19:1cb5e8212f0047c1a0ba2b908fee301a@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-03-09T01:27:52Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-9721-570c-113a0d006773\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-9721-570c-113a0d006773\"}}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

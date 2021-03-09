@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b472-af9b-290c-113a0d00ce09\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-03-10T01:19:12.7530207+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-8d2f-570c-113a0d006771\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-03-10T01:27:47.9298261+00:00\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -21,7 +21,7 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b472-b253-290c-113a0d00ce0a\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-03-10T01:19:13.4570494+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-8ed3-9806-113a0d00fa27\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-03-10T01:27:48.6620594+00:00\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -32,12 +32,12 @@
    "query": {
     "api-version": "2021-03-01-preview5"
    },
-   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b472-af9b-290c-113a0d00ce09\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b472-b253-290c-113a0d00ce0a\"}}}]}",
+   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-8d2f-570c-113a0d006771\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-8ed3-9806-113a0d00fa27\"}}}]}",
    "status": 201,
-   "response": "{\"chatThread\":{\"id\":\"19:c50c61d06c684049849c98625bcaf488@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-03-09T01:19:14Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b472-af9b-290c-113a0d00ce09\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b472-af9b-290c-113a0d00ce09\"}}}}",
+   "response": "{\"chatThread\":{\"id\":\"19:52286477b9ef4f3bb8906992ff970665@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-03-09T01:27:49Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-8d2f-570c-113a0d006771\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-8d2f-570c-113a0d006771\"}}}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "location": "https://endpoint/chat/threads/19%3Ac50c61d06c684049849c98625bcaf488@thread.v2"
+    "location": "https://endpoint/chat/threads/19%3A52286477b9ef4f3bb8906992ff970665@thread.v2"
    }
   }
  ],
