@@ -2,6 +2,9 @@
 
 ## 12.0.0-beta.1 (2021-03-09)
 
+- Exclude browser unsupported headers when building a Batch request in the browser [#13955)](https://github.com/Azure/azure-sdk-for-js/pull/13955)
+- Make connection string keys case-insensitive [#13954](https://github.com/Azure/azure-sdk-for-js/pull/13954)
+
 
 ## 1.0.0-beta.5 (2021-02-09)
 
