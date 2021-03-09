@@ -37,7 +37,7 @@ describe("SmsClient [Playback/Live]", async () => {
   });
 
   //helper functions
-  const expectCorrectResult = (actualSmsResult: SmsSendResult, expectedRecipient: string) => {
+  const expectSuccessResult = (actualSmsResult: SmsSendResult, expectedRecipient: string) => {
     assert.equal(actualSmsResult.httpStatusCode, 202);
     assert.equal(actualSmsResult.to, expectedRecipient);
     assert.isString(actualSmsResult.messageId);
@@ -45,7 +45,7 @@ describe("SmsClient [Playback/Live]", async () => {
     assert.notExists(actualSmsResult.errorMessage, "no error message for success");
   };
 
-  const expectIncorrectResult = (
+  const expectFailureResult = (
     actualSmsResult: SmsSendResult,
     expectedRecipient: string,
     expectedErrorMessage: string
@@ -67,7 +67,7 @@ describe("SmsClient [Playback/Live]", async () => {
     });
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
-    expectCorrectResult(results[0], validToNumber);
+    expectSuccessResult(results[0], validToNumber);
   });
 
   it("can send a SMS message with options passed in", async () => {
@@ -86,7 +86,7 @@ describe("SmsClient [Playback/Live]", async () => {
     );
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
-    expectCorrectResult(results[0], validToNumber);
+    expectSuccessResult(results[0], validToNumber);
   });
 
   it("sends a new message each time send is called", async function() {
@@ -109,8 +109,8 @@ describe("SmsClient [Playback/Live]", async () => {
     const firstResults = await smsClient.send(sendRequest, options);
     const secondResults = await smsClient.send(sendRequest, options);
 
-    expectCorrectResult(firstResults[0], validToNumber);
-    expectCorrectResult(secondResults[0], validToNumber);
+    expectSuccessResult(firstResults[0], validToNumber);
+    expectSuccessResult(secondResults[0], validToNumber);
     assert.notEqual(firstResults[0].messageId, secondResults[0].messageId);
   });
 
@@ -132,8 +132,8 @@ describe("SmsClient [Playback/Live]", async () => {
       "must return as many results as there were recipients"
     );
 
-    expectCorrectResult(results[0], validToNumber);
-    expectIncorrectResult(results[1], invalidToNumber, "Invalid To phone number format.");
+    expectSuccessResult(results[0], validToNumber);
+    expectFailureResult(results[1], invalidToNumber, "Invalid To phone number format.");
   });
 
   it("throws an exception when sending from a number you don't own", async () => {
