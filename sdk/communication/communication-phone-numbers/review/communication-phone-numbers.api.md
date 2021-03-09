@@ -41,10 +41,10 @@ export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsB
 }
 
 // @public
-export type GetPhoneNumberOptions = OperationOptions;
+export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
-export interface ListPhoneNumbersOptions extends OperationOptions {
+export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
     skip?: number;
     top?: number;
 }
@@ -91,8 +91,8 @@ export class PhoneNumbersClient {
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
-    getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
-    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
+    getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
+    listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
 }
 
 // @public
