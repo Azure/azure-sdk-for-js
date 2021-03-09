@@ -4,7 +4,10 @@
 import { OperationOptions } from "@azure/core-http";
 import { PhoneNumberSearchRequest } from "./generated/src/models/";
 
-export type VoidResponse = {};
+/**
+ * Represents a void result.
+ */
+export type VoidResult = {};
 
 /**
  * Additional options for the get phone number request.

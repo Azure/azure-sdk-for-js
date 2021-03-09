@@ -28,7 +28,7 @@ import {
   GetPurchasedPhoneNumberOptions,
   ListPurchasedPhoneNumbersOptions,
   SearchAvailablePhoneNumbersRequest,
-  VoidResponse
+  VoidResult
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
@@ -190,7 +190,7 @@ export class PhoneNumbersClient {
   public async beginReleasePhoneNumber(
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
-  ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
+  ): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
       options
@@ -287,7 +287,7 @@ export class PhoneNumbersClient {
   public async beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
-  ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
+  ): Promise<PollerLike<PollOperationState<VoidResult>,VoidResult>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options
