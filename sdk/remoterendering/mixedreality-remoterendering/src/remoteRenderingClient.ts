@@ -13,7 +13,15 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 
 import { RemoteRenderingRestClient } from "./generated";
-import { AssetConversionOptions, RemoteRenderingCreateConversionResponse, RemoteRenderingRestClientOptionalParams } from "./generated/models/index";
+import {
+  AssetConversion,
+  AssetConversionOptions,
+  RemoteRenderingCreateConversionResponse,
+  RemoteRenderingRestClientOptionalParams,
+  RenderingSession,
+  RenderingSessionOptions,
+  RemoteRenderingCreateSessionResponse
+} from "./generated/models/index";
 
 // TODO: Maybe copy and paste this?
 import { constructAuthenticationEndpointFromDomain } from "../../../mixedreality/mixedreality-authentication/src/util/authenticationEndpoint";
@@ -27,12 +35,15 @@ import { createSpan } from "./tracing";
 
 import { PollerLike } from "@azure/core-lro";
 
-
 import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
-import { AssetConversion } from "./generated/models/index";
 import { RemoteRendering } from "./generated/operations";
 import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
+import { RenderingSessionPoller, RenderingSessionOperationState } from "./lro/renderingSessionPoller";
+
+export { AssetConversionOperationState, AssetConversion, RenderingSessionPoller, RenderingSessionOperationState };
+export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
+export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, RenderingSession>;
 
 /**
  * The client class used to interact with the App Configuration service.
@@ -145,9 +156,14 @@ export class RemoteRenderingClient {
     conversionId: string,
     conversionOptions: AssetConversionOptions,
     options?: OperationOptions
-  ): Promise<PollerLike<AssetConversionOperationState, AssetConversion>> {
-    let assetConversion : RemoteRenderingCreateConversionResponse = await this.operations.createConversion(accountId, conversionId, { settings : conversionOptions }, options);
-    
+  ): Promise<AssetConversionPollerLike> {
+    let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
+      accountId,
+      conversionId,
+      { settings: conversionOptions },
+      options
+    );
+
     let poller = new AssetConversionPoller(this, accountId, assetConversion);
 
     await poller.poll();
@@ -176,6 +192,59 @@ export class RemoteRenderingClient {
       let result = await this.operations.getConversion(accountId, conversionId, updatedOptions);
 
       // TODO Presumably, this may not carry a conversion object.
+      return Promise.resolve(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginRenderingSession(
+    accountId: string,
+    sessionId: string,
+    renderingSessionOptions: RenderingSessionOptions,
+    options?: OperationOptions
+  ): Promise<RenderingSessionPollerLike> {
+    let renderingSession: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
+      accountId,
+      sessionId,
+      renderingSessionOptions,
+      options
+    );
+
+    let poller = new RenderingSessionPoller(this, accountId, renderingSession);
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Gets the status of a particular conversion.
+   * @param accountId The Azure Remote Rendering account ID.
+   * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
+   *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
+   *                     and cannot contain more than 256 characters.
+   * @param options The options parameters.
+   */
+  public async getSession(
+    accountId: string,
+    sessionId: string,
+    options?: OperationOptions
+  ): Promise<RenderingSession> {
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetSession", {
+      sessionId,
+      ...options
+    });
+
+    try {
+      let result = await this.operations.getSession(accountId, sessionId, updatedOptions);
+
+      // TODO Presumably, this may not carry a session object.
       return Promise.resolve(result);
     } catch (e) {
       span.setStatus({

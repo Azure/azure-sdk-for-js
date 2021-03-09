@@ -3,16 +3,16 @@
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
 import { RemoteRenderingClient } from "../remoteRenderingClient";
-import { AssetConversion, KnownAssetConversionStatus } from "../generated/models/index";
+import { RenderingSession, KnownRenderingSessionStatus } from "../generated/models/index";
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export class AssetConversionOperationState implements PollOperationState<AssetConversion> {
+export class RenderingSessionOperationState implements PollOperationState<RenderingSession> {
   client: RemoteRenderingClient;
   accountId: string;
-  conversionState: AssetConversion;
+  conversionState: RenderingSession;
 
-  constructor(client: RemoteRenderingClient, accountId: string, conversionState: AssetConversion) {
+  constructor(client: RemoteRenderingClient, accountId: string, conversionState: RenderingSession) {
     this.client = client;
     this.accountId = accountId;
     this.conversionState = conversionState;
@@ -23,10 +23,7 @@ export class AssetConversionOperationState implements PollOperationState<AssetCo
   }
 
   get isCompleted(): boolean {
-    return (
-      this.conversionState.status != KnownAssetConversionStatus.NotStarted &&
-      this.conversionState.status != KnownAssetConversionStatus.Running
-    );
+    return this.conversionState.status != KnownRenderingSessionStatus.Starting;
   }
 
   get isCancelled(): boolean {
@@ -41,23 +38,23 @@ export class AssetConversionOperationState implements PollOperationState<AssetCo
     return undefined;
   }
 
-  get result(): AssetConversion {
+  get result(): RenderingSession {
     return this.conversionState;
   }
 }
 
-class AssetConversionOperation
-  implements PollOperation<AssetConversionOperationState, AssetConversion> {
-  state: AssetConversionOperationState;
+class RenderingSessionOperation
+  implements PollOperation<RenderingSessionOperationState, RenderingSession> {
+  state: RenderingSessionOperationState;
 
-  constructor(state: AssetConversionOperationState) {
+  constructor(state: RenderingSessionOperationState) {
     this.state = state;
   }
 
   update(_options?: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: AssetConversionOperationState) => void;
-  }): Promise<AssetConversionOperation> {
+    fireProgress?: (state: RenderingSessionOperationState) => void;
+  }): Promise<RenderingSessionOperation> {
     throw new Error("Not yet implemented.");
   }
 
@@ -70,7 +67,7 @@ class AssetConversionOperation
    *
    * @param options - Optional properties passed to the operation's update method.
    */
-  cancel(_options?: { abortSignal?: AbortSignalLike }): Promise<AssetConversionOperation> {
+  cancel(_options?: { abortSignal?: AbortSignalLike }): Promise<RenderingSessionOperation> {
     throw new Error("Not yet implemented.");
   }
 
@@ -83,16 +80,16 @@ class AssetConversionOperation
   }
 }
 
-export class AssetConversionPoller extends Poller<AssetConversionOperationState, AssetConversion> {
+export class RenderingSessionPoller extends Poller<RenderingSessionOperationState, RenderingSession> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
   public intervalInMs: number = 10000;
 
-  constructor(client: RemoteRenderingClient, accountId: string, assetConversion: AssetConversion) {
+  constructor(client: RemoteRenderingClient, accountId: string, RenderingSession: RenderingSession) {
     super(
-      new AssetConversionOperation(
-        new AssetConversionOperationState(client, accountId, assetConversion)
+      new RenderingSessionOperation(
+        new RenderingSessionOperationState(client, accountId, RenderingSession)
       )
     );
   }
@@ -107,7 +104,7 @@ export class AssetConversionPoller extends Poller<AssetConversionOperationState,
   /**
    * Gets the public state of the polling operation
    */
-  public getOperationState(): AssetConversionOperationState {
+  public getOperationState(): RenderingSessionOperationState {
     throw new Error("Not yet implemented.");
   }
 }
