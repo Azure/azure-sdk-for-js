@@ -19,7 +19,7 @@ import { apiVersion } from "../src/generated/src/models/parameters";
 import { SmsClient, SmsSendRequest } from "../src/smsClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
-const TEST_NUMBER = "+18005551234";
+const TEST_NUMBER = "+14255550123";
 
 describe("[mocked] SmsClient", async () => {
   const baseUri = "https://contoso.api.fake:443";
