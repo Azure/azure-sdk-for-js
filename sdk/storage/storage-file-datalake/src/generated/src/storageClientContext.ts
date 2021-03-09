@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-datalake";
-const packageVersion = "12.4.0";
+const packageVersion = "1.0.0";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
