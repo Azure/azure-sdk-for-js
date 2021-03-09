@@ -57,7 +57,7 @@ Use the `createThread` method to create a chat thread.
 - Use `topic` to give a thread topic;
 - Use `participants` to list the chat participants to be added to the thread;
 
-`CreateChatThreadResult` is the response returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
+`createChatThreadResult` is the result returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
 
 ```Javascript
 let createChatThreadRequest =
@@ -92,7 +92,7 @@ Use `sendMessage` method to sends a message to a thread identified by threadId.
 - Use `senderDisplayName` to specify the display name of the sender;
 - Use `type` to specify the message type, such as 'text' or 'html' ;
 
-`SendChatMessageResult` is the response returned from sending a message, it contains an ID, which is the unique ID of the message.
+`sendChatMessageResult` is the result returned from sending a message, it contains an ID, which is the unique ID of the message.
 
 ```JavaScript
 let sendMessageRequest =
