@@ -287,7 +287,7 @@ export class PhoneNumbersClient {
   public async beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
-  ): Promise<PollerLike<PollOperationState<VoidResult>,VoidResult>> {
+  ): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options
