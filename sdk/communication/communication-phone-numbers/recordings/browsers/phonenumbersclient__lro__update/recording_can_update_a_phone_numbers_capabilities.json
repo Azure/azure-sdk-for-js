@@ -2,13 +2,13 @@
   "recordings": [
     {
       "method": "GET",
-      "url": "https://endpoint/phoneNumbers/+14155550100",
+      "url": "https://endpoint/phoneNumbers/%2B14155550100",
       "query": {
         "api-version": "2021-03-07"
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"Application\",\"purchaseDate\":\"2021-02-10T17:52:41.818335+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"Monthly\"}}",
+      "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"Application\",\"purchaseDate\":\"2021-02-10T17:52:41.818335+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"Monthly\"}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -38,7 +38,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T14:48:01.7253447+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T21:11:25.3472727+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8",
         "location": "/phoneNumbers/+14155550100?api-version=2021-03-07"
@@ -52,7 +52,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T14:48:01.7253447+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T21:11:25.3472727+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8",
         "location": "/phoneNumbers/+14155550100?api-version=2021-03-07"
@@ -66,7 +66,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T14:48:01.7253447+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T21:11:25.3472727+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8",
         "location": "/phoneNumbers/+14155550100?api-version=2021-03-07"
@@ -80,7 +80,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T14:48:01.7253447+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T21:11:25.3472727+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8",
         "location": "/phoneNumbers/+14155550100?api-version=2021-03-07"
@@ -94,7 +94,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T14:48:01.7253447+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T21:11:25.3472727+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8",
         "location": "/phoneNumbers/+14155550100?api-version=2021-03-07"
@@ -108,7 +108,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"status\":\"Running\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T14:48:01.7253447+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "response": "{\"status\":\"Succeeded\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T21:11:25.3472727+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8",
         "location": "/phoneNumbers/+14155550100?api-version=2021-03-07"
@@ -116,21 +116,7 @@
     },
     {
       "method": "GET",
-      "url": "https://endpoint/phoneNumbers/operations/capabilities_sanitized",
-      "query": {
-        "api-version": "2021-03-07"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"status\":\"Succeeded\",\"resourceLocation\":\"/phoneNumbers/+14155550100?api-version=2021-03-07\",\"createdDateTime\":\"2021-03-09T14:48:01.7253447+00:00\",\"id\":\"capabilities_sanitized\",\"operationType\":\"UpdatePhoneNumberCapabilities\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8",
-        "location": "/phoneNumbers/+14155550100?api-version=2021-03-07"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://endpoint/phoneNumbers/%2B14155550100",
+      "url": "https://endpoint/phoneNumbers/+14155550100",
       "query": {
         "api-version": "2021-03-07"
       },
@@ -146,5 +132,5 @@
     "uniqueName": {},
     "newDate": {}
   },
-  "hash": "e618bda6829d26c804d6263bf29ce64d"
+  "hash": "9ebb91b2936c7d7f7f505700dd99953e"
 }

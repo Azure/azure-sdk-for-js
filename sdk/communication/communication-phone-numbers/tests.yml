@@ -4,7 +4,7 @@ extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
     PackageName: "@azure/communication-phone-numbers"
-    ResourceServiceDirectory: communication
+    ServiceDirectory: communication
     EnvVars:
       AZURE_SUBSCRIPTION_ID: $(acs-subscription-id)
       AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: $(communication-livetest-connection-string)
