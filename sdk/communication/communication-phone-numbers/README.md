@@ -17,6 +17,12 @@ Acquired phone numbers can come with many capabilities, depending on the country
 npm install @azure/communication-phone-numbers
 ```
 
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## Key concepts
 
 The phone numbers package exposes the `PhoneNumbersClient` which provides methods to manage phone numbers.

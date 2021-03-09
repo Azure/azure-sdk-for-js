@@ -22,6 +22,12 @@ Phone numbers can be acquired and assigned to a Communication Services resource 
 
 You may also get a phone number by using the [`@azure/communication-administration`][azure_communication_admin] package. Instructions on how to use the package can be found in the [package's README][azure_communication_admin_readme].
 
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## Key concepts
 
 ### SmsClient
