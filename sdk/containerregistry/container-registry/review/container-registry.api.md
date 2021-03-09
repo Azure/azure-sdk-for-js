@@ -19,7 +19,7 @@ export interface ChangeableAttributes {
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
-    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeletedRepository>;
+    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeletedRepositoryResult>;
 }
 
 // @public
@@ -48,17 +48,6 @@ export type DeletedRepositoryResult = DeletedRepository;
 
 // @public
 export interface DeleteRepositoryOptions extends OperationOptions {
-}
-
-// @public
-export interface RepositoryAttributes {
-    createdOn?: Date;
-    lastUpdatedOn?: Date;
-    name?: string;
-    registry?: string;
-    registryArtifactCount?: number;
-    tagCount?: number;
-    writeableProperties?: ChangeableAttributes;
 }
 
 

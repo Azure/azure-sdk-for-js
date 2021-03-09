@@ -13,18 +13,13 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GeneratedClient, RepositoryAttributes, DeletedRepository } from "./generated";
+import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions } from "./model";
+import { ContainerRegistryClientOptions, DeletedRepositoryResult } from "./model";
 import {
   ContainerRegistryUserCredential,
   createContainerRegistryUserCredentialPolicy
 } from "./containerRegistryUserCredentialPolicy";
-
-/**
- * Re-export generated types that are used as public interfaces.
- */
-export { RepositoryAttributes, DeletedRepository };
 
 /**
  * Options for the `deleteRepository` method of `ContainerRegistryClient`.
@@ -98,7 +93,7 @@ export class ContainerRegistryClient {
   public async deleteRepository(
     name: string,
     options: DeleteRepositoryOptions = {}
-  ): Promise<DeletedRepository> {
+  ): Promise<DeletedRepositoryResult> {
     const { span, updatedOptions } = createSpan(
       "ContainerRegistryClient-deleteRepository",
       options
