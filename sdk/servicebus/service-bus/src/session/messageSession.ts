@@ -533,7 +533,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Closes the underlying AMQP receiver link.
    */
-  async close(): Promise<void> {
+  async close(error?: Error | AmqpError): Promise<void> {
     try {
       this._isReceivingMessagesForSubscriber = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
@@ -545,7 +545,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       await super.close();
 
-      this._batchingReceiverLite.terminate();
+      this._batchingReceiverLite.terminate(error);
     } catch (err) {
       logger.logError(
         err,
@@ -772,11 +772,9 @@ export class MessageSession extends LinkEntity<Receiver> {
           "Unknown error occurred on the AMQP connection while receiving messages."
         );
       }
-      this._batchingReceiverLite.terminate(connectionError);
 
-      // .close() also calls terminate(without error) but the _closeHandler would be undefined by then,
-      // hence no effect for that "terminate" call.
-      await this.close(); // TODO: Based on how the streaming receivers will be handled, this `.close` call can be called conditionally or moved around accordingly
+      // .close() calls terminate() with the error
+      await this.close(connectionError); // TODO: Based on how the streaming receivers will be handled, this `.close` call can be called conditionally or moved around accordingly
     } else {
       // TODO: Not implemented for streaming yet... Come up with a plan for streaming
     }
