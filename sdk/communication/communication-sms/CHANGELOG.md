@@ -5,6 +5,8 @@
 ### Added
 
 - `SmsClient` added a constructor that supports `TokenCredential`.
+- Added support for tagging SMS messages.
+- `send` method in `SmsClient` is idempotent under retry policy.
 
 ### Breaking Changes
 
