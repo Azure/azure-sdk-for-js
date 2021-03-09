@@ -137,8 +137,8 @@ export class SasToken {
         this.partitionRanges = `${this.partitionRanges}${range.encode()},`;
       }
     }
-      this.expiryTime = this.startTime;
-      this.expiryTime.setSeconds(this.startTime.getHours() + 2);
+    this.expiryTime = this.startTime;
+    this.expiryTime.setSeconds(this.startTime.getHours() + 2);
 
     if (this.controlPlaneReaderScope === 0) {
       this.controlPlaneReaderScope =

@@ -76,6 +76,5 @@ describe("Session Token", () => {
 
     let sasTokenParts: String[] = tokenSegments[2].split(";");
     assert.strictEqual(2, sasTokenParts.length);
-
   });
 });
