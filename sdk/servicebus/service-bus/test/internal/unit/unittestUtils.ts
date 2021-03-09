@@ -86,6 +86,19 @@ export function createConnectionContextForTests(
         mockLinkProperties(receiver);
 
         (receiver as any).connection = { id: "connection-id" };
+        (receiver as any).session = {
+          _session: {
+            incoming: {
+              deliveries: {
+                capacity: 2048,
+                size: 0,
+                head: 0,
+                tail: 0,
+                entries: []
+              }
+            }
+          }
+        };
         return receiver;
       },
       async close(): Promise<void> {
