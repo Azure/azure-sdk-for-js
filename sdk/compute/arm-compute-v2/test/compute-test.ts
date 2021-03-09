@@ -1,6 +1,6 @@
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { Recorder } from "@azure/test-utils-recorder";
-import { ComputeManagementClient } from "../src";
+import { ComputeManagementClient } from "../src/computeManagementClient";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 
