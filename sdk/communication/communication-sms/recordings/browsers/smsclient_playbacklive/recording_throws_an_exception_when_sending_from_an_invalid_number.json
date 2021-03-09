@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/sms",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"from\":\"+1800555123456\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
+   "status": 400,
+   "response": "{\"From\":[\"Invalid From phone number format\"]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "91aae4c7722be660ca4d47f2f8e2414e"
+}
