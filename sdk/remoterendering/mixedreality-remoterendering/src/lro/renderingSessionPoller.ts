@@ -9,12 +9,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 export class RenderingSessionOperationState implements PollOperationState<RenderingSession> {
   client: RemoteRenderingClient;
-  accountId: string;
   conversionState: RenderingSession;
 
-  constructor(client: RemoteRenderingClient, accountId: string, conversionState: RenderingSession) {
+  constructor(client: RemoteRenderingClient, conversionState: RenderingSession) {
     this.client = client;
-    this.accountId = accountId;
     this.conversionState = conversionState;
   }
 
@@ -91,12 +89,11 @@ export class RenderingSessionPoller extends Poller<
 
   constructor(
     client: RemoteRenderingClient,
-    accountId: string,
     RenderingSession: RenderingSession
   ) {
     super(
       new RenderingSessionOperation(
-        new RenderingSessionOperationState(client, accountId, RenderingSession)
+        new RenderingSessionOperationState(client, RenderingSession)
       )
     );
   }

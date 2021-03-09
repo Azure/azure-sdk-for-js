@@ -9,12 +9,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 export class AssetConversionOperationState implements PollOperationState<AssetConversion> {
   client: RemoteRenderingClient;
-  accountId: string;
   conversionState: AssetConversion;
 
-  constructor(client: RemoteRenderingClient, accountId: string, conversionState: AssetConversion) {
+  constructor(client: RemoteRenderingClient, conversionState: AssetConversion) {
     this.client = client;
-    this.accountId = accountId;
     this.conversionState = conversionState;
   }
 
@@ -89,10 +87,10 @@ export class AssetConversionPoller extends Poller<AssetConversionOperationState,
    */
   public intervalInMs: number = 10000;
 
-  constructor(client: RemoteRenderingClient, accountId: string, assetConversion: AssetConversion) {
+  constructor(client: RemoteRenderingClient, assetConversion: AssetConversion) {
     super(
       new AssetConversionOperation(
-        new AssetConversionOperationState(client, accountId, assetConversion)
+        new AssetConversionOperationState(client, assetConversion)
       )
     );
   }

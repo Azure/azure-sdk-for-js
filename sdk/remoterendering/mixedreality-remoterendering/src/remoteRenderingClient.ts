@@ -20,7 +20,8 @@ import {
   RemoteRenderingRestClientOptionalParams,
   RenderingSession,
   RenderingSessionOptions,
-  RemoteRenderingCreateSessionResponse
+  RemoteRenderingCreateSessionResponse,
+  UpdateSessionOptions
 } from "./generated/models/index";
 
 // TODO: Maybe copy and paste this?
@@ -35,7 +36,7 @@ import { createSpan } from "./tracing";
 
 import { PollerLike } from "@azure/core-lro";
 //import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
@@ -62,14 +63,15 @@ export type RenderingSessionPollerLike = PollerLike<
  * The client class used to interact with the App Configuration service.
  */
 export class RemoteRenderingClient {
+  private accountId: string;
   private client: RemoteRenderingRestClient;
   private operations: RemoteRendering;
 
   /**
-   * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
+   * Creates an instance of a RemoteRenderingClient.
+   * @param accountId The Remote Rendering service account identifier.
+   * @param accountDomain The Remote Rendering service account domain.
+   * @param keyCredential The Remote Rendering service account primary or secondary key credential.
    * @param options Additional client options.
    */
   constructor(
@@ -81,10 +83,10 @@ export class RemoteRenderingClient {
   );
 
   /**
-   * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
+   * Creates an instance of a RemoteRenderingClient.
+   * @param accountId The Remote Rendering service account identifier.
+   * @param accountDomain The Remote Rendering service account domain.
+   * @param credential A token credential obtained from the Mixed Reality STS service.
    * @param options Additional client options.
    */
   constructor(
@@ -97,9 +99,9 @@ export class RemoteRenderingClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
+   * @param accountId The Remote Rendering service account identifier.
+   * @param accountDomain The Remote Rendering service account domain.
+   * @param credential A token credential suitable for use with the Mixed Reality STS service.
    * @param options Additional client options.
    */
   constructor(
@@ -109,6 +111,8 @@ export class RemoteRenderingClient {
     credential: TokenCredential | AzureKeyCredential | AccessToken,
     options: RemoteRenderingClientOptions = {}
   ) {
+    this.accountId = accountId;
+
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-mixedreality-authentication/${SDK_VERSION}`;
 
@@ -166,7 +170,6 @@ export class RemoteRenderingClient {
 
   /**
    * Creates a conversion using an asset stored in an Azure Blob Storage account.
-   * @param accountId The Azure Remote Rendering account ID.
    * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
@@ -174,19 +177,18 @@ export class RemoteRenderingClient {
    * @param options The options parameters.
    */
   public async beginConversion(
-    accountId: string,
     conversionId: string,
     conversionOptions: AssetConversionOptions,
     options?: OperationOptions
   ): Promise<AssetConversionPollerLike> {
     let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
-      accountId,
+      this.accountId,
       conversionId,
       { settings: conversionOptions },
       options
     );
 
-    let poller = new AssetConversionPoller(this, accountId, assetConversion);
+    let poller = new AssetConversionPoller(this, assetConversion);
 
     await poller.poll();
     return poller;
@@ -194,14 +196,12 @@ export class RemoteRenderingClient {
 
   /**
    * Gets the status of a particular conversion.
-   * @param accountId The Azure Remote Rendering account ID.
    * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
   public async getConversion(
-    accountId: string,
     conversionId: string,
     options?: OperationOptions
   ): Promise<AssetConversion> {
@@ -211,7 +211,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result = await this.operations.getConversion(accountId, conversionId, updatedOptions);
+      let result = await this.operations.getConversion(this.accountId, conversionId, updatedOptions);
 
       // TODO Presumably, this may not carry a conversion object.
       return Promise.resolve(result);
@@ -227,8 +227,17 @@ export class RemoteRenderingClient {
   }
 
   /**
+   * Gets a list of all conversions.
+   * @param options The options parameters.
+   */
+  public listConversions(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<AssetConversion> {
+    throw new Error("Not yet implemented.");
+  }
+
+  /**
    * Creates a new rendering session.
-   * @param accountId The Azure Remote Rendering account ID.
    * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
    *                  underscores, and cannot contain more than 256 characters.
@@ -236,19 +245,18 @@ export class RemoteRenderingClient {
    * @param options The options parameters.
    */
   public async beginRenderingSession(
-    accountId: string,
     sessionId: string,
     renderingSessionOptions: RenderingSessionOptions,
     options?: OperationOptions
   ): Promise<RenderingSessionPollerLike> {
     let renderingSession: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
-      accountId,
+      this.accountId,
       sessionId,
       renderingSessionOptions,
       options
     );
 
-    let poller = new RenderingSessionPoller(this, accountId, renderingSession);
+    let poller = new RenderingSessionPoller(this, renderingSession);
 
     await poller.poll();
     return poller;
@@ -256,14 +264,12 @@ export class RemoteRenderingClient {
 
   /**
    * Gets the status of a particular conversion.
-   * @param accountId The Azure Remote Rendering account ID.
    * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
   public async getSession(
-    accountId: string,
     sessionId: string,
     options?: OperationOptions
   ): Promise<RenderingSession> {
@@ -273,7 +279,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result = await this.operations.getSession(accountId, sessionId, updatedOptions);
+      let result = await this.operations.getSession(this.accountId, sessionId, updatedOptions);
 
       // TODO Presumably, this may not carry a session object.
       return Promise.resolve(result);
@@ -287,4 +293,46 @@ export class RemoteRenderingClient {
       span.end();
     }
   }
+
+  /**
+   * Updates the max lease time of a particular rendering session.
+   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
+   *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
+   *                  underscores, and cannot contain more than 256 characters.
+   * @param updateOptions Settings used to update the session.
+   * @param options The options parameters.
+   */
+  updateSession(
+    sessionId: string,
+    updateOptions: UpdateSessionOptions,
+    options?: OperationOptions
+  ): Promise<RenderingSession> {
+    throw new Error("Not yet implemented.");
+  }
+  
+  /**
+   * Stops a particular rendering session.
+   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
+   *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
+   *                  underscores, and cannot contain more than 256 characters.
+   * @param options The options parameters.
+   */
+  stopSession(
+    sessionId: string,
+    options?: OperationOptions
+  ): Promise<void> {
+    throw new Error("Not yet implemented.");
+  }
+
+  /**
+   * Gets a list of all sessions.
+   * @param options The options parameters.
+   */
+  public listSessions(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<RenderingSession> {
+    throw new Error("Not yet implemented.");
+  }
+
+
 }
