@@ -21,21 +21,21 @@ describe("PhoneNumbersClient - get phone number", function() {
     }
   });
 
-  it("can get an acquired phone number", async function() {
+  it("can get a purchased phone number", async function() {
     if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }
 
-    const acquiredPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
-    const { phoneNumber } = await client.getPhoneNumber(acquiredPhoneNumber);
+    const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
+    const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
-    assert.strictEqual(acquiredPhoneNumber, phoneNumber);
+    assert.strictEqual(purchasedPhoneNumber, phoneNumber);
   });
 
   it("errors if phone number not found", async function() {
     const fake = "+14155550100";
     try {
-      await client.getPhoneNumber(fake);
+      await client.getPurchasedPhoneNumber(fake);
     } catch (e) {
       assert.strictEqual(e.code, "PhoneNumberNotFound");
       assert.strictEqual(e.message, "The specified phone number +14155550100 cannot be found.");

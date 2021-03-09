@@ -30,7 +30,7 @@ describe("PhoneNumbersClient - lro - release", function() {
     let phoneNumberToRelease: string;
 
     it("gets a phone number to release", async function() {
-      const phoneNumber = await client.listPhoneNumbers().next();
+      const phoneNumber = await client.listPurchasedPhoneNumbers().next();
       phoneNumberToRelease = await phoneNumber.value.phoneNumber;
 
       assert.isNotEmpty(phoneNumberToRelease);

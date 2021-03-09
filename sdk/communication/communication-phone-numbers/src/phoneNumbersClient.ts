@@ -25,8 +25,8 @@ import {
   PhoneNumberSearchResult
 } from "./generated/src/models/";
 import {
-  GetPhoneNumberOptions,
-  ListPhoneNumbersOptions,
+  GetPurchasedPhoneNumberOptions,
+  ListPurchasedPhoneNumbersOptions,
   SearchAvailablePhoneNumbersRequest,
   VoidResponse
 } from "./models";
@@ -115,16 +115,19 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Gets the details of an acquired phone number. Includes phone number, cost, country code, etc.
+   * Gets the details of a purchased phone number. Includes phone number, cost, country code, etc.
    *
    * @param {string} phoneNumber The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
-   * @param {GetPhoneNumberOptions} options Additional request options.
+   * @param {GetPurchasedPhoneNumberOptions} options Additional request options.
    */
-  public async getPhoneNumber(
+  public async getPurchasedPhoneNumber(
     phoneNumber: string,
-    options: GetPhoneNumberOptions = {}
+    options: GetPurchasedPhoneNumberOptions = {}
   ): Promise<AcquiredPhoneNumber> {
-    const { span, updatedOptions } = createSpan("PhoneNumbersClient-getPhoneNumber", options);
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-getPurchasedPhoneNumber",
+      options
+    );
     try {
       const { _response, ...results } = await this.client.getByNumber(phoneNumber, updatedOptions);
       return results;
@@ -140,29 +143,32 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Iterates the acquired phone numbers.
+   * Iterates the purchased phone numbers.
    *
    * Example usage:
    * ```ts
    * let client = new PhoneNumbersClient(credentials);
-   * for await (const acquired of client.listPhoneNumbers()) {
-   *   console.log("phone number: ", acquired.phoneNumber);
+   * for await (const purchased of client.listPhoneNumbers()) {
+   *   console.log("phone number: ", purchased.phoneNumber);
    * }
    * ```
-   * @summary List all acquired phone numbers.
-   * @param {ListPhoneNumbersOptions} [options] The optional parameters.
+   * @summary List all purchased phone numbers.
+   * @param {ListPurchasedPhoneNumbersOptions} [options] The optional parameters.
    */
-  public listPhoneNumbers(
-    options: ListPhoneNumbersOptions = {}
+  public listPurchasedPhoneNumbers(
+    options: ListPurchasedPhoneNumbersOptions = {}
   ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
-    const { span, updatedOptions } = createSpan("PhoneNumbersClient-listAllPhoneNumbers", options);
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-listPurchasedPhoneNumbers",
+      options
+    );
     const iter = this.client.listPhoneNumbers(updatedOptions);
     span.end();
     return iter;
   }
 
   /**
-   * Starts the release of an acquired phone number.
+   * Starts the release of a purchased phone number.
    *
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
    *
@@ -301,7 +307,7 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Starts the update of an acquired phone number's capabilities.
+   * Starts the update of a purchased phone number's capabilities.
    *
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
    *

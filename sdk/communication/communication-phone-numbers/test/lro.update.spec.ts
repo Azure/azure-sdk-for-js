@@ -30,7 +30,7 @@ describe("PhoneNumbersClient - lro - update", function() {
   });
 
   it("can update a phone number's capabilities", async function() {
-    const { capabilities } = await client.getPhoneNumber(acquiredPhoneNumber);
+    const { capabilities } = await client.getPurchasedPhoneNumber(acquiredPhoneNumber);
     const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
       ? { calling: "none", sms: "outbound" }
       : buildCapabilityUpdate(capabilities);
@@ -47,7 +47,9 @@ describe("PhoneNumbersClient - lro - update", function() {
   }).timeout(45000);
 
   it("can cancel an update", async function() {
-    const { capabilities: originalCapabilities } = await client.getPhoneNumber(acquiredPhoneNumber);
+    const { capabilities: originalCapabilities } = await client.getPurchasedPhoneNumber(
+      acquiredPhoneNumber
+    );
     const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
       ? { calling: "inbound+outbound", sms: "inbound+outbound" }
       : buildCapabilityUpdate(originalCapabilities);
@@ -62,7 +64,7 @@ describe("PhoneNumbersClient - lro - update", function() {
     assert.ok(updatePoller.isStopped);
     assert.ok(updatePoller.getOperationState().isCancelled);
 
-    const { capabilities } = await client.getPhoneNumber(acquiredPhoneNumber);
+    const { capabilities } = await client.getPurchasedPhoneNumber(acquiredPhoneNumber);
     assert.notDeepEqual(capabilities, update);
     assert.deepEqual(capabilities, originalCapabilities);
   }).timeout(5000);

@@ -9,12 +9,12 @@ export type VoidResponse = {};
 /**
  * Additional options for the get phone number request.
  */
-export type GetPhoneNumberOptions = OperationOptions;
+export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 /**
  * Additional options that can be passed to the list phone numbers request.
  */
-export interface ListPhoneNumbersOptions extends OperationOptions {
+export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
   /**
    * An optional parameter for how many entries to skip, for pagination purposes.
    * The default value is 0.

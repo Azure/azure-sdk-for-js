@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "ee0b503f44af4be61018cbb122b72b9e";
+module.exports.hash = "4fdb51430a720519c0b3153facf9a7d6";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -11,26 +11,6 @@ nock("https://endpoint", { encodedQueryParams: false })
     200,
     {
       phoneNumbers: [
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "inbound", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-02-09T23:00:10.4372681+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "inbound", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-02-09T22:58:41.2504122+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
         {
           id: "14155550100",
           phoneNumber: "+14155550100",
@@ -56,7 +36,7 @@ nock("https://endpoint", { encodedQueryParams: false })
           phoneNumber: "+14155550100",
           countryCode: "US",
           phoneNumberType: "TollFree",
-          capabilities: { calling: "none", sms: "inbound+outbound" },
+          capabilities: { calling: "none", sms: "inbound" },
           assignmentType: "Application",
           purchaseDate: "2021-02-10T17:52:41.818335+00:00",
           cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
@@ -69,6 +49,26 @@ nock("https://endpoint", { encodedQueryParams: false })
           capabilities: { calling: "none", sms: "inbound+outbound" },
           assignmentType: "Application",
           purchaseDate: "2021-02-10T18:01:46.4199999+00:00",
+          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
+        },
+        {
+          id: "14155550100",
+          phoneNumber: "+14155550100",
+          countryCode: "US",
+          phoneNumberType: "TollFree",
+          capabilities: { calling: "none", sms: "inbound+outbound" },
+          assignmentType: "Application",
+          purchaseDate: "2021-03-09T15:01:55.0949003+00:00",
+          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
+        },
+        {
+          id: "14155550100",
+          phoneNumber: "+14155550100",
+          countryCode: "US",
+          phoneNumberType: "TollFree",
+          capabilities: { calling: "none", sms: "inbound+outbound" },
+          assignmentType: "Application",
+          purchaseDate: "2021-03-09T15:03:04.7513808+00:00",
           cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
         },
         {
@@ -101,12 +101,12 @@ nock("https://endpoint", { encodedQueryParams: false })
       "Request-Context",
       "appId=",
       "MS-CV",
-      "ks1rRS4mXEyLo1g8P9XuwQ.0",
+      "au0qyZORLkunixqDL/tW/g.0",
       "X-Processing-Time",
-      "4738ms",
+      "4786ms",
       "X-Azure-Ref",
-      "0f4dHYAAAAADfTLtIX9XgQJdoPztfD9YuWVZSMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0K+5HYAAAAABy4ZwPCPJsQr9ljmE8GtP8WVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Tue, 09 Mar 2021 14:34:43 GMT"
+      "Tue, 09 Mar 2021 21:52:47 GMT"
     ]
   );
