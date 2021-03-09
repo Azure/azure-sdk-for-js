@@ -242,7 +242,7 @@ export class PhoneNumbersClient {
 
     try {
       const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
-      return await this.client.searchAvailablePhoneNumbers(
+      return this.client.searchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,
         assignmentType,
@@ -294,7 +294,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return await this.client.purchasePhoneNumbers({ ...updatedOptions, searchId });
+      return this.client.purchasePhoneNumbers({ ...updatedOptions, searchId });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
