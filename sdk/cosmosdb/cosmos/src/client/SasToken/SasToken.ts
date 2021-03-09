@@ -23,15 +23,15 @@ export class SasToken implements SasTokenProperties {
   public resourcePath: string;
   public resourceKind: CosmosContainerChildResourceKind;
   public partitionKeyValueRanges: SasTokenPartitionKeyValueRange[];
-  public startTime: Date = new Date;
-  public expiryTime: Date = new Date;
+  public startTime: Date = new Date();
+  public expiryTime: Date = new Date();
   public keyType: number;
   public controlPlaneReaderScope: number;
   public controlPlaneWriterScope: number;
   public dataPlaneReaderScope: number;
   public dataPlaneWriterScope: number;
   public cosmosContainerChildResourceKind: CosmosContainerChildResourceKind;
-  public cosmosKeyType =  CosmosKeyType.PrimaryMaster;
+  public cosmosKeyType = CosmosKeyType.PrimaryMaster;
   private partitionRanges: string;
 
   public constructor() {
