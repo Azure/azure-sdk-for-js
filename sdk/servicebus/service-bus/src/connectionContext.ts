@@ -407,46 +407,46 @@ export namespace ConnectionContext {
         await connectionContext.managementClients[entityPath].close();
       }
 
-      // Calling onDetached on sender
-      if (!state.wasConnectionCloseCalled && state.numSenders) {
-        // We don't do recovery for the sender:
-        //   Because we don't want to keep the sender active all the time
-        //   and the "next" send call would bear the burden of creating the link.
-        // Call onDetached() on sender so that it can gracefully shutdown
-        //   by cleaning up the timers and closing the links.
-        // We don't call onDetached for sender after `refreshConnection()`
-        //   because any new send calls that potentially initialize links would also get affected if called later.
-        logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
-            `senders. We should not reconnect.`
-        );
-        const detachCalls: Promise<void>[] = [];
-        for (const senderName of Object.keys(connectionContext.senders)) {
-          const sender = connectionContext.senders[senderName];
-          if (sender) {
-            logger.verbose(
-              "[%s] calling detached on sender '%s'.",
-              connectionContext.connection.id,
-              sender.name
-            );
-            detachCalls.push(
-              sender.onDetached().catch((err) => {
-                logger.logError(
-                  err,
-                  "[%s] An error occurred while calling onDetached() the sender '%s'",
-                  connectionContext.connection.id,
-                  sender.name
-                );
-              })
-            );
-          }
-        }
-        await Promise.all(detachCalls);
-      }
-
       if (state.wasConnectionCloseCalled) {
         // Do Nothing
       } else {
+        // Calling onDetached on sender
+        if (state.numSenders) {
+          // We don't do recovery for the sender:
+          //   Because we don't want to keep the sender active all the time
+          //   and the "next" send call would bear the burden of creating the link.
+          // Call onDetached() on sender so that it can gracefully shutdown
+          //   by cleaning up the timers and closing the links.
+          // We don't call onDetached for sender after `refreshConnection()`
+          //   because any new send calls that potentially initialize links would also get affected if called later.
+          logger.verbose(
+            `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
+              `senders. We should not reconnect.`
+          );
+          const detachCalls: Promise<void>[] = [];
+          for (const senderName of Object.keys(connectionContext.senders)) {
+            const sender = connectionContext.senders[senderName];
+            if (sender) {
+              logger.verbose(
+                "[%s] calling detached on sender '%s'.",
+                connectionContext.connection.id,
+                sender.name
+              );
+              detachCalls.push(
+                sender.onDetached().catch((err) => {
+                  logger.logError(
+                    err,
+                    "[%s] An error occurred while calling onDetached() the sender '%s'",
+                    connectionContext.connection.id,
+                    sender.name
+                  );
+                })
+              );
+            }
+          }
+          await Promise.all(detachCalls);
+        }
+
         // Calling onDetached on batching receivers for the same reasons as sender
         const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
         if (numBatchingReceivers) {
