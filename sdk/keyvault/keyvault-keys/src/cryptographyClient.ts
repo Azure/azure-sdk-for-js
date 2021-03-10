@@ -536,15 +536,13 @@ export class CryptographyClient {
       }
     }
 
-    let providers = this.providers.filter((p) => p.supportsOperation(operation));
-    if (algorithm) {
-      providers = providers.filter((p) => p.supportsAlgorithm(algorithm));
-    }
+    let providers = this.providers.filter((p) => p.isSupported(algorithm, operation));
 
     if (providers.length === 0) {
       throw new Error(
-        `Unable to support operation: "${operation}" with algorithm: "${algorithm}"
-        ${this.key.kind === "JsonWebKey" ? " using a local JsonWebKey" : ""}`
+        `Unable to support operation: "${operation}" with algorithm: "${algorithm}${
+          this.key.kind === "JsonWebKey" ? " using a local JsonWebKey" : ""
+        }`
       );
     }
 

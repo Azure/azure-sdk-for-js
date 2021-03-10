@@ -36,7 +36,6 @@ export class AesCryptographyProvider implements CryptographyProvider {
   constructor(key: JsonWebKey) {
     this.key = key;
   }
-
   encrypt(
     encryptParameters: AesCbcEncryptParameters,
     _options?: EncryptOptions
@@ -79,18 +78,20 @@ export class AesCryptographyProvider implements CryptographyProvider {
     });
   }
 
-  supportsAlgorithm(algorithm: string): boolean {
-    return (
-      Object.keys(this.supportedAlgorithms).includes(algorithm) &&
-      !this.remoteOnlyAlgorithms.includes(algorithm)
-    );
-  }
-
-  supportsOperation(operation: CryptographyProviderOperation): boolean {
-    if (this.key.k && this.supportedOperations.includes(operation)) {
-      return true;
+  isSupported(algorithm: string, operation: CryptographyProviderOperation): boolean {
+    if (!this.key.k) {
+      return false;
     }
-    return false;
+
+    if (!Object.keys(this.supportedAlgorithms).includes(algorithm)) {
+      return false;
+    }
+
+    if (!this.supportedOperations.includes(operation)) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -98,7 +99,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
    * For AES encryption, the values include the underlying algorithm used in crypto
    * as well as the key size in bytes.
    *
-   * We start with support for A[SIZE]CBCPAD which uses the PKCS#7 padding (the default padding scheme in node crypto)
+   * We start with support for A[SIZE]CBCPAD which uses the PKCS padding (the default padding scheme in node crypto)
    */
   private supportedAlgorithms: { [s: string]: { algorithm: string; keySizeInBytes: number } } = {
     A128CBCPAD: {
@@ -116,9 +117,6 @@ export class AesCryptographyProvider implements CryptographyProvider {
   };
 
   private supportedOperations: CryptographyProviderOperation[] = ["encrypt", "decrypt"];
-
-  // Provided here to be explicit that AES-GCM algorithms **must** be remote only
-  private remoteOnlyAlgorithms = ["A128GCM", "A192GCM", "A256GCM"];
 
   wrapKey(
     _algorithm: KeyWrapAlgorithm,

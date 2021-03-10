@@ -70,7 +70,7 @@ describe("AesCryptographyProvider", () => {
   });
 
   for (const keySize of [128, 192, 256]) {
-    describe(`AES-CBC with PKCS#7 padding (${keySize})`, () => {
+    describe(`AES-CBC with PKCS padding (${keySize})`, () => {
       const encryptionAlgorithm: any = `A${keySize}CBCPAD`;
       const keyName = `aesCrypto-${keySize}-${Date.now()}`;
 
@@ -91,7 +91,9 @@ describe("AesCryptographyProvider", () => {
       });
 
       afterEach(async function() {
-        await testClient.flushKey(keyVaultKey.name);
+        if (keyVaultKey) {
+          await testClient.flushKey(keyVaultKey.name);
+        }
       });
 
       it("encrypts locally and decrypts remotely", async function() {

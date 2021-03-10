@@ -126,7 +126,7 @@ describe("internal crypto tests", () => {
       decryptStub = sinon
         .stub(cryptoProvider, "decrypt")
         .returns(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
-      sinon.stub(cryptoProvider, "supportsOperation").returns(true);
+      sinon.stub(cryptoProvider, "isSupported").returns(true);
       client["providers"] = [cryptoProvider];
     });
 
