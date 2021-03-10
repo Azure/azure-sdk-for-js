@@ -7,7 +7,7 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelinePolicy } from '@azure/core-https';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AccessPolicy {

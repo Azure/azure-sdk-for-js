@@ -114,10 +114,7 @@ export class ClientCertificateCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan(
-      "ClientCertificateCredential-getToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ClientCertificateCredential-getToken", options);
     try {
       const tokenId = uuidV4();
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
@@ -172,7 +169,7 @@ export class ClientCertificateCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+        spanOptions: updatedOptions?.tracingOptions?.spanOptions
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

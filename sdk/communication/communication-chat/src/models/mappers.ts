@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  deserializeCommunicationIdentifier,
+  serializeCommunicationIdentifier,
+  SerializedCommunicationIdentifier
+} from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
-import { HttpResponse } from "@azure/core-http";
 import { AddChatParticipantsRequest } from "./requests";
 import {
   ChatMessage,
@@ -10,21 +14,25 @@ import {
   ChatParticipant,
   ChatMessageReadReceipt,
   ChatMessageContent,
-  WithResponse
+  CreateChatThreadResult
 } from "./models";
 
 /**
+ * @internal
  * Mapping chat participant customer model to chat participant REST model
  */
 export const mapToChatParticipantRestModel = (
   chatParticipant: ChatParticipant
 ): RestModel.ChatParticipant => {
-  const model = { ...chatParticipant, id: chatParticipant.user.communicationUserId };
-  delete (model as any).user;
-  return model;
+  const { id, ...rest } = chatParticipant;
+  return {
+    ...rest,
+    communicationIdentifier: serializeCommunicationIdentifier(id)
+  };
 };
 
 /**
+ * @internal
  * Mapping add participants request to add chat participants request REST model
  */
 export const mapToAddChatParticipantsRequestRestModel = (
@@ -37,6 +45,9 @@ export const mapToAddChatParticipantsRequestRestModel = (
   };
 };
 
+/**
+ * @internal
+ */
 export const mapToChatContentSdkModel = (
   content: RestModel.ChatMessageContent
 ): ChatMessageContent => {
@@ -50,14 +61,17 @@ export const mapToChatContentSdkModel = (
 };
 
 /**
+ * @internal
  * Mapping chat message REST model to chat message SDK model
  */
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
-  const { content, senderId, ...otherChatMessage } = chatMessage;
+  const { content, senderCommunicationIdentifier, ...otherChatMessage } = chatMessage;
   const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
-  if (senderId) {
+  if (senderCommunicationIdentifier) {
     return {
-      sender: { communicationUserId: senderId! },
+      sender: deserializeCommunicationIdentifier(
+        senderCommunicationIdentifier as SerializedCommunicationIdentifier
+      ),
       content: contentSdkModel,
       ...otherChatMessage
     };
@@ -70,6 +84,7 @@ export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): Ch
 };
 
 /**
+ * @internal
  * Mapping chat messages collection REST model to chat message SDK model array
  */
 export const mapToChatMessagesSdkModelArray = (
@@ -79,50 +94,69 @@ export const mapToChatMessagesSdkModelArray = (
 };
 
 /**
+ * @internal
  * Mapping chat participant REST model to chat participant SDK model
  */
 export const mapToChatParticipantSdkModel = (
   chatParticipant: RestModel.ChatParticipant
 ): ChatParticipant => {
-  const model = { ...chatParticipant, user: { communicationUserId: chatParticipant.id } };
-  delete (model as any).id;
-  return model;
-};
-
-/**
- * Mapping chat thread REST model to chat thread SDK model
- */
-export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatThread => {
+  const { communicationIdentifier, ...rest } = chatParticipant;
   return {
-    id: chatThread.id,
-    topic: chatThread.topic,
-    createdOn: chatThread.createdOn,
-    createdBy: {
-      communicationUserId: chatThread.createdBy!
-    }
+    ...rest,
+    id: deserializeCommunicationIdentifier(
+      communicationIdentifier as SerializedCommunicationIdentifier
+    )
   };
 };
 
 /**
+ * @internal
+ * Mapping chat thread REST model to chat thread SDK model
+ */
+export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatThread => {
+  const { createdByCommunicationIdentifier, ...rest } = chatThread;
+  if (createdByCommunicationIdentifier)
+    return {
+      ...rest,
+      createdBy: deserializeCommunicationIdentifier(
+        createdByCommunicationIdentifier as SerializedCommunicationIdentifier
+      )
+    };
+  else {
+    return { ...rest };
+  }
+};
+
+/**
+ * @internal
+ * Mapping chat thread REST model to chat thread SDK model
+ */
+export const mapToCreateChatThreadResultSdkModel = (
+  result: RestModel.CreateChatThreadResult
+): CreateChatThreadResult => {
+  const { chatThread, ...rest } = result;
+  if (chatThread)
+    return {
+      ...rest,
+      chatThread: mapToChatThreadSdkModel(chatThread)
+    };
+  else {
+    return { ...rest };
+  }
+};
+
+/**
+ * @internal
  * Mapping read receipt REST model to read receipt SDK model
  */
 export const mapToReadReceiptSdkModel = (
   readReceipt: RestModel.ChatMessageReadReceipt
 ): ChatMessageReadReceipt => {
-  const model = { ...readReceipt, sender: { communicationUserId: readReceipt.senderId } };
-  delete (model as any).senderId;
-  return model;
-};
-
-/**
- * Attach http response to a model
- */
-export const attachHttpResponse = <T>(
-  model: T,
-  httpResponse: HttpResponse & { bodyAsText: string; parsedBody: any }
-): WithResponse<T> => {
-  const { parsedBody, bodyAsText, ...r } = httpResponse;
-  return Object.defineProperty(model, "_response", {
-    value: r
-  });
+  const { senderCommunicationIdentifier, ...rest } = readReceipt;
+  return {
+    ...rest,
+    sender: deserializeCommunicationIdentifier(
+      senderCommunicationIdentifier as SerializedCommunicationIdentifier
+    )
+  };
 };

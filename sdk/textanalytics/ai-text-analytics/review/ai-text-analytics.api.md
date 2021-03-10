@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
@@ -22,6 +22,7 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
     actionsFailedCount?: number;
     actionsInProgressCount?: number;
     actionsSucceededCount?: number;
+    displayName?: string;
 }
 
 // @public
@@ -55,6 +56,7 @@ export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealt
 // @public
 export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     entities: HealthcareEntity[];
+    entityRelations: HealthcareEntityRelation[];
 }
 
 // @public
@@ -90,13 +92,11 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 export interface AssessmentSentiment extends SentenceAssessment {
 }
 
-// @public
-export type Association = "subject" | "other";
-
 export { AzureKeyCredential }
 
 // @public
 export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
+    displayName?: string;
     includeStatistics?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -112,12 +112,6 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 // @public
 export interface CategorizedEntity extends Entity {
 }
-
-// @public
-export type Certainty = "Positive" | "Positive Possible" | "Neutral Possible" | "Negative Possible" | "Negative";
-
-// @public
-export type Conditionality = "Hypothetical" | "Conditional";
 
 // @public
 export interface DetectedLanguage {
@@ -168,6 +162,22 @@ export interface Entity {
     text: string;
 }
 
+// @public (undocumented)
+export interface EntityAssertion {
+    association?: EntityAssociation;
+    certainty?: EntityCertainty;
+    conditionality?: EntityConditionality;
+}
+
+// @public
+export type EntityAssociation = "subject" | "other";
+
+// @public
+export type EntityCertainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
+
+// @public
+export type EntityConditionality = "Hypothetical" | "Conditional";
+
 // @public
 export interface EntityDataSource {
     entityId: string;
@@ -216,19 +226,30 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
     keyPhrases: string[];
 }
 
-// @public (undocumented)
-export interface HealthcareAssertion {
-    association?: Association;
-    certainty?: Certainty;
-    conditionality?: Conditionality;
+// @public
+export interface HealthcareEntity extends Entity {
+    assertion?: EntityAssertion;
+    dataSources: EntityDataSource[];
+    normalizedText?: string;
 }
 
 // @public
-export interface HealthcareEntity extends Entity {
-    assertion?: HealthcareAssertion;
-    dataSources: EntityDataSource[];
-    relatedEntities: Map<HealthcareEntity, string>;
+export interface HealthcareEntityRelation {
+    relationType: HealthcareEntityRelationType;
+    roles: HealthcareEntityRelationRole[];
 }
+
+// @public
+export interface HealthcareEntityRelationRole {
+    entity: HealthcareEntity;
+    name: HealthcareEntityRelationRoleType;
+}
+
+// @public
+export type HealthcareEntityRelationRoleType = string;
+
+// @public
+export type HealthcareEntityRelationType = string;
 
 // @public
 export type InnerErrorCodeValue = string;
@@ -299,7 +320,6 @@ export interface Opinion {
 
 // @public
 export interface PagedAnalyzeBatchActionsResult extends PagedAsyncIterableAnalyzeBatchActionsResult {
-    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
@@ -315,11 +335,11 @@ export type PagedAsyncIterableAnalyzeBatchActionsResult = PagedAsyncIterableIter
 export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterableIterator<AnalyzeHealthcareEntitiesResult, AnalyzeHealthcareEntitiesResultArray>;
 
 // @public
-export type PiiCategory = string;
-
-// @public
 export interface PiiEntity extends Entity {
 }
+
+// @public
+export type PiiEntityCategory = string;
 
 // @public
 export enum PiiEntityDomainType {
@@ -409,7 +429,6 @@ export type RecognizePiiEntitiesAction = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    piiCategories?: PiiCategory[];
 };
 
 // @public
@@ -428,6 +447,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    categoriesFilter?: PiiEntityCategory[];
     domainFilter?: PiiEntityDomainType;
     stringIndexType?: StringIndexType;
 }
@@ -545,7 +565,7 @@ export class TextAnalyticsClient {
 }
 
 // @public
-export interface TextAnalyticsClientOptions extends PipelineOptions {
+export interface TextAnalyticsClientOptions extends CommonClientOptions {
     defaultCountryHint?: string;
     defaultLanguage?: string;
 }

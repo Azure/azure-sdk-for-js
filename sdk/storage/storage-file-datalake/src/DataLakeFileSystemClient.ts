@@ -38,7 +38,7 @@ import {
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
 import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
@@ -162,15 +162,12 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when creating file system.
    */
   public async create(options: FileSystemCreateOptions = {}): Promise<FileSystemCreateResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-create",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-create", options);
     try {
       return await this.blobContainerClient.create({
         ...options,
         access: toContainerPublicAccessType(options.access),
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -194,15 +191,15 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async createIfNotExists(
     options: FileSystemCreateOptions = {}
   ): Promise<FileSystemCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-createIfNotExists",
-      options.tracingOptions
+      options
     );
     try {
       return await this.blobContainerClient.createIfNotExists({
         ...options,
         access: toContainerPublicAccessType(options.access),
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -225,15 +222,9 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options -
    */
   public async exists(options: FileSystemExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-exists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-exists", options);
     try {
-      return await this.blobContainerClient.exists({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.blobContainerClient.exists(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -253,14 +244,11 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when deleting file system.
    */
   public async delete(options: FileSystemDeleteOptions = {}): Promise<FileSystemDeleteResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-delete",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-delete", options);
     try {
       return await this.blobContainerClient.delete({
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -283,15 +271,9 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async deleteIfExists(
     options: FileSystemDeleteOptions = {}
   ): Promise<FileSystemDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-deleteIfExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-deleteIfExists", options);
     try {
-      return await this.blobContainerClient.deleteIfExists({
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      return await this.blobContainerClient.deleteIfExists(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -319,14 +301,11 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async getProperties(
     options: FileSystemGetPropertiesOptions = {}
   ): Promise<FileSystemGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-getProperties", options);
     try {
       const rawResponse = await this.blobContainerClient.getProperties({
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       // Transfer and rename blobPublicAccess to publicAccess
@@ -366,14 +345,11 @@ export class DataLakeFileSystemClient extends StorageClient {
     metadata?: Metadata,
     options: FileSystemSetMetadataOptions = {}
   ): Promise<FileSystemSetMetadataResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-setMetadata",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-setMetadata", options);
     try {
       return await this.blobContainerClient.setMetadata(metadata, {
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -400,14 +376,14 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async getAccessPolicy(
     options: FileSystemGetAccessPolicyOptions = {}
   ): Promise<FileSystemGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-getAccessPolicy",
-      options.tracingOptions
+      options
     );
     try {
       const rawResponse = await this.blobContainerClient.getAccessPolicy({
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       // Transfer and rename blobPublicAccess to publicAccess
@@ -450,9 +426,9 @@ export class DataLakeFileSystemClient extends StorageClient {
     fileSystemAcl?: SignedIdentifier<AccessPolicy>[],
     options: FileSystemSetAccessPolicyOptions = {}
   ): Promise<FileSystemSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-setAccessPolicy",
-      options.tracingOptions
+      options
     );
     try {
       return await this.blobContainerClient.setAccessPolicy(
@@ -460,7 +436,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         fileSystemAcl,
         {
           ...options,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         }
       );
     } catch (e) {
@@ -591,16 +567,16 @@ export class DataLakeFileSystemClient extends StorageClient {
     continuation?: string,
     options: ListPathsSegmentOptions = {}
   ): Promise<FileSystemListPathsResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-listPathsSegment",
-      options.tracingOptions
+      options
     );
     try {
       const rawResponse = await this.fileSystemContext.listPaths(options.recursive || false, {
         continuation,
         ...options,
         upn: options.userPrincipalName,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       const response = rawResponse as FileSystemListPathsResponse;

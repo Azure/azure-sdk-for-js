@@ -12,7 +12,7 @@ import { FeedOptions, RequestOptions } from "./index";
 //
 
 /** @hidden */
-function javaScriptFriendlyJSONStringify(s: object) {
+function javaScriptFriendlyJSONStringify(s: unknown): string {
   // two line terminators (Line separator and Paragraph separator) are not needed to be escaped in JSON
   // but are needed to be escaped in JavaScript.
   return JSON.stringify(s)
@@ -21,7 +21,7 @@ function javaScriptFriendlyJSONStringify(s: object) {
 }
 
 /** @hidden */
-export function bodyFromData(data: Buffer | string | object) {
+export function bodyFromData(data: Buffer | string | Record<string, unknown>): string {
   if (typeof data === "object") {
     return javaScriptFriendlyJSONStringify(data);
   }

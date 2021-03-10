@@ -9,6 +9,10 @@
   Instead of hanging forever if a network disconnect is observed, `receiveMessages` would now return the messages in "receiveAndDelete" mode, and throws `SessionLockLostError` in "peekLock" mode.
   [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956)
 
+### Tracing updates
+
+- Tracing options for `ServiceBusMessageBatch.tryAdd` now match the shape of `OperationOptions`.
+
 ## 7.0.3 (2021-01-26)
 
 - [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.

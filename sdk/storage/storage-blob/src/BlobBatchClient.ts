@@ -13,7 +13,7 @@ import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { CanonicalCode } from "@opentelemetry/api";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service, Container } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -303,7 +303,7 @@ export class BlobBatchClient {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
-    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("BlobBatchClient-submitBatch", options);
     try {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 
@@ -314,7 +314,7 @@ export class BlobBatchClient {
         batchRequest.getMultiPartContentType(),
         {
           ...options,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
 

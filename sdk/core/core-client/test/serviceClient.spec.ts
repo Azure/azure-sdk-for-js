@@ -20,9 +20,9 @@ import {
 import {
   createHttpHeaders,
   createEmptyPipeline,
-  HttpsClient,
+  HttpClient,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 
 import {
   getOperationArgumentValueFromParameter,
@@ -30,7 +30,7 @@ import {
 } from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
-import { getCachedDefaultHttpsClient } from "../src/httpClientCache";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
@@ -85,7 +85,7 @@ describe("ServiceClient", function() {
       try {
         let request: OperationRequest;
         const client = new ServiceClient({
-          httpsClient: {
+          httpClient: {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -111,7 +111,7 @@ describe("ServiceClient", function() {
       try {
         let request: OperationRequest;
         const client = new ServiceClient({
-          httpsClient: {
+          httpClient: {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -141,7 +141,7 @@ describe("ServiceClient", function() {
 
       let request: OperationRequest;
       const client = new ServiceClient({
-        httpsClient: {
+        httpClient: {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -168,7 +168,7 @@ describe("ServiceClient", function() {
 
       let request: OperationRequest;
       const client = new ServiceClient({
-        httpsClient: {
+        httpClient: {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -196,7 +196,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
-      httpsClient: {
+      httpClient: {
         sendRequest: (req) => {
           request = req;
           return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -256,7 +256,7 @@ describe("ServiceClient", function() {
   it("should call rawResponseCallback with the full response", async function() {
     let request: OperationRequest;
     const client = new ServiceClient({
-      httpsClient: {
+      httpClient: {
         sendRequest: (req) => {
           request = req;
           return Promise.resolve({
@@ -329,7 +329,7 @@ describe("ServiceClient", function() {
 
   it("should deserialize response bodies", async function() {
     let request: OperationRequest;
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -344,7 +344,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client1 = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
@@ -791,7 +791,7 @@ describe("ServiceClient", function() {
     const operationInfo = getOperationRequestInfo(request);
     operationInfo.operationSpec = operationSpec;
 
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -808,7 +808,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
@@ -871,7 +871,7 @@ describe("ServiceClient", function() {
     const operationInfo = getOperationRequestInfo(request);
     operationInfo.operationSpec = operationSpec;
 
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -888,7 +888,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
@@ -903,7 +903,7 @@ describe("ServiceClient", function() {
 
   it("should re-use the common instance of DefaultHttpClient", function() {
     const client = new ServiceClient();
-    assert.strictEqual((client as any)._httpsClient, getCachedDefaultHttpsClient());
+    assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpClient());
   });
 });
 
@@ -915,7 +915,7 @@ async function testSendOperationRequest(
 ): Promise<void> {
   let request: OperationRequest;
   const client = new ServiceClient({
-    httpsClient: {
+    httpClient: {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });

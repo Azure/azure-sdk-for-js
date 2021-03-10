@@ -43,7 +43,6 @@ export {
   ProxySettings,
   ProxyOptions
 } from "./serviceClient";
-export { createSpanFunction, SpanConfig } from "./createSpan";
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
@@ -114,6 +113,9 @@ export {
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
+
+// legacy exports. Use core-tracing instead (and remove on next major version update of core-http).
+export { createSpanFunction, SpanConfig } from "./createSpanLegacy";
 
 // Credentials
 export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";

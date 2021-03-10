@@ -8,7 +8,6 @@ export {
   EnqueuedMessage,
   GeoReplication,
   GeoReplicationStatusType,
-  KnownGeoReplicationStatusType,
   ListQueuesSegmentResponse,
   Logging,
   MessageIdDeleteResponse,

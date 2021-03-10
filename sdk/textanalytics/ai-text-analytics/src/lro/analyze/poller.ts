@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
 import { PagedAnalyzeBatchActionsResult } from "../../analyzeBatchActionsResult";
 import { JobManifestTasks as GeneratedActions } from "../../generated/models";
+import { delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
@@ -44,6 +44,7 @@ export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
       documents,
       analysisOptions,
       actions,
+      displayName,
       includeStatistics,
       updateIntervalInMs = 5000,
       resumeFrom
@@ -61,6 +62,7 @@ export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
       documents,
       actions,
       {
+        displayName,
         requestOptions,
         tracingOptions,
         updateIntervalInMs,

@@ -32,9 +32,9 @@ async function main() {
   console.log("Issuing Tokens");
 
   // Issue tokens
-  const { token: token1 } = await client.issueToken(user, scopes);
-  const { token: token2 } = await client.issueToken(user, scopes);
-  const { token: token3 } = await client.issueToken(user, scopes);
+  const { token: token1 } = await client.getToken(user, scopes);
+  const { token: token2 } = await client.getToken(user, scopes);
+  const { token: token3 } = await client.getToken(user, scopes);
 
   console.log("Issued tokens:");
   console.log(token1);

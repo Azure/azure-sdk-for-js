@@ -23,7 +23,6 @@ interface Navigator {
 
 /**
  * Returns information about the platform this function is being run on.
- * @hidden
  * @internal
  */
 export function getPlatformInfo(): string {
@@ -32,7 +31,6 @@ export function getPlatformInfo(): string {
 
 /**
  * Returns information about Node.js this function is being run on.
- * @hidden
  * @internal
  */
 export function getFrameworkInfo(): string {

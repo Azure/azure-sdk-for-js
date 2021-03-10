@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "1.0.0-beta.6",
+  "version": "12.0.0-beta.1",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,7 +9,8 @@
     "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
-    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
+    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
+    "./dist-esm/src/utils/batchHeaders.js": "./dist-esm/src/utils/batchHeaders.browser.js"
   },
   "types": "types/latest/data-tables.d.ts",
   "scripts": {
@@ -67,11 +68,11 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-client": "1.0.0-beta.2",
-    "@azure/core-https": "1.0.0-beta.2",
+    "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0",
     "uuid": "^8.3.0"

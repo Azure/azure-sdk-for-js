@@ -34,7 +34,7 @@ export class ShardFactory {
     shardCursor?: ShardCursor,
     options: CreateShardOptions = {}
   ): Promise<Shard> {
-    const { span, spanOptions } = createSpan("ShardFactory-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShardFactory-create", options);
     try {
       const chunks: string[] = [];
       const blockOffset: number = shardCursor?.BlockOffset || 0;
@@ -43,7 +43,7 @@ export class ShardFactory {
       for await (const blobItem of containerClient.listBlobsFlat({
         prefix: shardPath,
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       })) {
         chunks.push(blobItem.name);
       }
@@ -80,7 +80,7 @@ export class ShardFactory {
           eventIndex,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: { ...options.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           }
         );
       }

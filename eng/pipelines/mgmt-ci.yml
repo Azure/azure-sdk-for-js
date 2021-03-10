@@ -17,7 +17,7 @@ trigger:
       - sdk/core/core-auth/
       - sdk/core/core-client/
       - sdk/core/core-http/
-      - sdk/core/core-https/
+      - sdk/core/core-core-pipeline/
       - sdk/core/core-lro/
       - sdk/core/core-paging/
       - sdk/core/core-tracing/

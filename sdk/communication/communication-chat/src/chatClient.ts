@@ -24,7 +24,8 @@ import { getSignalingClient } from "./signaling/signalingClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  generateUuid
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -39,21 +40,19 @@ import {
   DeleteChatThreadOptions
 } from "./models/options";
 import {
-  CreateChatThreadResponse,
-  GetChatThreadResponse,
-  ListPageSettings,
-  OperationResponse
-} from "./models/models";
-import {
   mapToChatThreadSdkModel,
-  attachHttpResponse,
-  mapToChatParticipantRestModel
+  mapToChatParticipantRestModel,
+  mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
-import { ChatThreadInfo, ChatApiClient } from "./generated/src";
-import { CreateChatThreadRequest } from "./models/requests";
+import {
+  ChatThreadInfo,
+  CreateChatThreadResult,
+  ChatThread,
+  ListPageSettings
+} from "./models/models";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-
-export { ChatThreadInfo } from "./generated/src";
+import { ChatApiClient } from "./generated/src";
+import { CreateChatThreadRequest } from "./models/requests";
 
 /**
  * The client to do chat operations
@@ -116,8 +115,8 @@ export class ChatClient {
    * Returns ChatThreadClient with the specific thread id.
    * @param threadId - Thread ID for the ChatThreadClient
    */
-  public async getChatThreadClient(threadId: string): Promise<ChatThreadClient> {
-    return new ChatThreadClient(threadId, this.url, this.tokenCredential, this.clientOptions);
+  public getChatThreadClient(threadId: string): ChatThreadClient {
+    return new ChatThreadClient(this.url, threadId, this.tokenCredential, this.clientOptions);
   }
 
   /**
@@ -129,11 +128,14 @@ export class ChatClient {
   public async createChatThread(
     request: CreateChatThreadRequest,
     options: CreateChatThreadOptions = {}
-  ): Promise<CreateChatThreadResponse> {
+  ): Promise<CreateChatThreadResult> {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
-      return await this.client.chat.createChatThread(
+      // We generate an UUID if user not provides repeatabilityRequestId.
+      updatedOptions.repeatabilityRequestId =
+        updatedOptions.repeatabilityRequestId ?? generateUuid();
+      const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
           participants: request.participants?.map((participant) =>
@@ -142,6 +144,7 @@ export class ChatClient {
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return mapToCreateChatThreadResultSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -162,16 +165,15 @@ export class ChatClient {
   public async getChatThread(
     threadId: string,
     options: GetChatThreadOptions = {}
-  ): Promise<GetChatThreadResponse> {
+  ): Promise<ChatThread> {
     const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
 
     try {
-      const response = await this.client.chat.getChatThread(
+      const { _response, ...result } = await this.client.chat.getChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const thread = mapToChatThreadSdkModel(response);
-      return attachHttpResponse(thread, response._response);
+      return mapToChatThreadSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -258,11 +260,11 @@ export class ChatClient {
   public async deleteChatThread(
     threadId: string,
     options: DeleteChatThreadOptions = {}
-  ): Promise<OperationResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatClient-DeleteChatThread", options);
 
     try {
-      return await this.client.chat.deleteChatThread(
+      await this.client.chat.deleteChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

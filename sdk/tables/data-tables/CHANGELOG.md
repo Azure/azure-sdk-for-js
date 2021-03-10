@@ -1,19 +1,20 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 12.0.0-beta.1 (2021-03-09)
 
+- Exclude browser unsupported headers when building a Batch request in the browser [#13955)](https://github.com/Azure/azure-sdk-for-js/pull/13955)
+- Make connection string keys case-insensitive [#13954](https://github.com/Azure/azure-sdk-for-js/pull/13954)
 
 ## 1.0.0-beta.5 (2021-02-09)
 
-
 ### Breaking Changes
 
-- Move generated client to use @azure/core-https. For more information about Core V2 read [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core#core-v1-and-core-v2). [#12548](https://github.com/Azure/azure-sdk-for-js/pull/12548).  
-   - With this change, the response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag.
-      ```typescript
-      let createResult: FullOperationResponse  | undefined;
-      await client.createEntity(testEntity, { onResponse: (response) => (createResult = response) });
-      ```
+- Move generated client to use @azure/core-rest-pipeline. For more information about Core V2 read [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core#core-v1-and-core-v2). [#12548](https://github.com/Azure/azure-sdk-for-js/pull/12548).
+  - With this change, the response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag.
+    ```typescript
+    let createResult: FullOperationResponse | undefined;
+    await client.createEntity(testEntity, { onResponse: (response) => (createResult = response) });
+    ```
 
 ## 1.0.0-beta.4 (2021-01-12)
 
