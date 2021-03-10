@@ -83,7 +83,7 @@ export interface SecretProperties {
    * this field specifies the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
-   * @deprecated Please use {@link SecretProperties.certificateKeyId} instead. `keyId` has and will be left as undefined.
+   * @deprecated Please use {@link SecretProperties.certificateKeyId} instead. `keyId` will always be undefined.
    */
   readonly keyId?: never;
 
