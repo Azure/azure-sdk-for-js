@@ -2,13 +2,22 @@
 // Licensed under the MIT license.
 
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { getTestContainer, addEntropy } from "../test/public/common/TestHelpers";
+import { addEntropy } from "../test/public/common/TestHelpers";
 import { BulkOperationType } from "../src";
+// @ts-ignore
+import { CosmosClient } from "../dist";
+import { endpoint, masterKey } from "../test/public/common/_testConfig";
 
 async function run() {
   const containerId = "bulkContainerV2";
+  const client = new CosmosClient({
+    key: masterKey,
+    endpoint: endpoint
+  });
+  const {database} = await client.databases.create({ id: addEntropy('bulk db') });
   logStep(`Create multi-partition container '${containerId}' with partition key /key`);
-  const v2Container = await getTestContainer(containerId, undefined, {
+  const {container: v2Container} = await database.containers.create({ 
+    id: containerId,
     partitionKey: {
       paths: ["/key"],
       version: 2
