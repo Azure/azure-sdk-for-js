@@ -42,7 +42,6 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 
 import { PollerLike } from "@azure/core-lro";
-//import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
@@ -94,7 +93,7 @@ export class RemoteRenderingClient {
    * Creates an instance of a RemoteRenderingClient.
    * @param accountId The Remote Rendering service account identifier.
    * @param accountDomain The Remote Rendering service account domain.
-   * @param credential A token credential obtained from the Mixed Reality STS service.
+   * @param credential A token credential for authenticating the account with the Mixed Reality STS service.
    * @param options Additional client options.
    */
   constructor(
@@ -109,7 +108,7 @@ export class RemoteRenderingClient {
    * Creates an instance of a MixedRealityStsClient.
    * @param accountId The Remote Rendering service account identifier.
    * @param accountDomain The Remote Rendering service account domain.
-   * @param credential A token credential suitable for use with the Mixed Reality STS service.
+   * @param credential An access token obtained from the Mixed Reality STS service.
    * @param options Additional client options.
    */
   constructor(
