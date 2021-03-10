@@ -10,7 +10,7 @@ import { Constants } from "../../src/util/constants";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders } from "../../src/httpHeaders";
 import { WebResource } from "../../src/webResource";
-import { BearerTokenAuthenticationPolicy } from "../../src/policies/bearerTokenAuthenticationPolicy";
+import { BearerTokenAuthenticationPolicy } from "../../src/policies/oldBearerTokenAuthenticationPolicy";
 import {
   ExpiringAccessTokenCache,
   TokenRefreshBufferMs
