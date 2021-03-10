@@ -5,6 +5,9 @@
 ### Breaking Changes
 
 - Removed `_response` from returned models.
+- Updated to @azure/communication-common@1.0.0-beta.6. Now uses `CommunicationIdentifier` in place of `CommunicationUserIdentifier`.
+- Swap the parameter order in `ChatThreadClient` constructor.
+- Generates `repeatabilityRequestId` if not populated in `createChatThread` operation.
 
 ## 1.0.0-beta.4 (2021-02-09)
 
