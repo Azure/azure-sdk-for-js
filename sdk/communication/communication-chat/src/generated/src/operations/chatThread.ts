@@ -26,6 +26,7 @@ import {
   AddChatParticipantsRequest,
   ChatThreadAddChatParticipantsResponse,
   UpdateChatThreadRequest,
+  ChatThreadGetChatThreadPropertiesResponse,
   ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
   ChatThreadListChatMessagesNextOptionalParams,
@@ -299,6 +300,25 @@ export class ChatThread {
       operationArguments,
       updateChatThreadPropertiesOperationSpec
     ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Gets a chat thread's properties.
+   * @param chatThreadId Id of the thread.
+   * @param options The options parameters.
+   */
+  getChatThreadProperties(
+    chatThreadId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<ChatThreadGetChatThreadPropertiesResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      chatThreadId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getChatThreadPropertiesOperationSpec
+    ) as Promise<ChatThreadGetChatThreadPropertiesResponse>;
   }
 
   /**
@@ -716,6 +736,35 @@ const updateChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
+  serializer
+};
+const getChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ChatThreadProperties
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listChatReadReceiptsNextOperationSpec: coreHttp.OperationSpec = {

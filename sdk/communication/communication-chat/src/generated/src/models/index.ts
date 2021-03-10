@@ -404,6 +404,18 @@ export type ChatThreadAddChatParticipantsResponse = AddChatParticipantsResult & 
   };
 };
 
+/** Contains response data for the getChatThreadProperties operation. */
+export type ChatThreadGetChatThreadPropertiesResponse = ChatThreadProperties & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: ChatThreadProperties;
+  };
+};
+
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams
   extends coreHttp.OperationOptions {
@@ -501,18 +513,6 @@ export type ChatListChatThreadsResponse = ChatThreadsItemCollection & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: ChatThreadsItemCollection;
-  };
-};
-
-/** Contains response data for the getChatThreadProperties operation. */
-export type ChatGetChatThreadPropertiesResponse = ChatThreadProperties & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ChatThreadProperties;
   };
 };
 

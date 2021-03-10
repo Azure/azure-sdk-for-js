@@ -16,7 +16,6 @@ import {
   ChatCreateChatThreadResponse,
   ChatListChatThreadsOptionalParams,
   ChatListChatThreadsResponse,
-  ChatGetChatThreadPropertiesResponse,
   ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse
 } from "../models";
@@ -66,25 +65,6 @@ export class Chat {
       operationArguments,
       listChatThreadsOperationSpec
     ) as Promise<ChatListChatThreadsResponse>;
-  }
-
-  /**
-   * Gets a chat thread.
-   * @param chatThreadId Id of the thread.
-   * @param options The options parameters.
-   */
-  getChatThreadProperties(
-    chatThreadId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<ChatGetChatThreadPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      chatThreadId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getChatThreadPropertiesOperationSpec
-    ) as Promise<ChatGetChatThreadPropertiesResponse>;
   }
 
   /**
@@ -185,35 +165,6 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ChatThreadProperties
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept],
   serializer
 };
