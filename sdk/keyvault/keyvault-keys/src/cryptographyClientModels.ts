@@ -189,18 +189,28 @@ export interface WrapKeyOptions extends KeyOperationsOptions {}
 export interface UnwrapKeyOptions extends KeyOperationsOptions {}
 
 /**
+ * A union type representing all supported RSA encryption algorithms.
+ */
+export type RsaEncryptionAlgorithm = "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+
+/**
  * Encryption parameters for RSA encryption algorithms.
  */
 export interface RsaEncryptParameters {
   /**
    * The encryption algorithm to use.
    */
-  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  algorithm: RsaEncryptionAlgorithm;
   /**
    * The plain text to encrypt.
    */
   plaintext: Uint8Array;
 }
+
+/**
+ * A union type representing all supported AES-GCM encryption algorithms.
+ */
+export type AesGcmEncryptionAlgorithm = "A128GCM" | "A192GCM" | "A256GCM";
 
 /**
  * Encryption parameters for AES-GCM encryption algorithms.
@@ -209,7 +219,7 @@ export interface AesGcmEncryptParameters {
   /**
    * The encryption algorithm to use.
    */
-  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  algorithm: AesGcmEncryptionAlgorithm;
   /**
    * The plain text to encrypt.
    */
@@ -221,21 +231,32 @@ export interface AesGcmEncryptParameters {
 }
 
 /**
+ * A union type representing all supported AES-CBC encryption algorithms.
+ */
+export type AesCbcEncryptionAlgorithm =
+  | "A128CBC"
+  | "A192CBC"
+  | "A256CBC"
+  | "A128CBCPAD"
+  | "A192CBCPAD"
+  | "A256CBCPAD";
+
+/**
  * Encryption parameters for AES-CBC encryption algorithms.
  */
 export interface AesCbcEncryptParameters {
   /**
    * The encryption algorithm to use.
    */
-  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  algorithm: AesCbcEncryptionAlgorithm;
   /**
    * The plain text to encrypt.
    */
   plaintext: Uint8Array;
   /**
-   * The initialization vector used for encryption. If omitted one will be generated using `crypto.randomBytes`
+   * The initialization vector used for encryption.
    */
-  iv?: Uint8Array;
+  iv: Uint8Array;
 }
 
 /**
@@ -253,7 +274,7 @@ export interface RsaDecryptParameters {
   /**
    * The encryption algorithm to use.
    */
-  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+  algorithm: RsaEncryptionAlgorithm;
   /**
    * The ciphertext to decrypt.
    */
@@ -267,7 +288,7 @@ export interface AesGcmDecryptParameters {
   /**
    * The encryption algorithm to use.
    */
-  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  algorithm: AesGcmEncryptionAlgorithm;
   /**
    * The ciphertext to decrypt.
    */
@@ -293,7 +314,7 @@ export interface AesCbcDecryptParameters {
   /**
    * The encryption algorithm to use.
    */
-  algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  algorithm: AesCbcEncryptionAlgorithm;
   /**
    * The initialization vector used during encryption.
    */
