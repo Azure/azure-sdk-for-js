@@ -118,7 +118,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
 
     try {
-      const { _response, ...result } = await this.client.chat.getChatThreadProperties(
+      const { _response, ...result } = await this.client.chatThread.getChatThreadProperties(
         this.threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
