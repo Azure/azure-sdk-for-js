@@ -85,8 +85,12 @@ export class AesCryptographyProvider implements CryptographyProvider {
       !this.remoteOnlyAlgorithms.includes(algorithm)
     );
   }
+
   supportsOperation(operation: CryptographyProviderOperation): boolean {
-    return this.supportedOperations.includes(operation);
+    if (this.key.k && this.supportedOperations.includes(operation)) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -111,17 +115,10 @@ export class AesCryptographyProvider implements CryptographyProvider {
     }
   };
 
-  /**
-   * Provided here to be explicit that AES-GCM algorithms **must** be remote only
-   */
-  private remoteOnlyAlgorithms = ["A128GCM", "A192GCM", "A256GCM"];
+  private supportedOperations: CryptographyProviderOperation[] = ["encrypt", "decrypt"];
 
-  private supportedOperations: CryptographyProviderOperation[] = [
-    "encrypt",
-    "decrypt",
-    "wrapKey",
-    "verifyData"
-  ];
+  // Provided here to be explicit that AES-GCM algorithms **must** be remote only
+  private remoteOnlyAlgorithms = ["A128GCM", "A192GCM", "A256GCM"];
 
   wrapKey(
     _algorithm: KeyWrapAlgorithm,
@@ -132,6 +129,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
       "Wrapping a key using a local JsonWebKey is not supported for AES."
     );
   }
+
   unwrapKey(
     _algorithm: KeyWrapAlgorithm,
     _encryptedKey: Uint8Array,
@@ -141,19 +139,28 @@ export class AesCryptographyProvider implements CryptographyProvider {
       "Unwrapping a key using a local JsonWebKey is not supported for AES."
     );
   }
+
   sign(_algorithm: string, _digest: Uint8Array, _options?: SignOptions): Promise<SignResult> {
-    throw new Error("Method not implemented.");
+    throw new LocalCryptographyUnsupportedError(
+      "Signing using a local JsonWebKey is not supported for AES."
+    );
   }
+
   signData(_algorithm: string, _data: Uint8Array, _options?: SignOptions): Promise<SignResult> {
-    throw new Error("Method not implemented.");
+    throw new LocalCryptographyUnsupportedError(
+      "Signing using a local JsonWebKey is not supported for AES."
+    );
   }
+
   verify(
     _algorithm: string,
     _digest: Uint8Array,
     _signature: Uint8Array,
     _options?: VerifyOptions
   ): Promise<VerifyResult> {
-    throw new Error("Method not implemented.");
+    throw new LocalCryptographyUnsupportedError(
+      "Verifying using a local JsonWebKey is not supported for AES."
+    );
   }
   verifyData(
     _algorithm: string,
@@ -161,7 +168,9 @@ export class AesCryptographyProvider implements CryptographyProvider {
     _signature: Uint8Array,
     _updatedOptions: OperationOptions
   ): Promise<VerifyResult> {
-    throw new Error("Method not implemented.");
+    throw new LocalCryptographyUnsupportedError(
+      "Verifying using a local JsonWebKey is not supported for AES."
+    );
   }
 
   private ensureValid(keySizeInBytes: number) {

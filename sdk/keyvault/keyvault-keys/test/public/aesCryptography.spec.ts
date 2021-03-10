@@ -2,14 +2,54 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { CryptographyClient, JsonWebKey } from "../../src";
+import { CryptographyClient, JsonWebKey, KeyClient, KeyVaultKey } from "../../src";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import { randomBytes as cryptoRandomBytes } from "crypto";
 import { isNode } from "@azure/core-http";
 import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider";
+import TestClient from "../utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
+import { Recorder } from "@azure/test-utils-recorder";
+import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
+import { ClientSecretCredential } from "@azure/identity";
 
-describe("aesCryptographyProvider", () => {
-  // TODO: move to internal test
+describe("AesCryptographyProvider", () => {
+  let credential: ClientSecretCredential;
+  let client: KeyClient;
+  let testClient: TestClient;
+  let recorder: Recorder;
+  let jwk: JsonWebKey;
+  let keyVaultKey: KeyVaultKey;
+  let remoteProvider: RemoteCryptographyProvider;
+  let cryptoClient: CryptographyClient;
+
+  beforeEach(async function() {
+    const authentication = await authenticate(this);
+    recorder = authentication.recorder;
+
+    if (!authentication.hsmClient) {
+      // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
+      // This is only necessary while Managed HSM is in preview.
+      this.skip();
+    }
+
+    client = authentication.hsmClient;
+    credential = authentication.credential;
+    testClient = new TestClient(authentication.hsmClient);
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  function randomBytes(size: number) {
+    if (cryptoRandomBytes) {
+      return cryptoRandomBytes(size);
+    } else {
+      return crypto.getRandomValues(new Uint8Array(size));
+    }
+  }
+
   describe("when running in the browser", () => {
     it("uses the browser replacement", async function() {
       if (isNode) {
@@ -29,112 +69,118 @@ describe("aesCryptographyProvider", () => {
     });
   });
 
-  // TODO: add roundtrip and partial roundtrip tests
-  // For this we'll need to create a key and import it.
-  describe("AES-CBC with PKCS#7 padding (local)", function() {
-    function randomBytes(size: number) {
-      if (cryptoRandomBytes) {
-        return cryptoRandomBytes(size);
-      } else {
-        return crypto.getRandomValues(new Uint8Array(size));
-      }
-    }
-    const algorithms: { [s: string]: number } = {
-      A128CBCPAD: 128,
-      A192CBCPAD: 192,
-      A256CBCPAD: 256
-    };
+  for (const keySize of [128, 192, 256]) {
+    describe(`AES-CBC with PKCS#7 padding (${keySize})`, () => {
+      const encryptionAlgorithm: any = `A${keySize}CBCPAD`;
+      const keyName = `aesCrypto-${keySize}-${Date.now()}`;
 
-    for (const algorithm in algorithms) {
-      const keySize = algorithms[algorithm];
+      beforeEach(async function() {
+        if (!isNode) {
+          this.skip();
+        }
 
-      describe(`A${keySize}CBCPAD`, () => {
-        let jwk: JsonWebKey;
-        let cryptoClient: CryptographyClient;
+        jwk = {
+          keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
+          k: randomBytes(keySize >> 3), // Generate a random key until secure key release is available
+          kty: "oct"
+        };
 
-        beforeEach(() => {
-          jwk = {
-            keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey", "sign", "verify"],
-            k: randomBytes(keySize >> 3), // Generate a random key until secure key release is available
-            kty: "oct"
-          };
-
-          cryptoClient = new CryptographyClient(jwk);
-        });
-
-        it("encrypts and decrypts", async function() {
-          const text = this.test!.title;
-          const iv = randomBytes(16);
-          const encryptResult = await cryptoClient.encrypt({
-            algorithm: algorithm as any,
-            plaintext: stringToUint8Array(text),
-            iv: iv
-          });
-
-          const decryptResult = await cryptoClient.decrypt({
-            algorithm: algorithm as any,
-            ciphertext: encryptResult.result!,
-            iv: encryptResult.iv!
-          });
-
-          assert.equal(uint8ArrayToString(decryptResult.result), text);
-        });
-
-        it("provides a default IV if none is supplied", async function() {
-          const text = this.test!.title;
-          const encryptResult = await cryptoClient.encrypt({
-            algorithm: algorithm as any,
-            plaintext: stringToUint8Array(text)
-          });
-          assert.exists(encryptResult.iv);
-
-          const decryptResult = await cryptoClient.decrypt({
-            algorithm: algorithm as any,
-            ciphertext: encryptResult.result!,
-            iv: encryptResult.iv!
-          });
-
-          assert.equal(uint8ArrayToString(decryptResult.result), text);
-        });
-
-        it("checks the kty", async function() {
-          const text = this.test!.title;
-          jwk.kty = "RSA";
-          await assert.isRejected(
-            cryptoClient.encrypt({
-              algorithm: algorithm as any,
-              plaintext: stringToUint8Array(text)
-            }),
-            /Key type does not match/
-          );
-          await assert.isRejected(
-            cryptoClient.decrypt({
-              algorithm: algorithm as any,
-              ciphertext: stringToUint8Array(text)
-            }),
-            /Key type does not match/
-          );
-        });
-
-        it("checks the key length", async function() {
-          const text = this.test!.title;
-          jwk.k = randomBytes((keySize >> 3) - 1);
-          await assert.isRejected(
-            cryptoClient.encrypt({
-              algorithm: algorithm as any,
-              plaintext: stringToUint8Array(text)
-            }),
-            /Key must be at least \d+ bits/
-          );
-          await assert.isRejected(
-            cryptoClient.decrypt({
-              algorithm: algorithm as any,
-              ciphertext: stringToUint8Array(text)
-            }),
-            /Key must be at least \d+ bits/
-          );
-        });
+        cryptoClient = new CryptographyClient(jwk);
+        keyVaultKey = await client.importKey(keyName, jwk, {});
+        remoteProvider = new RemoteCryptographyProvider(keyVaultKey, credential);
       });
-    }
-  });
+
+      afterEach(async function() {
+        await testClient.flushKey(keyVaultKey.name);
+      });
+
+      it("encrypts locally and decrypts remotely", async function() {
+        const text = this.test!.title;
+        const iv = randomBytes(16);
+        const encryptResult = await cryptoClient.encrypt({
+          algorithm: encryptionAlgorithm,
+          plaintext: stringToUint8Array(text),
+          iv: iv
+        });
+
+        const decryptResult = await remoteProvider.decrypt({
+          algorithm: encryptionAlgorithm,
+          ciphertext: encryptResult.result!,
+          iv: encryptResult.iv!
+        });
+        assert.equal(uint8ArrayToString(decryptResult.result), text);
+      });
+
+      it("encrypts remotely and decrypts locally", async function() {
+        const text = this.test!.title;
+        const iv = randomBytes(16);
+        const encryptResult = await remoteProvider.encrypt({
+          algorithm: encryptionAlgorithm,
+          plaintext: stringToUint8Array(text),
+          iv: iv
+        });
+
+        const decryptResult = await cryptoClient.decrypt({
+          algorithm: encryptionAlgorithm,
+          ciphertext: encryptResult.result!,
+          iv: encryptResult.iv || iv
+        });
+        assert.equal(uint8ArrayToString(decryptResult.result), text);
+      });
+
+      it("encrypts and decrypts locally", async function() {
+        const text = this.test!.title;
+        const encryptResult = await cryptoClient.encrypt({
+          algorithm: encryptionAlgorithm,
+          plaintext: stringToUint8Array(text)
+          // IV should be generated by the client if not supplied
+        });
+
+        const decryptResult = await cryptoClient.decrypt({
+          algorithm: encryptionAlgorithm,
+          ciphertext: encryptResult.result!,
+          iv: encryptResult.iv!
+        });
+        assert.equal(uint8ArrayToString(decryptResult.result), text);
+      });
+
+      it("validates the key type", async function() {
+        const text = this.test!.title;
+        jwk.kty = "RSA";
+        await assert.isRejected(
+          cryptoClient.encrypt({
+            algorithm: encryptionAlgorithm,
+            plaintext: stringToUint8Array(text)
+          }),
+          /Key type does not match/
+        );
+        await assert.isRejected(
+          cryptoClient.decrypt({
+            algorithm: encryptionAlgorithm,
+            ciphertext: stringToUint8Array(text)
+          }),
+          /Key type does not match/
+        );
+      });
+
+      it("validates the key length", async function() {
+        const text = this.test!.title;
+        jwk.k = randomBytes((keySize >> 3) - 1);
+        await assert.isRejected(
+          cryptoClient.encrypt({
+            algorithm: encryptionAlgorithm,
+            plaintext: stringToUint8Array(text)
+          }),
+          /Key must be at least \d+ bits/
+        );
+        await assert.isRejected(
+          cryptoClient.decrypt({
+            algorithm: encryptionAlgorithm,
+            ciphertext: stringToUint8Array(text)
+          }),
+          /Key must be at least \d+ bits/
+        );
+      });
+    });
+  }
 });

@@ -53,12 +53,6 @@ export class CryptographyClient {
   private remoteProvider?: RemoteCryptographyProvider;
 
   /**
-   * A flag that allows us to force remote only mode and avoid local cryptography altogether.
-   * TODO: untested code path
-   */
-  private remoteOnly: boolean = false;
-
-  /**
    * Constructs a new instance of the Cryptography client for the given key
    *
    * Example usage:
@@ -111,10 +105,6 @@ export class CryptographyClient {
     credential?: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
-    if (pipelineOptions.remoteOnly) {
-      this.remoteOnly = pipelineOptions.remoteOnly;
-    }
-
     if (typeof key === "string") {
       // Key URL for remote-local operations.
       this.key = {
@@ -135,10 +125,6 @@ export class CryptographyClient {
         kind: "JsonWebKey",
         value: key
       };
-
-      if (this.remoteOnly) {
-        throw new Error("Local JsonWebKey cannot be used in remote-only mode.");
-      }
     }
   }
 
@@ -539,11 +525,9 @@ export class CryptographyClient {
       this.providers = [];
 
       // Add local crypto providers as needed
-      if (!this.remoteOnly) {
-        const keyMaterial = await this.getKeyMaterial();
-        this.providers.push(new RsaCryptographyProvider(keyMaterial));
-        this.providers.push(new AesCryptographyProvider(keyMaterial));
-      }
+      const keyMaterial = await this.getKeyMaterial();
+      this.providers.push(new RsaCryptographyProvider(keyMaterial));
+      this.providers.push(new AesCryptographyProvider(keyMaterial));
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
       // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.
