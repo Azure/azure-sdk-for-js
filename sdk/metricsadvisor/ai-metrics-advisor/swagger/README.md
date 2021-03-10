@@ -688,3 +688,17 @@ directive:
           }
       }
 ```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..get.parameters
+    transform: >
+      if($) {
+          for(let i = 0; i < $.length; i++) {
+            if ($[i]["name"] === "$maxpagesize" ) {
+              $[i]["name"] = "$maxPageSize";
+            }
+          }
+        }
+```

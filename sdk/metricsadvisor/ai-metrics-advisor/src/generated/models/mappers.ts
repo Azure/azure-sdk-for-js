@@ -509,28 +509,28 @@ export const AlertResult: coreHttp.CompositeMapper = {
     modelProperties: {
       alertId: {
         serializedName: "alertId",
-        readOnly: true,
+        required: true,
         type: {
           name: "String"
         }
       },
       timestamp: {
         serializedName: "timestamp",
-        readOnly: true,
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       createdTime: {
         serializedName: "createdTime",
-        readOnly: true,
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       modifiedTime: {
         serializedName: "modifiedTime",
-        readOnly: true,
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -1808,7 +1808,7 @@ export const DataFeedList: coreHttp.CompositeMapper = {
       },
       value: {
         serializedName: "value",
-        readOnly: true,
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -2553,7 +2553,7 @@ export const HookList: coreHttp.CompositeMapper = {
           UniqueItems: true
         },
         serializedName: "value",
-        readOnly: true,
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -2723,7 +2723,7 @@ export const IngestionStatusList: coreHttp.CompositeMapper = {
       },
       value: {
         serializedName: "value",
-        readOnly: true,
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -2867,7 +2867,7 @@ export const MetricDataList: coreHttp.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        readOnly: true,
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -2985,7 +2985,7 @@ export const MetricSeriesList: coreHttp.CompositeMapper = {
       },
       value: {
         serializedName: "value",
-        readOnly: true,
+        required: true,
         type: {
           name: "Sequence",
           element: {

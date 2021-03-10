@@ -99,7 +99,7 @@ describe("Transforms", () => {
     if (actual.feedbackType === "Anomaly") {
       assert.equal(actual.startTime, anomalyFeedback.startTime);
       assert.equal(actual.endTime, anomalyFeedback.endTime);
-      assert.equal(actual.value, anomalyFeedback.value.anomalyValue);
+      assert.equal(actual.value, anomalyFeedback.value?.anomalyValue);
       assert.equal(actual.metricId, anomalyFeedback.metricId);
       assert.deepStrictEqual(actual.anomalyDetectionConfigurationSnapshot, undefined);
     }
@@ -119,7 +119,7 @@ describe("Transforms", () => {
     assert.equal(actual.feedbackType, "ChangePoint");
     if (actual.feedbackType === "ChangePoint") {
       assert.equal(actual.startTime, feedback.startTime);
-      assert.equal(actual.value, feedback.value.changePointValue);
+      assert.equal(actual.value, feedback.value?.changePointValue);
       assert.equal(actual.metricId, feedback.metricId);
     }
   });
@@ -140,7 +140,7 @@ describe("Transforms", () => {
     if (actual.feedbackType === "Comment") {
       assert.equal(actual.startTime, feedback.startTime);
       assert.equal(actual.endTime, feedback.endTime);
-      assert.equal(actual.comment, feedback.value.commentValue);
+      assert.equal(actual.comment, feedback.value?.commentValue);
       assert.equal(actual.metricId, feedback.metricId);
     }
   });
@@ -159,8 +159,8 @@ describe("Transforms", () => {
     assert.equal(actual.id, feedbackCommon.feedbackId);
     assert.equal(actual.feedbackType, "Period");
     if (actual.feedbackType === "Period") {
-      assert.equal(actual.periodType, feedback.value.periodType);
-      assert.equal(actual.periodValue, feedback.value.periodValue);
+      assert.equal(actual.periodType, feedback.value?.periodType);
+      assert.equal(actual.periodValue, feedback.value?.periodValue);
       assert.equal(actual.metricId, feedback.metricId);
     }
   });
