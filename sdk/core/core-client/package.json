@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-client",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.2",
   "description": "Core library for interfacing with AutoRest generated code",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -79,13 +79,13 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
-    "@azure/core-rest-pipeline": "1.0.0",
+    "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "@azure/core-tracing": "1.0.0-preview.10",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@azure/core-xml": "1.0.0",
+    "@azure/core-xml": "1.0.0-beta.1",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
