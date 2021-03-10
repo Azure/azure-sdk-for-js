@@ -10,7 +10,7 @@ import * as RestModel from "../generated/src/models";
 import { AddChatParticipantsRequest } from "./requests";
 import {
   ChatMessage,
-  ChatThread,
+  ChatThreadProperties,
   ChatParticipant,
   ChatMessageReadReceipt,
   ChatMessageContent,
@@ -113,7 +113,9 @@ export const mapToChatParticipantSdkModel = (
  * @internal
  * Mapping chat thread REST model to chat thread SDK model
  */
-export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatThread => {
+export const mapToChatThreadSdkModel = (
+  chatThread: RestModel.ChatThreadProperties
+): ChatThreadProperties => {
   const { createdByCommunicationIdentifier, ...rest } = chatThread;
   if (createdByCommunicationIdentifier)
     return {

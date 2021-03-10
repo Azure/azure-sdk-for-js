@@ -2,20 +2,18 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
-import { ChatMessageType, CreateChatThreadErrors } from "../generated/src";
+import { ChatMessageType, CommunicationError } from "../generated/src";
 
 export {
   AddChatParticipantsResult,
-  AddChatParticipantsErrors,
   ChatMessageType,
-  ChatThreadInfo,
+  ChatThreadItem,
   CommunicationError,
-  CreateChatThreadErrors,
   SendChatMessageResult
 } from "../generated/src/models";
 
 /** Chat thread. */
-export interface ChatThread {
+export interface ChatThreadProperties {
   /** Chat thread id. */
   id: string;
   /** Chat thread topic. */
@@ -87,9 +85,12 @@ export interface ChatParticipant {
 /** Result of the create chat thread operation. */
 export interface CreateChatThreadResult {
   /** Chat thread. */
-  chatThread?: ChatThread;
-  /** Errors encountered during the creation of the chat thread. */
-  errors?: CreateChatThreadErrors;
+  chatThread?: ChatThreadProperties;
+  /**
+   * The participants that failed to be added to the chat thread.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidParticipants?: CommunicationError[];
 }
 
 /**

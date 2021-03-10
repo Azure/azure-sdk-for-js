@@ -11,7 +11,7 @@ description: Chat Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://int.chatgateway.trafficmanager.net/swagger/2021-01-27-preview4/swagger.json
+input-file: https://int.chatgateway.trafficmanager.net/swagger/2021-03-01-preview5/swagger.json
 model-date-time-as-string: false
 optional-response-headers: true
 use-extension:

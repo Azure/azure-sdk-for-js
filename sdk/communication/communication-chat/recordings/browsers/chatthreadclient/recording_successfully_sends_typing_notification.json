@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A0xI5JdNHWHR0pJck7oPyUKkkwIunHHLrjlX3XyZY6OQ1%40thread.v2/typing",
+   "url": "https://endpoint/chat/threads/19%3A1cb5e8212f0047c1a0ba2b908fee301a%40thread.v2/typing",
    "query": {
-    "api-version": "2021-01-27-preview4"
+    "api-version": "2021-03-01-preview5"
    },
    "requestBody": null,
    "status": 200,

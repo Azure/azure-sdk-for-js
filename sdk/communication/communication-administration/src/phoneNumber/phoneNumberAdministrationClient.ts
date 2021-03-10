@@ -106,24 +106,24 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using an Azure KeyCredential.
-   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
-    url: string,
+    endpoint: string,
     credential: KeyCredential,
     options?: PhoneNumberAdministrationClientOptions
   );
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a TokenCredential.
-   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
-    url: string,
+    endpoint: string,
     credential: TokenCredential,
     options?: PhoneNumberAdministrationClientOptions
   );

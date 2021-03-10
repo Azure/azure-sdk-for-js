@@ -7,15 +7,12 @@ import { ChatClient, CreateChatThreadRequest } from "../src";
 import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
-import {
-  AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier
-} from "@azure/communication-common";
+import { AzureCommunicationTokenCredential, CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   mockThread,
   generateHttpClient,
   createChatClient,
-  mockThreadInfo,
+  mockThreadItem,
   mockCreateThreadResult
 } from "./utils/mockClient";
 
@@ -39,8 +36,7 @@ describe("[Mocked] ChatClient", async () => {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendRequest: CreateChatThreadRequest = {
-      topic: mockThread.topic!,
-      participants: []
+      topic: mockThread.topic!
     };
 
     const sendOptions = {};
@@ -61,38 +57,12 @@ describe("[Mocked] ChatClient", async () => {
     assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body), sendRequest);
-    assert.isNotEmpty(request.headers.get("repeatability-Request-Id"));
-  });
-
-  it("makes successful get thread request", async () => {
-    const mockHttpClient = generateHttpClient(200, mockThread);
-    chatClient = createChatClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    const { createdBy: responseUser, ...response } = await chatClient.getChatThread(mockThread.id!);
-    const { createdByCommunicationIdentifier: expectedIdentifier, ...expected } = mockThread;
-
-    sinon.assert.calledOnce(spy);
-
-    assert.deepEqual(response, expected);
-    assert.equal(responseUser?.kind, "communicationUser");
-    assert.equal(
-      (responseUser as CommunicationUserIdentifier)?.communicationUserId,
-      expectedIdentifier.communicationUser?.id
-    );
-
-    const request = spy.getCall(0).args[0];
-
-    assert.equal(
-      request.url,
-      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`
-    );
-    assert.equal(request.method, "GET");
+    assert.isNotEmpty(request.headers.get("idempotency-token"));
   });
 
   it("makes successful list threads request", async () => {
-    const mockResponse: RestModel.ChatThreadsInfoCollection = {
-      value: [mockThreadInfo, mockThreadInfo]
+    const mockResponse: RestModel.ChatThreadsItemCollection = {
+      value: [mockThreadItem, mockThreadItem]
     };
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
@@ -103,7 +73,7 @@ describe("[Mocked] ChatClient", async () => {
     for await (const info of chatClient.listChatThreads()) {
       ++count;
       assert.isNotNull(info);
-      assert.deepEqual(info, mockThreadInfo);
+      assert.deepEqual(info, mockThreadItem);
     }
 
     sinon.assert.calledOnce(spy);
