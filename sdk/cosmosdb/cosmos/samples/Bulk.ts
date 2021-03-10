@@ -4,6 +4,7 @@
 import { handleError, finish, logStep } from "./Shared/handleError";
 import { addEntropy } from "../test/public/common/TestHelpers";
 import { BulkOperationType } from "../src";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "../dist";
 import { endpoint, masterKey } from "../test/public/common/_testConfig";
@@ -56,7 +57,7 @@ async function run() {
     {
       operationType: BulkOperationType.Upsert,
       partitionKey: "U",
-      resourceBody: { name: "other", key: "U" }
+      resourceBody: { name: "other", toot: "U" }
     },
     {
       operationType: BulkOperationType.Read,

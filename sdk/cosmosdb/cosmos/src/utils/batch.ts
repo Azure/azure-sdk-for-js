@@ -49,7 +49,6 @@ export const BulkOperationType = {
   Replace: "Replace"
 } as const;
 
-// TODO Make operationInput CreateOperationInput | ...
 export type OperationInput =
   | CreateOperationInput
   | UpsertOperationInput
