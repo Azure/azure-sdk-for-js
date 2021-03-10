@@ -238,7 +238,7 @@ main();
 
 ### Get an acquired phone number
 
-Use the `getPhoneNumber` method to get information about an acquired phone number. This information includes the phone number's type, capabilities, cost, and purchase date.
+Use the `getPurchasedPhoneNumber` method to get information about an acquired phone number. This information includes the phone number's type, capabilities, cost, and purchase date.
 
 ```typescript
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
@@ -249,7 +249,7 @@ const client = new PhoneNumbersClient(connectionString);
 async main function() {
   const phoneNumberToGet = "<phone-number-to-get>";
 
-  const phoneNumber = await client.getPhoneNumber(phoneNumberToGet);
+  const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
 
   console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
   console.log(`Phone number type is ${phoneNumber.type}`);
@@ -260,7 +260,7 @@ main();
 
 ### List acquired phone numbers
 
-Use the `listPhoneNumbers` method to page through all acquired phone numbers.
+Use the `listPurchasedPhoneNumbers` method to page through all acquired phone numbers.
 
 ```typescript
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
@@ -269,7 +269,7 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async main function() {
-  const phoneNumbers = await client.listPhoneNumbers();
+  const phoneNumbers = await client.listPurchasedPhoneNumbers();
 
   for await (const phoneNumber of phoneNumbers) {
     console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
