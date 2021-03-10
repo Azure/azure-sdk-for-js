@@ -1209,7 +1209,7 @@ describe("Batching Receiver", () => {
       refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
     });
 
-    it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
+    it.only("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
       void
     > {
       // Create the sender and receiver.
