@@ -127,7 +127,8 @@ export function serializeRequestBody(
       xmlName,
       xmlElementName,
       xmlNamespace,
-      xmlNamespacePrefix
+      xmlNamespacePrefix,
+      nullable
     } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
