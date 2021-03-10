@@ -23,7 +23,7 @@ import {
   SeverityCondition,
   AlertSnoozeCondition,
   IngestionStatusType,
-  Status as DataFeedDetailStatus
+  EntityStatus as DataFeedDetailStatus
 } from "./generated/models";
 
 export {
@@ -668,15 +668,15 @@ export type MetricAnomalyFeedback = {
   /**
    * the start timestamp of feedback timerange
    */
-  startTime: Date;
+  startTime?: Date;
   /**
    * the end timestamp of feedback timerange, when equals to startTime means only one timestamp
    */
-  endTime: Date;
+  endTime?: Date;
   /**
    * feedback value
    */
-  value: "AutoDetect" | "Anomaly" | "NotAnomaly";
+  value?: "AutoDetect" | "Anomaly" | "NotAnomaly";
 
   /**
    * The anomaly detection configuration id.
@@ -703,11 +703,11 @@ export type MetricChangePointFeedback = {
   /**
    * the start timestamp of feedback timerange
    */
-  startTime: Date;
+  startTime?: Date;
   /**
    * value for ChangePointValue
    */
-  value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
+  value?: "AutoDetect" | "ChangePoint" | "NotChangePoint";
 } & MetricFeedbackCommon;
 
 /**
@@ -729,7 +729,7 @@ export type MetricCommentFeedback = {
   /**
    * the comment string
    */
-  comment: string;
+  comment?: string;
 } & MetricFeedbackCommon;
 
 /**
@@ -743,11 +743,11 @@ export type MetricPeriodFeedback = {
   /**
    * the type of setting period
    */
-  periodType: "AutoDetect" | "AssignValue";
+  periodType?: "AutoDetect" | "AssignValue";
   /**
    * the number of intervals a period contains, when no period set to 0
    */
-  periodValue: number;
+  periodValue?: number;
 } & MetricFeedbackCommon;
 
 /**
@@ -781,7 +781,7 @@ export interface NotificationHook {
  */
 export type EmailNotificationHook = {
   hookType: "Email";
-  hookParameter: EmailHookParameter;
+  hookParameter?: EmailHookParameter;
 } & NotificationHook;
 
 /**
@@ -789,7 +789,7 @@ export type EmailNotificationHook = {
  */
 export type WebNotificationHook = {
   hookType: "Webhook";
-  hookParameter: WebhookHookParameter;
+  hookParameter?: WebhookHookParameter;
 } & NotificationHook;
 
 /**

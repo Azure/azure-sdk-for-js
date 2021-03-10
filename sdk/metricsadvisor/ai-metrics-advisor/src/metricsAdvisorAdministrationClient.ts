@@ -402,7 +402,7 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
         ...options,
-        top: options?.maxPageSize
+        maxPageSize: options?.maxPageSize
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -425,7 +425,7 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
         ...options,
-        top: options?.maxPageSize
+        maxPageSize: options?.maxPageSize
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -990,7 +990,7 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listHooks({
         ...options,
-        top: maxPageSize
+        maxPageSize
       });
       const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
       const resultArray = Object.defineProperty(hooks, "continuationToken", {
@@ -1324,7 +1324,7 @@ export class MetricsAdvisorAdministrationClient {
         },
         {
           ...options,
-          top: options?.maxPageSize
+          maxpagesize: options?.maxPageSize
         }
       );
       const resultArray = Object.defineProperty(

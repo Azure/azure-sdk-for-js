@@ -14,7 +14,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 # openapi v2 in PR
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3cbc984fcf0fab278b9c28175319f65db1b9162a/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/24fee21c9876084239c8e8a4050d4a50a3f7a756/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
@@ -687,4 +687,18 @@ directive:
               }
           }
       }
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..get.parameters
+    transform: >
+      if($) {
+          for(let i = 0; i < $.length; i++) {
+            if ($[i]["name"] === "$maxpagesize" ) {
+              $[i]["name"] = "$maxPageSize";
+            }
+          }
+        }
 ```

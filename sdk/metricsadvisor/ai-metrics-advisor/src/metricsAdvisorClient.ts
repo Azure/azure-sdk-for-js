@@ -241,7 +241,7 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          top: maxPageSize
+          maxpagesize: maxPageSize
         }
       );
       const alerts = segmentResponse.value?.map((a) => {
@@ -436,7 +436,7 @@ export class MetricsAdvisorClient {
         alertId,
         {
           ...options,
-          top: maxPageSize
+          maxPageSize
         }
       );
       const anomalies = segmentResponse.value?.map((a) => {
@@ -471,7 +471,7 @@ export class MetricsAdvisorClient {
         continuationToken,
         {
           ...options,
-          top: maxPageSize
+          maxPageSize
         }
       );
       const anomalies = segmentResponse.value?.map((a) => {
@@ -569,7 +569,7 @@ export class MetricsAdvisorClient {
         alertId,
         {
           ...options,
-          top: maxPageSize
+          maxPageSize
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -604,7 +604,7 @@ export class MetricsAdvisorClient {
         continuationToken,
         {
           ...options,
-          top: maxPageSize
+          maxPageSize
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -907,7 +907,7 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          top: maxPageSize
+          maxpagesize: maxPageSize
         }
       );
       const anomalies = segmentResponse.value?.map((a) => {
@@ -1196,7 +1196,7 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          top: maxPageSize
+          maxpagesize: maxPageSize
         }
       );
       const resultArray = Object.defineProperty(segmentResponse.value, "continuationToken", {
@@ -1382,7 +1382,7 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          top: maxPageSize
+          maxpagesize: maxPageSize
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -1416,7 +1416,7 @@ export class MetricsAdvisorClient {
         continuationToken,
         {
           ...options,
-          top: maxPageSize
+          maxpagesize: maxPageSize
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -1650,7 +1650,7 @@ export class MetricsAdvisorClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listMetricFeedbacks(optionsBody, {
         ...options,
-        top: maxPageSize
+        maxpagesize: maxPageSize
       });
       const feedbacks = segmentResponse.value?.map((feedback) => {
         return fromServiceMetricFeedbackUnion(feedback);
@@ -1841,7 +1841,7 @@ export class MetricsAdvisorClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getMetricSeries(metricId, optionsBody, {
         ...options,
-        top: maxPageSize
+        maxpagesize: maxPageSize
       });
       const definitions = segmentResponse.value?.map((d) => {
         return {
@@ -2009,7 +2009,7 @@ export class MetricsAdvisorClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getMetricDimension(metricId, optionsBody, {
         ...options,
-        top: maxPageSize
+        maxpagesize: maxPageSize
       });
       const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
         enumerable: true,
@@ -2162,7 +2162,7 @@ export class MetricsAdvisorClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getEnrichmentStatusByMetric(metricId, optionsBody, {
         ...options,
-        top: maxPageSize
+        maxpagesize: maxPageSize
       });
       const resultArray = Object.defineProperty(
         segmentResponse.value?.map((s) => {

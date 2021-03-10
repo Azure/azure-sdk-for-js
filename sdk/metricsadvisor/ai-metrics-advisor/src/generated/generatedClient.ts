@@ -43,6 +43,12 @@ import {
   GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesOptionalParams,
   GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesResponse,
   GeneratedClientGetRootCauseOfIncidentByAnomalyDetectionConfigurationResponse,
+  DataSourceCredentialUnion,
+  GeneratedClientCreateCredentialResponse,
+  GeneratedClientListCredentialsOptionalParams,
+  GeneratedClientListCredentialsResponse,
+  DataSourceCredentialPatchUnion,
+  GeneratedClientGetCredentialResponse,
   GeneratedClientListDataFeedsOptionalParams,
   GeneratedClientListDataFeedsResponse,
   DataFeedDetailUnion,
@@ -94,6 +100,8 @@ import {
   GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextResponse,
   GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextOptionalParams,
   GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextResponse,
+  GeneratedClientListCredentialsNextOptionalParams,
+  GeneratedClientListCredentialsNextResponse,
   GeneratedClientListDataFeedsNextOptionalParams,
   GeneratedClientListDataFeedsNextResponse,
   GeneratedClientListHooksNextOptionalParams,
@@ -537,6 +545,101 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
+   * Create a new data source credential
+   * @param body Create data source credential request
+   * @param options The options parameters.
+   */
+  createCredential(
+    body: DataSourceCredentialUnion,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientCreateCredentialResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      createCredentialOperationSpec
+    ) as Promise<GeneratedClientCreateCredentialResponse>;
+  }
+
+  /**
+   * List all credentials
+   * @param options The options parameters.
+   */
+  listCredentials(
+    options?: GeneratedClientListCredentialsOptionalParams
+  ): Promise<GeneratedClientListCredentialsResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      listCredentialsOperationSpec
+    ) as Promise<GeneratedClientListCredentialsResponse>;
+  }
+
+  /**
+   * Update a data source credential
+   * @param credentialId Data source credential unique ID
+   * @param body Update data source credential request
+   * @param options The options parameters.
+   */
+  updateCredential(
+    credentialId: string,
+    body: DataSourceCredentialPatchUnion,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      credentialId,
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      updateCredentialOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Delete a data source credential
+   * @param credentialId Data source credential unique ID
+   * @param options The options parameters.
+   */
+  deleteCredential(
+    credentialId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      credentialId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      deleteCredentialOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Get a data source credential
+   * @param credentialId Data source credential unique ID
+   * @param options The options parameters.
+   */
+  getCredential(
+    credentialId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientGetCredentialResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      credentialId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      getCredentialOperationSpec
+    ) as Promise<GeneratedClientGetCredentialResponse>;
+  }
+
+  /**
    * List all data feeds
    * @param options The options parameters.
    */
@@ -633,7 +736,7 @@ export class GeneratedClient extends GeneratedClientContext {
 
   /**
    * Get a metric feedback by its id
-   * @param feedbackId
+   * @param feedbackId the unique feedback ID
    * @param options The options parameters.
    */
   getMetricFeedback(
@@ -1261,6 +1364,25 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
+   * ListCredentialsNext
+   * @param nextLink The nextLink from the previous successful call to the ListCredentials method.
+   * @param options The options parameters.
+   */
+  listCredentialsNext(
+    nextLink: string,
+    options?: GeneratedClientListCredentialsNextOptionalParams
+  ): Promise<GeneratedClientListCredentialsNextResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      listCredentialsNextOperationSpec
+    ) as Promise<GeneratedClientListCredentialsNextResponse>;
+  }
+
+  /**
    * ListDataFeedsNext
    * @param nextLink The nextLink from the previous successful call to the ListDataFeeds method.
    * @param options The options parameters.
@@ -1389,7 +1511,7 @@ const getAlertsByAnomalyAlertingConfigurationOperationSpec: coreHttp.OperationSp
     }
   },
   requestBody: Parameters.body2,
-  queryParameters: [Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.configurationId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1407,7 +1529,7 @@ const getAnomaliesFromAlertByAnomalyAlertingConfigurationOperationSpec: coreHttp
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.maxPageSize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -1428,7 +1550,7 @@ const getIncidentsFromAlertByAnomalyAlertingConfigurationOperationSpec: coreHttp
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.maxPageSize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -1545,7 +1667,7 @@ const getAnomaliesByAnomalyDetectionConfigurationOperationSpec: coreHttp.Operati
     }
   },
   requestBody: Parameters.body6,
-  queryParameters: [Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.configurationId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1564,7 +1686,7 @@ const getDimensionOfAnomaliesByAnomalyDetectionConfigurationOperationSpec: coreH
     }
   },
   requestBody: Parameters.body7,
-  queryParameters: [Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.configurationId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1583,7 +1705,7 @@ const getIncidentsByAnomalyDetectionConfigurationOperationSpec: coreHttp.Operati
     }
   },
   requestBody: Parameters.body8,
-  queryParameters: [Parameters.top],
+  queryParameters: [Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.configurationId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1601,7 +1723,7 @@ const getIncidentsByAnomalyDetectionConfigurationNextPagesOperationSpec: coreHtt
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.top, Parameters.token],
+  queryParameters: [Parameters.maxPageSize, Parameters.token],
   urlParameters: [Parameters.endpoint, Parameters.configurationId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1626,6 +1748,82 @@ const getRootCauseOfIncidentByAnomalyDetectionConfigurationOperationSpec: coreHt
   headerParameters: [Parameters.accept],
   serializer
 };
+const createCredentialOperationSpec: coreHttp.OperationSpec = {
+  path: "/credentials",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      headersMapper: Mappers.GeneratedClientCreateCredentialHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorCode
+    }
+  },
+  requestBody: Parameters.body9,
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer
+};
+const listCredentialsOperationSpec: coreHttp.OperationSpec = {
+  path: "/credentials",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataSourceCredentialList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorCode
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateCredentialOperationSpec: coreHttp.OperationSpec = {
+  path: "/credentials/{credentialId}",
+  httpMethod: "PATCH",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorCode
+    }
+  },
+  requestBody: Parameters.body10,
+  urlParameters: [Parameters.endpoint, Parameters.credentialId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteCredentialOperationSpec: coreHttp.OperationSpec = {
+  path: "/credentials/{credentialId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorCode
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.credentialId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCredentialOperationSpec: coreHttp.OperationSpec = {
+  path: "/credentials/{credentialId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataSourceCredential
+    },
+    default: {
+      bodyMapper: Mappers.ErrorCode
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.credentialId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listDataFeedsOperationSpec: coreHttp.OperationSpec = {
   path: "/dataFeeds",
   httpMethod: "GET",
@@ -1639,7 +1837,7 @@ const listDataFeedsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.top,
+    Parameters.maxPageSize,
     Parameters.dataFeedName,
     Parameters.dataSourceType,
     Parameters.granularityName,
@@ -1661,7 +1859,7 @@ const createDataFeedOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body11,
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1691,7 +1889,7 @@ const updateDataFeedOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body12,
   urlParameters: [Parameters.endpoint, Parameters.dataFeedId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1736,8 +1934,8 @@ const listMetricFeedbacksOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body11,
-  queryParameters: [Parameters.skip, Parameters.top],
+  requestBody: Parameters.body13,
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1754,7 +1952,7 @@ const createMetricFeedbackOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.body14,
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1771,7 +1969,11 @@ const listHooksOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top, Parameters.hookName],
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.hookName
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -1787,7 +1989,7 @@ const createHookOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body15,
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1817,7 +2019,7 @@ const updateHookOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body14,
+  requestBody: Parameters.body16,
   urlParameters: [Parameters.endpoint, Parameters.hookId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1847,8 +2049,8 @@ const getDataFeedIngestionStatusOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body15,
-  queryParameters: [Parameters.skip, Parameters.top],
+  requestBody: Parameters.body17,
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.dataFeedId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1863,7 +2065,7 @@ const resetDataFeedIngestionStatusOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body18,
   urlParameters: [Parameters.endpoint, Parameters.dataFeedId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1895,7 +2097,7 @@ const getMetricDataOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body19,
   urlParameters: [Parameters.endpoint, Parameters.metricId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1912,8 +2114,8 @@ const getMetricSeriesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body18,
-  queryParameters: [Parameters.skip, Parameters.top],
+  requestBody: Parameters.body20,
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.metricId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1930,8 +2132,8 @@ const getMetricDimensionOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body19,
-  queryParameters: [Parameters.skip, Parameters.top],
+  requestBody: Parameters.body21,
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.metricId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -1963,8 +2165,8 @@ const getEnrichmentStatusByMetricOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body20,
-  queryParameters: [Parameters.skip, Parameters.top],
+  requestBody: Parameters.body22,
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.metricId],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -2032,7 +2234,7 @@ const listMetricFeedbacksNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body13,
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -2049,7 +2251,7 @@ const getDataFeedIngestionStatusNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body17,
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -2066,7 +2268,7 @@ const getMetricSeriesNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body20,
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -2083,7 +2285,7 @@ const getMetricDimensionNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body19,
+  requestBody: Parameters.body21,
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -2100,7 +2302,7 @@ const getEnrichmentStatusByMetricNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  requestBody: Parameters.body20,
+  requestBody: Parameters.body22,
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -2117,7 +2319,7 @@ const getAnomaliesFromAlertByAnomalyAlertingConfigurationNextOperationSpec: core
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.maxPageSize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -2138,7 +2340,7 @@ const getIncidentsFromAlertByAnomalyAlertingConfigurationNextOperationSpec: core
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top],
+  queryParameters: [Parameters.skip, Parameters.maxPageSize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -2159,7 +2361,7 @@ const getIncidentsByAnomalyDetectionConfigurationNextOperationSpec: coreHttp.Ope
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.top],
+  queryParameters: [Parameters.maxpagesize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -2180,12 +2382,28 @@ const getIncidentsByAnomalyDetectionConfigurationNextPagesNextOperationSpec: cor
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.top, Parameters.token],
+  queryParameters: [Parameters.maxPageSize, Parameters.token],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
     Parameters.nextLink
   ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listCredentialsNextOperationSpec: coreHttp.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataSourceCredentialList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorCode
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -2202,7 +2420,7 @@ const listDataFeedsNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.top,
+    Parameters.maxPageSize,
     Parameters.dataFeedName,
     Parameters.dataSourceType,
     Parameters.granularityName,
@@ -2224,7 +2442,11 @@ const listHooksNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top, Parameters.hookName],
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.hookName
+  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

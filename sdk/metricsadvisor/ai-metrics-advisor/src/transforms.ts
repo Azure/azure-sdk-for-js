@@ -201,7 +201,7 @@ export function fromServiceMetricFeedbackUnion(
         feedbackType: "Anomaly",
         startTime: orig.startTime,
         endTime: orig.endTime,
-        value: orig.value.anomalyValue,
+        value: orig.value?.anomalyValue,
         anomalyDetectionConfigurationId: orig.anomalyDetectionConfigurationId,
         anomalyDetectionConfigurationSnapshot:
           orig.anomalyDetectionConfigurationSnapshot &&
@@ -216,7 +216,7 @@ export function fromServiceMetricFeedbackUnion(
         feedbackType: "ChangePoint",
         // ChangePoint feedback only uses one timestamp
         startTime: orig2.startTime,
-        value: orig2.value.changePointValue
+        value: orig2.value?.changePointValue
       };
       return result2;
     }
@@ -227,7 +227,7 @@ export function fromServiceMetricFeedbackUnion(
         feedbackType: "Comment",
         startTime: orig3.startTime,
         endTime: orig3.endTime,
-        comment: orig3.value.commentValue
+        comment: orig3.value?.commentValue
       };
       return result3;
     }
@@ -236,8 +236,8 @@ export function fromServiceMetricFeedbackUnion(
       const result4: MetricPeriodFeedback = {
         ...common,
         feedbackType: "Period",
-        periodType: orig4.value.periodType,
-        periodValue: orig4.value.periodValue
+        periodType: orig4.value?.periodType,
+        periodValue: orig4.value?.periodValue
       };
       return result4;
     }
@@ -582,7 +582,7 @@ export function toServiceMetricFeedbackUnion(
         startTime: from.startTime,
         endTime: from.endTime,
         value: {
-          anomalyValue: from.value
+          anomalyValue: from.value!
         }
       };
     case "ChangePoint":
@@ -593,7 +593,7 @@ export function toServiceMetricFeedbackUnion(
         startTime: from.startTime,
         endTime: from.startTime,
         value: {
-          changePointValue: from.value
+          changePointValue: from.value!
         }
       };
     case "Comment":
@@ -601,7 +601,7 @@ export function toServiceMetricFeedbackUnion(
         ...common,
         feedbackType: from.feedbackType,
         value: {
-          commentValue: from.comment
+          commentValue: from.comment!
         }
       };
     case "Period":
@@ -609,8 +609,8 @@ export function toServiceMetricFeedbackUnion(
         ...common,
         feedbackType: from.feedbackType,
         value: {
-          periodType: from.periodType,
-          periodValue: from.periodValue
+          periodType: from.periodType!,
+          periodValue: from.periodValue!
         }
       };
   }
