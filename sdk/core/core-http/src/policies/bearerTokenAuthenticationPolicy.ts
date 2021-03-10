@@ -45,7 +45,7 @@ interface TokenCyclerOptions {
 }
 
 // Default options for the cycler if none are provided
-const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
+export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
   forcedRefreshWindow: 1000, // Force waiting for a refresh 1s before the token expires
   retryInterval: 3000, // Allow refresh attempts every 3s
   refreshWindow: 1000 * 60 * 2 // Start refreshing 2m before expiry
@@ -147,6 +147,7 @@ function createTokenCycler(
       // Take advantage of promise chaining to insert an assignment to `token`
       // before the refresh can be considered done.
       refreshWorker = beginRefresh(tryGetAccessToken, options.retryInterval).then((_token) => {
+        refreshWorker = null;
         token = _token;
         return token;
       });
