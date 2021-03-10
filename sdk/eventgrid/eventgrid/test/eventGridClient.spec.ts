@@ -17,6 +17,7 @@ import {
   convertCloudEventToModelType
 } from "../src/eventGridClient";
 import { FullOperationResponse } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("EventGridPublisherClient", function() {
   let recorder: Recorder;
@@ -92,6 +93,49 @@ describe("EventGridPublisherClient", function() {
       );
 
       assert.equal(res?.status, 200);
+    });
+  });
+
+  describe("#send error cases (EventGrid schema)", function() {
+    let client: EventGridPublisherClient<"EventGrid">;
+
+    beforeEach(function() {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
+        "EventGrid",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
+      ));
+    });
+
+    afterEach(async function() {
+      await recorder.stop();
+    });
+
+    it("does not append /api/events", async () => {
+      let rejected = true;
+
+      try {
+        await client.send([
+          {
+            eventTime: recorder.newDate("singleEventDate"),
+            id: recorder.getUniqueName("singleEventId"),
+            eventType: "Azure.Sdk.TestEvent1",
+            subject: "Single 1",
+            dataVersion: "1.0",
+            data: {
+              hello: "world"
+            }
+          }
+        ]);
+
+        rejected = false;
+      } catch (error) {
+        assert.isTrue(error instanceof RestError);
+        assert.equal((error as RestError).statusCode, 404);
+      }
+
+      assert.isTrue(rejected);
     });
   });
 
@@ -204,6 +248,47 @@ describe("EventGridPublisherClient", function() {
     });
   });
 
+  describe("#send error cases (CloudEvent schema)", function() {
+    let client: EventGridPublisherClient<"CloudEvent">;
+
+    beforeEach(function() {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT),
+        "CloudEvent",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
+      ));
+    });
+
+    afterEach(async function() {
+      await recorder.stop();
+    });
+
+    it("does not append /api/events", async () => {
+      let rejected = true;
+
+      try {
+        await client.send([
+          {
+            type: "Azure.Sdk.TestEvent1",
+            id: recorder.getUniqueName("cloudSingleEventId"),
+            time: recorder.newDate("cloudSingleEventDate"),
+            source: "/earth/unitedstates/washington/kirkland/finnhill",
+            data: {
+              hello: "world"
+            }
+          }
+        ]);
+        rejected = false;
+      } catch (error) {
+        assert.isTrue(error instanceof RestError);
+        assert.equal((error as RestError).statusCode, 404);
+      }
+
+      assert.isTrue(rejected);
+    });
+  });
+
   describe("#send (Custom Event Schema)", function() {
     let client: EventGridPublisherClient<"Custom">;
 
@@ -262,6 +347,47 @@ describe("EventGridPublisherClient", function() {
       );
 
       assert.equal(res?.status, 200);
+    });
+  });
+
+  describe("#send error cases (Custom Event Schema)", function() {
+    let client: EventGridPublisherClient<"Custom">;
+
+    beforeEach(function() {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
+        "Custom",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
+      ));
+    });
+
+    afterEach(async function() {
+      await recorder.stop();
+    });
+
+    it("does not append /api/events", async () => {
+      let rejected = true;
+
+      try {
+        await client.send([
+          {
+            ver: "1.0",
+            typ: "Azure.Sdk.TestEvent1",
+            sub: "Single",
+            payload: {
+              hello: "world"
+            }
+          }
+        ]);
+
+        rejected = false;
+      } catch (error) {
+        assert.isTrue(error instanceof RestError);
+        assert.equal((error as RestError).statusCode, 404);
+      }
+
+      assert.isTrue(rejected);
     });
   });
 });
@@ -430,3 +556,13 @@ describe("convertCloudEventToModelType", function() {
     }, /invalid extension attribute name: data_base64/);
   });
 });
+
+function removeApiEventsSuffix(endpoint: string): string {
+  const suffix = "/api/events";
+
+  if (!endpoint.endsWith(suffix)) {
+    throw new Error(`${endpoint} does not end with ${suffix}`);
+  }
+
+  return endpoint.substring(0, endpoint.length - suffix.length);
+}
