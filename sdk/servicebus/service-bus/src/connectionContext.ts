@@ -25,7 +25,7 @@ import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
-import { ReceiverType } from "./core/linkEntity";
+import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity";
 
 /**
  * @internal
@@ -139,7 +139,7 @@ type ConnectionContextMethods = Omit<
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
-  receiverType: Extract<ReceiverType, "batching" | "streaming">
+  receiverType: NonSessionReceiverType
 ): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
