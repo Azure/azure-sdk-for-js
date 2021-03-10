@@ -269,12 +269,6 @@ export const TagAttributesBase: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      signed: {
-        serializedName: "signed",
-        type: {
-          name: "Boolean"
-        }
-      },
       modifiableProperties: {
         serializedName: "changeableAttributes",
         type: {
@@ -325,12 +319,6 @@ export const TagAttributes: coreHttp.CompositeMapper = {
         serializedName: "tag.lastUpdateTime",
         type: {
           name: "DateTime"
-        }
-      },
-      signed: {
-        serializedName: "tag.signed",
-        type: {
-          name: "Boolean"
         }
       },
       modifiableProperties: {

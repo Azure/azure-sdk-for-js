@@ -1476,10 +1476,6 @@
           "description": "Tag last update time",
           "x-ms-client-name": "lastUpdatedOn"
         },
-        "signed": {
-          "type": "boolean",
-          "description": "Is signed"
-        },
         "changeableAttributes": {
           "$ref": "#/definitions/ChangeableAttributes",
           "description": "Changeable attributes",

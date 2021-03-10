@@ -93,8 +93,6 @@ export interface TagAttributesBase {
   createdOn?: Date;
   /** Tag last update time */
   lastUpdatedOn?: Date;
-  /** Is signed */
-  signed?: boolean;
   /** Changeable attributes */
   modifiableProperties?: ChangeableAttributes;
 }
@@ -113,8 +111,6 @@ export interface TagAttributes {
   createdOn?: Date;
   /** Tag last update time */
   lastUpdatedOn?: Date;
-  /** Is signed */
-  signed?: boolean;
   /** Changeable attributes */
   modifiableProperties?: ChangeableAttributes;
 }
