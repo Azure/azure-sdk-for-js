@@ -1581,15 +1581,13 @@ export type HyperVGenerationType = string;
 export type HyperVGenerationTypes = string;
 
 // @public
-type Image_2 = Resource & {
+export type Image = Resource & {
     extendedLocation?: ExtendedLocation;
     sourceVirtualMachine?: SubResource;
     storageProfile?: ImageStorageProfile;
     readonly provisioningState?: string;
     hyperVGeneration?: HyperVGenerationTypes;
 };
-
-export { Image_2 as Image }
 
 // @public
 export type ImageDataDisk = ImageDisk & {
@@ -1616,7 +1614,7 @@ export interface ImageDiskReference {
 // @public
 export interface ImageListResult {
     nextLink?: string;
-    value: Image_2[];
+    value: Image[];
 }
 
 // @public
@@ -1642,10 +1640,10 @@ export type ImageReference = SubResource & {
 };
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image_2 & {
+export type ImagesCreateOrUpdateResponse = Image & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: Image_2;
+        parsedBody: Image;
         [LROSYM]: LROResponseInfo;
     };
 };
@@ -1656,10 +1654,10 @@ export interface ImagesGetOptionalParams extends coreHttp.OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image_2 & {
+export type ImagesGetResponse = Image & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: Image_2;
+        parsedBody: Image;
     };
 };
 
@@ -1703,10 +1701,10 @@ export interface ImageStorageProfile {
 }
 
 // @public
-export type ImagesUpdateResponse = Image_2 & {
+export type ImagesUpdateResponse = Image & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: Image_2;
+        parsedBody: Image;
         [LROSYM]: LROResponseInfo;
     };
 };

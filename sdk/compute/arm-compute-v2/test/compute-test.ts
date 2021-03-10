@@ -41,13 +41,13 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  it.only("sample test", async function() {
+  it("sample test", async function() {
     console.log("Hi, I'm a test!");
   });
 
   it("availability create test", async function() {
     const result = await client.availabilitySets.createOrUpdate("qiaozhatest", "jssdktest", {
-      location: "eastuse"
+      location: "eastus"
     });
     assert.equal(result.name, "jssdktest");
   });
