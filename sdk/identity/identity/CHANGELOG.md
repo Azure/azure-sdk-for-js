@@ -2,7 +2,7 @@
 
 ## 2.0.0-beta.1 (Unreleased)
 
-This release continues with the changes from `1.2.4-beta.1`.
+This release continues with the changes from `1.2.4` and `1.2.4-beta.1`.
 
 - `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
 - Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
