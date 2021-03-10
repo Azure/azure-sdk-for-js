@@ -234,10 +234,8 @@ export interface AesCbcEncryptParameters {
   plaintext: Uint8Array;
   /**
    * The initialization vector used for encryption. If omitted one will be generated using `crypto.randomBytes`
-   *
    */
-  // TODO: this is currently required, investigate making it not required so that the above comment is truthful. Consider use cases though - is crypto.randomBytes _always_ available? When is crypto not available?
-  iv: Uint8Array;
+  iv?: Uint8Array;
 }
 
 /**

@@ -540,8 +540,8 @@ export class CryptographyClient {
 
     if (providers.length === 0) {
       throw new Error(
-        `Unable to support operation: "${operation}" with algorithm: "${algorithm}${
-          this.key.kind === "JsonWebKey" ? " using a local JsonWebKey" : ""
+        `Unable to support operation: "${operation}" with algorithm: "${algorithm}" ${
+          this.key.kind === "JsonWebKey" ? "using a local JsonWebKey" : ""
         }`
       );
     }

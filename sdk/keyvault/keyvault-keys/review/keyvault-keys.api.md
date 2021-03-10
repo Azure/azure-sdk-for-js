@@ -22,7 +22,7 @@ export interface AesCbcDecryptParameters {
 // @public
 export interface AesCbcEncryptParameters {
     algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
-    iv: Uint8Array;
+    iv?: Uint8Array;
     plaintext: Uint8Array;
 }
 
@@ -105,7 +105,6 @@ export class CryptographyClient {
 
 // @public
 export interface CryptographyClientOptions extends KeyClientOptions {
-    remoteOnly?: boolean;
 }
 
 // @public
