@@ -77,10 +77,10 @@
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
+/sdk/identity/ @sadasant @maorleger @schaabs @daviwil 
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant @maorleger
+/sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377 @EmmaZhu

@@ -27,6 +27,20 @@ export class StorageTargets {
   }
 
   /**
+   * Tells a storage target to refresh its DNS information.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
+   * from the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  dnsRefresh(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDnsRefresh(resourceGroupName,cacheName,storageTargetName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Returns a list of Storage Targets for the specified Cache.
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
@@ -83,8 +97,7 @@ export class StorageTargets {
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
    * from the [-0-9a-zA-Z_] char class.
-   * @param storageTargetName Name of the Storage Target. Length of name must not be greater than 80
-   * and chars must be from the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsGetResponse>
    */
@@ -93,8 +106,7 @@ export class StorageTargets {
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
    * from the [-0-9a-zA-Z_] char class.
-   * @param storageTargetName Name of the Storage Target. Length of name must not be greater than 80
-   * and chars must be from the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
    * @param callback The callback
    */
   get(resourceGroupName: string, cacheName: string, storageTargetName: string, callback: msRest.ServiceCallback<Models.StorageTarget>): void;
@@ -102,8 +114,7 @@ export class StorageTargets {
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
    * from the [-0-9a-zA-Z_] char class.
-   * @param storageTargetName Name of the Storage Target. Length of name must not be greater than 80
-   * and chars must be from the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -127,14 +138,34 @@ export class StorageTargets {
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
    * from the [-0-9a-zA-Z_] char class.
-   * @param storageTargetName Name of the Storage Target. Length of name must not be greater than 80
-   * and chars must be from the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsCreateOrUpdateResponse>
    */
   createOrUpdate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: Models.StorageTargetsCreateOrUpdateOptionalParams): Promise<Models.StorageTargetsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,cacheName,storageTargetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StorageTargetsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Tells a storage target to refresh its DNS information.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
+   * from the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDnsRefresh(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        cacheName,
+        storageTargetName,
+        options
+      },
+      beginDnsRefreshOperationSpec,
+      options);
   }
 
   /**
@@ -168,8 +199,7 @@ export class StorageTargets {
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be
    * from the [-0-9a-zA-Z_] char class.
-   * @param storageTargetName Name of the Storage Target. Length of name must not be greater than 80
-   * and chars must be from the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -260,6 +290,31 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.StorageTarget
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDnsRefreshOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/dnsRefresh",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.cacheName,
+    Parameters.storageTargetName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

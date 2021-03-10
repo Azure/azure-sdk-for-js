@@ -7,7 +7,6 @@
  */
 
 export {
-  discriminators,
   AscOperation,
   CloudError,
   ErrorResponse

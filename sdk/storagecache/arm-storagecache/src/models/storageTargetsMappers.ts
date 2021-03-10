@@ -7,8 +7,8 @@
  */
 
 export {
-  discriminators,
   BaseResource,
+  BlobNfsTarget,
   Cache,
   CacheActiveDirectorySettings,
   CacheActiveDirectorySettingsCredentials,
@@ -24,6 +24,7 @@ export {
   CacheUsernameDownloadSettingsCredentials,
   ClfsTarget,
   CloudError,
+  Condition,
   KeyVaultKeyReference,
   KeyVaultKeyReferenceSourceVault,
   NamespaceJunction,

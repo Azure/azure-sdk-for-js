@@ -29,7 +29,7 @@ describe("PhoneNumbersClient - headers", function() {
 
   it("calls the spy", async function() {
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
-    await client.getPhoneNumber("+18005550100");
+    await client.getPurchasedPhoneNumber("+18005550100");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -69,7 +69,7 @@ describe("PhoneNumbersClient - headers", function() {
     });
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
-    await client.getPhoneNumber("+18005550100");
+    await client.getPurchasedPhoneNumber("+18005550100");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -90,7 +90,7 @@ describe("PhoneNumbersClient - headers", function() {
     });
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
-    await client.getPhoneNumber("+18005550100");
+    await client.getPurchasedPhoneNumber("+18005550100");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -107,7 +107,7 @@ describe("PhoneNumbersClient - headers", function() {
     });
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
-    await client.getPhoneNumber("+18005550100");
+    await client.getPurchasedPhoneNumber("+18005550100");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
