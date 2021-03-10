@@ -69,7 +69,8 @@ export function createRecordedClientWithToken(
   | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING).endpoint;
+  const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
+    .endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
