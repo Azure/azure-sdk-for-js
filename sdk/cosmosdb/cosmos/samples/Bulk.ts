@@ -14,9 +14,9 @@ async function run() {
     key: masterKey,
     endpoint: endpoint
   });
-  const {database} = await client.databases.create({ id: addEntropy('bulk db') });
+  const { database } = await client.databases.create({ id: addEntropy("bulk db") });
   logStep(`Create multi-partition container '${containerId}' with partition key /key`);
-  const {container: v2Container} = await database.containers.create({ 
+  const { container: v2Container } = await database.containers.create({
     id: containerId,
     partitionKey: {
       paths: ["/key"],
