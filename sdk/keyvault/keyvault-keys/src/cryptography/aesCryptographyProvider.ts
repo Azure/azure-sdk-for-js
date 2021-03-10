@@ -171,7 +171,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
     );
   }
 
-  private ensureValid(keySizeInBytes: number) {
+  private ensureValid(keySizeInBytes: number): void {
     if (
       this.key &&
       this.key.kty?.toLowerCase() !== "oct" &&
@@ -180,7 +180,11 @@ export class AesCryptographyProvider implements CryptographyProvider {
       throw new Error("Key type does not match the key type oct or oct-hsm");
     }
 
-    if (!this.key.k || this.key.k?.length < keySizeInBytes) {
+    if (!this.key.k) {
+      throw new Error("Symmetric key is required");
+    }
+
+    if (this.key.k.length < keySizeInBytes) {
       throw new Error(`Key must be at least ${keySizeInBytes << 3} bits`);
     }
   }

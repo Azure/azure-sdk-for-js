@@ -188,7 +188,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     RS512: "SHA512"
   };
 
-  private ensureValid() {
+  private ensureValid(): void {
     if (
       this.key &&
       this.key.kty?.toUpperCase() !== "RSA" &&

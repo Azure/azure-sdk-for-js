@@ -37,6 +37,27 @@ export type LocalSupportedAlgorithmName =
 export class LocalCryptographyUnsupportedError extends Error {}
 
 /**
+ * The set of operations a {@link CryptographyProvider} supports.
+ *
+ * This corresponds to every single method on the interface so that providers
+ * can declare whether they support this method or not.
+ *
+ * Purposely more granular than {@link KnownKeyOperations} because some providers
+ * support verifyData but not verify.
+ * @internal
+ */
+export type CryptographyProviderOperation =
+  | "encrypt"
+  | "decrypt"
+  | "wrapKey"
+  | "unwrapKey"
+  | "sign"
+  | "signData"
+  | "verify"
+  | "verifyData";
+
+/**
+ *
  * Represents an object that can perform cryptography operations.
  * @internal
  */
@@ -154,23 +175,3 @@ export interface CryptographyProvider {
     updatedOptions: OperationOptions
   ): Promise<VerifyResult>;
 }
-
-/**
- * The set of operations a {@link CryptographyProvider} supports.
- *
- * This corresponds to every single method on the interface so that providers
- * can declare whether they support this method or not.
- *
- * Purposely more granular than {@link KnownKeyOperations} because some providers
- * support verifyData but not verify.
- * @internal
- */
-export type CryptographyProviderOperation =
-  | "encrypt"
-  | "decrypt"
-  | "wrapKey"
-  | "unwrapKey"
-  | "sign"
-  | "signData"
-  | "verify"
-  | "verifyData";

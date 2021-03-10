@@ -536,7 +536,7 @@ export class CryptographyClient {
       }
     }
 
-    let providers = this.providers.filter((p) => p.isSupported(algorithm, operation));
+    const providers = this.providers.filter((p) => p.isSupported(algorithm, operation));
 
     if (providers.length === 0) {
       throw new Error(
