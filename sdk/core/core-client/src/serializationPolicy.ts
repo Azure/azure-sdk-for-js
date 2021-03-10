@@ -132,7 +132,11 @@ export function serializeRequestBody(
     const typeName = bodyMapper.type.name;
 
     try {
-      if ((request.body !== undefined && request.body !== null) || required) {
+      if (
+        (request.body !== undefined && request.body !== null) ||
+        (nullable && request.body === null) ||
+        required
+      ) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );
