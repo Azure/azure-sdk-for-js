@@ -8,6 +8,7 @@
 - Renamed `ChatThread` model to `ChatThreadProperties`. Renamed `GetChatThread` operation to `GetProperties` and move to `ChatThreadClient`.
 - Renamed `ChatThreadInfo` model to `ChatThreadItem`.
 - Renamed parameter `repeatabilityRequestId` to `idempotencyToken`.
+- Uses `ChatError` instead of `CommunicationError` in operation result.
 
 ## 1.0.0-beta.5 (2021-03-09)
 
