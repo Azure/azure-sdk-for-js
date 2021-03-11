@@ -16,6 +16,7 @@ import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
 import { ErrorNameConditionMapper } from "@azure/core-amqp";
 import { MessageAlreadySettled } from "../util/errors";
+import { Receiver } from "rhea-promise";
 
 /**
  * @internal
@@ -227,7 +228,9 @@ function settleMessage(
   });
 }
 
-export function numberOfEmptyIncomingSlots(receiver: any): number {
-  const incomingDeliveries = (receiver as any)?.session?._session?.incoming?.deliveries;
+export function numberOfEmptyIncomingSlots(
+  receiver: Pick<Receiver, "session"> | undefined
+): number {
+  const incomingDeliveries = (receiver?.session as any)?._session?.incoming?.deliveries;
   return incomingDeliveries ? incomingDeliveries.capacity - incomingDeliveries.size : 0;
 }

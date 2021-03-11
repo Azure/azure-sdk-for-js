@@ -193,7 +193,10 @@ type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeLi
  *
  * @internal
  */
-export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
+export type MinimalReceiver = Pick<
+  Receiver,
+  "name" | "isOpen" | "credit" | "addCredit" | "drain" | "session"
+> &
   EventEmitterLike<Receiver> & {
     session: EventEmitterLike<Session>;
   } & {
