@@ -1433,6 +1433,21 @@ export const ContainerRegistryGetRepositoriesHeaders: coreHttp.CompositeMapper =
   }
 };
 
+export const ContainerRegistryGetRepositoriesNextHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryGetRepositoriesNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerRegistryRepositoryCreateManifestHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",

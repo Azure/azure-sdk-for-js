@@ -25,3 +25,21 @@ export type ContentProperties = ChangeableAttributes;
  * Result of a Delete Repository operation.
  */
 export type DeletedRepositoryResult = DeletedRepository;
+
+/** Tag properties details */
+export interface TagProperties {
+  /** Tag name */
+  name?: string;
+  /** Tag digest */
+  digest?: string;
+  /** Tag created time */
+  createdOn?: Date;
+  /** Tag last update time */
+  lastUpdatedOn?: Date;
+  /** Changeable properties */
+  modifiableProperties?: ContentProperties;
+  /** Registry name */
+  registry: string;
+  /** Repository name */
+  repository: string;
+}

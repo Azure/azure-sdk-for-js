@@ -15,7 +15,9 @@ import {
   ContainerRegistryGetRepositoriesResponse,
   ContainerRegistryGetRepositoryAttributesResponse,
   ContainerRegistryDeleteRepositoryResponse,
-  ContainerRegistryUpdateRepositoryAttributesOptionalParams
+  ContainerRegistryUpdateRepositoryAttributesOptionalParams,
+  ContainerRegistryGetRepositoriesNextOptionalParams,
+  ContainerRegistryGetRepositoriesNextResponse
 } from "../models";
 
 /** Class representing a ContainerRegistry. */
@@ -118,6 +120,25 @@ export class ContainerRegistry {
       updateRepositoryAttributesOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
+
+  /**
+   * GetRepositoriesNext
+   * @param nextLink The nextLink from the previous successful call to the GetRepositories method.
+   * @param options The options parameters.
+   */
+  getRepositoriesNext(
+    nextLink: string,
+    options?: ContainerRegistryGetRepositoriesNextOptionalParams
+  ): Promise<ContainerRegistryGetRepositoriesNextResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getRepositoriesNextOperationSpec
+    ) as Promise<ContainerRegistryGetRepositoriesNextResponse>;
+  }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
@@ -195,5 +216,22 @@ const updateRepositoryAttributesOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.url, Parameters.name],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getRepositoriesNextOperationSpec: coreHttp.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Repositories,
+      headersMapper: Mappers.ContainerRegistryGetRepositoriesNextHeaders
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  queryParameters: [Parameters.last, Parameters.n],
+  urlParameters: [Parameters.url, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };

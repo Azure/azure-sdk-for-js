@@ -458,6 +458,12 @@ export interface ContainerRegistryGetRepositoriesHeaders {
   link?: string;
 }
 
+/** Defines headers for ContainerRegistry_getRepositoriesNext operation. */
+export interface ContainerRegistryGetRepositoriesNextHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
 /** Defines headers for ContainerRegistryRepository_createManifest operation. */
 export interface ContainerRegistryRepositoryCreateManifestHeaders {
   /** Identifies the docker upload uuid for the current request. */
@@ -626,6 +632,30 @@ export interface ContainerRegistryUpdateRepositoryAttributesOptionalParams
   /** Repository attribute value */
   value?: ChangeableAttributes;
 }
+
+/** Optional parameters. */
+export interface ContainerRegistryGetRepositoriesNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+}
+
+/** Contains response data for the getRepositoriesNext operation. */
+export type ContainerRegistryGetRepositoriesNextResponse = ContainerRegistryGetRepositoriesNextHeaders &
+  Repositories & {
+    /** The underlying HTTP response. */
+    _response: coreHttp.HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
+
+      /** The response body as parsed JSON or XML */
+      parsedBody: Repositories;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: ContainerRegistryGetRepositoriesNextHeaders;
+    };
+  };
 
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetManifestOptionalParams

@@ -5,6 +5,7 @@
 ```ts
 
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -20,7 +21,8 @@ export interface ChangeableAttributes {
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
     deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeletedRepositoryResult>;
-}
+    listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
+    }
 
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
@@ -35,6 +37,24 @@ export class ContainerRegistryUserCredential {
     }
 
 // @public
+export class ContainerRepositoryClient {
+    constructor(endpointUrl: string, repository: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
+    delete(options?: DeleteOptions): Promise<DeletedRepositoryResult>;
+    deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<import("@azure/core-http").RestResponse>;
+    deleteTag(tag: string, options?: DeleteTagOptions): Promise<import("@azure/core-http").RestResponse>;
+    getProperties(options?: GetPropertiesOptions): Promise<import("./generated").ContainerRegistryGetRepositoryAttributesResponse>;
+    getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<import("./generated").ContainerRegistryRepositoryGetManifestAttributesResponse>;
+    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<import("./generated").ContainerRegistryRepositoryGetTagAttributesResponse>;
+    listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
+    // (undocumented)
+    registry: string;
+    // (undocumented)
+    repository: string;
+    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<import("@azure/core-http").RestResponse>;
+    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<import("@azure/core-http").RestResponse>;
+}
+
+// @public
 export type ContentProperties = ChangeableAttributes;
 
 // @public
@@ -47,7 +67,60 @@ export interface DeletedRepository {
 export type DeletedRepositoryResult = DeletedRepository;
 
 // @public
+export interface DeleteOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteRegistryArtifactOptions extends OperationOptions {
+}
+
+// @public
 export interface DeleteRepositoryOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteTagOptions extends OperationOptions {
+}
+
+// @public
+export interface GetPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface GetTagPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListRepositoriesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListTagsOptions extends OperationOptions {
+    digest?: string;
+    orderby?: string;
+}
+
+// @public
+export interface SetManifestPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface SetTagPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface TagProperties {
+    createdOn?: Date;
+    digest?: string;
+    lastUpdatedOn?: Date;
+    modifiableProperties?: ContentProperties;
+    name?: string;
+    registry: string;
+    repository: string;
 }
 
 

@@ -90,6 +90,18 @@ export const value: OperationParameter = {
   mapper: ChangeableAttributesMapper
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const reference: OperationURLParameter = {
   parameterPath: "reference",
   mapper: {

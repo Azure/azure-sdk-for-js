@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   TokenCredential,
   OperationOptions,
@@ -10,6 +12,8 @@ import {
   isTokenCredential
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
+import "@azure/core-paging";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -25,6 +29,11 @@ import {
  * Options for the `deleteRepository` method of `ContainerRegistryClient`.
  */
 export interface DeleteRepositoryOptions extends OperationOptions {}
+
+/**
+ * Options for the `listRepositories` method of `ContainerRegistryClient`.
+ */
+export interface ListRepositoriesOptions extends OperationOptions {}
 
 /**
  * The client class used to interact with the Container Registry service.
@@ -108,6 +117,74 @@ export class ContainerRegistryClient {
       throw e;
     } finally {
       span.end();
+    }
+  }
+
+  /**
+   * Iterates repositories.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new ContaienrRegistryClient(url, credentials);
+   * for await (const repository of client.listRepositories()) {
+   *   console.log("repository name: ", repository);
+   * }
+   * ```
+   * @param options -
+   */
+  public listRepositories(
+    options: ListRepositoriesOptions = {}
+  ): PagedAsyncIterableIterator<string, string[]> {
+    const { span, updatedOptions } = createSpan("listRepositories", options);
+    const iter = this.listRepositoryItems(updatedOptions);
+
+    span.end();
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listRepositoriesPage(settings, updatedOptions)
+    };
+  }
+
+  private async *listRepositoryItems(
+    options: ListRepositoriesOptions = {}
+  ): AsyncIterableIterator<string> {
+    for await (const page of this.listRepositoriesPage({}, options)) {
+      yield* page;
+    }
+  }
+
+  private async *listRepositoriesPage(
+    continuationState: PageSettings,
+    options: ListRepositoriesOptions = {}
+  ): AsyncIterableIterator<string[]> {
+    if (!continuationState.continuationToken) {
+      const optionsComplete = {
+        n: continuationState.maxPageSize,
+        ...options
+      };
+      const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
+      continuationState.continuationToken = currentPage.link;
+      if (currentPage.names) {
+        yield currentPage.names;
+      }
+      while (continuationState.continuationToken) {
+        const currentPage = await this.client.containerRegistry.getRepositoriesNext(
+          continuationState.continuationToken,
+          {
+            n: continuationState.maxPageSize,
+            ...options
+          }
+        );
+        continuationState.continuationToken = currentPage.link;
+        if (currentPage.names) {
+          yield currentPage.names;
+        }
+      }
     }
   }
 }
