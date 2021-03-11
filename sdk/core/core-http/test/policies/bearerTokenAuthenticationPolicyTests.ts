@@ -13,11 +13,7 @@ import { WebResource } from "../../src/webResource";
 import { bearerTokenAuthenticationPolicy } from "../../src/coreHttp";
 import { DEFAULT_CYCLER_OPTIONS } from "../../src/policies/bearerTokenAuthenticationPolicy";
 
-const {
-  refreshWindow: defaultRefreshWindow
-  //retryInterval: defaultRetryInterval,
-  //forcedRefreshWindow: defaultForcedRefreshWindow
-} = DEFAULT_CYCLER_OPTIONS;
+const { refreshWindow: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 describe("BearerTokenAuthenticationPolicy", function() {
   const mockPolicy: RequestPolicy = {

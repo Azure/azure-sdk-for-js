@@ -142,7 +142,8 @@ function createTokenCycler(
   function refresh(getTokenOptions: GetTokenOptions): Promise<AccessToken> {
     if (!cycler.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
-      const tryGetAccessToken = () => credential.getToken(scopes, getTokenOptions);
+      const tryGetAccessToken = (): Promise<AccessToken | null> =>
+        credential.getToken(scopes, getTokenOptions);
 
       // Take advantage of promise chaining to insert an assignment to `token`
       // before the refresh can be considered done.
@@ -156,7 +157,7 @@ function createTokenCycler(
     return refreshWorker as Promise<AccessToken>;
   }
 
-  return async (options: GetTokenOptions): Promise<AccessToken> => {
+  return async (tokenOptions: GetTokenOptions): Promise<AccessToken> => {
     //
     // Simple rules:
     // - If we MUST refresh, then return the refresh task, blocking
@@ -167,10 +168,10 @@ function createTokenCycler(
     //   step 1.
     //
 
-    if (cycler.mustRefresh) return refresh(options);
+    if (cycler.mustRefresh) return refresh(tokenOptions);
 
     if (cycler.shouldRefresh) {
-      refresh(options);
+      refresh(tokenOptions);
     }
 
     return token as AccessToken;
@@ -191,10 +192,10 @@ export function bearerTokenAuthenticationPolicy(
   scopes: string | string[]
 ): RequestPolicyFactory {
   // This simple function encapsulates the entire process of reliably retrieving the token
-  const getToken = createTokenCycler(credential, scopes /*, options */);
+  const getToken = createTokenCycler(credential, scopes /* , options */);
 
   class SimpleBearerAuthorizationPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+    public constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
       super(nextPolicy, options);
     }
 
