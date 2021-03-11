@@ -60,7 +60,7 @@ async function main() {
           }
         }
       }
-      if (result.entityRelations.length !== undefined && result.entityRelations.length > 0) {
+      if (result.entityRelations !== undefined && result.entityRelations.length > 0) {
         console.log(`\tRecognized relations between entities:`);
         for (const relation of result.entityRelations) {
           console.log(
