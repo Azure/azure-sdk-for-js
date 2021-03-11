@@ -11,19 +11,19 @@ import * as coreHttp from "@azure/core-http";
 /** Request to start a conversion */
 export interface CreateConversionSettings {
   /** Conversion settings describe the origin of input files and destination of output files. */
-  settings: AssetConversionOptions;
+  settings: AssetConversionSettings;
 }
 
 /** Conversion settings describe the origin of input files and destination of output files. */
-export interface AssetConversionOptions {
+export interface AssetConversionSettings {
   /** Conversion input settings describe the origin of conversion input. */
-  inputOptions: AssetConversionInputOptions;
+  inputSettings: AssetConversionInputSettings;
   /** Conversion output settings describe the destination of conversion output. */
-  outputOptions: AssetConversionOutputOptions;
+  outputSettings: AssetConversionOutputSettings;
 }
 
 /** Conversion input settings describe the origin of conversion input. */
-export interface AssetConversionInputOptions {
+export interface AssetConversionInputSettings {
   /** The URI of the Azure blob storage container containing the input model. */
   storageContainerUrl: string;
   /** An Azure blob storage container shared access signature giving read and list access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
@@ -35,7 +35,7 @@ export interface AssetConversionInputOptions {
 }
 
 /** Conversion output settings describe the destination of conversion output. */
-export interface AssetConversionOutputOptions {
+export interface AssetConversionOutputSettings {
   /** The URI of the Azure blob storage container where the result of the conversion should be written to. */
   storageContainerUrl: string;
   /** An Azure blob storage container shared access signature giving write access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
@@ -51,7 +51,7 @@ export interface AssetConversion {
   /** The ID of the conversion supplied when the conversion was created. */
   conversionId: string;
   /** Conversion settings describe the origin of input files and destination of output files. */
-  options: AssetConversionOptions;
+  settings: AssetConversionSettings;
   /**
    * Information about the output of a successful conversion. Only present when the status of the conversion is 'Succeeded'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -115,7 +115,7 @@ export interface ConversionList {
 }
 
 /** Settings of the session to be created. */
-export interface RenderingSessionOptions {
+export interface RenderingSessionSettings {
   /** The time in minutes the session will run after reaching the 'Ready' state. It has to be between 0 and 1440. */
   maxLeaseTimeInMinutes: number;
   /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
@@ -173,7 +173,7 @@ export interface RenderingSession {
 }
 
 /** Settings used to update the session. */
-export interface UpdateSessionOptions {
+export interface UpdateSessionSettings {
   /** Update to the time the session will run after it reached the 'Ready' state. It has to be larger than the current value of maxLeaseTimeMinutes and less than 1440. */
   maxLeaseTimeInMinutes: number;
 }

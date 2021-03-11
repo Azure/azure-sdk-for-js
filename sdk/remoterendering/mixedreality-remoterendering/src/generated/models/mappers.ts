@@ -17,40 +17,40 @@ export const CreateConversionSettings: coreHttp.CompositeMapper = {
         serializedName: "settings",
         type: {
           name: "Composite",
-          className: "AssetConversionOptions"
+          className: "AssetConversionSettings"
         }
       }
     }
   }
 };
 
-export const AssetConversionOptions: coreHttp.CompositeMapper = {
+export const AssetConversionSettings: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AssetConversionOptions",
+    className: "AssetConversionSettings",
     modelProperties: {
-      inputOptions: {
+      inputSettings: {
         serializedName: "inputLocation",
         type: {
           name: "Composite",
-          className: "AssetConversionInputOptions"
+          className: "AssetConversionInputSettings"
         }
       },
-      outputOptions: {
+      outputSettings: {
         serializedName: "outputLocation",
         type: {
           name: "Composite",
-          className: "AssetConversionOutputOptions"
+          className: "AssetConversionOutputSettings"
         }
       }
     }
   }
 };
 
-export const AssetConversionInputOptions: coreHttp.CompositeMapper = {
+export const AssetConversionInputSettings: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AssetConversionInputOptions",
+    className: "AssetConversionInputSettings",
     modelProperties: {
       storageContainerUrl: {
         serializedName: "storageContainerUri",
@@ -82,10 +82,10 @@ export const AssetConversionInputOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const AssetConversionOutputOptions: coreHttp.CompositeMapper = {
+export const AssetConversionOutputSettings: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AssetConversionOutputOptions",
+    className: "AssetConversionOutputSettings",
     modelProperties: {
       storageContainerUrl: {
         serializedName: "storageContainerUri",
@@ -128,11 +128,11 @@ export const AssetConversion: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      options: {
+      settings: {
         serializedName: "settings",
         type: {
           name: "Composite",
-          className: "AssetConversionOptions"
+          className: "AssetConversionSettings"
         }
       },
       output: {
@@ -278,10 +278,10 @@ export const ConversionList: coreHttp.CompositeMapper = {
   }
 };
 
-export const RenderingSessionOptions: coreHttp.CompositeMapper = {
+export const RenderingSessionSettings: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RenderingSessionOptions",
+    className: "RenderingSessionSettings",
     modelProperties: {
       maxLeaseTimeInMinutes: {
         serializedName: "maxLeaseTimeMinutes",
@@ -395,10 +395,10 @@ export const RenderingSession: coreHttp.CompositeMapper = {
   }
 };
 
-export const UpdateSessionOptions: coreHttp.CompositeMapper = {
+export const UpdateSessionSettings: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UpdateSessionOptions",
+    className: "UpdateSessionSettings",
     modelProperties: {
       maxLeaseTimeInMinutes: {
         serializedName: "maxLeaseTimeMinutes",

@@ -22,13 +22,13 @@ import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import { RemoteRenderingRestClient } from "./generated";
 import {
   AssetConversion,
-  AssetConversionOptions,
+  AssetConversionSettings,
   RemoteRenderingCreateConversionResponse,
   RemoteRenderingRestClientOptionalParams,
   RenderingSession,
-  RenderingSessionOptions,
+  RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
-  UpdateSessionOptions
+  UpdateSessionSettings
 } from "./generated/models/index";
 
 // TODO: Maybe copy and paste this?
@@ -180,18 +180,18 @@ export class RemoteRenderingClient {
    * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
-   * @param conversionOptions Settings configuring the asset conversion.
+   * @param assetConversionSettings Settings configuring the asset conversion.
    * @param options The options parameters.
    */
   public async beginConversion(
     conversionId: string,
-    conversionOptions: AssetConversionOptions,
+    assetConversionSettings: AssetConversionSettings,
     options?: OperationOptions
   ): Promise<AssetConversionPollerLike> {
     let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
       this.accountId,
       conversionId,
-      { settings: conversionOptions },
+      { settings: assetConversionSettings },
       options
     );
 
@@ -250,18 +250,18 @@ export class RemoteRenderingClient {
    * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
    *                  underscores, and cannot contain more than 256 characters.
-   * @param renderingSessionOptions Settings of the session to be created.
+   * @param renderingSessionSettings Settings of the session to be created.
    * @param options The options parameters.
    */
   public async beginSession(
     sessionId: string,
-    renderingSessionOptions: RenderingSessionOptions,
+    renderingSessionSettings: RenderingSessionSettings,
     options?: OperationOptions
   ): Promise<RenderingSessionPollerLike> {
     let renderingSession: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
       this.accountId,
       sessionId,
-      renderingSessionOptions,
+      renderingSessionSettings,
       options
     );
 
@@ -308,12 +308,12 @@ export class RemoteRenderingClient {
    * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
    *                  underscores, and cannot contain more than 256 characters.
-   * @param updateOptions Settings used to update the session.
+   * @param updateSessionSettings Settings used to update the session.
    * @param options The options parameters.
    */
   updateSession(
     sessionId: string,
-    updateOptions: UpdateSessionOptions,
+    updateSessionSettings: UpdateSessionSettings,
     options?: OperationOptions
   ): Promise<RenderingSession> {
     throw new Error("Not yet implemented.");

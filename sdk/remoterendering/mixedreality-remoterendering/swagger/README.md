@@ -41,14 +41,6 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.conversion.properties.settings
-    transform: >
-      $["x-ms-client-name"] = "options";
-```
-
-```yaml
-directive:
-  - from: swagger-document
     where: $.definitions.conversion.properties.creationTime
     transform: >
       $["x-ms-client-name"] = "createdOn";
@@ -68,7 +60,7 @@ directive:
   - from: swagger-document
     where: $.definitions.conversion_settings
     transform: >
-      $["x-ms-client-name"] = "AssetConversionOptions";
+      $["x-ms-client-name"] = "AssetConversionSettings";
 ```
 
 ```yaml
@@ -76,7 +68,7 @@ directive:
   - from: swagger-document
     where: $.definitions.conversion_settings.properties.inputLocation
     transform: >
-      $["x-ms-client-name"] = "inputOptions";
+      $["x-ms-client-name"] = "inputSettings";
 ```
 
 ```yaml
@@ -84,7 +76,7 @@ directive:
   - from: swagger-document
     where: $.definitions.conversion_settings.properties.outputLocation
     transform: >
-      $["x-ms-client-name"] = "outputOptions";
+      $["x-ms-client-name"] = "outputSettings";
 ```
 
 ```yaml
@@ -92,7 +84,7 @@ directive:
   - from: swagger-document
     where: $.definitions.conversion_input_settings
     transform: >
-      $["x-ms-client-name"] = "AssetConversionInputOptions";
+      $["x-ms-client-name"] = "AssetConversionInputSettings";
 ```
 
 ```yaml
@@ -108,7 +100,7 @@ directive:
   - from: swagger-document
     where: $.definitions.conversion_output_settings
     transform: >
-      $["x-ms-client-name"] = "AssetConversionOutputOptions";
+      $["x-ms-client-name"] = "AssetConversionOutputSettings";
 ```
 
 ```yaml
@@ -204,7 +196,7 @@ directive:
   - from: swagger-document
     where: $.definitions.create_session_settings
     transform: >
-      $["x-ms-client-name"] = "RenderingSessionOptions";
+      $["x-ms-client-name"] = "RenderingSessionSettings";
       $.properties.maxLeaseTimeMinutes["x-ms-client-name"] = "maxLeaseTimeInMinutes"
 ```
 
@@ -221,7 +213,7 @@ directive:
   - from: swagger-document
     where: $.definitions.update_session_settings
     transform: >
-      $["x-ms-client-name"] = "UpdateSessionOptions";
+      $["x-ms-client-name"] = "UpdateSessionSettings";
 ```
 
 ```yaml

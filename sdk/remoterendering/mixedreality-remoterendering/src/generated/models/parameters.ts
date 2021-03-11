@@ -13,8 +13,8 @@ import {
 } from "@azure/core-http";
 import {
   CreateConversionSettings as CreateConversionSettingsMapper,
-  RenderingSessionOptions as RenderingSessionOptionsMapper,
-  UpdateSessionOptions as UpdateSessionOptionsMapper
+  RenderingSessionSettings as RenderingSessionSettingsMapper,
+  UpdateSessionSettings as UpdateSessionSettingsMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -94,7 +94,7 @@ export const conversionId: OperationURLParameter = {
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: RenderingSessionOptionsMapper
+  mapper: RenderingSessionSettingsMapper
 };
 
 export const sessionId: OperationURLParameter = {
@@ -110,7 +110,7 @@ export const sessionId: OperationURLParameter = {
 
 export const body2: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateSessionOptionsMapper
+  mapper: UpdateSessionSettingsMapper
 };
 
 export const nextLink: OperationURLParameter = {

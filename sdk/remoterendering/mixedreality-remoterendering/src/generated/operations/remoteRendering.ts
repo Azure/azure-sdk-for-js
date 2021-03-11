@@ -15,10 +15,10 @@ import {
   RemoteRenderingCreateConversionResponse,
   RemoteRenderingGetConversionResponse,
   RemoteRenderingListConversionsResponse,
-  RenderingSessionOptions,
+  RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
   RemoteRenderingGetSessionResponse,
-  UpdateSessionOptions,
+  UpdateSessionSettings,
   RemoteRenderingUpdateSessionResponse,
   RemoteRenderingStopSessionResponse,
   RemoteRenderingListSessionsResponse,
@@ -120,7 +120,7 @@ export class RemoteRendering {
   createSession(
     accountId: string,
     sessionId: string,
-    body: RenderingSessionOptions,
+    body: RenderingSessionSettings,
     options?: coreHttp.OperationOptions
   ): Promise<RemoteRenderingCreateSessionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
@@ -171,7 +171,7 @@ export class RemoteRendering {
   updateSession(
     accountId: string,
     sessionId: string,
-    body: UpdateSessionOptions,
+    body: UpdateSessionSettings,
     options?: coreHttp.OperationOptions
   ): Promise<RemoteRenderingUpdateSessionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
