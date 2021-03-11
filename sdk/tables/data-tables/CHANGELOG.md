@@ -1,5 +1,8 @@
 # Release History
 
+## 12.0.0-beta.2 (Unreleased)
+
+
 ## 12.0.0-beta.1 (2021-03-09)
 
 - Exclude browser unsupported headers when building a Batch request in the browser [#13955)](https://github.com/Azure/azure-sdk-for-js/pull/13955)

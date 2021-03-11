@@ -138,7 +138,7 @@
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",

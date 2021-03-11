@@ -76,7 +76,7 @@
     "@types/node": "^8.0.0",
     "@types/node-fetch": "^2.5.0",
     "eslint": "^7.15.0",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
