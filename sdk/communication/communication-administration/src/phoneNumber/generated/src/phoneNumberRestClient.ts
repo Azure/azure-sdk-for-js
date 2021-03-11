@@ -20,7 +20,9 @@ class PhoneNumberRestClient extends PhoneNumberRestClientContext {
    */
   constructor(endpoint: string, options?: PhoneNumberRestClientOptionalParams) {
     super(endpoint, options);
-    this.phoneNumberAdministration = new operations.PhoneNumberAdministration(this);
+    this.phoneNumberAdministration = new operations.PhoneNumberAdministration(
+      this
+    );
   }
 
   phoneNumberAdministration: operations.PhoneNumberAdministration;

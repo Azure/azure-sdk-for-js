@@ -549,7 +549,12 @@ const getAllPhoneNumbersOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.locale, Parameters.skip, Parameters.take, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.locale,
+    Parameters.skip,
+    Parameters.take,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.endpoint],
   serializer
 };
@@ -565,7 +570,11 @@ const getAllAreaCodesOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion, Parameters.locationType, Parameters.phonePlanId],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.locationType,
+    Parameters.phonePlanId
+  ],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -615,7 +624,12 @@ const getAllSupportedCountriesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.locale, Parameters.skip, Parameters.take, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.locale,
+    Parameters.skip,
+    Parameters.take,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.endpoint],
   serializer
 };
@@ -702,8 +716,17 @@ const getPhonePlansOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.locale, Parameters.skip, Parameters.take, Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.countryCode, Parameters.phonePlanGroupId],
+  queryParameters: [
+    Parameters.locale,
+    Parameters.skip,
+    Parameters.take,
+    Parameters.apiVersion
+  ],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.countryCode,
+    Parameters.phonePlanGroupId
+  ],
   serializer
 };
 const getPhonePlanLocationOptionsOperationSpec: coreHttp.OperationSpec = {
@@ -860,7 +883,12 @@ const getAllPhoneNumbersNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.locale, Parameters.skip, Parameters.take, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.locale,
+    Parameters.skip,
+    Parameters.take,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   serializer
 };
@@ -875,7 +903,12 @@ const getAllSupportedCountriesNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.locale, Parameters.skip, Parameters.take, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.locale,
+    Parameters.skip,
+    Parameters.take,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   serializer
 };
@@ -897,7 +930,11 @@ const getPhonePlanGroupsNextOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion,
     Parameters.includeRateInformation
   ],
-  urlParameters: [Parameters.endpoint, Parameters.countryCode, Parameters.nextLink],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.countryCode,
+    Parameters.nextLink
+  ],
   serializer
 };
 const getPhonePlansNextOperationSpec: coreHttp.OperationSpec = {
@@ -911,7 +948,12 @@ const getPhonePlansNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.locale, Parameters.skip, Parameters.take, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.locale,
+    Parameters.skip,
+    Parameters.take,
+    Parameters.apiVersion
+  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
