@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { SmsApiClientOptionalParams } from "./models";
 
 const packageName = "azure-communication-sms";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.0-beta.5";
 
 export class SmsApiClientContext extends coreHttp.ServiceClient {
   endpoint: string;
