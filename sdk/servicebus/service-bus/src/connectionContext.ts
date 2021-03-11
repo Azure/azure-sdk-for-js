@@ -134,7 +134,7 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
+ * Helper method to call onDetached on the non-sessions batching and streaming receivers from the connection context upon seeing an error.
  */
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
@@ -143,7 +143,7 @@ async function callOnDetachedOnReceivers(
 ): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
-  // For non-sessions batching and streaming receivers
+  // Iterating over non-sessions batching and streaming receivers
   for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
     const receiver = connectionContext.messageReceivers[receiverName];
     if (receiver && receiver.receiverType === receiverType) {
