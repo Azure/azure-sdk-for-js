@@ -22,8 +22,9 @@ export const createSpan = createSpanFunction({
  */
 export function convertTracingToRequestOptionsBase(
   options?: OperationOptions
-): Pick<RequestOptionsBase, "spanOptions"> {
+): Pick<RequestOptionsBase, "spanOptions" | "tracingContext"> {
   return {
-    spanOptions: options?.tracingOptions?.spanOptions
+    spanOptions: options?.tracingOptions?.spanOptions,
+    tracingContext: options?.tracingOptions?.tracingContext
   };
 }

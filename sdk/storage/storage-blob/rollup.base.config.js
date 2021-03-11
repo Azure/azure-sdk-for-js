@@ -9,7 +9,9 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
+import * as path from "path";
 // import visualizer from "rollup-plugin-visualizer";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const version = require("./package.json").version;
 const banner = [
@@ -146,11 +148,19 @@ export function browserConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       })
     ],
     onwarn(warning, warn) {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/@opentelemetry/api")) >= 0
+      ) {
+        // opentelemetry contains circular references but it doesn't cause issues.
+        return;
+      }
+
       if (
         warning.code === "CIRCULAR_DEPENDENCY" ||
         warning.code === "UNRESOLVED_IMPORT"

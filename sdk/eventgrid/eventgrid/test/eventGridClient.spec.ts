@@ -18,6 +18,7 @@ import {
 } from "../src/eventGridClient";
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
+import { setSpan, context } from "@azure/core-tracing";
 
 describe("EventGridPublisherClient", function(this: Suite) {
   let recorder: Recorder;
@@ -224,9 +225,7 @@ describe("EventGridPublisherClient", function(this: Suite) {
         ],
         {
           tracingOptions: {
-            spanOptions: {
-              parent: rootSpan.context()
-            }
+            tracingContext: setSpan(context.active(), rootSpan)
           },
           onResponse: (response) => (res = response)
         }

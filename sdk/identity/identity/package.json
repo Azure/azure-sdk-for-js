@@ -82,13 +82,13 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.10",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/msal-common": "~4.0.1",
     "@azure/msal-node": "^1.0.0",
     "@azure/msal-browser": "2.9.0",
-    "@opentelemetry/api": "^0.10.2",
+    
     "@types/stoppable": "^1.1.0",
     "events": "^3.0.0",
     "jws": "^4.0.0",

@@ -131,9 +131,8 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.10",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
     "form-data": "^3.0.0",
@@ -148,6 +147,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger-js": "^1.0.2",
+    "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",

@@ -6,7 +6,7 @@
   "version": "1.0.0-beta.3",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "tslib": "^2.0.0"
   },
   "keywords": [
@@ -25,11 +25,12 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
+    "@azure/identity": "^2.0.0-beta.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
-    "@opentelemetry/api": "^0.10.2",
+    
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/jsrsasign": "^8.0.9",

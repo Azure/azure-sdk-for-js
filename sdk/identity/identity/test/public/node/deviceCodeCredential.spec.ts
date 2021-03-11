@@ -122,16 +122,14 @@ describe("DeviceCodeCredential", function() {
       this.skip();
     }
     await testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         const credential = new DeviceCodeCredential({
           tenantId: env.AZURE_TENANT_ID,
           clientId: env.AZURE_CLIENT_ID
         });
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [

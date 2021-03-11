@@ -26,7 +26,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "latest",
-    "@azure/identity": "latest",
+    "@azure/identity": "^2.0.0-beta.1",
     "@azure/storage-blob": "latest",
     "dotenv": "^8.2.0"
   },

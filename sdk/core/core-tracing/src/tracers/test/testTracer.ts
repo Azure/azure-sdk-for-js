@@ -3,7 +3,15 @@
 
 import { TestSpan } from "./testSpan";
 import { NoOpTracer } from "../noop/noOpTracer";
-import { SpanContext, SpanKind, SpanOptions, TraceFlags } from "@opentelemetry/api";
+import {
+  SpanContext,
+  SpanKind,
+  SpanOptions,
+  TraceFlags,
+  Context as OTContext,
+  context as otContext,
+  getSpanContext
+} from "@opentelemetry/api";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -116,8 +124,8 @@ export class TestTracer extends NoOpTracer {
    * @param name - The name of the span.
    * @param options - The SpanOptions used during Span creation.
    */
-  startSpan(name: string, options: SpanOptions = {}): TestSpan {
-    const parentContext = this._getParentContext(options);
+  startSpan(name: string, options?: SpanOptions, context?: OTContext): TestSpan {
+    const parentContext = getSpanContext(context || otContext.active());
 
     let traceId: string;
     let isRootSpan = false;
@@ -129,7 +137,7 @@ export class TestTracer extends NoOpTracer {
       isRootSpan = true;
     }
 
-    const context: SpanContext = {
+    const spanContext: SpanContext = {
       traceId,
       spanId: this.getNextSpanId(),
       traceFlags: TraceFlags.NONE
@@ -137,28 +145,15 @@ export class TestTracer extends NoOpTracer {
     const span = new TestSpan(
       this,
       name,
-      context,
-      options.kind || SpanKind.INTERNAL,
+      spanContext,
+      options?.kind || SpanKind.INTERNAL,
       parentContext ? parentContext.spanId : undefined,
-      options.startTime
+      options?.startTime
     );
     this.knownSpans.push(span);
     if (isRootSpan) {
       this.rootSpans.push(span);
     }
     return span;
-  }
-
-  private _getParentContext(options: SpanOptions): SpanContext | undefined {
-    const parent = options.parent;
-    let result: SpanContext | undefined;
-    if (parent) {
-      if ("traceId" in parent) {
-        result = parent;
-      } else {
-        result = parent.context();
-      }
-    }
-    return result;
   }
 }

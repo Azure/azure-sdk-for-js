@@ -15,6 +15,28 @@ interface PackageJson {
   devDependencies: Record<string, string>;
 }
 
+/**
+ * Gets the proper configuration needed for rollup's commonJS plugin for @opentelemetry/api.
+ * 
+ * NOTE: this manual configuration is only needed because OpenTelemetry uses an 
+ * __exportStar downleveled helper function to declare its exports which confuses
+ * rollup's automatic discovery mechanism.
+ * 
+ * @param directDependency true if you reference the @opentelemetry/api package directly, false otherwise.
+ * @returns an object reference that can be `...`'d into your cjs() configuration.
+ */
+export function openTelemetryCommonJs(directDependency = false): Record<string, string[]> {
+  const key = directDependency
+    ? // core-tracing has opentelemetry/api as a direct dependency...
+      "@opentelemetry/api"
+    : // ...unlike all the other projects that get it as a transitive dependency _through_ core-tracing)
+      "@azure/core-tracing/node_modules/@opentelemetry/api";
+
+  return {  
+    [key]: ["SpanKind", "TraceFlags", "getSpan", "setSpan", "SpanStatusCode", "getSpanContext", "setSpanContext"]
+  };
+}
+
 // #region Warning Handler
 
 /**
@@ -80,9 +102,7 @@ function makeBrowserTestConfig() {
           // Chai's strange internal architecture makes it impossible to statically
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          // OpenTelemetry uses an __exportStar downleveled helper function to
-          // declare its exports, and so we have to add them here as well.
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
       json(),

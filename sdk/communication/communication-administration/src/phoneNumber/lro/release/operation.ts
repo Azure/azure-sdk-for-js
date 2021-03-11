@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions, operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import {
   GetReleaseOptions,
   GetReleaseResponse,
@@ -63,7 +63,7 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
       return attachHttpResponse<ReleaseResponse>({ releaseId }, _response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -94,7 +94,7 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
       return attachHttpResponse<PhoneNumberRelease>(rest, _response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

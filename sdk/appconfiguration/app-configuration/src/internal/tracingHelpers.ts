@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Span, CanonicalCode } from "@opentelemetry/api";
+import { Span, SpanStatusCode } from "@azure/core-tracing";
 
 import { RestError, OperationOptions } from "@azure/core-http";
 import { createSpanFunction } from "@azure/core-tracing";
@@ -35,14 +35,13 @@ export async function trace<ReturnT>(
     // close the span.
     const result = await fn(updatedOptions, span);
 
-    // otel 0.16+ needs this or else the code ends up being set as UNSET
     span.setStatus({
-      code: CanonicalCode.OK
+      code: SpanStatusCode.OK
     });
     return result;
   } catch (err) {
     span.setStatus({
-      code: CanonicalCode.INTERNAL, // TODO: StatusCode.ERROR in otel 0.16+
+      code: SpanStatusCode.ERROR, // TODO: StatusCode.ERROR in otel 0.16+
       message: err.message
     });
     throw err;

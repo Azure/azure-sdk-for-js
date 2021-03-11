@@ -9,7 +9,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@azure/core-tracing";
+import { SpanOptions, Context } from "@azure/core-tracing";
 import { SerializerOptions } from "./util/serializer.common";
 
 export type HttpMethods =
@@ -127,9 +127,14 @@ export interface WebResourceLike {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Options used to create a span when tracing is enabled.
+   * Tracing: Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Tracing: Context used when creating spans.
+   */
+  tracingContext?: Context;
 
   /**
    * Validates that the required properties such as method, url, headers["Content-Type"],
@@ -229,9 +234,14 @@ export class WebResource implements WebResourceLike {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Options used to create a span when tracing is enabled.
+   * Tracing: Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Tracing: Context used when creating Spans.
+   */
+  tracingContext?: Context;
 
   constructor(
     url?: string,
@@ -493,6 +503,10 @@ export class WebResource implements WebResourceLike {
       this.spanOptions = options.spanOptions;
     }
 
+    if (options.tracingContext) {
+      this.tracingContext = options.tracingContext;
+    }
+
     this.abortSignal = options.abortSignal;
     this.onDownloadProgress = options.onDownloadProgress;
     this.onUploadProgress = options.onUploadProgress;
@@ -631,7 +645,15 @@ export interface RequestPrepareOptions {
   abortSignal?: AbortSignalLike;
   onUploadProgress?: (progress: TransferProgressEvent) => void;
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Tracing: Options used to create a span when tracing is enabled.
+   */
   spanOptions?: SpanOptions;
+  /**
+   * Tracing: Context used when creating spans.
+   */
+  tracingContext?: Context;
+
 }
 
 /**
@@ -680,9 +702,14 @@ export interface RequestOptionsBase {
   shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
 
   /**
-   * Options used to create a span when tracing is enabled.
+   * Tracing: Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Tracing: Context used when creating spans.
+   */
+  tracingContext?: Context;
 
   [key: string]: any;
 

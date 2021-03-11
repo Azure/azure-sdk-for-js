@@ -1,7 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Span, SpanContext, Attributes, Status, TraceFlags } from "@opentelemetry/api";
+import {
+  Span,
+  SpanContext,
+  SpanAttributes,
+  SpanStatus,
+  TraceFlags,
+  Exception,
+  TimeInput
+} from "@opentelemetry/api";
 
 /**
  * A no-op implementation of Span that can safely be used without side-effects.
@@ -40,7 +48,7 @@ export class NoOpSpan implements Span {
    * Sets attributes on the Span
    * @param _attributes - The attributes to add
    */
-  setAttributes(_attributes: Attributes): this {
+  setAttributes(_attributes: SpanAttributes): this {
     return this;
   }
 
@@ -49,15 +57,15 @@ export class NoOpSpan implements Span {
    * @param _name - The name of the event
    * @param _attributes - The associated attributes to add for this event
    */
-  addEvent(_name: string, _attributes?: Attributes): this {
+  addEvent(_name: string, _attributes?: SpanAttributes): this {
     return this;
   }
 
   /**
-   * Sets a status on the span. Overrides the default of CanonicalCode.OK.
+   * Sets a status on the span. Overrides the default of SpanStatusCode.OK.
    * @param _status - The status to set.
    */
-  setStatus(_status: Status): this {
+  setStatus(_status: SpanStatus): this {
     return this;
   }
 
@@ -75,4 +83,12 @@ export class NoOpSpan implements Span {
   isRecording(): boolean {
     return false;
   }
+
+  /**
+   * Sets exception as a span event
+   * @param exception the exception the only accepted values are string or Error
+   * @param [time] the time to set as Span's event time. If not provided,
+   *     use the current time.
+   */
+  recordException(_exception: Exception, _time?: TimeInput): void {}
 }

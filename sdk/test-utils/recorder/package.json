@@ -64,7 +64,8 @@
   "private": true,
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/core-tracing": "1.0.0-preview.11",
+    
     "fs-extra": "^8.1.0",
     "nise": "^4.0.3",
     "nock": "^12.0.3",

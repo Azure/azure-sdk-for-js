@@ -93,9 +93,9 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.10",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
+    
     "form-data": "^3.0.0",
     "tslib": "^2.0.0",
     "http-proxy-agent": "^4.0.1",
@@ -115,6 +115,7 @@
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0",
     "chai": "^4.2.0",
     "downlevel-dts": "~0.4.0",
     "cross-env": "^7.0.2",

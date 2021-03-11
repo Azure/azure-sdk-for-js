@@ -102,7 +102,7 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-multi-entry": "^3.0.0",

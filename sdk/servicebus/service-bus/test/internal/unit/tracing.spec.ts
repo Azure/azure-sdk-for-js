@@ -2,8 +2,18 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { getTracer, NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
-import { CanonicalCode, SpanOptions } from "@opentelemetry/api";
+import {
+  context as otContext,
+  Context as OTContext,
+  getSpanContext,
+  getTracer,
+  NoOpSpan,
+  setSpanContext,
+  SpanOptions,
+  SpanStatusCode,
+  TestSpan,
+  TestTracer,
+} from "@azure/core-tracing";
 import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
@@ -12,7 +22,7 @@ import {
 } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { OperationOptionsBase, trace } from "../../../src/modelsToBeSharedWithEventHubs";
 import { setTracerForTest } from "../../public/utils/misc";
-import { SpanKind } from "@opentelemetry/api";
+import { SpanKind } from "@azure/core-tracing";
 import { BatchingReceiverLite } from "../../../src/core/batchingReceiver";
 import { Receiver } from "rhea-promise";
 import { createConnectionContextForTests } from "./unittestUtils";
@@ -29,13 +39,11 @@ describe("Tracing tests", () => {
   let tracer: TestTracer2;
   let resetTracer: () => void;
   const tracingOptions: OperationOptionsBase["tracingOptions"] = {
-    spanOptions: {
-      parent: {
-        spanId: "my parent span id",
-        traceId: "my trace id",
-        traceFlags: 0
-      }
-    }
+    tracingContext: setSpanContext(otContext.active(), {
+      spanId: "my parent span id",
+      traceId: "my trace id",
+      traceFlags: 0
+    })
   };
 
   beforeEach(() => {
@@ -97,7 +105,7 @@ describe("Tracing tests", () => {
     );
 
     assert.equal(
-      options?.tracingOptions?.spanOptions?.parent?.spanId,
+      getSpanContext(options?.tracingOptions?.tracingContext!)?.spanId,
       "my parent span id",
       "Parent span should be properly passed in."
     );
@@ -148,7 +156,7 @@ describe("Tracing tests", () => {
       assert.equal(err.message, "This message failed when we tried to process it");
 
       assert.deepEqual(testData.span?.status, {
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: "This message failed when we tried to process it"
       });
     }
@@ -159,7 +167,7 @@ describe("Tracing tests", () => {
       }
     } as any) as ServiceBusMessageImpl);
 
-    assert.equal(testData.span!.status.code, CanonicalCode.OK);
+    assert.equal(testData.span!.status.code, SpanStatusCode.OK);
   });
 
   it("streaming (sessions)", async () => {
@@ -206,7 +214,7 @@ describe("Tracing tests", () => {
     } catch (err) {
       assert.equal(err.message, "This message failed when we tried to process it");
       assert.deepEqual(testData.span!.status, {
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: "This message failed when we tried to process it"
       });
     }
@@ -217,7 +225,7 @@ describe("Tracing tests", () => {
       }
     } as any) as ServiceBusMessageImpl);
 
-    assert.equal(testData.span!.status.code, CanonicalCode.OK);
+    assert.equal(testData.span!.status.code, SpanStatusCode.OK);
   });
 
   /**
@@ -276,7 +284,8 @@ describe("Tracing tests", () => {
       assert.equal(receiver.entityPath, "entity path");
       assert.equal(config.host, "fakeHost");
       assert.isFalse(Array.isArray(messages));
-      assert.equal(options?.tracingOptions?.spanOptions?.parent?.spanId, "my parent span id");
+
+      assert.equal(getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId, "my parent span id");
 
       data.span = getTracer().startSpan("some span") as TestSpan;
       return data.span;
@@ -300,17 +309,14 @@ describe("Tracing tests", () => {
 
       createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
-          spanOptions: {
-            parent: fakeParentSpanContext
-          }
+          tracingContext: setSpanContext(otContext.active(), fakeParentSpanContext)
         }
       });
 
       should.equal(tracer.spanName, "Azure.ServiceBus.process");
-
       should.exist(tracer.spanOptions);
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
-      tracer.spanOptions!.parent!.should.equal(fakeParentSpanContext);
+      getSpanContext(tracer.context!)!.should.equal(fakeParentSpanContext);
 
       const attributes = tracer.getRootSpans()[0].attributes;
 
@@ -398,7 +404,7 @@ describe("Tracing tests", () => {
         /** Nothing to do here */
       }, span);
 
-      span.status!.code.should.equal(CanonicalCode.OK);
+      span.status!.code.should.equal(SpanStatusCode.OK);
       span.endCalled.should.be.ok;
     });
 
@@ -409,7 +415,7 @@ describe("Tracing tests", () => {
         throw new Error("error thrown from fn");
       }, span).should.be.rejectedWith(/error thrown from fn/);
 
-      span.status!.code.should.equal(CanonicalCode.UNKNOWN);
+      span.status!.code.should.equal(SpanStatusCode.ERROR);
       span.status!.message!.should.equal("error thrown from fn");
       span.endCalled.should.be.ok;
     });
@@ -420,17 +426,20 @@ class TestTracer2 extends TestTracer {
   spanName: string | undefined;
   spanOptions: SpanOptions | undefined;
   span: TestSpan | undefined;
+  context: OTContext | undefined;
 
   clearTracingData() {
     this.spanName = undefined;
     this.spanOptions = undefined;
     this.span = undefined;
+    this.context = undefined;
   }
 
-  startSpan(nameArg: string, optionsArg?: SpanOptions): TestSpan {
+  startSpan(nameArg: string, optionsArg?: SpanOptions, contextArg?: OTContext): TestSpan {
     this.spanName = nameArg;
     this.spanOptions = optionsArg;
-    this.span = super.startSpan(nameArg, optionsArg);
+    this.context = contextArg;
+    this.span = super.startSpan(nameArg, optionsArg, contextArg);
     return this.span;
   }
 }

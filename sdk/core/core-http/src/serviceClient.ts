@@ -495,6 +495,10 @@ export class ServiceClient {
           httpRequest.spanOptions = options.spanOptions;
         }
 
+        if (options.context) {
+          httpRequest.tracingContext = options.context;
+        }
+
         if (options.shouldDeserialize !== undefined && options.shouldDeserialize !== null) {
           httpRequest.shouldDeserialize = options.shouldDeserialize;
         }

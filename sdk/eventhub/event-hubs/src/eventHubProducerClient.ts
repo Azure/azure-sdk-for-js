@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { SpanStatusCode, Link, Span, SpanContext, SpanKind } from "@azure/core-tracing";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/tracing";
@@ -340,11 +340,11 @@ export class EventHubProducerClient {
         partitionKey,
         retryOptions: this._clientOptions.retryOptions
       });
-      sendSpan.setStatus({ code: CanonicalCode.OK });
+      sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

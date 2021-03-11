@@ -1,10 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanContext, Span, SpanOptions, Attributes, Status, TraceFlags } from "@opentelemetry/api";
+import {
+  Context as OTContext,
+  context as otContext,
+  SpanContext,
+  Span,
+  SpanOptions,
+  SpanAttributes,
+  SpanStatus,
+  TraceFlags,
+  Exception,
+  TimeInput,
+  SpanStatusCode,
+  getSpan
+} from "@opentelemetry/api";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
 import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";
+
+/** An enumeration of canonical status codes. */
+enum CanonicalCode {
+  /**
+   * Not an error; returned on success
+   */
+  OK = 0,
+  /**
+   * Internal errors.  Means some invariants expected by underlying
+   * system has been broken.  If you see one of these errors,
+   * something is very broken.
+   */
+  INTERNAL = 13
+}
 
 function isWrappedSpan(span?: Span | SpanContext | null): span is OpenCensusSpanWrapper {
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
@@ -39,15 +66,23 @@ export class OpenCensusSpanWrapper implements Span {
    * @param tracer - The OpenCensus tracer that has been wrapped in OpenCensusTracerWrapper
    * @param name - The name of the Span
    * @param options - Options for the Span
+   * @param context - The context for the Span.
    */
-  constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
+  constructor(
+    tracer: OpenCensusTracerWrapper,
+    name: string,
+    options?: SpanOptions,
+    context?: OTContext
+  );
   constructor(
     tracerOrSpan: OpenCensusTracerWrapper | OpenCensusSpan,
     name: string = "",
-    options: SpanOptions = {}
+    options: SpanOptions = {},
+    context?: OTContext
   ) {
     if (isTracer(tracerOrSpan)) {
-      const parent = isWrappedSpan(options.parent) ? options.parent.getWrappedSpan() : undefined;
+      const span = getSpan(context ?? otContext.active());
+      const parent = isWrappedSpan(span) ? span.getWrappedSpan() : undefined;
       this._span = tracerOrSpan.getWrappedTracer().startChildSpan({
         name,
         childOf: parent
@@ -106,7 +141,7 @@ export class OpenCensusSpanWrapper implements Span {
    * Sets attributes on the Span
    * @param attributes - The attributes to add
    */
-  setAttributes(attributes: Attributes): this {
+  setAttributes(attributes: SpanAttributes): this {
     this._span.attributes = attributes as OpenCensusAttributes;
     return this;
   }
@@ -116,16 +151,29 @@ export class OpenCensusSpanWrapper implements Span {
    * @param name - The name of the event
    * @param attributes - The associated attributes to add for this event
    */
-  addEvent(_name: string, _attributes?: Attributes): this {
+  addEvent(_name: string, _attributes?: SpanAttributes): this {
     throw new Error("Method not implemented.");
   }
 
   /**
-   * Sets a status on the span. Overrides the default of CanonicalCode.OK.
+   * Sets a status on the span. Overrides the default of SpanStatusCode.OK.
    * @param status - The status to set.
    */
-  setStatus(status: Status): this {
-    this._span.setStatus(status.code, status.message);
+  setStatus(status: SpanStatus): this {
+    switch (status.code) {
+      case SpanStatusCode.ERROR: {
+        this._span.setStatus(CanonicalCode.INTERNAL, status.message);
+        break;
+      }
+      case SpanStatusCode.OK: {
+        this._span.setStatus(CanonicalCode.OK, status.message);
+        break;
+      }
+      case SpanStatusCode.UNSET: {
+        break;
+      }
+    }
+
     return this;
   }
 
@@ -144,5 +192,15 @@ export class OpenCensusSpanWrapper implements Span {
   isRecording(): boolean {
     // NoRecordSpans have an empty traceId
     return !!this._span.traceId;
+  }
+
+  /**
+   * Sets exception as a span event
+   * @param exception the exception the only accepted values are string or Error
+   * @param [time] the time to set as Span's event time. If not provided,
+   *     use the current time.
+   */
+  recordException(_exception: Exception, _time?: TimeInput): void {
+    throw new Error("Method not implemented");
   }
 }

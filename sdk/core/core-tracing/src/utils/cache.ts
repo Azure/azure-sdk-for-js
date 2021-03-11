@@ -7,7 +7,8 @@ import { getGlobalObject } from "./global";
 // V1 = OpenTelemetry 0.1
 // V2 = OpenTelemetry 0.2
 // V3 = OpenTelemetry 0.6.1
-const GLOBAL_TRACER_VERSION = 3;
+// V4 = OpenTelemetry 1.0.0-rc.0
+const GLOBAL_TRACER_VERSION = 4;
 // preview5 shipped with @azure/core-tracing.tracerCache
 // and didn't have smart detection for collisions
 const GLOBAL_TRACER_SYMBOL = Symbol.for("@azure/core-tracing.tracerCache2");

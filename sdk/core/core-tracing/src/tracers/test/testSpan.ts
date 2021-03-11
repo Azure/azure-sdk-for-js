@@ -5,10 +5,11 @@ import {
   TimeInput,
   Tracer,
   SpanKind,
-  Status,
+  SpanStatus,
   SpanContext,
-  CanonicalCode,
-  Attributes
+  SpanAttributes,
+  SpanStatusCode,
+  SpanAttributeValue
 } from "@opentelemetry/api";
 import { NoOpSpan } from "../noop/noOpSpan";
 
@@ -24,7 +25,7 @@ export class TestSpan extends NoOpSpan {
   /**
    * The Span's current status
    */
-  status: Status;
+  status: SpanStatus;
 
   /**
    * The Span's kind
@@ -49,7 +50,7 @@ export class TestSpan extends NoOpSpan {
   /**
    * Known attributes, if any.
    */
-  readonly attributes: Attributes;
+  readonly attributes: SpanAttributes;
 
   private _context: SpanContext;
   private readonly _tracer: Tracer;
@@ -78,7 +79,7 @@ export class TestSpan extends NoOpSpan {
     this.startTime = startTime;
     this.parentSpanId = parentSpanId;
     this.status = {
-      code: CanonicalCode.OK
+      code: SpanStatusCode.OK
     };
     this.endCalled = false;
     this._context = context;
@@ -109,10 +110,10 @@ export class TestSpan extends NoOpSpan {
   }
 
   /**
-   * Sets a status on the span. Overrides the default of CanonicalCode.OK.
+   * Sets a status on the span. Overrides the default of SpanStatusCode.OK.
    * @param status - The status to set.
    */
-  setStatus(status: Status): this {
+  setStatus(status: SpanStatus): this {
     this.status = status;
     return this;
   }
@@ -129,7 +130,7 @@ export class TestSpan extends NoOpSpan {
    * @param key - The attribute key
    * @param value - The attribute value
    */
-  setAttribute(key: string, value: unknown): this {
+  setAttribute(key: string, value: SpanAttributeValue): this {
     this.attributes[key] = value;
     return this;
   }
@@ -138,7 +139,7 @@ export class TestSpan extends NoOpSpan {
    * Sets attributes on the Span
    * @param attributes - The attributes to add
    */
-  setAttributes(attributes: Attributes): this {
+  setAttributes(attributes: SpanAttributes): this {
     for (const key of Object.keys(attributes)) {
       this.attributes[key] = attributes[key];
     }

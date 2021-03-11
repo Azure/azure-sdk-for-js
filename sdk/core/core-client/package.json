@@ -80,8 +80,7 @@
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-rest-pipeline": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.10",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -97,6 +96,7 @@
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0",
     "chai": "^4.2.0",
     "downlevel-dts": "~0.4.0",
     "cross-env": "^7.0.2",

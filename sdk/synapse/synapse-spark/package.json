@@ -8,8 +8,8 @@
   "version": "1.0.0-beta.3",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.10",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/core-tracing": "1.0.0-preview.11",
+    
     "tslib": "^2.0.0"
   },
   "keywords": [
@@ -34,6 +34,7 @@
     "typescript": "~4.2.0",
     "eslint": "^7.15.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^3.4.0",

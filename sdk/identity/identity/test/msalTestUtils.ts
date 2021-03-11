@@ -9,7 +9,7 @@ import {
 } from "@azure/test-utils-recorder";
 import Sinon, { createSandbox } from "sinon";
 import assert from "assert";
-import { setTracer, SpanGraph, SpanOptions, TestTracer } from "@azure/core-tracing";
+import { OperationTracingOptions, setSpan, setTracer, SpanGraph, TestTracer, context as otContext } from "@azure/core-tracing";
 import { MsalBaseUtilities } from "../src/msal/utils";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -94,7 +94,7 @@ export function msalNodeTestSetup(
 }
 
 export interface TestTracingOptions {
-  test(spanOptions: SpanOptions): Promise<void>;
+  test(options: OperationTracingOptions): Promise<void>;
   children: any[];
 }
 
@@ -105,8 +105,10 @@ export function testTracing(options: TestTracingOptions): () => Promise<void> {
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
 
+    const tracingContext = setSpan(otContext.active(), rootSpan);
+
     await test({
-      parent: rootSpan.context()
+      tracingContext
     });
 
     rootSpan.end();

@@ -3,7 +3,7 @@
 
 import { delay, operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { Poller, PollOperation } from "@azure/core-lro";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { VoidResponse } from "../../common/models";
 import { attachHttpResponse } from "../../common/mappers";
 import { createSpan } from "../../common/tracing";
@@ -105,7 +105,7 @@ export class PhoneNumberReservationPollOperationBase<TState, TResult>
       return attachHttpResponse<PhoneNumberReservation>(rest, _response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -136,7 +136,7 @@ export class PhoneNumberReservationPollOperationBase<TState, TResult>
       return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

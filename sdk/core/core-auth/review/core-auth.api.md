@@ -35,6 +35,13 @@ export class AzureSASCredential implements SASCredential {
 }
 
 // @public
+export interface Context {
+    deleteValue(key: symbol): Context;
+    getValue(key: symbol): unknown;
+    setValue(key: symbol, value: unknown): Context;
+}
+
+// @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
     requestOptions?: {
@@ -42,6 +49,7 @@ export interface GetTokenOptions {
     };
     tracingOptions?: {
         spanOptions?: SpanOptions;
+        tracingContext?: Context;
     };
 }
 
@@ -65,6 +73,14 @@ export interface SASCredential {
 }
 
 // @public
+export interface SpanAttributes {
+    [attributeKey: string]: SpanAttributeValue | undefined;
+}
+
+// @public
+export type SpanAttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
+
+// @public
 export interface SpanContext {
     spanId: string;
     traceFlags: number;
@@ -73,10 +89,7 @@ export interface SpanContext {
 
 // @public
 export interface SpanOptions {
-    attributes?: {
-        [key: string]: unknown;
-    };
-    parent?: SpanContext | null;
+    attributes?: SpanAttributes;
 }
 
 // @public

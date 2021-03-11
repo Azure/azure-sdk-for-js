@@ -27,7 +27,7 @@ import {
 import { createAnomalyDetectorAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 export type DetectEntireSeriesOptions = OperationOptions;
 export type DetectLastPointOptions = OperationOptions;
@@ -125,7 +125,7 @@ export class AnomalyDetectorClient {
       return this.client.detectEntireSeries(body, finalOptions);
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -156,7 +156,7 @@ export class AnomalyDetectorClient {
       return this.client.detectLastPoint(body, finalOptions);
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -185,7 +185,7 @@ export class AnomalyDetectorClient {
       return this.client.detectChangePoint(body, finalOptions);
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

@@ -28,6 +28,8 @@ import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import { StandardAbortMessage } from "../../src/util/timeoutAbortSignalUtils";
+import { setSpan, context } from "@azure/core-tracing";
+
 const env = getEnvVars();
 
 describe("EventHub Sender", function(): void {
@@ -320,9 +322,7 @@ describe("EventHub Sender", function(): void {
           { body: `${list[i].name}` },
           {
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           }
         );
@@ -372,9 +372,7 @@ describe("EventHub Sender", function(): void {
     function modernOptions(rootSpan: TestSpan): OperationOptions {
       return {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       };
     }
@@ -447,9 +445,7 @@ describe("EventHub Sender", function(): void {
           }
           await producerClient.sendBatch(eventDataBatch, {
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           rootSpan.end();
@@ -658,9 +654,7 @@ describe("EventHub Sender", function(): void {
       await producerClient.sendBatch(events, {
         partitionId: "0",
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -722,9 +716,7 @@ describe("EventHub Sender", function(): void {
       await producerClient.sendBatch(events, {
         partitionId: "0",
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -881,9 +873,7 @@ describe("EventHub Sender", function(): void {
       }
       await producerClient.sendBatch(events, {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -953,9 +943,7 @@ describe("EventHub Sender", function(): void {
       events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
       await producerClient.sendBatch(events, {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();

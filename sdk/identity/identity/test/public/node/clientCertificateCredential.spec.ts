@@ -95,7 +95,7 @@ describe("ClientCertificateCredential", function() {
       this.skip();
     }
     await testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         const credential = new ClientCertificateCredential(
           env.AZURE_TENANT_ID,
           env.AZURE_CLIENT_ID,
@@ -103,9 +103,7 @@ describe("ClientCertificateCredential", function() {
         );
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [

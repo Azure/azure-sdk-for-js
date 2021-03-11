@@ -4,17 +4,35 @@
 
 ```ts
 
-import { Attributes } from '@opentelemetry/api';
+import { context } from '@opentelemetry/api';
+import { Context as Context_2 } from '@opentelemetry/api';
+import { Exception } from '@opentelemetry/api';
+import { getSpan } from '@opentelemetry/api';
+import { getSpanContext } from '@opentelemetry/api';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
 import { SpanContext as OTSpanContext } from '@opentelemetry/api';
 import { SpanOptions as OTSpanOptions } from '@opentelemetry/api';
-import { Span } from '@opentelemetry/api';
+import { setSpan } from '@opentelemetry/api';
+import { setSpanContext } from '@opentelemetry/api';
+import { Span as Span_2 } from '@opentelemetry/api';
+import { SpanAttributes as SpanAttributes_2 } from '@opentelemetry/api';
+import { SpanAttributeValue as SpanAttributeValue_2 } from '@opentelemetry/api';
 import { SpanKind } from '@opentelemetry/api';
-import { Status } from '@opentelemetry/api';
+import { SpanStatus } from '@opentelemetry/api';
 import { TimeInput } from '@opentelemetry/api';
 import { Tracer } from '@opentelemetry/api';
 import { TracerBase } from '@opencensus/web-types';
+import { TraceState } from '@opentelemetry/api';
+
+// @public
+export interface Context {
+    deleteValue(key: symbol): Context;
+    getValue(key: symbol): unknown;
+    setValue(key: symbol, value: unknown): Context;
+}
+
+export { context }
 
 // @public
 export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
@@ -30,8 +48,14 @@ export interface CreateSpanFunctionArgs {
     packagePrefix: string;
 }
 
+export { Exception }
+
 // @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
+
+export { getSpan }
+
+export { getSpanContext }
 
 // @public
 export function getTraceParentHeader(spanContext: SpanContext): string | undefined;
@@ -41,6 +65,7 @@ export function getTracer(): Tracer;
 
 // @public
 export interface Link {
+    attributes?: SpanAttributes;
     context: LinkContext;
 }
 
@@ -51,39 +76,41 @@ export type LinkContext = {
 };
 
 // @public
-export class NoOpSpan implements Span {
-    addEvent(_name: string, _attributes?: Attributes): this;
+export class NoOpSpan implements Span_2 {
+    addEvent(_name: string, _attributes?: SpanAttributes_2): this;
     context(): OTSpanContext;
     end(_endTime?: number): void;
     isRecording(): boolean;
+    recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(_key: string, _value: unknown): this;
-    setAttributes(_attributes: Attributes): this;
-    setStatus(_status: Status): this;
+    setAttributes(_attributes: SpanAttributes_2): this;
+    setStatus(_status: SpanStatus): this;
     updateName(_name: string): this;
 }
 
 // @public
 export class NoOpTracer implements Tracer {
-    bind<T>(target: T, _span?: Span): T;
-    getCurrentSpan(): Span;
-    startSpan(_name: string, _options?: OTSpanOptions): Span;
-    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
+    bind<T>(target: T, _span?: Span_2): T;
+    getCurrentSpan(): Span_2;
+    startSpan(_name: string, _options?: OTSpanOptions): Span_2;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span_2, fn: T): ReturnType<T>;
 }
 
 export { OpenCensusSpan }
 
 // @public
-export class OpenCensusSpanWrapper implements Span {
+export class OpenCensusSpanWrapper implements Span_2 {
     constructor(span: OpenCensusSpan);
-    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: OTSpanOptions);
-    addEvent(_name: string, _attributes?: Attributes): this;
+    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: OTSpanOptions, context?: Context_2);
+    addEvent(_name: string, _attributes?: SpanAttributes_2): this;
     context(): OTSpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
     isRecording(): boolean;
+    recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(key: string, value: unknown): this;
-    setAttributes(attributes: Attributes): this;
-    setStatus(status: Status): this;
+    setAttributes(attributes: SpanAttributes_2): this;
+    setStatus(status: SpanStatus): this;
     updateName(name: string): this;
 }
 
@@ -92,30 +119,58 @@ export { OpenCensusTracer }
 // @public
 export class OpenCensusTracerWrapper implements Tracer {
     constructor(tracer: TracerBase);
-    bind<T>(_target: T, _span?: Span): T;
-    getCurrentSpan(): Span | undefined;
+    bind<T>(_target: T, _span?: Span_2): T;
+    getCurrentSpan(): Span_2 | undefined;
     getWrappedTracer(): TracerBase;
-    startSpan(name: string, options?: OTSpanOptions): Span;
-    withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
+    startSpan(name: string, options?: OTSpanOptions): Span_2;
+    withSpan<T extends (...args: unknown[]) => unknown>(_span: Span_2, _fn: T): ReturnType<T>;
 }
 
 // @public
 export interface OperationTracingOptions {
     spanOptions?: SpanOptions;
+    tracingContext?: Context;
 }
 
 export { OTSpanContext }
 
 export { OTSpanOptions }
 
+export { setSpan }
+
+export { setSpanContext }
+
 // @public
 export function setTracer(tracer: Tracer): void;
+
+// @public (undocumented)
+export interface Span {
+    addEvent(name: string, attributesOrStartTime?: SpanAttributes | TimeInput, startTime?: TimeInput): this;
+    context(): SpanContext;
+    end(endTime?: TimeInput): void;
+    isRecording(): boolean;
+    recordException(exception: Exception, time?: TimeInput): void;
+    setAttribute(key: string, value: SpanAttributeValue): this;
+    setAttributes(attributes: SpanAttributes): this;
+    setStatus(status: SpanStatus): this;
+    updateName(name: string): this;
+}
+
+// @public
+export interface SpanAttributes {
+    // (undocumented)
+    [attributeKey: string]: SpanAttributeValue | undefined;
+}
+
+// @public
+export type SpanAttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
 
 // @public
 export interface SpanContext {
     spanId: string;
     traceFlags: number;
     traceId: string;
+    traceState?: TraceState;
 }
 
 // @public
@@ -129,20 +184,28 @@ export interface SpanGraphNode {
     name: string;
 }
 
+export { SpanKind }
+
 // @public
 export interface SpanOptions {
-    attributes?: {
-        [key: string]: unknown;
-    };
+    attributes?: SpanAttributes;
     kind?: SpanKind;
     links?: Link[];
-    parent?: SpanContext | null;
+}
+
+export { SpanStatus }
+
+// @public
+export enum SpanStatusCode {
+    ERROR = 2,
+    OK = 1,
+    UNSET = 0
 }
 
 // @public
 export class TestSpan extends NoOpSpan {
     constructor(parentTracer: Tracer, name: string, context: OTSpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
-    readonly attributes: Attributes;
+    readonly attributes: SpanAttributes_2;
     context(): OTSpanContext;
     end(_endTime?: number): void;
     endCalled: boolean;
@@ -150,11 +213,11 @@ export class TestSpan extends NoOpSpan {
     kind: SpanKind;
     name: string;
     readonly parentSpanId?: string;
-    setAttribute(key: string, value: unknown): this;
-    setAttributes(attributes: Attributes): this;
-    setStatus(status: Status): this;
+    setAttribute(key: string, value: SpanAttributeValue_2): this;
+    setAttributes(attributes: SpanAttributes_2): this;
+    setStatus(status: SpanStatus): this;
     readonly startTime: TimeInput;
-    status: Status;
+    status: SpanStatus;
     tracer(): Tracer;
     }
 
@@ -164,14 +227,18 @@ export class TestTracer extends NoOpTracer {
     getKnownSpans(): TestSpan[];
     getRootSpans(): TestSpan[];
     getSpanGraph(traceId: string): SpanGraph;
-    startSpan(name: string, options?: OTSpanOptions): TestSpan;
+    startSpan(name: string, options?: OTSpanOptions, context?: Context_2): TestSpan;
     }
+
+export { TimeInput }
 
 // @public
 export const enum TraceFlags {
     NONE = 0,
     SAMPLED = 1
 }
+
+export { TraceState }
 
 
 // (No @packageDocumentation comment for this package)

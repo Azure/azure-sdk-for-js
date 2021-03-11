@@ -13,7 +13,7 @@ import {
   isNode
 } from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { getAuthorityHostEnvironment } from "../util/authHostEnv";
@@ -169,6 +169,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         spanOptions: updatedOptions?.tracingOptions?.spanOptions,
+        tracingContext: updatedOptions?.tracingOptions?.tracingContext,
         abortSignal: options && options.abortSignal
       });
 
@@ -185,7 +186,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         // initiate the authentication flow again.
         logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
-          code: CanonicalCode.UNAUTHENTICATED,
+          code: SpanStatusCode.ERROR,
           message: err.message
         });
 
@@ -195,7 +196,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
         );
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: err.message
         });
         throw err;
