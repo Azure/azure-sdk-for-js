@@ -1,5 +1,14 @@
 # Release History
 
+## 1.0.0-beta.6 (Not released)
+
+### Breaking Changes
+
+- Renamed `url` to `endpoint` in the constructors of `ChatClient` and `ChatThreadClient`
+- Renamed `ChatThread` model to `ChatThreadProperties`. Renamed `GetChatThread` operation to `GetProperties` and move to `ChatThreadClient`.
+- Renamed `ChatThreadInfo` model to `ChatThreadItem`.
+- Renamed parameter `repeatabilityRequestId` to `idempotencyToken`.
+
 ## 1.0.0-beta.5 (2021-03-09)
 
 ### Breaking Changes
