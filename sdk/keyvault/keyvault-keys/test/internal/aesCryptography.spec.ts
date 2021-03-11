@@ -18,7 +18,7 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { ClientSecretCredential } from "@azure/identity";
 
-describe.only("AesCryptographyProvider browser tests", function() {
+describe("AesCryptographyProvider browser tests", function() {
   it("uses the browser replacement when running in the browser", async function() {
     if (isNode) {
       this.skip();
@@ -37,7 +37,7 @@ describe.only("AesCryptographyProvider browser tests", function() {
   });
 });
 
-describe.only("AesCryptographyProvider internal tests", function() {
+describe("AesCryptographyProvider internal tests", function() {
   for (const keySize of [128, 192, 256]) {
     let cryptoClient: CryptographyClient;
     const encryptionAlgorithm = `A${keySize}CBCPAD` as AesCbcEncryptionAlgorithm;
