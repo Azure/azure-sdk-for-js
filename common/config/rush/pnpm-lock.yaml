@@ -8845,7 +8845,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-uC00uPqqD4T6bZi7hnf0jx+YrsQj1Wz9XCRlb7/6s43dRvuzlhwB0MdXVVdMLx3vbysCnOGqrg7r5iMGn4hrlA==
+      integrity: sha512-N4urQh6w69vwJ4ZODdHwx1yYj5jTL5cdxFmar53ivqauWu8AJcNpI1dvuJnChUDjZCKFPklzEjTY+GQkWaD+kg==
       tarball: file:projects/communication-administration.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8903,7 +8903,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-yGIuGujH5+CNQZ1jxRj9MGfUPA3/ekZs2gT7LMKB/tpyU95bN1UA0TOmM115BtvQCatND2A/ToOFheMT12zxFw==
+      integrity: sha512-ABJiLTFbFWwv95oeOpHwhDgU+SmsJXRO/YBv3xge/vetwZOZZHdDuZPo23L5UJixAW8nq3jUoJ5mIUBSkyQZ7A==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -9014,7 +9014,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-pk67nJfu3+YMUFT0NbXjQIy8tuUw2PNF+GzsbMt/WMrtnICFa+q2YmKWQdcAm1kpiZm34z4y3UstAZaOZYQWbA==
+      integrity: sha512-L0yXfzrT4e96K2HOb45TWcvvUZWre0BZeYEXTmZiCcu5nswTL/bxM7qc+ecWokEGn7ukagXPzi/Z50YswbWwng==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -9071,7 +9071,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-9BPPCBj6GLkkAqnTrJy4J40e0HqoG74b4ea0dFUZt3N8VWguTNmTF7mIj96W/AmkL3yOFgAZqPbUlkYUXDnLGQ==
+      integrity: sha512-jRgtDeSMbaFbmYjRtN/LOHVaJR3k5P9z0LSKBX1FWV6nFnZZehcU9tN5MiAmjeaGbX7bEntO0ut5P0Zr0aTcPw==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -9126,7 +9126,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-BiyZK98oswnf4MJM+jNsT9R4dsAPDRs4ndFII4FSzvO/q9inZDLaewVNApYVfAt3d2z61Ypa740LtZgPEJCZvg==
+      integrity: sha512-oU3HQq9+JrZMXCj7w9d9ufheqeHClL45/eSmrFvhEiUzCJrlZRFw7ba6H6N+xf3U1zTcIuDXuRNkX74Wg2r51w==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/container-registry.tgz:
