@@ -1143,7 +1143,7 @@ describe("Batching Receiver", () => {
       receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
     ): Promise<void> {
       serviceBusClient = createServiceBusClientForTests();
-      entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType, true);
+      entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
       if (receiveMode == "receiveAndDelete") {
         receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
           entityNames
