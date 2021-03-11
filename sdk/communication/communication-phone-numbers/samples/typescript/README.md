@@ -11,13 +11,13 @@ urlFragment: communication-phone-numbers-typescript
 
 These sample programs show how to use the JavaScript client library for Azure Communication Service Phone Numbers.
 
-| **File Name**                                 | **Description**                                                     |
-| --------------------------------------------- | ------------------------------------------------------------------- |
-| [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumbersClient to purchase a phone number  |
-| [releasePhoneNumber.ts][releasephonenumber]   | uses the PhoneNumbersClient to release a purchased phone number   |
-| [updatePhoneNumberCapabilities.ts][updatephonenumbercapabilities] | uses the PhoneNumbersClient to update the capabilities of a purchased phone number  |
-| [getPurchasedPhoneNumber.ts][getpurchasedphonenumber] | uses the PhoneNumbersClient to get a purchased phone number   |
-| [getPurchasedPhoneNumbers.ts][getpurchasedphonenumbers] | uses the PhoneNumbersClient to list all purchased phone numbers   |
+| **File Name**                                                     | **Description**                                                                    |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| [purchasePhoneNumber.ts][purchasephonenumber]                     | uses the PhoneNumbersClient to purchase a phone number                             |
+| [releasePhoneNumber.ts][releasephonenumber]                       | uses the PhoneNumbersClient to release a purchased phone number                    |
+| [updatePhoneNumberCapabilities.ts][updatephonenumbercapabilities] | uses the PhoneNumbersClient to update the capabilities of a purchased phone number |
+| [getPurchasedPhoneNumber.ts][getpurchasedphonenumber]             | uses the PhoneNumbersClient to get a purchased phone number                        |
+| [getPurchasedPhoneNumbers.ts][getpurchasedphonenumbers]           | uses the PhoneNumbersClient to list all purchased phone numbers                    |
 
 ## Prerequisites
 
