@@ -290,13 +290,14 @@ export class ServiceBusTestHelpers {
   }
 
   async createTestEntities(
-    testClientType: TestClientType
+    testClientType: TestClientType,
+    requiresFresh: boolean = false
   ): Promise<ReturnType<typeof getEntityNames>> {
     // TODO: for now these aren't randomly named. This is prep so we can
     // do that soon.
     let entityValues = this._testClientEntities.get(testClientType);
 
-    if (entityValues == null) {
+    if (entityValues == null || requiresFresh) {
       entityValues = await createTestEntities(testClientType);
       this._testClientEntities.set(testClientType, entityValues);
     }
