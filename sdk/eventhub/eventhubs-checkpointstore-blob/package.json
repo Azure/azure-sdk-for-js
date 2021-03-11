@@ -94,7 +94,7 @@
     "esm": "^3.2.18",
     "guid-typescript": "^1.0.9",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
