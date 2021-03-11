@@ -273,7 +273,7 @@ async main function() {
 
   for await (const phoneNumber of phoneNumbers) {
     console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
-    console.log(`Phone number type is ${phoneNumber.type}`);
+    console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
   }
 }
 
