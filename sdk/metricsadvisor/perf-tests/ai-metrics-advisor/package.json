@@ -1,0 +1,12 @@
+{
+  "name": "@azure-tests/perf-ai-metrics-advisor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
