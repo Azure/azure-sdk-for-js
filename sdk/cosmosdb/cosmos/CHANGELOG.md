@@ -1,6 +1,6 @@
 # Release History
 
-## 3.10.1 (2021-02-25)
+## 3.10.1 (2021-03-10)
 
 - BUGFIX: Autogenerates IDs for Upsert operations in bulk.
 

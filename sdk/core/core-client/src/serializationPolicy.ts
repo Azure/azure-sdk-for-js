@@ -127,12 +127,17 @@ export function serializeRequestBody(
       xmlName,
       xmlElementName,
       xmlNamespace,
-      xmlNamespacePrefix
+      xmlNamespacePrefix,
+      nullable
     } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
-      if (request.body || required) {
+      if (
+        (request.body !== undefined && request.body !== null) ||
+        (nullable && request.body === null) ||
+        required
+      ) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );
