@@ -44,7 +44,7 @@
     "node": ">=8.0.0"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "skipFolder": false
   },
   "browser": {
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
