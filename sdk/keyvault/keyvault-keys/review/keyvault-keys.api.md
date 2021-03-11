@@ -25,7 +25,7 @@ export type AesCbcEncryptionAlgorithm = "A128CBC" | "A192CBC" | "A256CBC" | "A12
 // @public
 export interface AesCbcEncryptParameters {
     algorithm: AesCbcEncryptionAlgorithm;
-    iv: Uint8Array;
+    iv?: Uint8Array;
     plaintext: Uint8Array;
 }
 
