@@ -5,9 +5,9 @@
 - Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
   in `ServiceBusClientOptions`.
   Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
-- Upon network disconnect, `ServiceBusSessionReceiver.receiveMessages` would hang forever and the users would have to force-exit.
-  Instead of hanging forever if a network disconnect is observed, `receiveMessages` would now return the messages in "receiveAndDelete" mode, and throws `SessionLockLostError` in "peekLock" mode.
-  [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956)
+- When receiving messages from sessions using the `ServiceBusSessionReceiver.receiveMessages` method, errors on the AMQP link or session were being handled well, but an error on the AMQP connection like a network disconnect was not being handled at all. This results in the promise returned by the above method never getting fulfilled.
+  This is now fixed in [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956) to throw `SessionLockLostError` when in `peekLock` mode and to return the messages collected so far when in `receiveAndDelete` mode.
+
 
 ### Tracing updates
 
