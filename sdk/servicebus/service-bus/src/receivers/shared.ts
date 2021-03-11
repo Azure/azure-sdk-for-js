@@ -231,6 +231,6 @@ function settleMessage(
 export function numberOfEmptyIncomingSlots(
   receiver: Pick<Receiver, "session"> | undefined
 ): number {
-  const incomingDeliveries = (receiver?.session as any)?._session?.incoming?.deliveries;
+  const incomingDeliveries = receiver?.session?.incoming?.deliveries;
   return incomingDeliveries ? incomingDeliveries.capacity - incomingDeliveries.size : 0;
 }
