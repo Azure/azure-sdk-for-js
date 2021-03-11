@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 // TODO:
-// * Work out how options should be passed to functions.
 // * Work out how responses are normally obtained
 // * Should there be a synchronous version of the API?
 // * Generate the artifact (a doc model file: https://api-extractor.com/pages/setup/generating_docs/)
@@ -203,9 +202,7 @@ export class RemoteRenderingClient {
 
   /**
    * Gets the status of a particular conversion.
-   * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
-   *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
-   *                     and cannot contain more than 256 characters.
+   * @param conversionId The ID of a previously created conversion.
    * @param options The options parameters.
    */
   public async getConversion(
@@ -238,10 +235,25 @@ export class RemoteRenderingClient {
   }
 
   /**
+   * Returns a poller for a pre-existing conversion by conversionId
+   * @param conversionId The ID of a previously created conversion.
+   * @param options The options parameters.
+   */
+  public async getConversionPoller(
+    conversionId: string,
+    options?: OperationOptions
+  ): Promise<AssetConversionPollerLike> {
+    conversionId = conversionId;
+    options = options;
+    throw new Error("Not yet implemented.");
+  }
+
+  /**
    * Gets a list of all conversions.
    * @param options The options parameters.
    */
   public listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion> {
+    options = options;
     throw new Error("Not yet implemented.");
   }
 
@@ -272,7 +284,7 @@ export class RemoteRenderingClient {
   }
 
   /**
-   * Gets the status of a particular conversion.
+   * Gets the status of a particular session.
    * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
@@ -304,6 +316,20 @@ export class RemoteRenderingClient {
   }
 
   /**
+   * Returns a poller for a pre-existing session by sessionId.
+   * @param sessionId The ID of a previously created session.
+   * @param options The options parameters.
+   */
+  public async getSessionPoller(
+    sessionId: string,
+    options?: OperationOptions
+  ): Promise<AssetConversionPollerLike> {
+    sessionId = sessionId;
+    options = options;
+    throw new Error("Not yet implemented.");
+  }
+
+  /**
    * Updates the max lease time of a particular rendering session.
    * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
@@ -316,6 +342,9 @@ export class RemoteRenderingClient {
     updateSessionSettings: UpdateSessionSettings,
     options?: OperationOptions
   ): Promise<RenderingSession> {
+    sessionId = sessionId;
+    updateSessionSettings = updateSessionSettings;
+    options = options;
     throw new Error("Not yet implemented.");
   }
 
@@ -327,6 +356,8 @@ export class RemoteRenderingClient {
    * @param options The options parameters.
    */
   endSession(sessionId: string, options?: OperationOptions): Promise<void> {
+    sessionId = sessionId;
+    options = options;
     throw new Error("Not yet implemented.");
   }
 
@@ -335,6 +366,7 @@ export class RemoteRenderingClient {
    * @param options The options parameters.
    */
   public listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession> {
+    options = options;
     throw new Error("Not yet implemented.");
   }
 }
