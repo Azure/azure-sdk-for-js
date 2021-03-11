@@ -8,7 +8,7 @@
   "license": "ISC",
   "devDependencies": {
     "@azure/core-http": "^1.2.0",
-    "@azure/core-rest-pipeline": "1.0.0",
+    "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "@azure/storage-blob": "^12.5.0",
     "@azure/test-utils-perfstress": "^1.0.0",
     "@types/uuid": "^8.0.0",

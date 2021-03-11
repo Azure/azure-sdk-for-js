@@ -129,6 +129,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
@@ -149,7 +150,7 @@
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
