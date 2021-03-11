@@ -6,7 +6,7 @@ import { ChatParticipant } from "./models";
 export { SendReadReceiptRequest } from "../generated/src/models";
 
 /** Participants to be added to the thread. */
-export interface AddChatParticipantsRequest {
+export interface AddParticipantsRequest {
   /** Participants to add to a chat thread. */
   participants: ChatParticipant[];
 }

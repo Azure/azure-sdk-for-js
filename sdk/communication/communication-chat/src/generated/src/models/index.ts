@@ -66,11 +66,11 @@ export interface MicrosoftTeamsUserIdentifierModel {
 /** The Communication Services error. */
 export interface CommunicationErrorResponse {
   /** The Communication Services error. */
-  error: CommunicationError;
+  error: ChatError;
 }
 
 /** The Communication Services error. */
-export interface CommunicationError {
+export interface ChatError {
   /** The error code. */
   code: string;
   /** The error message. */
@@ -84,12 +84,12 @@ export interface CommunicationError {
    * Further details about specific errors that led to this error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: CommunicationError[];
+  readonly details?: ChatError[];
   /**
    * The inner error if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: CommunicationError;
+  readonly innerError?: ChatError;
 }
 
 /** Request payload for sending a read receipt. */
@@ -200,7 +200,7 @@ export interface AddChatParticipantsResult {
    * The participants that failed to be added to the chat thread.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly invalidParticipants?: CommunicationError[];
+  readonly invalidParticipants?: ChatError[];
 }
 
 /** Request payload for creating a chat thread. */
@@ -219,7 +219,7 @@ export interface CreateChatThreadResult {
    * The participants that failed to be added to the chat thread.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly invalidParticipants?: CommunicationError[];
+  readonly invalidParticipants?: ChatError[];
 }
 
 /** Chat thread. */

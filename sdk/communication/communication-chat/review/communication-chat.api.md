@@ -23,17 +23,17 @@ import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
-export interface AddChatParticipantsRequest {
-    participants: ChatParticipant[];
-}
-
-// @public
 export interface AddChatParticipantsResult {
-    readonly invalidParticipants?: CommunicationError[];
+    readonly invalidParticipants?: ChatError[];
 }
 
 // @public
 export type AddParticipantsOptions = OperationOptions;
+
+// @public
+export interface AddParticipantsRequest {
+    participants: ChatParticipant[];
+}
 
 // @public
 export class ChatClient {
@@ -68,6 +68,15 @@ export class ChatClient {
 
 // @public
 export interface ChatClientOptions extends PipelineOptions {
+}
+
+// @public
+export interface ChatError {
+    code: string;
+    readonly details?: ChatError[];
+    readonly innerError?: ChatError;
+    message: string;
+    readonly target?: string;
 }
 
 // @public
@@ -112,7 +121,7 @@ export interface ChatParticipant {
 // @public
 export class ChatThreadClient {
     constructor(endpoint: string, threadId: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
-    addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
+    addParticipants(request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<void>;
     getMessage(messageId: string, options?: GetMessageOptions): Promise<ChatMessage>;
     getProperties(options?: GetPropertiesOptions): Promise<ChatThreadProperties>;
@@ -150,15 +159,6 @@ export interface ChatThreadProperties {
 }
 
 // @public
-export interface CommunicationError {
-    code: string;
-    readonly details?: CommunicationError[];
-    readonly innerError?: CommunicationError;
-    message: string;
-    readonly target?: string;
-}
-
-// @public
 export type CreateChatThreadOptions = RestCreateChatThreadOptions;
 
 // @public
@@ -170,7 +170,7 @@ export interface CreateChatThreadRequest {
 // @public
 export interface CreateChatThreadResult {
     chatThread?: ChatThreadProperties;
-    readonly invalidParticipants?: CommunicationError[];
+    readonly invalidParticipants?: ChatError[];
 }
 
 // @public

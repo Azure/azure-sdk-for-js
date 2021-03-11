@@ -20,3 +20,13 @@ use-extension:
 azure-arm: false
 add-credentials: false
 ```
+
+### Rename CommunicationError to ChatError
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.CommunicationError"
+  transform: >
+    $["x-ms-client-name"] = "ChatError";
+```

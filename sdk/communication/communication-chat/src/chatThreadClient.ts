@@ -18,7 +18,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
 import {
   SendReadReceiptRequest,
-  AddChatParticipantsRequest,
+  AddParticipantsRequest,
   SendMessageRequest
 } from "./models/requests";
 
@@ -348,7 +348,7 @@ export class ChatThreadClient {
    * @param options - Operation options.
    */
   public async addParticipants(
-    request: AddChatParticipantsRequest,
+    request: AddParticipantsRequest,
     options: AddParticipantsOptions = {}
   ): Promise<AddChatParticipantsResult> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipants", options);

@@ -12,7 +12,7 @@ import {
   SendMessageRequest,
   SendMessageOptions,
   UpdateMessageOptions,
-  AddChatParticipantsRequest
+  AddParticipantsRequest
 } from "../src";
 import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
@@ -246,7 +246,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const sendRequest: AddChatParticipantsRequest = {
+    const sendRequest: AddParticipantsRequest = {
       participants: [mockSdkModelParticipant]
     };
 
