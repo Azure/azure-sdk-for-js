@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "main": "dist/index.js",
