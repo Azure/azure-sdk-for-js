@@ -37,7 +37,7 @@ import {
   LATEST_API_VERSION
 } from "../keysModels";
 import { getKeyFromKeyBundle } from "../transformations";
-import { createHash } from "./hash";
+import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { Span } from "@opentelemetry/api";
 import { logger } from "../log";

@@ -36,7 +36,7 @@
   "browser": {
     "os": false,
     "process": false,
-    "./dist-esm/keyvault-keys/src/cryptography/hash.js": "./dist-esm/keyvault-keys/src/cryptography/hash.browser.js",
+    "./dist-esm/keyvault-keys/src/cryptography/crypto.js": "./dist-esm/keyvault-keys/src/cryptography/crypto.browser.js",
     "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.js": "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.browser.js",
     "./dist-esm/keyvault-keys/src/cryptography/aesCryptographyProvider.js": "./dist-esm/keyvault-keys/src/cryptography/aesCryptographyProvider.browser.js"
   },

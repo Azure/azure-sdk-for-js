@@ -28,10 +28,12 @@ import {
   SignOptions,
   VerifyOptions,
   DecryptParameters,
-  CryptographyClientKey
+  CryptographyClientKey,
+  AesCbcEncryptParameters,
+  AesCbcEncryptionAlgorithm
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
-import { createHash } from "./cryptography/hash";
+import { createHash, randomBytes } from "./cryptography/crypto";
 import { createSpan } from "./tracing";
 import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
@@ -193,11 +195,38 @@ export class CryptographyClient {
 
     const { span, updatedOptions } = this.createSpan("encrypt", options);
 
+    this.initializeIV(parameters);
+
     try {
       const provider = await this.getProvider("encrypt", parameters.algorithm);
       return await provider.encrypt(parameters, updatedOptions);
     } finally {
       span.end();
+    }
+  }
+
+  private initializeIV(parameters: EncryptParameters): void {
+    // For AES-GCM the service **must** generate the IV, so we only populate it for AES-CBC
+    const algorithmsRequiringIV: AesCbcEncryptionAlgorithm[] = [
+      "A128CBC",
+      "A128CBCPAD",
+      "A192CBC",
+      "A192CBCPAD",
+      "A256CBC",
+      "A256CBCPAD"
+    ];
+
+    if (parameters.algorithm in algorithmsRequiringIV) {
+      try {
+        const cbcParams = parameters as AesCbcEncryptParameters;
+        if (!cbcParams.iv) {
+          cbcParams.iv = randomBytes(16);
+        }
+      } catch (e) {
+        throw new Error(
+          `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`
+        );
+      }
     }
   }
 

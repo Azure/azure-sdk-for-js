@@ -254,9 +254,10 @@ export interface AesCbcEncryptParameters {
    */
   plaintext: Uint8Array;
   /**
-   * The initialization vector used for encryption.
+   * The initialization vector used for encryption. If omitted we will attempt to generate an IV using crypto's `randomBytes` functionality.
+   * An error will be thrown if creating an IV fails, and you may recover by passing in your own cryptographically secure IV.
    */
-  iv: Uint8Array;
+  iv?: Uint8Array;
 }
 
 /**

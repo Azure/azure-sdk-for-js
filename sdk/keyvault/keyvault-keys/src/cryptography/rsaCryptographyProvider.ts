@@ -3,7 +3,7 @@
 
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { publicEncrypt } from "crypto";
-import { createVerify } from "./hash";
+import { createVerify } from "./crypto";
 import {
   JsonWebKey,
   DecryptOptions,

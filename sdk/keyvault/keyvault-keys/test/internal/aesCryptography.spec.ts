@@ -62,8 +62,8 @@ describe("AesCryptographyProvider internal tests", function() {
           const text = this.test!.title;
           const encryptResult = await cryptoClient.encrypt({
             algorithm: encryptionAlgorithm,
-            plaintext: stringToUint8Array(text),
-            iv: getKey(16)
+            plaintext: stringToUint8Array(text)
+            // Test the client generating an IV
           });
 
           const decryptResult = await cryptoClient.decrypt({
@@ -178,7 +178,7 @@ describe("AesCryptographyProvider internal tests", function() {
           const encryptResult = await remoteProvider.encrypt({
             algorithm: encryptionAlgorithm,
             plaintext: stringToUint8Array(text),
-            iv: iv
+            iv
           });
 
           const decryptResult = await cryptoClient.decrypt({

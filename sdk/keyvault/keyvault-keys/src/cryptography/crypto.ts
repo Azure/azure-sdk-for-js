@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHash as cryptoCreateHash, createVerify as cryptoCreateVerify, Verify } from "crypto";
+import {
+  createHash as cryptoCreateHash,
+  createVerify as cryptoCreateVerify,
+  Verify,
+  randomBytes as cryptoRandomBytes
+} from "crypto";
 
 /**
  * @internal
@@ -52,4 +57,12 @@ export function createVerify(algorithm: string, data: Uint8Array): Verify {
   verifier.update(Buffer.from(data));
   verifier.end();
   return verifier;
+}
+
+/**
+ * @internal
+ * Use the platform-local randomBytes functionality
+ */
+export function randomBytes(length: number): Uint8Array {
+  return cryptoRandomBytes(length);
 }
