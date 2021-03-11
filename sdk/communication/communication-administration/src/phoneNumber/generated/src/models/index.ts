@@ -671,19 +671,11 @@ export type ActivationState =
 /**
  * Defines values for CapabilitiesUpdateStatus.
  */
-export type CapabilitiesUpdateStatus =
-  | "Pending"
-  | "InProgress"
-  | "Complete"
-  | "Error";
+export type CapabilitiesUpdateStatus = "Pending" | "InProgress" | "Complete" | "Error";
 /**
  * Defines values for PhoneNumberType.
  */
-export type PhoneNumberType =
-  | "Unknown"
-  | "Geographic"
-  | "TollFree"
-  | "Indirect";
+export type PhoneNumberType = "Unknown" | "Geographic" | "TollFree" | "Indirect";
 /**
  * Defines values for LocationType.
  */
@@ -691,20 +683,11 @@ export type LocationType = "CivicAddress" | "NotRequired" | "Selection";
 /**
  * Defines values for ReleaseStatus.
  */
-export type ReleaseStatus =
-  | "Pending"
-  | "InProgress"
-  | "Complete"
-  | "Failed"
-  | "Expired";
+export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "Expired";
 /**
  * Defines values for PhoneNumberReleaseStatus.
  */
-export type PhoneNumberReleaseStatus =
-  | "Pending"
-  | "Success"
-  | "Error"
-  | "InProgress";
+export type PhoneNumberReleaseStatus = "Pending" | "Success" | "Error" | "InProgress";
 /**
  * Defines values for SearchStatus.
  */
@@ -1371,8 +1354,7 @@ export type PhoneNumberAdministrationGetAllSearchesNextResponse = PhoneNumberEnt
 /**
  * Optional parameters.
  */
-export interface PhoneNumberRestClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface PhoneNumberRestClientOptionalParams extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
    */
