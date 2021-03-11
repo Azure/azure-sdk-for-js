@@ -6805,14 +6805,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+6uilZXSJGyiqVeHQI3Krv6NTAd8cWRCY2uyCxmzR4/5IFtBqqFem1HV2OiwSj0Gu7OFChIJDfH2JyjN7J0vRA==
-  /rhea-promise/1.1.0:
-    dependencies:
-      debug: 3.2.7
-      rhea: 1.0.24
-      tslib: 1.14.1
-    dev: false
-    resolution:
-      integrity: sha512-LKcyeh7Df4q4wApcsi5+HhMI7T636y0hz+5qVI9ESZi0D6SnFPRbefWzYQXCZmqvLgWeTOyKQbjJaJFSYp2kAA==
   /rhea/1.0.24:
     dependencies:
       debug: 3.2.7
@@ -8256,6 +8248,7 @@ packages:
     resolution:
       integrity: sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
   /xmldom/0.4.0:
+    deprecated: Deprecated due to CVE-2021-21366 resolved in 0.5.0
     dev: false
     engines:
       node: '>=10.0.0'
@@ -9166,7 +9159,7 @@ packages:
       process: 0.11.10
       puppeteer: 3.3.0
       rhea: 1.0.24
-      rhea-promise: 1.1.0
+      rhea-promise: github.com/HarshaNalluru/rhea-promise/95f6baa99dc190cdeb5599d14a68207c1a4210ca
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9183,7 +9176,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-43+7+eHuUasAbQGsZ1Fl3f6+OcoTnS2VgBAUXf9VJj656yE+qhBvnSIeeP2bS+f4grV11O8/9uEp6bVFrWarUw==
+      integrity: sha512-Bm06eyNuu/2PK2KjIR4B4N4dc+Oo3Gj+CnlGO99fxJJyMb8oWmU6R8DXTqWbwKb0IDvlTtXX607qMjvQb9odkQ==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -9938,7 +9931,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea-promise: 1.1.0
+      rhea-promise: github.com/HarshaNalluru/rhea-promise/95f6baa99dc190cdeb5599d14a68207c1a4210ca
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9954,7 +9947,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-ODs68iM+NiOd7JQdb7NKf0H/bXg8crUpxLromJg1/LiRmCh74LY3iCR1GTb26zpc5oAsZpek9v8d1sfexPCYjQ==
+      integrity: sha512-iz0xaPf7NQuyvzkJRIXxDFbnTi6wU+Yx6oaPJk5EvlnVL0ZobbghmxchaQ1HU8UShnyO3xq2HQJprhfqxFP5Dg==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -10604,7 +10597,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-ai-text-analytics'
     resolution:
-      integrity: sha512-F+eeV+aopIGTZp8/7sq8QGdNFqVQw5qGaZFEHi6paj/NDAk/2xb0lUMupAgkxHrH243PdvM2+Xr6s0CC3p4XFw==
+      integrity: sha512-LKVvu2u4L2h4qp3RMV9NpzZi6WNW9ohyzE6kmm34oF6HXqz4SecVhsO7Txg276NVghCEnzuLq6+FqRIEGNE8HA==
       tarball: file:projects/perf-ai-text-analytics.tgz
     version: 0.0.0
   file:projects/perf-eventgrid.tgz:
@@ -10617,7 +10610,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-eventgrid'
     resolution:
-      integrity: sha512-AYYEvO/nmV4stDUsGEEc13p7T9ycB2LaN0kYa2LgFfVN06dKG5wLjoA8I39CeE0JTnJNLpXt1hx4hvq78kpY5w==
+      integrity: sha512-rRuk3hqOsjzvOFir0itDLyzB0eJ+kZ5O9q9nFGI22y47FJ5F22WPbGvEraHuF6Kj89iw2nDbHQ4RPZWRs2uv3w==
       tarball: file:projects/perf-eventgrid.tgz
     version: 0.0.0
   file:projects/perf-storage-blob.tgz:
@@ -10945,7 +10938,7 @@ packages:
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 3.3.0
-      rhea-promise: 1.1.0
+      rhea-promise: github.com/HarshaNalluru/rhea-promise/95f6baa99dc190cdeb5599d14a68207c1a4210ca
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10960,7 +10953,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-caNefoZ8Fmd2L8SutHkeEAsu7zjkQBzC6YXHAdWP1u3ASkfJP4PcFLn+WoT/KZeDrIzvHximvDMqNO6lO04oEQ==
+      integrity: sha512-6+zt0qi9f658hQJVlK7VanXMwTSsju8iH8D3cKFcCVV7VLtWgrkWgDXr5p+nUE4wfeuIY4/5OD5PUKGzUa5Pkg==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
@@ -11579,6 +11572,16 @@ packages:
       integrity: sha512-HdIdDAAHx0bZpTjzl4xH0KPQUYPdfcJgNiZpAQzbVrhePPH/giaWNW0OMrD4PkKdo9iCrbsA4EN3tTb4z4gavQ==
       tarball: file:projects/testhub.tgz
     version: 0.0.0
+  github.com/HarshaNalluru/rhea-promise/95f6baa99dc190cdeb5599d14a68207c1a4210ca:
+    dependencies:
+      debug: 3.2.7
+      rhea: 1.0.24
+      tslib: 1.14.1
+    dev: false
+    name: rhea-promise
+    resolution:
+      tarball: https://codeload.github.com/HarshaNalluru/rhea-promise/tar.gz/95f6baa99dc190cdeb5599d14a68207c1a4210ca
+    version: 1.1.0
 registry: ''
 specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz

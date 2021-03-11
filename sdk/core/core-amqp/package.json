@@ -80,7 +80,7 @@
     "jssha": "^3.1.0",
     "process": "^0.11.10",
     "rhea": "^1.0.24",
-    "rhea-promise": "^1.1.0",
+    "rhea-promise": "HarshaNalluru/rhea-promise#95f6baa99dc190cdeb5599d14a68207c1a4210ca",
     "tslib": "^2.0.0",
     "url": "^0.11.0",
     "util": "^0.12.1"
