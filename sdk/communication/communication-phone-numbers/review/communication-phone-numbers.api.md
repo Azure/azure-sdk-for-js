@@ -24,20 +24,20 @@ export interface AcquiredPhoneNumber {
     purchaseDate: Date;
 }
 
-// @public (undocumented)
-export interface BeginPurchasePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginReleasePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginReleasePhoneNumberOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginSearchAvailablePhoneNumbersOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOptions {
 }
 
 // @public
@@ -74,14 +74,6 @@ export interface PhoneNumberCost {
     currencyCode: string;
 }
 
-// @public (undocumented)
-export interface PhoneNumberPollerOptionsBase {
-    // (undocumented)
-    pollInterval?: number;
-    // (undocumented)
-    resumeFrom?: string;
-}
-
 // @public
 export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
@@ -90,7 +82,7 @@ export class PhoneNumbersClient {
     beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
-    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
+    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
 }

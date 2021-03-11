@@ -5,7 +5,7 @@ import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumberSearchResult, SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - lro - purchase", function() {
   let recorder: Recorder;
@@ -40,10 +40,7 @@ describe("PhoneNumbersClient - lro - purchase", function() {
           calling: "none"
         }
       };
-      const searchPoller = await client.beginSearchAvailablePhoneNumbers(
-        searchRequest,
-        testPollerOptions
-      );
+      const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
       searchResults = await searchPoller.pollUntilDone();
 
@@ -54,10 +51,7 @@ describe("PhoneNumbersClient - lro - purchase", function() {
     }).timeout(20000);
 
     it("purchases the phone number from the search", async function() {
-      const purchasePoller = await client.beginPurchasePhoneNumbers(
-        searchResults.searchId,
-        testPollerOptions
-      );
+      const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
 
       await purchasePoller.pollUntilDone();
       assert.ok(purchasePoller.getOperationState().isCompleted);
