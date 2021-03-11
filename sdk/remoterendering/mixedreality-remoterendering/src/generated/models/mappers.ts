@@ -283,7 +283,7 @@ export const RenderingSessionOptions: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "RenderingSessionOptions",
     modelProperties: {
-      maxLeaseTimeMinutes: {
+      maxLeaseTimeInMinutes: {
         serializedName: "maxLeaseTimeMinutes",
         required: true,
         type: {
@@ -335,7 +335,7 @@ export const RenderingSession: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      elapsedTimeMinutes: {
+      elapsedTimeInMinutes: {
         serializedName: "elapsedTimeMinutes",
         readOnly: true,
         type: {
@@ -349,7 +349,7 @@ export const RenderingSession: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxLeaseTimeMinutes: {
+      maxLeaseTimeInMinutes: {
         serializedName: "maxLeaseTimeMinutes",
         readOnly: true,
         type: {
@@ -400,7 +400,7 @@ export const UpdateSessionOptions: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "UpdateSessionOptions",
     modelProperties: {
-      maxLeaseTimeMinutes: {
+      maxLeaseTimeInMinutes: {
         serializedName: "maxLeaseTimeMinutes",
         required: true,
         type: {

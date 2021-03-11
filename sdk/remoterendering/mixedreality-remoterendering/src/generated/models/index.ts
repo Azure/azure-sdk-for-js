@@ -117,7 +117,7 @@ export interface ConversionList {
 /** Settings of the session to be created. */
 export interface RenderingSessionOptions {
   /** The time in minutes the session will run after reaching the 'Ready' state. It has to be between 0 and 1440. */
-  maxLeaseTimeMinutes: number;
+  maxLeaseTimeInMinutes: number;
   /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
   size: RenderingServerSize;
 }
@@ -140,7 +140,7 @@ export interface RenderingSession {
    * Amount of time in minutes the session is or was in the 'Ready' state. Time is rounded down to a full minute.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly elapsedTimeMinutes?: number;
+  readonly elapsedTimeInMinutes?: number;
   /**
    * The hostname under which the rendering session is reachable.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -150,7 +150,7 @@ export interface RenderingSession {
    * The time in minutes the session will run after reaching the 'Ready' state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly maxLeaseTimeMinutes?: number;
+  readonly maxLeaseTimeInMinutes?: number;
   /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
   size: RenderingServerSize;
   /** The status of the rendering session. Terminal states are 'Error', 'Expired', and 'Stopped'. */
@@ -175,7 +175,7 @@ export interface RenderingSession {
 /** Settings used to update the session. */
 export interface UpdateSessionOptions {
   /** Update to the time the session will run after it reached the 'Ready' state. It has to be larger than the current value of maxLeaseTimeMinutes and less than 1440. */
-  maxLeaseTimeMinutes: number;
+  maxLeaseTimeInMinutes: number;
 }
 
 /** The result of a list sessions request. */

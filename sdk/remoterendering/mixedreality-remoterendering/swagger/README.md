@@ -162,9 +162,25 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
+    where: $.definitions.session_properties.properties.elapsedTimeMinutes
+    transform: >
+      $["x-ms-client-name"] = "elapsedTimeInMinutes";
+```
+
+```yaml
+directive:
+  - from: swagger-document
     where: $.definitions.session_properties.properties.hostname
     transform: >
       $["x-ms-client-name"] = "host";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.session_properties.properties.maxLeaseTimeMinutes
+    transform: >
+      $["x-ms-client-name"] = "maxLeaseTimeInMinutes";
 ```
 
 ```yaml
@@ -189,6 +205,7 @@ directive:
     where: $.definitions.create_session_settings
     transform: >
       $["x-ms-client-name"] = "RenderingSessionOptions";
+      $.properties.maxLeaseTimeMinutes["x-ms-client-name"] = "maxLeaseTimeInMinutes"
 ```
 
 ```yaml
@@ -205,4 +222,12 @@ directive:
     where: $.definitions.update_session_settings
     transform: >
       $["x-ms-client-name"] = "UpdateSessionOptions";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.update_session_settings.properties.maxLeaseTimeMinutes
+    transform: >
+      $["x-ms-client-name"] = "maxLeaseTimeInMinutes";
 ```
