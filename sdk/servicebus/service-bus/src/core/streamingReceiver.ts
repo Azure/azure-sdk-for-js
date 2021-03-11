@@ -301,8 +301,7 @@ export class StreamingReceiver extends MessageReceiver {
           // If it ever satisfies - add the credit
           this._onError?.({
             error: new ServiceBusError(
-              `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
-                Or set the "autoComplete" flag to true to let the library complete the messages on your behalf.`,
+              `Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods on the receiver to receive the next message.`,
               "GeneralError"
             ),
             errorSource: "receive",
