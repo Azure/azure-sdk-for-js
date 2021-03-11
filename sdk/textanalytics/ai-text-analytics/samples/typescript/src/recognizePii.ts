@@ -33,19 +33,19 @@ export async function main() {
 
   if (!result.error) {
     console.log(
-      `The redacted text is \"${result.redactedText}\" and found the following PII entities`
+      `The redacted text is "${result.redactedText}" and found the following PII entities`
     );
     for (const entity of result.entities) {
-      console.log(`\t- \"${entity.text}\" of type ${entity.category}`);
+      console.log(`\t- "${entity.text}" of type ${entity.category}`);
     }
   }
 
-  console.log(`There are no PHI entities in this text: \"${textNoPHI}\"`);
+  console.log(`There are no PHI entities in this text: "${textNoPHI}"`);
   const [resultWithPHI] = await client.recognizePiiEntities([textNoPHI], "en", {
     domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION
   });
   if (!resultWithPHI.error) {
-    console.log(`Also there is nothing to redact: \"${resultWithPHI.redactedText}\"`);
+    console.log(`Also there is nothing to redact: "${resultWithPHI.redactedText}"`);
     assert(resultWithPHI.entities.length === 0, "did not expect any entities but got some");
   }
 
@@ -53,7 +53,7 @@ export async function main() {
   const [resultWithoutPHI] = await client.recognizePiiEntities([textNoPHI]);
   if (!resultWithoutPHI.error) {
     for (const entity of resultWithoutPHI.entities) {
-      console.log(`\t- \"${entity.text}\" of type ${entity.category}`);
+      console.log(`\t- "${entity.text}" of type ${entity.category}`);
     }
   }
   const [resultWithSSNPII] = await client.recognizePiiEntities([textMultiplePIIs], "en", {
@@ -61,10 +61,10 @@ export async function main() {
   });
   if (!resultWithSSNPII.error) {
     console.log(
-      `You can choose to get SSN entities only, or any other PII category or a combination of them. For example, in this text: \"${textMultiplePIIs}\", this is the SSN number:`
+      `You can choose to get SSN entities only, or any other PII category or a combination of them. For example, in this text: "${textMultiplePIIs}", this is the SSN number:`
     );
     for (const entity of resultWithSSNPII.entities) {
-      console.log(`\t- \"${entity.text}\"`);
+      console.log(`\t- "${entity.text}"`);
       assert(entity.category === "USSocialSecurityNumber");
     }
   }
