@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { RemoteRenderingClient } from "../remoteRenderingClient";
+import { RemoteRenderingClient, WithResponse } from "../remoteRenderingClient";
 import { RenderingSession, KnownRenderingSessionStatus } from "../generated/models/index";
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export class RenderingSessionOperationState implements PollOperationState<RenderingSession> {
+export class RenderingSessionOperationState implements PollOperationState<WithResponse<RenderingSession>> {
   client: RemoteRenderingClient;
-  conversionState: RenderingSession;
+  conversionState: WithResponse<RenderingSession>;
 
-  constructor(client: RemoteRenderingClient, conversionState: RenderingSession) {
+  constructor(client: RemoteRenderingClient, conversionState: WithResponse<RenderingSession>) {
     this.client = client;
     this.conversionState = conversionState;
   }
@@ -36,7 +36,7 @@ export class RenderingSessionOperationState implements PollOperationState<Render
     return undefined;
   }
 
-  get result(): RenderingSession {
+  get result(): WithResponse<RenderingSession> {
     return this.conversionState;
   }
 }
@@ -80,14 +80,14 @@ class RenderingSessionOperation
 
 export class RenderingSessionPoller extends Poller<
   RenderingSessionOperationState,
-  RenderingSession
+  WithResponse<RenderingSession>
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
   public intervalInMs: number = 10000;
 
-  constructor(client: RemoteRenderingClient, RenderingSession: RenderingSession) {
+  constructor(client: RemoteRenderingClient, RenderingSession: WithResponse<RenderingSession>) {
     super(
       new RenderingSessionOperation(new RenderingSessionOperationState(client, RenderingSession))
     );

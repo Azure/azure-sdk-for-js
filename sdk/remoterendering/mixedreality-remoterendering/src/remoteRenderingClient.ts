@@ -12,7 +12,8 @@ import {
   OperationOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions
+  InternalPipelineOptions,
+  HttpResponse
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 
@@ -59,11 +60,21 @@ export {
   RenderingSessionOperationState
 };
 
-export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
+export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, WithResponse<AssetConversion>>;
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
-  RenderingSession
+  WithResponse<RenderingSession>
 >;
+
+/**
+ * Represents the returned response of the operation along with the raw response.
+ */
+export type WithResponse<T extends object> = T & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse;
+};
 
 /**
  * The client class used to interact with the App Configuration service.
@@ -208,7 +219,7 @@ export class RemoteRenderingClient {
   public async getConversion(
     conversionId: string,
     options?: OperationOptions
-  ): Promise<AssetConversion> {
+  ): Promise<WithResponse<AssetConversion>> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetConversion", {
       conversionId: conversionId,
       ...options
@@ -293,7 +304,7 @@ export class RemoteRenderingClient {
   public async getSession(
     sessionId: string,
     options?: OperationOptions
-  ): Promise<RenderingSession> {
+  ): Promise<WithResponse<RenderingSession>> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetSession", {
       sessionId,
       ...options
@@ -337,11 +348,11 @@ export class RemoteRenderingClient {
    * @param updateSessionSettings Settings used to update the session.
    * @param options The options parameters.
    */
-  updateSession(
+  public async updateSession(
     sessionId: string,
     updateSessionSettings: UpdateSessionSettings,
     options?: OperationOptions
-  ): Promise<RenderingSession> {
+  ): Promise<WithResponse<RenderingSession>> {
     sessionId = sessionId;
     updateSessionSettings = updateSessionSettings;
     options = options;
@@ -355,7 +366,7 @@ export class RemoteRenderingClient {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  endSession(sessionId: string, options?: OperationOptions): Promise<void> {
+  public async endSession(sessionId: string, options?: OperationOptions): Promise<WithResponse<{}>> {
     sessionId = sessionId;
     options = options;
     throw new Error("Not yet implemented.");

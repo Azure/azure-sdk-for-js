@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { RemoteRenderingClient } from "../remoteRenderingClient";
+import { RemoteRenderingClient, WithResponse } from "../remoteRenderingClient";
 import { AssetConversion, KnownAssetConversionStatus } from "../generated/models/index";
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export class AssetConversionOperationState implements PollOperationState<AssetConversion> {
+export class AssetConversionOperationState implements PollOperationState<WithResponse<AssetConversion>> {
   client: RemoteRenderingClient;
-  conversionState: AssetConversion;
+  conversionState: WithResponse<AssetConversion>;
 
-  constructor(client: RemoteRenderingClient, conversionState: AssetConversion) {
+  constructor(client: RemoteRenderingClient, conversionState: WithResponse<AssetConversion>) {
     this.client = client;
     this.conversionState = conversionState;
   }
@@ -39,7 +39,7 @@ export class AssetConversionOperationState implements PollOperationState<AssetCo
     return undefined;
   }
 
-  get result(): AssetConversion {
+  get result(): WithResponse<AssetConversion> {
     return this.conversionState;
   }
 }
@@ -81,13 +81,13 @@ class AssetConversionOperation
   }
 }
 
-export class AssetConversionPoller extends Poller<AssetConversionOperationState, AssetConversion> {
+export class AssetConversionPoller extends Poller<AssetConversionOperationState, WithResponse<AssetConversion>> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
   public intervalInMs: number = 10000;
 
-  constructor(client: RemoteRenderingClient, assetConversion: AssetConversion) {
+  constructor(client: RemoteRenderingClient, assetConversion: WithResponse<AssetConversion>) {
     super(new AssetConversionOperation(new AssetConversionOperationState(client, assetConversion)));
   }
 
