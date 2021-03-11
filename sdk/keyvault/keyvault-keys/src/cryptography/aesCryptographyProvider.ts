@@ -174,8 +174,8 @@ export class AesCryptographyProvider implements CryptographyProvider {
   private ensureValid(keySizeInBytes: number): void {
     if (
       this.key &&
-      this.key.kty?.toLowerCase() !== "oct" &&
-      this.key.kty?.toLowerCase() !== "oct-hsm"
+      this.key.kty?.toUpperCase() !== "OCT" &&
+      this.key.kty?.toUpperCase() !== "OCT-HSM"
     ) {
       throw new Error("Key type does not match the key type oct or oct-hsm");
     }
