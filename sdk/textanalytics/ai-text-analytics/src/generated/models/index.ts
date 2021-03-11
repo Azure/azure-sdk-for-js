@@ -1098,7 +1098,7 @@ export type State =
   | "cancelling"
   | "partiallyCompleted";
 /** Defines values for Conditionality. */
-export type Conditionality = "Hypothetical" | "Conditional";
+export type Conditionality = "hypothetical" | "conditional";
 /** Defines values for Certainty. */
 export type Certainty =
   | "positive"
