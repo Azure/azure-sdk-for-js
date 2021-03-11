@@ -678,20 +678,16 @@ export class MessageSession extends LinkEntity<Receiver> {
           ) {
             this._receiverHelper.addCredit(1);
           } else if (this.link) {
-            if (numberOfEmptyIncomingSlots(this.link) > 1) {
-              this._receiverHelper.addCredit(1);
-            } else {
-              this._notifyError?.({
-                error: new ServiceBusError(
-                  `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.` +
-                    ` Or set the "autoCompleteMessages" flag to true to let the library complete the messages on your behalf.`,
-                  "GeneralError"
-                ),
-                errorSource: "receive",
-                entityPath: this.entityPath,
-                fullyQualifiedNamespace: this._context.config.host
-              });
-            }
+            this._notifyError?.({
+              error: new ServiceBusError(
+                `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.` +
+                  ` Or set the "autoCompleteMessages" flag to true to let the library complete the messages on your behalf.`,
+                "GeneralError"
+              ),
+              errorSource: "receive",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
           } else {
             // Link doesn't exist
             // SessionLockLost will be notified in one of the listeners
@@ -732,12 +728,10 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
           // Wait for the user to clear the deliveries before adding more credits
-          while (this.link && numberOfEmptyIncomingSlots(this.link) <= 1) {
+          while (numberOfEmptyIncomingSlots(this.link) <= 1) {
             await delay(1000);
-            if (numberOfEmptyIncomingSlots(this.link) > 1) {
-              this._receiverHelper.addCredit(1);
-            }
           }
+          this._receiverHelper.addCredit(1);
         }
       };
       // setting the "message" event listener.

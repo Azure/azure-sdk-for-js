@@ -297,8 +297,6 @@ export class StreamingReceiver extends MessageReceiver {
         if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(this.link) > 1) {
           this._receiverHelper.addCredit(1);
         } else {
-          // Additionally.. have a checkWithTimeout that keeps checking if the above if-condition satisfies
-          // If it ever satisfies - add the credit
           this._onError?.({
             error: new ServiceBusError(
               `Circular buffer that contains the incoming deliveries is full, please settle the messages using settlement methods such as .completeMessage() on the receiver.
@@ -349,10 +347,8 @@ export class StreamingReceiver extends MessageReceiver {
         // Wait for the user to clear the deliveries before adding more credits
         while (numberOfEmptyIncomingSlots(this.link) <= 1) {
           await delay(1000);
-          if (numberOfEmptyIncomingSlots(this.link) > 1) {
-            this._receiverHelper.addCredit(1);
-          }
         }
+        this._receiverHelper.addCredit(1);
       }
     };
   }
