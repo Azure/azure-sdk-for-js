@@ -171,7 +171,7 @@ async function callOnDetachedOnReceivers(
 
 /**
  * @internal
- * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
+ * Helper method to call onDetached on the session receivers from the connection context upon seeing an error.
  */
 async function callOnDetachedOnSessionReceivers(
   connectionContext: ConnectionContext,
