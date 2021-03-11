@@ -7,14 +7,17 @@ products:
 urlFragment: communication-phone-numbers-javascript
 ---
 
-# Azure Communication Service Phone Numbers client library sample for JavaScript
+# Azure Communication Service Phone Numbers client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client library for Azure Communication Service Phone Numbers.
 
 | **File Name**                                 | **Description**                                                     |
 | --------------------------------------------- | ------------------------------------------------------------------- |
-| [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number |
-| [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers   |
+| [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumbersClient to purchase a phone number  |
+| [releasePhoneNumber.js][releasephonenumber]   | uses the PhoneNumbersClient to release a purchased phone number   |
+| [updatePhoneNumberCapabilities.js][updatephonenumbercapabilities] | uses the PhoneNumbersClient to update the capabilities of a purchased phone number  |
+| [getPurchasedPhoneNumber.js][getpurchasedphonenumber] | uses the PhoneNumbersClient to get a purchased phone number   |
+| [getPurchasedPhoneNumbers.js][getpurchasedphonenumbers] | uses the PhoneNumbersClient to list all purchased phone numbers   |
 
 ## Prerequisites
 
@@ -53,7 +56,10 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node purchas
 Take a look at our [API Documentation]<!--[apiref]--> for more information about the APIs that are available in the clients.
 
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/purchasePhoneNumber.js
-[releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/releasePhoneNumbers.js
+[releasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/releasePhoneNumber.js
+[updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/updatePhoneNumberCapabilities.js
+[getpurchasedphonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/getPurchasedPhoneNumber.js
+[getpurchasedphonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/getPurchasedPhoneNumbers.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-phone-numbers
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
