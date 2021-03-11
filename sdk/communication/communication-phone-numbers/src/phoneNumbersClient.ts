@@ -34,7 +34,7 @@ import {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
   BeginSearchAvailablePhoneNumbersOptions,
-  BeginUpdatePhoneNumberCapabilitiesOptions
+  BeginUpdatePhoneNumberOptions
 } from "./lroModels";
 
 /**
@@ -326,12 +326,12 @@ export class PhoneNumbersClient {
    *
    * @param {string} phoneNumber The E.164 formatted phone number being updated. The leading plus can be either + or encoded as %2B.
    * @param {PhoneNumberCapabilitiesRequest} request The updated properties which will be applied to the phone number.
-   * @param {BeginUpdatePhoneNumberCapabilitiesOptions} options Additional request options.
+   * @param {BeginUpdatePhoneNumberOptions} options Additional request options.
    */
   public async beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
-    options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
+    options: BeginUpdatePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
