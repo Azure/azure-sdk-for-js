@@ -30,7 +30,7 @@ export interface OperationResponse {
 }
 
 export interface BulkOptions {
-  continueOnError?: boolean
+  continueOnError?: boolean;
 }
 
 export function isKeyInRange(min: string, max: string, key: string): boolean {
