@@ -44,6 +44,33 @@ describe("serializationPolicy", function() {
       );
     });
 
+    it("should serialize a JSON false request body", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeRequestBody(
+        httpRequest,
+        {
+          boolBody: false
+        },
+        {
+          httpMethod: "PUT",
+          requestBody: {
+            parameterPath: "boolBody",
+            mapper: {
+              defaultValue: false,
+              isConstant: true,
+              serializedName: "boolBody",
+              type: {
+                name: "Boolean"
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: createSerializer()
+        }
+      );
+      assert.strictEqual(httpRequest.body, `false`);
+    });
+
     it("should serialize a JSON String request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
