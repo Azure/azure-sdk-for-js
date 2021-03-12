@@ -82,7 +82,7 @@ const client = new SmsClient(endpoint, credential);
 
 ## Send a 1:N SMS Message
 
-To send a SMS message, call the `send` function from the `SmsClient`. You need to pass in a `SmsSendRequest` object.
+To send an SMS message, call the `send` function from the `SmsClient`. You need to pass in a `SmsSendRequest` object.
 You may also add pass in an options object to specify whether the delivery report should be enabled and set custom tags for the report.
 An array of `SmsSendResult` is returned. A `successful` flag is used to validate if each individual message was sent successfully.
 

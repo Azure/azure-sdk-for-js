@@ -3,7 +3,7 @@
 
 /**
  * Demonstrates how to use the configure the options
- * when sending a SMS message
+ * when sending an SMS message
  */
 
 import { SmsClient } from "@azure/communication-sms";
