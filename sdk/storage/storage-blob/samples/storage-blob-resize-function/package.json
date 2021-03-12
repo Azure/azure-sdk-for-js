@@ -4,21 +4,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@azure/storage-blob": "^12.1.2",
-    "jimp": "^0.13.0"
+    "@azure/storage-blob": "^12.5.0",
+    "jimp": "^0.16.1"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure-Samples/storage-blob-resize-function-node-v10.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Azure-Samples/storage-blob-resize-function-node-v10/issues"
-  },
-  "homepage": "https://github.com/Azure-Samples/storage-blob-resize-function-node-v10#readme"
 }
