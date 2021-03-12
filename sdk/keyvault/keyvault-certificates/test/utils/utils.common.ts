@@ -3,6 +3,7 @@
 
 import { env } from "@azure/test-utils-recorder";
 import * as assert from "assert";
+import { LATEST_API_VERSION } from "../../src/certificatesModels";
 
 // Async iterator's polyfill for Node 8
 if (!Symbol || !(Symbol as any).asyncIterator) {
@@ -32,5 +33,13 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   }
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");
+  }
+}
+
+export function getVersionsToTest(): Array<string> {
+  if (env.SERVICE_VERSIONS === "all") {
+    return ["7.0", "7.1", "7.2"];
+  } else {
+    return [LATEST_API_VERSION];
   }
 }

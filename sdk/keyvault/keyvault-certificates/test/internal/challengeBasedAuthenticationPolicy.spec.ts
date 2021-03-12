@@ -14,6 +14,7 @@ import { CertificateClient } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { LATEST_API_VERSION } from "../../src/certificatesModels";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -33,7 +34,7 @@ describe("Challenge based authentication tests", () => {
   };
 
   beforeEach(async function() {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, LATEST_API_VERSION);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;

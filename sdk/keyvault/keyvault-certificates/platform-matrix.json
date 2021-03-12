@@ -1,0 +1,15 @@
+{
+  "include": [
+    {
+      "Agent": {
+        "ubuntu-18.04_multi-service-versions": {
+          "OSVmImage": "MMSUbuntu18.04",
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "10.x",
+      "ServiceVersions": "all"
+    }
+  ]
+}

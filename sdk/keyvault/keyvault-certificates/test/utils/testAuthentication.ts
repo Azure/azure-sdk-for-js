@@ -8,7 +8,8 @@ import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorde
 import TestClient from "./testClient";
 import { Context } from "mocha";
 
-export async function authenticate(that: Context): Promise<any> {
+export async function authenticate(that: Context, serviceVersion: string): Promise<any> {
+  console.log(`authenticate called with serviceVersion ${serviceVersion}`);
   const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
@@ -38,7 +39,7 @@ export async function authenticate(that: Context): Promise<any> {
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
-  const client = new CertificateClient(keyVaultUrl, credential);
+  const client = new CertificateClient(keyVaultUrl, credential, { serviceVersion });
   const testClient = new TestClient(client);
 
   return { recorder, client, credential, testClient, suffix, keyVaultUrl };

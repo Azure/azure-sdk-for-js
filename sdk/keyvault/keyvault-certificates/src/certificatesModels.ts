@@ -21,7 +21,7 @@ export interface CertificateClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | string;
 }
 
 /**
