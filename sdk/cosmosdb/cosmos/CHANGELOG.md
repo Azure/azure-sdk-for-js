@@ -1,6 +1,6 @@
 # Release History
 
-## 3.10.3 (Unreleased)
+## 3.10.3 (2021-03-12)
 
 - BUGFIX: Removes direct dependency on @azure/identity while retaining compatibility.
 
