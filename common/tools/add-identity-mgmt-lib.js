@@ -43,7 +43,7 @@ function updateREADME(mainModule, relativePath, namespace) {
     );
 
     const operation = getMatch(
-      content.match(/client\.(.+?)\(resourceGroupName, resourceName\).*$/ms),
+      content.match(/client\.(.+?)\(.*\).*$/ms),
       "operation",
       "README file"
     );
