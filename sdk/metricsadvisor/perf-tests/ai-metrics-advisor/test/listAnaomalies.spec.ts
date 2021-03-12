@@ -14,8 +14,8 @@ export class AnomaliesListTest extends AnomaliesTest<AnomaliesListTestOptions> {
       required: true,
       description: "Number of blobs to be listed",
       longName: "count",
-      defaultValue: 10,
-    },
+      defaultValue: 10
+    }
   };
 
   public async globalSetup() {
