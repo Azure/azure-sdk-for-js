@@ -35,7 +35,7 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
     }
   });
 
-  it("sends a SMS when url and token credential are provided", async function() {
+  it("can send a SMS when url and token credential are provided", async function() {
     const credential = createCredential();
 
     if (!credential) {
@@ -58,5 +58,6 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
     const responses = await smsClient.send(sendRequest);
     const response = responses[0];
     assert.equal(response.httpStatusCode, 202);
+    assert.isTrue(response.successful);
   }).timeout(5000);
 });

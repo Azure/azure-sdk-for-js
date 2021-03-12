@@ -4,7 +4,7 @@
 
 ```ts
 
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface Agent {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
@@ -9,16 +9,15 @@ import { createRecordedClient, testPollerOptions } from "./utils/recordedClient"
 describe("PhoneNumbersClient - lro - release", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
-  let includePhoneNumberLiveTests: boolean;
 
   this.beforeAll(function() {
-    if (isPlaybackMode() || isLiveMode()) {
+    if (!env.INCLUDE_PHONENUMBER_LIVE_TESTS && !isPlaybackMode()) {
       this.skip();
     }
   });
 
   beforeEach(function() {
-    ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
+    ({ client, recorder } = createRecordedClient(this));
   });
 
   afterEach(async function() {
@@ -31,22 +30,14 @@ describe("PhoneNumbersClient - lro - release", function() {
     let phoneNumberToRelease: string;
 
     it("gets a phone number to release", async function() {
-      if (!includePhoneNumberLiveTests) {
-        this.skip();
-      }
-
-      const phoneNumber = await client.listPhoneNumbers().next();
+      const phoneNumber = await client.listPurchasedPhoneNumbers().next();
       phoneNumberToRelease = await phoneNumber.value.phoneNumber;
 
       assert.isNotEmpty(phoneNumberToRelease);
       assert.match(phoneNumberToRelease, /\+\d+/);
-    });
+    }).timeout(10000);
 
     it("releases the phone number", async function() {
-      if (!includePhoneNumberLiveTests) {
-        this.skip();
-      }
-
       const releasePoller = await client.beginReleasePhoneNumber(
         phoneNumberToRelease,
         testPollerOptions
@@ -54,6 +45,6 @@ describe("PhoneNumbersClient - lro - release", function() {
 
       await releasePoller.pollUntilDone();
       assert.ok(releasePoller.getOperationState().isCompleted);
-    }).timeout(60000);
+    }).timeout(45000);
   });
 });
