@@ -20,7 +20,8 @@ import {
   getPartitionKeyToHash,
   decorateOperation,
   OperationResponse,
-  OperationInput
+  OperationInput,
+  BulkOptions
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -398,6 +399,7 @@ export class Items {
    */
   public async bulk(
     operations: OperationInput[],
+    bulkOptions?: BulkOptions,
     options?: RequestOptions
   ): Promise<OperationResponse[]> {
     const {
@@ -443,6 +445,7 @@ export class Items {
               partitionKeyRangeId: batch.rangeId,
               path,
               resourceId: this.container.url,
+              bulkOptions,
               options
             });
             response.result.forEach((operationResponse: OperationResponse, index: number) => {

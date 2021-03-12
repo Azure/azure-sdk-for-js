@@ -22,6 +22,7 @@ import { RequestContext } from "./request/RequestContext";
 import { request as executeRequest } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
+import { BulkOptions } from "./utils/batch";
 
 /** @hidden */
 const log = logger("ClientContext");
@@ -546,14 +547,16 @@ export class ClientContext {
   public async bulk<T>({
     body,
     path,
-    resourceId,
     partitionKeyRangeId,
+    resourceId,
+    bulkOptions = {},
     options = {}
   }: {
     body: T;
     path: string;
     partitionKeyRangeId: string;
     resourceId: string;
+    bulkOptions?: BulkOptions;
     options?: RequestOptions;
   }): Promise<Response<any>> {
     try {
@@ -576,6 +579,7 @@ export class ClientContext {
       request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
       request.headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[Constants.HttpHeaders.IsBatchAtomic] = false;
+      request.headers[Constants.HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError || false;
 
       this.applySessionToken(request);
 

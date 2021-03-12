@@ -29,6 +29,10 @@ export interface OperationResponse {
   resourceBody?: JSONObject;
 }
 
+export interface BulkOptions {
+  continueOnError?: boolean
+}
+
 export function isKeyInRange(min: string, max: string, key: string): boolean {
   const isAfterMinInclusive = key.localeCompare(min) >= 0;
   const isBeforeMax = key.localeCompare(max) < 0;
