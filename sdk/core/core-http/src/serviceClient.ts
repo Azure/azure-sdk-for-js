@@ -469,12 +469,6 @@ export class ServiceClient {
 
       const options: RequestOptionsBase | undefined = operationArguments.options;
       if (options) {
-        if (options.customHeaders) {
-          for (const customHeaderName in options.customHeaders) {
-            httpRequest.headers.set(customHeaderName, options.customHeaders[customHeaderName]);
-          }
-        }
-
         if (options.abortSignal) {
           httpRequest.abortSignal = options.abortSignal;
         }

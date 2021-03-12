@@ -94,6 +94,16 @@ export function serializeHeaders(
       }
     }
   }
+  if (operationArguments.options?.requestOptions?.customHeaders) {
+    for (const customHeaderName of Object.keys(
+      operationArguments.options.requestOptions.customHeaders
+    )) {
+      request.headers.set(
+        customHeaderName,
+        operationArguments.options.requestOptions.customHeaders[customHeaderName]
+      );
+    }
+  }
 }
 
 /**

@@ -847,7 +847,7 @@ describe("serializationPolicy", function() {
     });
   });
 
-  describe.only("serializeHeaders()", () => {
+  describe("serializeHeaders()", () => {
     it("should respect customHeaders", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeHeaders(
@@ -889,7 +889,8 @@ describe("serializationPolicy", function() {
               }
             }
           ]
-        });
+        }
+      );
       assert.strictEqual(httpRequest.headers.get("Content-Type"), "custom/type");
     });
   });
