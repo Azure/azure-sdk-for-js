@@ -194,7 +194,7 @@ export function bearerTokenAuthenticationPolicy(
   // This simple function encapsulates the entire process of reliably retrieving the token
   const getToken = createTokenCycler(credential, scopes /* , options */);
 
-  class SimpleBearerAuthorizationPolicy extends BaseRequestPolicy {
+  class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     public constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
       super(nextPolicy, options);
     }
@@ -213,7 +213,7 @@ export function bearerTokenAuthenticationPolicy(
 
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new SimpleBearerAuthorizationPolicy(nextPolicy, options);
+      return new BearerTokenAuthenticationPolicy(nextPolicy, options);
     }
   };
 }
