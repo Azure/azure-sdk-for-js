@@ -17,11 +17,15 @@ import { ConnectionContext } from "../connectionContext";
 import { ErrorNameConditionMapper } from "@azure/core-amqp";
 import { MessageAlreadySettled } from "../util/errors";
 import { Receiver } from "rhea-promise";
+import { isDefined } from "../util/typeGuards";
 
 /**
  * @internal
  */
-export function assertValidMessageHandlers(handlers: any) {
+export function assertValidMessageHandlers(handlers: {
+  processMessage?: unknown;
+  processError?: unknown;
+}): void {
   if (
     handlers &&
     handlers.processMessage instanceof Function &&
@@ -187,7 +191,7 @@ function settleMessage(
   } else if (
     !isDeferredMessage &&
     (!receiver || !receiver.isOpen()) &&
-    message.sessionId != undefined
+    isDefined(message.sessionId)
   ) {
     error = translateServiceBusError({
       description:
@@ -210,7 +214,7 @@ function settleMessage(
   // Message Settlement with managementLink
   // 1. If the received message is deferred as such messages can only be settled using managementLink
   // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
-  if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && message.sessionId == undefined)) {
+  if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && !isDefined(message.sessionId))) {
     return context
       .getManagementClient(entityPath)
       .updateDispositionStatus(message.lockToken!, operation, {

@@ -5,6 +5,7 @@ import { message } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import { logErrorStackTrace, logger } from "./log";
+import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The default data transformer that will be used by the Azure SDK.
@@ -22,7 +23,7 @@ export const defaultDataTransformer = {
    * - content: The given AMQP message body as a Buffer.
    * - multiple: true | undefined.
    */
-  encode(body: any): any {
+  encode(body: unknown): any {
     let result: any;
     if (isBuffer(body)) {
       result = message.data_section(body);
@@ -55,10 +56,10 @@ export const defaultDataTransformer = {
    * @param body - The AMQP message body
    * @returns decoded body or the given body as-is.
    */
-  decode(body: any): any {
+  decode(body: unknown): any {
     let processedBody: any = body;
     try {
-      if (body.content && isBuffer(body.content)) {
+      if (isObjectWithProperties(body, ["content"]) && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;
       }
