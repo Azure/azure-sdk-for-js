@@ -89,7 +89,7 @@ describe("getRequestUrl", function() {
     );
   });
 
-  it.only("should allow empty query parameter value", function() {
+  it("should allow empty query parameter value", function() {
     const stringQuery: OperationQueryParameter = {
       parameterPath: "stringQuery",
       mapper: {
