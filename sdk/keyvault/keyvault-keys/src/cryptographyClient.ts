@@ -551,12 +551,12 @@ export class CryptographyClient {
     algorithm: string
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
-      this.providers = [];
-
-      // Add local crypto providers as needed
       const keyMaterial = await this.getKeyMaterial();
-      this.providers.push(new RsaCryptographyProvider(keyMaterial));
-      this.providers.push(new AesCryptographyProvider(keyMaterial));
+      // Add local crypto providers as needed
+      this.providers = [
+        new RsaCryptographyProvider(keyMaterial),
+        new AesCryptographyProvider(keyMaterial)
+      ];
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
       // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.

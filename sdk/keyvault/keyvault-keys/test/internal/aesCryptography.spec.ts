@@ -50,12 +50,13 @@ describe("AesCryptographyProvider internal tests", function() {
 
       jwk = {
         keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
-        k: getKey(keySize >> 3), // Generate a random key until secure key release is available
+        k: getKey(keySize >> 3), // Generate a symmetric key for testing
         kty: "oct"
       };
 
       cryptoClient = new CryptographyClient(jwk);
     });
+
     describe(`AES-CBC with PKCS padding (${keySize})`, () => {
       describe("local-only tests", async function() {
         it("encrypts and decrypts locally", async function() {
@@ -77,6 +78,7 @@ describe("AesCryptographyProvider internal tests", function() {
         it("validates the key type", async function() {
           const text = this.test!.title;
           jwk.kty = "RSA";
+
           await assert.isRejected(
             cryptoClient.encrypt({
               algorithm: encryptionAlgorithm,
@@ -85,6 +87,7 @@ describe("AesCryptographyProvider internal tests", function() {
             }),
             /Key type does not match/
           );
+
           await assert.isRejected(
             cryptoClient.decrypt({
               algorithm: encryptionAlgorithm,
@@ -98,6 +101,7 @@ describe("AesCryptographyProvider internal tests", function() {
         it("validates the key length", async function() {
           const text = this.test!.title;
           jwk.k = getKey((keySize >> 3) - 1);
+
           await assert.isRejected(
             cryptoClient.encrypt({
               algorithm: encryptionAlgorithm,
@@ -106,6 +110,7 @@ describe("AesCryptographyProvider internal tests", function() {
             }),
             /Key must be at least \d+ bits/
           );
+
           await assert.isRejected(
             cryptoClient.decrypt({
               algorithm: encryptionAlgorithm,
@@ -116,6 +121,7 @@ describe("AesCryptographyProvider internal tests", function() {
           );
         });
       });
+
       describe("local-remote tests", async function() {
         const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
         let keySuffix: string;
