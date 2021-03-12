@@ -3,7 +3,12 @@
 
 import { assert } from "chai";
 import { getRequestUrl } from "../src/urlHelpers";
-import { OperationSpec, OperationURLParameter, createSerializer } from "../src";
+import {
+  OperationSpec,
+  OperationURLParameter,
+  createSerializer,
+  OperationQueryParameter
+} from "../src";
 
 describe("getRequestUrl", function() {
   const urlParameter: OperationURLParameter = {
@@ -82,5 +87,32 @@ describe("getRequestUrl", function() {
       result,
       "https://test.com/Tables('TestTable')?superSecretKey=Qai%2B4%2FIM%3D&extraValue=%27blah%27"
     );
+  });
+
+  it.only("should allow empty query parameter value", function() {
+    const stringQuery: OperationQueryParameter = {
+      parameterPath: "stringQuery",
+      mapper: {
+        defaultValue: "",
+        isConstant: true,
+        serializedName: "stringQuery",
+        type: {
+          name: "String"
+        }
+      }
+    };
+    const result = getRequestUrl(
+      "https://test.com",
+      {
+        path: "/path",
+        httpMethod: "GET",
+        responses: {},
+        queryParameters: [stringQuery],
+        serializer
+      },
+      {},
+      {}
+    );
+    assert.strictEqual(result, "https://test.com/path?stringQuery=");
   });
 });
