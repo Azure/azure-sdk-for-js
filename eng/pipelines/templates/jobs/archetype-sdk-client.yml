@@ -39,6 +39,11 @@ parameters:
         OSVmImage: MMSUbuntu18.04
         NodeTestVersion: "14.x"
         TestType: "node"
+      Linux_Node15:
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
+        NodeTestVersion: "15.x"
+        TestType: "node"
 
 jobs:
   - job: "Build"
