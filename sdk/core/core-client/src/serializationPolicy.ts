@@ -62,7 +62,10 @@ export function serializationPolicy(options: SerializationPolicyOptions = {}): P
   };
 }
 
-function serializeHeaders(
+/**
+ * @internal
+ */
+export function serializeHeaders(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec

@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 import { createSerializer, MapperTypeNames } from "../src";
-import { serializeRequestBody } from "../src/serializationPolicy";
+import { serializeRequestBody, serializeHeaders } from "../src/serializationPolicy";
 import { Mappers } from "./testMappers";
 
 describe("serializationPolicy", function() {
@@ -844,6 +844,53 @@ describe("serializationPolicy", function() {
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
+    });
+  });
+
+  describe.only("serializeHeaders()", () => {
+    it("should respect customHeaders", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeHeaders(
+        httpRequest,
+        {
+          options: {
+            requestOptions: {
+              customHeaders: {
+                "content-type": "custom/type"
+              }
+            }
+          }
+        },
+        {
+          httpMethod: "POST",
+          mediaType: "text",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperTypeNames.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: createSerializer(),
+          headerParameters: [
+            {
+              parameterPath: ["options", "contentType"],
+              mapper: {
+                defaultValue: "text/plain",
+                isConstant: true,
+                serializedName: "Content-Type",
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          ]
+        });
+      assert.strictEqual(httpRequest.headers.get("Content-Type"), "custom/type");
     });
   });
 });
