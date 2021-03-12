@@ -432,7 +432,7 @@ export namespace ConnectionContext {
         //  ...What to do for sessions (connectionContext.messageSessions) ??
       }
 
-      await refreshConnection(connectionContext);
+      await refreshConnection();
       waitForConnectionRefreshResolve();
       waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
@@ -494,10 +494,10 @@ export namespace ConnectionContext {
       }
     };
 
-    async function refreshConnection(connectionContext: ConnectionContext): Promise<void> {
+    async function refreshConnection(): Promise<void> {
       const originalConnectionId = connectionContext.connectionId;
       try {
-        await cleanConnectionContext(connectionContext);
+        await cleanConnectionContext();
       } catch (err) {
         logger.logError(
           err,
@@ -520,7 +520,7 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    async function cleanConnectionContext(connectionContext: ConnectionContext) {
+    async function cleanConnectionContext() {
       // Remove listeners from the connection object.
       connectionContext.connection.removeListener(
         ConnectionEvents.connectionOpen,

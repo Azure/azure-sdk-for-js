@@ -191,15 +191,20 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
-      err = translateServiceBusError(err);
-      logger.logError(err, "%s An error occured while creating the receiver", this.logPrefix);
+      const translatedError = translateServiceBusError(err);
+      logger.logError(
+        translatedError,
+        "%s An error occured while creating the receiver",
+        this.logPrefix
+      );
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((err as MessagingError).code === "OperationTimeoutError") {
-        err.message = "Failed to create a receiver within allocated time and retry attempts.";
+      if ((translatedError as MessagingError).code === "OperationTimeoutError") {
+        translatedError.message =
+          "Failed to create a receiver within allocated time and retry attempts.";
       }
 
-      throw err;
+      throw translatedError;
     }
   }
 
