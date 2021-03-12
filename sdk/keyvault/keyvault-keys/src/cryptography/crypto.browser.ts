@@ -22,3 +22,13 @@ export function createVerify(_algorithm: string, _data: Uint8Array): never {
     "Our libraries don't currently support browser hashing"
   );
 }
+
+/**
+ * @internal
+ * Use the platform-local randomBytes functionality
+ */
+export function randomBytes(_length: number): Uint8Array {
+  throw new LocalCryptographyUnsupportedError(
+    "Our libraries don't currently support browser crypto"
+  );
+}
