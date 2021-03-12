@@ -6,9 +6,9 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"from\":\"+18005551234\",\"smsRecipients\":[{\"to\":\"+18005551234\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
+   "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+18005551234\",\"messageId\":\"sanitized\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"sanitized\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "8c6f8c4a87380314dcaa74af8d8e99d0"
+ "hash": "76f78db5347c1eb0fe700fd890f08094"
 }

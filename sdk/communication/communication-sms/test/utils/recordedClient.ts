@@ -8,7 +8,7 @@ import { isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-reco
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
     AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-    AZURE_PHONE_NUMBER: "+18005551234",
+    AZURE_PHONE_NUMBER: "+14255550123",
     AZURE_CLIENT_ID: "SomeClientId",
     AZURE_CLIENT_SECRET: "SomeClientSecret",
     AZURE_TENANT_ID: "SomeTenantId"
