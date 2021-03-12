@@ -77,7 +77,7 @@ There are multiple credentials available in the \`@azure/identity\` package to s
 Read about them in detail in [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
 To get started you can use the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential) which tries different credentials internally until one of them succeeds.
 Most of the credentials would require you to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
-#### nodejs - Authentication, client creation, and get apps as an example written in JavaScript.
+#### nodejs - Authentication, client creation, and ${operation.split(".").reverse().join(" ")} as an example written in JavaScript.
 
 ##### Sample code
 
@@ -101,7 +101,7 @@ client.${operation}(resourceGroupName, resourceName).then((result) => {
 });
 \`\`\`
 
-#### browser - Authentication, client creation, and get apps as an example written in JavaScript.
+#### browser - Authentication, client creation, and ${operation.split(".").reverse().join(" ")} as an example written in JavaScript.
 
 In browser applications, we recommend using the \`InteractiveBrowserCredential\` that interactively authenticates using the default system browser.
 It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
