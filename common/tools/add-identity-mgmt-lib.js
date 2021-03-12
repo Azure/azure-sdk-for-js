@@ -42,6 +42,12 @@ function updateREADME(mainModule, relativePath, namespace) {
       "README file"
     );
 
+    const operation = getMatch(
+      content.match(/client\.(.+?)\(resourceGroupName, resourceName\).*$/ms),
+      "operation",
+      "README file"
+    );
+
     return `## Azure ${clientName} SDK for JavaScript
 
 This package contains an isomorphic SDK (runs both in node.js and in browsers) for ${clientName}.
@@ -86,7 +92,7 @@ const creds = new DefaultAzureCredential();
 const client = new ${clientName}(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const resourceName = "testresourceName";
-client.apps.get(resourceGroupName, resourceName).then((result) => {
+client.${operation}(resourceGroupName, resourceName).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -124,7 +130,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
       const client = new ${namespace}.${clientName}(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName";
-      client.apps.get(resourceGroupName, resourceName).then((result) => {
+      client.${operation}(resourceGroupName, resourceName).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
