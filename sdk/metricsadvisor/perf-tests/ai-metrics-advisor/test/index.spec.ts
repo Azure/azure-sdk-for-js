@@ -5,9 +5,5 @@ import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfs
 import { AnomaliesListTest } from "./listAnomalies.spec";
 console.log("=== Starting the perfStress test ===");
 
-const perfStressProgram = new PerfStressProgram(
-    selectPerfStressTest([
-        AnomaliesListTest
-    ])
-  );
+const perfStressProgram = new PerfStressProgram(selectPerfStressTest([AnomaliesListTest]));
 perfStressProgram.run();

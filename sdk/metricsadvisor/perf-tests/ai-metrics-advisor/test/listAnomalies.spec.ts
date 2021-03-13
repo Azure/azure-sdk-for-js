@@ -41,10 +41,10 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
     //   for (const _ of segmentResponse.segment.blobItems) {
     //   }
     // }
-     await (this.client.listAnomalies(
+    await this.client.listAnomalies(
       this.detectionConfigId,
       new Date(Date.UTC(2020, 0, 5)),
       new Date(Date.UTC(2021, 3, 11))
-    ));
+    );
   }
 }
