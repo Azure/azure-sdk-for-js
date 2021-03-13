@@ -2,7 +2,7 @@
 
 1. Build the ai-metrics-advisor perf tests package `rush build -t perf-ai-metrics-advisor`.
 2. Copy the `sample.env` file and name it as `.env`.
-3. Create a storage account and populate the `.env` file with `STORAGE_CONNECTION_STRING` variable.
+3. Create a metrics advisor client account and populate the `.env` file with `STORAGE_CONNECTION_STRING` variable.
 4. Run the tests as follows
 
    - download

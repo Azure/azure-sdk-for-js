@@ -2,32 +2,27 @@
 // Licensed under the MIT license.
 
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
-import { MetricsAdvisorAdministrationClient, MetricsAdvisorClient } from "@azure/metrics-advisor";
+import { MetricsAdvisorClient, MetricsAdvisorKeyCredential } from "@azure/ai-metrics-advisor";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export abstract class MetricsAdvisorTest<TOptions> extends PerfStressTest<TOptions> {
-  blobServiceClient: MetricsAdvisorClient;
-  containerClient: MetricsAdvisorAdministrationClient;
+  client: MetricsAdvisorClient;
 
   constructor() {
     super();
-    // const connectionString = getEnvVar("STORAGE_CONNECTION_STRING");
-    // this.sharedKeyCredential = new StorageSharedKeyCredential(
-    //   getValueInConnString(connectionString, "AccountName"),
-    //   getValueInConnString(connectionString, "AccountKey")
-    // );
-    // this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
-    // this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
+    this.client = new MetricsAdvisorClient(
+      getEnvVar("METRICS_ADVISOR_ENDPOINT"),
+      new MetricsAdvisorKeyCredential(
+        getEnvVar("METRICS_ADVISOR_SUBSCRIPTION_KEY"),
+        getEnvVar("METRICS_ADVISOR_API_KEY")
+      )
+    );
   }
 
-  public async globalSetup() {
-    await this.containerClient.create();
-  }
+  public async globalSetup() {}
 
-  public async globalCleanup() {
-    await this.containerClient.delete();
-  }
+  public async globalCleanup() {}
 }
