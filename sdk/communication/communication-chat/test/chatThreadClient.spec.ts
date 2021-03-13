@@ -50,13 +50,19 @@ describe("ChatThreadClient", function() {
 
     // Create ChatThreadClient
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
+  }).timeout(8000);
+
+  it("successfully gets the thread properties", async function() {
+    const thread = await chatThreadClient.getProperties();
+
+    assert.equal(threadId, thread.id);
   });
 
   it("successfully updates the thread topic", async function() {
     const topic = "new topic";
     await chatThreadClient.updateTopic(topic);
 
-    const thread = await chatClient.getChatThread(threadId);
+    const thread = await chatThreadClient.getProperties();
     assert.equal(topic, thread.topic);
   });
 

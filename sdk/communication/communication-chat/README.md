@@ -23,6 +23,19 @@ npm install @azure/communication-chat
 #### JavaScript Bundle
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+In `rollup.config.js`, add following customized name exports in `cjs` plugin.
+
+```JavaScript
+
+cjs({
+  namedExports: {
+    events: ["EventEmitter"],
+    "@azure/communication-signaling": ["CommunicationSignalingClient", "SignalingClient"],
+    "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+  }
+})
+
+```
 
 ## Key concepts
 

@@ -68,7 +68,7 @@ export type CreateChatThreadOptions = RestCreateChatThreadOptions;
 /**
  * Options to get a chat thread.
  */
-export type GetChatThreadOptions = OperationOptions;
+export type GetPropertiesOptions = OperationOptions;
 
 /**
  * Options to delete a chat thread.
