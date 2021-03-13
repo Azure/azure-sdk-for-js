@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
+import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusReceivedMessage, ServiceBusSender } from "../../src";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
@@ -75,7 +75,9 @@ async function sendMessages(numberOfMessagesToSend: number) {
 
 describe("2048 scenarios - receiveBatch in a loop", function(): void {
   before(() => {
-    serviceBusClient = createServiceBusClientForTests();
+    serviceBusClient = createServiceBusClientForTests({
+      retryOptions: { maxRetries: 1, retryDelayInMs: 10 }
+    });
   });
 
   after(() => {
@@ -154,8 +156,16 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           await sendMessages(numberOfMessagesToSend);
           const firstBatch = await receiveMessages(2047);
           await verifyMessageCount(numberOfMessagesToSend, entityName);
-          const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 4000 });
-          chai.assert.equal(messages.length, 0, "Unexpected number of messages received");
+          try {
+            await receiver.receiveMessages(1, { maxWaitTimeInMs: 2000 });
+            assert.fail("receiveMessages should have reached failed");
+          } catch (error) {
+            chai.assert.equal(
+              error.code,
+              "ExcessUnsettledMessagesInBuffer",
+              "Something went wrong - error code should have been ExcessUnsettledMessagesInBuffer"
+            );
+          }
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           await Promise.all(firstBatch.map((msg) => receiver.completeMessage(msg)));
           const leftOver = await receiveMessages(numberOfMessagesToSend - 2047);

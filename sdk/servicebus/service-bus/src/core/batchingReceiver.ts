@@ -499,6 +499,12 @@ export class BatchingReceiverLite {
     }, args.abortSignal);
 
     const emptySlots = numberOfEmptyIncomingSlots(receiver);
+    if (emptySlots <= 1) {
+      throw new ServiceBusError(
+        "Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods on the receiver to receive the next message.",
+        "ExcessUnsettledMessagesInBuffer"
+      );
+    }
     const creditsToAdd =
       this._receiveMode === "peekLock"
         ? Math.min(args.maxMessageCount, emptySlots <= 1 ? 0 : emptySlots - 1)
