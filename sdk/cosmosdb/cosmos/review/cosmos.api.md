@@ -32,7 +32,7 @@ export const BulkOperationType: {
     readonly Replace: "Replace";
 };
 
-// @public (undocumented)
+// @public
 export interface BulkOptions {
     // (undocumented)
     continueOnError?: boolean;

@@ -395,7 +395,7 @@ export class Items {
    * ```
    *
    * @param operations - List of operations. Limit 100
-   * @param bulkOptions - Optional options object to modify bulk behavior. Pass { continueOnError: true } to continue executing operations when one fails. (Defaults to false) ** NOTE: THIS WILL DEFAULT TO TRUE IN THE 4.0 RELEASE
+   * @param bulkOptions - Optional options object to modify bulk behavior. Pass \{ continueOnError: true \} to continue executing operations when one fails. (Defaults to false) ** NOTE: THIS WILL DEFAULT TO TRUE IN THE 4.0 RELEASE
    * @param options - Used for modifying the request.
    */
   public async bulk(
