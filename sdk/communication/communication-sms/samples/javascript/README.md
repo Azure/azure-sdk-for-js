@@ -40,7 +40,7 @@ npm install
 3. Run whichever samples you like:
 
 ```bash
-node sendMessage.js
+node sendSms.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
