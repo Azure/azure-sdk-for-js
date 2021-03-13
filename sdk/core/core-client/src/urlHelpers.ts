@@ -62,6 +62,7 @@ function calculateUrlReplacements(
     for (const urlParameter of operationSpec.urlParameters) {
       let urlParameterValue: string = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         urlParameter,
         fallbackObject
       );
@@ -120,6 +121,7 @@ function calculateQueryParameters(
     for (const queryParameter of operationSpec.queryParameters) {
       let queryParameterValue: string | string[] = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         queryParameter,
         fallbackObject
       );

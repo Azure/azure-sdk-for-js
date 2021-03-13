@@ -72,7 +72,11 @@ export function serializeHeaders(
 ): void {
   if (operationSpec.headerParameters) {
     for (const headerParameter of operationSpec.headerParameters) {
-      let headerValue = getOperationArgumentValueFromParameter(operationArguments, headerParameter);
+      let headerValue = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        headerParameter
+      );
       if (headerValue !== null && headerValue !== undefined) {
         headerValue = operationSpec.serializer.serialize(
           headerParameter.mapper,
@@ -126,6 +130,7 @@ export function serializeRequestBody(
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     request.body = getOperationArgumentValueFromParameter(
       operationArguments,
+      operationSpec,
       operationSpec.requestBody
     );
 
@@ -210,6 +215,7 @@ export function serializeRequestBody(
     for (const formDataParameter of operationSpec.formDataParameters) {
       const formDataParameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         formDataParameter
       );
       if (formDataParameterValue !== undefined && formDataParameterValue !== null) {

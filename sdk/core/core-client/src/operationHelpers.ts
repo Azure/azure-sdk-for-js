@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { getPathStringFromParameter } from "./interfaceHelpers";
 import {
   OperationArguments,
   OperationParameter,
@@ -8,7 +9,8 @@ import {
   CompositeMapper,
   ParameterPath,
   OperationRequestInfo,
-  OperationRequest
+  OperationRequest,
+  OperationSpec
 } from "./interfaces";
 
 /**
@@ -21,6 +23,7 @@ import {
  */
 export function getOperationArgumentValueFromParameter(
   operationArguments: OperationArguments,
+  operationSpec: OperationSpec,
   parameter: OperationParameter,
   fallbackObject?: { [parameterName: string]: any }
 ): any {
@@ -49,6 +52,10 @@ export function getOperationArgumentValueFromParameter(
         }
         value = useDefaultValue ? parameterMapper.defaultValue : propertySearchResult.propertyValue;
       }
+
+      // Serialize just for validation purposes.
+      const parameterPathString: string = getPathStringFromParameter(parameter);
+      operationSpec.serializer.serialize(parameterMapper, value, parameterPathString);
     }
   } else {
     if (parameterMapper.required) {
@@ -62,12 +69,17 @@ export function getOperationArgumentValueFromParameter(
       const propertyPath: ParameterPath = parameterPath[propertyName];
       const propertyValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         {
           parameterPath: propertyPath,
           mapper: propertyMapper
         },
         fallbackObject
       );
+      // Serialize just for validation purposes.
+      const parameterPathString: string = getPathStringFromParameter(parameter);
+      operationSpec.serializer.serialize(parameterMapper, value, parameterPathString);
+
       if (propertyValue !== undefined) {
         if (!value) {
           value = {};
