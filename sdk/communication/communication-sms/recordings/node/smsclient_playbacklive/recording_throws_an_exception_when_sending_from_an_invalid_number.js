@@ -15,11 +15,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'qPLGi3uG/kyIMtmm+bceLw.0',
+  'L0HIbcefLEqwmMI5WXSjOg.0',
   'X-Processing-Time',
-  '13ms',
+  '12ms',
   'X-Azure-Ref',
-  '02sZLYAAAAAB3UorIF6zoR4tBYk6DirfVWVZSMzBFREdFMDMxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0vD1MYAAAAABdKpPcout/SoxahDdNCBJTWVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 12 Mar 2021 19:54:02 GMT'
+  'Sat, 13 Mar 2021 04:21:15 GMT'
 ]);
