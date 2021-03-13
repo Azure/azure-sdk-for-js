@@ -1,10 +1,6 @@
 let nock = require('nock');
 
-<<<<<<< HEAD:sdk/communication/communication-sms/recordings/node/smsclient_playbacklive/recording_can_send_a_sms_message_to_multiple_recipients.js
 module.exports.hash = "218f3be229db528f353f790cc2eeeb0d";
-=======
-module.exports.hash = "d46cf12f17627d5319f11ba44edc3d4b";
->>>>>>> a2683af96 (update recordings):sdk/communication/communication-sms/recordings/node/smsclient_playbacklive/recording_can_send_an_sms_message_to_multiple_recipients.js
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -19,13 +15,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '2Py3Qdv3L0iC1codIBFwUw.0',
+  '6s1hnwkO3EO/dDZjKq5zfA.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '431ms',
+  '485ms',
   'X-Azure-Ref',
-  '02cZLYAAAAAAT2ZRdWmYvSZDumTkdE6IuWVZSMzBFREdFMDMxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0xzFMYAAAAAA3rjMKsP3DSZtdjebrpANPWVZSMzBFREdFMDMwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 12 Mar 2021 19:54:02 GMT'
+  'Sat, 13 Mar 2021 03:30:15 GMT'
 ]);
