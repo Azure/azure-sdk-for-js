@@ -29,6 +29,10 @@ export interface OperationResponse {
   resourceBody?: JSONObject;
 }
 
+/**
+ * Options object used to modify bulk execution.
+ * continueOnError (Default value: false) - Continues bulk execution when an operation fails ** NOTE THIS WILL DEFAULT TO TRUE IN the 4.0 RELEASE
+ */
 export interface BulkOptions {
   continueOnError?: boolean;
 }
