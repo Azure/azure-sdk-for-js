@@ -26,7 +26,11 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
-    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam & ({
+        keyVault: KeyVaultReference;
+    } | {
+        featureFlag: FeatureFlag;
+    } | {}), options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
@@ -74,6 +78,21 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 }
 
 // @public
+export interface FeatureFlag {
+    conditions: any[];
+    description: string;
+    displayName: string;
+    enabled: boolean;
+    id: string;
+}
+
+// @public (undocumented)
+export const FeatureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
+
+// @public (undocumented)
+export const FeatureFlagPrefix = ".appconfig.featureflag/";
+
+// @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 }
 
@@ -108,6 +127,24 @@ export interface HttpResponseField<HeadersT> {
 export interface HttpResponseFields {
     statusCode: number;
 }
+
+// @public (undocumented)
+export function isFeatureFlag(value: ConfigurationSetting): value is ConfigurationSetting & {
+    featureFlag: FeatureFlag;
+};
+
+// @public (undocumented)
+export function isKeyVaultReference(value: ConfigurationSetting): value is ConfigurationSetting & {
+    keyVault: KeyVaultReference;
+};
+
+// @public
+export interface KeyVaultReference {
+    uri: string;
+}
+
+// @public (undocumented)
+export const KeyVaultReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {

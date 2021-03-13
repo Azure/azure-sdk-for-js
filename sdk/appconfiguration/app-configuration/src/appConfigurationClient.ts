@@ -15,7 +15,7 @@ import {
   ServiceClientCredentials,
   UserAgentOptions,
   getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
-  userAgentPolicy
+  userAgentPolicy,
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
@@ -28,10 +28,13 @@ import {
   AddConfigurationSettingResponse,
   ConfigurationSetting,
   ConfigurationSettingId,
+  ConfigurationSettingParam,
   DeleteConfigurationSettingOptions,
   DeleteConfigurationSettingResponse,
+  FeatureFlag,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
+  KeyVaultReference,
   ListConfigurationSettingPage,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -40,7 +43,7 @@ import {
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
-  SetReadOnlyResponse
+  SetReadOnlyResponse,
 } from "./models";
 import {
   checkAndFormatIfAndIfNoneMatch,
@@ -51,15 +54,16 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformKeyValue,
   formatAcceptDateTime,
-  formatFieldsForSelect
+  formatFieldsForSelect,
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import {
   AppConfigurationGetKeyValuesResponse,
-  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
+  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions,
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
+import { FeatureFlagParam } from "./featureFlag";
 
 const packageName = "azsdk-js-app-configuration";
 
@@ -77,8 +81,8 @@ const deserializationContentTypes = {
     "application/vnd.microsoft.appconfig.kv+json",
     "application/vnd.microsoft.appconfig.kvs+json",
     "application/vnd.microsoft.appconfig.keyset+json",
-    "application/vnd.microsoft.appconfig.revs+json"
-  ]
+    "application/vnd.microsoft.appconfig.revs+json",
+  ],
 };
 
 /**
@@ -197,7 +201,7 @@ export class AppConfigurationClient {
         ifNoneMatch: "*",
         label: configurationSetting.label,
         entity: configurationSetting,
-        ...newOptions
+        ...newOptions,
       });
 
       return transformKeyValueResponse(originalResponse);
@@ -223,7 +227,7 @@ export class AppConfigurationClient {
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(id, options)
+        ...checkAndFormatIfAndIfNoneMatch(id, options),
       });
 
       return transformKeyValueResponseWithStatusCode(originalResponse);
@@ -254,7 +258,7 @@ export class AppConfigurationClient {
           label: id.label,
           select: formatFieldsForSelect(options.fields),
           ...formatAcceptDateTime(options),
-          ...checkAndFormatIfAndIfNoneMatch(id, options)
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
         });
 
         const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
@@ -303,7 +307,7 @@ export class AppConfigurationClient {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
         return this.listConfigurationSettingsByPage(options);
-      }
+      },
     };
   }
 
@@ -328,7 +332,7 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...newOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options)
+          ...formatFiltersAndSelect(options),
         });
 
         return response;
@@ -347,7 +351,7 @@ export class AppConfigurationClient {
             ...newOptions,
             ...formatAcceptDateTime(options),
             ...formatFiltersAndSelect(options),
-            after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
+            after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
           });
 
           return response;
@@ -367,7 +371,7 @@ export class AppConfigurationClient {
   ) {
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
     };
   }
 
@@ -397,7 +401,7 @@ export class AppConfigurationClient {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
         return this.listRevisionsByPage(options);
-      }
+      },
     };
   }
 
@@ -422,7 +426,7 @@ export class AppConfigurationClient {
         const response = await this.client.getRevisions({
           ...newOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(newOptions)
+          ...formatFiltersAndSelect(newOptions),
         });
 
         return response;
@@ -431,7 +435,7 @@ export class AppConfigurationClient {
 
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
     };
 
     while (currentResponse.nextLink) {
@@ -440,7 +444,7 @@ export class AppConfigurationClient {
           ...newOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(options),
-          after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
+          after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
         });
       });
 
@@ -450,7 +454,7 @@ export class AppConfigurationClient {
 
       yield {
         ...currentResponse,
-        items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
+        items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
       };
     }
   }
@@ -467,7 +471,7 @@ export class AppConfigurationClient {
    * ```
    */
   async setConfigurationSetting(
-    configurationSetting: SetConfigurationSettingParam,
+    configurationSetting: SetConfigurationSettingParam | KeyVaultReferenceParam | FeatureFlagParam,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -480,7 +484,7 @@ export class AppConfigurationClient {
           ...newOptions,
           label: configurationSetting.label,
           entity: configurationSetting,
-          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
+          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
         });
 
         return transformKeyValueResponse(response);
@@ -504,7 +508,7 @@ export class AppConfigurationClient {
         const response = await this.client.putLock(id.key, {
           ...newOptions,
           label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options)
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
         });
 
         return transformKeyValueResponse(response);
@@ -512,7 +516,7 @@ export class AppConfigurationClient {
         const response = await this.client.deleteLock(id.key, {
           ...newOptions,
           label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options)
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
         });
 
         return transformKeyValueResponse(response);
@@ -533,12 +537,12 @@ export function getGeneratedClientOptions(
   const retryPolicies = [
     exponentialRetryPolicy(),
     systemErrorRetryPolicy(),
-    throttlingRetryPolicy()
+    throttlingRetryPolicy(),
   ];
 
   const userAgent = getUserAgentPrefix(
     internalAppConfigOptions.userAgentOptions &&
-      internalAppConfigOptions.userAgentOptions.userAgentPrefix
+    internalAppConfigOptions.userAgentOptions.userAgentPrefix
   );
 
   return {
@@ -551,9 +555,9 @@ export function getGeneratedClientOptions(
       syncTokenPolicy(syncTokens),
       userAgentPolicy({ value: userAgent }),
       ...retryPolicies,
-      ...defaults
+      ...defaults,
     ],
-    generateClientRequestIdHeader: true
+    generateClientRequestIdHeader: true,
   };
 }
 

@@ -8,7 +8,8 @@ import { OperationOptions, HttpResponse } from "@azure/core-http";
  */
 export interface ConfigurationSettingId {
   /**
-   * The key for this setting
+   * The key for this setting.
+   * Feature flags must be prefixed with `.appconfig.featureflag/<feature-flag-name>`.
    */
   key: string;
 
@@ -42,7 +43,7 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
    * Tags for this key
    */
   tags?: { [propertyName: string]: string };
-}
+};
 
 /**
  * Configuration setting with extra metadata from the server, indicating

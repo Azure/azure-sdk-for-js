@@ -10,9 +10,14 @@ import {
   HttpResponseField,
   HttpResponseFields,
   HttpOnlyIfChangedField,
-  HttpOnlyIfUnchangedField
+  HttpOnlyIfUnchangedField,
+  isKeyVaultReference,
+  KeyVaultReferenceContentType,
+  KeyVaultReference,
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import { deserializeFeatureFlag, featureFlagContentType } from "../featureFlag";
+import { JsonKeyVaultReference } from "./jsonModels";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -151,10 +156,43 @@ export function makeConfigurationSettingEmpty(
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
-  const obj: ConfigurationSetting & KeyValue = {
-    ...kvp,
-    isReadOnly: !!kvp.locked
-  };
+  const setting = transformKeyValue(kvp);
+
+  switch (setting.contentType) {
+    case featureFlagContentType: {
+      return deserializeFeatureFlag(setting) ?? setting;
+    }
+    case KeyVaultReferenceContentType: {
+      if (!setting.value) {
+        return setting;
+      }
+
+      const jsonKeyVaultRef = JSON.parse(setting.value) as JsonKeyVaultReference;
+      const keyVaultRef: KeyVaultReference = {
+        
+      }
+    }
+  }
+
+    
+  } else if (isKeyVaultReference(setting)) {
+    const keyValueReference = ;
+  }
+
+  if (obj.value != null && (isKeyVaultReference(obj) || isFeatureFlag(obj))) {
+    let parsedValue;
+    try {
+      
+    } catch (_err) {
+      parsedValue = undefined;
+    }
+
+    if (isKeyVaultReference(obj)) {
+      obj.keyVault = parsedValue;
+    } else {
+      obj.featureFlag = parsedValue;
+    }
+  }
 
   delete obj.locked;
   return obj;
