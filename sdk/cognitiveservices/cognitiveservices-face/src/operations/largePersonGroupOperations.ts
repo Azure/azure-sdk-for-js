@@ -32,12 +32,16 @@ export class LargePersonGroupOperations {
    * <br /> A large person group is the container of the uploaded person data, including face
    * recognition feature, and up to 1,000,000
    * people.
-   * <br /> After creation, use [LargePersonGroup Person - Create](../largepersongroupperson/create)
-   * to add person into the group, and call [LargePersonGroup - Train](../largepersongroup/train) to
-   * get this group ready for [Face - Identify](../face/identify).
+   * <br /> After creation, use [LargePersonGroup Person -
+   * Create](https://docs.microsoft.com/rest/api/faceapi/largepersongroupperson/create) to add person
+   * into the group, and call [LargePersonGroup -
+   * Train](https://docs.microsoft.com/rest/api/faceapi/largepersongroup/train) to get this group
+   * ready for [Face - Identify](https://docs.microsoft.com/rest/api/faceapi/face/identify).
    * <br /> No image will be stored. Only the person's extracted face features and userData will be
-   * stored on server until [LargePersonGroup Person - Delete](../largepersongroupperson/delete) or
-   * [LargePersonGroup - Delete](../largepersongroup/delete) is called.
+   * stored on server until [LargePersonGroup Person -
+   * Delete](https://docs.microsoft.com/rest/api/faceapi/largepersongroupperson/delete) or
+   * [LargePersonGroup - Delete](https://docs.microsoft.com/rest/api/faceapi/largepersongroup/delete)
+   * is called.
    * <br/>'recognitionModel' should be specified to associate with this large person group. The
    * default value for 'recognitionModel' is 'recognition_01', if the latest model needed, please
    * explicitly specify the model you need in this parameter. New faces that are added to an existing
@@ -107,8 +111,8 @@ export class LargePersonGroupOperations {
   /**
    * Retrieve the information of a large person group, including its name, userData and
    * recognitionModel. This API returns large person group information only, use [LargePersonGroup
-   * Person - List](../largepersongroupperson/list) instead to retrieve person information under the
-   * large person group.
+   * Person - List](https://docs.microsoft.com/rest/api/faceapi/largepersongroupperson/list) instead
+   * to retrieve person information under the large person group.
    * @param largePersonGroupId Id referencing a particular large person group.
    * @param [options] The optional parameters
    * @returns Promise<Models.LargePersonGroupGetResponse>

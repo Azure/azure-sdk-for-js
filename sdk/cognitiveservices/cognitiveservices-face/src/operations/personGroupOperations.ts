@@ -31,12 +31,15 @@ export class PersonGroupOperations {
    * recognitionModel.
    * <br /> A person group is the container of the uploaded person data, including face recognition
    * features.
-   * <br /> After creation, use [PersonGroup Person - Create](../persongroupperson/create) to add
-   * persons into the group, and then call [PersonGroup - Train](../persongroup/train) to get this
-   * group ready for [Face - Identify](../face/identify).
+   * <br /> After creation, use [PersonGroup Person -
+   * Create](https://docs.microsoft.com/rest/api/faceapi/persongroupperson/create) to add persons
+   * into the group, and then call [PersonGroup -
+   * Train](https://docs.microsoft.com/rest/api/faceapi/persongroup/train) to get this group ready
+   * for [Face - Identify](https://docs.microsoft.com/rest/api/faceapi/face/identify).
    * <br /> No image will be stored. Only the person's extracted face features and userData will be
-   * stored on server until [PersonGroup Person - Delete](../persongroupperson/delete) or
-   * [PersonGroup - Delete](../persongroup/delete) is called.
+   * stored on server until [PersonGroup Person -
+   * Delete](https://docs.microsoft.com/rest/api/faceapi/persongroupperson/delete) or [PersonGroup -
+   * Delete](https://docs.microsoft.com/rest/api/faceapi/persongroup/delete) is called.
    * <br/>'recognitionModel' should be specified to associate with this person group. The default
    * value for 'recognitionModel' is 'recognition_01', if the latest model needed, please explicitly
    * specify the model you need in this parameter. New faces that are added to an existing person
@@ -48,7 +51,7 @@ export class PersonGroupOperations {
    * * Free-tier subscription quota: 1,000 person groups. Each holds up to 1,000 persons.
    * * S0-tier subscription quota: 1,000,000 person groups. Each holds up to 10,000 persons.
    * * to handle larger scale face identification problem, please consider using
-   * [LargePersonGroup](../largepersongroup).
+   * [LargePersonGroup](https://docs.microsoft.com/rest/api/faceapi/largepersongroup).
    * @param personGroupId Id referencing a particular person group.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -106,7 +109,8 @@ export class PersonGroupOperations {
 
   /**
    * Retrieve person group name, userData and recognitionModel. To get person information under this
-   * personGroup, use [PersonGroup Person - List](../persongroupperson/list).
+   * personGroup, use [PersonGroup Person -
+   * List](https://docs.microsoft.com/rest/api/faceapi/persongroupperson/list).
    * @param personGroupId Id referencing a particular person group.
    * @param [options] The optional parameters
    * @returns Promise<Models.PersonGroupGetResponse>

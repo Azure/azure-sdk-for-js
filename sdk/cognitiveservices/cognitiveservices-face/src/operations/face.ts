@@ -29,10 +29,12 @@ export class Face {
   /**
    * Given query face's faceId, to search the similar-looking faces from a faceId array, a face list
    * or a large face list. faceId array contains the faces created by [Face - Detect With
-   * Url](detectwithurl) or [Face - Detect With Stream](detectwithstream), which will expire at the
-   * time specified by faceIdTimeToLive after creation. A "faceListId" is created by [FaceList -
-   * Create](../facelist/create) containing persistedFaceIds that will not expire. And a
-   * "largeFaceListId" is created by [LargeFaceList - Create](../largefacelist/create) containing
+   * Url](https://docs.microsoft.com/rest/api/faceapi/face/detectwithurl) or [Face - Detect With
+   * Stream](https://docs.microsoft.com/rest/api/faceapi/face/detectwithstream), which will expire at
+   * the time specified by faceIdTimeToLive after creation. A "faceListId" is created by [FaceList -
+   * Create](https://docs.microsoft.com/rest/api/faceapi/facelist/create) containing persistedFaceIds
+   * that will not expire. And a "largeFaceListId" is created by [LargeFaceList -
+   * Create](https://docs.microsoft.com/rest/api/faceapi/largefacelist/create) containing
    * persistedFaceIds that will also not expire. Depending on the input the returned similar faces
    * list contains faceIds or persistedFaceIds ranked by similarity.
    * <br/>Find similar has two working modes, "matchPerson" and "matchFace". "matchPerson" is the
@@ -85,7 +87,8 @@ export class Face {
    * face from original faces. The messyGroup will not appear in the result if all faces found their
    * counterparts.
    * * Group API needs at least 2 candidate faces and 1000 at most. We suggest to try [Face -
-   * Verify](verifyfacetoface) when you only have 2 candidate faces.
+   * Verify](https://docs.microsoft.com/rest/api/faceapi/face/verifyfacetoface) when you only have 2
+   * candidate faces.
    * * The 'recognitionModel' associated with the query faces' faceIds should be the same.
    * @param faceIds Array of candidate faceId created by Face - Detect. The maximum is 1000 faces
    * @param [options] The optional parameters
@@ -120,8 +123,9 @@ export class Face {
    * query face and all the faces in the person group (given by personGroupId) or large person group
    * (given by largePersonGroupId), and return candidate person(s) for that face ranked by similarity
    * confidence. The person group/large person group should be trained to make it ready for
-   * identification. See more in [PersonGroup - Train](../persongroup/train) and [LargePersonGroup -
-   * Train](../largepersongroup/train).
+   * identification. See more in [PersonGroup -
+   * Train](https://docs.microsoft.com/rest/api/faceapi/persongroup/train) and [LargePersonGroup -
+   * Train](https://docs.microsoft.com/rest/api/faceapi/largepersongroup/train).
    * <br/>
    *
    * Remarks:<br />
@@ -133,8 +137,9 @@ export class Face {
    * faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    * * Number of candidates returned is restricted by maxNumOfCandidatesReturned and
    * confidenceThreshold. If no person is identified, the returned candidates will be an empty array.
-   * * Try [Face - Find Similar](../face/findsimilar) when you need to find similar faces from a face
-   * list/large face list instead of a person group/large person group.
+   * * Try [Face - Find Similar](https://docs.microsoft.com/rest/api/faceapi/face/findsimilar) when
+   * you need to find similar faces from a face list/large face list instead of a person group/large
+   * person group.
    * * The 'recognitionModel' associated with the query faces' faceIds should be the same as the
    * 'recognitionModel' used by the target person group or large person group.
    * @param faceIds Array of query faces faceIds, created by the Face - Detect. Each of the faces are
@@ -209,10 +214,12 @@ export class Face {
    * Detect human faces in an image, return face rectangles, and optionally with faceIds, landmarks,
    * and attributes.<br />
    * * No image will be stored. Only the extracted face feature will be stored on server. The faceId
-   * is an identifier of the face feature and will be used in [Face - Identify](../face/identify),
-   * [Face - Verify](../face/verifyfacetoface), and [Face - Find Similar](../face/findsimilar). The
-   * stored face feature(s) will expire and be deleted at the time specified by faceIdTimeToLive
-   * after the original detection call.
+   * is an identifier of the face feature and will be used in [Face -
+   * Identify](https://docs.microsoft.com/rest/api/faceapi/face/identify), [Face -
+   * Verify](https://docs.microsoft.com/rest/api/faceapi/face/verifyfacetoface), and [Face - Find
+   * Similar](https://docs.microsoft.com/rest/api/faceapi/face/findsimilar). The stored face
+   * feature(s) will expire and be deleted at the time specified by faceIdTimeToLive after the
+   * original detection call.
    * * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender,
    * headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur,
    * exposure, noise, and mask. Some of the results returned for specific attributes may not be
@@ -221,10 +228,12 @@ export class Face {
    * from 1KB to 6MB.
    * * Up to 100 faces can be returned for an image. Faces are ranked by face rectangle size from
    * large to small.
-   * * For optimal results when querying [Face - Identify](../face/identify), [Face -
-   * Verify](../face/verifyfacetoface), and [Face - Find Similar](../face/findsimilar)
-   * ('returnFaceId' is true), please use faces that are: frontal, clear, and with a minimum size of
-   * 200x200 pixels (100 pixels between eyes).
+   * * For optimal results when querying [Face -
+   * Identify](https://docs.microsoft.com/rest/api/faceapi/face/identify), [Face -
+   * Verify](https://docs.microsoft.com/rest/api/faceapi/face/verifyfacetoface), and [Face - Find
+   * Similar](https://docs.microsoft.com/rest/api/faceapi/face/findsimilar) ('returnFaceId' is true),
+   * please use faces that are: frontal, clear, and with a minimum size of 200x200 pixels (100 pixels
+   * between eyes).
    * * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels.
    * Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum
    * face size.
@@ -304,10 +313,12 @@ export class Face {
    * Detect human faces in an image, return face rectangles, and optionally with faceIds, landmarks,
    * and attributes.<br />
    * * No image will be stored. Only the extracted face feature will be stored on server. The faceId
-   * is an identifier of the face feature and will be used in [Face - Identify](../face/identify),
-   * [Face - Verify](../face/verifyfacetoface), and [Face - Find Similar](../face/findsimilar). The
-   * stored face feature(s) will expire and be deleted at the time specified by faceIdTimeToLive
-   * after the original detection call.
+   * is an identifier of the face feature and will be used in [Face -
+   * Identify](https://docs.microsoft.com/rest/api/faceapi/face/identify), [Face -
+   * Verify](https://docs.microsoft.com/rest/api/faceapi/face/verifyfacetoface), and [Face - Find
+   * Similar](https://docs.microsoft.com/rest/api/faceapi/face/findsimilar). The stored face
+   * feature(s) will expire and be deleted at the time specified by faceIdTimeToLive after the
+   * original detection call.
    * * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender,
    * headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur,
    * exposure, noise, and mask. Some of the results returned for specific attributes may not be
@@ -316,10 +327,12 @@ export class Face {
    * from 1KB to 6MB.
    * * Up to 100 faces can be returned for an image. Faces are ranked by face rectangle size from
    * large to small.
-   * * For optimal results when querying [Face - Identify](../face/identify), [Face -
-   * Verify](../face/verifyfacetoface), and [Face - Find Similar](../face/findsimilar)
-   * ('returnFaceId' is true), please use faces that are: frontal, clear, and with a minimum size of
-   * 200x200 pixels (100 pixels between eyes).
+   * * For optimal results when querying [Face -
+   * Identify](https://docs.microsoft.com/rest/api/faceapi/face/identify), [Face -
+   * Verify](https://docs.microsoft.com/rest/api/faceapi/face/verifyfacetoface), and [Face - Find
+   * Similar](https://docs.microsoft.com/rest/api/faceapi/face/findsimilar) ('returnFaceId' is true),
+   * please use faces that are: frontal, clear, and with a minimum size of 200x200 pixels (100 pixels
+   * between eyes).
    * * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels.
    * Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum
    * face size.
