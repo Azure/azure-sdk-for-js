@@ -1,5 +1,9 @@
 # Release History
 
+## 3.10.4 (2021-03-12)
+
+- FEATURE: Adds Bulk continueOnError option
+
 ## 3.10.3 (2021-03-12)
 
 - BUGFIX: Removes direct dependency on @azure/identity while retaining compatibility.
