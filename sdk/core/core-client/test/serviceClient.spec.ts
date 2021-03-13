@@ -383,6 +383,14 @@ describe("ServiceClient", function() {
   });
 
   describe("getOperationArgumentValueFromParameter()", () => {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "https://example.com",
+      serializer: createSerializer()
+    };
     it("should return undefined when the parameter path isn't found in the operation arguments or service client", () => {
       const operationArguments: OperationArguments = {};
       const parameterPath: ParameterPath = "myParameter";
@@ -392,10 +400,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -410,10 +422,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -428,10 +444,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
 
       assert.strictEqual(parameterValue, null);
     });
@@ -447,10 +467,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        mapper: parameterMapper,
-        parameterPath
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          mapper: parameterMapper,
+          parameterPath
+        }
+      );
       assert.strictEqual(parameterValue, 20);
     });
 
@@ -491,6 +515,7 @@ describe("ServiceClient", function() {
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         {
           parameterPath,
           mapper: parameterMapper
@@ -516,6 +541,7 @@ describe("ServiceClient", function() {
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         {
           parameterPath,
           mapper: parameterMapper
@@ -537,10 +563,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
       assert.strictEqual(parameterValue, 1);
     });
 
@@ -565,6 +595,7 @@ describe("ServiceClient", function() {
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         {
           parameterPath,
           mapper: parameterMapper
@@ -587,6 +618,7 @@ describe("ServiceClient", function() {
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         {
           parameterPath,
           mapper: parameterMapper
@@ -610,6 +642,7 @@ describe("ServiceClient", function() {
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         {
           parameterPath,
           mapper: parameterMapper
@@ -634,10 +667,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
       assert.strictEqual(parameterValue, 21);
     });
 
@@ -655,10 +692,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -672,10 +713,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
       assert.strictEqual(parameterValue, 21);
     });
 
@@ -689,10 +734,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -708,10 +757,14 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
-        parameterPath,
-        mapper: parameterMapper
-      });
+      const parameterValue: any = getOperationArgumentValueFromParameter(
+        operationArguments,
+        operationSpec,
+        {
+          parameterPath,
+          mapper: parameterMapper
+        }
+      );
 
       assert.strictEqual(parameterValue, null);
     });
@@ -730,6 +783,7 @@ describe("ServiceClient", function() {
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
+        operationSpec,
         {
           parameterPath,
           mapper: parameterMapper
