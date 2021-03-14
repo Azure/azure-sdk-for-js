@@ -320,9 +320,10 @@ export default {
       preferBuiltins: false,
       mainFields: ["module", "browser"]
     }),
-    cjs({
+   cjs({
       namedExports: {
-        events: ["EventEmitter"]
+        events: ["EventEmitter"],
+        "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
       }
     }),
     json(),
