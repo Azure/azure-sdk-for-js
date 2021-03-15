@@ -410,6 +410,8 @@ describe("Highlevel", () => {
   it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
     let error;
     try {
+      // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`, 
+      // "as any" can be removed once we move from @types/node v8 to v10
       await blockBlobClient.downloadToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
     } catch (err) {
       error = err;
