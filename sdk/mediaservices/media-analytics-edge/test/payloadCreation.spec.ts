@@ -8,7 +8,7 @@ import {
   MediaGraphNodeInput,
   MediaGraphAssetSink,
   createMediaGraphTopologySetRequest
-} from "../";
+} from "../src";
 
 describe("test", () => {
   it("creates a graph topology and calls createMediaGraphTopologySetRequest to ensure apiVersion is added", () => {
