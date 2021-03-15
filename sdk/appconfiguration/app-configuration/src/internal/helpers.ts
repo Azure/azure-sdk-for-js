@@ -14,7 +14,7 @@ import {
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import { deserializeFeatureFlag, featureFlagContentType } from "../featureFlag";
-import { deserializeKeyVaultReference, keyVaultReferenceContentType } from "../keyvaultReference";
+import { deserializeSecretReference, secretReferenceContentType } from "../keyvaultReference";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -164,8 +164,8 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
     case featureFlagContentType: {
       return deserializeFeatureFlag(setting) ?? setting;
     }
-    case keyVaultReferenceContentType: {
-      return deserializeKeyVaultReference(setting) ?? setting;
+    case secretReferenceContentType: {
+      return deserializeSecretReference(setting) ?? setting;
     }
     default:
       return setting;

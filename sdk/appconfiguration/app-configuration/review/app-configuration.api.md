@@ -194,20 +194,7 @@ export function isFeatureFlagTargetingClientFilter(clientFilter: any): clientFil
 export function isFeatureFlagTimeWindowClientFilter(clientFilter: any): clientFilter is FeatureFlagTimeWindowClientFilter;
 
 // @public (undocumented)
-export function isKeyVaultReference(setting: ConfigurationSetting): setting is KeyVaultReference;
-
-// @public (undocumented)
-export interface KeyVaultReference extends KeyVaultReferenceParam, ConfigurationSetting {
-}
-
-// @public (undocumented)
-export const keyVaultReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
-
-// @public (undocumented)
-export interface KeyVaultReferenceParam extends ConfigurationSettingParam {
-    // (undocumented)
-    keyVaultSecretUri: string;
-}
+export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
@@ -237,6 +224,19 @@ export interface ListSettingsOptions extends OptionalFields {
 // @public
 export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
+}
+
+// @public (undocumented)
+export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {
+}
+
+// @public (undocumented)
+export const secretReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
+
+// @public (undocumented)
+export interface SecretReferenceParam extends ConfigurationSettingParam {
+    // (undocumented)
+    secretId: string;
 }
 
 // @public

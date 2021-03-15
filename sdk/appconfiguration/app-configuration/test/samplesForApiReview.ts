@@ -1,4 +1,4 @@
-import { AppConfigurationClient, isFeatureFlag, isFeatureFlagPercentageClientFilter, isFeatureFlagTargetingClientFilter, isFeatureFlagTimeWindowClientFilter, isKeyVaultReference } from "../src";
+import { AppConfigurationClient, isFeatureFlag, isFeatureFlagPercentageClientFilter, isFeatureFlagTargetingClientFilter, isFeatureFlagTimeWindowClientFilter, isSecretReference } from "../src";
 
 const appConfigClient = new AppConfigurationClient("connection-string");
 
@@ -32,11 +32,11 @@ export async function sampleKeyVaultReference() {
     key: "my keyvault reference"
   });
 
-  if (isKeyVaultReference(setting)) {
+  if (isSecretReference(setting)) {
     // setting is a `KeyVaultReference`
 
     // use KeyVault to parse secret ID and retrieve it.
-    const parsedSecretId = parseKeyVaultSecretId(setting.keyVaultSecretUri);
+    const parsedSecretId = parseKeyVaultSecretId(setting.secretId);
     const actualSecret = await secretClient.getSecret(parsedSecretId.name);
 
     console.log(`Retrieved secret value: ${actualSecret.value}`)

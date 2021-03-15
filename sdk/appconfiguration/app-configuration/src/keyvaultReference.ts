@@ -4,33 +4,33 @@
 import { JsonKeyVaultReference } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
-export const keyVaultReferenceContentType =
+export const secretReferenceContentType =
   "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
 
-export interface KeyVaultReferenceParam extends ConfigurationSettingParam {
-  keyVaultSecretUri: string;
+export interface SecretReferenceParam extends ConfigurationSettingParam {
+  secretId: string;
 }
 
-export interface KeyVaultReference extends KeyVaultReferenceParam, ConfigurationSetting {
+export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {
 }
 
-export function isKeyVaultReference(setting: ConfigurationSetting): setting is KeyVaultReference {
-  return setting.contentType === keyVaultReferenceContentType;
+export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference {
+  return setting.contentType === secretReferenceContentType;
 }
 
 /**
  * @internal
  */
-export function deserializeKeyVaultReference(setting: ConfigurationSetting): KeyVaultReference | undefined {
+export function deserializeSecretReference(setting: ConfigurationSetting): SecretReference | undefined {
   if (!setting.value) {
     return undefined;
   }
 
   try {
     const jsonKeyVaultRef = JSON.parse(setting.value) as JsonKeyVaultReference;
-    const keyVaultRef: KeyVaultReference = {
+    const keyVaultRef: SecretReference = {
       ...setting,
-      keyVaultSecretUri: jsonKeyVaultRef.uri
+      secretId: jsonKeyVaultRef.uri
     };
 
     return keyVaultRef;
