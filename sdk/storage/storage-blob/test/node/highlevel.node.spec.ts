@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import * as buffer from "buffer";
 import * as fs from "fs";
 import * as path from "path";
 import { PassThrough, Readable } from "stream";
