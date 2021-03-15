@@ -30,9 +30,7 @@ export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   public async globalSetup() {
     await super.globalSetup();
     await executeParallel(
-      async (count: number, parallelIndex: number) => {
-        console.log(`[` + parallelIndex + `] ` + count);
-      },
+      async (_count: number, _parallelIndex: number) => {},
       this.options.count.value!,
       32
     );
