@@ -11,9 +11,10 @@ urlFragment: communication-sms-typescript
 
 This sample program shows how to use the JavaScript client libraries for Azure Communication Service SMS to send SMS messages.
 
-| **File Name**         | **Description**                           |
-| --------------------- | ----------------------------------------- |
-| [sendSms.ts][sendsms] | uses the SmsClient to send an SMS message |
+| ------------------------------------------- | ------------------------------------------------------------------------------- |
+| [sendSms.ts][sendsms] | demonstrates how to use the SmsClient to send an SMS message |
+| [sendSmsWithOptions.ts][sendsmswithoptions] | demonstrates how to set options when sending SMS messages |
+| [usingAadAuth.ts][usingaadauth] | demonstrates how to create the SmsClient using AAD token credentials to send an SMS message |
 
 ## Prerequisites
 
@@ -58,6 +59,8 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/se
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/typescript/src/sendSms.ts
+[sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/typescript/src/sendSmsWithOptions.ts
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/typescript/src/usingAadAuth.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-sms
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
