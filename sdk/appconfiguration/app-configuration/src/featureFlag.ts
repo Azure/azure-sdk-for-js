@@ -71,6 +71,27 @@ export function isFeatureFlag(
   return setting.contentType === featureFlagContentType;
 }
 
+/**
+ * @internal
+ */
+ export function isFeatureFlagTargetingClientFilter(clientFilter: any): clientFilter is FeatureFlagTargetingClientFilter {
+  return clientFilter.name === "Microsoft.Targeting";
+}
+
+/**
+ * @internal
+ */
+export function isFeatureFlagTimeWindowClientFilter(clientFilter: any): clientFilter is FeatureFlagTimeWindowClientFilter {
+  return clientFilter.name === "Microsoft.TimeWindow";
+}
+
+  /**
+ * @internal
+ */
+export function isFeatureFlagPercentageClientFilter(clientFilter: any): clientFilter is FeatureFlagPercentageClientFilter {
+    return clientFilter.name === "Microsoft.Percentage";
+}
+
 export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFlag | undefined {
   if (!isFeatureFlag(setting) || !setting.value) {
     return undefined;

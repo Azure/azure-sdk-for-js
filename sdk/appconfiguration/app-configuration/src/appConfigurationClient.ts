@@ -28,13 +28,10 @@ import {
   AddConfigurationSettingResponse,
   ConfigurationSetting,
   ConfigurationSettingId,
-  ConfigurationSettingParam,
   DeleteConfigurationSettingOptions,
   DeleteConfigurationSettingResponse,
-  FeatureFlag,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
-  KeyVaultReference,
   ListConfigurationSettingPage,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -63,7 +60,6 @@ import {
   AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions,
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
-import { FeatureFlagParam } from "./featureFlag";
 
 const packageName = "azsdk-js-app-configuration";
 
@@ -121,6 +117,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
 export class AppConfigurationClient {
   private client: AppConfiguration;
   private spanner: Spanner<AppConfigurationClient>;
+  private _syncTokens: SyncTokens;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -168,13 +165,13 @@ export class AppConfigurationClient {
       }
     }
 
-    const syncTokens = appConfigOptions.syncTokens || new SyncTokens();
+    this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
 
     this.client = new AppConfiguration(
       appConfigCredential,
       appConfigEndpoint,
       apiVersion,
-      getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
+      getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions)
     );
 
     this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration");
@@ -471,7 +468,7 @@ export class AppConfigurationClient {
    * ```
    */
   async setConfigurationSetting(
-    configurationSetting: SetConfigurationSettingParam | KeyVaultReferenceParam | FeatureFlagParam,
+    configurationSetting: SetConfigurationSettingParam,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -522,6 +519,10 @@ export class AppConfigurationClient {
         return transformKeyValueResponse(response);
       }
     });
+  }
+
+  updateSyncToken(syncToken: string): void {
+    this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
   }
 }
 

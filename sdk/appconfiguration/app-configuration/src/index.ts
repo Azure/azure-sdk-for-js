@@ -9,5 +9,4 @@ export {
   keyVaultReferenceContentType } from "./keyvaultReference";
 
 export {
-  FeatureFlag, FeatureFlagParam, FeatureFlagPercentageClientFilter, FeatureFlagTargetingClientFilter, FeatureFlagTimeWindowClientFilter, featureFlagContentType, featureFlagPrefix, isFeatureFlag
-} from "./featureFlag";
+  FeatureFlag, FeatureFlagParam, FeatureFlagPercentageClientFilter, FeatureFlagTargetingClientFilter, FeatureFlagTimeWindowClientFilter, featureFlagContentType, featureFlagPrefix, isFeatureFlag, isFeatureFlagPercentageClientFilter, isFeatureFlagTargetingClientFilter, isFeatureFlagTimeWindowClientFilter} from "./featureFlag";

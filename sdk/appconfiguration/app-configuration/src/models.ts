@@ -81,7 +81,7 @@ export interface AddConfigurationSettingParam extends ConfigurationSettingParam 
 /**
  * Parameters for creating or updating a new configuration setting
  */
-export interface SetConfigurationSettingParam extends ConfigurationSettingParam {}
+export interface SetConfigurationSettingParam extends ConfigurationSettingParam { }
 
 /**
  * Standard base response for getting, deleting or updating a configuration setting

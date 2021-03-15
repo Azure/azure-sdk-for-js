@@ -26,18 +26,16 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
-    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam & ({
-        keyVault: KeyVaultReference;
-    } | {
-        featureFlag: FeatureFlag;
-    } | {}), options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
-    }
+    // (undocumented)
+    updateSyncToken(syncToken: string): void;
+}
 
 // @public
 export interface AppConfigurationClientOptions {
@@ -77,20 +75,69 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
+// @public (undocumented)
+export interface FeatureFlag extends FeatureFlagParam, ConfigurationSetting {
+}
+
 // @public
-export interface FeatureFlag {
-    conditions: any[];
-    description: string;
+export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
+
+// @public (undocumented)
+export interface FeatureFlagParam extends ConfigurationSettingParam {
+    // (undocumented)
+    conditions: {
+        clientFilters: (FeatureFlagTargetingClientFilter | FeatureFlagTimeWindowClientFilter | FeatureFlagPercentageClientFilter | object)[];
+    };
+    // (undocumented)
+    description?: string;
+    // (undocumented)
     displayName: string;
+    // (undocumented)
     enabled: boolean;
-    id: string;
 }
 
 // @public (undocumented)
-export const FeatureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
+export interface FeatureFlagPercentageClientFilter {
+    // (undocumented)
+    name: "Microsoft.Percentage";
+    // (undocumented)
+    parameters: {
+        [key: string]: any;
+    };
+}
+
+// @public
+export const featureFlagPrefix = ".appconfig.featureflag/";
 
 // @public (undocumented)
-export const FeatureFlagPrefix = ".appconfig.featureflag/";
+export interface FeatureFlagTargetingClientFilter {
+    // (undocumented)
+    name: "Microsoft.Targeting";
+    // (undocumented)
+    parameters: {
+        audience: {
+            users: string[];
+            groups: {
+                name: string;
+                rolloutPercentage: number;
+            }[];
+        };
+        defaultRolloutPercentage: number;
+        [key: string]: any;
+    };
+}
+
+// @public (undocumented)
+export interface FeatureFlagTimeWindowClientFilter {
+    // (undocumented)
+    name: "Microsoft.TimeWindow";
+    // (undocumented)
+    parameters: {
+        start: string;
+        end: string;
+        [key: string]: any;
+    };
+}
 
 // @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
@@ -129,22 +176,38 @@ export interface HttpResponseFields {
 }
 
 // @public (undocumented)
-export function isFeatureFlag(value: ConfigurationSetting): value is ConfigurationSetting & {
-    featureFlag: FeatureFlag;
-};
+export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag;
+
+// Warning: (ae-internal-missing-underscore) The name "isFeatureFlagPercentageClientFilter" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function isFeatureFlagPercentageClientFilter(clientFilter: any): clientFilter is FeatureFlagPercentageClientFilter;
+
+// Warning: (ae-internal-missing-underscore) The name "isFeatureFlagTargetingClientFilter" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function isFeatureFlagTargetingClientFilter(clientFilter: any): clientFilter is FeatureFlagTargetingClientFilter;
+
+// Warning: (ae-internal-missing-underscore) The name "isFeatureFlagTimeWindowClientFilter" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function isFeatureFlagTimeWindowClientFilter(clientFilter: any): clientFilter is FeatureFlagTimeWindowClientFilter;
 
 // @public (undocumented)
-export function isKeyVaultReference(value: ConfigurationSetting): value is ConfigurationSetting & {
-    keyVault: KeyVaultReference;
-};
+export function isKeyVaultReference(setting: ConfigurationSetting): setting is KeyVaultReference;
 
-// @public
-export interface KeyVaultReference {
-    uri: string;
+// @public (undocumented)
+export interface KeyVaultReference extends KeyVaultReferenceParam, ConfigurationSetting {
 }
 
 // @public (undocumented)
-export const KeyVaultReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
+export const keyVaultReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
+
+// @public (undocumented)
+export interface KeyVaultReferenceParam extends ConfigurationSettingParam {
+    // (undocumented)
+    keyVaultSecretUri: string;
+}
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
