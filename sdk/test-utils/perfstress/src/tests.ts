@@ -64,7 +64,6 @@ export function selectPerfStressTest(
   const testName = minimistResult._[minimistResult._.length - 1];
 
   const testIndex = testsNames.indexOf(testName);
-  console.log(testsNames);
   if (testIndex === -1) {
     throw new Error(
       `Couldn't find a test named ${testName}. Try with any of the following: ${testsNames.join(
