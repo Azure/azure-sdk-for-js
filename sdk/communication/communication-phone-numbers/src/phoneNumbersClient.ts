@@ -20,7 +20,7 @@ import { logger, createSpan, SDK_VERSION } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberSearchResult
 } from "./generated/src/models/";
@@ -123,7 +123,7 @@ export class PhoneNumbersClient {
   public async getPurchasedPhoneNumber(
     phoneNumber: string,
     options: GetPurchasedPhoneNumberOptions = {}
-  ): Promise<AcquiredPhoneNumber> {
+  ): Promise<PurchasedPhoneNumber> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-getPurchasedPhoneNumber",
       options
@@ -157,7 +157,7 @@ export class PhoneNumbersClient {
    */
   public listPurchasedPhoneNumbers(
     options: ListPurchasedPhoneNumbersOptions = {}
-  ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
+  ): PagedAsyncIterableIterator<PurchasedPhoneNumber> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
       options
@@ -332,7 +332,7 @@ export class PhoneNumbersClient {
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
     options: BeginUpdatePhoneNumberOptions = {}
-  ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
+  ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
       options
