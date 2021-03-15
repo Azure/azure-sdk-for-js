@@ -56,6 +56,22 @@ const updatePackageVersion = (rushPackages, package, buildId) => {
   return rushPackages;
 };
 
+const shouldUpdateVersion = (packageVersion, depVersionRange) => {
+  // Update dependent pacakge version to daily dev if dependency requirement is either 'dev' or if it matches semver
+  let updateDependent = (depVersionRange === "dev");
+  if (!updateDependent) {
+    const parsedPackageVersion = semver.parse(packageVersion);
+    const parsedDepMinVersion = semver.minVersion(depVersionRange);
+    if (
+      parsedDepMinVersion.major == parsedPackageVersion.major &&
+      parsedDepMinVersion.minor == parsedPackageVersion.minor &&
+      parsedDepMinVersion.patch == parsedPackageVersion.patch) {
+      updateDependent = true;
+    }
+  }
+  return updateDependent;
+}
+
 const updateDependencySection = (rushPackages, dependencySection, buildId) => {
   //console.log(dependencySection);
   if (dependencySection) {
@@ -75,15 +91,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
       console.log(`version in package's dep = ${depVersionRange}`); //^1.0.0
       console.log(`dep's version = ${packageVersion}`); //1.0.0
 
-      const parsedPackageVersion = semver.parse(packageVersion);
-      const parsedDepMinVersion = semver.minVersion(depVersionRange);
-
-      if (
-        parsedDepMinVersion.major == parsedPackageVersion.major &&
-        parsedDepMinVersion.minor == parsedPackageVersion.minor &&
-        parsedDepMinVersion.patch == parsedPackageVersion.patch &&
-        !rushPackages[depName].json["private"]
-      ) {
+      if (shouldUpdateVersion(packageVersion, depVersionRange) && !rushPackages[depName].json["private"]) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
     }
@@ -127,14 +135,10 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
 
     console.log(`version in package's dep = ${depVersionRange}`);
     console.log(`dep's version = ${packageVersion}`);
-    const parsedPackageVersion = semver.parse(packageVersion);
-    const parsedDepMinVersion = semver.minVersion(depVersionRange);
     // If the dependency range is satisfied by the package's current version,
     // replace it with an exact match to the package's new version
     if (
-      parsedDepMinVersion.major == parsedPackageVersion.major &&
-      parsedDepMinVersion.minor == parsedPackageVersion.minor &&
-      parsedDepMinVersion.patch == parsedPackageVersion.patch &&
+      shouldUpdateVersion(packageVersion, depVersionRange) &&
       rushPackages[depName].newVer !== undefined &&
       !rushPackages[depName].json["private"]
     ) {
