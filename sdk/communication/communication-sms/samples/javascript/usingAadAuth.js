@@ -27,6 +27,9 @@
 const { SmsClient } = require("@azure/communication-sms");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 async function main() {
   const endpoint =
     process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";

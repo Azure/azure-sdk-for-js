@@ -27,6 +27,10 @@
 import { SmsClient } from "@azure/communication-sms";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export async function main() {
   const endpoint =
     process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
