@@ -409,7 +409,7 @@ describe("Highlevel", () => {
   it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
     let error;
     try {
-      await blockBlobClient.downloadToBuffer(undefined, 4 * 1024 * 1024 * 1024);
+      await blockBlobClient.downloadToBuffer(undefined, buffer.constants.MAX_LENGTH + 1);
     } catch (err) {
       error = err;
     }
