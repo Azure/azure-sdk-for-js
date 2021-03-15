@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import * as buffer from "buffer";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
@@ -283,7 +284,7 @@ describe("Highlevel Node.js only", () => {
   it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async () => {
     let error;
     try {
-      await fileClient.downloadToBuffer(undefined, 4 * 1024 * 1024 * 1024);
+      await fileClient.downloadToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
     } catch (err) {
       error = err;
     }
