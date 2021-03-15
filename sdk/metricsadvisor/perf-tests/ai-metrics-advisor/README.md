@@ -2,22 +2,12 @@
 
 1. Build the ai-metrics-advisor perf tests package `rush build -t perf-ai-metrics-advisor`.
 2. Copy the `sample.env` file and name it as `.env`.
-3. Create a metrics advisor client account and populate the `.env` file with `STORAGE_CONNECTION_STRING` variable.
-4. Run the tests as follows
-
-   - download
-     - `npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - upload
-     - `npm run perf-test:node -- StorageBlobUploadTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - upload file
-     - `npm run perf-test:node -- StorageBlobUploadFileTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - list blobs
-     - `npm run perf-test:node -- StorageBlobListTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - download using sas with storage-blob
-     - `npm run perf-test:node -- StorageBlobDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - download using sas with node-fetch
-     - `npm run perf-test:node -- NodeFetchDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - download using sas with core-http
-     - `npm run perf-test:node -- CoreHTTPDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - download using sas with core-rest-pipeline
-     - `npm run perf-test:node -- CoreHTTPSDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
+3. Create a metrics advisor client account and populate the `.env` file with following variables:
+   METRICS_ADVISOR_ENDPOINT
+   METRICS_ADVISOR_SUBSCRIPTION_KEY
+   METRICS_ADVISOR_API_KEY
+   METRICS_ADVISOR_ALERT_CONFIG_ID
+   METRICS_ADVISOR_ALERT_ID
+   METRICS_ADVISOR_INCIDENT_ID
+   METRICS_ADVISOR_DETECTION_CONFIG_ID
+4. Run the tests as follows:
