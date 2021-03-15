@@ -11,3 +11,10 @@
    METRICS_ADVISOR_INCIDENT_ID
    METRICS_ADVISOR_DETECTION_CONFIG_ID
 4. Run the tests as follows:
+
+- list anomalies
+  - `npm run perf-test:node -- AnomalyListTest --warmup 1 --iterations 1 --parallel 50 --duration 15 -n 1000`
+- list incidents
+  - `npm run perf-test:node -- IncidentListTest --warmup 1 --iterations 1 --parallel 50 --duration 15 -n 1000`
+- get root causes
+  - `npm run perf-test:node -- RootCauseTest --warmup 1 --iterations 1 --parallel 50 --duration 15 -n 1000`
