@@ -43,9 +43,7 @@ export interface FeatureFlagTargetingClientFilter {
     };
     defaultRolloutPercentage: number;
 
-    // here to avoid potential slicing of underlying attributes as objects expand
-    // in the future.
-    [key: string]: any;
+    // [key: string]: any;
   };
 }
 
@@ -54,7 +52,7 @@ export interface FeatureFlagTimeWindowClientFilter {
   parameters: {
     start: string;
     end: string;
-    [key: string]: any;
+    // [key: string]: any;
   };
 }
 

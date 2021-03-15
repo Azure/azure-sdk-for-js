@@ -123,7 +123,6 @@ export interface FeatureFlagTargetingClientFilter {
             }[];
         };
         defaultRolloutPercentage: number;
-        [key: string]: any;
     };
 }
 
@@ -135,7 +134,6 @@ export interface FeatureFlagTimeWindowClientFilter {
     parameters: {
         start: string;
         end: string;
-        [key: string]: any;
     };
 }
 
