@@ -23,8 +23,8 @@ export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions>
   };
   constructor() {
     super();
-    this.detectionConfigId = getEnvVar("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID");
-    this.incidentId = getEnvVar("METRICS_ADVISOR_DETECTION_CONFIG_ID");
+    this.detectionConfigId = getEnvVar("METRICS_ADVISOR_DETECTION_CONFIG_ID");
+    this.incidentId = getEnvVar("METRICS_ADVISOR_INCIDENT_ID");
   }
 
   public async globalSetup() {
@@ -43,6 +43,7 @@ export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions>
     for (const rootcause of result.rootCauses) {
       console.log(`Root cause`);
       console.log(`  Trace the path for the incident root cause ${rootcause.path.join(" => ")}`);
+      console.log(`  Series key: ${rootcause.seriesKey}`);
     }
   }
 }
