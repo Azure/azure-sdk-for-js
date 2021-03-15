@@ -69,7 +69,7 @@ export type ServiceBusErrorCode =
   /**
    * The number of unsettled messages that can be held is reached, please settle the received messages.
    */
-  | "ExcessUnsettledMessagesInBuffer";
+  | "UnsettledMessagesLimitExceeded";
 
 /**
  * Translation between the MessagingErrorCodes into a ServiceBusCode

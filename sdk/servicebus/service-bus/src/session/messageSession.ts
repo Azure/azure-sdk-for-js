@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, delay, ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -23,7 +23,13 @@ import {
   StandardAbortMessage
 } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
-import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared";
+import {
+  onMessageSettled,
+  DeferredPromiseAndTimer,
+  createReceiverOptions,
+  numberOfEmptyIncomingSlots,
+  ProcessMessageCreditManager
+} from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
 import {
@@ -33,8 +39,8 @@ import {
   SubscribeOptions
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage, numberOfEmptyIncomingSlots } from "../receivers/shared";
+import { translateServiceBusError } from "../serviceBusError";
+import { abandonMessage, completeMessage } from "../receivers/shared";
 import { isDefined } from "../util/typeGuards";
 
 /**
@@ -620,7 +626,13 @@ export class MessageSession extends LinkEntity<Receiver> {
           true,
           this.receiveMode
         );
-
+        const creditManager = new ProcessMessageCreditManager(
+          this.link,
+          this._receiverHelper,
+          this.receiveMode,
+          this.entityPath,
+          this._context.config.host
+        );
         try {
           await this._onMessage(bMessage);
         } catch (err) {
@@ -673,26 +685,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
           return;
         } finally {
-          if (
-            this.receiveMode === "receiveAndDelete" ||
-            numberOfEmptyIncomingSlots(this.link) > 1
-          ) {
-            this._receiverHelper.addCredit(1);
-          } else if (this.link) {
-            this._notifyError?.({
-              error: new ServiceBusError(
-                `Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods on the receiver to receive the next message.`,
-                "GeneralError"
-              ),
-              errorSource: "receive",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
-            });
-          } else {
-            // Link doesn't exist
-            // SessionLockLost will be notified in one of the listeners
-            // So, not notifying here
-          }
+          creditManager.onReceive(this._notifyError);
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -725,18 +718,12 @@ export class MessageSession extends LinkEntity<Receiver> {
             });
           }
         }
-
-        if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
-          // Wait for the user to clear the deliveries before adding more credits
-          while (numberOfEmptyIncomingSlots(this.link) <= 1) {
-            await delay(1000);
-          }
-          this._receiverHelper.addCredit(1);
-        }
+        await creditManager.postProcessing();
       };
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
+      // TODO: Move to the creditManager helper method
       const emptySlots = numberOfEmptyIncomingSlots(this.link);
       const creditsToAdd =
         this.receiveMode === "peekLock"

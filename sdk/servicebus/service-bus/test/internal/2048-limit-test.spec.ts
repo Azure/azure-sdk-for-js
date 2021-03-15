@@ -304,5 +304,8 @@ describe("2048 scenarios - subscribe", function(): void {
         await receiver.close();
       }).timeout(200000);
     });
+
+    // TODO: Add test to make sure UnsettledMessagesLimitExceeded is notified
+    // TODO:
   });
 });

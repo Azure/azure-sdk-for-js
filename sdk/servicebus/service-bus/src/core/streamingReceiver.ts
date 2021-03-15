@@ -23,12 +23,16 @@ import {
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
-import { AmqpError, delay, EventContext, OnAmqpEvent } from "rhea-promise";
+import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage, numberOfEmptyIncomingSlots } from "../receivers/shared";
-import { ReceiverHandlers } from "./shared";
+import { translateServiceBusError } from "../serviceBusError";
+import { abandonMessage, completeMessage } from "../receivers/shared";
+import {
+  numberOfEmptyIncomingSlots,
+  ProcessMessageCreditManager,
+  ReceiverHandlers
+} from "./shared";
 
 /**
  * @internal
@@ -234,6 +238,13 @@ export class StreamingReceiver extends MessageReceiver {
         }
       });
 
+      const creditManager = new ProcessMessageCreditManager(
+        this.link,
+        this._receiverHelper,
+        this.receiveMode,
+        this.entityPath,
+        this._context.config.host
+      );
       try {
         await this._onMessage(bMessage);
       } catch (err) {
@@ -294,19 +305,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
         return;
       } finally {
-        if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(this.link) > 1) {
-          this._receiverHelper.addCredit(1);
-        } else {
-          this._onError?.({
-            error: new ServiceBusError(
-              `Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods on the receiver to receive the next message.`,
-              "GeneralError"
-            ),
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
+        creditManager.onReceive(this._onError);
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -342,13 +341,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
       }
 
-      if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
-        // Wait for the user to clear the deliveries before adding more credits
-        while (numberOfEmptyIncomingSlots(this.link) <= 1) {
-          await delay(1000);
-        }
-        this._receiverHelper.addCredit(1);
-      }
+      await creditManager.postProcessing();
     };
   }
 

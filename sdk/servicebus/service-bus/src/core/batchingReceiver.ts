@@ -21,7 +21,7 @@ import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { numberOfEmptyIncomingSlots } from "../receivers/shared";
+import { numberOfEmptyIncomingSlots, UnsettledMessagesLimitExceededError } from "./shared";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -501,8 +501,8 @@ export class BatchingReceiverLite {
     const emptySlots = numberOfEmptyIncomingSlots(receiver);
     if (emptySlots <= 1) {
       throw new ServiceBusError(
-        "Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods on the receiver to receive the next message.",
-        "ExcessUnsettledMessagesInBuffer"
+        UnsettledMessagesLimitExceededError,
+        "UnsettledMessagesLimitExceeded"
       );
     }
     const creditsToAdd =

@@ -2,9 +2,13 @@
 // Licensed under the MIT license.
 
 import { Delivery, ReceiverOptions, Source } from "rhea-promise";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
+import { Receiver } from "rhea-promise";
+import { OnError } from "./messageReceiver";
+import { ReceiverHelper } from "./receiverHelper";
+import { delay } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -102,4 +106,88 @@ export function createReceiverOptions(
   };
 
   return rcvrOptions;
+}
+
+export const UnsettledMessagesLimitExceededError =
+  "Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods on the receiver to receive the next message.";
+
+/**
+ * Returns the number of empty slots in the Circular buffer of incoming deliveries
+ * based on the capacity and size of the buffer.
+ *
+ * @internal
+ */
+export function numberOfEmptyIncomingSlots(
+  receiver: Pick<Receiver, "session"> | undefined
+): number {
+  const incomingDeliveries = receiver?.session?.incoming?.deliveries;
+  return incomingDeliveries ? incomingDeliveries.capacity - incomingDeliveries.size : 0;
+}
+
+/**
+ * Provides helper methods to manage the credits on the link for the
+ * streaming messages scenarios.
+ * (Used by both sessions(MessageSession) and non-sessions(StreamingReceiver))
+ *
+ * @internal
+ */
+export class ProcessMessageCreditManager {
+  constructor(
+    private link: Receiver | undefined,
+    private receiverHelper: ReceiverHelper,
+    private receiveMode: ReceiveMode,
+    private entityPath: string,
+    private fullyQualifiedNamespace: string
+  ) {}
+
+  /**
+   * Upon receiving a new message, this method can be called to add a credit to receive one more message.
+   * If no empty slots, calls the onError callback with the `UnsettledMessagesLimitExceeded` error to
+   * let users know about the excess unsettled messages.
+   *
+   * @internal
+   */
+  onReceive(notifyError: OnError | undefined) {
+    if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(this.link) > 1) {
+      this.receiverHelper.addCredit(1);
+    } else if (this.link) {
+      notifyError?.({
+        error: new ServiceBusError(
+          UnsettledMessagesLimitExceededError,
+          "UnsettledMessagesLimitExceeded"
+        ),
+        errorSource: "receive",
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this.fullyQualifiedNamespace
+      });
+    } else {
+      // Link doesn't exist
+      // SessionLockLost for sessions/onAMQPError for non-sessions will be notified in one of the listeners
+      // So, not notifying here
+      // TODO: Validate above
+    }
+  }
+
+  /**
+   * After processing the message, if no empty slots,
+   * - keeps checking if the link has more empty slots in a loop with a delay of 1 sec,
+   * - adds a credit if there are empty slots.
+   *
+   * @internal
+   */
+  async postProcessing() {
+    if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
+      // Wait for the user to clear the deliveries before adding more credits
+      while (this.link?.isOpen() && numberOfEmptyIncomingSlots(this.link) <= 1) {
+        // TODO: check for canReceiveMessages too to exit from the loop
+        await delay(1000);
+      }
+      // TODO: Instead of adding one credit, make it maxConcurrentCalls
+      // Example:
+      //   - Suppose maxConcurrentCalls=1000 and the user is not settling the messages
+      //   - After 2048 messages, 1000 while loops are running(for all the processMessage callbacks) so that they can do their part of adding a credit
+      //   - Instead, replenish with maxConcurrentCalls with a single while loop and end the rest of the processMessage callbacks
+      this.receiverHelper.addCredit(1);
+    }
+  }
 }
