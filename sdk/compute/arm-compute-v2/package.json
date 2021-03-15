@@ -8,7 +8,6 @@
     "@azure/core-lro": "^1.0.1",
     "@azure/core-paging": "^1.1.1",
     "@azure/identity": "^1.2.3",
-    "@types/source-map-support": "^0.5.3",
     "tslib": "^2.0.0"
   },
   "keywords": [
@@ -24,6 +23,7 @@
   "types": "./esm/src/index.d.ts",
   "devDependencies": {
     "@azure/test-utils-recorder": "file:../../test-utils/recorder/azure-test-utils-recorder-1.0.0.tgz",
+    "@types/source-map-support": "^0.5.3",
     "@microsoft/api-extractor": "7.9.10",
     "@types/mocha": "^8.2.1",
     "@types/node": "^8.0.0",
