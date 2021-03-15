@@ -4,10 +4,6 @@
 
 GA release of this package.
 
-- Fix serialization of body of false ([#14218](https://github.com/Azure/azure-sdk-for-js/pull/14218))
-- Set custom headers after serializing headers ([#14268](https://github.com/Azure/azure-sdk-for-js/pull/14268))
-- Allow setting empty query parameter values ([#14260](https://github.com/Azure/azure-sdk-for-js/pull/14260))
-
 ## 1.0.0-beta.2 (2021-03-10)
 
 - [Breaking] Removed `createSpanFunction` and `SpanConfig`. These have been moved into
