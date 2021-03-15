@@ -5,7 +5,7 @@ import {
   executeParallel,
   getEnvVar
 } from "@azure/test-utils-perfstress";
-import { MetricsAdvisorTest } from "./MetricsAdvisor.spec";
+import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
 interface MetricsAdvisorTestOptions {
   count: number;
 }
@@ -37,14 +37,9 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   }
 
   async runAsync(): Promise<void> {
-    const anomalies = this.client.listAnomalies({
+    this.client.listAnomalies({
       alertConfigId: this.alertConfigId,
       id: this.alertId
     });
-    let i = 1;
-    for await (const anomaly of anomalies) {
-      console.log(`anomaly ${i++}:`);
-      console.log(anomaly);
-    }
   }
 }
