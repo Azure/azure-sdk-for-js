@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import buffer from "buffer";
+import * as buffer from "buffer";
 import * as fs from "fs";
 import * as path from "path";
 import { PassThrough, Readable } from "stream";
@@ -410,7 +410,7 @@ describe("Highlevel", () => {
   it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
     let error;
     try {
-      await blockBlobClient.downloadToBuffer(undefined, buffer.constants.MAX_LENGTH + 1);
+      await blockBlobClient.downloadToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
     } catch (err) {
       error = err;
     }
