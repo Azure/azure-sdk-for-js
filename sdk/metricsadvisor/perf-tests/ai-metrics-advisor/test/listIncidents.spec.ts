@@ -10,13 +10,13 @@ interface MetricsAdvisorTestOptions {
   count: number;
 }
 
-export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
- alertId: string;
- alertConfigId: string;
+export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
+  alertId: string;
+  alertConfigId: string;
   public options: PerfStressOptionDictionary<MetricsAdvisorTestOptions> = {
     count: {
       required: true,
-      description: "Number of anomalies to be listed",
+      description: "Number of Incidents to be listed",
       longName: "count",
       defaultValue: 10
     }
@@ -39,12 +39,12 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   }
 
   async runAsync(): Promise<void> {
-    const anomalies = this.client.listAnomalies({ alertConfigId: this.alertConfigId, id: this.alertId }
+    const incidents = this.client.listIncidents({ alertConfigId: this.alertConfigId, id: this.alertId }
     );
     let i = 1;
-    for await (const anomaly of anomalies) {
-      console.log(`anomaly ${i++}:`);
-      console.log(anomaly);
+    for await (const incident of incidents) {
+      console.log(`incident ${i++}:`);
+      console.log(incident);
     }
   }
 }
