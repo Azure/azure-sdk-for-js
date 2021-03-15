@@ -1,7 +1,11 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (Unreleased)
 
+
+## 1.0.0-beta.2 (2021-03-10)
+
+- Renamed interfaces with `HTTPS` in the name to have `HTTP` instead.
 - Changed from exposing `DefaultHttpsClient` as a class directly, to providing `createDefaultHttpsClient()` to instantiate the appropriate runtime class.
 - Fix an issue when passing in proxy hosts. [PR 13911](https://github.com/Azure/azure-sdk-for-js/pull/13911)
 - Package rename to `core-rest-pipeline` to better reflect its purpose.

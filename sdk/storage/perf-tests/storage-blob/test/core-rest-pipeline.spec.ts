@@ -3,19 +3,19 @@
 
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import {
-  createDefaultHttpsClient,
-  HttpsClient,
+  createDefaultHttpClient,
+  HttpClient,
   createPipelineRequest,
   PipelineRequest
 } from "@azure/core-rest-pipeline";
 import { drainStream } from "@azure/test-utils-perfstress";
 
 export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
-  client: HttpsClient;
+  client: HttpClient;
   request: PipelineRequest;
   constructor() {
     super();
-    this.client = createDefaultHttpsClient();
+    this.client = createDefaultHttpClient();
     this.request = createPipelineRequest({
       url: this.sasUrl,
       streamResponseStatusCodes: new Set([200, 206])

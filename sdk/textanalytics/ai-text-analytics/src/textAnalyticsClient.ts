@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClientPipeline, CommonClientOptions } from "@azure/core-client";
+import { CommonClientOptions } from "@azure/core-client";
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy
@@ -48,6 +48,7 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
 import {
   AddParamsToTask,
   addStrEncodingParam,
+  compose,
   handleInvalidDocumentBatch,
   setModelVersionParam,
   setStrEncodingParam,
@@ -228,10 +229,6 @@ export type RecognizePiiEntitiesAction = {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-  /**
-   * Specifies the list of Pii categories to return.
-   */
-  categoriesFilter?: PiiCategory[];
 };
 
 /**
@@ -344,10 +341,6 @@ export class TextAnalyticsClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
-      : textAnalyticsAzureKeyCredentialPolicy(credential);
-
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
@@ -358,13 +351,13 @@ export class TextAnalyticsClient {
       }
     };
 
-    const pipeline = createClientPipeline(internalPipelineOptions);
-    pipeline.addPolicy(authPolicy);
+    this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
 
-    this.client = new GeneratedClient(this.endpointUrl, {
-      pipeline,
-      httpsClient: options.httpsClient
-    });
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : textAnalyticsAzureKeyCredentialPolicy(credential);
+
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -908,7 +901,9 @@ export class TextAnalyticsClient {
       analysisOptions: {
         requestOptions: realOptions.requestOptions,
         tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal
+        abortSignal: realOptions.abortSignal,
+        onResponse: realOptions.onResponse,
+        serializerOptions: realOptions.serializerOptions
       },
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom,
@@ -978,8 +973,11 @@ export class TextAnalyticsClient {
       analysisOptions: {
         requestOptions: realOptions.requestOptions,
         tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal
+        abortSignal: realOptions.abortSignal,
+        onResponse: realOptions.onResponse,
+        serializerOptions: realOptions.serializerOptions
       },
+      displayName: realOptions.displayName,
       includeStatistics: realOptions.includeStatistics,
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom
@@ -988,13 +986,6 @@ export class TextAnalyticsClient {
     await poller.poll();
     return poller;
   }
-}
-
-/**
- * @internal
- */
-function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
-  return (value: T1) => fn2(fn1(value));
 }
 
 /**
@@ -1072,7 +1063,9 @@ function makeAnalyzeSentimentOptionsModel(
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
-    tracingOptions: params.tracingOptions
+    tracingOptions: params.tracingOptions,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions
   };
 }
 
@@ -1092,6 +1085,8 @@ function makePiiEntitiesOptionsModel(
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
     tracingOptions: params.tracingOptions,
-    piiCategories: params.categoriesFilter
+    piiCategories: params.categoriesFilter,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions
   };
 }

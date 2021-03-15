@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.4",
+  "version": "4.2.0-beta.5",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md",
@@ -36,8 +36,9 @@
   "browser": {
     "os": false,
     "process": false,
-    "./dist-esm/keyvault-keys/src/localCryptography/algorithms.js": "./dist-esm/keyvault-keys/src/localCryptography/algorithms.browser.js",
-    "./dist-esm/keyvault-keys/src/localCryptography/hash.js": "./dist-esm/keyvault-keys/src/localCryptography/hash.browser.js"
+    "./dist-esm/keyvault-keys/src/cryptography/crypto.js": "./dist-esm/keyvault-keys/src/cryptography/crypto.browser.js",
+    "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.js": "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.browser.js",
+    "./dist-esm/keyvault-keys/src/cryptography/aesCryptographyProvider.js": "./dist-esm/keyvault-keys/src/cryptography/aesCryptographyProvider.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -119,7 +120,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",

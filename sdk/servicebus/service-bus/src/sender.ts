@@ -343,7 +343,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
  * @internal
  */
 export function isServiceBusMessageBatch(
-  messageBatchOrAnything: any
+  messageBatchOrAnything: unknown
 ): messageBatchOrAnything is ServiceBusMessageBatch {
   if (messageBatchOrAnything == null) {
     return false;

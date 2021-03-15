@@ -8,6 +8,8 @@
     "strict": true,
     "alwaysStrict": true,
 
+    "target": "ES6",
+
     "outDir": "dist",
     "rootDir": "src"
   },

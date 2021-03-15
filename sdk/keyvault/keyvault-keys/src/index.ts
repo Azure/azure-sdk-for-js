@@ -97,16 +97,20 @@ import {
   WrapKeyOptions,
   EncryptParameters,
   DecryptParameters,
+  RsaEncryptionAlgorithm,
   RsaEncryptParameters,
+  AesGcmEncryptionAlgorithm,
+  AesCbcEncryptionAlgorithm,
   AesCbcEncryptParameters,
   AesGcmEncryptParameters,
   AesCbcDecryptParameters,
   AesGcmDecryptParameters,
-  RsaDecryptParameters
+  RsaDecryptParameters,
+  VerifyDataOptions
 } from "./cryptographyClientModels";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
-import { LocalSupportedAlgorithmName } from "./localCryptography/models";
+import { LocalSupportedAlgorithmName } from "./cryptography/models";
 import { getKeyFromKeyBundle } from "./transformations";
 
 export {
@@ -120,8 +124,11 @@ export {
   CreateOctKeyOptions,
   CryptographyClient,
   CryptographyOptions,
+  RsaEncryptionAlgorithm,
   RsaDecryptParameters,
+  AesGcmEncryptionAlgorithm,
   AesGcmDecryptParameters,
+  AesCbcEncryptionAlgorithm,
   AesCbcDecryptParameters,
   DecryptParameters,
   DecryptOptions,
@@ -173,6 +180,7 @@ export {
   UnwrapResult,
   UpdateKeyPropertiesOptions,
   VerifyOptions,
+  VerifyDataOptions,
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
