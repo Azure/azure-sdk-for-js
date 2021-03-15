@@ -5,10 +5,10 @@ This package contains an isomorphic SDK for GraphRbacManagementClient to work wi
 We recommend you move to using the newer [Microsoft Graph API](https://developer.microsoft.com/graph) instead.
 
 Helpful links:
+
 - [Update your applications to use Microsoft Authentication Library and Microsoft Graph API](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/update-your-applications-to-use-microsoft-authentication-library/ba-p/1257363)
 - [App migration checklist](https://docs.microsoft.com/graph/migrate-azure-ad-graph-planning-checklist)
 - [@microsoft/microsoft-graph-client package](https://www.npmjs.com/package/@microsoft/microsoft-graph-client) for the newer Microsoft Graph API
-
 
 ### Currently supported environments
 
@@ -35,23 +35,30 @@ npm install @azure/ms-rest-nodeauth
 
 ```ts
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
+import {
+  GraphRbacManagementClient,
+  GraphRbacManagementModels,
+  GraphRbacManagementMappers
+} from "@azure/graph";
 const tenantId = "<Tenant_Id>";
 
-msRestNodeAuth.interactiveLogin({ 
-  tokenAudience: "https://graph.windows.net",
-  domain: tenantId
-}).then((creds) => {
-  const client = new GraphRbacManagementClient(creds, tenantId, {
-    baseUri: "https://graph.windows.net"
+msRestNodeAuth
+  .interactiveLogin({
+    tokenAudience: "https://graph.windows.net",
+    domain: tenantId
+  })
+  .then((creds) => {
+    const client = new GraphRbacManagementClient(creds, tenantId, {
+      baseUri: "https://graph.windows.net"
+    });
+    client.signedInUser.get().then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-  client.signedInUser.get().then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and get signedInUser as an example written in JavaScript.
@@ -67,6 +74,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -90,13 +98,16 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.Graph.GraphRbacManagementClient(res.creds, tenantId, {
           baseUri: "https://graph.windows.net"
         });
-        client.signedInUser.get().then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.signedInUser
+          .get()
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>
@@ -107,6 +118,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fgraphrbac%2Fgraph%2FREADME.png)
