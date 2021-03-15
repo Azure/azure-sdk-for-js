@@ -284,7 +284,7 @@ describe("Highlevel Node.js only", () => {
   it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async () => {
     let error;
     try {
-      // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`, 
+      // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`,
       // "as any" can be removed once we move from @types/node v8 to v10
       await fileClient.downloadToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
     } catch (err) {
