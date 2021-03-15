@@ -5,7 +5,7 @@ import {
   executeParallel,
   getEnvVar
 } from "@azure/test-utils-perfstress";
-import { MetricsAdvisorTest } from "./MetricsAdvisor.spec";
+import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
 interface MetricsAdvisorTestOptions {
   count: number;
 }
@@ -37,11 +37,6 @@ export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions>
   }
 
   async runAsync(): Promise<void> {
-    const result = await this.client.getIncidentRootCauses(this.detectionConfigId, this.incidentId);
-    for (const rootcause of result.rootCauses) {
-      console.log(`Root cause`);
-      console.log(`  Trace the path for the incident root cause ${rootcause.path.join(" => ")}`);
-      console.log(`  Series key: ${rootcause.seriesKey}`);
-    }
+    await this.client.getIncidentRootCauses(this.detectionConfigId, this.incidentId);
   }
 }
