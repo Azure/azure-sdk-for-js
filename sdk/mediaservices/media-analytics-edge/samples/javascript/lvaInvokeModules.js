@@ -72,7 +72,7 @@ async function main() {
   console.log("== Sample Template ==");
   const device_id = "lva-sample-device";
   const module_id = "lvaEdge";
-  const connectionString = "";
+  const connectionString = "sample";
   const cli = Client.fromConnectionString(connectionString);
 
   const invokeMethod = async (methodRequest) => {
