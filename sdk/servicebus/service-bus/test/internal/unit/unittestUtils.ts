@@ -99,6 +99,7 @@ export function createConnectionContextForTests(
             }
           }
         };
+        (receiver as any).session.incoming = (receiver as any).session._session.incoming;
         return receiver;
       },
       async close(): Promise<void> {
