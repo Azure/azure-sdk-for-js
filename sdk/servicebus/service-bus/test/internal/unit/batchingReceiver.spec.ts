@@ -468,7 +468,7 @@ describe("BatchingReceiver unit tests", () => {
 
     const remainingRegisteredListeners = new Set<string>();
 
-    const fakeRheaReceiver = {
+    const fakeRheaReceiver = ({
       on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
         emitter.on(evt, handler);
 
@@ -499,6 +499,15 @@ describe("BatchingReceiver unit tests", () => {
         removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
           remainingRegisteredListeners.delete(evt.toString());
           emitter.removeListener(evt, handler);
+        },
+        incoming: {
+          deliveries: {
+            capacity: 2048,
+            size: 0,
+            head: 0,
+            tail: 0,
+            entries: []
+          }
         }
       },
       isOpen: () => true,
@@ -517,7 +526,7 @@ describe("BatchingReceiver unit tests", () => {
       connection: {
         id: "connection-id"
       }
-    } as RheaReceiver;
+    } as unknown) as Receiver;
 
     return {
       receiveIsReady,
@@ -704,7 +713,6 @@ describe("BatchingReceiver unit tests", () => {
         maxWaitTimeInMs: 5000
       })
       .then((messages) => {
-        console.log(`===> then running, messages: ${messages.map((m) => m.body).join(", ")}`);
         return [...messages];
       });
 
