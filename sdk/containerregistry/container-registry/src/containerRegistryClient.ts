@@ -168,21 +168,35 @@ export class ContainerRegistryClient {
         ...options
       };
       const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
-      continuationState.continuationToken = currentPage.link;
+      // TODO: (jeremymeng) nextLink not working as expected
+      // continuationState.continuationToken = currentPage.link;
       if (currentPage.names) {
+        continuationState.continuationToken = currentPage.names[currentPage.names.length - 1];
         yield currentPage.names;
+      } else {
+        continuationState.continuationToken = undefined;
       }
       while (continuationState.continuationToken) {
-        const currentPage = await this.client.containerRegistry.getRepositoriesNext(
-          continuationState.continuationToken,
-          {
-            n: continuationState.maxPageSize,
-            ...options
-          }
-        );
-        continuationState.continuationToken = currentPage.link;
+        // TODO: (jeremymeng) nextLink not working as expected
+        // const currentPage = await this.client.containerRegistry.getRepositoriesNext(
+        //   continuationState.continuationToken,
+        //   {
+        //     n: continuationState.maxPageSize,
+        //     ...options
+        //   }
+        // );
+        const currentPage = await this.client.containerRegistry.getRepositories({
+          last: continuationState.continuationToken,
+          n: continuationState.maxPageSize,
+          ...options
+        });
+        // TODO: (jeremymeng) nextLink not working as expected
+        // continuationState.continuationToken = currentPage.link;
         if (currentPage.names) {
+          continuationState.continuationToken = currentPage.names[currentPage.names.length - 1];
           yield currentPage.names;
+        } else {
+          continuationState.continuationToken = undefined;
         }
       }
     }

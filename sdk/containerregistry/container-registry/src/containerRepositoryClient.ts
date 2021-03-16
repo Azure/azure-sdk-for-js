@@ -67,6 +67,10 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
 export interface SetManifestPropertiesOptions extends OperationOptions {}
 
 /**
+ * Options for the `setPermissions` method of `ContainerRepositoryClient`.
+ */
+export interface SetPermissionsOptions extends OperationOptions {}
+/**
  * Options for the `setTagProperties` method of `ContainerRepositoryClient`.
  */
 export interface SetTagPropertiesOptions extends OperationOptions {}
@@ -330,6 +334,31 @@ export class ContainerRepositoryClient {
       span.end();
     }
   }
+
+  /**
+   * Sets permissions.
+   * @param options -
+   */
+  public async setPermissions(value: ContentProperties = {}, options: SetPermissionsOptions = {}) {
+    const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setPermissions", {
+      ...options,
+      value: value
+    });
+
+    try {
+      const result = await this.client.containerRegistry.updateRepositoryAttributes(
+        this.repository,
+        updatedOptions
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
   /**
    * Sets properties of a tag.
    * @param tag - name of the tag

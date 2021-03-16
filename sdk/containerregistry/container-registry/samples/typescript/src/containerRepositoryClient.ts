@@ -18,7 +18,8 @@ export async function main() {
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
   //await listTags(client);
   //await listArtifacts(client);
-  await getArtifactProperties(client);
+  await getProperties(client);
+  //await getArtifactProperties(client);
 }
 
 async function listTags(client: ContainerRepositoryClient) {
@@ -66,6 +67,24 @@ async function listArtifacts(client: ContainerRepositoryClient) {
       console.log(`    last updated on: ${artifact.lastUpdatedOn}`);
     }
     result = await pages.next();
+  }
+}
+
+async function getProperties(client: ContainerRepositoryClient) {
+  console.log("Retrieving repository properties...");
+  const properties = await client.getProperties();
+  console.log(`  name: ${properties.name}`);
+  console.log(`  registry: ${properties.registry}`);
+  console.log(`  created on: ${properties.createdOn}`);
+  console.log(`  last updated on: ${properties.lastUpdatedOn}`);
+  console.log(`  artifact count: ${properties.registryArtifactCount}`);
+  console.log(`  tag count: ${properties.tagCount}`);
+  const writableProps = properties.writeableProperties;
+  if (writableProps) {
+    console.log("  writable properties:");
+    console.log(
+      `      { canDelete: ${writableProps.canDelete}, canList: ${writableProps.canList}, canRead: ${writableProps.canRead}, canWrite: ${writableProps.canWrite}}`
+    );
   }
 }
 
