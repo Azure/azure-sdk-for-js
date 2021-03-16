@@ -1,9 +1,5 @@
 # Release History
 
-## 1.0.11-beta.1 (Unreleased)
-
-- Restructured the template package to use the Client SDK developer training materials.
-
 ## 1.0.10-beta.1 (2020-11-16)
 
 - Test Release Pipeline
@@ -24,9 +20,8 @@
 
 - Testing prerelease versioning changes
 
-## 1.0.8 (Unreleased)
-
 ## 1.0.7 (2020-04-01)
+
 
 ## 1.0.6 (2020-03-26)
 
