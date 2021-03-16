@@ -369,6 +369,22 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-2AyQ1IKmLGKW7DU3/x3TsTBzZLcbC9YRI+yuDPuXAQrv3zar340K9wsxU413kHFIDjkWNCo9T0w5VtwcyWxhbQ==
+  /@azure/ms-rest-js/2.2.3:
+    dependencies:
+      '@azure/core-auth': 1.2.0
+      '@types/node-fetch': 2.5.8
+      '@types/tunnel': 0.0.1
+      abort-controller: 3.0.0
+      form-data: 2.5.1
+      node-fetch: 2.6.1
+      tough-cookie: 3.0.1
+      tslib: 1.14.1
+      tunnel: 0.0.6
+      uuid: 3.4.0
+      xml2js: 0.4.23
+    dev: false
+    resolution:
+      integrity: sha512-sXOhOu/37Tr8428f32Jwuwga975Xw64pYg1UeUwOBMhkNgtn5vUuNRa3fhmem+I6f8EKoi6hOsYDFlaHeZ52jA==
   /@azure/ms-rest-nodeauth/0.9.3_debug@3.2.7:
     dependencies:
       '@azure/ms-rest-azure-env': 1.1.2
@@ -1371,6 +1387,14 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     resolution:
       integrity: sha512-6RoxWK05PAibukE7jElqAtNMq+RWZyqJ6Q/GdIxaiUj2Ept8jh8+FUVlbq9WxMYxkmEOPvCE5cRSyupMpwW31g==
+  /abort-controller/3.0.0:
+    dependencies:
+      event-target-shim: 5.0.1
+    dev: false
+    engines:
+      node: '>=6.5'
+    resolution:
+      integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
   /accepts/1.3.7:
     dependencies:
       mime-types: 2.1.29
@@ -1650,10 +1674,20 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-yL4BCitc0A3qlsgRFgNGk9/dgtE=
+  /async-limiter/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
   /async-lock/1.2.8:
     dev: false
     resolution:
       integrity: sha512-G+26B2jc0Gw0EG/WN2M6IczuGepBsfR1+DtqLnyFSH4p2C668qkOCtEkGNVEaaNAVlYwEMazy1+/jnLxltBkIQ==
+  /async/2.6.3:
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+    resolution:
+      integrity: sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
   /async/3.2.0:
     dev: false
     resolution:
@@ -1713,6 +1747,57 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  /azure-iot-amqp-base/2.4.7:
+    dependencies:
+      async: 2.6.3
+      azure-iot-common: 1.12.7
+      debug: 4.3.1
+      lodash.merge: 4.6.2
+      machina: 4.0.2
+      rhea: 1.0.24
+      uuid: 3.4.0
+      ws: 6.2.1
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-IDeoB33aHAcq71YAYsLQJNHp5f6CoFXU9nrwjNyL1bwZIbWGFtKJAr5qOEZFmdQTqeQmr2zZzeUrlTN6T7otkg==
+  /azure-iot-common/1.12.7:
+    dependencies:
+      debug: 4.3.1
+      getos: 3.2.1
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-YDskP5GkhQw1VDtcQFfWAVcclNCi8/iWUS784lgwgNOQpr8RKHW1fC9o8lVt56TXssq0rrYcl9v2mosSD8WPnw==
+  /azure-iot-http-base/1.11.7:
+    dependencies:
+      azure-iot-common: 1.12.7
+      debug: 4.3.1
+      uuid: 3.4.0
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-Xt2wLtiblGSag/zJe6vJVkgjlj+jo2C5exuaSGHuMtvkuD/MB74xyGDdgflXcOiTVzS1rXx02I02jgKHTW5BDA==
+  /azure-iothub/1.13.1:
+    dependencies:
+      '@azure/ms-rest-js': 2.2.3
+      async: 2.6.3
+      azure-iot-amqp-base: 2.4.7
+      azure-iot-common: 1.12.7
+      azure-iot-http-base: 1.11.7
+      debug: 4.3.1
+      lodash: 4.17.21
+      machina: 4.0.2
+      rhea: 1.0.24
+      tslib: 1.14.1
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-aJX3Hmym7+7stCJbaYH34eJh4rQ0j7/eO6hoZeG9sgYs86+4KKqjjhJlS8AoAUe3CpepfHqUee8xk3VScvHhsQ==
   /azure-storage/2.10.3:
     dependencies:
       browserify-mime: 1.2.9
@@ -2988,6 +3073,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+  /event-target-shim/5.0.1:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
   /eventemitter3/4.0.7:
     dev: false
     resolution:
@@ -3470,6 +3561,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-v7LT/s8kVjs+Tx0ykk1I+H/rbpzkHvuIq87LmeXptcf5sNWm9uQiwjNAt94SJPA1zOlCntmnOlJvVWKmzsxG8Q==
+  /getos/3.2.1:
+    dependencies:
+      async: 3.2.0
+    dev: false
+    resolution:
+      integrity: sha512-U56CfOK17OKgTVqozZjUKNdkfEv6jk5WISBJ8SHoagjE6L69zOwl3Z+O8myjY9MEW3i2HPWQBt/LTbCgcC973Q==
   /getpass/0.1.7:
     dependencies:
       assert-plus: 1.0.0
@@ -3890,6 +3987,12 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
+  /ip-regex/2.1.0:
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha1-+ni/XS5pE8kRzp+BnuUUa7bYROk=
   /ip/1.1.5:
     dev: false
     resolution:
@@ -4832,6 +4935,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==
+  /machina/4.0.2:
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+    engines:
+      node: '>=0.4.0'
+    resolution:
+      integrity: sha512-OOlFrW1rd783S6tF36v5Ie/TM64gfvSl9kYLWL2cPA31J71HHWW3XrgSe1BZSFAPkh8532CMJMLv/s9L2aopiA==
   /magic-string/0.25.7:
     dependencies:
       sourcemap-codec: 1.4.8
@@ -7025,6 +7136,16 @@ packages:
       node: '>=0.8'
     resolution:
       integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==
+  /tough-cookie/3.0.1:
+    dependencies:
+      ip-regex: 2.1.0
+      psl: 1.8.0
+      punycode: 2.1.1
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-yQyJ0u4pZsv9D4clxO69OEjLWYw+jbgspjTue4lTQZLfV0c5l1VmK2y1JK8E9ahdpltPOaAThPcp5nKPUgSnsg==
   /tough-cookie/4.0.0:
     dependencies:
       psl: 1.8.0
@@ -7472,6 +7593,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==
+  /ws/6.2.1:
+    dependencies:
+      async-limiter: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
   /ws/7.4.4:
     dev: false
     engines:
@@ -9755,6 +9882,7 @@ packages:
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
+      azure-iothub: 1.13.1
       chai: 4.3.3
       chai-as-promised: 7.1.1_chai@4.3.3
       cross-env: 7.0.3
@@ -9786,7 +9914,7 @@ packages:
     dev: false
     name: '@rush-temp/media-analytics-edge'
     resolution:
-      integrity: sha512-254QMJ/yMEpq/gdzaa0r8CrEy3TnZzd/W483Rni/LXkyb8LZWzg4klEg2UklPe0fMhDXpSPmCYFEJKXQ5PzHMw==
+      integrity: sha512-waWHomI9QISDLQSsU91yW+O/xBHJDrCkfU0ZG4vQluwBRYTjF81mYqzxI1K1JEDdntz4yVo2QzDSFBtlCJWvng==
       tarball: file:projects/media-analytics-edge.tgz
     version: 0.0.0
   file:projects/mixedreality-authentication.tgz:
