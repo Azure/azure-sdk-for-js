@@ -3,21 +3,21 @@
 
 /**
  * Demonstrates how to us the PhoneNumbersClient
- * to release phone numbers.
+ * to release a purchased phone number.
  */
 
-import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
 
-// You will need to set this environment variables or edit the following values
+// You will need to set this environment variable or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-export const main = async () => {
-  console.log("\n== Release Phone Numbers Typescript Sample ==\n");
+async function main() {
+  console.log("\n== Release Phone Numbers Javascript Sample ==\n");
 
   // create new client
   const client = new PhoneNumbersClient(connectionString);
@@ -30,7 +30,7 @@ export const main = async () => {
   // Release is underway.
   await releasePoller.pollUntilDone();
   console.log("Successfully release phone number.");
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while releasing phone numbers: ");

@@ -12,20 +12,20 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export interface BeginPurchasePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginReleasePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginReleasePhoneNumberOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginSearchAvailablePhoneNumbersOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOptions {
 }
 
 // @public
@@ -60,14 +60,6 @@ export interface PhoneNumberCost {
     amount: number;
     billingFrequency: "monthly";
     currencyCode: string;
-}
-
-// @public (undocumented)
-export interface PhoneNumberPollerOptionsBase {
-    // (undocumented)
-    pollInterval?: number;
-    // (undocumented)
-    resumeFrom?: string;
 }
 
 // @public

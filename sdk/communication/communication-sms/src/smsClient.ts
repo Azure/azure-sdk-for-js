@@ -159,7 +159,7 @@ export class SmsClient {
   }
 
   /**
-   * Sends a SMS from a phone number that is acquired by the authenticated account, to another phone number.
+   * Sends an SMS from a phone number that is acquired by the authenticated account, to another phone number.
    *
    * @param sendRequest - Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options - Additional request options

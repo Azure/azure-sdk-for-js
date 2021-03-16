@@ -162,7 +162,7 @@ async function main() {
     quantity: 1
   };
 
-  const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
+  const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
   // The search is underway. Wait to receive searchId.
   const { searchId, phoneNumbers } = searchPoller.pollUntilDone();
@@ -252,7 +252,7 @@ async main function() {
   const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
 
   console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
-  console.log(`Phone number type is ${phoneNumber.type}`);
+  console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 }
 
 main();
@@ -273,7 +273,7 @@ async main function() {
 
   for await (const phoneNumber of phoneNumbers) {
     console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
-    console.log(`Phone number type is ${phoneNumber.type}`);
+    console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
   }
 }
 
