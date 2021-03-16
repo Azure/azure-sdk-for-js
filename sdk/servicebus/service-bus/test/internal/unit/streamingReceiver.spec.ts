@@ -92,7 +92,7 @@ describe("StreamingReceiver unit tests", () => {
       // start of the receive call.
       assert.isTrue(
         streamingReceiver.isReceivingMessages,
-        "receive() sets the isReceivingMessages flag immediately to avoid race conditions"
+        "receive() is supposed to set the isReceivingMessages flag immediately to avoid race conditions"
       );
 
       streamingReceiver.subscribe(
@@ -107,22 +107,26 @@ describe("StreamingReceiver unit tests", () => {
       assert.equal(
         streamingReceiver["link"]!.credit,
         101,
-        "Credits are added when receive() is called"
+        "Credits are not added when receive() is called"
       );
 
       assert.isTrue(
         streamingReceiver.isReceivingMessages,
-        "receive() sets the isReceivingMessages flag immediately to avoid race conditions"
+        "receive() is supposed to set the isReceivingMessages flag immediately to avoid race conditions"
       );
 
       // now we'll stop the streaming receiver and then start it back up again.
       await streamingReceiver.stopReceivingMessages();
       assert.isFalse(
         streamingReceiver.isReceivingMessages,
-        "We've stopped receiving messages explicitly"
+        "We've stopped receiving messages explicitly, isReceivingMessages should have been false"
       );
 
-      assert.equal(streamingReceiver["link"]?.credit, 0, "All receiver credits have been drained"); // ie, receiver drained
+      assert.equal(
+        streamingReceiver["link"]?.credit,
+        0,
+        "All receiver credits should have been drained"
+      ); // ie, receiver drained
 
       await streamingReceiver.init({
         useNewName: false,
@@ -133,7 +137,7 @@ describe("StreamingReceiver unit tests", () => {
 
       assert.isTrue(
         streamingReceiver.isReceivingMessages,
-        "we've initialized the streaming receiver again so we're ready to receive again"
+        "we've initialized the streaming receiver again so isReceivingMessages should have been true"
       );
 
       streamingReceiver.subscribe(
@@ -148,7 +152,7 @@ describe("StreamingReceiver unit tests", () => {
       assert.equal(
         streamingReceiver["link"]?.credit,
         101,
-        "subscribe has started again, and is revitalized with 101 credits."
+        "subscribe has started again, and is supposed to be revitalized with 101 credits."
       );
     });
 
