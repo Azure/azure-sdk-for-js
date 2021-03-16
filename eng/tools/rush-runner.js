@@ -153,6 +153,7 @@ const spawnNode = (cwd, ...args) => {
     // should ever happen, but if it does it's safer to fail.
     process.exitCode = proc.status || 1;
   }
+  return proc.status
 };
 
 const flatMap = (arr, f) => {
@@ -194,7 +195,9 @@ if (serviceDirs.length === 0) {
       break;
     case "check-format":
       for (const packageDir of packageDirs) {
-        spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+        if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
+          console.log(`Invoke "rushx format" inside ${packageDir} to fix formatting`);
+        }
       }
       break;
 
