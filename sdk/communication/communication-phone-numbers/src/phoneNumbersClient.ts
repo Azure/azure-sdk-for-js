@@ -331,7 +331,7 @@ export class PhoneNumbersClient {
   public async beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
-    options: BeginUpdatePhoneNumberOptions = {}
+    options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
   ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
