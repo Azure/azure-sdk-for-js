@@ -5,8 +5,20 @@ export * from "./models";
 export { AppConfigurationClientOptions, AppConfigurationClient } from "./appConfigurationClient";
 
 export {
-  SecretReference, SecretReferenceParam, isSecretReference,
-  secretReferenceContentType } from "./keyvaultReference";
+  SecretReference,
+  SecretReferenceParam,
+  isSecretReference,
+  secretReferenceContentType
+} from "./keyvaultReference";
 
 export {
-  FeatureFlag, FeatureFlagParam, FeatureFlagPercentageClientFilter, FeatureFlagTargetingClientFilter, FeatureFlagTimeWindowClientFilter, featureFlagContentType, featureFlagPrefix, isFeatureFlag, isFeatureFlagPercentageClientFilter, isFeatureFlagTargetingClientFilter, isFeatureFlagTimeWindowClientFilter} from "./featureFlag";
+  FeatureFlag,
+  FeatureFlagParam,
+  FeatureFlagPercentageClientFilter,
+  FeatureFlagTargetingClientFilter,
+  FeatureFlagTimeWindowClientFilter,
+  featureFlagContentType,
+  featureFlagPrefix,
+  isFeatureFlag,
+  isFeatureFlagClientFilter
+} from "./featureFlag";

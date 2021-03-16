@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isJsonFeatureFlagPercentageClientFilter, isJsonFeatureFlagTargetingClientFilter, isJsonFeatureFlagTimeWindowClientFilter, JsonFeatureFlag } from "./internal/jsonModels";
+import {
+  isJsonFeatureFlagPercentageClientFilter,
+  isJsonFeatureFlagTargetingClientFilter,
+  isJsonFeatureFlagTimeWindowClientFilter,
+  JsonFeatureFlag
+} from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
 /**
@@ -16,7 +21,7 @@ export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+js
 
 export interface FeatureFlagParam extends ConfigurationSettingParam {
   // TODO: can we hoist 'clientFilters' higher and avoid this sub-field? Need to talk to team.
-  conditions: {     
+  conditions: {
     clientFilters: (
       | FeatureFlagTargetingClientFilter
       | FeatureFlagTimeWindowClientFilter
@@ -27,13 +32,14 @@ export interface FeatureFlagParam extends ConfigurationSettingParam {
   description?: string;
   displayName: string;
   enabled: boolean;
-};
+}
 
 export interface FeatureFlag extends FeatureFlagParam, ConfigurationSetting {}
 
 export interface FeatureFlagTargetingClientFilter {
   name: "Microsoft.Targeting";
-  parameters: {     // TODO: can we hoist these values up directly into the filter, rather than having this 'parameters' intermediary.
+  parameters: {
+    // TODO: can we hoist these values up directly into the filter, rather than having this 'parameters' intermediary.
     audience: {
       users: string[];
       groups: {
@@ -63,31 +69,52 @@ export interface FeatureFlagPercentageClientFilter {
   };
 }
 
-export function isFeatureFlag(
-  setting: ConfigurationSetting | FeatureFlag
-): setting is FeatureFlag {
+export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag {
   return setting.contentType === featureFlagContentType;
 }
 
-/**
- * @internal
- */
- export function isFeatureFlagTargetingClientFilter(clientFilter: any): clientFilter is FeatureFlagTargetingClientFilter {
+function isFeatureFlagTargetingClientFilter(
+  clientFilter: any
+): clientFilter is FeatureFlagTargetingClientFilter {
   return clientFilter.name === "Microsoft.Targeting";
 }
 
-/**
- * @internal
- */
-export function isFeatureFlagTimeWindowClientFilter(clientFilter: any): clientFilter is FeatureFlagTimeWindowClientFilter {
+function isFeatureFlagTimeWindowClientFilter(
+  clientFilter: any
+): clientFilter is FeatureFlagTimeWindowClientFilter {
   return clientFilter.name === "Microsoft.TimeWindow";
 }
 
-  /**
- * @internal
- */
-export function isFeatureFlagPercentageClientFilter(clientFilter: any): clientFilter is FeatureFlagPercentageClientFilter {
-    return clientFilter.name === "Microsoft.Percentage";
+function isFeatureFlagPercentageClientFilter(
+  clientFilter: any
+): clientFilter is FeatureFlagPercentageClientFilter {
+  return clientFilter.name === "Microsoft.Percentage";
+}
+
+export type FeatureFlagType<
+  T extends "targeting" | "timeWindow" | "percentage"
+> = T extends "targeting"
+  ? FeatureFlagTargetingClientFilter
+  : T extends "timeWindow"
+  ? FeatureFlagTimeWindowClientFilter
+  : T extends "percentage"
+  ? FeatureFlagPercentageClientFilter
+  : never;
+
+export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(
+  type: T,
+  obj: any
+): obj is FeatureFlagType<T> {
+  switch (type) {
+    case "targeting":
+      return isFeatureFlagTargetingClientFilter(obj);
+    case "timeWindow":
+      return isFeatureFlagTimeWindowClientFilter(obj);
+    case "percentage":
+      return isFeatureFlagPercentageClientFilter(obj);
+    default:
+      throw new Error(`Invalid feature flag filter type ${type}`);
+  }
 }
 
 export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFlag | undefined {
@@ -95,7 +122,7 @@ export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFl
     return undefined;
   }
 
-  let jsonFeatureFlag: JsonFeatureFlag
+  let jsonFeatureFlag: JsonFeatureFlag;
 
   try {
     jsonFeatureFlag = JSON.parse(setting.value) as JsonFeatureFlag;
@@ -115,13 +142,15 @@ export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFl
 }
 
 export function serializeFeatureFlag(_setting: FeatureFlag): ConfigurationSetting {
-  throw new Error("Not implemented")
+  throw new Error("Not implemented");
 }
 
 /**
  * @internal
  */
-export function convertJsonConditions(conditions: JsonFeatureFlag['conditions']): FeatureFlag['conditions'] {
+export function convertJsonConditions(
+  conditions: JsonFeatureFlag["conditions"]
+): FeatureFlag["conditions"] {
   const clientFilters = conditions.client_filters.map((jsonFilter) => {
     if (isJsonFeatureFlagTargetingClientFilter(jsonFilter)) {
       // try not to slice any unknown attributes
@@ -129,11 +158,12 @@ export function convertJsonConditions(conditions: JsonFeatureFlag['conditions'])
         name: jsonFilter.name,
         parameters: {
           audience: {
-            groups: jsonFilter.parameters.Audience?.Groups.map((grp) => ({
-              name: grp.Name,
-              rolloutPercentage: grp.RolloutPercentage
-            })) || [],
-            users: jsonFilter.parameters.Audience?.Users || [],
+            groups:
+              jsonFilter.parameters.Audience?.Groups.map((grp) => ({
+                name: grp.Name,
+                rolloutPercentage: grp.RolloutPercentage
+              })) || [],
+            users: jsonFilter.parameters.Audience?.Users || []
           },
           defaultRolloutPercentage: jsonFilter.parameters.DefaultRolloutPercentage
         }

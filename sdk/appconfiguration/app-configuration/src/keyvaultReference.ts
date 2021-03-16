@@ -11,8 +11,7 @@ export interface SecretReferenceParam extends ConfigurationSettingParam {
   secretId: string;
 }
 
-export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {
-}
+export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {}
 
 export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference {
   return setting.contentType === secretReferenceContentType;
@@ -21,7 +20,9 @@ export function isSecretReference(setting: ConfigurationSetting): setting is Sec
 /**
  * @internal
  */
-export function deserializeSecretReference(setting: ConfigurationSetting): SecretReference | undefined {
+export function deserializeSecretReference(
+  setting: ConfigurationSetting
+): SecretReference | undefined {
   if (!setting.value) {
     return undefined;
   }

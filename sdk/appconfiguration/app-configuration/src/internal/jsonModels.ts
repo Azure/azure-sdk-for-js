@@ -64,22 +64,28 @@ export interface JsonFeatureFlagPercentageClientFilter {
 /**
  * @internal
  */
-export function isJsonFeatureFlagTargetingClientFilter(clientFilter: any): clientFilter is JsonFeatureFlagTargetingClientFilter {
+export function isJsonFeatureFlagTargetingClientFilter(
+  clientFilter: any
+): clientFilter is JsonFeatureFlagTargetingClientFilter {
   return clientFilter.name === "Microsoft.Targeting";
 }
 
 /**
  * @internal
  */
-export function isJsonFeatureFlagTimeWindowClientFilter(clientFilter: any): clientFilter is JsonFeatureFlagTimeWindowClientFilter {
+export function isJsonFeatureFlagTimeWindowClientFilter(
+  clientFilter: any
+): clientFilter is JsonFeatureFlagTimeWindowClientFilter {
   return clientFilter.name === "Microsoft.TimeWindow";
 }
 
-  /**
+/**
  * @internal
  */
-export function isJsonFeatureFlagPercentageClientFilter(clientFilter: any): clientFilter is JsonFeatureFlagPercentageClientFilter {
-    return clientFilter.name === "Microsoft.Percentage";
+export function isJsonFeatureFlagPercentageClientFilter(
+  clientFilter: any
+): clientFilter is JsonFeatureFlagPercentageClientFilter {
+  return clientFilter.name === "Microsoft.Percentage";
 }
 
 // keyvault reference

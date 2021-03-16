@@ -10,7 +10,7 @@ import {
   HttpResponseField,
   HttpResponseFields,
   HttpOnlyIfChangedField,
-  HttpOnlyIfUnchangedField,
+  HttpOnlyIfUnchangedField
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import { deserializeFeatureFlag, featureFlagContentType } from "../featureFlag";

@@ -259,7 +259,7 @@ describe("helper methods", () => {
       lastModified: new Date(),
       isReadOnly: true,
       tags: {},
-      value: "",
+      value: ""
     };
 
     return Object.keys(configObjectWithAllFieldsRequired).sort() as (keyof ConfigurationSetting)[];
