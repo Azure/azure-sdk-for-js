@@ -33,6 +33,10 @@
       "path": "sdk/communication/communication-sms"
     },
     {
+      "name": "container-registry",
+      "path": "sdk/containerregistry/container-registry"
+    },
+    {
       "name": "core-amqp",
       "path": "sdk/core/core-amqp"
     },

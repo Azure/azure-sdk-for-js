@@ -11,24 +11,24 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
 import {
-  BlobGetResponse,
-  BlobCheckResponse,
-  BlobDeleteResponse,
-  BlobMountResponse,
-  BlobGetStatusResponse,
-  BlobUploadResponse,
-  BlobEndUploadResponse,
-  BlobStartUploadResponse,
-  BlobGetChunkResponse,
-  BlobCheckChunkResponse
+  ContainerRegistryBlobGetBlobResponse,
+  ContainerRegistryBlobCheckBlobExistsResponse,
+  ContainerRegistryBlobDeleteBlobResponse,
+  ContainerRegistryBlobMountBlobResponse,
+  ContainerRegistryBlobGetUploadStatusResponse,
+  ContainerRegistryBlobUploadChunkResponse,
+  ContainerRegistryBlobCompleteUploadResponse,
+  ContainerRegistryBlobStartUploadResponse,
+  ContainerRegistryBlobGetChunkResponse,
+  ContainerRegistryBlobCheckChunkExistsResponse
 } from "../models";
 
-/** Class representing a Blob. */
-export class Blob {
+/** Class representing a ContainerRegistryBlob. */
+export class ContainerRegistryBlob {
   private readonly client: GeneratedClient;
 
   /**
-   * Initialize a new instance of the class Blob class.
+   * Initialize a new instance of the class ContainerRegistryBlob class.
    * @param client Reference to the service client
    */
   constructor(client: GeneratedClient) {
@@ -41,11 +41,11 @@ export class Blob {
    * @param digest Digest of a BLOB
    * @param options The options parameters.
    */
-  get(
+  getBlob(
     name: string,
     digest: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobGetResponse> {
+  ): Promise<ContainerRegistryBlobGetBlobResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       digest,
@@ -53,8 +53,8 @@ export class Blob {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getOperationSpec
-    ) as Promise<BlobGetResponse>;
+      getBlobOperationSpec
+    ) as Promise<ContainerRegistryBlobGetBlobResponse>;
   }
 
   /**
@@ -63,11 +63,11 @@ export class Blob {
    * @param digest Digest of a BLOB
    * @param options The options parameters.
    */
-  check(
+  checkBlobExists(
     name: string,
     digest: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobCheckResponse> {
+  ): Promise<ContainerRegistryBlobCheckBlobExistsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       digest,
@@ -75,8 +75,8 @@ export class Blob {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      checkOperationSpec
-    ) as Promise<BlobCheckResponse>;
+      checkBlobExistsOperationSpec
+    ) as Promise<ContainerRegistryBlobCheckBlobExistsResponse>;
   }
 
   /**
@@ -85,11 +85,11 @@ export class Blob {
    * @param digest Digest of a BLOB
    * @param options The options parameters.
    */
-  delete(
+  deleteBlob(
     name: string,
     digest: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobDeleteResponse> {
+  ): Promise<ContainerRegistryBlobDeleteBlobResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       digest,
@@ -97,8 +97,8 @@ export class Blob {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      deleteOperationSpec
-    ) as Promise<BlobDeleteResponse>;
+      deleteBlobOperationSpec
+    ) as Promise<ContainerRegistryBlobDeleteBlobResponse>;
   }
 
   /**
@@ -108,12 +108,12 @@ export class Blob {
    * @param fromParam Name of the source repository.
    * @param options The options parameters.
    */
-  mount(
+  mountBlob(
     name: string,
     mount: string,
     fromParam: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobMountResponse> {
+  ): Promise<ContainerRegistryBlobMountBlobResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       mount,
@@ -122,8 +122,8 @@ export class Blob {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      mountOperationSpec
-    ) as Promise<BlobMountResponse>;
+      mountBlobOperationSpec
+    ) as Promise<ContainerRegistryBlobMountBlobResponse>;
   }
 
   /**
@@ -133,18 +133,18 @@ export class Blob {
    *                 (must do substring(1) )
    * @param options The options parameters.
    */
-  getStatus(
+  getUploadStatus(
     location: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobGetStatusResponse> {
+  ): Promise<ContainerRegistryBlobGetUploadStatusResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       location,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getStatusOperationSpec
-    ) as Promise<BlobGetStatusResponse>;
+      getUploadStatusOperationSpec
+    ) as Promise<ContainerRegistryBlobGetUploadStatusResponse>;
   }
 
   /**
@@ -154,11 +154,11 @@ export class Blob {
    * @param value Raw data of blob
    * @param options The options parameters.
    */
-  upload(
+  uploadChunk(
     location: string,
     value: coreHttp.HttpRequestBody,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobUploadResponse> {
+  ): Promise<ContainerRegistryBlobUploadChunkResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       location,
       value,
@@ -166,8 +166,8 @@ export class Blob {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      uploadOperationSpec
-    ) as Promise<BlobUploadResponse>;
+      uploadChunkOperationSpec
+    ) as Promise<ContainerRegistryBlobUploadChunkResponse>;
   }
 
   /**
@@ -179,12 +179,12 @@ export class Blob {
    * @param value Optional raw data of blob
    * @param options The options parameters.
    */
-  endUpload(
+  completeUpload(
     digest: string,
     location: string,
     value: coreHttp.HttpRequestBody,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobEndUploadResponse> {
+  ): Promise<ContainerRegistryBlobCompleteUploadResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       digest,
       location,
@@ -193,8 +193,8 @@ export class Blob {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      endUploadOperationSpec
-    ) as Promise<BlobEndUploadResponse>;
+      completeUploadOperationSpec
+    ) as Promise<ContainerRegistryBlobCompleteUploadResponse>;
   }
 
   /**
@@ -226,7 +226,7 @@ export class Blob {
   startUpload(
     name: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobStartUploadResponse> {
+  ): Promise<ContainerRegistryBlobStartUploadResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -234,7 +234,7 @@ export class Blob {
     return this.client.sendOperationRequest(
       operationArguments,
       startUploadOperationSpec
-    ) as Promise<BlobStartUploadResponse>;
+    ) as Promise<ContainerRegistryBlobStartUploadResponse>;
   }
 
   /**
@@ -251,7 +251,7 @@ export class Blob {
     digest: string,
     range: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobGetChunkResponse> {
+  ): Promise<ContainerRegistryBlobGetChunkResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       digest,
@@ -261,7 +261,7 @@ export class Blob {
     return this.client.sendOperationRequest(
       operationArguments,
       getChunkOperationSpec
-    ) as Promise<BlobGetChunkResponse>;
+    ) as Promise<ContainerRegistryBlobGetChunkResponse>;
   }
 
   /**
@@ -271,12 +271,12 @@ export class Blob {
    * @param range Format : bytes=<start>-<end>,  HTTP Range header specifying blob chunk.
    * @param options The options parameters.
    */
-  checkChunk(
+  checkChunkExists(
     name: string,
     digest: string,
     range: string,
     options?: coreHttp.OperationOptions
-  ): Promise<BlobCheckChunkResponse> {
+  ): Promise<ContainerRegistryBlobCheckChunkExistsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       digest,
@@ -285,14 +285,14 @@ export class Blob {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      checkChunkOperationSpec
-    ) as Promise<BlobCheckChunkResponse>;
+      checkChunkExistsOperationSpec
+    ) as Promise<ContainerRegistryBlobCheckChunkExistsResponse>;
   }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreHttp.OperationSpec = {
+const getBlobOperationSpec: coreHttp.OperationSpec = {
   path: "/v2/{name}/blobs/{digest}",
   httpMethod: "GET",
   responses: {
@@ -301,36 +301,36 @@ const getOperationSpec: coreHttp.OperationSpec = {
         type: { name: "Stream" },
         serializedName: "parsedResponse"
       },
-      headersMapper: Mappers.BlobGetHeaders
+      headersMapper: Mappers.ContainerRegistryBlobGetBlobHeaders
     },
     307: {
-      headersMapper: Mappers.BlobGetHeaders
+      headersMapper: Mappers.ContainerRegistryBlobGetBlobHeaders
     },
     default: {}
   },
-  urlParameters: [Parameters.url, Parameters.name, Parameters.digest],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept2],
   serializer
 };
-const checkOperationSpec: coreHttp.OperationSpec = {
+const checkBlobExistsOperationSpec: coreHttp.OperationSpec = {
   path: "/v2/{name}/blobs/{digest}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.BlobCheckHeaders
+      headersMapper: Mappers.ContainerRegistryBlobCheckBlobExistsHeaders
     },
     307: {
-      headersMapper: Mappers.BlobCheckHeaders
+      headersMapper: Mappers.ContainerRegistryBlobCheckBlobExistsHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  urlParameters: [Parameters.url, Parameters.name, Parameters.digest],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteBlobOperationSpec: coreHttp.OperationSpec = {
   path: "/v2/{name}/blobs/{digest}",
   httpMethod: "DELETE",
   responses: {
@@ -339,20 +339,20 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
         type: { name: "Stream" },
         serializedName: "parsedResponse"
       },
-      headersMapper: Mappers.BlobDeleteHeaders
+      headersMapper: Mappers.ContainerRegistryBlobDeleteBlobHeaders
     },
     default: {}
   },
-  urlParameters: [Parameters.url, Parameters.name, Parameters.digest],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept2],
   serializer
 };
-const mountOperationSpec: coreHttp.OperationSpec = {
+const mountBlobOperationSpec: coreHttp.OperationSpec = {
   path: "/v2/{name}/blobs/uploads/",
   httpMethod: "POST",
   responses: {
     201: {
-      headersMapper: Mappers.BlobMountHeaders
+      headersMapper: Mappers.ContainerRegistryBlobMountBlobHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -363,12 +363,12 @@ const mountOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getStatusOperationSpec: coreHttp.OperationSpec = {
+const getUploadStatusOperationSpec: coreHttp.OperationSpec = {
   path: "/{nextBlobUuidLink}",
   httpMethod: "GET",
   responses: {
     204: {
-      headersMapper: Mappers.BlobGetStatusHeaders
+      headersMapper: Mappers.ContainerRegistryBlobGetUploadStatusHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -378,12 +378,12 @@ const getStatusOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const uploadOperationSpec: coreHttp.OperationSpec = {
+const uploadChunkOperationSpec: coreHttp.OperationSpec = {
   path: "/{nextBlobUuidLink}",
   httpMethod: "PATCH",
   responses: {
     202: {
-      headersMapper: Mappers.BlobUploadHeaders
+      headersMapper: Mappers.ContainerRegistryBlobUploadChunkHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -395,19 +395,19 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
   mediaType: "binary",
   serializer
 };
-const endUploadOperationSpec: coreHttp.OperationSpec = {
+const completeUploadOperationSpec: coreHttp.OperationSpec = {
   path: "/{nextBlobUuidLink}",
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.BlobEndUploadHeaders
+      headersMapper: Mappers.ContainerRegistryBlobCompleteUploadHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
   },
   requestBody: Parameters.value1,
-  queryParameters: [Parameters.digest1],
+  queryParameters: [Parameters.digest2],
   urlParameters: [Parameters.url, Parameters.location],
   headerParameters: [Parameters.contentType2, Parameters.accept3],
   mediaType: "binary",
@@ -431,7 +431,7 @@ const startUploadOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.BlobStartUploadHeaders
+      headersMapper: Mappers.ContainerRegistryBlobStartUploadHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -450,26 +450,26 @@ const getChunkOperationSpec: coreHttp.OperationSpec = {
         type: { name: "Stream" },
         serializedName: "parsedResponse"
       },
-      headersMapper: Mappers.BlobGetChunkHeaders
+      headersMapper: Mappers.ContainerRegistryBlobGetChunkHeaders
     },
     default: {}
   },
-  urlParameters: [Parameters.url, Parameters.name, Parameters.digest],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept2, Parameters.range],
   serializer
 };
-const checkChunkOperationSpec: coreHttp.OperationSpec = {
+const checkChunkExistsOperationSpec: coreHttp.OperationSpec = {
   path: "/v2/{name}/blobs/{digest}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.BlobCheckChunkHeaders
+      headersMapper: Mappers.ContainerRegistryBlobCheckChunkExistsHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  urlParameters: [Parameters.url, Parameters.name, Parameters.digest],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept, Parameters.range],
   serializer
 };
