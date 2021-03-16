@@ -1,7 +1,17 @@
 # Release History
 
-## 3.0.0-beta.4 (Unreleased)
+## 4.0.0 (2021-03-16)
 
+- Update version to 4.0.0 to align with other EventGrid SDKs
+
+### Breaking Changes
+
+- `EventGridConsumer` no longer applies any conversions to the `data` property of system events. The interfaces that describe the data payload of each
+  system event has been updated to reflect this. The most visible impact of this change is that some properties of events are no longer converted into JavaScript
+  `Date` objects, and instead are kepts as strings which contain ISO 8601 timestamps.
+- Related to the above, `EventGridConsumer` no longer accepts a set of custom converters that can be used to further transform the `data` property of a specific
+  event type when deserializing events.
+- The interfaces which describe the shape of the `data` member of system events have been updated so that properties always included in the event are not typed as optional.
 
 ## 3.0.0-beta.3 (2020-10-06)
 

@@ -7,7 +7,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/eventgrid": "^3.0.0-beta.4",
+    "@azure/eventgrid": "^4.0.0",
     "@azure/test-utils-perfstress": "^1.0.0",
     "dotenv": "^8.2.0"
   },
