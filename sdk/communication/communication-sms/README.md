@@ -135,10 +135,8 @@ try {
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples)
-directory for detailed examples on how to use this library.
-For a basic guide on how to configure Delivery Reporting for your SMS messages please refer to the [Handle SMS Events quickstart][handlesmsevents].
+- Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples) directory for detailed examples on how to use this library.
+- For a basic guide on how to configure Delivery Reporting for your SMS messages please refer to the [Handle SMS Events quickstart][handlesmsevents].
 
 ## Contributing
 

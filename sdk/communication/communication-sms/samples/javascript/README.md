@@ -51,8 +51,8 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node sendMes
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-For a basic guide on how to configure Delivery Reporting for your SMS messages please refer to the [Handle SMS Events quickstart][handlesmsevents].
+- Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+- For a basic guide on how to configure Delivery Reporting for your SMS messages please refer to the [Handle SMS Events quickstart][handlesmsevents].
 
 [sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/javascript/sendSms.js
 [sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/javascript/sendSmsWithOptions.js
