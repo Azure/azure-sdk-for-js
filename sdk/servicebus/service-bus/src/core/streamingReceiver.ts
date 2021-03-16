@@ -28,11 +28,7 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
-import {
-  numberOfEmptyIncomingSlots,
-  ProcessMessageCreditManager,
-  ReceiverHandlers
-} from "./shared";
+import { ProcessMessageCreditManager, ReceiverHandlers } from "./shared";
 
 /**
  * @internal
@@ -98,6 +94,11 @@ export class StreamingReceiver extends MessageReceiver {
    * underlying rhea receiver for the "receiver_error" event.
    */
   private _onAmqpError: OnAmqpEvent;
+
+  /**
+   * Provides helper methods to allow adding credits during initialization, on receiving a message, and after processing a message.
+   */
+  private _creditManager: ProcessMessageCreditManager;
 
   /**
    * The message handler that will be set as the handler on the
@@ -208,6 +209,14 @@ export class StreamingReceiver extends MessageReceiver {
       }
     };
 
+    this._creditManager = new ProcessMessageCreditManager(
+      this.link,
+      this._receiverHelper,
+      this.receiveMode,
+      this.entityPath,
+      this._context.config.host
+    );
+
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
@@ -238,13 +247,6 @@ export class StreamingReceiver extends MessageReceiver {
         }
       });
 
-      const creditManager = new ProcessMessageCreditManager(
-        this.link,
-        this._receiverHelper,
-        this.receiveMode,
-        this.entityPath,
-        this._context.config.host
-      );
       try {
         await this._onMessage(bMessage);
       } catch (err) {
@@ -305,7 +307,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
         return;
       } finally {
-        creditManager.onReceive(this._onError);
+        this._creditManager.onReceive(this._onError);
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -341,7 +343,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
       }
 
-      await creditManager.postProcessing();
+      await this._creditManager.postProcessing();
     };
   }
 
@@ -454,13 +456,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     this._onMessage = onMessage;
     this._onError = onError;
-
-    const emptySlots = numberOfEmptyIncomingSlots(this.link);
-    this._receiverHelper.addCredit(
-      this.receiveMode === "peekLock"
-        ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
-        : this.maxConcurrentCalls
-    );
+    this._creditManager.addCreditsInit(this.maxConcurrentCalls);
   }
 
   /**
@@ -521,15 +517,11 @@ export class StreamingReceiver extends MessageReceiver {
         connectionId: this._context.connectionId,
         onError: (args) => this._onError && this._onError(args)
       });
-      const emptySlots = numberOfEmptyIncomingSlots(this.link);
-      const creditsToAdd =
-        this.receiveMode === "peekLock"
-          ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
-          : this.maxConcurrentCalls;
-      this._receiverHelper.addCredit(creditsToAdd);
+
       logger.verbose(
-        `${this.logPrefix} onDetached: link has been reestablished, added ${creditsToAdd} credits.`
+        `${this.logPrefix} onDetached: link has been reestablished, attempting to add credits.`
       );
+      this._creditManager.addCreditsInit(this.maxConcurrentCalls);
     } finally {
       this._isDetaching = false;
     }

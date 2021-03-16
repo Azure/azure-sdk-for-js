@@ -27,7 +27,6 @@ import {
   onMessageSettled,
   DeferredPromiseAndTimer,
   createReceiverOptions,
-  numberOfEmptyIncomingSlots,
   ProcessMessageCreditManager
 } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
@@ -608,6 +607,13 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._onError = onError;
 
     if (this.link && this.link.isOpen()) {
+      const creditManager = new ProcessMessageCreditManager(
+        this.link,
+        this._receiverHelper,
+        this.receiveMode,
+        this.entityPath,
+        this._context.config.host
+      );
       const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
@@ -626,13 +632,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           true,
           this.receiveMode
         );
-        const creditManager = new ProcessMessageCreditManager(
-          this.link,
-          this._receiverHelper,
-          this.receiveMode,
-          this.entityPath,
-          this._context.config.host
-        );
+
         try {
           await this._onMessage(bMessage);
         } catch (err) {
@@ -723,13 +723,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      // TODO: Move to the creditManager helper method
-      const emptySlots = numberOfEmptyIncomingSlots(this.link);
-      const creditsToAdd =
-        this.receiveMode === "peekLock"
-          ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
-          : this.maxConcurrentCalls;
-      this._receiverHelper.addCredit(creditsToAdd);
+      creditManager.addCreditsInit(this.maxConcurrentCalls);
     } else {
       this._isReceivingMessagesForSubscriber = false;
       const msg =

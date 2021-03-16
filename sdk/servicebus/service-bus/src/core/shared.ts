@@ -140,6 +140,15 @@ export class ProcessMessageCreditManager {
     private fullyQualifiedNamespace: string
   ) {}
 
+  addCreditsInit(maxConcurrentCalls: number) {
+    const emptySlots = numberOfEmptyIncomingSlots(this.link);
+    this.receiverHelper.addCredit(
+      this.receiveMode === "peekLock"
+        ? Math.min(maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
+        : maxConcurrentCalls
+    );
+    // TODO: Add log message
+  }
   /**
    * Upon receiving a new message, this method can be called to add a credit to receive one more message.
    * If no empty slots, calls the onError callback with the `UnsettledMessagesLimitExceeded` error to
