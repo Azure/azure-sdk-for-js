@@ -28,7 +28,7 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
-import { ProcessMessageCreditManager, ReceiverHandlers } from "./shared";
+import { StreamingReceiverCreditManager, ReceiverHandlers } from "./shared";
 
 /**
  * @internal
@@ -98,7 +98,7 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Provides helper methods to allow adding credits during initialization, on receiving a message, and after processing a message.
    */
-  private _creditManager: ProcessMessageCreditManager;
+  private _creditManager: StreamingReceiverCreditManager;
 
   /**
    * The message handler that will be set as the handler on the
@@ -137,7 +137,7 @@ export class StreamingReceiver extends MessageReceiver {
       logPrefix: this.logPrefix
     }));
 
-    this._creditManager = new ProcessMessageCreditManager(
+    this._creditManager = new StreamingReceiverCreditManager(
       () => ({
         receiver: this.link,
         logPrefix: this.logPrefix

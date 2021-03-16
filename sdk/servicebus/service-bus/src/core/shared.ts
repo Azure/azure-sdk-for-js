@@ -131,7 +131,7 @@ export function numberOfEmptyIncomingSlots(
  *
  * @internal
  */
-export class ProcessMessageCreditManager {
+export class StreamingReceiverCreditManager {
   // TODO: Maybe call it `StreamingReceiverCreditManager` instead
   constructor(
     private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
@@ -192,7 +192,7 @@ export class ProcessMessageCreditManager {
       // Wait for the user to clear the deliveries before adding more credits
       while (receiver?.isOpen() && numberOfEmptyIncomingSlots(receiver) <= 1) {
         // TODO: check for canReceiveMessages too to exit from the loop
-        await delay(1000);
+        await delay(1000); // TODO: Not have hard-coded 1000ms as delay - move it to constants maybe
       }
       // TODO: Instead of adding one credit, make it maxConcurrentCalls
       // Example:

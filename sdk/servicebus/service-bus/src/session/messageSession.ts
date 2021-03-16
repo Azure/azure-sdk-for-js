@@ -27,7 +27,7 @@ import {
   onMessageSettled,
   DeferredPromiseAndTimer,
   createReceiverOptions,
-  ProcessMessageCreditManager
+  StreamingReceiverCreditManager
 } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
@@ -607,7 +607,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._onError = onError;
 
     if (this.link && this.link.isOpen()) {
-      const creditManager = new ProcessMessageCreditManager(
+      const creditManager = new StreamingReceiverCreditManager(
         () => ({
           receiver: this.link,
           logPrefix: this.logPrefix
