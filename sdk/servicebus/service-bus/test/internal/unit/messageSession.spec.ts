@@ -13,10 +13,10 @@ import sinon from "sinon";
 import { EventEmitter } from "events";
 import {
   ReceiverEvents,
-  Receiver as RheaReceiver,
   EventContext,
   Message as RheaMessage,
-  SessionEvents
+  SessionEvents,
+  Receiver
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
@@ -277,7 +277,7 @@ describe("Message session unit tests", () => {
 
       const remainingRegisteredListeners = new Set<string>();
 
-      const fakeRheaReceiver = {
+      const fakeRheaReceiver = ({
         on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
           emitter.on(evt, handler);
 
@@ -308,6 +308,15 @@ describe("Message session unit tests", () => {
           removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
             remainingRegisteredListeners.delete(evt.toString());
             emitter.removeListener(evt, handler);
+          },
+          incoming: {
+            deliveries: {
+              capacity: 2048,
+              size: 0,
+              head: 0,
+              tail: 0,
+              entries: []
+            }
           }
         },
         isOpen: () => true,
@@ -326,7 +335,7 @@ describe("Message session unit tests", () => {
         connection: {
           id: "connection-id"
         }
-      } as RheaReceiver;
+      } as unknown) as Receiver;
 
       batchingReceiver["_link"] = fakeRheaReceiver;
 
