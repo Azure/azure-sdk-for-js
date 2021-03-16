@@ -608,7 +608,10 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     if (this.link && this.link.isOpen()) {
       const creditManager = new ProcessMessageCreditManager(
-        this.link,
+        () => ({
+          receiver: this.link,
+          logPrefix: this.logPrefix
+        }),
         this._receiverHelper,
         this.receiveMode,
         this.entityPath,

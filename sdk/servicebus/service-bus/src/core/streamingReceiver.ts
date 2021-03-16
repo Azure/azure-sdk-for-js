@@ -137,6 +137,17 @@ export class StreamingReceiver extends MessageReceiver {
       logPrefix: this.logPrefix
     }));
 
+    this._creditManager = new ProcessMessageCreditManager(
+      () => ({
+        receiver: this.link,
+        logPrefix: this.logPrefix
+      }),
+      this._receiverHelper,
+      this.receiveMode,
+      this.entityPath,
+      this._context.config.host
+    );
+
     this._onAmqpClose = async (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this.link || context.receiver!;
@@ -208,14 +219,6 @@ export class StreamingReceiver extends MessageReceiver {
         );
       }
     };
-
-    this._creditManager = new ProcessMessageCreditManager(
-      this.link,
-      this._receiverHelper,
-      this.receiveMode,
-      this.entityPath,
-      this._context.config.host
-    );
 
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we

@@ -132,8 +132,9 @@ export function numberOfEmptyIncomingSlots(
  * @internal
  */
 export class ProcessMessageCreditManager {
+  // TODO: Maybe call it `StreamingReceiverCreditManager` instead
   constructor(
-    private link: Receiver | undefined,
+    private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
     private receiverHelper: ReceiverHelper,
     private receiveMode: ReceiveMode,
     private entityPath: string,
@@ -141,7 +142,7 @@ export class ProcessMessageCreditManager {
   ) {}
 
   addCreditsInit(maxConcurrentCalls: number) {
-    const emptySlots = numberOfEmptyIncomingSlots(this.link);
+    const emptySlots = numberOfEmptyIncomingSlots(this._getCurrentReceiver().receiver);
     this.receiverHelper.addCredit(
       this.receiveMode === "peekLock"
         ? Math.min(maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
@@ -157,9 +158,10 @@ export class ProcessMessageCreditManager {
    * @internal
    */
   onReceive(notifyError: OnError | undefined) {
-    if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(this.link) > 1) {
+    const receiver = this._getCurrentReceiver().receiver;
+    if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(receiver) > 1) {
       this.receiverHelper.addCredit(1);
-    } else if (this.link) {
+    } else if (receiver) {
       notifyError?.({
         error: new ServiceBusError(
           UnsettledMessagesLimitExceededError,
@@ -185,9 +187,10 @@ export class ProcessMessageCreditManager {
    * @internal
    */
   async postProcessing() {
-    if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(this.link) <= 1) {
+    const receiver = this._getCurrentReceiver().receiver;
+    if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(receiver) <= 1) {
       // Wait for the user to clear the deliveries before adding more credits
-      while (this.link?.isOpen() && numberOfEmptyIncomingSlots(this.link) <= 1) {
+      while (receiver?.isOpen() && numberOfEmptyIncomingSlots(receiver) <= 1) {
         // TODO: check for canReceiveMessages too to exit from the loop
         await delay(1000);
       }
