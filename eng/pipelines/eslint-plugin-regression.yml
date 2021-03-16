@@ -1,0 +1,23 @@
+pr:
+  branches:
+    include:
+      - '*'
+  paths:
+    include:
+      - common/tools/eslint-plugin-azure-sdk
+
+jobs:
+  - job: 'RunESLint'
+    displayName: 'Run ESLint for all packages'
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+
+    pool:
+      vmImage: 'Ubuntu 18.04'
+
+    steps:
+      - template: /eng/pipelines/templates/steps/common.yml
+
+      # Run lint step for all SDK
+      - template: /eng/pipelines/templates/steps/run-eslint.yml
