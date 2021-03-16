@@ -1,8 +1,15 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
+  TestPipeline: false
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
+
   - task: PublishPipelineArtifact@1
     condition: succeededOrFailed()
     displayName: "Publish Report Artifacts"
