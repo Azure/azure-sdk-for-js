@@ -233,6 +233,10 @@ To maintain the quality of the documentation, the following two facilities are p
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
 
+### Formatting changed files
+
+We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rush prettier`.
+
 ## Onboarding a new library
 
 All libraries must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/policies/repostructure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's `package.json` must contain the required scripts as documented [above](#other-npm-scripts).
