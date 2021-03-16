@@ -176,20 +176,10 @@ export interface HttpResponseFields {
 // @public (undocumented)
 export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag;
 
-// Warning: (ae-internal-missing-underscore) The name "isFeatureFlagPercentageClientFilter" should be prefixed with an underscore because the declaration is marked as @internal
+// Warning: (ae-forgotten-export) The symbol "FeatureFlagType" needs to be exported by the entry point index.d.ts
 //
-// @internal (undocumented)
-export function isFeatureFlagPercentageClientFilter(clientFilter: any): clientFilter is FeatureFlagPercentageClientFilter;
-
-// Warning: (ae-internal-missing-underscore) The name "isFeatureFlagTargetingClientFilter" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export function isFeatureFlagTargetingClientFilter(clientFilter: any): clientFilter is FeatureFlagTargetingClientFilter;
-
-// Warning: (ae-internal-missing-underscore) The name "isFeatureFlagTimeWindowClientFilter" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export function isFeatureFlagTimeWindowClientFilter(clientFilter: any): clientFilter is FeatureFlagTimeWindowClientFilter;
+// @public (undocumented)
+export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(type: T, obj: any): obj is FeatureFlagType<T>;
 
 // @public (undocumented)
 export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;
