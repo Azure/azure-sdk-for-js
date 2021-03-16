@@ -43,7 +43,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 }
 
 export {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,

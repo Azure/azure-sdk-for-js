@@ -13,18 +13,6 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AcquiredPhoneNumber {
-    assignmentType: PhoneNumberAssignmentType;
-    capabilities: PhoneNumberCapabilities;
-    cost: PhoneNumberCost;
-    countryCode: string;
-    id: string;
-    phoneNumber: string;
-    phoneNumberType: PhoneNumberType;
-    purchaseDate: Date;
-}
-
-// @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
@@ -82,9 +70,9 @@ export class PhoneNumbersClient {
     beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
-    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
-    getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
-    listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
+    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
+    getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
+    listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
 }
 
 // @public
@@ -113,6 +101,18 @@ export interface PhoneNumberSearchResult {
 
 // @public
 export type PhoneNumberType = "geographic" | "tollFree";
+
+// @public
+export interface PurchasedPhoneNumber {
+    assignmentType: PhoneNumberAssignmentType;
+    capabilities: PhoneNumberCapabilities;
+    cost: PhoneNumberCost;
+    countryCode: string;
+    id: string;
+    phoneNumber: string;
+    phoneNumberType: PhoneNumberType;
+    purchaseDate: Date;
+}
 
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
