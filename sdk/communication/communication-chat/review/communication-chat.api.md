@@ -159,11 +159,12 @@ export interface ChatThreadProperties {
 }
 
 // @public
-export type CreateChatThreadOptions = RestCreateChatThreadOptions;
+export interface CreateChatThreadOptions extends RestCreateChatThreadOptions {
+    participants?: ChatParticipant[];
+}
 
 // @public
 export interface CreateChatThreadRequest {
-    participants?: ChatParticipant[];
     topic: string;
 }
 

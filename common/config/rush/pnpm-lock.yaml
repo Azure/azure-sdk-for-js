@@ -134,7 +134,7 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-/Q66I3hoR/7UjxRfv4eIfPv0z7GAblycAE9G1z9JDOghbDiZJk3JPW0YSuVyujU0QNDqG1l9q2RSOlcQkTjR1g==
-  /@azure/communication-signaling/1.0.0-beta.2:
+  /@azure/communication-signaling/1.0.0-beta.3:
     dependencies:
       '@azure/core-http': 1.2.3
       '@azure/core-tracing': 1.0.0-preview.9
@@ -146,7 +146,7 @@ packages:
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-2Nbm6OEtouz94kWiWu40VhG2ckTwAI4Ng7ji77yCha1obrVhzxA1wfveMZmEmXk4s7YGN5L7xAj/hFATe7WknQ==
+      integrity: sha512-WargzA8PMc9SEvQpjhM0vVq/HB0wGUScplW8Us9nEFLHy/ZvgVjbRHlCALCa/tlU/Pv3RgZhk7XuPfwip17MCQ==
   /@azure/core-asynciterator-polyfill/1.0.0:
     dev: false
     resolution:
@@ -7914,7 +7914,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-BJcrIrRgMvFv4CedqQZQ35rQDdL86esKlVmpcu9RuThS12VPerfJI1Yy22ETlPF+hLduirINcAXXl0+aXWaPgw==
+      integrity: sha512-ONbhyxDJZWEx74jiPaGD6tN9FzmDyz69fHiNRMyRFZSRAmiaFG+DhsMOoZTuWrxkUcBkW5z3OCIIZlUod1XipA==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
@@ -8079,7 +8079,7 @@ packages:
     dependencies:
       '@azure/communication-common': 1.0.0-beta.6
       '@azure/communication-identity': 1.0.0-beta.5
-      '@azure/communication-signaling': 1.0.0-beta.2
+      '@azure/communication-signaling': 1.0.0-beta.3
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -8129,7 +8129,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-P3psB6ukRXVXT/9OHJ+e1euw1S4HOuFBbvPhqGIMlBZuiBXyEqicw6PaG4oVKgjdGJtaOTyvY3E6OXW0hm+9/A==
+      integrity: sha512-8p2iK0zzMBTZCOm+BUbak1IUkUtcKbw+n/cT07TLKqMbXE45t+28peI7vUVqRLRdS9Si9obgWH3xlYbAV3Ay1Q==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8550,7 +8550,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client'
     resolution:
-      integrity: sha512-eP/qvmzEXEn+B+3LgIodJ+wNog8wN2Ov+fXrruBVygkA9kQsKGmLB5s9ELxcODD1Z7brTfXJjiNB3Wm0S2KWKw==
+      integrity: sha512-oR3NTUUymMxkBheYuiFoARg+o5/XqlYTy2Usis+EAvfY0sRkIvfRzmokiCCrIpMazvXkB+B65pqZViE6PxVLHw==
       tarball: file:projects/core-client.tgz
     version: 0.0.0
   file:projects/core-crypto.tgz:
@@ -9023,7 +9023,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-mMHYQKAlhbKKkX3lREfrFU8RLJC0qgSIWZZYwQNQms9JWyEGVwdzfmW+J6R4rLK5HSxFP83bOGBOvMMyXowaPw==
+      integrity: sha512-UpyDqP9vSTabEMOAn2lCs9V9k1w8NpFfDSPboplJGUpJjciCmePo5eW6heMCFp2TenMmJqa9jClMxxZt6Rwe/g==
       tarball: file:projects/data-tables.tgz
     version: 0.0.0
   file:projects/dev-tool.tgz:
@@ -9329,7 +9329,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-7RoOm2QWMThhDsD0GC6mYIjs2lTDzzWKlSQEQ2RDC3XqeEYF6+nU3FwQy2n8mdmMrWnGCsDYQc2E/xC4GG0nhA==
+      integrity: sha512-mSL4n6s6oXKpcd1CIPhClwFQz8I+/aPz1Wzf5WqIdrwaaYPmiJrXylyA1n4SfHY8finbwmS7FG7YrXLjYkBQ4Q==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -9857,6 +9857,8 @@ packages:
       '@azure/identity': 1.2.4
       '@types/node': 8.10.66
       dotenv: 8.2.0
+      eslint: 7.21.0
+      prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.1.0
@@ -9864,13 +9866,15 @@ packages:
     dev: false
     name: '@rush-temp/perf-ai-text-analytics'
     resolution:
-      integrity: sha512-XANk1SE3pHw3pcySPKrc2CdlJjp69PAQLhc82hCt+xXyRceYQr/PYDqnthjoc3u27s3m6dPloL+SZnZo1xBYtQ==
+      integrity: sha512-/yjdPWMdPWKJTf0IlXpjZ5/Gyvp3/R6J/mUPHPPgpBJCP2TNpNO/HS2wEo9Xcf5qvovx/ZYjOsVkCflex6Dk0g==
       tarball: file:projects/perf-ai-text-analytics.tgz
     version: 0.0.0
   file:projects/perf-eventgrid.tgz:
     dependencies:
       '@types/node': 8.10.66
       dotenv: 8.2.0
+      eslint: 7.21.0
+      prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.1.0
@@ -9878,7 +9882,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-eventgrid'
     resolution:
-      integrity: sha512-H/Vky6cF+GuWMsEKMXorlKYmA75AU8TPpOUnXyeDmlXOuZhS6wrzV5BPtiNgn7kDEpL3VPW/LnDaFZhS/ImkfA==
+      integrity: sha512-pW6J1YFc4RxZ1hbXoWRVPA4pdXItiAS2avNd1d0O92alLDIMtN/aoX8IcmGnGCq/HPEKCc8ECLjyhDEhEsQfxw==
       tarball: file:projects/perf-eventgrid.tgz
     version: 0.0.0
   file:projects/perf-storage-blob.tgz:
@@ -9888,7 +9892,9 @@ packages:
       '@types/node-fetch': 2.5.8
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
+      eslint: 7.21.0
       node-fetch: 2.6.1
+      prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.1.0
@@ -9897,7 +9903,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-hD1Om3o1oJIEtTQU7PIyXbzQCiPx1t4xdKgE2EnZsSeL74hRsX6AS8w4kHV1c2/aIKQlIpzfImKvh8qscXtr6Q==
+      integrity: sha512-A8O5MMYLsTTiz/qtN1TGBu6FF8nWscA3+6eJ06mX0rd0+blqBJWZ6l43lpmGX+XHgF4lQpto73ZavdsPj5cjBw==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/perf-storage-file-datalake.tgz:
@@ -9905,6 +9911,8 @@ packages:
       '@types/node': 8.10.66
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
+      eslint: 7.21.0
+      prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.1.0
@@ -9913,7 +9921,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-file-datalake'
     resolution:
-      integrity: sha512-7Gdgf0CBZg2ZXzrf5YEzKc1GAMbHu5c98Olo436FF/3H/ThJPdDsTU0a5V5iUQnawHobl1xdalH93HYrcC0ICg==
+      integrity: sha512-kC3t/5HukCdxRB3tei+kWWK10X3ndb74faimxKJdeWWPlYl2pImw+wket7Hwp9DgC6gUbdJeAGvfqY11q/qN9w==
       tarball: file:projects/perf-storage-file-datalake.tgz
     version: 0.0.0
   file:projects/perf-storage-file-share.tgz:
@@ -9921,6 +9929,8 @@ packages:
       '@types/node': 8.10.66
       '@types/uuid': 8.3.0
       dotenv: 8.2.0
+      eslint: 7.21.0
+      prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.1.0
@@ -9929,7 +9939,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-file-share'
     resolution:
-      integrity: sha512-afvD2IP7RYgFNaKGr2phzFv11+4Ngh6uFy8s4dqyd1LJyk26eVswmd2nMdlZEshkzPPhq3wu32FjhQPIQBMuug==
+      integrity: sha512-97L6GsijaLbxF11I7qZ9M4oSuxs7KWplIV3BwPUPQocvqNk+9WYdzl/+Ys8wfSs0zdvRzHTk82JD5ia/Wi6nug==
       tarball: file:projects/perf-storage-file-share.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
@@ -10339,7 +10349,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-514s1J4LtmUKl3kMBPMUaAH6VRqjrWFoXWeR7vb2y+LjmAZ+FGqElCZZT9mXqu6a0Zt5frjYOvVoECdzSt3Zow==
+      integrity: sha512-Ej4tJEY2KOy4AVgz9S0uecc0iSx55qtiI8fVp54dChZraV2XyBbci1wqckoY6wQSijtCtOy4yEqAqk39wmuXtw==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
   file:projects/storage-file-datalake.tgz:

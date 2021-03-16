@@ -15,8 +15,6 @@ export interface AddParticipantsRequest {
 export interface CreateChatThreadRequest {
   /** The chat thread topic. */
   topic: string;
-  /** Participants to be added to the chat thread. */
-  participants?: ChatParticipant[];
 }
 
 /** Details of the message to send. */
