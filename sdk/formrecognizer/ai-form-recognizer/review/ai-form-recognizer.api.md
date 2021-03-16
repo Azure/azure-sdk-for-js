@@ -387,21 +387,151 @@ export const enum KnownKeyValueType {
 // @public
 export const enum KnownLanguage {
     // (undocumented)
+    Af = "af",
+    // (undocumented)
+    Ast = "ast",
+    // (undocumented)
+    Bi = "bi",
+    // (undocumented)
+    Br = "br",
+    // (undocumented)
+    Ca = "ca",
+    // (undocumented)
+    Ceb = "ceb",
+    // (undocumented)
+    Ch = "ch",
+    // (undocumented)
+    Co = "co",
+    // (undocumented)
+    Crh = "crh",
+    // (undocumented)
+    Cs = "cs",
+    // (undocumented)
+    Csb = "csb",
+    // (undocumented)
+    Da = "da",
+    // (undocumented)
     De = "de",
     // (undocumented)
     En = "en",
     // (undocumented)
     Es = "es",
     // (undocumented)
+    Et = "et",
+    // (undocumented)
+    Eu = "eu",
+    // (undocumented)
+    Fi = "fi",
+    // (undocumented)
+    Fil = "fil",
+    // (undocumented)
+    Fj = "fj",
+    // (undocumented)
     Fr = "fr",
+    // (undocumented)
+    Fur = "fur",
+    // (undocumented)
+    Fy = "fy",
+    // (undocumented)
+    Ga = "ga",
+    // (undocumented)
+    Gd = "gd",
+    // (undocumented)
+    Gil = "gil",
+    // (undocumented)
+    Gl = "gl",
+    // (undocumented)
+    Gv = "gv",
+    // (undocumented)
+    Hni = "hni",
+    // (undocumented)
+    Hsb = "hsb",
+    // (undocumented)
+    Ht = "ht",
+    // (undocumented)
+    Hu = "hu",
+    // (undocumented)
+    Ia = "ia",
+    // (undocumented)
+    Id = "id",
     // (undocumented)
     It = "it",
     // (undocumented)
+    Iu = "iu",
+    // (undocumented)
+    Ja = "ja",
+    // (undocumented)
+    Jv = "jv",
+    // (undocumented)
+    Kaa = "kaa",
+    // (undocumented)
+    Kac = "kac",
+    // (undocumented)
+    Kea = "kea",
+    // (undocumented)
+    Kha = "kha",
+    // (undocumented)
+    Kl = "kl",
+    // (undocumented)
+    Ko = "ko",
+    // (undocumented)
+    Ku = "ku",
+    // (undocumented)
+    Kw = "kw",
+    // (undocumented)
+    Lb = "lb",
+    // (undocumented)
+    Ms = "ms",
+    // (undocumented)
+    Mww = "mww",
+    // (undocumented)
+    Nap = "nap",
+    // (undocumented)
     Nl = "nl",
+    // (undocumented)
+    No = "no",
+    // (undocumented)
+    Oc = "oc",
+    // (undocumented)
+    Pl = "pl",
     // (undocumented)
     Pt = "pt",
     // (undocumented)
-    ZhHans = "zh-Hans"
+    Quc = "quc",
+    // (undocumented)
+    Rm = "rm",
+    // (undocumented)
+    Sco = "sco",
+    // (undocumented)
+    Sl = "sl",
+    // (undocumented)
+    Sq = "sq",
+    // (undocumented)
+    Sv = "sv",
+    // (undocumented)
+    Sw = "sw",
+    // (undocumented)
+    Tet = "tet",
+    // (undocumented)
+    Tr = "tr",
+    // (undocumented)
+    Tt = "tt",
+    // (undocumented)
+    Uz = "uz",
+    // (undocumented)
+    Vo = "vo",
+    // (undocumented)
+    Wae = "wae",
+    // (undocumented)
+    Yua = "yua",
+    // (undocumented)
+    Za = "za",
+    // (undocumented)
+    ZhHans = "zh-Hans",
+    // (undocumented)
+    ZhHant = "zh-Hant",
+    // (undocumented)
+    Zu = "zu"
 }
 
 // @public
