@@ -22,7 +22,11 @@ import {
   ContainerRegistryRepositoryGetManifestsOptionalParams,
   ContainerRegistryRepositoryGetManifestsResponse,
   ContainerRegistryRepositoryGetManifestAttributesResponse,
-  ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
+  ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams,
+  ContainerRegistryRepositoryGetTagsNextOptionalParams,
+  ContainerRegistryRepositoryGetTagsNextResponse,
+  ContainerRegistryRepositoryGetManifestsNextOptionalParams,
+  ContainerRegistryRepositoryGetManifestsNextResponse
 } from "../models";
 
 /** Class representing a ContainerRegistryRepository. */
@@ -254,6 +258,50 @@ export class ContainerRegistryRepository {
       updateManifestAttributesOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
+
+  /**
+   * GetTagsNext
+   * @param name Name of the image (including the namespace)
+   * @param nextLink The nextLink from the previous successful call to the GetTags method.
+   * @param options The options parameters.
+   */
+  getTagsNext(
+    name: string,
+    nextLink: string,
+    options?: ContainerRegistryRepositoryGetTagsNextOptionalParams
+  ): Promise<ContainerRegistryRepositoryGetTagsNextResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      name,
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getTagsNextOperationSpec
+    ) as Promise<ContainerRegistryRepositoryGetTagsNextResponse>;
+  }
+
+  /**
+   * GetManifestsNext
+   * @param name Name of the image (including the namespace)
+   * @param nextLink The nextLink from the previous successful call to the GetManifests method.
+   * @param options The options parameters.
+   */
+  getManifestsNext(
+    name: string,
+    nextLink: string,
+    options?: ContainerRegistryRepositoryGetManifestsNextOptionalParams
+  ): Promise<ContainerRegistryRepositoryGetManifestsNextResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      name,
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getManifestsNextOperationSpec
+    ) as Promise<ContainerRegistryRepositoryGetManifestsNextResponse>;
+  }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
@@ -309,7 +357,8 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagList
+      bodyMapper: Mappers.TagList,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetTagsHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -373,7 +422,8 @@ const getManifestsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcrManifests
+      bodyMapper: Mappers.AcrManifests,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetManifestsHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -385,7 +435,7 @@ const getManifestsOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
-  path: "/acr/v1/{name}/_manifests/{reference}",
+  path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -400,7 +450,7 @@ const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const updateManifestAttributesOperationSpec: coreHttp.OperationSpec = {
-  path: "/acr/v1/{name}/_manifests/{reference}",
+  path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "PATCH",
   responses: {
     200: {},
@@ -412,5 +462,44 @@ const updateManifestAttributesOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getTagsNextOperationSpec: coreHttp.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagList,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetTagsNextHeaders
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  queryParameters: [
+    Parameters.last,
+    Parameters.n,
+    Parameters.orderby,
+    Parameters.digest
+  ],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getManifestsNextOperationSpec: coreHttp.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AcrManifests,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetManifestsNextHeaders
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  queryParameters: [Parameters.last, Parameters.n, Parameters.orderby],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };

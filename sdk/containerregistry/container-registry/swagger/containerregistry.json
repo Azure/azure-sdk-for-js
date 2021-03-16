@@ -698,6 +698,10 @@
             "$ref": "./examples/GetTagList.json"
           }
         },
+        "x-ms-pageable": {
+          "itemName": "tags",
+          "nextLinkName": "link"
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ImageName"
@@ -717,6 +721,12 @@
         ],
         "responses": {
           "200": {
+            "headers": {
+              "Link": {
+                "description": "next paginated result",
+                "type": "string"
+              }
+            },
             "description": "Tag details of a repository",
             "schema": {
               "$ref": "#/definitions/TagList"
@@ -838,6 +848,10 @@
             "$ref": "./examples/GetManifestList.json"
           }
         },
+        "x-ms-pageable": {
+          "itemName": "manifestsAttributes",
+          "nextLinkName": "link"
+        },
         "parameters": [
           {
             "$ref": "#/parameters/ImageName"
@@ -854,6 +868,12 @@
         ],
         "responses": {
           "200": {
+            "headers": {
+              "Link": {
+                "description": "next paginated result",
+                "type": "string"
+              }
+            },
             "description": "Returns a list of manifests",
             "schema": {
               "$ref": "#/definitions/AcrManifests"
@@ -868,7 +888,7 @@
         }
       }
     },
-    "/acr/v1/{name}/_manifests/{reference}": {
+    "/acr/v1/{name}/_manifests/{digest}": {
       "get": {
         "tags": ["Repository"],
         "description": "Get manifest attributes",

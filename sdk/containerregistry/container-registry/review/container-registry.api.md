@@ -45,6 +45,7 @@ export class ContainerRepositoryClient {
     getProperties(options?: GetPropertiesOptions): Promise<import("./generated").ContainerRegistryGetRepositoryAttributesResponse>;
     getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<import("./generated").ContainerRegistryRepositoryGetManifestAttributesResponse>;
     getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<import("./generated").ContainerRegistryRepositoryGetTagAttributesResponse>;
+    listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
     // (undocumented)
     registry: string;
@@ -95,6 +96,11 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
+export interface ListRegistryArtifactsOptions extends OperationOptions {
+    orderby?: string;
+}
+
+// @public
 export interface ListRepositoriesOptions extends OperationOptions {
 }
 
@@ -103,6 +109,11 @@ export interface ListTagsOptions extends OperationOptions {
     digest?: string;
     orderby?: string;
 }
+
+// Warning: (ae-forgotten-export) The symbol "ManifestAttributes" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type RegistryArtifactProperties = ManifestAttributes;
 
 // @public
 export interface SetManifestPropertiesOptions extends OperationOptions {

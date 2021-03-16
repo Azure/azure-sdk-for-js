@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-http";
-import { ChangeableAttributes, DeletedRepository } from "./generated";
+import { ChangeableAttributes, DeletedRepository, ManifestAttributes } from "./generated";
 
 /**
  * Re-export generated types that are used as public interfaces.
@@ -43,3 +43,5 @@ export interface TagProperties {
   /** Repository name */
   repository: string;
 }
+
+export type RegistryArtifactProperties = ManifestAttributes;

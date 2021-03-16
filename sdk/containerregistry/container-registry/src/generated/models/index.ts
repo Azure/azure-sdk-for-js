@@ -474,6 +474,30 @@ export interface ContainerRegistryRepositoryCreateManifestHeaders {
   contentLength?: number;
 }
 
+/** Defines headers for ContainerRegistryRepository_getTags operation. */
+export interface ContainerRegistryRepositoryGetTagsHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistryRepository_getManifests operation. */
+export interface ContainerRegistryRepositoryGetManifestsHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistryRepository_getTagsNext operation. */
+export interface ContainerRegistryRepositoryGetTagsNextHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistryRepository_getManifestsNext operation. */
+export interface ContainerRegistryRepositoryGetManifestsNextHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
 /** Defines headers for ContainerRegistryBlob_getBlob operation. */
 export interface ContainerRegistryBlobGetBlobHeaders {
   /** The length of the requested blob content. */
@@ -707,16 +731,19 @@ export interface ContainerRegistryRepositoryGetTagsOptionalParams
 }
 
 /** Contains response data for the getTags operation. */
-export type ContainerRegistryRepositoryGetTagsResponse = TagList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ContainerRegistryRepositoryGetTagsResponse = ContainerRegistryRepositoryGetTagsHeaders &
+  TagList & {
+    /** The underlying HTTP response. */
+    _response: coreHttp.HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: TagList;
+      /** The response body as parsed JSON or XML */
+      parsedBody: TagList;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: ContainerRegistryRepositoryGetTagsHeaders;
+    };
   };
-};
 
 /** Contains response data for the getTagAttributes operation. */
 export type ContainerRegistryRepositoryGetTagAttributesResponse = TagAttributes & {
@@ -749,16 +776,19 @@ export interface ContainerRegistryRepositoryGetManifestsOptionalParams
 }
 
 /** Contains response data for the getManifests operation. */
-export type ContainerRegistryRepositoryGetManifestsResponse = AcrManifests & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ContainerRegistryRepositoryGetManifestsResponse = ContainerRegistryRepositoryGetManifestsHeaders &
+  AcrManifests & {
+    /** The underlying HTTP response. */
+    _response: coreHttp.HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: AcrManifests;
+      /** The response body as parsed JSON or XML */
+      parsedBody: AcrManifests;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: ContainerRegistryRepositoryGetManifestsHeaders;
+    };
   };
-};
 
 /** Contains response data for the getManifestAttributes operation. */
 export type ContainerRegistryRepositoryGetManifestAttributesResponse = ManifestAttributes & {
@@ -778,6 +808,60 @@ export interface ContainerRegistryRepositoryUpdateManifestAttributesOptionalPara
   /** Repository attribute value */
   value?: ChangeableAttributes;
 }
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositoryGetTagsNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+  /** orderby query parameter */
+  orderby?: string;
+  /** filter by digest */
+  digest?: string;
+}
+
+/** Contains response data for the getTagsNext operation. */
+export type ContainerRegistryRepositoryGetTagsNextResponse = ContainerRegistryRepositoryGetTagsNextHeaders &
+  TagList & {
+    /** The underlying HTTP response. */
+    _response: coreHttp.HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
+
+      /** The response body as parsed JSON or XML */
+      parsedBody: TagList;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: ContainerRegistryRepositoryGetTagsNextHeaders;
+    };
+  };
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositoryGetManifestsNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+  /** orderby query parameter */
+  orderby?: string;
+}
+
+/** Contains response data for the getManifestsNext operation. */
+export type ContainerRegistryRepositoryGetManifestsNextResponse = ContainerRegistryRepositoryGetManifestsNextHeaders &
+  AcrManifests & {
+    /** The underlying HTTP response. */
+    _response: coreHttp.HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
+
+      /** The response body as parsed JSON or XML */
+      parsedBody: AcrManifests;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: ContainerRegistryRepositoryGetManifestsNextHeaders;
+    };
+  };
 
 /** Contains response data for the getBlob operation. */
 export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobHeaders & {

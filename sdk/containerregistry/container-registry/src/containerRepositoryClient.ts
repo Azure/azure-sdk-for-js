@@ -23,6 +23,7 @@ import {
   ContainerRegistryClientOptions,
   ContentProperties,
   DeletedRepositoryResult,
+  RegistryArtifactProperties,
   TagProperties
 } from "./model";
 import {
@@ -66,12 +67,20 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
 export interface SetManifestPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `SetTagProperties` method of `ContainerRepositoryClient`.
+ * Options for the `setTagProperties` method of `ContainerRepositoryClient`.
  */
 export interface SetTagPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `SetTagProperties` method of `ContainerRepositoryClient`.
+ * Options for the `listRegistryArtifacts` method of `ContainerRepositoryClient`.
+ */
+export interface ListRegistryArtifactsOptions extends OperationOptions {
+  /** orderby query parameter */
+  orderby?: string;
+}
+
+/**
+ * Options for the `listTags` method of `ContainerRepositoryClient`.
  */
 export interface ListTagsOptions extends OperationOptions {
   /** orderby query parameter */
@@ -348,6 +357,101 @@ export class ContainerRepositoryClient {
       throw e;
     } finally {
       span.end();
+    }
+  }
+
+  /**
+   * Iterates artifacts.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new ContainerRepositoryClient(url, repository, credentials);
+   * for await (const repository of client.listRegistryArtifacts()) {
+   *   console.log("artifact: ", artifact);
+   * }
+   * ```
+   * @param options -
+   */
+  public listRegistryArtifacts(
+    options: ListRegistryArtifactsOptions = {}
+  ): PagedAsyncIterableIterator<RegistryArtifactProperties> {
+    const { span, updatedOptions } = createSpan("listRegistryArtifacts", options);
+    const iter = this.listArtifactItems(updatedOptions);
+
+    span.end();
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listArtifactPage(settings, updatedOptions)
+    };
+  }
+
+  private async *listArtifactItems(
+    options: ListTagsOptions = {}
+  ): AsyncIterableIterator<RegistryArtifactProperties> {
+    for await (const page of this.listArtifactPage({}, options)) {
+      yield* page;
+    }
+  }
+
+  private async *listArtifactPage(
+    continuationState: PageSettings,
+    options: ListRegistryArtifactsOptions = {}
+  ) {
+    if (!continuationState.continuationToken) {
+      const optionsComplete = {
+        n: continuationState.maxPageSize,
+        ...options
+      };
+      const currentPage = await this.client.containerRegistryRepository.getManifests(
+        this.repository,
+        optionsComplete
+      );
+      if (currentPage.manifestsAttributes?.length) {
+        // continuationState.continuationToken =
+        //   currentPage.manifestsAttributes[currentPage.manifestsAttributes.length - 1].digest;
+        continuationState.continuationToken = currentPage.link;
+      }
+      if (currentPage.manifestsAttributes) {
+        yield currentPage.manifestsAttributes.map((t) => {
+          return {
+            ...t,
+            registry: currentPage.registry,
+            repository: currentPage.imageName
+          };
+        });
+      }
+      while (continuationState.continuationToken) {
+        const currentPage = await this.client.containerRegistryRepository.getManifestsNext(
+          this.repository,
+          continuationState.continuationToken,
+          {
+            n: continuationState.maxPageSize,
+            last: continuationState.continuationToken,
+            ...optionsComplete
+          }
+        );
+        if (currentPage.manifestsAttributes?.length) {
+          // continuationState.continuationToken =
+          // currentPage.manifestsAttributes[currentPage.manifestsAttributes.length - 1].digest;
+          continuationState.continuationToken = currentPage.link;
+        } else {
+          continuationState.continuationToken = undefined;
+        }
+        if (currentPage.manifestsAttributes) {
+          yield currentPage.manifestsAttributes.map((t) => {
+            return {
+              ...t,
+              registry: currentPage.registry,
+              repository: currentPage.imageName
+            };
+          });
+        }
+      }
     }
   }
 

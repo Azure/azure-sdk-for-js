@@ -20,28 +20,64 @@ async function main() {
     repository,
     new ContainerRegistryUserCredential(process.env.USERNAME, process.env.PASSWORD)
   );
+  //await listTags(client);
+  //await listArtifacts(client);
+  await getArtifactProperties(client);
+}
 
-  // console.log("Listing tags using for-await-of syntax");
-  // const iterator = client.listTags();
-  // for await (const tag of iterator) {
-  //   console.log(`  tag: ${tag.name}`);
-  //   console.log(`  digest: ${tag.digest}`);
-  //   console.log(`  created on: ${tag.createdOn}`);
-  //   console.log(`  last updated on: ${tag.lastUpdatedOn}`);
-  // }
+async function listTags(client) {
+  console.log("Listing tags");
+  const iterator = client.listTags();
+  for await (const tag of iterator) {
+    console.log(`  tag: ${tag.name}`);
+    console.log(`  digest: ${tag.digest}`);
+    console.log(`  created on: ${tag.createdOn}`);
+    console.log(`  last updated on: ${tag.lastUpdatedOn}`);
+  }
+
   console.log("  by pages");
   const pages = client.listTags().byPage({ maxPageSize: 2 });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
     for (const tag of result.value) {
-      console.log(`      tag: ${tag.name}`);
-      console.log(`      digest: ${tag.digest}`);
-      console.log(`      created on: ${tag.createdOn}`);
-      console.log(`      last updated on: ${tag.lastUpdatedOn}`);
+      console.log(`    tag: ${tag.name}`);
+      console.log(`    digest: ${tag.digest}`);
+      console.log(`    created on: ${tag.createdOn}`);
+      console.log(`    last updated on: ${tag.lastUpdatedOn}`);
     }
     result = await pages.next();
   }
+}
+
+async function listArtifacts(client) {
+  console.log("Listing artifacts");
+  // const iterator = client.listRegistryArtifacts();
+  // for await (const artifact of iterator) {
+  //   console.log(`  digest: ${artifact.digest}`);
+  //   console.log(`  created on: ${artifact.createdOn}`);
+  //   console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
+  // }
+
+  console.log("  by pages");
+  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: 2 });
+  let result = await pages.next();
+  while (!result.done) {
+    console.log("    -- page -- ");
+    for (const artifact of result.value) {
+      console.log(`    digest: ${artifact.digest}`);
+      console.log(`    created on: ${artifact.createdOn}`);
+      console.log(`    last updated on: ${artifact.lastUpdatedOn}`);
+    }
+    result = await pages.next();
+  }
+}
+
+async function getArtifactProperties(client) {
+  const properties = await client.getRegistryArtifactProperties(
+    "sha256:4661fb57f7890b9145907a1fe2555091d333ff3d28db86c3bb906f6a2be93c87"
+  );
+  console.dir(properties);
 }
 
 main().catch((err) => {

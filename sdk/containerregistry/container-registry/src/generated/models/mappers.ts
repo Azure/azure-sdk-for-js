@@ -1475,6 +1475,66 @@ export const ContainerRegistryRepositoryCreateManifestHeaders: coreHttp.Composit
   }
 };
 
+export const ContainerRegistryRepositoryGetTagsHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetTagsHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetManifestsHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetManifestsHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetTagsNextHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetTagsNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetManifestsNextHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetManifestsNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerRegistryBlobGetBlobHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
