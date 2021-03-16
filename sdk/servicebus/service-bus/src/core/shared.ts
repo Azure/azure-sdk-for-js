@@ -132,7 +132,6 @@ export function numberOfEmptyIncomingSlots(
  * @internal
  */
 export class StreamingReceiverCreditManager {
-  // TODO: Maybe call it `StreamingReceiverCreditManager` instead
   constructor(
     private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
     private receiverHelper: ReceiverHelper,
