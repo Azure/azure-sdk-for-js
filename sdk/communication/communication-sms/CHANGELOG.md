@@ -1,10 +1,16 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.5 (Unreleased)
+
+
+## 1.0.0-beta.4 (2020-03-09)
 
 ### Added
 
 - `SmsClient` added a constructor that supports `TokenCredential`.
+- Added support for 1:N SMS messaging.
+- Added support for tagging SMS messages.
+- `send` method in `SmsClient` is idempotent under retry policy.
 
 ### Breaking Changes
 
@@ -24,5 +30,5 @@ Updated `@azure/communication-sms` version.
 
 The first preview of the Azure Communication Sms Client has the following features:
 
-- send a SMS message from an acquired phone number.
+- send an SMS message from an acquired phone number.
 - optionally enable delivery reports.

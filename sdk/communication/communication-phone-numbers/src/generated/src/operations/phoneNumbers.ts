@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { PhoneNumbersClientContext } from "../phoneNumbersClientContext";
 import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersNextOptionalParams,
   PhoneNumbersListPhoneNumbersOptionalParams,
   PhoneNumberType,
@@ -25,11 +25,11 @@ import {
   PhoneNumbersPurchasePhoneNumbersOptionalParams,
   PhoneNumbersPurchasePhoneNumbersResponse,
   PhoneNumbersGetOperationResponse,
+  PhoneNumbersUpdateCapabilitiesOptionalParams,
+  PhoneNumbersUpdateCapabilitiesResponse,
   PhoneNumbersGetByNumberResponse,
   PhoneNumbersReleasePhoneNumberResponse,
   PhoneNumbersListPhoneNumbersResponse,
-  PhoneNumbersUpdateCapabilitiesOptionalParams,
-  PhoneNumbersUpdateCapabilitiesResponse,
   PhoneNumbersListPhoneNumbersNextResponse
 } from "../models";
 
@@ -46,12 +46,12 @@ export class PhoneNumbers {
   }
 
   /**
-   * Gets the list of all acquired phone numbers.
+   * Gets the list of all purchased phone numbers.
    * @param options The options parameters.
    */
   public listPhoneNumbers(
     options?: PhoneNumbersListPhoneNumbersOptionalParams
-  ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
+  ): PagedAsyncIterableIterator<PurchasedPhoneNumber> {
     const iter = this.listPhoneNumbersPagingAll(options);
     return {
       next() {
@@ -68,7 +68,7 @@ export class PhoneNumbers {
 
   private async *listPhoneNumbersPagingPage(
     options?: PhoneNumbersListPhoneNumbersOptionalParams
-  ): AsyncIterableIterator<AcquiredPhoneNumber[]> {
+  ): AsyncIterableIterator<PurchasedPhoneNumber[]> {
     let result = await this._listPhoneNumbers(options);
     yield result.phoneNumbers || [];
     let continuationToken = result.nextLink;
@@ -81,7 +81,7 @@ export class PhoneNumbers {
 
   private async *listPhoneNumbersPagingAll(
     options?: PhoneNumbersListPhoneNumbersOptionalParams
-  ): AsyncIterableIterator<AcquiredPhoneNumber> {
+  ): AsyncIterableIterator<PurchasedPhoneNumber> {
     for await (const page of this.listPhoneNumbersPagingPage(options)) {
       yield* page;
     }
@@ -215,73 +215,6 @@ export class PhoneNumbers {
   }
 
   /**
-   * Gets the details of the given acquired phone number.
-   * @param phoneNumber The acquired phone number whose details are to be fetched in E.164 format, e.g.
-   *                    +11234567890.
-   * @param options The options parameters.
-   */
-  getByNumber(
-    phoneNumber: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumbersGetByNumberResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      phoneNumber,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getByNumberOperationSpec
-    ) as Promise<PhoneNumbersGetByNumberResponse>;
-  }
-
-  /**
-   * Releases an acquired phone number.
-   * @param phoneNumber Phone number to be released, e.g. +11234567890.
-   * @param options The options parameters.
-   */
-  async releasePhoneNumber(
-    phoneNumber: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<PhoneNumbersReleasePhoneNumberResponse>> {
-    const operationArguments: coreHttp.OperationArguments = {
-      phoneNumber,
-      options: this.getOperationOptions(options, "undefined")
-    };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        PhoneNumbersReleasePhoneNumberResponse
-      >;
-    };
-
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      releasePhoneNumberOperationSpec
-    );
-    return new LROPoller({
-      initialOperationArguments: operationArguments,
-      initialOperationSpec: releasePhoneNumberOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
-  }
-
-  /**
-   * Gets the list of all acquired phone numbers.
-   * @param options The options parameters.
-   */
-  private _listPhoneNumbers(
-    options?: PhoneNumbersListPhoneNumbersOptionalParams
-  ): Promise<PhoneNumbersListPhoneNumbersResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listPhoneNumbersOperationSpec
-    ) as Promise<PhoneNumbersListPhoneNumbersResponse>;
-  }
-
-  /**
    * Updates the capabilities of a phone number.
    * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
    *                    as %2B, e.g. +11234567890.
@@ -312,6 +245,73 @@ export class PhoneNumbers {
       sendOperation,
       finalStateVia: "location"
     });
+  }
+
+  /**
+   * Gets the details of the given purchased phone number.
+   * @param phoneNumber The purchased phone number whose details are to be fetched in E.164 format, e.g.
+   *                    +11234567890.
+   * @param options The options parameters.
+   */
+  getByNumber(
+    phoneNumber: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<PhoneNumbersGetByNumberResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      phoneNumber,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getByNumberOperationSpec
+    ) as Promise<PhoneNumbersGetByNumberResponse>;
+  }
+
+  /**
+   * Releases a purchased phone number.
+   * @param phoneNumber Phone number to be released, e.g. +11234567890.
+   * @param options The options parameters.
+   */
+  async releasePhoneNumber(
+    phoneNumber: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<LROPoller<PhoneNumbersReleasePhoneNumberResponse>> {
+    const operationArguments: coreHttp.OperationArguments = {
+      phoneNumber,
+      options: this.getOperationOptions(options, "undefined")
+    };
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        PhoneNumbersReleasePhoneNumberResponse
+      >;
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      releasePhoneNumberOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: releasePhoneNumberOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
+  }
+
+  /**
+   * Gets the list of all purchased phone numbers.
+   * @param options The options parameters.
+   */
+  private _listPhoneNumbers(
+    options?: PhoneNumbersListPhoneNumbersOptionalParams
+  ): Promise<PhoneNumbersListPhoneNumbersResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listPhoneNumbersOperationSpec
+    ) as Promise<PhoneNumbersListPhoneNumbersResponse>;
   }
 
   /**
@@ -465,12 +465,46 @@ const cancelOperationOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateCapabilitiesOperationSpec: coreHttp.OperationSpec = {
+  path: "/phoneNumbers/{phoneNumber}/capabilities",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PurchasedPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    201: {
+      bodyMapper: Mappers.PurchasedPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    202: {
+      bodyMapper: Mappers.PurchasedPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    204: {
+      bodyMapper: Mappers.PurchasedPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: { calling: ["options", "calling"], sms: ["options", "sms"] },
+    mapper: Mappers.PhoneNumberCapabilitiesRequest
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer
+};
 const getByNumberOperationSpec: coreHttp.OperationSpec = {
   path: "/phoneNumbers/{phoneNumber}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcquiredPhoneNumber
+      bodyMapper: Mappers.PurchasedPhoneNumber
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -511,7 +545,7 @@ const listPhoneNumbersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcquiredPhoneNumbers
+      bodyMapper: Mappers.PurchasedPhoneNumbers
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -522,46 +556,12 @@ const listPhoneNumbersOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateCapabilitiesOperationSpec: coreHttp.OperationSpec = {
-  path: "/phoneNumbers/{phoneNumber}/capabilities",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
-    },
-    201: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
-    },
-    202: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
-    },
-    204: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumbersUpdateCapabilitiesHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: {
-    parameterPath: { calling: ["options", "calling"], sms: ["options", "sms"] },
-    mapper: Mappers.PhoneNumberCapabilitiesRequest
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
-  mediaType: "json",
-  serializer
-};
 const listPhoneNumbersNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcquiredPhoneNumbers
+      bodyMapper: Mappers.PurchasedPhoneNumbers
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

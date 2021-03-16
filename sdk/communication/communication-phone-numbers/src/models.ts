@@ -1,34 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse, OperationOptions } from "@azure/core-http";
-import { AcquiredPhoneNumber, PhoneNumberSearchRequest } from "./generated/src/models/";
+import { OperationOptions } from "@azure/core-http";
+import { PhoneNumberSearchRequest } from "./generated/src/models/";
 
 /**
- * Represents an object with a non-enumerable _response property which provides
- * information about the HTTP response.
+ * Represents a void result.
  */
-export type WithResponse<T> = T & { _response: HttpResponse };
-
-/**
- * Represents a generic HTTP response
- */
-export type VoidResponse = WithResponse<{}>;
+export type VoidResult = {};
 
 /**
  * Additional options for the get phone number request.
  */
-export type GetPhoneNumberOptions = OperationOptions;
-
-/**
- * The response from the get phone number request.
- */
-export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
+export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 /**
  * Additional options that can be passed to the list phone numbers request.
  */
-export interface ListPhoneNumbersOptions extends OperationOptions {
+export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
   /**
    * An optional parameter for how many entries to skip, for pagination purposes.
    * The default value is 0.
@@ -54,7 +43,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 }
 
 export {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,

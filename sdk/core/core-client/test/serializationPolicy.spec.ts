@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 import { createSerializer, MapperTypeNames } from "../src";
-import { serializeRequestBody } from "../src/serializationPolicy";
+import { serializeRequestBody, serializeHeaders } from "../src/serializationPolicy";
 import { Mappers } from "./testMappers";
 
 describe("serializationPolicy", function() {
@@ -42,6 +42,61 @@ describe("serializationPolicy", function() {
         httpRequest.body,
         `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`
       );
+    });
+
+    it("should serialize a JSON false request body", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeRequestBody(
+        httpRequest,
+        {
+          boolBody: false
+        },
+        {
+          httpMethod: "PUT",
+          requestBody: {
+            parameterPath: "boolBody",
+            mapper: {
+              defaultValue: false,
+              isConstant: true,
+              serializedName: "boolBody",
+              type: {
+                name: "Boolean"
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: createSerializer()
+        }
+      );
+      assert.strictEqual(httpRequest.body, `false`);
+    });
+
+    it("should serialize a JSON null request body", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeRequestBody(
+        httpRequest,
+        {
+          boolBody: null
+        },
+        {
+          httpMethod: "PUT",
+          requestBody: {
+            parameterPath: "nullBody",
+            mapper: {
+              defaultValue: null,
+              isConstant: true,
+              serializedName: "nullBody",
+              nullable: true,
+              type: {
+                name: "String"
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: createSerializer()
+        }
+      );
+      assert.strictEqual(httpRequest.body, `null`);
     });
 
     it("should serialize a JSON String request body", () => {
@@ -844,6 +899,54 @@ describe("serializationPolicy", function() {
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
+    });
+  });
+
+  describe("serializeHeaders()", () => {
+    it("should respect customHeaders", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeHeaders(
+        httpRequest,
+        {
+          options: {
+            requestOptions: {
+              customHeaders: {
+                "content-type": "custom/type"
+              }
+            }
+          }
+        },
+        {
+          httpMethod: "POST",
+          mediaType: "text",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperTypeNames.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: createSerializer(),
+          headerParameters: [
+            {
+              parameterPath: ["options", "contentType"],
+              mapper: {
+                defaultValue: "text/plain",
+                isConstant: true,
+                serializedName: "Content-Type",
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          ]
+        }
+      );
+      assert.strictEqual(httpRequest.headers.get("Content-Type"), "custom/type");
     });
   });
 });

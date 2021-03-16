@@ -4,7 +4,7 @@ const defaults = {
 
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 
-module.exports = function (config: any) {
+module.exports = function(config: any) {
   config.set({
     plugins: [
       "karma-mocha",

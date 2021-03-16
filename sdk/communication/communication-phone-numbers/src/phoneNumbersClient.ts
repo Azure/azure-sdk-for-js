@@ -16,26 +16,25 @@ import {
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger, createSpan, attachHttpResponse, SDK_VERSION } from "./utils";
+import { logger, createSpan, SDK_VERSION } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberSearchResult
 } from "./generated/src/models/";
 import {
-  GetPhoneNumberOptions,
-  GetPhoneNumberResponse,
-  ListPhoneNumbersOptions,
-  VoidResponse,
-  SearchAvailablePhoneNumbersRequest
+  GetPurchasedPhoneNumberOptions,
+  ListPurchasedPhoneNumbersOptions,
+  SearchAvailablePhoneNumbersRequest,
+  VoidResult
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
   BeginSearchAvailablePhoneNumbersOptions,
-  BeginUpdatePhoneNumberOptions
+  BeginUpdatePhoneNumberCapabilitiesOptions
 } from "./lroModels";
 
 /**
@@ -116,22 +115,22 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Gets the details of an acquired phone number. Includes phone number, cost, country code, etc.
+   * Gets the details of a purchased phone number. Includes phone number, cost, country code, etc.
    *
    * @param {string} phoneNumber The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
-   * @param {GetPhoneNumberOptions} options Additional request options.
+   * @param {GetPurchasedPhoneNumberOptions} options Additional request options.
    */
-  public async getPhoneNumber(
+  public async getPurchasedPhoneNumber(
     phoneNumber: string,
-    options: GetPhoneNumberOptions = {}
-  ): Promise<GetPhoneNumberResponse> {
-    const { span, updatedOptions } = createSpan("PhoneNumbersClient-getPhoneNumber", options);
+    options: GetPurchasedPhoneNumberOptions = {}
+  ): Promise<PurchasedPhoneNumber> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-getPurchasedPhoneNumber",
+      options
+    );
     try {
-      const { _response, ...acquiredPhoneNumber } = await this.client.getByNumber(
-        phoneNumber,
-        updatedOptions
-      );
-      return attachHttpResponse<AcquiredPhoneNumber>(acquiredPhoneNumber, _response);
+      const { _response, ...results } = await this.client.getByNumber(phoneNumber, updatedOptions);
+      return results;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -144,29 +143,32 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Iterates the acquired phone numbers.
+   * Iterates the purchased phone numbers.
    *
    * Example usage:
    * ```ts
    * let client = new PhoneNumbersClient(credentials);
-   * for await (const acquired of client.listPhoneNumbers()) {
-   *   console.log("phone number: ", acquired.phoneNumber);
+   * for await (const purchased of client.listPhoneNumbers()) {
+   *   console.log("phone number: ", purchased.phoneNumber);
    * }
    * ```
-   * @summary List all acquired phone numbers.
-   * @param {ListPhoneNumbersOptions} [options] The optional parameters.
+   * @summary List all purchased phone numbers.
+   * @param {ListPurchasedPhoneNumbersOptions} [options] The optional parameters.
    */
-  public listPhoneNumbers(
-    options: ListPhoneNumbersOptions = {}
-  ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
-    const { span, updatedOptions } = createSpan("PhoneNumbersClient-listAllPhoneNumbers", options);
+  public listPurchasedPhoneNumbers(
+    options: ListPurchasedPhoneNumbersOptions = {}
+  ): PagedAsyncIterableIterator<PurchasedPhoneNumber> {
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumbersClient-listPurchasedPhoneNumbers",
+      options
+    );
     const iter = this.client.listPhoneNumbers(updatedOptions);
     span.end();
     return iter;
   }
 
   /**
-   * Starts the release of an acquired phone number.
+   * Starts the release of a purchased phone number.
    *
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
    *
@@ -188,7 +190,7 @@ export class PhoneNumbersClient {
   public async beginReleasePhoneNumber(
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
-  ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
+  ): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
       options
@@ -240,7 +242,7 @@ export class PhoneNumbersClient {
 
     try {
       const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
-      return await this.client.searchAvailablePhoneNumbers(
+      return this.client.searchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,
         assignmentType,
@@ -285,7 +287,7 @@ export class PhoneNumbersClient {
   public async beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
-  ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
+  ): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options
@@ -305,7 +307,7 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Starts the update of an acquired phone number's capabilities.
+   * Starts the update of a purchased phone number's capabilities.
    *
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
    *
@@ -324,13 +326,13 @@ export class PhoneNumbersClient {
    *
    * @param {string} phoneNumber The E.164 formatted phone number being updated. The leading plus can be either + or encoded as %2B.
    * @param {PhoneNumberCapabilitiesRequest} request The updated properties which will be applied to the phone number.
-   * @param {BeginUpdatePhoneNumberOptions} options Additional request options.
+   * @param {BeginUpdatePhoneNumberCapabilitiesOptions} options Additional request options.
    */
   public async beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
-    options: BeginUpdatePhoneNumberOptions = {}
-  ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
+    options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
+  ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
       options

@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   "types": "types/communication-chat.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --version=3.0.6267 --v3 --disable-async-iterators=true --package-version=1.0.0-beta.5 && rushx format",
+    "build:autorest": "autorest ./swagger/README.md --typescript --version=3.0.6267 --v3 --disable-async-iterators=true --package-version=1.0.0-beta.6 && rushx format",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Skipped.",
@@ -65,7 +65,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/communication-common": "1.0.0-beta.6",
+    "@azure/communication-common": "1.0.0-beta.7",
     "@azure/communication-signaling": "1.0.0-beta.2",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
@@ -108,7 +108,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha": "^7.1.1",
     "nyc": "^14.0.0",

@@ -28,13 +28,16 @@ import {
   SignOptions,
   VerifyOptions,
   DecryptParameters,
-  CryptographyClientKey
+  CryptographyClientKey,
+  AesCbcEncryptParameters,
+  AesCbcEncryptionAlgorithm
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
-import { createHash } from "./cryptography/hash";
+import { createHash, randomBytes } from "./cryptography/crypto";
 import { createSpan } from "./tracing";
 import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
+import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -192,11 +195,38 @@ export class CryptographyClient {
 
     const { span, updatedOptions } = this.createSpan("encrypt", options);
 
+    this.initializeIV(parameters);
+
     try {
       const provider = await this.getProvider("encrypt", parameters.algorithm);
       return await provider.encrypt(parameters, updatedOptions);
     } finally {
       span.end();
+    }
+  }
+
+  private initializeIV(parameters: EncryptParameters): void {
+    // For AES-GCM the service **must** generate the IV, so we only populate it for AES-CBC
+    const algorithmsRequiringIV: AesCbcEncryptionAlgorithm[] = [
+      "A128CBC",
+      "A128CBCPAD",
+      "A192CBC",
+      "A192CBCPAD",
+      "A256CBC",
+      "A256CBCPAD"
+    ];
+
+    if (parameters.algorithm in algorithmsRequiringIV) {
+      try {
+        const cbcParams = parameters as AesCbcEncryptParameters;
+        if (!cbcParams.iv) {
+          cbcParams.iv = randomBytes(16);
+        }
+      } catch (e) {
+        throw new Error(
+          `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`
+        );
+      }
     }
   }
 
@@ -522,7 +552,11 @@ export class CryptographyClient {
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
       const keyMaterial = await this.getKeyMaterial();
-      this.providers = [new RsaCryptographyProvider(keyMaterial)];
+      // Add local crypto providers as needed
+      this.providers = [
+        new RsaCryptographyProvider(keyMaterial),
+        new AesCryptographyProvider(keyMaterial)
+      ];
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
       // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.
@@ -531,15 +565,13 @@ export class CryptographyClient {
       }
     }
 
-    let providers = this.providers.filter((p) => p.supportsOperation(operation));
-    if (algorithm) {
-      providers = providers.filter((p) => p.supportsAlgorithm(algorithm));
-    }
+    const providers = this.providers.filter((p) => p.isSupported(algorithm, operation));
 
     if (providers.length === 0) {
       throw new Error(
-        `Unable to support operation: "${operation}" with algorithm: "${algorithm}"
-        ${this.key.kind === "JsonWebKey" ? " using a local JsonWebKey" : ""}`
+        `Unable to support operation: "${operation}" with algorithm: "${algorithm}" ${
+          this.key.kind === "JsonWebKey" ? "using a local JsonWebKey" : ""
+        }`
       );
     }
 

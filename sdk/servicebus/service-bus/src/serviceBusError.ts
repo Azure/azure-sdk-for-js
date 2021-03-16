@@ -3,6 +3,7 @@
 
 import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
 import { AmqpError } from "rhea-promise";
+import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * Service Bus failure codes.
@@ -181,6 +182,6 @@ export function translateServiceBusError(err: AmqpError | Error): ServiceBusErro
  *
  * @param err - An error to check to see if it's of type ServiceBusError
  */
-export function isServiceBusError(err: any): err is ServiceBusError {
-  return err?.name === "ServiceBusError";
+export function isServiceBusError(err: unknown): err is ServiceBusError {
+  return isObjectWithProperties(err, ["name"]) && err.name === "ServiceBusError";
 }

@@ -268,6 +268,10 @@ function Export-Configs {
 function Initialize-SmokeTests {
   Set-EnvironmentVariables
   $deployManifest = New-DeployManifest
+  if (!$deployManifest) {
+      Write-Warning "No javascript samples found for $ServiceDirectory"
+      return
+  }
   $configs = Deploy-TestResources $deployManifest
   Export-Configs $configs.Dependencies $configs.RunManifest
 

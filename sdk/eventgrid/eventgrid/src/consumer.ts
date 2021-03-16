@@ -9,7 +9,6 @@ import {
   CloudEvent as CloudEventMapper
 } from "./generated/models/mappers";
 import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
-import { systemDeserializers } from "./systemEventDecoders";
 
 const serializer = createSerializer();
 
@@ -23,7 +22,6 @@ const serializer = createSerializer();
  * - The consumer parses the event time property into a `Date` object, for ease of use.
  * - When deserializing an event in the CloudEvent schema, if the event contains binary data, it is base64 decoded
  *   and returned as an instance of the `Uint8Array` type.
- * - The `data` payload from system events is converted to match the interfaces this library defines.
  */
 export class EventGridDeserializer {
   /**
@@ -55,10 +53,6 @@ export class EventGridDeserializer {
       validateEventGridEvent(o);
 
       const deserialized: EventGridEvent<any> = serializer.deserialize(EventGridEventMapper, o, "");
-
-      if (systemDeserializers[deserialized.eventType]) {
-        deserialized.data = await systemDeserializers[deserialized.eventType](deserialized.data);
-      }
 
       events.push(deserialized as EventGridEvent<unknown>);
     }
@@ -130,15 +124,10 @@ export class EventGridDeserializer {
         }
 
         if (!(deserialized.dataBase64 instanceof Uint8Array)) {
-          throw new TypeError("event data_base64 property is invalid");
+          throw new TypeError("event data_base64 property is not an instance of Uint8Array");
         }
 
         modelEvent.data = deserialized.dataBase64;
-      }
-
-      // If a decoder is registered, apply it to the data.
-      if (systemDeserializers[modelEvent.type]) {
-        modelEvent.data = await systemDeserializers[modelEvent.type](modelEvent.data);
       }
 
       // Build the "extensionsAttributes" property bag by removing all known top level properties.

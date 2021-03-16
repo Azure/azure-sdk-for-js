@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
-  const endpoint = process.env.ENDPOINT || "<endpoint>";
+  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
 
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   const response = await client.deleteRepository("hello-world");

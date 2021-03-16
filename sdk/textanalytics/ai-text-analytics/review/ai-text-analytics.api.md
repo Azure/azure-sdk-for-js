@@ -176,7 +176,7 @@ export type EntityAssociation = "subject" | "other";
 export type EntityCertainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
 
 // @public
-export type EntityConditionality = "Hypothetical" | "Conditional";
+export type EntityConditionality = "hypothetical" | "conditional";
 
 // @public
 export interface EntityDataSource {

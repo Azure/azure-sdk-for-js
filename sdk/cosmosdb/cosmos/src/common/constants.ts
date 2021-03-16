@@ -158,6 +158,7 @@ export const Constants = {
     // Bulk/Batch header
     IsBatchRequest: "x-ms-cosmos-is-batch-request",
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
+    BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh"

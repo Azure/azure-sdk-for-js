@@ -37,8 +37,8 @@ import {
   LATEST_API_VERSION
 } from "../keysModels";
 import { getKeyFromKeyBundle } from "../transformations";
-import { createHash } from "./hash";
-import { CryptographyProvider } from "./models";
+import { createHash } from "./crypto";
+import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { Span } from "@opentelemetry/api";
 import { logger } from "../log";
 
@@ -117,6 +117,11 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     }
   }
 
+  // The remote client supports all algorithms and all operations.
+  isSupported(_algorithm: string, _operation: CryptographyProviderOperation): boolean {
+    return true;
+  }
+
   async encrypt(
     encryptParameters: EncryptParameters,
     options?: EncryptOptions
@@ -176,15 +181,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       keyID: this.getKeyID(),
       algorithm
     };
-  }
-
-  // The remote client supports all algorithms and all operations.
-  supportsAlgorithm(_algorithm: string): boolean {
-    return true;
-  }
-
-  supportsOperation(_operation: string): boolean {
-    return true;
   }
 
   async wrapKey(

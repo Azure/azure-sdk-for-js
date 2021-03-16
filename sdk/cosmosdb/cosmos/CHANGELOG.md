@@ -1,6 +1,18 @@
 # Release History
 
-## 3.10.1 (2021-02-25)
+## 3.10.4 (2021-03-12)
+
+- FEATURE: Adds Bulk continueOnError option
+
+## 3.10.3 (2021-03-12)
+
+- BUGFIX: Removes direct dependency on @azure/identity while retaining compatibility.
+
+## 3.10.2 (2021-03-11)
+
+- BUGFIX: Fixes @azure/identity dependency in dev deps.
+
+## 3.10.1 (2021-03-10)
 
 - BUGFIX: Autogenerates IDs for Upsert operations in bulk.
 

@@ -1,6 +1,13 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.1 (Unreleased)
+
+
+## 1.0.0 (2021-03-15)
+
+GA release of this package.
+
+## 1.0.0-beta.2 (2021-03-10)
 
 - Renamed interfaces with `HTTPS` in the name to have `HTTP` instead.
 - Changed from exposing `DefaultHttpsClient` as a class directly, to providing `createDefaultHttpsClient()` to instantiate the appropriate runtime class.

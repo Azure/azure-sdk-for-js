@@ -22,7 +22,14 @@ export const main = async () => {
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  return client;
+  const phoneNumberToRelease = "<phone-number-to-release>";
+
+  // get poller to monitor release
+  const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);
+
+  // Release is underway.
+  await releasePoller.pollUntilDone();
+  console.log("Successfully release phone number.");
 };
 
 main().catch((error) => {

@@ -62,7 +62,10 @@ export function serializationPolicy(options: SerializationPolicyOptions = {}): P
   };
 }
 
-function serializeHeaders(
+/**
+ * @internal
+ */
+export function serializeHeaders(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
@@ -89,6 +92,12 @@ function serializeHeaders(
           );
         }
       }
+    }
+  }
+  const customHeaders = operationArguments.options?.requestOptions?.customHeaders;
+  if (customHeaders) {
+    for (const customHeaderName of Object.keys(customHeaders)) {
+      request.headers.set(customHeaderName, customHeaders[customHeaderName]);
     }
   }
 }
@@ -127,12 +136,17 @@ export function serializeRequestBody(
       xmlName,
       xmlElementName,
       xmlNamespace,
-      xmlNamespacePrefix
+      xmlNamespacePrefix,
+      nullable
     } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
-      if (request.body || required) {
+      if (
+        (request.body !== undefined && request.body !== null) ||
+        (nullable && request.body === null) ||
+        required
+      ) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );

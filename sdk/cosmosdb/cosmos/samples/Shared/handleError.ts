@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { database, key, endpoint } from "./config";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { CosmosClient } from "../../dist";
 
 const client = new CosmosClient({ endpoint, key });

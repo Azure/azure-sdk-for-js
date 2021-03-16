@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpClient, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
-import { AcquiredPhoneNumber } from "../../src";
+import { PurchasedPhoneNumber } from "../../src";
 
 export const createMockHttpClient = <T = {}>(status: number = 200, parsedBody?: T): HttpClient => {
   return {
@@ -17,20 +17,23 @@ export const createMockHttpClient = <T = {}>(status: number = 200, parsedBody?: 
   };
 };
 
-export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<AcquiredPhoneNumber>(200, {
-  id: "+18005550100",
-  phoneNumber: "+18005550100",
-  countryCode: "US",
-  phoneNumberType: "geographic",
-  assignmentType: "person",
-  purchaseDate: new Date(),
-  capabilities: {
-    sms: "inbound+outbound",
-    calling: "none"
-  },
-  cost: {
-    amount: 5,
-    currencyCode: "USD",
-    billingFrequency: "monthly"
+export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<PurchasedPhoneNumber>(
+  200,
+  {
+    id: "+18005550100",
+    phoneNumber: "+18005550100",
+    countryCode: "US",
+    phoneNumberType: "geographic",
+    assignmentType: "person",
+    purchaseDate: new Date(),
+    capabilities: {
+      sms: "inbound+outbound",
+      calling: "none"
+    },
+    cost: {
+      amount: 5,
+      currencyCode: "USD",
+      billingFrequency: "monthly"
+    }
   }
-});
+);
