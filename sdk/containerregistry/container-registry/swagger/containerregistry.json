@@ -926,7 +926,7 @@
         }
       }
     },
-    "/acr/v1/{name}/_manifests/{reference}": {
+    "/acr/v1/{name}/_manifests/{digest}": {
       "get": {
         "tags": [
           "Repository"

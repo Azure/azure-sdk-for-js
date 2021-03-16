@@ -385,7 +385,7 @@ const getManifestsOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
-  path: "/acr/v1/{name}/_manifests/{reference}",
+  path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -400,7 +400,7 @@ const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const updateManifestAttributesOperationSpec: coreHttp.OperationSpec = {
-  path: "/acr/v1/{name}/_manifests/{reference}",
+  path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "PATCH",
   responses: {
     200: {},
