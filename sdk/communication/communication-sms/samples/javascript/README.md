@@ -61,4 +61,4 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node sendMes
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/README.md
-[handlesmsevents]: https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/telephony-sms/handle-sms-events
+[handlesmsevents]: https://docs.microsoft.com/azure/communication-services/quickstarts/telephony-sms/handle-sms-events

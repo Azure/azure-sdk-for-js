@@ -155,6 +155,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [get_phone_number_az_portal]: https://docs.microsoft.com/azure/communication-services/quickstarts/telephony-sms/get-phone-number
 [azure_communication_admin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-administration
 [azure_communication_admin_readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/README.md
-[handlesmsevents]: https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/telephony-sms/handle-sms-events
+[handlesmsevents]: https://docs.microsoft.com/azure/communication-services/quickstarts/telephony-sms/handle-sms-events
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)
