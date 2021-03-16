@@ -3,7 +3,7 @@
 
 /**
  * Demonstrates how to us the PhoneNumbersClient
- * to release phone numbers.
+ * to get a purchased phone number.
  */
 
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
@@ -12,28 +12,26 @@ import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 const dotenv = require("dotenv");
 dotenv.config();
 
-// You will need to set this environment variables or edit the following values
+// You will need to set this environment variable or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 export const main = async () => {
-  console.log("\n== Release Phone Numbers Typescript Sample ==\n");
+  console.log("\n== Get a Purchased Phone Number Typescript Sample ==\n");
 
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  const phoneNumberToRelease = "<phone-number-to-release>";
+  const phoneNumberToGet = "<phone-number-to-get>";
 
-  // get poller to monitor release
-  const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);
+  const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
 
-  // Release is underway.
-  await releasePoller.pollUntilDone();
-  console.log("Successfully release phone number.");
+  console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
+  console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 };
 
 main().catch((error) => {
-  console.error("Encountered an error while releasing phone numbers: ");
+  console.error("Encountered an error while updating the phone number: ");
   console.error("Request: \n", error.request);
   console.error("\nResponse: \n", error.response);
   console.error(error);
