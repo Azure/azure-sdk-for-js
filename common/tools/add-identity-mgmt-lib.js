@@ -176,24 +176,25 @@ function updatePackageJson(newPackageVersion) {
   };
 }
 
-function getClientFilePath(path) {
+function getSourceFiles(path) {
+  let clientFile = undefined;
+  let contextFile = undefined;
   const files = fs.readdirSync(p.join(path, "src"));
   for (const file of files) {
-    if (file.match(/.+?Client.ts/)) {
-      return p.join("src", file);
+    const match = file.match(/(.+?)Context.ts/);
+    if (match !== undefined && match !== null) {
+      contextFile = p.join(p.join(path, "src"), file);
+      clientFile = p.join(p.join(path, "src"), `${match[1]}.ts`);
+      break;
     }
   }
-  throw new Error(`Could not find the src/*Client.ts file`);
-}
-
-function getClientContextFilePath(path) {
-  const files = fs.readdirSync(p.join(path, "src"));
-  for (const file of files) {
-    if (file.match(/.+?ClientContext.ts/)) {
-      return p.join("src", file);
-    }
-  }
-  throw new Error(`Could not find the src/*ClientContext.ts file`);
+  if (clientFile === undefined || !fs.existsSync(clientFile))
+    throw new Error(`Could not find the src/*.ts file`);
+  if (contextFile === undefined) throw new Error(`Could not find the src/*Context.ts file`);
+  return {
+    clientFile: clientFile,
+    contextFile: contextFile
+  };
 }
 
 function updateClient(content) {
@@ -264,10 +265,11 @@ function main(args) {
     .slice(-3)
     .join("/");
   const namespace = getNamespace(p.join(path, "rollup.config.js"));
+  const { contextFile, clientFile } = getSourceFiles(path);
   rewriteFile(p.join(path, "README.md"), updateREADME(mainModule, relativePkgPath, namespace));
   rewriteFile(packageJsonPath, updatePackageJson(newPackageVersion));
-  rewriteFile(p.join(path, getClientFilePath(path)), updateClient);
-  rewriteFile(p.join(path, getClientContextFilePath(path)), updateClientContext(newPackageVersion));
+  rewriteFile(clientFile, updateClient);
+  rewriteFile(contextFile, updateClientContext(newPackageVersion));
 }
 
 main(process.argv);
