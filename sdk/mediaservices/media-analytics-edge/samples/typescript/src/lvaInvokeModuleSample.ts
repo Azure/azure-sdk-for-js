@@ -23,7 +23,7 @@ import {
   createMediaGraphInstanceDeActivateRequest,
   createMediaGraphInstanceDeleteRequest,
   createMediaGraphTopologyDeleteRequest
-} from "../../../";
+} from "@azure/media-analytics-edge";
 import { Client } from "azure-iothub";
 
 function buildGraphTopology() {

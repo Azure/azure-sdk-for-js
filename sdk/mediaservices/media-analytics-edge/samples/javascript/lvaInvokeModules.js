@@ -12,7 +12,7 @@ const {
   createMediaGraphInstanceDeActivateRequest,
   createMediaGraphInstanceDeleteRequest,
   createMediaGraphTopologyDeleteRequest
-} = require("../../");
+} = require("@azure/media-analytics-edge");
 const { Client } = require("azure-iothub");
 
 function buildGraphTopology() {
@@ -72,8 +72,7 @@ async function main() {
   console.log("== Sample Template ==");
   const device_id = "lva-sample-device";
   const module_id = "lvaEdge";
-  const connectionString =
-    "HostName=lvasamplehubwuvvummbzrlk4.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=rHEELfVWEkKxbMBvdc7Fcp49QdBDA6skuOcLIIryD6c=";
+  const connectionString = "";
   const cli = Client.fromConnectionString(connectionString);
 
   const invokeMethod = async (methodRequest) => {
