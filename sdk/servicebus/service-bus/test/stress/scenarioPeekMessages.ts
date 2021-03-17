@@ -1,4 +1,8 @@
-import { ServiceBusClient, ServiceBusReceivedMessage, ServiceBusReceiver } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusReceivedMessage,
+  ServiceBusReceiver
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -56,7 +60,7 @@ export async function scenarioPeekMessages() {
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init(undefined, undefined, testOptions);
-  
+
   const sender = sbClient.createSender(stressBase.queueName);
   let receiver: ServiceBusReceiver;
 

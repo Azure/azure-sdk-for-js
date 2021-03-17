@@ -42,6 +42,17 @@ function updateREADME(mainModule, relativePath, namespace) {
       "README file"
     );
 
+    const operation = getMatch(
+      content.match(/client\.(.+?)\(.*\).*$/ms),
+      "operation",
+      "README file"
+    );
+
+    const operationHeader = operation
+      .split(".")
+      .reverse()
+      .join(" ");
+
     return `## Azure ${clientName} SDK for JavaScript
 
 This package contains an isomorphic SDK (runs both in node.js and in browsers) for ${clientName}.
@@ -71,7 +82,7 @@ There are multiple credentials available in the \`@azure/identity\` package to s
 Read about them in detail in [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
 To get started you can use the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential) which tries different credentials internally until one of them succeeds.
 Most of the credentials would require you to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
-#### nodejs - Authentication, client creation, and get apps as an example written in JavaScript.
+#### nodejs - Authentication, client creation, and ${operationHeader} as an example written in JavaScript.
 
 ##### Sample code
 
@@ -86,7 +97,7 @@ const creds = new DefaultAzureCredential();
 const client = new ${clientName}(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const resourceName = "testresourceName";
-client.apps.get(resourceGroupName, resourceName).then((result) => {
+client.${operation}(resourceGroupName, resourceName).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -95,7 +106,7 @@ client.apps.get(resourceGroupName, resourceName).then((result) => {
 });
 \`\`\`
 
-#### browser - Authentication, client creation, and get apps as an example written in JavaScript.
+#### browser - Authentication, client creation, and ${operationHeader} as an example written in JavaScript.
 
 In browser applications, we recommend using the \`InteractiveBrowserCredential\` that interactively authenticates using the default system browser.
 It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
@@ -124,7 +135,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
       const client = new ${namespace}.${clientName}(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName";
-      client.apps.get(resourceGroupName, resourceName).then((result) => {
+      client.${operation}(resourceGroupName, resourceName).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
@@ -165,24 +176,25 @@ function updatePackageJson(newPackageVersion) {
   };
 }
 
-function getClientFilePath(path) {
+function getSourceFiles(path) {
+  let clientFile = undefined;
+  let contextFile = undefined;
   const files = fs.readdirSync(p.join(path, "src"));
   for (const file of files) {
-    if (file.match(/.+?Client.ts/)) {
-      return p.join("src", file);
+    const match = file.match(/(.+?)Context.ts/);
+    if (match !== undefined && match !== null) {
+      contextFile = p.join(p.join(path, "src"), file);
+      clientFile = p.join(p.join(path, "src"), `${match[1]}.ts`);
+      break;
     }
   }
-  throw new Error(`Could not find the src/*Client.ts file`);
-}
-
-function getClientContextFilePath(path) {
-  const files = fs.readdirSync(p.join(path, "src"));
-  for (const file of files) {
-    if (file.match(/.+?ClientContext.ts/)) {
-      return p.join("src", file);
-    }
-  }
-  throw new Error(`Could not find the src/*ClientContext.ts file`);
+  if (clientFile === undefined || !fs.existsSync(clientFile))
+    throw new Error(`Could not find the src/*.ts file`);
+  if (contextFile === undefined) throw new Error(`Could not find the src/*Context.ts file`);
+  return {
+    clientFile: clientFile,
+    contextFile: contextFile
+  };
 }
 
 function updateClient(content) {
@@ -253,10 +265,11 @@ function main(args) {
     .slice(-3)
     .join("/");
   const namespace = getNamespace(p.join(path, "rollup.config.js"));
+  const { contextFile, clientFile } = getSourceFiles(path);
   rewriteFile(p.join(path, "README.md"), updateREADME(mainModule, relativePkgPath, namespace));
   rewriteFile(packageJsonPath, updatePackageJson(newPackageVersion));
-  rewriteFile(p.join(path, getClientFilePath(path)), updateClient);
-  rewriteFile(p.join(path, getClientContextFilePath(path)), updateClientContext(newPackageVersion));
+  rewriteFile(clientFile, updateClient);
+  rewriteFile(contextFile, updateClientContext(newPackageVersion));
 }
 
 main(process.argv);

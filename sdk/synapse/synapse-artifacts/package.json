@@ -61,6 +61,8 @@
     "pack": "npm pack 2>&1",
     "build:test": "echo skip",
     "lint": "echo skipped",
+    "format": "echo skip format as this package has only auto generated code",
+    "check-format": "echo skip format check as this package has only auto generated code",
     "test": "echo skip",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
