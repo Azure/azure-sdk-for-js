@@ -6,6 +6,7 @@ import * as sinon from "sinon";
 import { PassThrough } from "stream";
 import { IncomingMessage, ClientRequest, IncomingHttpHeaders } from "http";
 import * as https from "https";
+import * as http from "http";
 import { AbortController } from "@azure/abort-controller";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src";
 
@@ -37,11 +38,13 @@ function createRequest(): ClientRequest {
 }
 
 describe("NodeHttpClient", function() {
-  let stubbedRequest: sinon.SinonStub;
+  let stubbedHttpsRequest: sinon.SinonStub;
+  let stubbedHttpRequest: sinon.SinonStub;
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(function() {
-    stubbedRequest = sinon.stub(https, "request");
+    stubbedHttpsRequest = sinon.stub(https, "request");
+    stubbedHttpRequest = sinon.stub(http, "request");
     clock = sinon.useFakeTimers();
   });
 
@@ -52,10 +55,10 @@ describe("NodeHttpClient", function() {
 
   it("shouldn't throw on 404", async function() {
     const client = createDefaultHttpClient();
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
-    stubbedRequest.yield(createResponse(404));
+    stubbedHttpsRequest.yield(createResponse(404));
     const response = await promise;
     assert.strictEqual(response.status, 404);
   });
@@ -63,7 +66,7 @@ describe("NodeHttpClient", function() {
   it("should allow canceling of requests", async function() {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal
@@ -82,7 +85,7 @@ describe("NodeHttpClient", function() {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     controller.abort();
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal
@@ -98,7 +101,7 @@ describe("NodeHttpClient", function() {
 
   it("should report upload and download progress", async function() {
     const client = createDefaultHttpClient();
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     let downloadCalled = false;
     let uploadCalled = false;
     const request = createPipelineRequest({
@@ -115,7 +118,7 @@ describe("NodeHttpClient", function() {
     });
     const promise = client.sendRequest(request);
     const responseText = "An appropriate response.";
-    stubbedRequest.yield(createResponse(200, responseText));
+    stubbedHttpsRequest.yield(createResponse(200, responseText));
     const response = await promise;
     assert.strictEqual(response.bodyAsText, responseText);
     assert.isTrue(downloadCalled, "no download progress");
@@ -124,7 +127,7 @@ describe("NodeHttpClient", function() {
 
   it("should fail if progress callbacks throw", async function() {
     const client = createDefaultHttpClient();
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     const errorMessage = "it failed horribly!";
     const request = createPipelineRequest({
       url: "https://example.com",
@@ -146,7 +149,7 @@ describe("NodeHttpClient", function() {
     const client = createDefaultHttpClient();
 
     const timeoutLength = 2000;
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     const request = createPipelineRequest({
       url: "https://example.com",
       timeout: timeoutLength
@@ -163,13 +166,13 @@ describe("NodeHttpClient", function() {
 
   it("should stream response body on matching status code", async function() {
     const client = createDefaultHttpClient();
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200])
     });
     const promise = client.sendRequest(request);
-    stubbedRequest.yield(createResponse(200, "body"));
+    stubbedHttpsRequest.yield(createResponse(200, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
     assert.ok(response.readableStreamBody);
@@ -177,15 +180,42 @@ describe("NodeHttpClient", function() {
 
   it("should not stream response body on non-matching status code", async function() {
     const client = createDefaultHttpClient();
-    stubbedRequest.returns(createRequest());
+    stubbedHttpsRequest.returns(createRequest());
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200])
     });
     const promise = client.sendRequest(request);
-    stubbedRequest.yield(createResponse(400, "body"));
+    stubbedHttpsRequest.yield(createResponse(400, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, "body");
     assert.strictEqual(response.readableStreamBody, undefined);
+  });
+
+  it("should throw when accessing HTTP and allowInsecureConnection is false", async function() {
+    const client = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: "http://example.com"
+    });
+    const promise = client.sendRequest(request);
+    try {
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e) {
+      assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
+    }
+  });
+
+  it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function() {
+    const client = createDefaultHttpClient();
+    stubbedHttpRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      allowInsecureConnection: true,
+      url: "http://example.com"
+    });
+    const promise = client.sendRequest(request);
+    stubbedHttpRequest.yield(createResponse(200, "body"));
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
   });
 });
