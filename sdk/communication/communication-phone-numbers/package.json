@@ -41,6 +41,7 @@
   },
   "files": [
     "dist/",
+    "dist-browser/",
     "dist-esm/src/",
     "types/communication-phone-numbers.d.ts",
     "README.md",
