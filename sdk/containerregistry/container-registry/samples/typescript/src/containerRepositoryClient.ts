@@ -18,7 +18,9 @@ export async function main() {
   await listTags(client);
   await listArtifacts(client);
   await getProperties(client);
-  await getArtifactProperties(client);
+  const digest = "sha256:4661fb57f7890b9145907a1fe2555091d333ff3d28db86c3bb906f6a2be93c87";
+  await getArtifactProperties(client, digest);
+  await deleteArtifact(client, digest);
 }
 
 async function listTags(client: ContainerRepositoryClient) {
@@ -89,11 +91,13 @@ async function getProperties(client: ContainerRepositoryClient) {
   }
 }
 
-async function getArtifactProperties(client: ContainerRepositoryClient) {
-  const properties = await client.getRegistryArtifactProperties(
-    "sha256%3A43abbf92155ae0e7067e9b619bd70d4e14f6bf6adef026d336f5aed3d4b5d6a7"
-  );
+async function getArtifactProperties(client: ContainerRepositoryClient, digest: string) {
+  const properties = await client.getRegistryArtifactProperties(digest);
   console.dir(properties);
+}
+
+async function deleteArtifact(client: ContainerRepositoryClient, digest: string) {
+  await client.deleteRegistryArtifact(digest);
 }
 
 main().catch((err) => {

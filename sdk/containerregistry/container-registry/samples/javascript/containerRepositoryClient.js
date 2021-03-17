@@ -16,8 +16,10 @@ async function main() {
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
   await listTags(client);
   await listArtifacts(client);
-  await getProperties(client);
-  await getArtifactProperties(client);
+  // await getProperties(client);
+  const digest = "sha256:4661fb57f7890b9145907a1fe2555091d333ff3d28db86c3bb906f6a2be93c87";
+  await getArtifactProperties(client, digest);
+  // await deleteArtifact(client, digest);
 }
 
 async function listTags(client) {
@@ -48,12 +50,12 @@ async function listTags(client) {
 
 async function listArtifacts(client) {
   console.log("Listing artifacts");
-  // const iterator = client.listRegistryArtifacts();
-  // for await (const artifact of iterator) {
-  //   console.log(`  digest: ${artifact.digest}`);
-  //   console.log(`  created on: ${artifact.createdOn}`);
-  //   console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
-  // }
+  const iterator = client.listRegistryArtifacts();
+  for await (const artifact of iterator) {
+    console.log(`  digest: ${artifact.digest}`);
+    console.log(`  created on: ${artifact.createdOn}`);
+    console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
+  }
 
   console.log("  by pages");
   const pages = client.listRegistryArtifacts().byPage({ maxPageSize: 2 });
@@ -88,11 +90,13 @@ async function getProperties(client) {
   }
 }
 
-async function getArtifactProperties(client) {
-  const properties = await client.getRegistryArtifactProperties(
-    "sha256:4661fb57f7890b9145907a1fe2555091d333ff3d28db86c3bb906f6a2be93c87"
-  );
+async function getArtifactProperties(client, digest) {
+  const properties = await client.getRegistryArtifactProperties(digest);
   console.dir(properties);
+}
+
+async function deleteArtifact(client, digest) {
+  await client.deleteRegistryArtifact(digest);
 }
 
 main().catch((err) => {
