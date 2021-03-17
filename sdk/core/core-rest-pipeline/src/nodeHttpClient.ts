@@ -66,8 +66,8 @@ class ReportTransform extends Transform {
  * @internal
  */
 class NodeHttpClient implements HttpClient {
-  private httpsKeepAliveAgent?: http.Agent;
-  private httpsProxyAgent?: http.Agent;
+  private httpsKeepAliveAgent?: https.Agent;
+  private httpsProxyAgent?: https.Agent;
   private httpKeepAliveAgent?: http.Agent;
   private httpProxyAgent?: http.Agent;
 
