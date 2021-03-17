@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { handleSingleQuotesInUrlPath } from "./utils/index";
 import {
   isBrowser,
   TestInfo,
@@ -10,7 +9,8 @@ import {
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
   decodeHexEncodingIfExistsInNockFixture,
-  maskAccessTokenInNockFixture
+  maskAccessTokenInNockFixture,
+  handleSingleQuotesInUrlPath
 } from "./utils";
 
 /**

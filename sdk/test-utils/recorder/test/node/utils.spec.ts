@@ -1,16 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   generateTestRecordingFilePath,
   isBrowser,
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture,
-  maskAccessTokenInNockFixture
+  maskAccessTokenInNockFixture,
+  handleSingleQuotesInUrlPath
 } from "../../src/utils";
-
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
-
 import chai, { expect } from "chai";
-import { handleSingleQuotesInUrlPath } from "../../src/utils/index";
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
