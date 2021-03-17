@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.0",
+    "eslint": "^7.15.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "tslib": "^2.0.0",
@@ -33,8 +34,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "echo skipped",
-    "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test --ext .ts -f html -o storage-blob-perf-test-lintReport.html || exit 0",
+    "lint:fix": "eslint --no-eslintrc -c ../../../.eslintrc.internal.json package.json test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint --no-eslintrc -c ../../../.eslintrc.internal.json package.json test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test:browser": "echo skipped",
