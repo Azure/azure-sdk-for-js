@@ -33,7 +33,7 @@ export class DetectLanguageTest extends PerfStressTest<DetectLanguagePerfTestOpt
   constructor() {
     super();
     this.options = this.parsedOptions;
-    this.docs = Array(this.parsedOptions["documents-count"]?.value).fill(
+    this.docs = Array(this.parsedOptions["documents-count"]?.value!).fill(
       "Detta är ett dokument skrivet på engelska."
     );
     let credential: TokenCredential | AzureKeyCredential;
