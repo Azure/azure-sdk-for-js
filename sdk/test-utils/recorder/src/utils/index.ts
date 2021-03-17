@@ -449,7 +449,8 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
 export function maskAccessTokenInNockFixture(fixture: string): string {
   // Replaces only if the content-type is json
   if (!isBrowser() && isContentTypeInNockFixture(fixture, jsonContentTypes)) {
-    // Matches the nock's reply from the fixture
+    // Matches the nock's reply from the fixture such as below
+    //   `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"e6z-9_g"}, [`
     const matches = fixture.match(/\.reply\((.*), (.*), .*/);
     if (matches && matches[2]) {
       const accessToken = JSON.parse(matches[2])["access_token"];
