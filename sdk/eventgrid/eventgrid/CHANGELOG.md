@@ -1,5 +1,8 @@
 # Release History
 
+## 4.0.1 (Unreleased)
+
+
 ## 4.0.0 (2021-03-17)
 
 - Update version to 4.0.0 to align with other EventGrid SDKs
