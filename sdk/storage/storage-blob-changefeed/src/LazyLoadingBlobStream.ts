@@ -14,9 +14,6 @@ export interface LazyLoadingBlobStreamOptions extends ReadableOptions, CommonOpt
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof LazyLoadingBlobStreamOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -25,35 +22,21 @@ interface LazyLoadingBlobStreamDownloadBlockOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof LazyLoadingBlobStreamDownloadBlockOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * This class generates a readable stream from a blobClient's data.
- *
- * @export
- * @class LazyLoadingBlobStream
  */
 export class LazyLoadingBlobStream extends Readable {
   /**
    * BlobClient to make download calls with.
-   *
-   * @private
-   * @type {BlobClient}
-   * @memberof LazyLoadingBlobStream
    */
   private readonly blobClient: BlobClient;
 
   /**
    * The offset within the blob of the next block we will download.
-   *
-   * @private
-   * @type {number}
-   * @memberof LazyLoadingBlobStream
    */
   private offset: number;
 
@@ -70,8 +53,7 @@ export class LazyLoadingBlobStream extends Readable {
   /**
    * Creates an instance of LazyLoadingBlobStream.
    *
-   * @param {number} byteLength The total length of data contained in the buffers
-   * @memberof LazyLoadingBlobStream
+   * @param byteLength - The total length of data contained in the buffers
    */
   constructor(
     blobClient: BlobClient,
@@ -89,14 +71,11 @@ export class LazyLoadingBlobStream extends Readable {
   }
 
   private async downloadBlock(options: LazyLoadingBlobStreamDownloadBlockOptions = {}) {
-    const { span, spanOptions } = createSpan(
-      "LazyLoadingBlobStream-downloadBlock",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-downloadBlock", options);
     try {
       const properties = await this.blobClient.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       this.blobLength = properties.contentLength!;
 
@@ -111,7 +90,7 @@ export class LazyLoadingBlobStream extends Readable {
         this.lastDownloadBytes,
         {
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         }
       );
       this.offset += this.lastDownloadBytes;
@@ -129,14 +108,10 @@ export class LazyLoadingBlobStream extends Readable {
   /**
    * Internal _read() that will be called when the stream wants to pull more data in.
    *
-   * @param {number} size Optional. The size of data to be read
-   * @memberof LazyLoadingBlobStream
+   * @param size - Optional. The size of data to be read
    */
   public async _read(size?: number) {
-    const { span, spanOptions } = createSpan(
-      "LazyLoadingBlobStream-read",
-      this.options?.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-read", this.options);
 
     try {
       if (!size) {
@@ -149,7 +124,7 @@ export class LazyLoadingBlobStream extends Readable {
         if (this.lastDownloadData === undefined || this.lastDownloadData?.byteLength === 0) {
           await this.downloadBlock({
             abortSignal: this.options?.abortSignal,
-            tracingOptions: { ...this.options?.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions?.tracingOptions
           });
         }
         if (this.lastDownloadData?.byteLength) {

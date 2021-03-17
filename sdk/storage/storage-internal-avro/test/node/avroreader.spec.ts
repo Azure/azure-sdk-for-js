@@ -8,7 +8,7 @@ import { arraysEqual } from "../../src/utils/utils.common";
 import { AbortController } from "@azure/abort-controller";
 import { Readable } from "stream";
 
-type Action = (o: Object | null) => void;
+type Action = (o: Record<string, any> | null) => void;
 class TestCase {
   public path: string;
   public predict: Action;
@@ -67,6 +67,7 @@ describe("AvroReader", () => {
   });
 
   it("aborter", async () => {
+    // eslint-disable-next-line 	@typescript-eslint/no-empty-function
     const delayedReadable = new Readable({ read() {} });
     const rfs = new AvroReadableFromStream(delayedReadable);
     const avroReader = new AvroReader(rfs);

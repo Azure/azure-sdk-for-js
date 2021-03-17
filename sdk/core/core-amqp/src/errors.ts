@@ -4,6 +4,7 @@
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isNode, isNumber, isString } from "../src/util/utils";
+import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -582,8 +583,8 @@ export enum SystemErrorConditionMapper {
  * Checks whether the provided error is a node.js SystemError.
  * @param err - An object that may contain error information.
  */
-export function isSystemError(err: any): err is NetworkSystemError {
-  if (!err) {
+export function isSystemError(err: unknown): err is NetworkSystemError {
+  if (!isObjectWithProperties(err, ["code", "syscall", "errno"])) {
     return false;
   }
 
@@ -607,12 +608,7 @@ export function isSystemError(err: any): err is NetworkSystemError {
  */
 function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
-  if (
-    !isNode &&
-    window &&
-    err.type === "error" &&
-    err.target instanceof (window as any).WebSocket
-  ) {
+  if (!isNode && self && err.type === "error" && err.target instanceof (self as any).WebSocket) {
     result = true;
   }
   return result;

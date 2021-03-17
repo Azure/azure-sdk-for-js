@@ -82,7 +82,7 @@
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
@@ -102,7 +102,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",

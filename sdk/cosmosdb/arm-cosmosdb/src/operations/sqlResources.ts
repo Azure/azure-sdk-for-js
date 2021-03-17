@@ -1121,7 +1121,7 @@ const listSqlDatabasesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1147,7 +1147,7 @@ const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1173,7 +1173,7 @@ const getSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1199,7 +1199,7 @@ const listSqlContainersOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1226,7 +1226,7 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1253,7 +1253,7 @@ const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1280,7 +1280,7 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1308,7 +1308,7 @@ const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1335,7 +1335,7 @@ const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1363,7 +1363,7 @@ const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1390,7 +1390,7 @@ const listSqlTriggersOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1418,7 +1418,7 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1444,7 +1444,7 @@ const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1478,7 +1478,7 @@ const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1503,7 +1503,7 @@ const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1537,7 +1537,7 @@ const beginMigrateSqlDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1564,7 +1564,7 @@ const beginMigrateSqlDatabaseToManualThroughputOperationSpec: msRest.OperationSp
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1592,7 +1592,7 @@ const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1627,7 +1627,7 @@ const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1653,7 +1653,7 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1688,7 +1688,7 @@ const beginMigrateSqlContainerToAutoscaleOperationSpec: msRest.OperationSpec = {
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1716,7 +1716,7 @@ const beginMigrateSqlContainerToManualThroughputOperationSpec: msRest.OperationS
     Parameters.containerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1745,7 +1745,7 @@ const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1781,7 +1781,7 @@ const beginDeleteSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
     Parameters.storedProcedureName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1808,7 +1808,7 @@ const beginCreateUpdateSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1844,7 +1844,7 @@ const beginDeleteSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.userDefinedFunctionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1871,7 +1871,7 @@ const beginCreateUpdateSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1907,7 +1907,7 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.triggerName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

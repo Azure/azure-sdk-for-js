@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  PipelinePolicy
+} from "@azure/core-rest-pipeline";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";

@@ -186,8 +186,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid language.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
 
@@ -215,8 +216,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid pages.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -376,8 +378,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -475,8 +478,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -572,8 +576,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });

@@ -16,7 +16,6 @@ import {
   ChatCreateChatThreadResponse,
   ChatListChatThreadsOptionalParams,
   ChatListChatThreadsResponse,
-  ChatGetChatThreadResponse,
   ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse
 } from "../models";
@@ -27,7 +26,7 @@ export class Chat {
 
   /**
    * Initialize a new instance of the class Chat class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ChatApiClient) {
     this.client = client;
@@ -35,8 +34,8 @@ export class Chat {
 
   /**
    * Creates a chat thread.
-   * @param createChatThreadRequest - Request payload for creating a chat thread.
-   * @param options - The options parameters.
+   * @param createChatThreadRequest Request payload for creating a chat thread.
+   * @param options The options parameters.
    */
   createChatThread(
     createChatThreadRequest: CreateChatThreadRequest,
@@ -54,7 +53,7 @@ export class Chat {
 
   /**
    * Gets the list of chat threads of a user.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listChatThreads(
     options?: ChatListChatThreadsOptionalParams
@@ -69,28 +68,9 @@ export class Chat {
   }
 
   /**
-   * Gets a chat thread.
-   * @param chatThreadId - Id of the thread.
-   * @param options - The options parameters.
-   */
-  getChatThread(
-    chatThreadId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<ChatGetChatThreadResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      chatThreadId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getChatThreadOperationSpec
-    ) as Promise<ChatGetChatThreadResponse>;
-  }
-
-  /**
    * Deletes a thread.
-   * @param chatThreadId - Id of the thread to be deleted.
-   * @param options - The options parameters.
+   * @param chatThreadId Id of the thread to be deleted.
+   * @param options The options parameters.
    */
   deleteChatThread(
     chatThreadId: string,
@@ -108,8 +88,8 @@ export class Chat {
 
   /**
    * ListChatThreadsNext
-   * @param nextLink - The nextLink from the previous successful call to the ListChatThreads method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the ListChatThreads method.
+   * @param options The options parameters.
    */
   listChatThreadsNext(
     nextLink: string,
@@ -155,7 +135,7 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.createChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.repeatabilityRequestID],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.idempotencyToken],
   mediaType: "json",
   serializer
 };
@@ -164,7 +144,7 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadsInfoCollection
+      bodyMapper: Mappers.ChatThreadsItemCollection
     },
     401: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -185,35 +165,6 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getChatThreadOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ChatThread
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -249,7 +200,7 @@ const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadsInfoCollection
+      bodyMapper: Mappers.ChatThreadsItemCollection
     },
     401: {
       bodyMapper: Mappers.CommunicationErrorResponse,

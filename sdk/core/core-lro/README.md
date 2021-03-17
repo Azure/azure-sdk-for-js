@@ -60,7 +60,7 @@ You will be able to find some working examples of an implementation of an operat
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
 Logs can be added at the discretion of the library implementing the Long Running Operation poller.
 Packages inside of [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) use

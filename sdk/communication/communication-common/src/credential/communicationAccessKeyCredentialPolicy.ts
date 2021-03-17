@@ -16,10 +16,10 @@ import {
 import { shaHash, shaHMAC } from "./cryptoUtils";
 
 /**
- * Creates an HTTP pipeline policy to authenticate a request
- * using an `KeyCredential`
+ * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
+ * @hidden
  *
- * @param credential - The key credential
+ * @param credential - The key credential.
  */
 export const createCommunicationAccessKeyCredentialPolicy = (
   credential: KeyCredential
@@ -86,8 +86,6 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Signs the request and calls the next policy in the factory.
-   *
-   * @param webResource
    */
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource) {

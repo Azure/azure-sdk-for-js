@@ -44,6 +44,16 @@ import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
 
 /**
+ * The default time to wait for messages _after_ the first message
+ * has been received.
+ *
+ * This timeout only applies to receiveMessages()
+ *
+ * @internal
+ */
+export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
+
+/**
  * A receiver that does not handle sessions.
  */
 export interface ServiceBusReceiver {
@@ -745,13 +755,3 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return;
   }
 }
-
-/**
- * The default time to wait for messages _after_ the first message
- * has been received.
- *
- * This timeout only applies to receiveMessages()
- *
- * @internal
- */
-export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;

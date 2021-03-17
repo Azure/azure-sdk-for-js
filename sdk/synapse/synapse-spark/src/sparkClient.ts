@@ -8,11 +8,11 @@ import { SparkClientOptionalParams } from "./models";
 export class SparkClient extends SparkClientContext {
   /**
    * Initializes a new instance of the SparkClient class.
-   * @param credentials - Subscription credentials which uniquely identify client subscription.
-   * @param endpoint - The workspace development endpoint, for example
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param endpoint The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param sparkPoolName - Name of the spark pool.
-   * @param options - The parameter options
+   * @param sparkPoolName Name of the spark pool.
+   * @param options The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,

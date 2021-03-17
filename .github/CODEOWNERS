@@ -16,19 +16,34 @@
 /sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Core
-/sdk/core/core-auth/ @daviwil @xirzec @bterlson
+/sdk/core/core-asynciterator-polyfill/ @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
+/sdk/core/core-auth/ @sadasant @daviwil @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-client/ @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
+/sdk/core/core-crypto/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
-/sdk/core/core-lro/ @sadasant @xirzec @bterlson
+/sdk/core/core-rest-pipeline/ @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
+/sdk/core/core-lro/ @sadasant @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
 
 # PRLabel: %Azure.Core
 /sdk/core/core-tracing/ @xirzec @bterlson @chradek @richardpark-msft
+
+# PRLabel: %Azure.Core
+/sdk/core/core-xml/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/logger @xirzec @bterlson @chradek
@@ -41,7 +56,10 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/ @acsdevx-msft
+
+# PRLabel: %Container Registry
+/sdk/containerregistry/ @jeremymeng
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
@@ -59,10 +77,10 @@
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
+/sdk/identity/ @sadasant @maorleger @schaabs @daviwil 
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant @maorleger
+/sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377 @EmmaZhu

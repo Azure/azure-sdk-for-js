@@ -84,6 +84,7 @@ jobs:
         parameters:
           Artifacts: ${{ parameters.Artifacts }}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestPipeline: ${{ parameters.TestPipeline }}
 
   # Only run tests if the matrix has entries
   - ${{ if ne(parameters.RunUnitTests, false) }}:

@@ -27,7 +27,10 @@ import {
   UpsertEntityResponse,
   DeleteTableEntityResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
+import {
+  GeneratedClientOptionalParams,
+  QueryOptions as GeneratedQueryOptions
+} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   TablesSharedKeyCredential,
@@ -40,19 +43,14 @@ import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { Pipeline } from "@azure/core-https";
-import {
-  ClientPipelineOptions,
-  createClientPipeline,
-  FullOperationResponse
-} from "@azure/core-client";
+import { FullOperationResponse } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
-import { parseXML } from "@azure/core-xml";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -146,15 +144,15 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    let pipeline: Pipeline;
+    let generatedClientOptions: GeneratedClientOptionalParams = {};
 
     if (isInternalClientOptions(clientOptions)) {
       // The client is meant to be an intercept client, so we need to create only the intercepting
       // pipelines.
-      pipeline = clientOptions.innerBatchRequest.createPipeline();
+      generatedClientOptions.pipeline = clientOptions.innerBatchRequest.createPipeline();
     } else {
       // The client is meant to be a regular service client, so we need to create the regular set of pipelines
-      const internalPipelineOptions: ClientPipelineOptions = {
+      generatedClientOptions = {
         ...clientOptions,
         ...{
           loggingOptions: {
@@ -163,20 +161,21 @@ export class TableClient {
           },
           deserializationOptions: {
             parseXML
+          },
+          serializationOptions: {
+            stringifyXML
           }
         }
       };
-      pipeline = createClientPipeline(internalPipelineOptions);
-
-      if (credential) {
-        pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
-      }
     }
 
     this.tableName = tableName;
     this.credential = credential;
-    const { table } = new GeneratedClient(url, { pipeline });
-    this.table = table;
+    const generatedClient = new GeneratedClient(url, generatedClientOptions);
+    if (credential) {
+      generatedClient.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    }
+    this.table = generatedClient.table;
   }
 
   /**
@@ -273,7 +272,7 @@ export class TableClient {
         return this;
       },
       byPage: (settings) => {
-        const pageOptions = {
+        const pageOptions: InternalListTableEntitiesOptions = {
           ...options,
           queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
         };
@@ -571,10 +570,11 @@ export class TableClient {
   }
 }
 
+type InternalQueryOptions = TableEntityQueryOptions & { top?: number };
+interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
+  queryOptions?: InternalQueryOptions;
+}
+
 function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
   return Boolean(options.innerBatchRequest);
 }
-
-type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
-  queryOptions?: TableEntityQueryOptions & { top?: number };
-};

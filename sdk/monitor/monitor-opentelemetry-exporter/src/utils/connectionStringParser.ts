@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Logger, NoopLogger } from "@opentelemetry/api";
+import { diag } from "@opentelemetry/api";
 import { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
 
 import * as Constants from "../Declarations/Constants";
 
+/**
+ * ConnectionString parser.
+ * @internal
+ */
 export class ConnectionStringParser {
   private static readonly FIELDS_SEPARATOR = ";";
 
   private static readonly FIELD_KEY_VALUE_SEPARATOR = "=";
 
-  public static parse(
-    connectionString?: string,
-    logger: Logger = new NoopLogger()
-  ): ConnectionString {
+  public static parse(connectionString?: string): ConnectionString {
     if (!connectionString) {
       return {};
     }
@@ -31,7 +32,7 @@ export class ConnectionStringParser {
         const value = kvParts[1];
         return { ...fields, [key]: value };
       }
-      logger.error(
+      diag.error(
         `Connection string key-value pair is invalid: ${kv}`,
         `Entire connection string will be discarded`,
         connectionString
@@ -59,12 +60,12 @@ export class ConnectionStringParser {
         ? ConnectionStringParser.sanitizeUrl(result.liveendpoint)
         : Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
-        logger.warn(
+        diag.warn(
           `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`
         );
       }
     } else {
-      logger.error(
+      diag.error(
         "An invalid connection string was passed in. There may be telemetry loss",
         connectionString
       );

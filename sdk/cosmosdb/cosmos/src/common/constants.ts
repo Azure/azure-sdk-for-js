@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export interface PartitionKeyRangePropertiesNames {
+  // Partition Key Range Constants
+  MinInclusive: "minInclusive";
+  MaxExclusive: "maxExclusive";
+  Id: "id";
+}
+
 /**
  * @hidden
  */
@@ -151,6 +158,7 @@ export const Constants = {
     // Bulk/Batch header
     IsBatchRequest: "x-ms-cosmos-is-batch-request",
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
+    BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh"
@@ -202,7 +210,7 @@ export const Constants = {
     MinInclusive: "minInclusive",
     MaxExclusive: "maxExclusive",
     Id: "id"
-  },
+  } as PartitionKeyRangePropertiesNames,
 
   QueryRangeConstants: {
     // Partition Key Range Constants

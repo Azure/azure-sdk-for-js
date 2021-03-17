@@ -88,7 +88,7 @@ import {
   FILE_UPLOAD_MAX_CHUNK_SIZE
 } from "./utils/constants";
 import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -100,41 +100,26 @@ import { fsCreateReadStream, fsStat } from "./utils/utils.node";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
- *
- * @export
- * @class DataLakePathClient
- * @extends {StorageClient}
  */
 export class DataLakePathClient extends StorageClient {
   /**
    * pathContext provided by protocol layer.
-   *
-   * @private
-   * @type {PathOperations}
-   * @memberof DataLakePathClient
    */
   private pathContext: PathOperations;
 
   /**
-   * blobClient provided by @azure/storage-blob package.
-   *
-   * @private
-   * @type {BlobClient}
-   * @memberof DataLakePathClient
+   * blobClient provided by `@azure/storage-blob` package.
    */
   private blobClient: BlobClient;
 
   /**
    * SetAccessControlRecursiveInternal operation sets the Access Control on a path and sub paths.
    *
-   * @private
-   * @param {PathSetAccessControlRecursiveMode} mode Mode \"set\" sets POSIX access control rights on files and directories,
+   * @param mode - Mode \"set\" sets POSIX access control rights on files and directories,
    *                                                 Mode \"modify\" modifies one or more POSIX access control rights that pre-exist on files and directories,
    *                                                 Mode \"remove\" removes one or more POSIX access control rights that were present earlier on files and directories.
-   * @param {PathAccessControlItem[] | RemovePathAccessControlItem[]} acl The POSIX access control list for the file or directory.
-   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
-   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
-   * @memberof DataLakePathClient
+   * @param acl - The POSIX access control list for the file or directory.
+   * @param options - Optional. Options
    */
   private async setAccessControlRecursiveInternal(
     mode: PathSetAccessControlRecursiveMode,
@@ -149,9 +134,9 @@ export class DataLakePathClient extends StorageClient {
       throw RangeError(`Options batchSize must be larger than 0.`);
     }
 
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       `DataLakePathClient-setAccessControlRecursiveInternal`,
-      options.tracingOptions
+      options
     );
 
     const result: PathChangeAccessControlRecursiveResponse = {
@@ -176,7 +161,7 @@ export class DataLakePathClient extends StorageClient {
             maxRecords: options.batchSize,
             continuation: continuationToken,
             forceFlag: options.continueOnFailure,
-            spanOptions
+            ...convertTracingToRequestOptionsBase(updatedOptions)
           });
         } catch (e) {
           throw new DataLakeAclChangeFailedError(e, continuationToken);
@@ -225,12 +210,11 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Creates an instance of DataLakePathClient from url and credential.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake path (directory or file), such as
+   * @param url - A Client string pointing to Azure Storage data lake path (directory or file), such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem/directory" or "https://myaccount.dfs.core.windows.net/filesystem/file".
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory?sasString".
-   * @param {(StorageSharedKeyCredential | AnonymousCredential | TokenCredential)} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof DataLakePathClient
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
     url: string,
@@ -241,12 +225,11 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Creates an instance of DataLakePathClient from url and pipeline.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake path (directory or file), such as
+   * @param url - A Client string pointing to Azure Storage data lake path (directory or file), such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem/directory" or "https://myaccount.dfs.core.windows.net/filesystem/file".
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DataLakePathClient
    */
   public constructor(url: string, pipeline: Pipeline);
 
@@ -281,8 +264,6 @@ export class DataLakePathClient extends StorageClient {
    * Name of current file system.
    *
    * @readonly
-   * @type {string}
-   * @memberof DataLakePathClient
    */
   public get fileSystemName(): string {
     return this.blobClient.containerName;
@@ -292,8 +273,6 @@ export class DataLakePathClient extends StorageClient {
    * Name of current path (directory or file).
    *
    * @readonly
-   * @type {string}
-   * @memberof DataLakePathClient
    */
   public get name(): string {
     return this.blobClient.name;
@@ -302,8 +281,6 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Convert current DataLakePathClient to DataLakeDirectoryClient if current path is a directory.
    *
-   * @returns {DataLakeDirectoryClient}
-   * @memberof DataLakePathClient
    */
   public toDirectoryClient(): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(this.dfsEndpointUrl, this.pipeline);
@@ -312,8 +289,6 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Convert current DataLakePathClient to DataLakeFileClient if current path is a file.
    *
-   * @returns {DataLakeFileClient}
-   * @memberof DataLakePathClient
    */
   public toFileClient(): DataLakeFileClient {
     return new DataLakeFileClient(this.dfsEndpointUrl, this.pipeline);
@@ -322,9 +297,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Get a {@link DataLakeLeaseClient} that manages leases on the path (directory or file).
    *
-   * @param {string} [proposeLeaseId] Optional. Initial proposed lease Id.
-   * @returns {DataLakeLeaseClient}
-   * @memberof DataLakePathClient
+   * @param proposeLeaseId - Optional. Initial proposed lease Id.
    */
   public getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient {
     return new DataLakeLeaseClient(this.blobClient.getBlobLeaseClient(proposeLeaseId));
@@ -335,17 +308,15 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceTypeModel} resourceType Resource type, "directory" or "file".
-   * @param {PathCreateOptions} [options={}] Optional. Options when creating path.
-   * @returns {Promise<PathCreateResponse>}
-   * @memberof DataLakePathClient
+   * @param resourceType - Resource type, "directory" or "file".
+   * @param options - Optional. Options when creating path.
    */
   public async create(
     resourceType: PathResourceTypeModel,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("DataLakePathClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakePathClient-create", options);
     try {
       return await this.pathContext.create({
         ...options,
@@ -353,7 +324,7 @@ export class DataLakePathClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         properties: toProperties(options.metadata),
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -371,25 +342,20 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, "directory" or "file".
-   * @param {PathCreateOptions} [options={}]
-   * @returns {Promise<PathCreateIfNotExistsResponse>}
-   * @memberof DataLakePathClient
+   * @param resourceType - Resource type, "directory" or "file".
+   * @param options -
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
     options: PathCreateIfNotExistsOptions = {}
   ): Promise<PathCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-createIfNotExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-createIfNotExists", options);
     try {
       const conditions = { ifNoneMatch: ETagAny };
       const res = await this.create(resourceType, {
         ...options,
         conditions,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       return {
         succeeded: true,
@@ -424,17 +390,12 @@ export class DataLakePathClient extends StorageClient {
    * applications. Vice versa new files might be added by other clients or applications after this
    * function completes.
    *
-   * @param {PathExistsOptions} [options] options to Exists operation.
-   * @returns {Promise<boolean>}
-   * @memberof DataLakePathClient
+   * @param options - options to Exists operation.
    */
   public async exists(options: PathExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-exists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-exists", options);
     try {
-      return await this.blobClient.exists({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.blobClient.exists(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -451,17 +412,15 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
    *
-   * @param {boolean} [recursive] Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
-   * @param {PathDeleteOptions} [options={}] Optional. Options when deleting path.
-   * @returns {Promise<PathDeleteResponse>}
-   * @memberof DataLakePathClient
+   * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
+   * @param options - Optional. Options when deleting path.
    */
   public async delete(
     recursive?: boolean,
     options: PathDeleteOptions = {}
   ): Promise<PathDeleteResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("DataLakePathClient-delete", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakePathClient-delete", options);
     try {
       let continuation;
       let response;
@@ -473,7 +432,7 @@ export class DataLakePathClient extends StorageClient {
           recursive,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          spanOptions,
+          ...convertTracingToRequestOptionsBase(updatedOptions),
           abortSignal: options.abortSignal
         });
         continuation = response.continuation;
@@ -496,25 +455,17 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
    *
-   * @param {boolean} [recursive] Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
-   * @param {PathDeleteOptions} [options={}]
-   * @returns {Promise<PathDeleteIfExistsResponse>}
-   * @memberof DataLakePathClient
+   * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
+   * @param options -
    */
   public async deleteIfExists(
     recursive?: boolean,
     options: PathDeleteOptions = {}
   ): Promise<PathDeleteIfExistsResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-deleteIfExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-deleteIfExists", options);
     try {
-      const res = await this.delete(recursive, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.delete(recursive, updatedOptions);
       return {
         succeeded: true,
         ...res
@@ -546,25 +497,20 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/getproperties
    *
-   * @param {PathGetAccessControlOptions} [options={}] Optional. Options when getting file access control.
-   * @returns {Promise<PathGetAccessControlResponse>}
-   * @memberof DataLakePathClient
+   * @param options - Optional. Options when getting file access control.
    */
   public async getAccessControl(
     options: PathGetAccessControlOptions = {}
   ): Promise<PathGetAccessControlResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-getAccessControl",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-getAccessControl", options);
     try {
       const response = await this.pathContext.getProperties({
         action: "getAccessControl",
         upn: options.userPrincipalName,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
         abortSignal: options.abortSignal
       });
       return toPathGetAccessControlResponse(response);
@@ -584,27 +530,22 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
-   * @param {PathAccessControlItem[]} acl The POSIX access control list for the file or directory.
-   * @param {PathSetAccessControlOptions} [options={}] Optional. Options when setting path access control.
-   * @returns {Promise<PathSetAccessControlResponse>}
-   * @memberof DataLakePathClient
+   * @param acl - The POSIX access control list for the file or directory.
+   * @param options - Optional. Options when setting path access control.
    */
   public async setAccessControl(
     acl: PathAccessControlItem[],
     options: PathSetAccessControlOptions = {}
   ): Promise<PathSetAccessControlResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-setAccessControl",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-setAccessControl", options);
     try {
       return await this.pathContext.setAccessControl({
         ...options,
         acl: toAclString(acl),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -622,24 +563,19 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
-   * @param {PathAccessControlItem[]} acl The POSIX access control list for the file or directory.
-   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
-   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
-   * @memberof DataLakePathClient
+   * @param acl - The POSIX access control list for the file or directory.
+   * @param options - Optional. Options
    */
   public async setAccessControlRecursive(
     acl: PathAccessControlItem[],
     options: PathChangeAccessControlRecursiveOptions = {}
   ): Promise<PathChangeAccessControlRecursiveResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakePathClient-setAccessControlRecursive",
-      options.tracingOptions
+      options
     );
     try {
-      return this.setAccessControlRecursiveInternal("set", acl, {
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      return this.setAccessControlRecursiveInternal("set", acl, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -656,24 +592,19 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
-   * @param {PathAccessControlItem[]} acl The POSIX access control list for the file or directory.
-   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
-   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
-   * @memberof DataLakePathClient
+   * @param acl - The POSIX access control list for the file or directory.
+   * @param options - Optional. Options
    */
   public async updateAccessControlRecursive(
     acl: PathAccessControlItem[],
     options: PathChangeAccessControlRecursiveOptions = {}
   ): Promise<PathChangeAccessControlRecursiveResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakePathClient-updateAccessControlRecursive",
-      options.tracingOptions
+      options
     );
     try {
-      return this.setAccessControlRecursiveInternal("modify", acl, {
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      return this.setAccessControlRecursiveInternal("modify", acl, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -690,24 +621,19 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
-   * @param {RemovePathAccessControlItem[]} acl The POSIX access control list for the file or directory.
-   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
-   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
-   * @memberof DataLakePathClient
+   * @param acl - The POSIX access control list for the file or directory.
+   * @param options - Optional. Options
    */
   public async removeAccessControlRecursive(
     acl: RemovePathAccessControlItem[],
     options: PathChangeAccessControlRecursiveOptions = {}
   ): Promise<PathChangeAccessControlRecursiveResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakePathClient-removeAccessControlRecursive",
-      options.tracingOptions
+      options
     );
     try {
-      return this.setAccessControlRecursiveInternal("remove", acl, {
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      return this.setAccessControlRecursiveInternal("remove", acl, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -724,27 +650,22 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
-   * @param {PathPermissions} permissions The POSIX access permissions for the file owner, the file owning group, and others.
-   * @param {PathSetPermissionsOptions} [options={}] Optional. Options when setting path permissions.
-   * @returns {Promise<PathSetPermissionsResponse>}
-   * @memberof DataLakePathClient
+   * @param permissions - The POSIX access permissions for the file owner, the file owning group, and others.
+   * @param options - Optional. Options when setting path permissions.
    */
   public async setPermissions(
     permissions: PathPermissions,
     options: PathSetPermissionsOptions = {}
   ): Promise<PathSetPermissionsResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-setPermissions",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-setPermissions", options);
     try {
       return await this.pathContext.setAccessControl({
         ...options,
         permissions: toPermissionsString(permissions),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -768,22 +689,17 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * @param {PathGetPropertiesOptions} [options={}] Optional. Options when getting path properties.
-   * @returns {Promise<PathGetPropertiesResponse>}
-   * @memberof DataLakePathClient
+   * @param options - Optional. Options when getting path properties.
    */
   public async getProperties(
     options: PathGetPropertiesOptions = {}
   ): Promise<PathGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-getProperties", options);
     try {
       return await this.blobClient.getProperties({
         ...options,
         customerProvidedKey: undefined, // Doesn't support customer provided key in data lake package yet
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -803,19 +719,14 @@ export class DataLakePathClient extends StorageClient {
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {PathHttpHeaders} httpHeaders
-   * @param {PathSetHttpHeadersOptions} [options={}]
-   * @returns {Promise<PathSetHttpHeadersResponse>}
-   * @memberof DataLakePathClient
+   * @param httpHeaders -
+   * @param options -
    */
   public async setHttpHeaders(
     httpHeaders: PathHttpHeaders,
     options: PathSetHttpHeadersOptions = {}
   ): Promise<PathSetHttpHeadersResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-setHttpHeaders",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-setHttpHeaders", options);
     try {
       return await this.blobClient.setHTTPHeaders(
         {
@@ -826,10 +737,7 @@ export class DataLakePathClient extends StorageClient {
           blobContentLanguage: httpHeaders.contentLanguage,
           blobContentDisposition: httpHeaders.contentDisposition
         },
-        {
-          ...options,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
-        }
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -850,25 +758,20 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
-   * @param {Metadata} [metadata] Optional. Replace existing metadata with this value.
+   * @param metadata - Optional. Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
-   * @param {PathSetMetadataOptions} [options={}] Optional. Options when setting path metadata.
-   * @returns {Promise<PathSetMetadataResponse>}
-   * @memberof DataLakePathClient
+   * @param options - Optional. Options when setting path metadata.
    */
   public async setMetadata(
     metadata?: Metadata,
     options: PathSetMetadataOptions = {}
   ): Promise<PathSetMetadataResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakePathClient-setMetadata",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakePathClient-setMetadata", options);
     try {
       return await this.blobClient.setMetadata(metadata, {
         ...options,
         customerProvidedKey: undefined, // Doesn't support customer provided key in data lake package yet
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -886,11 +789,9 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file".
+   * @param destinationPath - Destination directory path like "directory" or file path "directory/file".
    *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
-   * @param {PathMoveOptions} [options] Optional. Options when moving directory or file.
-   * @returns {Promise<PathMoveResponse>}
-   * @memberof DataLakePathClient
+   * @param options - Optional. Options when moving directory or file.
    */
   public async move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
 
@@ -899,12 +800,10 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {string} destinationFileSystem Destination file system like "filesystem".
-   * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file"
+   * @param destinationFileSystem - Destination file system like "filesystem".
+   * @param destinationPath - Destination directory path like "directory" or file path "directory/file"
    *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
-   * @param {PathMoveOptions} [options] Optional. Options when moving directory or file.
-   * @returns {Promise<PathMoveResponse>}
-   * @memberof DataLakePathClient
+   * @param options - Optional. Options when moving directory or file.
    */
   public async move(
     destinationFileSystem: string,
@@ -931,7 +830,7 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     options.destinationConditions = options.destinationConditions || {};
 
-    const { span, spanOptions } = createSpan("DataLakePathClient-move", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakePathClient-move", options);
 
     const renameSource = getURLPathAndQuery(this.dfsEndpointUrl);
 
@@ -963,7 +862,7 @@ export class DataLakePathClient extends StorageClient {
           sourceIfUnmodifiedSince: options.conditions.ifUnmodifiedSince
         },
         modifiedAccessConditions: options.destinationConditions,
-        spanOptions,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
         abortSignal: options.abortSignal
       });
     } catch (e) {
@@ -980,10 +879,6 @@ export class DataLakePathClient extends StorageClient {
 
 /**
  * A DataLakeDirectoryClient represents a URL to the Azure Storage directory.
- *
- * @export
- * @class DataLakeDirectoryClient
- * @extends {DataLakePathClient}
  */
 export class DataLakeDirectoryClient extends DataLakePathClient {
   // https://stackoverflow.com/questions/50729485/override-method-with-different-argument-types-in-extended-class-typescript
@@ -992,10 +887,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceTypeModel} resourceType Resource type, must be "directory" for DataLakeDirectoryClient.
-   * @param {PathCreateOptions} [options] Optional. Options when creating directory.
-   * @returns {Promise<PathCreateResponse>}
-   * @memberof DataLakeDirectoryClient
+   * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
+   * @param options - Optional. Options when creating directory.
    */
   public async create(
     resourceType: PathResourceTypeModel,
@@ -1007,9 +900,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {DirectoryCreateOptions} [options] Optional. Options when creating directory.
-   * @returns {Promise<DirectoryCreateResponse>}
-   * @memberof DataLakeDirectoryClient
+   * @param options - Optional. Options when creating directory.
    */
   public async create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
 
@@ -1029,16 +920,13 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
     options = resourceTypeOrOptions || {};
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakeDirectoryClient-create",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeDirectoryClient-create", options);
     try {
       return await super.create("directory", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       });
     } catch (e) {
@@ -1057,10 +945,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, must be "directory" for DataLakeDirectoryClient.
-   * @param {PathCreateIfNotExistsOptions} [options]
-   * @returns {Promise<PathCreateIfNotExistsResponse>}
-   * @memberof DataLakeDirectoryClient
+   * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
+   * @param options -
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
@@ -1072,9 +958,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {DirectoryCreateIfNotExistsOptions} [options]
-   * @returns {Promise<DirectoryCreateIfNotExistsResponse>}
-   * @memberof DataLakeDirectoryClient
+   * @param options -
    */
   public async createIfNotExists(
     options?: DirectoryCreateIfNotExistsOptions
@@ -1094,16 +978,16 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       options = resourceTypeOrOptions || {};
     }
 
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeDirectoryClient-createIfNotExists",
-      options.tracingOptions
+      options
     );
     try {
       return await super.createIfNotExists("directory", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       });
     } catch (e) {
@@ -1120,9 +1004,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /**
    * Creates a {@link DataLakeDirectoryClient} object under current directory.
    *
-   * @param {string} subdirectoryName Subdirectory name.
-   * @returns {DataLakeDirectoryClient}
-   * @memberof DataLakeDirectoryClient
+   * @param subdirectoryName - Subdirectory name.
    */
   public getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
@@ -1134,9 +1016,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /**
    * Creates a {@link DataLakeFileClient} object under current directory.
    *
-   * @param {string} fileName
-   * @returns {DataLakeFileClient}
-   * @memberof DataLakeDirectoryClient
+   * @param fileName -
    */
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
@@ -1153,9 +1033,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {DirectoryGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeDirectoryClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {
@@ -1182,48 +1061,31 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 /**
  * A DataLakeFileClient represents a URL to the Azure Storage file.
- *
- * @export
- * @class DataLakeFileClient
- * @extends {DataLakePathClient}
  */
 export class DataLakeFileClient extends DataLakePathClient {
   /**
    * pathContextInternal provided by protocol layer.
-   *
-   * @private
-   * @type {PathOperations}
-   * @memberof DataLakeFileClient
    */
   private pathContextInternal: PathOperations;
 
   /**
    * pathContextInternal provided by protocol layer, with its url pointing to the Blob endpoint.
-   *
-   * @private
-   * @type {PathOperations}
-   * @memberof DataLakeFileClient
    */
   private pathContextInternalToBlobEndpoint: PathOperations;
 
   /**
-   * blockBlobClientInternal provided by @azure/storage-blob package.
-   *
-   * @private
-   * @type {BlockBlobClient}
-   * @memberof DataLakeFileClient
+   * blockBlobClientInternal provided by `@azure/storage-blob` package.
    */
   private blockBlobClientInternal: BlockBlobClient;
 
   /**
    * Creates an instance of DataLakeFileClient from url and credential.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake file, such as
+   * @param url - A Client string pointing to Azure Storage data lake file, such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem/file".
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory/file?sasString".
-   * @param {(StorageSharedKeyCredential | AnonymousCredential | TokenCredential)} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof DataLakeFileClient
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
     url: string,
@@ -1234,12 +1096,11 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Creates an instance of DataLakeFileClient from url and pipeline.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake file, such as
+   * @param url - A Client string pointing to Azure Storage data lake file, such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem/file".
    *                     You can append a SAS if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem/directory/file?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DataLakeFileClient
    */
   public constructor(url: string, pipeline: Pipeline);
 
@@ -1278,10 +1139,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceTypeModel} resourceType Resource type, must be "file" for DataLakeFileClient.
-   * @param {PathCreateOptions} [options] Optional. Options when creating file.
-   * @returns {Promise<PathCreateResponse>}
-   * @memberof DataLakeFileClient
+   * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
+   * @param options - Optional. Options when creating file.
    */
   public async create(
     resourceType: PathResourceTypeModel,
@@ -1293,9 +1152,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {FileCreateOptions} [options] Optional. Options when creating file.
-   * @returns {Promise<FileCreateResponse>}
-   * @memberof DataLakeFileClient
+   * @param options - Optional. Options when creating file.
    */
   public async create(options?: FileCreateOptions): Promise<FileCreateResponse>;
 
@@ -1315,13 +1172,13 @@ export class DataLakeFileClient extends DataLakePathClient {
 
     options = resourceTypeOrOptions || {};
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("DataLakeFileClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-create", options);
     try {
       return await super.create("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       });
     } catch (e) {
@@ -1340,10 +1197,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, must be "file" for DataLakeFileClient.
-   * @param {PathCreateIfNotExistsOptions} [options]
-   * @returns {Promise<PathCreateIfNotExistsResponse>}
-   * @memberof DataLakeFileClient
+   * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
+   * @param options -
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
@@ -1355,9 +1210,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {FileCreateIfNotExistsOptions} [options] Optional. Options when creating file.
-   * @returns {Promise<FileCreateIfNotExistsResponse>}
-   * @memberof DataLakeFileClient
+   * @param options - Optional. Options when creating file.
    */
   public async createIfNotExists(
     options?: FileCreateIfNotExistsOptions
@@ -1377,16 +1230,13 @@ export class DataLakeFileClient extends DataLakePathClient {
       options = resourceTypeOrOptions || {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileClient-createIfNotExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-createIfNotExists", options);
     try {
       return await super.createIfNotExists("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       });
     } catch (e) {
@@ -1450,23 +1300,22 @@ export class DataLakeFileClient extends DataLakePathClient {
    * }
    * ```
    *
-   * @param {number} [offset=0] Optional. Offset to read file, default value is 0.
-   * @param {number} [count] Optional. How many bytes to read, default will read from offset to the end.
-   * @param {FileReadOptions} [options={}] Optional. Options when reading file.
-   * @returns {Promise<FileReadResponse>}
-   * @memberof DataLakeFileClient
+   * @param offset - Optional. Offset to read file, default value is 0.
+   * @param count - Optional. How many bytes to read, default will read from offset to the end.
+   * @param options - Optional. Options when reading file.
    */
   public async read(
     offset: number = 0,
     count?: number,
     options: FileReadOptions = {}
   ): Promise<FileReadResponse> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-read", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-read", options);
     try {
-      const rawResponse = await this.blockBlobClientInternal.download(offset, count, {
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      const rawResponse = await this.blockBlobClientInternal.download(
+        offset,
+        count,
+        updatedOptions
+      );
 
       const response = rawResponse as FileReadResponse;
       if (!isNode && !response.contentAsBlob) {
@@ -1496,12 +1345,10 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
-   * @param {HttpRequestBody} body Content to be uploaded.
-   * @param {number} offset Append offset in bytes.
-   * @param {number} length Length of content to append in bytes.
-   * @param {FileAppendOptions} [options={}] Optional. Options when appending data.
-   * @returns {Promise<FileAppendResponse>}
-   * @memberof DataLakeFileClient
+   * @param body - Content to be uploaded.
+   * @param offset - Append offset in bytes.
+   * @param length - Length of content to append in bytes.
+   * @param options - Optional. Options when appending data.
    */
   public async append(
     body: HttpRequestBody,
@@ -1510,7 +1357,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     options: FileAppendOptions = {}
   ): Promise<FileAppendResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("DataLakeFileClient-append", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-append", options);
     try {
       return await this.pathContextInternal.appendData(body, {
         pathHttpHeaders: {
@@ -1521,7 +1368,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         contentLength: length,
         leaseAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1537,20 +1384,18 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Flushes (writes) previously appended data to a file.
    *
-   * @param {number} position File position to flush.
+   * @param position - File position to flush.
    *                          This parameter allows the caller to upload data in parallel and control the order in which it is appended to the file.
    *                          It is required when uploading data to be appended to the file and when flushing previously uploaded data to the file.
    *                          The value must be the position where the data is to be appended. Uploaded data is not immediately flushed, or written,
    *                          to the file. To flush, the previously uploaded data must be contiguous, the position parameter must be specified and
    *                          equal to the length of the file after all data has been written, and there must not be a request entity body included
    *                          with the request.
-   * @param {FileFlushOptions} [options={}] Optional. Options when flushing data.
-   * @returns {Promise<FileFlushResponse>}
-   * @memberof DataLakeFileClient
+   * @param options - Optional. Options when flushing data.
    */
   public async flush(position: number, options: FileFlushOptions = {}): Promise<FileFlushResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("DataLakeFileClient-flush", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-flush", options);
     try {
       return await this.pathContextInternal.flushData({
         ...options,
@@ -1558,7 +1403,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         contentLength: 0,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1578,19 +1423,14 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Uploads a local file to a Data Lake file.
    *
-   * @param {string} filePath Full path of the local file
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {(Promise<FileUploadResponse>)}
-   * @memberof DataLakeFileClient
+   * @param filePath - Full path of the local file
+   * @param options -
    */
   public async uploadFile(
     filePath: string,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileClient-uploadFile",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-uploadFile", options);
     try {
       const size = (await fsStat(filePath)).size;
       return await this.uploadSeekableInternal(
@@ -1603,7 +1443,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             });
         },
         size,
-        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -1619,16 +1459,14 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Uploads a Buffer(Node.js)/Blob/ArrayBuffer/ArrayBufferView to a File.
    *
-   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {Promise<FileUploadResponse>}
-   * @memberof DataLakeFileClient
+   * @param data - Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
+   * @param options -
    */
   public async upload(
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-upload", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-upload", options);
     try {
       if (isNode) {
         let buffer: Buffer;
@@ -1644,17 +1482,14 @@ export class DataLakeFileClient extends DataLakePathClient {
         return this.uploadSeekableInternal(
           (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
           buffer.length,
-          {
-            ...options,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          }
+          updatedOptions
         );
       } else {
         const browserBlob = new Blob([data]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+          updatedOptions
         );
       }
     } catch (e) {
@@ -1673,10 +1508,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileClient-uploadData",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-uploadData", options);
     try {
       if (size > FILE_MAX_SIZE_BYTES) {
         throw new RangeError(`size must be <= ${FILE_MAX_SIZE_BYTES}.`);
@@ -1690,7 +1522,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         umask: options.umask,
         conditions: options.conditions,
         pathHttpHeaders: options.pathHttpHeaders,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       // append() with empty data would return error, so do not continue
       if (size === 0) {
@@ -1737,7 +1569,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
           onProgress: options.onProgress,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
 
         return await this.flush(size, {
@@ -1745,7 +1577,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           conditions: options.conditions,
           close: options.close,
           pathHttpHeaders: options.pathHttpHeaders,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
       }
 
@@ -1769,7 +1601,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             await this.append(bodyFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
-              tracingOptions: { ...options!.tracingOptions, spanOptions }
+              tracingOptions: updatedOptions.tracingOptions
             });
 
             transferProgress += contentLength;
@@ -1786,7 +1618,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         conditions: options.conditions,
         close: options.close,
         pathHttpHeaders: options.pathHttpHeaders,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -1811,19 +1643,14 @@ export class DataLakeFileClient extends DataLakePathClient {
    * * Input stream highWaterMark is better to set a same value with options.chunkSize
    *   parameter, which will avoid Buffer.concat() operations.
    *
-   * @param {Readable} stream Node.js Readable stream.
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {Promise<FileUploadResponse>}
-   * @memberof DataLakeFileClient
+   * @param stream - Node.js Readable stream.
+   * @param options -
    */
   public async uploadStream(
     stream: Readable,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileClient-uploadStream",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-uploadStream", options);
     try {
       // Create the file
       await this.create({
@@ -1833,7 +1660,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         umask: options.umask,
         conditions: options.conditions,
         pathHttpHeaders: options.pathHttpHeaders,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       // After the File is Create, Lease ID is the only valid request parameter.
@@ -1861,7 +1688,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           await this.append(body, offset!, length, {
             abortSignal: options.abortSignal,
             conditions: options.conditions,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1883,7 +1710,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         conditions: options.conditions,
         close: options.close,
         pathHttpHeaders: options.pathHttpHeaders,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -1906,12 +1733,10 @@ export class DataLakeFileClient extends DataLakePathClient {
    * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
    * consider {@link readToFile}.
    *
-   * @param {Buffer} buffer Buffer to be fill, must have length larger than count
-   * @param {number} offset From which position of the Data Lake file to read
-   * @param {number} [count] How much data to be read. Will read to the end when passing undefined
-   * @param {FileReadToBufferOptions} [options]
-   * @returns {Promise<Buffer>}
-   * @memberof DataLakeFileClient
+   * @param buffer - Buffer to be fill, must have length larger than count
+   * @param offset - From which position of the Data Lake file to read
+   * @param count - How much data to be read. Will read to the end when passing undefined
+   * @param options -
    */
   public async readToBuffer(
     buffer: Buffer,
@@ -1930,11 +1755,9 @@ export class DataLakeFileClient extends DataLakePathClient {
    * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
    * consider {@link readToFile}.
    *
-   * @param {number} offset From which position of the Data Lake file to read(in bytes)
-   * @param {number} [count] How much data(in bytes) to be read. Will read to the end when passing undefined
-   * @param {FileReadToBufferOptions} [options]
-   * @returns {Promise<Buffer>}
-   * @memberof DataLakeFileClient
+   * @param offset - From which position of the Data Lake file to read(in bytes)
+   * @param count - How much data(in bytes) to be read. Will read to the end when passing undefined
+   * @param options -
    */
   public async readToBuffer(
     offset?: number,
@@ -1961,24 +1784,21 @@ export class DataLakeFileClient extends DataLakePathClient {
       count = typeof offsetOrCount === "number" ? offsetOrCount : 0;
       options = (countOrOptions as FileReadToBufferOptions) || {};
     }
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileClient-readToBuffer",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-readToBuffer", options);
     try {
       if (buffer) {
         return await this.blockBlobClientInternal.downloadToBuffer(buffer, offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
       } else {
         return await this.blockBlobClientInternal.downloadToBuffer(offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
       }
     } catch (e) {
@@ -1999,15 +1819,14 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Fails if the the given file path already exits.
    * Offset and count are optional, pass 0 and undefined respectively to download the entire file.
    *
-   * @param {string} filePath
-   * @param {number} [offset] From which position of the file to download.
-   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
-   * @param {FileReadOptions} [options] Options to read Data Lake file.
-   * @returns {Promise<FileReadResponse>} The response data for file read operation,
+   * @param filePath -
+   * @param offset - From which position of the file to download.
+   * @param count - How much data to be downloaded. Will download to the end when passing undefined.
+   * @param options - Options to read Data Lake file.
+   * @returns The response data for file read operation,
    *                                      but with readableStreamBody set to undefined since its
    *                                      content is already read and written into a local file
    *                                      at the specified path.
-   * @memberof DataLakeFileClient
    */
   public async readToFile(
     filePath: string,
@@ -2015,15 +1834,14 @@ export class DataLakeFileClient extends DataLakePathClient {
     count?: number,
     options: FileReadOptions = {}
   ): Promise<FileReadResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileClient-readToFile",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-readToFile", options);
     try {
-      return await this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.blockBlobClientInternal.downloadToFile(
+        filePath,
+        offset,
+        count,
+        updatedOptions
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -2060,19 +1878,14 @@ export class DataLakeFileClient extends DataLakePathClient {
    * }
    * ```
    *
-   * @param {string} query
-   * @param {FileQueryOptions} [options={}]
-   * @returns {Promise<FileReadResponse>}
-   * @memberof DataLakeFileClient
+   * @param query -
+   * @param options -
    */
   public async query(query: string, options: FileQueryOptions = {}): Promise<FileReadResponse> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-query", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-query", options);
 
     try {
-      const rawResponse = await this.blockBlobClientInternal.query(query, {
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      const rawResponse = await this.blockBlobClientInternal.query(query, updatedOptions);
       const response = rawResponse as FileReadResponse;
       if (!isNode && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
@@ -2097,19 +1910,14 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Sets an expiry time on a file, once that time is met the file is deleted.
    *
-   * @param {FileExpiryMode} mode
-   * @param {FileSetExpiryOptions} [options={}]
-   * @returns {Promise<FileSetExpiryResponse>}
-   * @memberof DataLakeFileClient
+   * @param mode -
+   * @param options -
    */
   public async setExpiry(
     mode: FileExpiryMode,
     options: FileSetExpiryOptions = {}
   ): Promise<FileSetExpiryResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileClient-setExpiry",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileClient-setExpiry", options);
     try {
       let expiresOn: string | undefined = undefined;
       if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
@@ -2136,7 +1944,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const adaptedOptions = { ...options, expiresOn };
       return await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
         ...adaptedOptions,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -2157,9 +1965,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {FileGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeFileClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {

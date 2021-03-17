@@ -21,7 +21,7 @@ export class ManagedPrivateEndpoints {
 
   /**
    * Initialize a new instance of the class ManagedPrivateEndpoints class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ManagedPrivateEndpointsClient) {
     this.client = client;
@@ -29,8 +29,8 @@ export class ManagedPrivateEndpoints {
 
   /**
    * List Managed Private Endpoints
-   * @param managedVirtualNetworkName - Managed virtual network name
-   * @param options - The options parameters.
+   * @param managedVirtualNetworkName Managed virtual network name
+   * @param options The options parameters.
    */
   public list(
     managedVirtualNetworkName: string,
@@ -75,23 +75,20 @@ export class ManagedPrivateEndpoints {
 
   /**
    * Get Managed Private Endpoints
-   * @param managedVirtualNetworkName - Managed virtual network name
-   * @param managedPrivateEndpointName - Managed private endpoint name
-   * @param options - The options parameters.
+   * @param managedVirtualNetworkName Managed virtual network name
+   * @param managedPrivateEndpointName Managed private endpoint name
+   * @param options The options parameters.
    */
   async get(
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
@@ -109,10 +106,10 @@ export class ManagedPrivateEndpoints {
 
   /**
    * Create Managed Private Endpoints
-   * @param managedVirtualNetworkName - Managed virtual network name
-   * @param managedPrivateEndpointName - Managed private endpoint name
-   * @param managedPrivateEndpoint - Managed private endpoint properties.
-   * @param options - The options parameters.
+   * @param managedVirtualNetworkName Managed virtual network name
+   * @param managedPrivateEndpointName Managed private endpoint name
+   * @param managedPrivateEndpoint Managed private endpoint properties.
+   * @param options The options parameters.
    */
   async create(
     managedVirtualNetworkName: string,
@@ -120,15 +117,12 @@ export class ManagedPrivateEndpoints {
     managedPrivateEndpoint: ManagedPrivateEndpoint,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsCreateResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-create",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-create", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
       managedPrivateEndpoint,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -149,23 +143,20 @@ export class ManagedPrivateEndpoints {
 
   /**
    * Delete Managed Private Endpoints
-   * @param managedVirtualNetworkName - Managed virtual network name
-   * @param managedPrivateEndpointName - Managed private endpoint name
-   * @param options - The options parameters.
+   * @param managedVirtualNetworkName Managed virtual network name
+   * @param managedPrivateEndpointName Managed private endpoint name
+   * @param options The options parameters.
    */
   async delete(
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-delete",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-delete", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -186,20 +177,17 @@ export class ManagedPrivateEndpoints {
 
   /**
    * List Managed Private Endpoints
-   * @param managedVirtualNetworkName - Managed virtual network name
-   * @param options - The options parameters.
+   * @param managedVirtualNetworkName Managed virtual network name
+   * @param options The options parameters.
    */
   private async _list(
     managedVirtualNetworkName: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-_list",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-_list", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
@@ -217,23 +205,20 @@ export class ManagedPrivateEndpoints {
 
   /**
    * ListNext
-   * @param managedVirtualNetworkName - Managed virtual network name
-   * @param nextLink - The nextLink from the previous successful call to the List method.
-   * @param options - The options parameters.
+   * @param managedVirtualNetworkName Managed virtual network name
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
    */
   private async _listNext(
     managedVirtualNetworkName: string,
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsListNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-_listNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-_listNext", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

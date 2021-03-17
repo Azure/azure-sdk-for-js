@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/tracing";
-import { NoopLogger, SpanKind, StatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource, SERVICE_RESOURCE } from "@opentelemetry/resources";
@@ -21,10 +21,9 @@ import { readableSpanToEnvelope } from "../../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData } from "../../../src/generated";
 import { TelemetryItem as Envelope } from "../../../src/generated";
 
-const context = getInstance(undefined, "./", "../../");
+const context = getInstance(undefined, "./");
 
 const tracerProviderConfig: TracerConfig = {
-  logger: new NoopLogger(),
   resource: new Resource({
     [SERVICE_RESOURCE.INSTANCE_ID]: "testServiceInstanceID",
     [SERVICE_RESOURCE.NAME]: "testServiceName",
@@ -94,14 +93,14 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [grpc.GRPC_STATUS_CODE]: StatusCode.OK,
+          [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
           [grpc.GRPC_KIND]: SpanKind.SERVER,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
           [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
-          code: StatusCode.OK
+          code: SpanStatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -150,14 +149,14 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [grpc.GRPC_STATUS_CODE]: StatusCode.OK,
+          [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
           [grpc.GRPC_KIND]: SpanKind.CLIENT,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
           [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
-          code: StatusCode.OK
+          code: SpanStatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -210,7 +209,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: StatusCode.OK
+          code: SpanStatusCode.OK
         });
         span.end();
         const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
@@ -260,7 +259,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: StatusCode.OK
+          code: SpanStatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -315,7 +314,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: StatusCode.OK
+          code: SpanStatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -369,7 +368,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: StatusCode.OK
+          code: SpanStatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {

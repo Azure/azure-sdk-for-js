@@ -15,7 +15,7 @@ export class SmartRoutingMapProvider {
   constructor(clientContext: ClientContext) {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
   }
-  private static _secondRangeIsAfterFirstRange(range1: QueryRange, range2: QueryRange) {
+  private static _secondRangeIsAfterFirstRange(range1: QueryRange, range2: QueryRange): boolean {
     if (typeof range1.max === "undefined") {
       throw new Error("range1 must have max");
     }
@@ -37,7 +37,7 @@ export class SmartRoutingMapProvider {
     }
   }
 
-  private static _isSortedAndNonOverlapping(ranges: QueryRange[]) {
+  private static _isSortedAndNonOverlapping(ranges: QueryRange[]): boolean {
     for (let idx = 1; idx < ranges.length; idx++) {
       const previousR = ranges[idx - 1];
       const r = ranges[idx];
@@ -48,15 +48,15 @@ export class SmartRoutingMapProvider {
     return true;
   }
 
-  private static _stringMax(a: string, b: string) {
+  private static _stringMax(a: string, b: string): string {
     return a >= b ? a : b;
   }
 
-  private static _stringCompare(a: string, b: string) {
+  private static _stringCompare(a: string, b: string): 1 | 0 | -1 {
     return a === b ? 0 : a > b ? 1 : -1;
   }
 
-  private static _subtractRange(r: QueryRange, partitionKeyRange: any) {
+  private static _subtractRange(r: QueryRange, partitionKeyRange: any): QueryRange {
     const left = this._stringMax(partitionKeyRange[PARITIONKEYRANGE.MaxExclusive], r.min);
     const leftInclusive = this._stringCompare(left, r.min) === 0 ? r.isMinInclusive : false;
     return new QueryRange(left, r.max, leftInclusive, r.isMaxInclusive);
@@ -64,10 +64,8 @@ export class SmartRoutingMapProvider {
 
   /**
    * Given the sorted ranges and a collection, invokes the callback on the list of overlapping partition key ranges
-   * @param {callback} callback - Function execute on the overlapping partition key ranges result,
-   *                              takes two parameters error, partition key ranges
-   * @param collectionLink
-   * @param sortedRanges
+   * @param callback - Function execute on the overlapping partition key ranges result,
+   *                   takes two parameters error, partition key ranges
    * @hidden
    */
   public async getOverlappingRanges(
@@ -91,7 +89,7 @@ export class SmartRoutingMapProvider {
 
     let index = 0;
     let currentProvidedRange = sortedRanges[index];
-    while (true) {
+    for (;;) {
       if (currentProvidedRange.isEmpty()) {
         // skip and go to the next item
         if (++index >= sortedRanges.length) {

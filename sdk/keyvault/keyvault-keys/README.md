@@ -681,6 +681,7 @@ main();
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+import { createHash } from "crypto";
 
 const credential = new DefaultAzureCredential();
 
@@ -697,7 +698,7 @@ async function main() {
   hash.update("My Message");
   const digest = hash.digest();
 
-  const signResult = await cryptographyClient.signData("RS256", digest);
+  const signResult = await cryptographyClient.sign("RS256", digest);
   console.log("sign result: ", signResult.result);
 
   const verifyResult = await cryptographyClient.verify("RS256", digest, signResult.result);

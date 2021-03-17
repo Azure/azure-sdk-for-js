@@ -1,5 +1,24 @@
 # Release History
 
+## 1.0.0-beta.6 (Unreleased)
+
+### Breaking Changes
+
+- Renamed `url` to `endpoint` in the constructors of `ChatClient` and `ChatThreadClient`
+- Renamed `ChatThread` model to `ChatThreadProperties`. Renamed `GetChatThread` operation to `GetProperties` and move to `ChatThreadClient`.
+- Renamed `ChatThreadInfo` model to `ChatThreadItem`.
+- Renamed parameter `repeatabilityRequestId` to `idempotencyToken`.
+- Uses `ChatError` instead of `CommunicationError` in operation result.
+
+## 1.0.0-beta.5 (2021-03-09)
+
+### Breaking Changes
+
+- Removed `_response` from returned models.
+- Updated to @azure/communication-common@1.0.0-beta.6. Now uses `CommunicationIdentifier` in place of `CommunicationUserIdentifier`.
+- Swap the parameter order in `ChatThreadClient` constructor.
+- Generates `repeatabilityRequestId` if not populated in `createChatThread` operation.
+
 ## 1.0.0-beta.4 (2021-02-09)
 
 ### Breaking Changes

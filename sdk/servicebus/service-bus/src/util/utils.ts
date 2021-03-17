@@ -8,7 +8,8 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { HttpOperationResponse, HttpResponse, isNode } from "@azure/core-http";
+import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
+import { isDefined } from "./typeGuards";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -122,23 +123,10 @@ export function convertTicksToDate(buf: number[]): Date {
 
 /**
  * @internal
- * Returns the number of logical processors in the system.
- */
-export function getProcessorCount(): number {
-  if (isNode) {
-    const os = require("os");
-    return os.cpus().length;
-  } else {
-    return navigator.hardwareConcurrency || 1;
-  }
-}
-
-/**
- * @internal
  * Converts any given input to a Buffer.
  * @param input - The input that needs to be converted to a Buffer.
  */
-export function toBuffer(input: any): Buffer {
+export function toBuffer(input: unknown): Buffer {
   let result: any;
   messageLogger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
@@ -172,9 +160,9 @@ export function toBuffer(input: any): Buffer {
  * Helper utility to retrieve `string` value from given string,
  * or throws error if undefined.
  */
-export function getString(value: any, nameOfProperty: string): string {
+export function getString(value: unknown, nameOfProperty: string): string {
   const result = getStringOrUndefined(value);
-  if (result == undefined) {
+  if (result === undefined) {
     throw new Error(
       `"${nameOfProperty}" received from service expected to be a string value and not undefined.`
     );
@@ -188,7 +176,7 @@ export function getString(value: any, nameOfProperty: string): string {
  * or undefined if not passed in.
  */
 export function getStringOrUndefined(value: any): string | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   return value.toString();
@@ -199,9 +187,9 @@ export function getStringOrUndefined(value: any): string | undefined {
  * Helper utility to retrieve `integer` value from given string,
  * or throws error if undefined.
  */
-export function getInteger(value: any, nameOfProperty: string): number {
+export function getInteger(value: unknown, nameOfProperty: string): number {
   const result = getIntegerOrUndefined(value);
-  if (result == undefined) {
+  if (result === undefined) {
     throw new Error(
       `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
     );
@@ -215,11 +203,11 @@ export function getInteger(value: any, nameOfProperty: string): number {
  * or undefined if not passed in.
  */
 export function getIntegerOrUndefined(value: any): number | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   const result = parseInt(value.toString());
-  return result == NaN ? undefined : result;
+  return isNaN(result) ? undefined : result;
 }
 
 /**
@@ -235,9 +223,9 @@ export function getDate(value: string, nameOfProperty: string): Date {
  * Helper utility to retrieve `boolean` value from given string,
  * or throws error if undefined.
  */
-export function getBoolean(value: any, nameOfProperty: string): boolean {
+export function getBoolean(value: unknown, nameOfProperty: string): boolean {
   const result = getBooleanOrUndefined(value);
-  if (result == undefined) {
+  if (result === undefined) {
     throw new Error(
       `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`
     );
@@ -251,7 +239,7 @@ export function getBoolean(value: any, nameOfProperty: string): boolean {
  * or undefined if not passed in.
  */
 export function getBooleanOrUndefined(value: any): boolean | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   return (
@@ -294,7 +282,7 @@ export function isJSONLikeObject(value: any): boolean {
  */
 export function getMessageCountDetails(value: any): MessageCountDetails {
   const xmlnsPrefix = getXMLNSPrefix(value);
-  if (value == undefined) {
+  if (!isDefined(value)) {
     value = {};
   }
   return {
@@ -397,7 +385,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
     return undefined;
   }
 
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
 
@@ -418,7 +406,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
  */
 function buildAuthorizationRule(value: any): AuthorizationRule {
   let accessRights;
-  if (value["Rights"] != undefined) {
+  if (isDefined(value["Rights"])) {
     accessRights = value["Rights"]["AccessRights"];
   }
 
@@ -442,7 +430,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
  * or undefined if not passed in.
  */
 export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
-  if (authorizationRules == undefined) {
+  if (!isDefined(authorizationRules)) {
     return undefined;
   }
 
@@ -535,6 +523,8 @@ export type EntityAvailabilityStatus =
  */
 export const StandardAbortMessage = "The operation was aborted.";
 
+type setTimeoutArgs = (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+
 /**
  * An executor for a function that returns a Promise that obeys both a timeout and an
  * optional AbortSignal.
@@ -553,7 +543,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   abortSignal?: AbortSignalLike;
   // these are optional and only here for testing.
   timeoutFunctions?: {
-    setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+    setTimeoutFn: setTimeoutArgs;
     clearTimeoutFn: (timeoutId: any) => void;
   };
 }): Promise<T> {
@@ -604,7 +594,9 @@ export function checkAndRegisterWithAbortSignal(
   abortSignal?: AbortSignalLike
 ): () => void {
   if (abortSignal == null) {
-    return () => {};
+    return () => {
+      /** Nothing to do here, no abort signal */
+    };
   }
 
   if (abortSignal.aborted) {

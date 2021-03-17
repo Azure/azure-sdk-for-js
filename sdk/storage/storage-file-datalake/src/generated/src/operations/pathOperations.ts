@@ -59,8 +59,9 @@ export class PathOperations {
   /**
    * Uploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets
    * properties for a file or directory, or sets access control for a file or directory. Data can
-   * only be appended to a file. This operation supports conditional HTTP requests. For more
-   * information, see [Specifying Conditional Headers for Blob Service
+   * only be appended to a file. Concurrent writes to the same file using multiple clients are not
+   * supported. This operation supports conditional HTTP requests. For more information, see
+   * [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @summary Append Data | Flush Data | Set Properties | Set Access Control
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to

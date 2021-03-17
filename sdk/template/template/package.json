@@ -6,7 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
-  "types": "types/template.d.ts",
   "//metadata": {
     "constantPaths": [
       {
@@ -19,13 +18,23 @@
       }
     ]
   },
+  "types": "types/latest/template.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "types/3.1/template.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
@@ -74,7 +83,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
@@ -93,9 +102,10 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",

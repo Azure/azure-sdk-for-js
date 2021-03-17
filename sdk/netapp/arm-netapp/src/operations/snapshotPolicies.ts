@@ -143,35 +143,9 @@ export class SnapshotPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotPoliciesUpdateResponse>
    */
-  update(body: Models.SnapshotPolicyPatch, resourceGroupName: string, accountName: string, snapshotPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotPoliciesUpdateResponse>;
-  /**
-   * @param body Snapshot policy object supplied in the body of the operation.
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
-   * @param callback The callback
-   */
-  update(body: Models.SnapshotPolicyPatch, resourceGroupName: string, accountName: string, snapshotPolicyName: string, callback: msRest.ServiceCallback<Models.SnapshotPolicy>): void;
-  /**
-   * @param body Snapshot policy object supplied in the body of the operation.
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(body: Models.SnapshotPolicyPatch, resourceGroupName: string, accountName: string, snapshotPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotPolicy>): void;
-  update(body: Models.SnapshotPolicyPatch, resourceGroupName: string, accountName: string, snapshotPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotPolicy>, callback?: msRest.ServiceCallback<Models.SnapshotPolicy>): Promise<Models.SnapshotPoliciesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        body,
-        resourceGroupName,
-        accountName,
-        snapshotPolicyName,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.SnapshotPoliciesUpdateResponse>;
+  update(body: Models.SnapshotPolicyPatch, resourceGroupName: string, accountName: string, snapshotPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotPoliciesUpdateResponse> {
+    return this.beginUpdate(body,resourceGroupName,accountName,snapshotPolicyName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotPoliciesUpdateResponse>;
   }
 
   /**
@@ -222,6 +196,28 @@ export class SnapshotPolicies {
       },
       listVolumesOperationSpec,
       callback) as Promise<Models.SnapshotPoliciesListVolumesResponse>;
+  }
+
+  /**
+   * Patch a snapshot policy
+   * @param body Snapshot policy object supplied in the body of the operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(body: Models.SnapshotPolicyPatch, resourceGroupName: string, accountName: string, snapshotPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        body,
+        resourceGroupName,
+        accountName,
+        snapshotPolicyName,
+        options
+      },
+      beginUpdateOperationSpec,
+      options);
   }
 
   /**
@@ -334,7 +330,33 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const listVolumesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}/volumes",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.snapshotPolicyName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotPolicyVolumeList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
   urlParameters: [
@@ -360,31 +382,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.SnapshotPolicy
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listVolumesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}/listVolumes",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.snapshotPolicyName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SnapshotPolicyVolumeList
+    202: {
+      bodyMapper: Mappers.SnapshotPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError

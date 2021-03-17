@@ -45,7 +45,7 @@ import {
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -71,185 +71,125 @@ import { BlobBatchClient } from "./BlobBatchClient";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
- *
- * @export
- * @interface ContainerCreateOptions
  */
 export interface ContainerCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the container.
-   *
-   * @type {Metadata}
-   * @memberof ContainerCreateOptions
    */
   metadata?: Metadata;
   /**
    * Specifies whether data in the container may be accessed publicly and the level of access. Possible values include:
    * - `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.
    * - `blob`: Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.
-   *
-   * @type {PublicAccessType}
-   * @memberof ContainerCreateOptions
    */
   access?: PublicAccessType;
   /**
    * Container encryption scope info.
-   *
-   * @type {ContainerEncryptionScope}
-   * @memberof ContainerCreateOptions
    */
   containerEncryptionScope?: ContainerEncryptionScope;
 }
 
 /**
  * Options to configure {@link ContainerClient.getProperties} operation.
- *
- * @export
- * @interface ContainerGetPropertiesOptions
  */
 export interface ContainerGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ContainerGetPropertiesOptions
    */
   conditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure {@link ContainerClient.delete} operation.
- *
- * @export
- * @interface ContainerDeleteMethodOptions
  */
 export interface ContainerDeleteMethodOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerDeleteMethodOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when deleting the container.
-   *
-   * @type {ContainerRequestConditions}
-   * @memberof ContainerDeleteMethodOptions
    */
   conditions?: ContainerRequestConditions;
 }
 
 /**
  * Options to configure {@link ContainerClient.exists} operation.
- *
- * @export
- * @interface ContainerExistsOptions
  */
 export interface ContainerExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerDeleteMethodOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link ContainerClient.setMetadata} operation.
- *
- * @export
- * @interface ContainerSetMetadataOptions
  */
 export interface ContainerSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {ContainerRequestConditions}
-   * @memberof ContainerSetMetadataOptions
    */
   conditions?: ContainerRequestConditions;
 }
 
 /**
  * Options to configure {@link ContainerClient.getAccessPolicy} operation.
- *
- * @export
- * @interface ContainerGetAccessPolicyOptions
  */
 export interface ContainerGetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerGetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ContainerGetAccessPolicyOptions
    */
   conditions?: LeaseAccessConditions;
 }
 
 /**
  * Signed identifier.
- *
- * @export
- * @interface SignedIdentifier
  */
 export interface SignedIdentifier {
   /**
-   * @member {string} id a unique id
+   * a unique id
    */
   id: string;
   /**
-   * @member {AccessPolicy} accessPolicy
+   * Access Policy
    */
   accessPolicy: {
     /**
-     * @member {Date} startsOn Optional. The date-time the policy is active
+     * Optional. The date-time the policy is active
      */
     startsOn?: Date;
     /**
-     * @member {Date} expiresOn Optional. The date-time the policy expires
+     * Optional. The date-time the policy expires
      */
     expiresOn?: Date;
     /**
-     * @member {string} permissions The permissions for the acl policy
+     * The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      */
     permissions?: string;
@@ -283,161 +223,101 @@ export declare type ContainerGetAccessPolicyResponse = {
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.
- *
- * @export
- * @interface ContainerSetAccessPolicyOptions
  */
 export interface ContainerSetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerSetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when setting the access policy.
-   *
-   * @type {ContainerRequestConditions}
-   * @memberof ContainerSetAccessPolicyOptions
    */
   conditions?: ContainerRequestConditions;
 }
 
 /**
  * Options to configure Container - Acquire Lease operation.
- *
- * @export
- * @interface ContainerAcquireLeaseOptions
  */
 export interface ContainerAcquireLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerAcquireLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when acquiring the lease.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof ContainerAcquireLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Container - Release Lease operation.
- *
- * @export
- * @interface ContainerReleaseLeaseOptions
  */
 export interface ContainerReleaseLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerReleaseLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when releasing the lease.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof ContainerReleaseLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Container - Renew Lease operation.
- *
- * @export
- * @interface ContainerRenewLeaseOptions
  */
 export interface ContainerRenewLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerRenewLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when renewing the lease.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof ContainerRenewLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Container - Break Lease operation.
- *
- * @export
- * @interface ContainerBreakLeaseOptions
  */
 export interface ContainerBreakLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerBreakLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when breaking the lease.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof ContainerBreakLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure Container - Change Lease operation.
- *
- * @export
- * @interface ContainerChangeLeaseOptions
  */
 export interface ContainerChangeLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerChangeLeaseOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when changing the lease.
-   *
-   * @type {ModifiedAccessConditions}
-   * @memberof ContainerChangeLeaseOptions
    */
   conditions?: ModifiedAccessConditions;
 }
 
 /**
  * Options to configure the {@link ContainerClient.deleteBlob} operation.
- *
- * @export
- * @interface ContainerDeleteBlobOptions
  */
 export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
   /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to delete. It's for service version 2019-10-10 and newer.
-   *
-   * @type {string}
-   * @memberof ContainerDeleteBlobOptions
    */
   versionId?: string;
 }
@@ -451,16 +331,11 @@ export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
  * - {@link ContainerClient.listBlobHierarchySegment}
  * - {@link ContainerClient.listHierarchySegments}
  * - {@link ContainerClient.listItemsByHierarchy}
- *
- * @interface ContainerListBlobsSegmentOptions
  */
 interface ContainerListBlobsSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerListBlobsSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -600,17 +475,11 @@ export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse 
  * See:
  * - {@link ContainerClient.listBlobsFlat}
  * - {@link ContainerClient.listBlobsByHierarchy}
- *
- * @export
- * @interface ContainerListBlobsOptions
  */
 export interface ContainerListBlobsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ContainerListBlobsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -651,65 +520,40 @@ export interface ContainerListBlobsOptions extends CommonOptions {
 
 /**
  * Contains response data for the {@link ContainerClient.createIfNotExists} operation.
- *
- * @export
- * @interface ContainerCreateIfNotExistsResponse
  */
 export interface ContainerCreateIfNotExistsResponse extends ContainerCreateResponse {
   /**
    * Indicate whether the container is successfully created. Is false when the container is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof ContainerCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link ContainerClient.deleteIfExists} operation.
- *
- * @export
- * @interface ContainerDeleteIfExistsResponse
  */
 export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse {
   /**
    * Indicate whether the container is successfully deleted. Is false if the container does not exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof ContainerDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Options to configure {@link ContainerClient.generateSasUrl} operation.
- *
- * @export
- * @interface ContainerGenerateSasUrlOptions
  */
 export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   /**
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
-   *
-   * @type {ContainerSASPermissions}
-   * @memberof ContainerGenerateSasUrlOptions
    */
   permissions?: ContainerSASPermissions;
 }
 
 /**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
- *
- * @export
- * @class ContainerClient
  */
 export class ContainerClient extends StorageClient {
   /**
    * containerContext provided by protocol layer.
-   *
-   * @private
-   * @type {Containers}
-   * @memberof ContainerClient
    */
   private containerContext: Container;
 
@@ -725,15 +569,14 @@ export class ContainerClient extends StorageClient {
    *
    * Creates an instance of ContainerClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} containerName Container name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof ContainerClient
+   * @param containerName - Container name.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
@@ -742,13 +585,12 @@ export class ContainerClient extends StorageClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage container, such as
+   * @param url - A URL string pointing to Azure Storage container, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof ContainerClient
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(
     url: string,
@@ -761,13 +603,12 @@ export class ContainerClient extends StorageClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage container, such as
+   * @param url - A URL string pointing to Azure Storage container, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ContainerClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -847,9 +688,8 @@ export class ContainerClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
-   * @returns {Promise<ContainerCreateResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to Container Create operation.
+   *
    *
    * Example usage:
    *
@@ -860,13 +700,13 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-create", options);
     try {
       // Spread operator in destructuring assignments,
       // this will filter out unwanted properties from the response object into result object
       return await this.containerContext.create({
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -884,22 +724,14 @@ export class ContainerClient extends StorageClient {
    * the same name already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {ContainerCreateOptions} [options]
-   * @returns {Promise<ContainerCreateIfNotExistsResponse>}
-   * @memberof ContainerClient
+   * @param options -
    */
   public async createIfNotExists(
     options: ContainerCreateOptions = {}
   ): Promise<ContainerCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-createIfNotExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-createIfNotExists", options);
     try {
-      const res = await this.create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.create(updatedOptions);
       return {
         succeeded: true,
         ...res,
@@ -935,16 +767,14 @@ export class ContainerClient extends StorageClient {
    * applications. Vice versa new containers with the same name might be added by other clients or
    * applications after this function completes.
    *
-   * @param {ContainerExistsOptions} [options={}]
-   * @returns {Promise<boolean>}
-   * @memberof ContainerClient
+   * @param options -
    */
   public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ContainerClient-exists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-exists", options);
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       return true;
     } catch (e) {
@@ -968,9 +798,8 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a {@link BlobClient}
    *
-   * @param {string} blobName A blob name
-   * @returns {BlobClient} A new BlobClient object for the given blob name.
-   * @memberof ContainerClient
+   * @param blobName - A blob name
+   * @returns A new BlobClient object for the given blob name.
    */
   public getBlobClient(blobName: string): BlobClient {
     return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
@@ -979,9 +808,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates an {@link AppendBlobClient}
    *
-   * @param {string} blobName An append blob name
-   * @returns {AppendBlobClient}
-   * @memberof ContainerClient
+   * @param blobName - An append blob name
    */
   public getAppendBlobClient(blobName: string): AppendBlobClient {
     return new AppendBlobClient(
@@ -993,9 +820,8 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a {@link BlockBlobClient}
    *
-   * @param {string} blobName A block blob name
-   * @returns {BlockBlobClient}
-   * @memberof ContainerClient
+   * @param blobName - A block blob name
+   *
    *
    * Example usage:
    *
@@ -1016,9 +842,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a {@link PageBlobClient}
    *
-   * @param {string} blobName A page blob name
-   * @returns {PageBlobClient}
-   * @memberof ContainerClient
+   * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
     return new PageBlobClient(
@@ -1037,9 +861,7 @@ export class ContainerClient extends StorageClient {
    * the `listContainers` method of {@link BlobServiceClient} using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @param {ContainerGetPropertiesOptions} [options] Options to Container Get Properties operation.
-   * @returns {Promise<ContainerGetPropertiesResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to Container Get Properties operation.
    */
   public async getProperties(
     options: ContainerGetPropertiesOptions = {}
@@ -1048,15 +870,12 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-getProperties", options);
     try {
       return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1074,9 +893,7 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
-   * @returns {Promise<ContainerDeleteResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to Container Delete operation.
    */
   public async delete(
     options: ContainerDeleteMethodOptions = {}
@@ -1085,13 +902,13 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-delete", options);
     try {
       return await this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1109,23 +926,15 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
-   * @returns {Promise<ContainerDeleteIfExistsResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to Container Delete operation.
    */
   public async deleteIfExists(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-deleteIfExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-deleteIfExists", options);
 
     try {
-      const res = await this.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
         ...res,
@@ -1161,11 +970,9 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
-   * @param {Metadata} [metadata] Replace existing metadata with this value.
+   * @param metadata - Replace existing metadata with this value.
    *                            If no value provided the existing metadata will be removed.
-   * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
-   * @returns {Promise<ContainerSetMetadataResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to Container Set Metadata operation.
    */
   public async setMetadata(
     metadata?: Metadata,
@@ -1181,7 +988,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-setMetadata", options);
 
     try {
       return await this.containerContext.setMetadata({
@@ -1189,7 +996,7 @@ export class ContainerClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         metadata,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1211,9 +1018,7 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {ContainerGetAccessPolicyOptions} [options] Options to Container Get Access Policy operation.
-   * @returns {Promise<ContainerGetAccessPolicyResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to Container Get Access Policy operation.
    */
   public async getAccessPolicy(
     options: ContainerGetAccessPolicyOptions = {}
@@ -1222,16 +1027,13 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-getAccessPolicy",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-getAccessPolicy", options);
 
     try {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       const res: ContainerGetAccessPolicyResponse = {
@@ -1294,11 +1096,9 @@ export class ContainerClient extends StorageClient {
    * fail with status code 403 (Forbidden), until the access policy becomes active.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
-   * @param {PublicAccessType} [access] The level of public access to data in the container.
-   * @param {SignedIdentifier[]} [containerAcl] Array of elements each having a unique Id and details of the access policy.
-   * @param {ContainerSetAccessPolicyOptions} [options] Options to Container Set Access Policy operation.
-   * @returns {Promise<ContainerSetAccessPolicyResponse>}
-   * @memberof ContainerClient
+   * @param access - The level of public access to data in the container.
+   * @param containerAcl - Array of elements each having a unique Id and details of the access policy.
+   * @param options - Options to Container Set Access Policy operation.
    */
   public async setAccessPolicy(
     access?: PublicAccessType,
@@ -1306,10 +1106,7 @@ export class ContainerClient extends StorageClient {
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<ContainerSetAccessPolicyResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-setAccessPolicy",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-setAccessPolicy", options);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of containerAcl || []) {
@@ -1333,7 +1130,7 @@ export class ContainerClient extends StorageClient {
         containerAcl: acl,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
@@ -1349,9 +1146,8 @@ export class ContainerClient extends StorageClient {
   /**
    * Get a {@link BlobLeaseClient} that manages leases on the container.
    *
-   * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the container.
-   * @memberof ContainerClient
+   * @param proposeLeaseId - Initial proposed lease Id.
+   * @returns A new BlobLeaseClient object for managing leases on the container.
    */
   public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
     return new BlobLeaseClient(this, proposeLeaseId);
@@ -1371,14 +1167,13 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {string} blobName Name of the block blob to create or update.
-   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   * @param blobName - Name of the block blob to create or update.
+   * @param body - Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
-   * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
+   * @param contentLength - Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {BlockBlobUploadOptions} [options] Options to configure the Block Blob Upload operation.
-   * @returns {Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }>} Block Blob upload response data and the corresponding BlockBlobClient instance.
-   * @memberof ContainerClient
+   * @param options - Options to configure the Block Blob Upload operation.
+   * @returns Block Blob upload response data and the corresponding BlockBlobClient instance.
    */
   public async uploadBlockBlob(
     blobName: string,
@@ -1386,16 +1181,10 @@ export class ContainerClient extends StorageClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-uploadBlockBlob",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-uploadBlockBlob", options);
     try {
       const blockBlobClient = this.getBlockBlobClient(blobName);
-      const response = await blockBlobClient.upload(body, contentLength, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const response = await blockBlobClient.upload(body, contentLength, updatedOptions);
       return {
         blockBlobClient,
         response
@@ -1418,25 +1207,21 @@ export class ContainerClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {string} blobName
-   * @param {ContainerDeleteBlobOptions} [options] Options to Blob Delete operation.
-   * @returns {Promise<BlobDeleteResponse>} Block blob deletion response data.
-   * @memberof ContainerClient
+   * @param blobName -
+   * @param options - Options to Blob Delete operation.
+   * @returns Block blob deletion response data.
    */
   public async deleteBlob(
     blobName: string,
     options: ContainerDeleteBlobOptions = {}
   ): Promise<BlobDeleteResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ContainerClient-deleteBlob", options);
     try {
       let blobClient = this.getBlobClient(blobName);
       if (options.versionId) {
         blobClient = blobClient.withVersion(options.versionId);
       }
-      return await blobClient.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await blobClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1455,24 +1240,19 @@ export class ContainerClient extends StorageClient {
    * (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Flat Segment operation.
-   * @returns {Promise<ContainerListBlobFlatSegmentResponse>}
-   * @memberof ContainerClient
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to Container List Blob Flat Segment operation.
    */
   private async listBlobFlatSegment(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobFlatSegmentResponse> {
-    const { span, spanOptions } = createSpan(
-      "ContainerClient-listBlobFlatSegment",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ContainerClient-listBlobFlatSegment", options);
     try {
       const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
@@ -1510,26 +1290,24 @@ export class ContainerClient extends StorageClient {
    * again (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {string} delimiter The character or string used to define the virtual hierarchy
-   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
-   * @returns {Promise<ContainerListBlobHierarchySegmentResponse>}
-   * @memberof ContainerClient
+   * @param delimiter - The character or string used to define the virtual hierarchy
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to Container List Blob Hierarchy Segment operation.
    */
   private async listBlobHierarchySegment(
     delimiter: string,
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ContainerClient-listBlobHierarchySegment",
-      options.tracingOptions
+      options
     );
     try {
       const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...response,
@@ -1563,17 +1341,14 @@ export class ContainerClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for ContainerListBlobFlatSegmentResponse
    *
-   * @private
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param marker - A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all blobs remaining to be listed
    *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<ContainerListBlobFlatSegmentResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to list blobs operation.
    */
   private async *listSegments(
     marker?: string,
@@ -1592,10 +1367,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator of {@link BlobItem} objects
    *
-   * @private
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<BlobItem>}
-   * @memberof ContainerClient
+   * @param options - Options to list blobs operation.
    */
   private async *listItems(
     options: ContainerListBlobsSegmentOptions = {}
@@ -1673,9 +1445,8 @@ export class ContainerClient extends StorageClient {
    * }
    * ```
    *
-   * @param {ContainerListBlobsOptions} [options={}] Options to list blobs.
-   * @returns {PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>} An asyncIterableIterator that supports paging.
-   * @memberof ContainerClient
+   * @param options - Options to list blobs.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listBlobsFlat(
     options: ContainerListBlobsOptions = {}
@@ -1715,19 +1486,19 @@ export class ContainerClient extends StorageClient {
     const iter = this.listItems(updatedOptions);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
@@ -1741,18 +1512,15 @@ export class ContainerClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for ContainerListBlobHierarchySegmentResponse
    *
-   * @private
-   * @param {string} delimiter The character or string used to define the virtual hierarchy
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param delimiter - The character or string used to define the virtual hierarchy
+   * @param marker - A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all blobs remaining to be listed
    *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<ContainerListBlobHierarchySegmentResponse>}
-   * @memberof ContainerClient
+   * @param options - Options to list blobs operation.
    */
   private async *listHierarchySegments(
     delimiter: string,
@@ -1776,11 +1544,8 @@ export class ContainerClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for {@link BlobPrefix} and {@link BlobItem} objects.
    *
-   * @private
-   * @param {string} delimiter The character or string used to define the virtual hierarchy
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem>}
-   * @memberof ContainerClient
+   * @param delimiter - The character or string used to define the virtual hierarchy
+   * @param options - Options to list blobs operation.
    */
   private async *listItemsByHierarchy(
     delimiter: string,
@@ -1795,7 +1560,10 @@ export class ContainerClient extends StorageClient {
       const segment = listBlobsHierarchySegmentResponse.segment;
       if (segment.blobPrefixes) {
         for (const prefix of segment.blobPrefixes) {
-          yield { kind: "prefix", ...prefix };
+          yield {
+            kind: "prefix",
+            ...prefix
+          };
         }
       }
       for (const blob of segment.blobItems) {
@@ -1877,12 +1645,8 @@ export class ContainerClient extends StorageClient {
    * }
    * ```
    *
-   * @param {string} delimiter The character or string used to define the virtual hierarchy
-   * @param {ContainerListBlobsOptions} [options={}] Options to list blobs operation.
-   * @returns {(PagedAsyncIterableIterator<
-   *   { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
-   *     ContainerListBlobHierarchySegmentResponse>)}
-   * @memberof ContainerClient
+   * @param delimiter - The character or string used to define the virtual hierarchy
+   * @param options - Options to list blobs operation.
    */
   public listBlobsByHierarchy(
     delimiter: string,
@@ -1929,19 +1693,19 @@ export class ContainerClient extends StorageClient {
     const iter = this.listItemsByHierarchy(delimiter, updatedOptions);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       async next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
@@ -2000,9 +1764,8 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {ContainerGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof ContainerClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {
@@ -2029,8 +1792,7 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
-   * @returns {BlobBatchClient} A new BlobBatchClient object for this container.
-   * @memberof ContainerClient
+   * @returns A new BlobBatchClient object for this container.
    */
   public getBlobBatchClient(): BlobBatchClient {
     return new BlobBatchClient(this.url, this.pipeline);

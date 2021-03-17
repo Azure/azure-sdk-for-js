@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
 import { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
-import { StringIndexType } from "../../util";
+import { StringIndexType, delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
@@ -12,6 +11,9 @@ import {
   AnalyzeHealthcareOperationState
 } from "./operation";
 
+/**
+ * @internal
+ */
 export interface HealthcarePollerOptions extends AnalysisPollerOptions {
   readonly modelVersion?: string;
   readonly includeStatistics?: boolean;
@@ -28,6 +30,7 @@ export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<
 
 /**
  * Class that represents a poller that waits for the healthcare results.
+ * @internal
  */
 export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
   AnalyzeHealthcareOperationState,

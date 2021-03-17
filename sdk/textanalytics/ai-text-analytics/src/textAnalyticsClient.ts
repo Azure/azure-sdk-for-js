@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CommonClientOptions } from "@azure/core-client";
 import {
-  PipelineOptions,
-  createPipelineFromOptions,
   InternalPipelineOptions,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
+  bearerTokenAuthenticationPolicy
+} from "@azure/core-rest-pipeline";
+import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
@@ -18,7 +15,8 @@ import {
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
-  TextDocumentInput
+  TextDocumentInput,
+  PiiCategory
 } from "./generated/models";
 import {
   DetectLanguageResultArray,
@@ -46,11 +44,13 @@ import {
 } from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
   AddParamsToTask,
   addStrEncodingParam,
+  compose,
   handleInvalidDocumentBatch,
+  setModelVersionParam,
   setStrEncodingParam,
   StringIndexType
 } from "./util";
@@ -92,7 +92,7 @@ const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 /**
  * Client options used to configure TextAnalytics API requests.
  */
-export interface TextAnalyticsClientOptions extends PipelineOptions {
+export interface TextAnalyticsClientOptions extends CommonClientOptions {
   /**
    * The default country hint to use. Defaults to "us".
    */
@@ -129,7 +129,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * Whether to mine the opinions of a sentence and conduct more  granular
    * analysis around the aspects of a product or service (also known as
    * aspect-based sentiment analysis). If set to true, the returned
-   * `SentenceSentiment` objects will have property `mined_opinions` containing
+   * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
@@ -168,6 +168,10 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * Specifies the list of Pii categories to return.
+   */
+  categoriesFilter?: PiiCategory[];
 }
 
 /**
@@ -239,6 +243,23 @@ export interface ExtractKeyPhrasesAction {
 }
 
 /**
+ * Options for an entities linking action.
+ */
+export type RecognizeLinkedEntitiesAction = {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+};
+
+/**
  * Description of collection of actions for the analyze API to perform on input documents
  */
 export interface TextAnalyticsActions {
@@ -254,6 +275,10 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of key phrases recognition actions.
    */
   extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+  /**
+   * A collection of descriptions of entities linking actions.
+   */
+  recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -316,23 +341,23 @@ export class TextAnalyticsClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : createTextAnalyticsAzureKeyCredentialPolicy(credential);
-
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+          additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
         }
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
 
-    this.client = new GeneratedClient(this.endpointUrl, pipeline);
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : textAnalyticsAzureKeyCredentialPolicy(credential);
+
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -404,16 +429,10 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        finalOptions
       );
 
-      return makeDetectLanguageResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeDetectLanguageResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -495,16 +514,10 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        addStrEncodingParam(finalOptions)
       );
 
-      return makeRecognizeCategorizedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
     } catch (e) {
       /**
        * This special logic handles REST exception with code
@@ -528,8 +541,9 @@ export class TextAnalyticsClient {
   /**
    * Runs a predictive model to identify the positive, negative, neutral, or mixed
    * sentiment contained in the input strings, as well as scores indicating
-   * the model's confidence in each of the predicted sentiments.
-   * For a list of languages supported by this operation, @see
+   * the model's confidence in each of the predicted sentiments. Optionally it
+   * can also identify targets in the text and assessments about it through
+   * opinion mining. For a list of languages supported by this operation, @see
    * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
@@ -537,7 +551,7 @@ export class TextAnalyticsClient {
         language in `TextAnalyticsClientOptions`.  
         If set to an empty string, the service will apply a model
         where the lanuage is explicitly set to "None".
-   * @param options - Optional parameters for the operation.
+   * @param options - Optional parameters that includes enabling opinion mining.
    */
   public async analyzeSentiment(
     documents: string[],
@@ -547,11 +561,12 @@ export class TextAnalyticsClient {
   /**
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
    * sentiment contained in the input documents, as well as scores indicating
-   * the model's confidence in each of the predicted sentiments.
-   * For a list of languages supported by this operation, @see
+   * the model's confidence in each of the predicted sentiments.Optionally it
+   * can also identify targets in the text and assessments about it through
+   * opinion mining. For a list of languages supported by this operation, @see
    * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
-   * @param options - Options for the operation.
+   * @param options - Optional parameters that includes enabling opinion mining.
    */
   public async analyzeSentiment(
     documents: TextDocumentInput[],
@@ -590,7 +605,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
+        setStrEncodingParam(finalOptions)
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -666,16 +681,10 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        finalOptions
       );
 
-      return makeExtractKeyPhrasesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeExtractKeyPhrasesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -750,7 +759,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
+        setStrEncodingParam(finalOptions)
       );
 
       return makeRecognizePiiEntitiesResultArray(realInputs, result);
@@ -828,16 +837,10 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        addStrEncodingParam(finalOptions)
       );
 
-      return makeRecognizeLinkedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -898,7 +901,9 @@ export class TextAnalyticsClient {
       analysisOptions: {
         requestOptions: realOptions.requestOptions,
         tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal
+        abortSignal: realOptions.abortSignal,
+        onResponse: realOptions.onResponse,
+        serializerOptions: realOptions.serializerOptions
       },
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom,
@@ -960,7 +965,7 @@ export class TextAnalyticsClient {
       realInputs = documents;
       realOptions = (languageOrOptions as BeginAnalyzeBatchActionsOptions) || {};
     }
-    const compiledActions = addEncodingParamToAnalyzeInput(actions);
+    const compiledActions = compileAnalyzeInput(actions);
     const poller = new BeginAnalyzeBatchActionsPoller({
       client: this.client,
       documents: realInputs,
@@ -968,7 +973,9 @@ export class TextAnalyticsClient {
       analysisOptions: {
         requestOptions: realOptions.requestOptions,
         tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal
+        abortSignal: realOptions.abortSignal,
+        onResponse: realOptions.onResponse,
+        serializerOptions: realOptions.serializerOptions
       },
       displayName: realOptions.displayName,
       includeStatistics: realOptions.includeStatistics,
@@ -981,15 +988,23 @@ export class TextAnalyticsClient {
   }
 }
 
-function addEncodingParamToAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
+/**
+ * @internal
+ */
+function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
-    entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions
-      ?.map(setStrEncodingParam)
-      .map(AddParamsToTask),
-    entityRecognitionTasks: actions.recognizeEntitiesActions
-      ?.map(setStrEncodingParam)
-      .map(AddParamsToTask),
-    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask)
+    entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions?.map(
+      compose(setStrEncodingParam, AddParamsToTask)
+    ),
+    entityRecognitionTasks: actions.recognizeEntitiesActions?.map(
+      compose(setStrEncodingParam, AddParamsToTask)
+    ),
+    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask),
+    // setting the mode version is necessary because the service always expects it
+    // https://github.com/Azure/azure-sdk-for-js/issues/14079
+    entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
+      compose(setStrEncodingParam, compose(setModelVersionParam, AddParamsToTask))
+    )
   };
 }
 
@@ -997,6 +1012,9 @@ function isStringArray(documents: any[]): documents is string[] {
   return typeof documents[0] === "string";
 }
 
+/**
+ * @internal
+ */
 function convertToDetectLanguageInput(
   inputs: string[],
   countryHint: string
@@ -1015,6 +1033,9 @@ function convertToDetectLanguageInput(
   );
 }
 
+/**
+ * @internal
+ */
 function convertToTextDocumentInput(inputs: string[], language: string): TextDocumentInput[] {
   return inputs.map(
     (text: string, index): TextDocumentInput => {
@@ -1031,7 +1052,6 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
  * Creates the options the service expects for the analyze sentiment API from the user friendly ones.
  * @param params - the user friendly parameters
  * @internal
- * @hidden
  */
 function makeAnalyzeSentimentOptionsModel(
   params: AnalyzeSentimentOptions
@@ -1043,7 +1063,9 @@ function makeAnalyzeSentimentOptionsModel(
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
-    tracingOptions: params.tracingOptions
+    tracingOptions: params.tracingOptions,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions
   };
 }
 
@@ -1051,7 +1073,6 @@ function makeAnalyzeSentimentOptionsModel(
  * Creates the options the service expects for the recognize pii entities API from the user friendly ones.
  * @param params - the user friendly parameters
  * @internal
- * @hidden
  */
 function makePiiEntitiesOptionsModel(
   params: RecognizePiiEntitiesOptions
@@ -1063,6 +1084,9 @@ function makePiiEntitiesOptionsModel(
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
     stringIndexType: params.stringIndexType,
-    tracingOptions: params.tracingOptions
+    tracingOptions: params.tracingOptions,
+    piiCategories: params.categoriesFilter,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions
   };
 }

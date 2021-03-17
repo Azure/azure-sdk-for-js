@@ -34,7 +34,7 @@ async function main() {
     }
 }
 
-  let listDeletedKeys = client.listPropertiesOfKeys();
+  let listDeletedKeys = client.listDeletedKeys();
   while (true) {
     let { done, value } = await listDeletedKeys.next();
     if (done) {
@@ -43,7 +43,7 @@ async function main() {
 
     try {
       // This will take a while.
-      await client.purgeDeletedKey(deletedKey.name);
+      await client.purgeDeletedKey(value.name);
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }

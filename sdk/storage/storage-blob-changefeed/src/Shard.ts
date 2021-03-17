@@ -12,17 +12,11 @@ import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Options to configure {@link Shard.getChange} operation.
- *
- * @export
- * @interface ShardGetChangeOptions
  */
 export interface ShardGetChangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShardGetChangeOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -58,7 +52,7 @@ export class Shard {
   public async getChange(
     options: ShardGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, spanOptions } = createSpan("Shard-getChange", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("Shard-getChange", options);
     try {
       let event: BlobChangeFeedEvent | undefined = undefined;
       while (event === undefined && this.hasNext()) {
@@ -73,7 +67,7 @@ export class Shard {
             undefined,
             {
               abortSignal: options.abortSignal,
-              tracingOptions: { ...options.tracingOptions, spanOptions }
+              tracingOptions: updatedOptions.tracingOptions
             }
           );
         }

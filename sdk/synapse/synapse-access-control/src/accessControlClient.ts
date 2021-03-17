@@ -24,10 +24,10 @@ import {
 export class AccessControlClient extends AccessControlClientContext {
   /**
    * Initializes a new instance of the AccessControlClient class.
-   * @param credentials - Subscription credentials which uniquely identify client subscription.
-   * @param endpoint - The workspace development endpoint, for example
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param endpoint The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param options - The parameter options
+   * @param options The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
@@ -39,7 +39,7 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * List roles.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listRoleDefinitions(
     options?: coreHttp.OperationOptions
@@ -81,17 +81,14 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * List roles.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getRoleDefinitions(
     options?: coreHttp.OperationOptions
   ): Promise<AccessControlClientGetRoleDefinitionsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-_getRoleDefinitions",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("AccessControlClient-_getRoleDefinitions", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -112,8 +109,8 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * Get role by role Id.
-   * @param roleId - Synapse Built-In Role Id.
-   * @param options - The options parameters.
+   * @param roleId Synapse Built-In Role Id.
+   * @param options The options parameters.
    */
   async getRoleDefinitionById(
     roleId: string,
@@ -121,11 +118,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientGetRoleDefinitionByIdResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-getRoleDefinitionById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       roleId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -146,8 +143,8 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * Create role assignment.
-   * @param createRoleAssignmentOptions - Details of role id and object id.
-   * @param options - The options parameters.
+   * @param createRoleAssignmentOptions Details of role id and object id.
+   * @param options The options parameters.
    */
   async createRoleAssignment(
     createRoleAssignmentOptions: RoleAssignmentOptions,
@@ -155,11 +152,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientCreateRoleAssignmentResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-createRoleAssignment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       createRoleAssignmentOptions,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -180,17 +177,14 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * List role assignments.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async getRoleAssignments(
     options?: AccessControlClientGetRoleAssignmentsOptionalParams
   ): Promise<AccessControlClientGetRoleAssignmentsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-getRoleAssignments",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("AccessControlClient-getRoleAssignments", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -211,8 +205,8 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * Get role assignment by role assignment Id.
-   * @param roleAssignmentId - The ID of the role assignment.
-   * @param options - The options parameters.
+   * @param roleAssignmentId The ID of the role assignment.
+   * @param options The options parameters.
    */
   async getRoleAssignmentById(
     roleAssignmentId: string,
@@ -220,11 +214,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientGetRoleAssignmentByIdResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-getRoleAssignmentById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       roleAssignmentId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -245,8 +239,8 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * Delete role assignment by role assignment Id.
-   * @param roleAssignmentId - The ID of the role assignment.
-   * @param options - The options parameters.
+   * @param roleAssignmentId The ID of the role assignment.
+   * @param options The options parameters.
    */
   async deleteRoleAssignmentById(
     roleAssignmentId: string,
@@ -254,11 +248,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-deleteRoleAssignmentById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       roleAssignmentId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -279,17 +273,17 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * List role assignments of the caller.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   async getCallerRoleAssignments(
     options?: coreHttp.OperationOptions
   ): Promise<AccessControlClientGetCallerRoleAssignmentsResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-getCallerRoleAssignments",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -310,8 +304,8 @@ export class AccessControlClient extends AccessControlClientContext {
 
   /**
    * GetRoleDefinitionsNext
-   * @param nextLink - The nextLink from the previous successful call to the GetRoleDefinitions method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetRoleDefinitions method.
+   * @param options The options parameters.
    */
   private async _getRoleDefinitionsNext(
     nextLink: string,
@@ -319,11 +313,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientGetRoleDefinitionsNextResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-_getRoleDefinitionsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(

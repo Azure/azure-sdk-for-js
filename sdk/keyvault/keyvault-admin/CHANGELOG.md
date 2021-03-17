@@ -2,6 +2,9 @@
 
 ## 4.0.0-beta.3 (Unreleased)
 
+- Updated the Latest service version to 7.2.
+- Long Running Operations will now use the `status` field to determine whether the operation failed.
+
 ## 4.0.0-beta.2 (2021-02-09)
 
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).

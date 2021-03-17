@@ -24,7 +24,8 @@ import { getSignalingClient } from "./signaling/signalingClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  generateUuid
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -34,26 +35,17 @@ import { ChatThreadClient } from "./chatThreadClient";
 import {
   ChatClientOptions,
   CreateChatThreadOptions,
-  GetChatThreadOptions,
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
 import {
-  CreateChatThreadResponse,
-  GetChatThreadResponse,
-  ListPageSettings,
-  OperationResponse
-} from "./models/models";
-import {
-  mapToChatThreadSdkModel,
-  attachHttpResponse,
-  mapToChatParticipantRestModel
+  mapToChatParticipantRestModel,
+  mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
-import { ChatThreadInfo, ChatApiClient } from "./generated/src";
-import { CreateChatThreadRequest } from "./models/requests";
+import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-
-export { ChatThreadInfo } from "./generated/src";
+import { ChatApiClient } from "./generated/src";
+import { CreateChatThreadRequest } from "./models/requests";
 
 /**
  * The client to do chat operations
@@ -70,12 +62,12 @@ export class ChatClient {
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
-   * @param url - The url of the Communication Services resouce.
-   * @param credential - The token credential. Use AzureCommunicationTokenCredential from @azure/communication-common to create a credential.
+   * @param endpoint - The url of the Communication Services resouce.
+   * @param credential - The token credential. Use AzureCommunicationTokenCredential from \@azure/communication-common to create a credential.
    * @param options - Additional client options.
    */
   constructor(
-    private readonly url: string,
+    private readonly endpoint: string,
     credential: CommunicationTokenCredential,
     options: ChatClientOptions = {}
   ) {
@@ -107,7 +99,7 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new ChatApiClient(this.url, pipeline);
+    this.client = new ChatApiClient(this.endpoint, pipeline);
 
     this.signalingClient = getSignalingClient(credential, logger);
   }
@@ -116,8 +108,8 @@ export class ChatClient {
    * Returns ChatThreadClient with the specific thread id.
    * @param threadId - Thread ID for the ChatThreadClient
    */
-  public async getChatThreadClient(threadId: string): Promise<ChatThreadClient> {
-    return new ChatThreadClient(threadId, this.url, this.tokenCredential, this.clientOptions);
+  public getChatThreadClient(threadId: string): ChatThreadClient {
+    return new ChatThreadClient(this.endpoint, threadId, this.tokenCredential, this.clientOptions);
   }
 
   /**
@@ -129,11 +121,13 @@ export class ChatClient {
   public async createChatThread(
     request: CreateChatThreadRequest,
     options: CreateChatThreadOptions = {}
-  ): Promise<CreateChatThreadResponse> {
+  ): Promise<CreateChatThreadResult> {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
-      return await this.client.chat.createChatThread(
+      // We generate an UUID if user not provides idempotencyToken.
+      updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
+      const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
           participants: request.participants?.map((participant) =>
@@ -142,36 +136,7 @@ export class ChatClient {
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Gets a chat thread.
-   * Returns the chat thread.
-   * @param threadId - The ID of the thread to get.
-   * @param options -  Operation options.
-   */
-  public async getChatThread(
-    threadId: string,
-    options: GetChatThreadOptions = {}
-  ): Promise<GetChatThreadResponse> {
-    const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
-
-    try {
-      const response = await this.client.chat.getChatThread(
-        threadId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      const thread = mapToChatThreadSdkModel(response);
-      return attachHttpResponse(thread, response._response);
+      return mapToCreateChatThreadResultSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -186,7 +151,7 @@ export class ChatClient {
   private async *listChatThreadsPage(
     continuationState: ListPageSettings,
     options: ListChatThreadsOptions = {}
-  ): AsyncIterableIterator<ChatThreadInfo[]> {
+  ): AsyncIterableIterator<ChatThreadItem[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
       const currentSetResponse = await this.client.chat.listChatThreads(requestOptions);
@@ -212,7 +177,7 @@ export class ChatClient {
 
   private async *listChatThreadsAll(
     options: ListChatThreadsOptions
-  ): AsyncIterableIterator<ChatThreadInfo> {
+  ): AsyncIterableIterator<ChatThreadItem> {
     for await (const page of this.listChatThreadsPage({}, options)) {
       yield* page;
     }
@@ -224,7 +189,7 @@ export class ChatClient {
    */
   public listChatThreads(
     options: ListChatThreadsOptions = {}
-  ): PagedAsyncIterableIterator<ChatThreadInfo> {
+  ): PagedAsyncIterableIterator<ChatThreadItem> {
     const { span, updatedOptions } = createSpan("ChatClient-ListChatThreads", options);
     try {
       const iter = this.listChatThreadsAll(updatedOptions);
@@ -258,11 +223,11 @@ export class ChatClient {
   public async deleteChatThread(
     threadId: string,
     options: DeleteChatThreadOptions = {}
-  ): Promise<OperationResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ChatClient-DeleteChatThread", options);
 
     try {
-      return await this.client.chat.deleteChatThread(
+      await this.client.chat.deleteChatThread(
         threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -354,22 +319,22 @@ export class ChatClient {
 
   /**
    * Subscribe function for chatThreadCreated.
-   * @param event The ChatThreadCreatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadCreatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
 
   /**
    * Subscribe function for chatThreadDeleted.
-   * @param event The ChatThreadDeletedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadDeletedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
 
   /**
    * Subscribe function for chatThreadPropertiesUpdated.
-   * @param event The ChatThreadPropertiesUpdatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadPropertiesUpdatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(
     event: "chatThreadPropertiesUpdated",
@@ -378,15 +343,15 @@ export class ChatClient {
 
   /**
    * Subscribe function for participantsAdded.
-   * @param event The ParticipantsAddedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsAddedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
 
   /**
    * Subscribe function for participantsRemoved.
-   * @param event The ParticipantsRemovedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsRemovedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 
@@ -444,22 +409,22 @@ export class ChatClient {
 
   /**
    *  Unsubscribe from chatThreadCreated.
-   * @param event The ChatThreadCreatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadCreatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
 
   /**
    *  Unsubscribe from chatThreadDeleted.
-   * @param event The ChatThreadDeletedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadDeletedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
 
   /**
    * Unsubscribe from chatThreadPropertiesUpdated.
-   * @param event The ChatThreadPropertiesUpdatedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatThreadPropertiesUpdatedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(
     event: "chatThreadPropertiesUpdated",
@@ -468,15 +433,15 @@ export class ChatClient {
 
   /**
    * Unsubscribe from participantsAdded.
-   * @param event The ParticipantsAddedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsAddedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
 
   /**
    * Unsubscribe from participantsRemoved.
-   * @param event The ParticipantsRemovedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ParticipantsRemovedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 

@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
@@ -36,6 +36,7 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<AnalyzeBatchActionsOperat
 export interface AnalyzeBatchActionsResult {
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
+    recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
 }
 
@@ -55,6 +56,7 @@ export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealt
 // @public
 export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     entities: HealthcareEntity[];
+    entityRelations: HealthcareEntityRelation[];
 }
 
 // @public
@@ -87,20 +89,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 // @public
-export interface AspectConfidenceScoreLabel {
-    // (undocumented)
-    negative: number;
-    // (undocumented)
-    positive: number;
-}
-
-// @public
-export interface AspectSentiment {
-    confidenceScores: AspectConfidenceScoreLabel;
-    length: number;
-    offset: number;
-    sentiment: TokenSentimentValue;
-    text: string;
+export interface AssessmentSentiment extends SentenceAssessment {
 }
 
 export { AzureKeyCredential }
@@ -173,6 +162,22 @@ export interface Entity {
     text: string;
 }
 
+// @public (undocumented)
+export interface EntityAssertion {
+    association?: EntityAssociation;
+    certainty?: EntityCertainty;
+    conditionality?: EntityConditionality;
+}
+
+// @public
+export type EntityAssociation = "subject" | "other";
+
+// @public
+export type EntityCertainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
+
+// @public
+export type EntityConditionality = "hypothetical" | "conditional";
+
 // @public
 export interface EntityDataSource {
     entityId: string;
@@ -223,13 +228,28 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 
 // @public
 export interface HealthcareEntity extends Entity {
+    assertion?: EntityAssertion;
     dataSources: EntityDataSource[];
-    isNegated: boolean;
-    relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+    normalizedText?: string;
 }
 
 // @public
-export type HealthcareEntityRelationType = "DirectionOfBodyStructure" | "DirectionOfExamination" | "RelationOfExamination" | "TimeOfExamination" | "UnitOfExamination" | "ValueOfExamination" | "DirectionOfCondition" | "QualifierOfCondition" | "TimeOfCondition" | "UnitOfCondition" | "ValueOfCondition" | "DosageOfMedication" | "FormOfMedication" | "FrequencyOfMedication" | "RouteOfMedication" | "TimeOfMedication" | "DirectionOfTreatment" | "TimeOfTreatment" | "FrequencyOfTreatment";
+export interface HealthcareEntityRelation {
+    relationType: HealthcareEntityRelationType;
+    roles: HealthcareEntityRelationRole[];
+}
+
+// @public
+export interface HealthcareEntityRelationRole {
+    entity: HealthcareEntity;
+    name: HealthcareEntityRelationRoleType;
+}
+
+// @public
+export type HealthcareEntityRelationRoleType = string;
+
+// @public
+export type HealthcareEntityRelationType = string;
 
 // @public
 export type InnerErrorCodeValue = string;
@@ -284,12 +304,6 @@ export interface Match {
 }
 
 // @public
-export interface MinedOpinion {
-    aspect: AspectSentiment;
-    opinions: OpinionSentiment[];
-}
-
-// @public
 export interface OperationMetadata {
     createdOn?: Date;
     expiresOn?: Date;
@@ -299,12 +313,13 @@ export interface OperationMetadata {
 }
 
 // @public
-export interface OpinionSentiment extends SentenceOpinion {
+export interface Opinion {
+    assessments: AssessmentSentiment[];
+    target: TargetSentiment;
 }
 
 // @public
 export interface PagedAnalyzeBatchActionsResult extends PagedAsyncIterableAnalyzeBatchActionsResult {
-    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
@@ -322,6 +337,9 @@ export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterab
 // @public
 export interface PiiEntity extends Entity {
 }
+
+// @public
+export type PiiEntityCategory = string;
 
 // @public
 export enum PiiEntityDomainType {
@@ -365,6 +383,23 @@ export interface RecognizeCategorizedEntitiesResultArray extends Array<Recognize
 // @public
 export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: CategorizedEntity[];
+}
+
+// @public
+export type RecognizeLinkedEntitiesAction = {
+    modelVersion?: string;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export type RecognizeLinkedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type RecognizeLinkedEntitiesActionResult = RecognizeLinkedEntitiesActionSuccessResult | RecognizeLinkedEntitiesActionErrorResult;
+
+// @public
+export interface RecognizeLinkedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: RecognizeLinkedEntitiesResultArray;
 }
 
 // @public
@@ -412,6 +447,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    categoriesFilter?: PiiEntityCategory[];
     domainFilter?: PiiEntityDomainType;
     stringIndexType?: StringIndexType;
 }
@@ -432,8 +468,8 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 }
 
 // @public (undocumented)
-export interface SentenceOpinion {
-    confidenceScores: AspectConfidenceScoreLabel;
+export interface SentenceAssessment {
+    confidenceScores: TargetConfidenceScoreLabel;
     isNegated: boolean;
     length: number;
     offset: number;
@@ -445,8 +481,8 @@ export interface SentenceOpinion {
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
     length: number;
-    minedOpinions: MinedOpinion[];
     offset: number;
+    opinions: Opinion[];
     sentiment: SentenceSentimentLabel;
     text: string;
 }
@@ -468,14 +504,33 @@ export interface SentimentConfidenceScores {
 export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
+export interface TargetConfidenceScoreLabel {
+    // (undocumented)
+    negative: number;
+    // (undocumented)
+    positive: number;
+}
+
+// @public
+export interface TargetSentiment {
+    confidenceScores: TargetConfidenceScoreLabel;
+    length: number;
+    offset: number;
+    sentiment: TokenSentimentValue;
+    text: string;
+}
+
+// @public
 export interface TextAnalyticsActionErrorResult {
     readonly error: TextAnalyticsError;
+    readonly failedOn: Date;
 }
 
 // @public
 export interface TextAnalyticsActions {
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
+    recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
 }
 
@@ -510,7 +565,7 @@ export class TextAnalyticsClient {
 }
 
 // @public
-export interface TextAnalyticsClientOptions extends PipelineOptions {
+export interface TextAnalyticsClientOptions extends CommonClientOptions {
     defaultCountryHint?: string;
     defaultLanguage?: string;
 }
@@ -535,10 +590,7 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
 }
 
 // @public
-export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
-
-// @public
-export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
+export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted";
 
 // @public
 export interface TextAnalyticsSuccessResult {
