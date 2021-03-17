@@ -962,6 +962,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
+  /@tootallnate/once/1.1.2:
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
   /@types/argparse/1.0.33:
     dev: false
     resolution:
@@ -3749,6 +3755,16 @@ packages:
       node: '>= 4.5.0'
     resolution:
       integrity: sha512-qwHbBLV7WviBl0rQsOzH6o5lwyOIvwp/BdFnvVxXORldu5TmjFfjzBcWUWS5kWAZhmv+JtiDhSuQCp4sBfbIgg==
+  /http-proxy-agent/4.0.1:
+    dependencies:
+      '@tootallnate/once': 1.1.2
+      agent-base: 6.0.2
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-k0zdNgqWTGA6aeIRVpvfVob4fL52dTfaehylg0Y4UvSySvOq/Y+BOyPrgpUrA7HylqvU8vIZGsRuXmspskV0Tg==
   /http-proxy/1.18.1:
     dependencies:
       eventemitter3: 4.0.7
@@ -8056,7 +8072,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-whG+7mmbnOf6EaKIV++fJN9KVUD3ILO3cUHOLqAQKDlFtmj69QDy6qsbHyTyIOGsKSHHB8KyPPZItGgULngPpw==
+      integrity: sha512-DDT0w71HvXCS7Ww3gM2HO5GXtm8CtitIpHAtGU00lKdFohfzINn7onva3zBKyvLfVMTvv+1TsRrXti5UTu3biA==
       tarball: file:projects/communication-administration.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8113,7 +8129,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-GeSjm0QX1D7rgFhTlH7X8STkmD5h5fP3S6OEOyPY/pRbVHSbf10Qe1yRYrhroA1Ziyh2MCERCkG/0uuah4wg8w==
+      integrity: sha512-P3psB6ukRXVXT/9OHJ+e1euw1S4HOuFBbvPhqGIMlBZuiBXyEqicw6PaG4oVKgjdGJtaOTyvY3E6OXW0hm+9/A==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8223,7 +8239,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-Nvy14vvoy4ekaOHptUflWXpEeGuYVNZr6NWBe2Xue1qc4gf9ovl/t41QqlJcpSvIUE8UzC3eH1arEytc8oWaMA==
+      integrity: sha512-y1ywIYptiMuH4NREzzPxXJQg6Gt+zSwp3WJDUGEu99tQcpyToc8oz+4l1FBgq0Dlnxzg0RINJd90sc/SUGisUw==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -8279,7 +8295,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-4hBuz3yoYH2R0qzZGW+TdpIAvEkGL6pWaHdaNI3PA2ikBCKYuHsCZarHgy8Vx//tsLEGb9aJcRgeX68U98BKxQ==
+      integrity: sha512-KNLkg6N1OQAvBSsdOc/XTNn5DV8mz2wWvq2X28FhvYPEbIl1R2L5mw6uvYBpVzrC+/QHo5l2ET+MlEudm+c+PQ==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -8333,7 +8349,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-OG8/pwUCKSVDjLzSgPNGBtZdRvdDdMiq2BJ1WSwjCZSAwkhsIAwo2vgh6ZwwAntxJ6QnCTtO6nZ4Vw1fdjDtRA==
+      integrity: sha512-ctnXT8NoEAG2J/IqdPc0qYMmRqtBP6Ceg0owV0b4gVT/AhWURQGDW8nPAXzmeqQWqr5QxfJt4CMnyZchw5gB2w==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/container-registry.tgz:
@@ -8732,6 +8748,7 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.21.0
       form-data: 3.0.1
+      http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       inherits: 2.0.4
       karma: 6.2.0
@@ -8763,7 +8780,7 @@ packages:
     dev: false
     name: '@rush-temp/core-rest-pipeline'
     resolution:
-      integrity: sha512-1vwJ5AIVkR2uVtqj2Dw9E1sDzMHmbjLVA5Ain7mEtujf2tyPtyWoErJVz6hhpm2W1kLeTulUDsXRLQCPZKUjsg==
+      integrity: sha512-p4qdp1hAaSWTIKefHo0o3joYfve2NTPc1J9HvTm6+jevW4l3NI/GSgL3Nxe2i+7uN/teW8gS//OEIDJ8vgT0Gg==
       tarball: file:projects/core-rest-pipeline.tgz
     version: 0.0.0
   file:projects/core-tracing.tgz:
