@@ -608,12 +608,7 @@ export function isSystemError(err: unknown): err is NetworkSystemError {
  */
 function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
-  if (
-    !isNode &&
-    self &&
-    err.type === "error" &&
-    err.target instanceof (self as any).WebSocket
-  ) {
+  if (!isNode && self && err.type === "error" && err.target instanceof (self as any).WebSocket) {
     result = true;
   }
   return result;
